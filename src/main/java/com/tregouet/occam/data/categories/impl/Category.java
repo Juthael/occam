@@ -24,7 +24,7 @@ public class Category implements ICategory {
 	
 	public Category(Set<IConstruct> intent, Set<IContextObject> extent) {
 		for (IConstruct construct : intent)
-			intent.add(new IntentAttribute(construct, this));
+			this.intent.add(new IntentAttribute(construct, this));
 		this.extent = extent;
 	}
 

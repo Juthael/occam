@@ -22,13 +22,11 @@ public class IntentAttribute extends Construct implements IIntentAttribute {
 	public ICategory getCategory() {
 		return category;
 	}
-
+	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((category == null) ? 0 : category.hashCode());
-		return result;
+		//must not use Category.hashCode(), since Category.hashCode() uses this. 
+		return super.hashCode();
 	}
 
 	@Override

@@ -50,24 +50,12 @@ public abstract class AVariable implements ISymbol {
 	
 	/**
 	 * 
-	 * @return the number of times this variable has been assigned a value
-	 */
-	abstract public int getAssignmentCount();
-	
-	/**
-	 * 
 	 * @return this variable's name
 	 */
 	abstract public String getName();
 	
 	@Override
 	abstract public int hashCode();
-	
-	/**
-	 * Must be called every time this variable is assigned a value by an operator.
-	 * @see IDSOperator
-	 */
-	abstract public void incAssignmentCount();
 	
 	/**
 	 * Assigns a new arbitrary name to the variable.

@@ -7,8 +7,6 @@ public class Variable extends AVariable {
 	
 	private String name = ISymbolSeq.PLACEHOLDER;
 
-	private int assignments = 0;
-
 	public Variable(boolean deferredNaming) {
 		if (!deferredNaming)
 			setName();
@@ -30,11 +28,6 @@ public class Variable extends AVariable {
 			return false;
 		return true;
 	}
-
-	@Override
-	public int getAssignmentCount() {
-		return assignments;
-	}
 	
 	@Override
 	public String getName() {
@@ -47,11 +40,6 @@ public class Variable extends AVariable {
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
-	}
-	
-	@Override
-	public void incAssignmentCount() {
-		assignments++;
 	}
 
 	@Override

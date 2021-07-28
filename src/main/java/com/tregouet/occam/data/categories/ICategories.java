@@ -8,7 +8,7 @@ import com.tregouet.occam.data.constructs.IContextObject;
 
 public interface ICategories {
 	
-	List<ICategory> getObjects();
+	List<ICategory> getObjectCategories();
 	
 	ICategory getTruism();
 	

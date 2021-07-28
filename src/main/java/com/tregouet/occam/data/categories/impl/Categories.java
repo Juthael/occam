@@ -60,10 +60,10 @@ public class Categories implements ICategories {
 	}
 
 	@Override
-	public List<ICategory> getObjects() {
+	public List<ICategory> getObjectCategories() {
 		return hasseDiagram.vertexSet()
 				.stream()
-				.filter(d -> (d.type() == ICategory.LATT_OBJ))
+				.filter(d -> (d.type() == ICategory.OBJECT))
 				.collect(Collectors.toList());
 	}
 
@@ -114,17 +114,17 @@ public class Categories implements ICategories {
 			ICategory category = new Category(entry.getKey(), entry.getValue());
 			if (!category.getExtent().isEmpty()) {
 				if (category.getExtent().size() == 1)
-					category.setType(Category.LATT_OBJ);
+					category.setType(Category.OBJECT);
 				else if (category.getExtent().size() == objects.size()) {
-					category.setType(Category.LATT_MAX);
+					category.setType(Category.TRUISM_TRUISM);
 					truism = category;
 				}
 				else {
-					category.setType(Category.LATT_CAT);
+					category.setType(Category.SUBSET_CAT);
 				}
 			}
 			else {
-				category.setType(Category.LATT_MIN);
+				category.setType(Category.ABSURDITY);
 				absurdity = category;
 			}
 			hasseDiagram.addVertex(category);
@@ -214,7 +214,7 @@ public class Categories implements ICategories {
 		Set<IConstruct> acceptIntent =  new HashSet<IConstruct>();
 		acceptIntent.add(acceptConstruct);
 		ontologicalCommitment = new Category(acceptIntent, new HashSet<IContextObject>(objects));
-		ontologicalCommitment.setType(ICategory.ACCEPT);
+		ontologicalCommitment.setType(ICategory.ONTOLOGICAL_COMMITMENT);
 	}
 	
 	private void instantiateTruismAboutTruism() {
@@ -249,7 +249,7 @@ public class Categories implements ICategories {
 		for (IConstruct construct : preAccIntent)
 			construct.nameVariables();
 		truismAboutTruism = new Category(preAccIntent, new HashSet<IContextObject>(objects));
-		truismAboutTruism.setType(ICategory.PREACCEPT);
+		truismAboutTruism.setType(ICategory.TRUISM);
 	}
 	
 	private void addTrAbTrAndOntologicalCommitmentToRelation() {
@@ -264,7 +264,7 @@ public class Categories implements ICategories {
 	}
 	
 	private void updateCategoryRank(ICategory category, int rank) {
-		if (category.rank() < rank || category.type() == ICategory.LATT_MIN) {
+		if (category.rank() < rank || category.type() == ICategory.ABSURDITY) {
 			category.setRank(rank);
 			for (ICategory successor : Graphs.successorListOf(hasseDiagram, category)) {
 				updateCategoryRank(successor, rank + 1);

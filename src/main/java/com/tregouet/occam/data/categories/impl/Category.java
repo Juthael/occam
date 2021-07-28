@@ -10,13 +10,6 @@ import com.tregouet.occam.data.constructs.IContextObject;
 
 public class Category implements ICategory {
 
-	public static final int LATT_MIN = 0;
-	public static final int LATT_OBJ = 1;
-	public static final int LATT_CAT = 2;
-	public static final int LATT_MAX = 3;
-	public static final int PREACCEPT = 4;
-	public static final int ACCEPT = 5;
-	
 	private final Set<IIntentAttribute> intent = new HashSet<>();
 	private final Set<IContextObject> extent;
 	private int rank = 0;
@@ -63,7 +56,7 @@ public class Category implements ICategory {
 	}
 
 	/* 
-	 * rank must not be used in hashcode() because of late ranking
+	 * rank must not be used in hashCode() because of late ranking
 	 */
 	@Override
 	public int hashCode() {

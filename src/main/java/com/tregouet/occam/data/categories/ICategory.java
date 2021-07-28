@@ -24,5 +24,9 @@ public interface ICategory {
 	void setType(int type);
 	
 	int type();
+	
+	boolean equals(Object obj);
+	
+	int hashCode();
 
 }

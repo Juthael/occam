@@ -33,7 +33,7 @@ public class ContextObject implements IContextObject {
 	}
 	
 	@Override
-	public Iterator<IConstruct> getIteratorOnConstructs() {
+	public Iterator<IConstruct> getIteratorOverConstructs() {
 		return constructs.iterator();
 	}
 

@@ -32,7 +32,11 @@
     	<version>0.0.1-SNAPSHOT</version>
     </dependency> 
     
-    
+   	<dependency>
+		<groupId>com.tregouet</groupId>
+		<artifactId>tree-finder</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
     
     <!-- graphs -->
        

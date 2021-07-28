@@ -9,13 +9,20 @@ public interface IConstruct {
 	
 	List<ISymbol> getListOfSymbols();
 	
+	List<ITerminal> getListOfTerminals();
+	
 	int getNbOfTerminals();
 	
 	boolean isAbstract();
 	
+	/**
+	 * 
+	 * @param constraint a construct that is not asbtract
+	 * @return
+	 */
 	boolean meets(IConstruct constraint);
 	
-	void singularize();
+	void nameVariables();
 	
 	List<String> toListOfStringsWithPlaceholders();
 

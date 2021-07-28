@@ -25,7 +25,7 @@ import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.ISymbol;
-import com.tregouet.occam.data.constructs.impl.AbstractConstruct;
+import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.Terminal;
 import com.tregouet.occam.data.constructs.impl.Variable;
 import com.tregouet.subseq_finder.ISubseqFinder;
@@ -36,7 +36,7 @@ import com.tregouet.subseq_finder.impl.SymbolSeq;
 public class Categories implements ICategories {
 	
 	List<IContextObject> objects;
-	DirectedAcyclicGraph<ICategory, DefaultEdge> categoryGraph;
+	DirectedAcyclicGraph<ICategory, DefaultEdge> hasseDiagram;
 	List<ICategory> topologicalOrder = new ArrayList<>();
 	ICategory ontologicalCommitment;
 	ICategory truismAboutTruism;
@@ -46,22 +46,22 @@ public class Categories implements ICategories {
 	
 	public Categories(List<IContextObject> objects) {
 		this.objects = objects;
-		categoryGraph = new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
+		hasseDiagram = new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
 		AVariable.initializeNameProvider();
 		buildCatLatticeRelationGraph();
 		instantiateOntologicalCommitment();
 		instantiateTruismAboutTruism();
 		addTrAbTrAndOntologicalCommitmentToRelation();
-		TransitiveClosure.INSTANCE.closeDirectedAcyclicGraph(categoryGraph);
+		TransitiveClosure.INSTANCE.closeDirectedAcyclicGraph(hasseDiagram);
 		updateCategoryRank(absurdity, 0);
-		TopologicalOrderIterator<ICategory, DefaultEdge> sorter = new TopologicalOrderIterator<>(categoryGraph);
+		TopologicalOrderIterator<ICategory, DefaultEdge> sorter = new TopologicalOrderIterator<>(hasseDiagram);
 		sorter.forEachRemaining(d -> topologicalOrder.add(d));
-		inspector = new ConnectivityInspector<>(categoryGraph);
+		inspector = new ConnectivityInspector<>(hasseDiagram);
 	}
 
 	@Override
 	public List<ICategory> getObjects() {
-		return categoryGraph.vertexSet()
+		return hasseDiagram.vertexSet()
 				.stream()
 				.filter(d -> (d.type() == ICategory.LATT_OBJ))
 				.collect(Collectors.toList());
@@ -89,8 +89,7 @@ public class Categories implements ICategories {
 
 	@Override
 	public ICatTreeSupplier getCatTreeSupplier() {
-		// TODO Auto-generated method stub
-		return null;
+		return new CatTreeSupplier(hasseDiagram);
 	}
 
 	@Override
@@ -106,7 +105,7 @@ public class Categories implements ICategories {
 
 	@Override
 	public boolean isADirectSubCategoryOf(ICategory cat1, ICategory cat2) {
-		return Graphs.successorListOf(categoryGraph, cat1).contains(cat2);
+		return Graphs.successorListOf(hasseDiagram, cat1).contains(cat2);
 	}
 	
 	private void buildCatLatticeRelationGraph() {
@@ -128,17 +127,17 @@ public class Categories implements ICategories {
 				category.setType(Category.LATT_MIN);
 				absurdity = category;
 			}
-			categoryGraph.addVertex(category);
+			hasseDiagram.addVertex(category);
 		}
-		List<ICategory> catList = new ArrayList<>(categoryGraph.vertexSet());
+		List<ICategory> catList = new ArrayList<>(hasseDiagram.vertexSet());
 		for (int i = 0 ; i < catList.size() - 1 ; i++) {
 			for (int j = i+1 ; j < catList.size() ; j++) {
 				ICategory iCat = catList.get(i);
 				ICategory jCat = catList.get(j);
 				if (iCat.getExtent().containsAll(jCat.getExtent()))
-					categoryGraph.addEdge(jCat, iCat);
+					hasseDiagram.addEdge(jCat, iCat);
 				else if (jCat.getExtent().containsAll(iCat.getExtent()))
-					categoryGraph.addEdge(iCat, jCat);
+					hasseDiagram.addEdge(iCat, jCat);
 			}
 		}
 	}
@@ -196,7 +195,7 @@ public class Categories implements ICategories {
 		for (Set<IConstruct> intent : listOfIntents) {
 			Set<IConstruct> singularizedIntent = new HashSet<IConstruct>();
 			for (IConstruct construct : intent) {
-				construct.singularize();
+				construct.nameVariables();
 				singularizedIntent.add(construct);
 			}
 			listOfSingularizedIntents.add(singularizedIntent);
@@ -211,7 +210,7 @@ public class Categories implements ICategories {
 		ISymbol variable = new Variable(!AVariable.DEFERRED_NAMING);
 		List<ISymbol> acceptProg = new ArrayList<ISymbol>();
 		acceptProg.add(variable);
-		IConstruct acceptConstruct = new AbstractConstruct(acceptProg);
+		IConstruct acceptConstruct = new Construct(acceptProg);
 		Set<IConstruct> acceptIntent =  new HashSet<IConstruct>();
 		acceptIntent.add(acceptConstruct);
 		ontologicalCommitment = new Category(acceptIntent, new HashSet<IContextObject>(objects));
@@ -245,29 +244,29 @@ public class Categories implements ICategories {
 					lastSymStringWasPlaceholder = false;
 				}
 			}
-			preAccIntent.add(new AbstractConstruct(preAccSymList));
+			preAccIntent.add(new Construct(preAccSymList));
 		}
 		for (IConstruct construct : preAccIntent)
-			construct.singularize();
+			construct.nameVariables();
 		truismAboutTruism = new Category(preAccIntent, new HashSet<IContextObject>(objects));
 		truismAboutTruism.setType(ICategory.PREACCEPT);
 	}
 	
 	private void addTrAbTrAndOntologicalCommitmentToRelation() {
-		Set<ICategory> categories = categoryGraph.vertexSet();
-		categoryGraph.addVertex(truismAboutTruism);
+		Set<ICategory> categories = hasseDiagram.vertexSet();
+		hasseDiagram.addVertex(truismAboutTruism);
 		for (ICategory category : categories)
-			categoryGraph.addEdge(category, truismAboutTruism);
+			hasseDiagram.addEdge(category, truismAboutTruism);
 		categories.add(truismAboutTruism);
-		categoryGraph.addVertex(ontologicalCommitment);
+		hasseDiagram.addVertex(ontologicalCommitment);
 		for (ICategory category : categories)
-			categoryGraph.addEdge(category, ontologicalCommitment);
+			hasseDiagram.addEdge(category, ontologicalCommitment);
 	}
 	
 	private void updateCategoryRank(ICategory category, int rank) {
 		if (category.rank() < rank || category.type() == ICategory.LATT_MIN) {
 			category.setRank(rank);
-			for (ICategory successor : Graphs.successorListOf(categoryGraph, category)) {
+			for (ICategory successor : Graphs.successorListOf(hasseDiagram, category)) {
 				updateCategoryRank(successor, rank + 1);
 			}
 		}

@@ -19,7 +19,7 @@ public class ContextObject implements IContextObject {
 		iD = "obj" + Integer.toString(lastID);
 		lastID++;
 		for (List<String> constructAsList : constructsAsLists)
-			constructs.add(new Construct(constructAsList));
+			constructs.add(new Construct(constructAsList.toArray(new String[constructAsList.size()])));
 	}
 
 	@Override

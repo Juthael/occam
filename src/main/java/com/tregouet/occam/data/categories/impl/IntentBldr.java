@@ -9,7 +9,6 @@ import java.util.Set;
 
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.constructs.impl.AbstractConstruct;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.subseq_finder.ISymbolSeq;
 import com.tregouet.subseq_finder.impl.SubseqFinder;
@@ -40,11 +39,8 @@ public class IntentBldr {
 		}
 		setSubsqToMaxSubsq();
 		for (Set<ISymbolSeq> maxSubseqs : subsqToMaxSubsq.values()) {
-			for (ISymbolSeq maxSubseq : maxSubseqs) {
-				if (maxSubseq.isAbstract())
-					intent.add(new AbstractConstruct(maxSubseq.getStringArray()));
-				else intent.add(new Construct(maxSubseq.getStringArray()));
-			}
+			for (ISymbolSeq maxSubseq : maxSubseqs)
+				intent.add(new Construct(maxSubseq.getStringArray()));
 		}
 		return intent;
 	}

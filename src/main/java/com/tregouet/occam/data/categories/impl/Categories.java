@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.jgrapht.Graphs;
-import org.jgrapht.alg.TransitiveClosure;
+import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
+import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.data.categories.ICatTreeSupplier;
@@ -35,14 +37,14 @@ import com.tregouet.subseq_finder.impl.SymbolSeq;
 
 public class Categories implements ICategories {
 	
-	List<IContextObject> objects;
-	DirectedAcyclicGraph<ICategory, DefaultEdge> hasseDiagram;
-	List<ICategory> topologicalOrder = new ArrayList<>();
-	ICategory ontologicalCommitment;
-	ICategory truismAboutTruism;
-	ICategory truism;
-	ICategory absurdity;
-	ConnectivityInspector<ICategory, DefaultEdge> inspector;
+	private final List<IContextObject> objects;
+	private final DirectedAcyclicGraph<ICategory, DefaultEdge> hasseDiagram;
+	private final List<ICategory> topologicalOrder = new ArrayList<>();
+	private ICategory ontologicalCommitment;
+	private ICategory truismAboutTruism;
+	private ICategory truism;
+	private ICategory absurdity;
+	private final ConnectivityInspector<ICategory, DefaultEdge> inspector;
 	
 	public Categories(List<IContextObject> objects) {
 		this.objects = objects;
@@ -52,7 +54,7 @@ public class Categories implements ICategories {
 		instantiateOntologicalCommitment();
 		instantiateTruismAboutTruism();
 		addTrAbTrAndOntologicalCommitmentToRelation();
-		TransitiveClosure.INSTANCE.closeDirectedAcyclicGraph(hasseDiagram);
+		TransitiveReduction.INSTANCE.reduce(hasseDiagram);
 		updateCategoryRank(absurdity, 0);
 		TopologicalOrderIterator<ICategory, DefaultEdge> sorter = new TopologicalOrderIterator<>(hasseDiagram);
 		sorter.forEachRemaining(d -> topologicalOrder.add(d));
@@ -100,12 +102,19 @@ public class Categories implements ICategories {
 
 	@Override
 	public boolean isA(ICategory cat1, ICategory cat2) {
-		return inspector.pathExists(cat1, cat2);
+		boolean isA = false;
+		if (topologicalOrder.indexOf(cat1) < topologicalOrder.indexOf(cat2)) {
+			BreadthFirstIterator<ICategory, DefaultEdge> iterator = new BreadthFirstIterator<>(hasseDiagram, cat1);
+			iterator.next();
+			while (!isA && iterator.hasNext())
+				isA = cat2.equals(iterator.next());
+		}
+		return isA;		
 	}
 
 	@Override
 	public boolean isADirectSubCategoryOf(ICategory cat1, ICategory cat2) {
-		return Graphs.successorListOf(hasseDiagram, cat1).contains(cat2);
+		return (hasseDiagram.getEdge(cat1, cat2) != null);
 	}
 	
 	private void buildCatLatticeRelationGraph() {
@@ -131,8 +140,8 @@ public class Categories implements ICategories {
 		}
 		List<ICategory> catList = new ArrayList<>(hasseDiagram.vertexSet());
 		for (int i = 0 ; i < catList.size() - 1 ; i++) {
+			ICategory iCat = catList.get(i);
 			for (int j = i+1 ; j < catList.size() ; j++) {
-				ICategory iCat = catList.get(i);
 				ICategory jCat = catList.get(j);
 				if (iCat.getExtent().containsAll(jCat.getExtent()))
 					hasseDiagram.addEdge(jCat, iCat);
@@ -253,14 +262,10 @@ public class Categories implements ICategories {
 	}
 	
 	private void addTrAbTrAndOntologicalCommitmentToRelation() {
-		Set<ICategory> categories = hasseDiagram.vertexSet();
 		hasseDiagram.addVertex(truismAboutTruism);
-		for (ICategory category : categories)
-			hasseDiagram.addEdge(category, truismAboutTruism);
-		categories.add(truismAboutTruism);
+		hasseDiagram.addEdge(truism, truismAboutTruism);
 		hasseDiagram.addVertex(ontologicalCommitment);
-		for (ICategory category : categories)
-			hasseDiagram.addEdge(category, ontologicalCommitment);
+		hasseDiagram.addEdge(truismAboutTruism, ontologicalCommitment);
 	}
 	
 	private void updateCategoryRank(ICategory category, int rank) {
@@ -270,6 +275,73 @@ public class Categories implements ICategories {
 				updateCategoryRank(successor, rank + 1);
 			}
 		}
+	}
+
+	@Override
+	public ICategory getCatWithExtent(Set<IContextObject> extent) {
+		if (extent.containsAll(objects))
+			return truism;
+		for (ICategory cat : topologicalOrder) {
+			if (cat.getExtent().equals(extent))
+				return cat;
+		}
+		return null;
+	}
+
+	@Override
+	public ICategory getAbsurdity() {
+		return absurdity;
+	}
+	
+	//for test use
+	public DirectedAcyclicGraph<ICategory, DefaultEdge> getDiagram() {
+		return hasseDiagram;
+	}
+
+	@Override
+	public ICategory getLeastCommonSuperordinate(Set<ICategory> categories) {
+		if (categories.isEmpty())
+			return null;
+		List<ICategory> catList = removeSubCategories(categories);
+		if (catList.size() == 1)
+			return catList.get(0);
+		ICategory leastCommonSuperordinate = null;
+		ListIterator<ICategory> catIterator = topologicalOrder.listIterator(topologicalOrder.size());
+		boolean abortSearch = false;
+		while (catIterator.hasPrevious() && !abortSearch) {
+			ICategory current = catIterator.previous();
+			if (areA(catList, current))
+				leastCommonSuperordinate = current;
+			else if (categories.contains(current))
+				abortSearch = true;
+		}
+		return leastCommonSuperordinate;		
+	}
+	
+	private List<ICategory> removeSubCategories(Set<ICategory> categories) {
+		List<ICategory> catList = new ArrayList<>(categories);
+		for (int i = 0 ; i < catList.size() - 1 ; i++) {
+			ICategory catI = catList.get(i);
+			for (int j = i+1 ; j < catList.size() ; j++) {
+				ICategory catJ = catList.get(j);
+				if (isA(catI, catJ))
+					categories.remove(catI);
+				else if (isA(catJ, catI))
+					categories.remove(catJ);
+			}
+		}
+		return new ArrayList<>(categories);
+	}
+
+	@Override
+	public boolean areA(List<ICategory> cats, ICategory cat) {
+		boolean areA = true;
+		int catsIndex = 0;
+		while (areA && catsIndex < cats.size()) {
+			areA = isA(cats.get(catsIndex), cat);
+			catsIndex++;
+		}
+		return areA;
 	}
 
 }

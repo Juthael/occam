@@ -1,6 +1,7 @@
 package com.tregouet.occam.data.categories.impl;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import com.tregouet.occam.data.categories.ICategory;
@@ -87,5 +88,20 @@ public class Category implements ICategory {
 	public int type() {
 		return type;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		String newLine = System.lineSeparator();
+		sB.append("*****INTENT : " + newLine);
+		Iterator<IIntentAttribute> iterator = intent.iterator();
+		while (iterator.hasNext()) {
+			sB.append(iterator.next().toString() + newLine);
+		}
+		sB.append(newLine + "*****EXTENT : " + newLine);
+		for (IContextObject obj : extent)
+			sB.append(obj.getID() + " ; ");
+		return sB.toString();
+	}	
 
 }

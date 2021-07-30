@@ -42,6 +42,6 @@ public interface ICategories {
 	 */
 	boolean isA(ICategory cat1, ICategory cat2);
 	
-	boolean isADirectSubCategoryOf(ICategory cat1, ICategory cat2);
+	boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2);
 
 }

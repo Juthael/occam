@@ -188,25 +188,25 @@ public class CategoriesTest {
 		ICategory truismTruism = categories.getTruismAboutTruism();
 		ICategory commitment = categories.getOntologicalCommitment();
 		assertTrue(
-				categories.isADirectSubCategoryOf(absurdity, cat0)
-				&& categories.isADirectSubCategoryOf(absurdity, cat1)
-				&& categories.isADirectSubCategoryOf(absurdity, cat2)
-				&& categories.isADirectSubCategoryOf(absurdity, cat3)
-				&& categories.isADirectSubCategoryOf(cat0, cat01)
-				&& categories.isADirectSubCategoryOf(cat0, cat02)
-				&& categories.isADirectSubCategoryOf(cat1, cat01)
-				&& categories.isADirectSubCategoryOf(cat1, cat123)
-				&& categories.isADirectSubCategoryOf(cat2, cat02)
-				&& categories.isADirectSubCategoryOf(cat2, cat123)
-				&& categories.isADirectSubCategoryOf(cat3, cat123)
-				&& categories.isADirectSubCategoryOf(cat02, truism)
-				&& categories.isADirectSubCategoryOf(cat01, truism)
-				&& categories.isADirectSubCategoryOf(cat123, truism)
-				&& categories.isADirectSubCategoryOf(truism, truismTruism)
-				&& categories.isADirectSubCategoryOf(truismTruism, commitment)
-				&& !categories.isADirectSubCategoryOf(cat0, truism)
-				&& !categories.isADirectSubCategoryOf(cat02, truismTruism)
-				&& !categories.isADirectSubCategoryOf(cat02, cat0));
+				categories.isADirectSubordinateOf(absurdity, cat0)
+				&& categories.isADirectSubordinateOf(absurdity, cat1)
+				&& categories.isADirectSubordinateOf(absurdity, cat2)
+				&& categories.isADirectSubordinateOf(absurdity, cat3)
+				&& categories.isADirectSubordinateOf(cat0, cat01)
+				&& categories.isADirectSubordinateOf(cat0, cat02)
+				&& categories.isADirectSubordinateOf(cat1, cat01)
+				&& categories.isADirectSubordinateOf(cat1, cat123)
+				&& categories.isADirectSubordinateOf(cat2, cat02)
+				&& categories.isADirectSubordinateOf(cat2, cat123)
+				&& categories.isADirectSubordinateOf(cat3, cat123)
+				&& categories.isADirectSubordinateOf(cat02, truism)
+				&& categories.isADirectSubordinateOf(cat01, truism)
+				&& categories.isADirectSubordinateOf(cat123, truism)
+				&& categories.isADirectSubordinateOf(truism, truismTruism)
+				&& categories.isADirectSubordinateOf(truismTruism, commitment)
+				&& !categories.isADirectSubordinateOf(cat0, truism)
+				&& !categories.isADirectSubordinateOf(cat02, truismTruism)
+				&& !categories.isADirectSubordinateOf(cat02, cat0));
 	}
 	
 	@Test

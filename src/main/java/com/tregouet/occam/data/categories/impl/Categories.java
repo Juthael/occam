@@ -162,7 +162,7 @@ public class Categories implements ICategories {
 	}
 	
 	@Override
-	public boolean isADirectSubCategoryOf(ICategory cat1, ICategory cat2) {
+	public boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2) {
 		return (hasseDiagram.getEdge(cat1, cat2) != null);
 	}
 	

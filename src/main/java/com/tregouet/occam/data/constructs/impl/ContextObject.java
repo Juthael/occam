@@ -23,46 +23,6 @@ public class ContextObject implements IContextObject {
 	}
 
 	@Override
-	public List<IConstruct> getConstructs() {
-		return constructs;
-	}
-	
-	@Override
-	public String getID() {
-		return iD;
-	}
-	
-	@Override
-	public Iterator<IConstruct> getIteratorOverConstructs() {
-		return constructs.iterator();
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder sB = new StringBuilder();
-		for (IConstruct construct : constructs)
-			sB.append(construct.toString() + System.lineSeparator());
-		return sB.toString();
-	}
-	
-	@Override
-	public List<ISymbolSeq> toSymbolSeqs(){
-		List<ISymbolSeq> symbolSeqs = new ArrayList<ISymbolSeq>();
-		for (IConstruct construct : constructs)
-			symbolSeqs.add(new SymbolSeq(construct.toListOfStringsWithPlaceholders()));
-		return symbolSeqs;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((constructs == null) ? 0 : constructs.hashCode());
-		result = prime * result + ((iD == null) ? 0 : iD.hashCode());
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -82,6 +42,46 @@ public class ContextObject implements IContextObject {
 		} else if (!iD.equals(other.iD))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public List<IConstruct> getConstructs() {
+		return constructs;
+	}
+	
+	@Override
+	public String getID() {
+		return iD;
+	}
+
+	@Override
+	public Iterator<IConstruct> getIteratorOverConstructs() {
+		return constructs.iterator();
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((constructs == null) ? 0 : constructs.hashCode());
+		result = prime * result + ((iD == null) ? 0 : iD.hashCode());
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		for (IConstruct construct : constructs)
+			sB.append(construct.toString() + System.lineSeparator());
+		return sB.toString();
+	}
+
+	@Override
+	public List<ISymbolSeq> toSymbolSeqs(){
+		List<ISymbolSeq> symbolSeqs = new ArrayList<ISymbolSeq>();
+		for (IConstruct construct : constructs)
+			symbolSeqs.add(new SymbolSeq(construct.toListOfStringsWithPlaceholders()));
+		return symbolSeqs;
 	}
 
 }

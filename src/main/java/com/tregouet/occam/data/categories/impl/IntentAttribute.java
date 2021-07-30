@@ -19,17 +19,6 @@ public class IntentAttribute extends Construct implements IIntentAttribute {
 	}
 
 	@Override
-	public ICategory getCategory() {
-		return category;
-	}
-	
-	@Override
-	public int hashCode() {
-		//must not use Category.hashCode(), since Category.hashCode() uses this. 
-		return super.hashCode();
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -44,6 +33,17 @@ public class IntentAttribute extends Construct implements IIntentAttribute {
 		} else if (!category.equals(other.category))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public ICategory getCategory() {
+		return category;
+	}
+
+	@Override
+	public int hashCode() {
+		//must not use Category.hashCode(), since Category.hashCode() uses this. 
+		return super.hashCode();
 	}
 
 }

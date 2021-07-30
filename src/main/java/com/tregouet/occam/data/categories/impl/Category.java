@@ -85,11 +85,6 @@ public class Category implements ICategory {
 	}
 
 	@Override
-	public int type() {
-		return type;
-	}
-	
-	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
@@ -102,6 +97,11 @@ public class Category implements ICategory {
 		for (IContextObject obj : extent)
 			sB.append(obj.getID() + " ; ");
 		return sB.toString();
+	}
+	
+	@Override
+	public int type() {
+		return type;
 	}	
 
 }

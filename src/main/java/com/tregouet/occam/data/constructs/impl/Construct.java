@@ -16,6 +16,11 @@ public class Construct implements IConstruct {
 	private final List<ISymbol> prog;
 	private final int nbOfTerminals;
 	
+	public Construct(IConstruct construct) {
+		prog = new ArrayList<>(construct.getListOfSymbols());
+		nbOfTerminals = construct.getNbOfTerminals();
+	}
+	
 	public Construct(List<ISymbol> prog) {
 		this.prog = prog;
 		int nbOfTerminals = 0;
@@ -39,11 +44,6 @@ public class Construct implements IConstruct {
 				nbOfTerminals++;
 		}
 		this.nbOfTerminals = nbOfTerminals;
-	}
-	
-	public Construct(IConstruct construct) {
-		prog = new ArrayList<>(construct.getListOfSymbols());
-		nbOfTerminals = construct.getNbOfTerminals();
 	}
 
 	@Override
@@ -74,6 +74,14 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
+	public List<ITerminal> getListOfTerminals() {
+		return prog.stream()
+				.filter(d -> d instanceof ITerminal)
+				.map(s -> (ITerminal) s)
+				.collect(Collectors.toList()); 
+	}
+	
+	@Override
 	public int getNbOfTerminals() {
 		return nbOfTerminals;
 	}
@@ -85,7 +93,7 @@ public class Construct implements IConstruct {
 		result = prime * result + ((prog == null) ? 0 : prog.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean isAbstract() {
 		boolean isAbstract = false;
@@ -111,7 +119,7 @@ public class Construct implements IConstruct {
 		}
 		return false;
 	}
-
+	
 	@Override
 	public void nameVariables() {
 		for (ISymbol symbol : prog) {
@@ -130,7 +138,7 @@ public class Construct implements IConstruct {
 		}
 		return list;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
@@ -140,14 +148,6 @@ public class Construct implements IConstruct {
 				sB.append(" ");
 		}
 		return sB.toString();
-	}
-
-	@Override
-	public List<ITerminal> getListOfTerminals() {
-		return prog.stream()
-				.filter(d -> d instanceof ITerminal)
-				.map(s -> (ITerminal) s)
-				.collect(Collectors.toList()); 
 	}
 
 }

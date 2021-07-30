@@ -27,8 +27,11 @@ public class ConstructTest {
 	private String[] notMetConstraintProg2 = new String[] {"b", "e"};
 	private String[] notMetConstraintProg3 = new String[] {"c", "b"};
 	
-	@Before
-	public void setUp() throws Exception {
+	@Test
+	public void onlyWhenContainsVariablesThenAbstract() {
+		IConstruct construct = new Construct(concreteProg1);
+		IConstruct abstractConstruct = new Construct(abstractProg);
+		assertTrue(!construct.isAbstract() && abstractConstruct.isAbstract());
 	}
 	
 	@Test
@@ -42,6 +45,20 @@ public class ConstructTest {
 					&& !construct.equals(partialConstruct)
 					&& !construct.equals(wronglyOrderedConstruct)
 					&& !construct.equals(abstractConstruct));		
+	}
+	
+	@Before
+	public void setUp() throws Exception {
+	}
+	
+	@Test
+	public void whenListOfTerminalsRequestedThenReturned() {
+		IConstruct abstractConstruct = new Construct(abstractProg);
+		List<ITerminal> expectedList = new ArrayList<>();
+		expectedList.add(new Terminal("a"));
+		expectedList.add(new Terminal("b"));
+		expectedList.add(new Terminal("d"));
+		assertTrue(abstractConstruct.getListOfTerminals().equals(expectedList));
 	}
 	
 	@Test
@@ -77,23 +94,6 @@ public class ConstructTest {
 				&& variablesNamesBeforeNaming.iterator().next().equals(ISymbolSeq.PLACEHOLDER));
 		afterNamingThenEachHasAName = (variablesNamesAfterNaming.size() == 2);
 		assertTrue(beforeNamingThenPlaceholder && afterNamingThenEachHasAName);
-	}
-	
-	@Test
-	public void whenListOfTerminalsRequestedThenReturned() {
-		IConstruct abstractConstruct = new Construct(abstractProg);
-		List<ITerminal> expectedList = new ArrayList<>();
-		expectedList.add(new Terminal("a"));
-		expectedList.add(new Terminal("b"));
-		expectedList.add(new Terminal("d"));
-		assertTrue(abstractConstruct.getListOfTerminals().equals(expectedList));
-	}
-	
-	@Test
-	public void onlyWhenContainsVariablesThenAbstract() {
-		IConstruct construct = new Construct(concreteProg1);
-		IConstruct abstractConstruct = new Construct(abstractProg);
-		assertTrue(!construct.isAbstract() && abstractConstruct.isAbstract());
 	}
 
 }

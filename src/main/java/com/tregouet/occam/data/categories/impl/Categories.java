@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.alg.TransitiveReduction;
-import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
@@ -44,7 +43,6 @@ public class Categories implements ICategories {
 	private ICategory truismAboutTruism;
 	private ICategory truism;
 	private ICategory absurdity;
-	private final ConnectivityInspector<ICategory, DefaultEdge> inspector;
 	
 	public Categories(List<IContextObject> objects) {
 		this.objects = objects;
@@ -58,35 +56,22 @@ public class Categories implements ICategories {
 		updateCategoryRank(absurdity, 0);
 		TopologicalOrderIterator<ICategory, DefaultEdge> sorter = new TopologicalOrderIterator<>(hasseDiagram);
 		sorter.forEachRemaining(d -> topologicalOrder.add(d));
-		inspector = new ConnectivityInspector<>(hasseDiagram);
 	}
 
 	@Override
-	public List<ICategory> getObjectCategories() {
-		return hasseDiagram.vertexSet()
-				.stream()
-				.filter(d -> (d.type() == ICategory.OBJECT))
-				.collect(Collectors.toList());
+	public boolean areA(List<ICategory> cats, ICategory cat) {
+		boolean areA = true;
+		int catsIndex = 0;
+		while (areA && catsIndex < cats.size()) {
+			areA = isA(cats.get(catsIndex), cat);
+			catsIndex++;
+		}
+		return areA;
 	}
 
 	@Override
-	public ICategory getTruism() {
-		return truism;
-	}
-
-	@Override
-	public ICategory getTruismAboutTruism() {
-		return truismAboutTruism;
-	}
-
-	@Override
-	public ICategory getOntologicalCommitment() {
-		return ontologicalCommitment;
-	}
-
-	@Override
-	public List<ICategory> getTopologicallySortedCategories() {
-		return topologicalOrder;
+	public ICategory getAbsurdity() {
+		return absurdity;
 	}
 
 	@Override
@@ -101,6 +86,70 @@ public class Categories implements ICategories {
 	}
 
 	@Override
+	public ICategory getCatWithExtent(Set<IContextObject> extent) {
+		if (extent.containsAll(objects))
+			return truism;
+		for (ICategory cat : topologicalOrder) {
+			if (cat.getExtent().equals(extent))
+				return cat;
+		}
+		return null;
+	}
+
+	//for test use
+	public DirectedAcyclicGraph<ICategory, DefaultEdge> getDiagram() {
+		return hasseDiagram;
+	}
+
+	@Override
+	public ICategory getLeastCommonSuperordinate(Set<ICategory> categories) {
+		if (categories.isEmpty())
+			return null;
+		List<ICategory> catList = removeSubCategories(categories);
+		if (catList.size() == 1)
+			return catList.get(0);
+		ICategory leastCommonSuperordinate = null;
+		ListIterator<ICategory> catIterator = topologicalOrder.listIterator(topologicalOrder.size());
+		boolean abortSearch = false;
+		while (catIterator.hasPrevious() && !abortSearch) {
+			ICategory current = catIterator.previous();
+			if (areA(catList, current))
+				leastCommonSuperordinate = current;
+			else if (categories.contains(current))
+				abortSearch = true;
+		}
+		return leastCommonSuperordinate;		
+	}
+
+	@Override
+	public List<ICategory> getObjectCategories() {
+		return hasseDiagram.vertexSet()
+				.stream()
+				.filter(d -> (d.type() == ICategory.OBJECT))
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public ICategory getOntologicalCommitment() {
+		return ontologicalCommitment;
+	}
+	
+	@Override
+	public List<ICategory> getTopologicallySortedCategories() {
+		return topologicalOrder;
+	}
+	
+	@Override
+	public ICategory getTruism() {
+		return truism;
+	}
+	
+	@Override
+	public ICategory getTruismAboutTruism() {
+		return truismAboutTruism;
+	}	
+	
+	@Override
 	public boolean isA(ICategory cat1, ICategory cat2) {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(cat1) < topologicalOrder.indexOf(cat2)) {
@@ -111,10 +160,17 @@ public class Categories implements ICategories {
 		}
 		return isA;		
 	}
-
+	
 	@Override
 	public boolean isADirectSubCategoryOf(ICategory cat1, ICategory cat2) {
 		return (hasseDiagram.getEdge(cat1, cat2) != null);
+	}
+	
+	private void addTrAbTrAndOntologicalCommitmentToRelation() {
+		hasseDiagram.addVertex(truismAboutTruism);
+		hasseDiagram.addEdge(truism, truismAboutTruism);
+		hasseDiagram.addVertex(ontologicalCommitment);
+		hasseDiagram.addEdge(truismAboutTruism, ontologicalCommitment);
 	}
 	
 	private void buildCatLatticeRelationGraph() {
@@ -123,17 +179,17 @@ public class Categories implements ICategories {
 			ICategory category = new Category(entry.getKey(), entry.getValue());
 			if (!category.getExtent().isEmpty()) {
 				if (category.getExtent().size() == 1)
-					category.setType(Category.OBJECT);
+					category.setType(ICategory.OBJECT);
 				else if (category.getExtent().size() == objects.size()) {
-					category.setType(Category.TRUISM_TRUISM);
+					category.setType(ICategory.TRUISM_TRUISM);
 					truism = category;
 				}
 				else {
-					category.setType(Category.SUBSET_CAT);
+					category.setType(ICategory.SUBSET_CAT);
 				}
 			}
 			else {
-				category.setType(Category.ABSURDITY);
+				category.setType(ICategory.ABSURDITY);
 				absurdity = category;
 			}
 			hasseDiagram.addVertex(category);
@@ -172,7 +228,7 @@ public class Categories implements ICategories {
 		intentsToExtents = singularizeConstructs(intentsToExtents);
 		return intentsToExtents;
 	}
-	
+
 	private Set<Set<IContextObject>> buildObjectsPowerSet() {
 	    Set<Set<IContextObject>> powerSet = new HashSet<Set<IContextObject>>();
 	    for (int i = 0; i < (1 << objects.size()); i++) {
@@ -184,37 +240,8 @@ public class Categories implements ICategories {
 	        powerSet.add(subset);
 	    }
 	    return powerSet;
-	}	
-	
-	private Map<Set<IConstruct>, Set<IContextObject>> singularizeConstructs(
-			Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents) {
-		Map<Set<IConstruct>, Set<IContextObject>> mapWithSingularizedIntents 
-			= new HashMap<Set<IConstruct>, Set<IContextObject>>();
-		/*
-		 * must use transitory collections not based on hash tables, since variable naming
-		 * will modify hashcodes  
-		 */
-		List<Set<IConstruct>> listOfIntents = new ArrayList<Set<IConstruct>>();
-		List<Set<IConstruct>> listOfSingularizedIntents = new ArrayList<Set<IConstruct>>();
-		List<Set<IContextObject>> listOfExtents = new ArrayList<Set<IContextObject>>();
-		for (Entry<Set<IConstruct>, Set<IContextObject>> entry : intentsToExtents.entrySet()) {
-			listOfIntents.add(entry.getKey());
-			listOfExtents.add(entry.getValue());
-		}
-		for (Set<IConstruct> intent : listOfIntents) {
-			Set<IConstruct> singularizedIntent = new HashSet<IConstruct>();
-			for (IConstruct construct : intent) {
-				construct.nameVariables();
-				singularizedIntent.add(construct);
-			}
-			listOfSingularizedIntents.add(singularizedIntent);
-		}
-		for (int i = 0 ; i < listOfSingularizedIntents.size() ; i++) {
-			mapWithSingularizedIntents.put(listOfSingularizedIntents.get(i), listOfExtents.get(i));
-		}
-		return mapWithSingularizedIntents;
 	}
-	
+
 	private void instantiateOntologicalCommitment() {
 		ISymbol variable = new Variable(!AVariable.DEFERRED_NAMING);
 		List<ISymbol> acceptProg = new ArrayList<ISymbol>();
@@ -260,64 +287,7 @@ public class Categories implements ICategories {
 		truismAboutTruism = new Category(preAccIntent, new HashSet<IContextObject>(objects));
 		truismAboutTruism.setType(ICategory.TRUISM);
 	}
-	
-	private void addTrAbTrAndOntologicalCommitmentToRelation() {
-		hasseDiagram.addVertex(truismAboutTruism);
-		hasseDiagram.addEdge(truism, truismAboutTruism);
-		hasseDiagram.addVertex(ontologicalCommitment);
-		hasseDiagram.addEdge(truismAboutTruism, ontologicalCommitment);
-	}
-	
-	private void updateCategoryRank(ICategory category, int rank) {
-		if (category.rank() < rank || category.type() == ICategory.ABSURDITY) {
-			category.setRank(rank);
-			for (ICategory successor : Graphs.successorListOf(hasseDiagram, category)) {
-				updateCategoryRank(successor, rank + 1);
-			}
-		}
-	}
 
-	@Override
-	public ICategory getCatWithExtent(Set<IContextObject> extent) {
-		if (extent.containsAll(objects))
-			return truism;
-		for (ICategory cat : topologicalOrder) {
-			if (cat.getExtent().equals(extent))
-				return cat;
-		}
-		return null;
-	}
-
-	@Override
-	public ICategory getAbsurdity() {
-		return absurdity;
-	}
-	
-	//for test use
-	public DirectedAcyclicGraph<ICategory, DefaultEdge> getDiagram() {
-		return hasseDiagram;
-	}
-
-	@Override
-	public ICategory getLeastCommonSuperordinate(Set<ICategory> categories) {
-		if (categories.isEmpty())
-			return null;
-		List<ICategory> catList = removeSubCategories(categories);
-		if (catList.size() == 1)
-			return catList.get(0);
-		ICategory leastCommonSuperordinate = null;
-		ListIterator<ICategory> catIterator = topologicalOrder.listIterator(topologicalOrder.size());
-		boolean abortSearch = false;
-		while (catIterator.hasPrevious() && !abortSearch) {
-			ICategory current = catIterator.previous();
-			if (areA(catList, current))
-				leastCommonSuperordinate = current;
-			else if (categories.contains(current))
-				abortSearch = true;
-		}
-		return leastCommonSuperordinate;		
-	}
-	
 	private List<ICategory> removeSubCategories(Set<ICategory> categories) {
 		List<ICategory> catList = new ArrayList<>(categories);
 		for (int i = 0 ; i < catList.size() - 1 ; i++) {
@@ -332,16 +302,43 @@ public class Categories implements ICategories {
 		}
 		return new ArrayList<>(categories);
 	}
-
-	@Override
-	public boolean areA(List<ICategory> cats, ICategory cat) {
-		boolean areA = true;
-		int catsIndex = 0;
-		while (areA && catsIndex < cats.size()) {
-			areA = isA(cats.get(catsIndex), cat);
-			catsIndex++;
+	
+	private Map<Set<IConstruct>, Set<IContextObject>> singularizeConstructs(
+			Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents) {
+		Map<Set<IConstruct>, Set<IContextObject>> mapWithSingularizedIntents 
+			= new HashMap<Set<IConstruct>, Set<IContextObject>>();
+		/*
+		 * must use transitory collections not based on hash tables, since variable naming
+		 * will modify hashcodes  
+		 */
+		List<Set<IConstruct>> listOfIntents = new ArrayList<Set<IConstruct>>();
+		List<Set<IConstruct>> listOfSingularizedIntents = new ArrayList<Set<IConstruct>>();
+		List<Set<IContextObject>> listOfExtents = new ArrayList<Set<IContextObject>>();
+		for (Entry<Set<IConstruct>, Set<IContextObject>> entry : intentsToExtents.entrySet()) {
+			listOfIntents.add(entry.getKey());
+			listOfExtents.add(entry.getValue());
 		}
-		return areA;
+		for (Set<IConstruct> intent : listOfIntents) {
+			Set<IConstruct> singularizedIntent = new HashSet<IConstruct>();
+			for (IConstruct construct : intent) {
+				construct.nameVariables();
+				singularizedIntent.add(construct);
+			}
+			listOfSingularizedIntents.add(singularizedIntent);
+		}
+		for (int i = 0 ; i < listOfSingularizedIntents.size() ; i++) {
+			mapWithSingularizedIntents.put(listOfSingularizedIntents.get(i), listOfExtents.get(i));
+		}
+		return mapWithSingularizedIntents;
+	}
+
+	private void updateCategoryRank(ICategory category, int rank) {
+		if (category.rank() < rank || category.type() == ICategory.ABSURDITY) {
+			category.setRank(rank);
+			for (ICategory successor : Graphs.successorListOf(hasseDiagram, category)) {
+				updateCategoryRank(successor, rank + 1);
+			}
+		}
 	}
 
 }

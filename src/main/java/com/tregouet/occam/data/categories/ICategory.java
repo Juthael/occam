@@ -13,9 +13,15 @@ public interface ICategory {
 	public static final int TRUISM = 4;
 	public static final int ONTOLOGICAL_COMMITMENT = 5;
 	
+	@Override
+	boolean equals(Object obj);
+	
 	Set<IContextObject> getExtent();
 	
 	Set<IIntentAttribute> getIntent();
+	
+	@Override
+	int hashCode();
 	
 	int rank();
 	
@@ -24,9 +30,5 @@ public interface ICategory {
 	void setType(int type);
 	
 	int type();
-	
-	boolean equals(Object obj);
-	
-	int hashCode();
 
 }

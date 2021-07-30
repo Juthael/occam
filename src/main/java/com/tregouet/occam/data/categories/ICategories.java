@@ -7,19 +7,13 @@ import com.tregouet.occam.data.constructs.IContextObject;
 
 public interface ICategories {
 	
-	List<ICategory> getObjectCategories();
+	boolean areA(List<ICategory> cats, ICategory cat);
 	
 	ICategory getAbsurdity();
 	
-	ICategory getTruism();
-	
-	ICategory getTruismAboutTruism();
-	
-	ICategory getOntologicalCommitment();
-	
-	List<ICategory> getTopologicallySortedCategories();
-	
 	ICatTreeSupplier getCatTreeSupplier();
+	
+	ICatTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint);
 	
 	/**
 	 * If param contains every object in the context, then return truism
@@ -30,7 +24,15 @@ public interface ICategories {
 	
 	ICategory getLeastCommonSuperordinate(Set<ICategory> categories);
 	
-	ICatTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint);
+	List<ICategory> getObjectCategories();
+	
+	ICategory getOntologicalCommitment();
+	
+	List<ICategory> getTopologicallySortedCategories();
+	
+	ICategory getTruism();
+	
+	ICategory getTruismAboutTruism();
 	
 	/**
 	 * Not a reflexive relation
@@ -39,8 +41,6 @@ public interface ICategories {
 	 * @return
 	 */
 	boolean isA(ICategory cat1, ICategory cat2);
-	
-	boolean areA(List<ICategory> cats, ICategory cat);
 	
 	boolean isADirectSubCategoryOf(ICategory cat1, ICategory cat2);
 

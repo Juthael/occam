@@ -17,7 +17,6 @@ import org.junit.Test;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
-import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.subseq_finder.ISymbolSeq;
 

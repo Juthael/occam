@@ -22,9 +22,6 @@ import guru.nidi.graphviz.parse.Parser;
 
 public class Visualizer {
 
-	private Visualizer() {
-	}
-	
 	public static void visualize(DirectedAcyclicGraph<ICategory, DefaultEdge> graph, String fileName) throws IOException {
 		//convert in DOT format
 		DOTExporter<ICategory,DefaultEdge> exporter = new DOTExporter<>();
@@ -43,6 +40,9 @@ public class Visualizer {
 		MutableGraph dotGraph = new Parser().read(stringDOT);
 		Graphviz.fromGraph(dotGraph).width(graph.vertexSet().size()*100)
 			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
+	}
+	
+	private Visualizer() {
 	}
 	
 

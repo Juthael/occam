@@ -4,9 +4,11 @@ import com.tregouet.occam.data.constructs.AVariable;
 
 public interface ILambdaExpression {
 	
-	public int hashCode();
+	int hashCode();
 	
-	boolean bindsVar(AVariable boundVar);
+	boolean appliesAFunction();
+	
+	boolean binds(AVariable boundVar);
 	
 	boolean equals(Object o);
 	

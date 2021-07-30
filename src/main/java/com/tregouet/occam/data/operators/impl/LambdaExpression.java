@@ -15,7 +15,9 @@ public class LambdaExpression implements ILambdaExpression {
 	
 	public LambdaExpression(IConstruct construct) {
 		this.construct = construct;
-		boundVars = construct.getVariables();
+		if (construct.isAbstract())
+			boundVars = construct.getVariables();
+		else boundVars = new ArrayList<>();
 		for (AVariable variable : boundVars)
 			arguments.add(new ArgumentPlaceholder(variable));
 	}
@@ -26,7 +28,7 @@ public class LambdaExpression implements ILambdaExpression {
 	}
 
 	@Override
-	public boolean bindsVar(AVariable boundVar) {
+	public boolean binds(AVariable boundVar) {
 		return boundVars.contains(boundVar);
 	}
 
@@ -96,11 +98,19 @@ public class LambdaExpression implements ILambdaExpression {
 			sB.append(construct.toString());
 			sB.append(")");
 			for (ILambdaExpression arg : arguments) {
-				sB.append(arg.toString());
+				sB.append(" ");
+				if (arg.appliesAFunction())
+					sB.append("(" + arg.toString() + ")");
+				else sB.append(arg.toString());
 			}
 			return sB.toString();	
 		}
 		else return construct.toString();
+	}
+
+	@Override
+	public boolean appliesAFunction() {
+		return (!boundVars.isEmpty());
 	}
 
 }

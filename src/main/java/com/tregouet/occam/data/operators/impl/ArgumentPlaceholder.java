@@ -13,7 +13,7 @@ public class ArgumentPlaceholder extends LambdaExpression implements IArgumentPl
 	}
 	
 	@Override
-	public boolean bindsVar(AVariable boundVar) {
+	public boolean binds(AVariable boundVar) {
 		return false;
 	}
 	
@@ -61,5 +61,10 @@ public class ArgumentPlaceholder extends LambdaExpression implements IArgumentPl
 	public String toString() {
 		return "(" + toBeDerived.toString() + ".deriv)";
 	}
+	
+	@Override
+	public boolean appliesAFunction() {
+		return false;
+	}	
 
 }

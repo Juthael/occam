@@ -59,9 +59,9 @@ public class LambdaExpressionTest {
 		sB.append("(λ");
 		sB.append(var1Name + var2Name + var3Name);
 		sB.append(".pluralitas " + var1Name + " est " + var2Name + " sine " + var3Name + ")");
-		sB.append("(" + var1Name + ".deriv)");
-		sB.append("(" + var2Name + ".deriv)");
-		sB.append("(" + var3Name + ".deriv)");
+		sB.append(" (" + var1Name + ".deriv)");
+		sB.append(" (" + var2Name + ".deriv)");
+		sB.append(" (" + var3Name + ".deriv)");
 		return sB.toString();
 	}
 

@@ -13,6 +13,8 @@ public interface IConstruct {
 	
 	int getNbOfTerminals();
 	
+	List<AVariable> getVariables();
+	
 	boolean isAbstract();
 	
 	/**

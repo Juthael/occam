@@ -6,7 +6,7 @@ public interface ILambdaExpression {
 	
 	boolean bindsVar(AVariable boundVar);
 	
-	void setArgument(ILambdaExpression argument);
+	boolean setArgument(AVariable boundVar, ILambdaExpression argument);
 	
 	String toString();
 

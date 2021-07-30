@@ -150,4 +150,14 @@ public class Construct implements IConstruct {
 		return sB.toString();
 	}
 
+	@Override
+	public List<AVariable> getVariables() {
+		List<AVariable> variables = new ArrayList<>();
+		for (ISymbol symbol : prog) {
+			if (symbol instanceof AVariable)
+				variables.add((AVariable) symbol);
+		}
+		return variables;
+	}
+
 }

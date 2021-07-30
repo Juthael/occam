@@ -8,6 +8,11 @@ import com.tregouet.occam.data.constructs.IConstruct;
 
 public interface IProduction {
 	
+	/**
+	 * Mainly useful to explain what a Production is meant to be. Never actually used.
+	 * @param construct
+	 * @return
+	 */
 	IConstruct doAbstract(IConstruct construct);
 	
 	AVariable getVariable();
@@ -16,6 +21,11 @@ public interface IProduction {
 	
 	boolean derives(AVariable var);
 	
+	/**
+	 * Mainly useful to explain what a Production is meant to be. Never actually used.
+	 * @param construct
+	 * @return
+	 */
 	IConstruct derive(IConstruct construct);
 	
 	ILambdaExpression semanticRule();

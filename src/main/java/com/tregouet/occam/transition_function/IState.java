@@ -9,30 +9,34 @@ import com.tregouet.occam.data.operators.IOperator;
 
 public interface IState {
 	
-	Set<IIntentAttribute> getIntent();
+	public int hashCode();
+	
+	boolean acceptInput(ITapeSet tapeSet);
+	
+	void addTransition(IOperator operator);
+	
+	boolean equals(Object o);
+	
+	void generateOutputLanguage();
 	
 	Set<IContextObject> getExtent();
+	
+	Set<IIntentAttribute> getIntent();
+	
+	int getRank();
 	
 	int getStateID();
 	
 	int getStateType();
 	
-	boolean acceptInput(ITapeSet tapeSet);
-	
-	void proceedTransitions();
-	
-	int getRank();
-	
-	void generateOutputLanguage();
-	
 	boolean isActive();
 	
 	boolean isOperative();
 	
-	void addTransition(IOperator operator);
+	void mergeTapeSetsWithSameInput();
+	
+	void proceedTransitions();
 	
 	void setRank(int rank);
-	
-	void mergeTapeSetsWithSameInput();
 
 }

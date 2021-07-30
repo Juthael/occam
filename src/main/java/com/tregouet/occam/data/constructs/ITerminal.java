@@ -8,5 +8,9 @@ package com.tregouet.occam.data.constructs;
  * @author Gael Tregouet
  */
 public interface ITerminal extends ISymbol {
+	
+	public int hashCode();
+	
+	boolean equals(Object o);	
 
 }

@@ -30,6 +30,49 @@ public class LambdaExpression implements ILambdaExpression {
 		return boundVars.contains(boundVar);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LambdaExpression other = (LambdaExpression) obj;
+		if (arguments == null) {
+			if (other.arguments != null)
+				return false;
+		} else if (!arguments.equals(other.arguments))
+			return false;
+		if (boundVars == null) {
+			if (other.boundVars != null)
+				return false;
+		} else if (!boundVars.equals(other.boundVars))
+			return false;
+		if (construct == null) {
+			if (other.construct != null)
+				return false;
+		} else if (!construct.equals(other.construct))
+			return false;
+		return true;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((arguments == null) ? 0 : arguments.hashCode());
+		result = prime * result + ((boundVars == null) ? 0 : boundVars.hashCode());
+		result = prime * result + ((construct == null) ? 0 : construct.hashCode());
+		return result;
+	}
+
 	@Override
 	public boolean setArgument(AVariable boundVar, ILambdaExpression argument) {
 		int varIdx = boundVars.indexOf(boundVar);
@@ -40,7 +83,7 @@ public class LambdaExpression implements ILambdaExpression {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();

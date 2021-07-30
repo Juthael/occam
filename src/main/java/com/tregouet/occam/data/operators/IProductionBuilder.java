@@ -7,6 +7,10 @@ import com.tregouet.occam.data.operators.impl.Production;
 
 public interface IProductionBuilder {
 	
+	public int hashCode();
+	
+	boolean equals(Object o);
+	
 	List<Production> getProductions(ICategories categories);
 
 }

@@ -7,12 +7,16 @@ import com.tregouet.subseq_finder.ISymbolSeq;
 
 public interface IContextObject {
 	
+	public int hashCode();
+	
+	boolean equals(Object o);
+	
 	List<IConstruct> getConstructs();
 	
 	String getID();
 	
 	Iterator<IConstruct> getIteratorOverConstructs();
 	
-	List<ISymbolSeq> toSymbolSeqs();
+	List<ISymbolSeq> toSymbolSeqs();	
 
 }

@@ -9,18 +9,9 @@ import com.tregouet.occam.data.constructs.IConstruct;
 
 public interface IProduction {
 	
-	/**
-	 * Mainly useful to explain what a Production is meant to be. Never actually used.
-	 * @param construct
-	 * @return
-	 */
-	IConstruct doAbstract(IConstruct construct);
+	public int hashCode();
 	
-	AVariable getVariable();
-	
-	IConstruct getValue();
-	
-	boolean derives(AVariable var);
+	ILambdaExpression asLambda(List<IProduction> nextProductions);
 	
 	/**
 	 * Mainly useful to explain what a Production is meant to be. Never actually used.
@@ -29,11 +20,16 @@ public interface IProduction {
 	 */
 	IConstruct derive(IConstruct construct);
 	
-	ILambdaExpression semanticRule();
+	boolean derives(AVariable var);
 	
-	ILambdaExpression asLambda(List<IProduction> nextProductions);
+	/**
+	 * Mainly useful to explain what a Production is meant to be. Never actually used.
+	 * @param construct
+	 * @return
+	 */
+	IConstruct doAbstract(IConstruct construct);
 	
-	void setOperator(IOperator operator);
+	boolean equals(Object o);
 	
 	ICategory getGenus();
 	
@@ -42,5 +38,13 @@ public interface IProduction {
 	IIntentAttribute getOperatorInput();
 	
 	IIntentAttribute getOperatorOutput();
+	
+	IConstruct getValue();
+	
+	AVariable getVariable();
+	
+	ILambdaExpression semanticRule();
+	
+	void setOperator(IOperator operator);
 
 }

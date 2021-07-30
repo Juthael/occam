@@ -46,21 +46,21 @@ public abstract class AVariable implements ISymbol {
 	}
 	
 	@Override
-	abstract public boolean equals(Object o);
+	public abstract boolean equals(Object o);
 	
 	/**
 	 * 
 	 * @return this variable's name
 	 */
-	abstract public String getName();
+	abstract public String getName();	
 	
 	@Override
-	abstract public int hashCode();
+	public abstract int hashCode();
 	
 	/**
 	 * Assigns a new arbitrary name to the variable.
 	 */
-	abstract public void setName();	
+	abstract public void setName();
 	
 	private char getNextChar() {
 		if (!charIte.hasNext()) {

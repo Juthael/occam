@@ -13,12 +13,16 @@ import com.tregouet.occam.transition_function.IState;
 
 public class Operator implements IOperator {
 
+	private static double binaryLogarithm(double arg) {
+		return Math.log10(arg)/Math.log10(2);
+	}
 	private final IState operatingState;
 	private final Map<IIntentAttribute, IIntentAttribute> inputToOutput = new HashMap<>();
 	private final List<IProduction> operation;
 	private final IState nextState;
-	private final double cost;
 	
+	private final double cost;
+
 	public Operator(IState operatingState, List<IProduction> operation, IState nextState) {
 		this.operatingState = operatingState;
 		this.operation = new ArrayList<>(operation);
@@ -30,9 +34,72 @@ public class Operator implements IOperator {
 		cost = calculateCost();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Operator other = (Operator) obj;
+		if (inputToOutput == null) {
+			if (other.inputToOutput != null)
+				return false;
+		} else if (!inputToOutput.equals(other.inputToOutput))
+			return false;
+		if (nextState == null) {
+			if (other.nextState != null)
+				return false;
+		} else if (!nextState.equals(other.nextState))
+			return false;
+		if (operatingState == null) {
+			if (other.operatingState != null)
+				return false;
+		} else if (!operatingState.equals(other.operatingState))
+			return false;
+		return true;
+	}
+
+	@Override
+	public double getCost() {
+		return cost;
+	}
+
+	@Override
+	public IState getNextState() {
+		return nextState;
+	}
+
+	@Override
+	public IState getOperatingState() {
+		return operatingState;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((inputToOutput == null) ? 0 : inputToOutput.hashCode());
+		result = prime * result + ((nextState == null) ? 0 : nextState.hashCode());
+		result = prime * result + ((operatingState == null) ? 0 : operatingState.hashCode());
+		return result;
+	}
+	
 	@Override
 	public IIntentAttribute operateOn(IIntentAttribute input) {
 		return inputToOutput.get(input);
+	}
+
+	@Override
+	public List<IProduction> operation() {
+		return operation;
 	}
 
 	@Override
@@ -43,34 +110,21 @@ public class Operator implements IOperator {
 		return expressions;
 	}
 
-	@Override
-	public List<IProduction> operation() {
-		return operation;
-	}
-
-	@Override
-	public IState getOperatingState() {
-		return operatingState;
-	}
-
-	@Override
-	public IState getNextState() {
-		return nextState;
+	@Override 
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		for (int i = 0 ; i < operation.size() ; i++) {
+			sB.append(operation.get(i));
+			if (i < operation.size() - 1)
+				sB.append(", ");
+		}
+		return sB.toString();
 	}
 	
 	private double calculateCost() {
 		double currStateExtentSize = operatingState.getExtent().size();
 		double nextStateExtentSize = nextState.getExtent().size();
 		return binaryLogarithm(currStateExtentSize / nextStateExtentSize);
-	}
-	
-	private static double binaryLogarithm(double arg) {
-		return Math.log10(arg)/Math.log10(2);
-	}
-
-	@Override
-	public double getCost() {
-		return cost;
 	}
 
 }

@@ -87,6 +87,16 @@ public class Construct implements IConstruct {
 	}
 	
 	@Override
+	public List<AVariable> getVariables() {
+		List<AVariable> variables = new ArrayList<>();
+		for (ISymbol symbol : prog) {
+			if (symbol instanceof AVariable)
+				variables.add((AVariable) symbol);
+		}
+		return variables;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -102,7 +112,7 @@ public class Construct implements IConstruct {
 			isAbstract = (ite.next() instanceof AVariable);
 		return isAbstract;
 	}
-
+	
 	//SHOULD BE TESTED
 	@Override
 	public boolean meets(IConstruct constraint) {
@@ -127,7 +137,7 @@ public class Construct implements IConstruct {
 				((AVariable) symbol).setName();
 		}
 	}
-	
+
 	@Override
 	public List<String> toListOfStringsWithPlaceholders(){
 		List<String> list = new ArrayList<String>();
@@ -148,16 +158,6 @@ public class Construct implements IConstruct {
 				sB.append(" ");
 		}
 		return sB.toString();
-	}
-
-	@Override
-	public List<AVariable> getVariables() {
-		List<AVariable> variables = new ArrayList<>();
-		for (ISymbol symbol : prog) {
-			if (symbol instanceof AVariable)
-				variables.add((AVariable) symbol);
-		}
-		return variables;
 	}
 
 }

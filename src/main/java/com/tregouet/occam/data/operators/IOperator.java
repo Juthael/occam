@@ -7,16 +7,20 @@ import com.tregouet.occam.transition_function.IState;
 
 public interface IOperator {
 	
-	IIntentAttribute operateOn(IIntentAttribute input);
+	public int hashCode();
 	
-	List<ILambdaExpression> semantics();
+	boolean equals(Object o);
 	
-	List<IProduction> operation();
-	
-	IState getOperatingState();
+	double getCost();
 	
 	IState getNextState();
 	
-	double getCost();
+	IState getOperatingState();
+	
+	IIntentAttribute operateOn(IIntentAttribute input);
+	
+	List<IProduction> operation();
+	
+	List<ILambdaExpression> semantics();
 
 }

@@ -5,6 +5,10 @@ import java.util.List;
 
 public interface IConstruct {
 	
+	public int hashCode();
+	
+	boolean equals(Object o);
+	
 	Iterator<ISymbol> getIteratorOverSymbols();
 	
 	List<ISymbol> getListOfSymbols();
@@ -26,6 +30,6 @@ public interface IConstruct {
 	
 	void nameVariables();
 	
-	List<String> toListOfStringsWithPlaceholders();
+	List<String> toListOfStringsWithPlaceholders();	
 
 }

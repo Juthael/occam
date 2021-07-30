@@ -177,4 +177,9 @@ public class Production implements IProduction {
 		this.operator = operator;
 	}
 
+	@Override
+	public IOperator getOperator() {
+		return operator;
+	}
+
 }

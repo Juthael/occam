@@ -46,5 +46,7 @@ public interface IProduction {
 	ILambdaExpression semanticRule();
 	
 	void setOperator(IOperator operator);
+	
+	IOperator getOperator();
 
 }

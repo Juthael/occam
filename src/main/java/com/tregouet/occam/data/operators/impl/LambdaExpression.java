@@ -86,18 +86,21 @@ public class LambdaExpression implements ILambdaExpression {
 
 	@Override
 	public String toString() {
-		StringBuilder sB = new StringBuilder();
-		sB.append("(λ");
-		for (AVariable variable : boundVars) {
-			sB.append(variable.toString());
+		if (construct.isAbstract()) {
+			StringBuilder sB = new StringBuilder();
+			sB.append("(λ");
+			for (AVariable variable : boundVars) {
+				sB.append(variable.toString());
+			}
+			sB.append(".");
+			sB.append(construct.toString());
+			sB.append(")");
+			for (ILambdaExpression arg : arguments) {
+				sB.append(arg.toString());
+			}
+			return sB.toString();	
 		}
-		sB.append(".");
-		sB.append(construct.toString());
-		sB.append(")");
-		for (ILambdaExpression arg : arguments) {
-			sB.append(arg.toString());
-		}
-		return sB.toString();
+		else return construct.toString();
 	}
 
 }

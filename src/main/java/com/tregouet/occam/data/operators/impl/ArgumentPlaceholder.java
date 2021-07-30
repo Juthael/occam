@@ -6,7 +6,7 @@ import com.tregouet.occam.data.operators.ILambdaExpression;
 
 public class ArgumentPlaceholder extends LambdaExpression implements IArgumentPlaceholder {
 
-	private AVariable toBeDerived;
+	private final AVariable toBeDerived;
 	
 	public ArgumentPlaceholder(AVariable toBeDerived) {
 		this.toBeDerived = toBeDerived;

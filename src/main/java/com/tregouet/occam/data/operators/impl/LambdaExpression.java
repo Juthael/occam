@@ -6,12 +6,11 @@ import java.util.List;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.operators.ILambdaExpression;
-import com.tregouet.occam.data.operators.IProduction;
 
 public class LambdaExpression implements ILambdaExpression {
 
-	private IConstruct construct;
-	private List<AVariable> boundVars = new ArrayList<>();
+	private final IConstruct construct;
+	private final List<AVariable> boundVars;
 	private List<ILambdaExpression> arguments = new ArrayList<>();
 	
 	public LambdaExpression(IConstruct construct) {

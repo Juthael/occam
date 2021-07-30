@@ -16,17 +16,17 @@ import com.tregouet.occam.data.operators.IProduction;
 
 public class Production implements IProduction {
 
-	AVariable variable;
-	IConstruct value;
-	IIntentAttribute operatesOn;
-	IIntentAttribute yields;
-	IOperator operator;
+	private final AVariable variable;
+	private final IConstruct value;
+	private final IIntentAttribute operatorInput;
+	private final IIntentAttribute operatorOutput;
+	private IOperator operator;
 	
 	public Production(AVariable variable, IConstruct value, IIntentAttribute operatesOn, IIntentAttribute yields) {
 		this.variable = variable;
 		this.value = value;
-		this.operatesOn = operatesOn;
-		this.yields = yields;
+		this.operatorInput = operatesOn;
+		this.operatorOutput = yields;
 	}
 
 	@Override
@@ -114,17 +114,24 @@ public class Production implements IProduction {
 	@Override
 	public void setOperator(IOperator operator) {
 		this.operator = operator;
-
 	}
 
 	@Override
 	public ICategory getGenus() {
-		return yields.getCategory();
+		return operatorOutput.getCategory();
 	}
 
 	@Override
 	public ICategory getInstance() {
-		return operatesOn.getCategory();
+		return operatorInput.getCategory();
+	}
+	
+	public IIntentAttribute getOperatorInput() {
+		return operatorInput;
+	}
+	
+	public IIntentAttribute getOperatorOutput() {
+		return operatorOutput;
 	}
 
 }

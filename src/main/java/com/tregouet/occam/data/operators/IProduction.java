@@ -3,6 +3,7 @@ package com.tregouet.occam.data.operators;
 import java.util.List;
 
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 
@@ -37,5 +38,9 @@ public interface IProduction {
 	ICategory getGenus();
 	
 	ICategory getInstance();
+	
+	IIntentAttribute getOperatorInput();
+	
+	IIntentAttribute getOperatorOutput();
 
 }

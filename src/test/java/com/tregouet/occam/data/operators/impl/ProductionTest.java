@@ -39,11 +39,6 @@ public class ProductionTest {
 	private AVariable var3 = new Variable(false);
 	private AVariable var4 = new Variable(false);
 	private AVariable var5 = new Variable(false);
-	private String var1Name = var1.toString();
-	private String var2Name = var2.toString();
-	private String var3Name = var3.toString();
-	private String var4Name = var4.toString();
-	private String var5Name = var4.toString();
 	private List<ISymbol> prog1 = 
 			new ArrayList<>(Arrays.asList(new ISymbol[] {pluralitas, non, est, ponenda, sine, necessitate}));
 	private List<ISymbol> prog2 = 
@@ -98,7 +93,7 @@ public class ProductionTest {
 	}
 
 	@Test
-	public void whenLambdaExpressionrequiredThenReturnedAsExpected() {
+	public void whenLambdaExpressionRequestedThenExpectedReturned() {
 		StringBuilder sB = new StringBuilder();
 		sB.append("(λ");
 		sB.append(var4.toString());

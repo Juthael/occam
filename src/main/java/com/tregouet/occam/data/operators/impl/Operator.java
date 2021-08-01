@@ -16,20 +16,19 @@ public class Operator implements IOperator {
 	private static double binaryLogarithm(double arg) {
 		return Math.log10(arg)/Math.log10(2);
 	}
-	private final IState operatingState;
+	private final IState activeState;
 	private final Map<IIntentAttribute, IIntentAttribute> inputToOutput = new HashMap<>();
 	private final List<IProduction> operation;
 	private final IState nextState;
 	
 	private final double cost;
 
-	public Operator(IState operatingState, List<IProduction> operation, IState nextState) {
-		this.operatingState = operatingState;
+	public Operator(IState activeState, List<IProduction> operation, IState nextState) {
+		this.activeState = activeState;
 		this.operation = new ArrayList<>(operation);
 		this.nextState = nextState;
 		for (IProduction production : operation) {
-			if (!inputToOutput.containsKey(production.getOperatorInput()))
-				inputToOutput.put(production.getOperatorInput(), production.getOperatorOutput());
+			inputToOutput.put(production.getOperatorInput(), production.getOperatorOutput());
 		}
 		cost = calculateCost();
 	}
@@ -56,10 +55,10 @@ public class Operator implements IOperator {
 				return false;
 		} else if (!nextState.equals(other.nextState))
 			return false;
-		if (operatingState == null) {
-			if (other.operatingState != null)
+		if (activeState == null) {
+			if (other.activeState != null)
 				return false;
-		} else if (!operatingState.equals(other.operatingState))
+		} else if (!activeState.equals(other.activeState))
 			return false;
 		return true;
 	}
@@ -76,7 +75,7 @@ public class Operator implements IOperator {
 
 	@Override
 	public IState getOperatingState() {
-		return operatingState;
+		return activeState;
 	}
 	
 	/* (non-Javadoc)
@@ -88,7 +87,7 @@ public class Operator implements IOperator {
 		int result = 1;
 		result = prime * result + ((inputToOutput == null) ? 0 : inputToOutput.hashCode());
 		result = prime * result + ((nextState == null) ? 0 : nextState.hashCode());
-		result = prime * result + ((operatingState == null) ? 0 : operatingState.hashCode());
+		result = prime * result + ((activeState == null) ? 0 : activeState.hashCode());
 		return result;
 	}
 	
@@ -122,7 +121,7 @@ public class Operator implements IOperator {
 	}
 	
 	private double calculateCost() {
-		double currStateExtentSize = operatingState.getExtent().size();
+		double currStateExtentSize = activeState.getExtent().size();
 		double nextStateExtentSize = nextState.getExtent().size();
 		return binaryLogarithm(currStateExtentSize / nextStateExtentSize);
 	}

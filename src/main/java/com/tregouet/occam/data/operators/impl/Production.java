@@ -22,11 +22,11 @@ public class Production implements IProduction {
 	private final IIntentAttribute operatorOutput;
 	private IOperator operator;
 	
-	public Production(AVariable variable, IConstruct value, IIntentAttribute operatesOn, IIntentAttribute yields) {
+	public Production(AVariable variable, IConstruct value, IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
 		this.variable = variable;
 		this.value = value;
-		this.operatorInput = operatesOn;
-		this.operatorOutput = yields;
+		this.operatorInput = operatorInput;
+		this.operatorOutput = operatorOutput;
 	}
 
 	@Override

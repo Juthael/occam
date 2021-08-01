@@ -181,5 +181,10 @@ public class Production implements IProduction {
 	public IOperator getOperator() {
 		return operator;
 	}
+	
+	@Override
+	public String toString() {
+		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
+	}
 
 }

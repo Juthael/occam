@@ -39,18 +39,28 @@ public class Categories implements ICategories {
 	private final List<IContextObject> objects;
 	private final DirectedAcyclicGraph<ICategory, DefaultEdge> hasseDiagram;
 	private final List<ICategory> topologicalOrder = new ArrayList<>();
-	private ICategory ontologicalCommitment;
-	private ICategory truismAboutTruism;
-	private ICategory truism;
-	private ICategory absurdity;
+	private final ICategory ontologicalCommitment;
+	private final ICategory truismAboutTruism;
+	private final ICategory truism;
+	private final ICategory absurdity;
 	
 	public Categories(List<IContextObject> objects) {
 		this.objects = objects;
 		hasseDiagram = new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
 		AVariable.initializeNameProvider();
-		buildCatLatticeRelationGraph();
-		instantiateOntologicalCommitment();
-		instantiateTruismAboutTruism();
+		buildDiagram();
+		truism = hasseDiagram.vertexSet()
+				.stream()
+				.filter(c -> c.type() == ICategory.TRUISM)
+				.findFirst()
+				.get();
+		absurdity = hasseDiagram.vertexSet()
+				.stream()
+				.filter(c -> c.type() == ICategory.ABSURDITY)
+				.findFirst()
+				.get();
+		ontologicalCommitment = instantiateOntologicalCommitment();
+		truismAboutTruism = instantiateTruismAboutTruism();
 		addTrAbTrAndOntologicalCommitmentToRelation();
 		TransitiveReduction.INSTANCE.reduce(hasseDiagram);
 		updateCategoryRank(absurdity, 0);
@@ -173,7 +183,7 @@ public class Categories implements ICategories {
 		hasseDiagram.addEdge(truismAboutTruism, ontologicalCommitment);
 	}
 	
-	private void buildCatLatticeRelationGraph() {
+	private void buildDiagram() {
 		Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents = buildIntentToExtentRel();
 		for (Entry<Set<IConstruct>, Set<IContextObject>> entry : intentsToExtents.entrySet()) {
 			ICategory category = new Category(entry.getKey(), entry.getValue());
@@ -181,8 +191,7 @@ public class Categories implements ICategories {
 				if (category.getExtent().size() == 1)
 					category.setType(ICategory.OBJECT);
 				else if (category.getExtent().size() == objects.size()) {
-					category.setType(ICategory.TRUISM_TRUISM);
-					truism = category;
+					category.setType(ICategory.TRUISM);
 				}
 				else {
 					category.setType(ICategory.SUBSET_CAT);
@@ -190,7 +199,6 @@ public class Categories implements ICategories {
 			}
 			else {
 				category.setType(ICategory.ABSURDITY);
-				absurdity = category;
 			}
 			hasseDiagram.addVertex(category);
 		}
@@ -242,7 +250,8 @@ public class Categories implements ICategories {
 	    return powerSet;
 	}
 
-	private void instantiateOntologicalCommitment() {
+	private ICategory instantiateOntologicalCommitment() {
+		ICategory ontologicalCommitment;
 		ISymbol variable = new Variable(!AVariable.DEFERRED_NAMING);
 		List<ISymbol> acceptProg = new ArrayList<ISymbol>();
 		acceptProg.add(variable);
@@ -251,9 +260,11 @@ public class Categories implements ICategories {
 		acceptIntent.add(acceptConstruct);
 		ontologicalCommitment = new Category(acceptIntent, new HashSet<IContextObject>(objects));
 		ontologicalCommitment.setType(ICategory.ONTOLOGICAL_COMMITMENT);
+		return ontologicalCommitment;
 	}
 	
-	private void instantiateTruismAboutTruism() {
+	private ICategory instantiateTruismAboutTruism() {
+		ICategory truismAboutTruism;
 		Set<IConstruct> preAccIntent = new HashSet<IConstruct>();
 		Set<IConstruct> lattMaxIntent = new HashSet<>(truism.getIntent());
 		List<ISymbolSeq> lattMaxSymbolSeq = new ArrayList<ISymbolSeq>();
@@ -285,7 +296,8 @@ public class Categories implements ICategories {
 		for (IConstruct construct : preAccIntent)
 			construct.nameVariables();
 		truismAboutTruism = new Category(preAccIntent, new HashSet<IContextObject>(objects));
-		truismAboutTruism.setType(ICategory.TRUISM);
+		truismAboutTruism.setType(ICategory.TRUISM_TRUISM);
+		return truismAboutTruism;
 	}
 
 	private List<ICategory> removeSubCategories(Set<ICategory> categories) {

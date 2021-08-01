@@ -7,15 +7,11 @@ import com.tregouet.occam.data.constructs.impl.Construct;
 
 public class IntentAttribute extends Construct implements IIntentAttribute {
 
-	ICategory category = null;
+	private ICategory category;
 	
 	public IntentAttribute(IConstruct construct, ICategory category) {
 		super(construct);
 		this.category = category;
-	}	
-
-	public IntentAttribute(String[] progStrings) {
-		super(progStrings);
 	}
 
 	public boolean equals(Object obj) {

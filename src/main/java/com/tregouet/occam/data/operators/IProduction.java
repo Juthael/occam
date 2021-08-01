@@ -9,7 +9,7 @@ import com.tregouet.occam.data.constructs.IConstruct;
 
 public interface IProduction {
 	
-	public int hashCode();
+	int hashCode();
 	
 	ILambdaExpression asLambda(List<IProduction> nextProductions);
 	
@@ -48,5 +48,7 @@ public interface IProduction {
 	void setOperator(IOperator operator);
 	
 	IOperator getOperator();
+	
+	String toString();
 
 }

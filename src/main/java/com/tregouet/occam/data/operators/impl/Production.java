@@ -28,6 +28,13 @@ public class Production implements IProduction {
 		this.operatorInput = operatorInput;
 		this.operatorOutput = operatorOutput;
 	}
+	
+	protected Production(IConstruct value, IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
+		variable = null;
+		this.value = value;
+		this.operatorInput = operatorInput;
+		this.operatorOutput = operatorOutput;
+	}
 
 	@Override
 	public ILambdaExpression asLambda(List<IProduction> nextProductions) {
@@ -97,38 +104,6 @@ public class Production implements IProduction {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Production other = (Production) obj;
-		if (operatorInput == null) {
-			if (other.operatorInput != null)
-				return false;
-		} else if (!operatorInput.equals(other.operatorInput))
-			return false;
-		if (operatorOutput == null) {
-			if (other.operatorOutput != null)
-				return false;
-		} else if (!operatorOutput.equals(other.operatorOutput))
-			return false;
-		if (value == null) {
-			if (other.value != null)
-				return false;
-		} else if (!value.equals(other.value))
-			return false;
-		if (variable == null) {
-			if (other.variable != null)
-				return false;
-		} else if (!variable.equals(other.variable))
-			return false;
-		return true;
-	}
-
-	@Override
 	public ICategory getGenus() {
 		return operatorOutput.getCategory();
 	}
@@ -155,17 +130,6 @@ public class Production implements IProduction {
 	public AVariable getVariable() {
 		return variable;
 	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((operatorInput == null) ? 0 : operatorInput.hashCode());
-		result = prime * result + ((operatorOutput == null) ? 0 : operatorOutput.hashCode());
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
-		result = prime * result + ((variable == null) ? 0 : variable.hashCode());
-		return result;
-	}
 
 	@Override
 	public ILambdaExpression semanticRule() {
@@ -185,6 +149,43 @@ public class Production implements IProduction {
 	@Override
 	public String toString() {
 		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + ((variable == null) ? 0 : variable.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Production other = (Production) obj;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		if (variable == null) {
+			if (other.variable != null)
+				return false;
+		} else if (!variable.equals(other.variable))
+			return false;
+		return true;
 	}
 
 }

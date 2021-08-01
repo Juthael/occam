@@ -37,7 +37,7 @@ public class IntentAttribute extends Construct implements IIntentAttribute {
 
 	@Override
 	public int hashCode() {
-		//must not use Category.hashCode(), since Category.hashCode() uses this. 
+		//must not use Category.hashCode(), since Category.hashCode() uses this'. 
 		return super.hashCode();
 	}
 

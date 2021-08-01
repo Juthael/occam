@@ -23,6 +23,7 @@ import com.tregouet.occam.data.constructs.ITerminal;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.Terminal;
 import com.tregouet.occam.data.constructs.impl.Variable;
+import com.tregouet.occam.data.operators.ILambdaExpression;
 import com.tregouet.occam.data.operators.IProduction;
 
 public class ProductionTest {
@@ -98,12 +99,34 @@ public class ProductionTest {
 
 	@Test
 	public void whenLambdaExpressionrequiredThenReturnedAsExpected() {
-		for (IProduction prod : productions) {
-			List<IProduction> remaining = new ArrayList<>(productions);
-			remaining.remove(prod);
-			System.out.println(prod.asLambda(remaining));
-		}
-		assertTrue(false);
+		StringBuilder sB = new StringBuilder();
+		sB.append("(λ");
+		sB.append(var4.toString());
+		sB.append(".pluralitas ");
+		sB.append(var4.toString());
+		sB.append(") ((λ");
+		sB.append(var1.toString());
+		sB.append(var2.toString());
+		sB.append(var3.toString());
+		sB.append(".");
+		sB.append(var1.toString());
+		sB.append(" est ");
+		sB.append(var2.toString());
+		sB.append(" sine ");
+		sB.append(var3.toString());
+		sB.append(") non ponenda necessitate)");
+		ILambdaExpression prod5Lambda;
+		List<IProduction> remainingProds = new ArrayList<>(productions);
+		remainingProds.remove(prodVar5);
+		prod5Lambda = prodVar5.asLambda(remainingProds);
+		String prod5LambdaString = prod5Lambda.toString();
+		String expected = sB.toString();
+		/*
+		System.out.println(prod5LambdaString);
+		System.out.println(expected);
+		*/
+		assertTrue(prod5LambdaString.equals(expected));
 	}
 
 }
+

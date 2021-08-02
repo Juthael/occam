@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jgrapht.graph.DefaultEdge;
+
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.AVariable;
@@ -14,8 +16,9 @@ import com.tregouet.occam.data.operators.ILambdaExpression;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 
-public class Production implements IProduction {
+public class Production extends DefaultEdge implements IProduction {
 
+	private static final long serialVersionUID = 1701074226278101143L;
 	private final AVariable variable;
 	private final IConstruct value;
 	private final IIntentAttribute operatorInput;
@@ -29,9 +32,9 @@ public class Production implements IProduction {
 		this.operatorOutput = operatorOutput;
 	}
 	
-	protected Production(IConstruct value, IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
+	protected Production(IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
 		variable = null;
-		this.value = value;
+		value = null;
 		this.operatorInput = operatorInput;
 		this.operatorOutput = operatorOutput;
 	}
@@ -151,9 +154,6 @@ public class Production implements IProduction {
 		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -163,9 +163,6 @@ public class Production implements IProduction {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -186,6 +183,31 @@ public class Production implements IProduction {
 		} else if (!variable.equals(other.variable))
 			return false;
 		return true;
+	}
+
+	@Override
+	public IIntentAttribute getSource() {
+		return operatorInput;
+	}
+
+	@Override
+	public IIntentAttribute getTarget() {
+		return operatorOutput;
+	}
+
+	@Override
+	public ICategory getSourceCategory() {
+		return operatorInput.getCategory();
+	}
+
+	@Override
+	public ICategory getTargetCategory() {
+		return operatorOutput.getCategory();
+	}
+
+	@Override
+	public String getLabel() {
+		return toString();
 	}
 
 }

@@ -50,5 +50,15 @@ public interface IProduction {
 	IOperator getOperator();
 	
 	String toString();
+	
+	IIntentAttribute getSource();
+	
+	IIntentAttribute getTarget();
+	
+	ICategory getSourceCategory();
+	
+	ICategory getTargetCategory();
+	
+	String getLabel();
 
 }

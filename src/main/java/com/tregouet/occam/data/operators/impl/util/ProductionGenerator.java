@@ -48,22 +48,20 @@ public class ProductionGenerator {
 	}
 	
 	public static Map<AVariable, List<ISymbol>> mapVariablesToValues(List<ISymbol> source, List<ISymbol> target) {
-		return continueMapping(source, target, new HashMap<AVariable, List<ISymbol>>(), -1, -1);
+		return continueMapping(source, target, new HashMap<AVariable, List<ISymbol>>(), 0, 0);
 	}
 	
-	//start at -1, -1
 	private static Map<AVariable, List<ISymbol>> continueMapping(List<ISymbol> source, List<ISymbol> target, 
 			Map<AVariable, List<ISymbol>> varToValue, int srcIdx, int targetIdx) {
-		if (srcIdx == source.size() - 1 && targetIdx == target.size() - 1)
+		if (srcIdx == source.size() && targetIdx == target.size())
 			return varToValue;
-		if (srcIdx == source.size() - 1 || targetIdx == target.size() - 1)
+		if (srcIdx == source.size() || targetIdx == target.size())
 			return null;		
-		targetIdx ++;
 		if (target.get(targetIdx) instanceof AVariable) {
 			AVariable variable = (AVariable) target.get(targetIdx);
 			int varSpan = 0;
 			Map<AVariable, List<ISymbol>> nextMap = null;
-			while (nextMap == null && (srcIdx + varSpan < source.size())) {
+			while (nextMap == null && (srcIdx + varSpan <= source.size())) {
 				nextMap = deepCopy(varToValue);
 				nextMap.put(variable, new ArrayList<ISymbol>());
 				int srcAdvance = 0;
@@ -71,15 +69,14 @@ public class ProductionGenerator {
 					nextMap.get(variable).add(source.get(srcIdx + srcAdvance));
 					srcAdvance++;
 				}					
-				nextMap = continueMapping(source, target, nextMap, srcIdx + srcAdvance, targetIdx);
+				nextMap = continueMapping(source, target, nextMap, srcIdx + srcAdvance, targetIdx + 1);
 				varSpan++;
 			}
 			return nextMap;
 		}
 		else {
-			srcIdx++;
 			if (source.get(srcIdx).equals(target.get(targetIdx))) {
-				return continueMapping(source, target, varToValue, srcIdx, targetIdx);
+				return continueMapping(source, target, varToValue, srcIdx + 1, targetIdx + 1);
 			}
 			return null;
 		}

@@ -30,10 +30,6 @@ public class ProductionBuilder implements IProductionBuilder {
 		return productions;
 	}
 	
-	private List<IProduction> buildProductions() {
-		
-	}
-	
 	private IProduction buildProduction(IIntentAttribute att1, IIntentAttribute att2) {
 		if (categories.isA(att1.getCategory(), att2.getCategory())) {
 			if (att1.getListOfSymbols().equals(att2.getListOfSymbols()))

@@ -71,7 +71,7 @@ public class ProductionGeneratorTest {
 	}
 
 	@Test
-	public void test() {
+	public void whenVarToValueRequiredThenExpectedReturned() {
 		abXcd2acd = ProductionGenerator.mapVariablesToValues(abXcd, acd);
 		abijcd2abXcd = ProductionGenerator.mapVariablesToValues(abijcd, abXcd);
 		abcd2abXcd = ProductionGenerator.mapVariablesToValues(abcd, abXcd);

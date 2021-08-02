@@ -145,7 +145,7 @@ public class Categories implements ICategories {
 	}
 	
 	@Override
-	public List<ICategory> getTopologicallySortedCategories() {
+	public List<ICategory> getTopologicalSorting() {
 		return topologicalOrder;
 	}
 	

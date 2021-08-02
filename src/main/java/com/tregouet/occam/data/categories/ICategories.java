@@ -32,7 +32,7 @@ public interface ICategories {
 	
 	ICategory getOntologicalCommitment();
 	
-	List<ICategory> getTopologicallySortedCategories();
+	List<ICategory> getTopologicalSorting();
 	
 	ICategory getTruism();
 	

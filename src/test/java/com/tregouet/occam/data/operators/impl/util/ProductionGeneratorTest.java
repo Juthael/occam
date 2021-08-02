@@ -37,7 +37,6 @@ public class ProductionGeneratorTest {
 	private List<ISymbol> abiZcd = Arrays.asList(new ISymbol[] {a, b, i, z, c, d});
 	private List<ISymbol> aXcYcZ = Arrays.asList(new ISymbol[] {a, x, c, y, c, z});
 	private Map<AVariable, List<ISymbol>> abXcd2acd;
-	private Map<AVariable, List<ISymbol>> abXcd2acdEXPECTED = null;
 	private Map<AVariable, List<ISymbol>> abijcd2abXcd;
 	private Map<AVariable, List<ISymbol>> abijcd2abXcdEXPECTED = new HashMap<>();
 	private Map<AVariable, List<ISymbol>> abcd2abXcd;
@@ -82,14 +81,6 @@ public class ProductionGeneratorTest {
 		abiZcd2abXcd = ProductionGenerator.mapVariablesToValues(abiZcd, abXcd);
 		abcd2X = ProductionGenerator.mapVariablesToValues(abcd, Arrays.asList(new ISymbol[] {x}));
 		abcijcd2aXcYcZ = ProductionGenerator.mapVariablesToValues(abcijcd, aXcYcZ);
-		
-		boolean test1 = abXcd2acd == null;
-		boolean test2 = abijcd2abXcd.equals(abijcd2abXcdEXPECTED);
-		boolean test3 = abcd2abXcd.equals(abcd2abXcdEXPECTED);
-		boolean test4 = abcd2abx.equals(abcd2abxEXPECTED);
-		boolean test5 = abcijcd2abXcd.equals(abcijcd2abXcdEXPECTED);
-		boolean test6 = abicjd2abXcYd.equals(abicjd2abXcYdEXPECTED);
-		boolean test7 = abiZcd2abXcd.equals(abiZcd2abXcdEXPECTED);
 		assertTrue(abXcd2acd == null
 				&& abijcd2abXcd.equals(abijcd2abXcdEXPECTED)
 				&& abcd2abXcd.equals(abcd2abXcdEXPECTED)

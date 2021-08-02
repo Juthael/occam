@@ -54,7 +54,7 @@ public class CategoriesTest {
 		int nbOfTruism = 0;
 		int nbOfTruismTruism = 0;
 		int nbOfCommitments = 0;
-		for (ICategory cat : categories.getTopologicallySortedCategories()) {
+		for (ICategory cat : categories.getTopologicalSorting()) {
 			if (cat.type() == ICategory.ABSURDITY)
 				nbOfAbsurdity++;
 			else if (cat.type() == ICategory.TRUISM)
@@ -70,9 +70,9 @@ public class CategoriesTest {
 	@Test
 	public void whenCategoriesReturnedThenEachHasADistinctIntent() {
 		Set<Set<IIntentAttribute>> intents = new HashSet<>();
-		for (ICategory cat : categories.getTopologicallySortedCategories())
+		for (ICategory cat : categories.getTopologicalSorting())
 			intents.add(cat.getIntent());
-		assertTrue(intents.size() == categories.getTopologicallySortedCategories().size());
+		assertTrue(intents.size() == categories.getTopologicalSorting().size());
 	}
 	
 	@Test
@@ -138,7 +138,7 @@ public class CategoriesTest {
 	public void whenInstantiatedThenIsALattice() {
 		boolean eachPairHasASupremum = true;
 		boolean eachPairHasAnInfimum = true;
-		List<ICategory> catList = categories.getTopologicallySortedCategories(); 
+		List<ICategory> catList = categories.getTopologicalSorting(); 
 		for (int i = 0 ; i < catList.size() - 1 ; i++) {
 			ICategory pairFirst = catList.get(i);
 			for (int j = i + 1 ; j < catList.size() ; j++) {
@@ -211,7 +211,7 @@ public class CategoriesTest {
 	
 	@Test
 	public void whenIsAMethodCalledThenConsistentReturn() {
-		List<ICategory> catList = categories.getTopologicallySortedCategories();
+		List<ICategory> catList = categories.getTopologicalSorting();
 		for (int i = 0 ; i < catList.size() ; i++) {
 			ICategory catI = catList.get(i);
 			for (int j = 0 ; j < catList.size() ; j++) {
@@ -236,11 +236,11 @@ public class CategoriesTest {
 	@Test
 	public void whenLeastCommonSuperordinateRequiredThenExpectedReturned() {
 		boolean unexpected = false;
-		Set<Set<ICategory>> objPowerSet = buildCatsPowerSet(categories.getTopologicallySortedCategories()); 
+		Set<Set<ICategory>> objPowerSet = buildCatsPowerSet(categories.getTopologicalSorting()); 
 		for (Set<ICategory> subset : objPowerSet) {
 			if (!subset.isEmpty()) {
 				ICategory lcs = categories.getLeastCommonSuperordinate(subset);
-				for (ICategory current : categories.getTopologicallySortedCategories()) {
+				for (ICategory current : categories.getTopologicalSorting()) {
 					if (categories.areA(new ArrayList<>(subset), current)) {
 						if (!categories.isA(lcs, current) && !lcs.equals(current))
 							unexpected = true;

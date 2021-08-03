@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.operators.IBasicProduction;
+import com.tregouet.occam.data.operators.ICompositeProduction;
 import com.tregouet.occam.data.operators.ILambdaExpression;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
@@ -105,7 +107,15 @@ public class Operator implements IOperator {
 	public List<ILambdaExpression> semantics() {
 		List<ILambdaExpression> expressions = new ArrayList<>();
 		for (IProduction prod : operation)
-			expressions.add(prod.semanticRule());
+			if (prod instanceof ICompositeProduction) {
+				ICompositeProduction composite = (ICompositeProduction) prod;
+				for (IBasicProduction basicProd : composite.getComponents())
+					expressions.add(basicProd.semanticRule());
+			}
+			else {
+				IBasicProduction basic = (IBasicProduction) prod;
+				expressions.add(basic.semanticRule());
+			}
 		return expressions;
 	}
 

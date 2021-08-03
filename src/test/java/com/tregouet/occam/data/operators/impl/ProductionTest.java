@@ -23,6 +23,7 @@ import com.tregouet.occam.data.constructs.ITerminal;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.Terminal;
 import com.tregouet.occam.data.constructs.impl.Variable;
+import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ILambdaExpression;
 import com.tregouet.occam.data.operators.IProduction;
 
@@ -74,13 +75,13 @@ public class ProductionTest {
 	private IConstruct var3Value = new Construct(var3ValueProg);
 	private IConstruct var4Value = new Construct(var4ValueProg);
 	private IConstruct var5Value = new Construct(var5ValueProg);
-	private IProduction prodVar1 = new Production(var1, var1Value, constr1, constr2);
-	private IProduction prodVar2 = new Production(var2, var2Value, constr1, constr2);
-	private IProduction prodVar3 = new Production(var3, var3Value, constr1, constr2);
-	private IProduction prodVar4 = new Production(var4, var4Value, constr2, constr3);
-	private IProduction prodVar5 = new Production(var5, var5Value, constr3, constr4);
-	private List<IProduction> productions = 
-			new ArrayList<>(Arrays.asList(new IProduction[] {prodVar1, prodVar2, prodVar3, prodVar4, prodVar5}));
+	private IBasicProduction prodVar1 = new BasicProduction(var1, var1Value, constr1, constr2);
+	private IBasicProduction prodVar2 = new BasicProduction(var2, var2Value, constr1, constr2);
+	private IBasicProduction prodVar3 = new BasicProduction(var3, var3Value, constr1, constr2);
+	private IBasicProduction prodVar4 = new BasicProduction(var4, var4Value, constr2, constr3);
+	private IBasicProduction prodVar5 = new BasicProduction(var5, var5Value, constr3, constr4);
+	private List<IBasicProduction> productions = 
+			new ArrayList<>(Arrays.asList(new IBasicProduction[] {prodVar1, prodVar2, prodVar3, prodVar4, prodVar5}));
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

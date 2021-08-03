@@ -3,10 +3,11 @@ package com.tregouet.occam.data.operators.impl;
 import java.util.List;
 
 import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ILambdaExpression;
 import com.tregouet.occam.data.operators.IProduction;
 
-public class BlankProduction extends Production implements IProduction {
+public class BlankProduction extends BasicProduction implements IBasicProduction {
 
 	private static final long serialVersionUID = -1489727700831533797L;
 

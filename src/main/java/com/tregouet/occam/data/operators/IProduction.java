@@ -11,23 +11,7 @@ public interface IProduction {
 	
 	int hashCode();
 	
-	ILambdaExpression asLambda(List<IProduction> nextProductions);
-	
-	/**
-	 * Mainly useful to explain what a Production is meant to be. Never actually used.
-	 * @param construct
-	 * @return
-	 */
-	IConstruct derive(IConstruct construct);
-	
 	boolean derives(AVariable var);
-	
-	/**
-	 * Mainly useful to explain what a Production is meant to be. Never actually used.
-	 * @param construct
-	 * @return
-	 */
-	IConstruct doAbstract(IConstruct construct);
 	
 	boolean equals(Object o);
 	
@@ -39,11 +23,9 @@ public interface IProduction {
 	
 	IIntentAttribute getOperatorOutput();
 	
-	IConstruct getValue();
+	List<IConstruct> getValues();
 	
-	AVariable getVariable();
-	
-	ILambdaExpression semanticRule();
+	List<AVariable> getVariables();
 	
 	void setOperator(IOperator operator);
 	
@@ -60,5 +42,7 @@ public interface IProduction {
 	ICategory getTargetCategory();
 	
 	String getLabel();
+	
+	ICompositeProduction compose(IBasicProduction basicComponent);
 
 }

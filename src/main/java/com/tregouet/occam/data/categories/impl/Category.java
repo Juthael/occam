@@ -86,6 +86,8 @@ public class Category implements ICategory {
 
 	@Override
 	public String toString() {
+		if (type == ICategory.ABSURDITY)
+			return "START";
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
 		sB.append("*****INTENT : " + newLine);

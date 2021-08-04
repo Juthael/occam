@@ -47,7 +47,6 @@ public class Categories implements ICategories {
 	public Categories(List<IContextObject> objects) {
 		this.objects = objects;
 		hasseDiagram = new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
-		AVariable.initializeNameProvider();
 		buildDiagram();
 		truism = hasseDiagram.vertexSet()
 				.stream()

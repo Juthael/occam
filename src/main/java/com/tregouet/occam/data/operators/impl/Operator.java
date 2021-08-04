@@ -18,6 +18,8 @@ public class Operator implements IOperator {
 	private static double binaryLogarithm(double arg) {
 		return Math.log10(arg)/Math.log10(2);
 	}
+
+	private String name = IOperator.provideName();
 	private final IState activeState;
 	private final Map<IIntentAttribute, IIntentAttribute> inputToOutput = new HashMap<>();
 	private final List<IProduction> operation;
@@ -117,9 +119,9 @@ public class Operator implements IOperator {
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		for (int i = 0 ; i < operation.size() ; i++) {
-			sB.append(operation.get(i));
+			sB.append(operation.get(i).toString());
 			if (i < operation.size() - 1)
-				sB.append(", ");
+				sB.append(System.lineSeparator());
 		}
 		return sB.toString();
 	}
@@ -128,6 +130,12 @@ public class Operator implements IOperator {
 		double currStateExtentSize = activeState.getExtent().size();
 		double nextStateExtentSize = nextState.getExtent().size();
 		return binaryLogarithm(currStateExtentSize / nextStateExtentSize);
+	}
+	
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

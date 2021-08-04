@@ -38,12 +38,13 @@ public class ProductionBuilderTest {
 		categories = new Categories(shapes0Obj);
 		/*
 		Categories catImpl = (Categories) categories;
-		Visualizer.visualizeCategoryGraph(catImpl.getDiagram(), "2108031217a");
+		Visualizer.visualizeCategoryGraph(catImpl.getDiagram(), "2108040604a");
 		*/
 	}
 
 	@Test
-	public void whenProductionsRequestedThenReturnedAndAllowsGraphBuilding() throws IOException {
+	public void whenProductionsRequestedThenAllowGraphBuildingAsExpected() throws IOException {
+		boolean aVertexOrEdgeAdditionHasFailed = false;
 		builder = new ProductionBuilder(categories);
 		List<IProduction> productions = builder.getProductions()
 				.stream()
@@ -54,15 +55,21 @@ public class ProductionBuilderTest {
 			if (category.type() != ICategory.ABSURDITY)
 				attributes.addAll(category.getIntent());
 		}
-		DirectedMultigraph<IIntentAttribute, IProduction> graph = new DirectedMultigraph<>(IProduction.class);
-		for (IIntentAttribute attribute : attributes)
-			graph.addVertex(attribute);
-		for (IProduction production : productions)
-			graph.addEdge(production.getOperatorInput(), production.getOperatorOutput(), production);
+		DirectedAcyclicGraph<IIntentAttribute, IProduction> graph = new DirectedAcyclicGraph<>(IProduction.class);
+		for (IIntentAttribute attribute : attributes) {
+			if (!graph.addVertex(attribute))
+				aVertexOrEdgeAdditionHasFailed = true;
+		}
+			
+		for (IProduction production : productions) {
+			if (!graph.addEdge(production.getOperatorInput(), production.getOperatorOutput(), production))
+				aVertexOrEdgeAdditionHasFailed = true;
+		}
 		TransitiveReduction.INSTANCE.reduce(graph);
 		/*
-		Visualizer.visualizeAttributeGraph(graph, "2108031217b");
+		Visualizer.visualizeAttributeGraph(graph, "2108040604b");
 		*/
+		assertFalse(aVertexOrEdgeAdditionHasFailed);
 	}
 
 }

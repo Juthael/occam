@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
-import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
@@ -45,7 +44,7 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
 	}
 	
-	public static void visualizeAttributeGraph(DirectedMultigraph<IIntentAttribute, IProduction> graph, String fileName) throws IOException {
+	public static void visualizeAttributeGraph(DirectedAcyclicGraph<IIntentAttribute, IProduction> graph, String fileName) throws IOException {
 		//convert in DOT format
 		DOTExporter<IIntentAttribute,IProduction> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {
@@ -61,9 +60,9 @@ public class Visualizer {
 		Writer writer = new StringWriter();
 		exporter.exportGraph(graph, writer);
 		String stringDOT = writer.toString();
-		
+		/*
 		 System.out.println(writer.toString());
-		 
+		*/ 
 		//display graph
 		MutableGraph dotGraph = new Parser().read(stringDOT);
 		Graphviz.fromGraph(dotGraph)

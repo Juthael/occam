@@ -48,7 +48,7 @@ public class ProductionBuilderTest {
 		builder = new ProductionBuilder(categories);
 		List<IProduction> productions = builder.getProductions()
 				.stream()
-				.filter(p -> p.getOperatorInput().getCategory().type() != ICategory.ABSURDITY)
+				.filter(p -> p.getSource().getCategory().type() != ICategory.ABSURDITY)
 				.collect(Collectors.toList());
 		List<IIntentAttribute> attributes = new ArrayList<>();
 		for (ICategory category : categories.getTopologicalSorting()) {
@@ -62,7 +62,7 @@ public class ProductionBuilderTest {
 		}
 			
 		for (IProduction production : productions) {
-			if (!graph.addEdge(production.getOperatorInput(), production.getOperatorOutput(), production))
+			if (!graph.addEdge(production.getSource(), production.getTarget(), production))
 				aVertexOrEdgeAdditionHasFailed = true;
 		}
 		TransitiveReduction.INSTANCE.reduce(graph);

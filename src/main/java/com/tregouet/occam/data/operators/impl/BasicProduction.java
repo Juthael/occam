@@ -152,8 +152,8 @@ public class BasicProduction extends Production implements IBasicProduction {
 
 	@Override
 	public ICompositeProduction compose(IBasicProduction other) {
-		if (other.getOperatorInput().equals(getOperatorInput())
-				&& other.getOperatorOutput().equals(getOperatorOutput()))
+		if (other.getSource().equals(getSource())
+				&& other.getTarget().equals(getTarget()))
 			return new CompositeProduction(this, other);
 		else return null;
 	}

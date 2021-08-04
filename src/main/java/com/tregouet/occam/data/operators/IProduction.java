@@ -19,10 +19,6 @@ public interface IProduction {
 	
 	ICategory getInstance();
 	
-	IIntentAttribute getOperatorInput();
-	
-	IIntentAttribute getOperatorOutput();
-	
 	List<IConstruct> getValues();
 	
 	List<AVariable> getVariables();

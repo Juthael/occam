@@ -14,13 +14,13 @@ public class CompositeProduction extends Production implements ICompositeProduct
 	List<IBasicProduction> basicProductions = new ArrayList<>();
 	
 	public CompositeProduction(IBasicProduction basicProduction) {
-		super(basicProduction.getOperatorInput(), basicProduction.getOperatorOutput());
+		super(basicProduction.getSource(), basicProduction.getTarget());
 		this.basicProductions.add(basicProduction);
 	}
 	
 	//Unsafe
 	public CompositeProduction(IBasicProduction basicProduction1, IBasicProduction basicProduction2) {
-		super(basicProduction1.getOperatorInput(), basicProduction2.getOperatorOutput());
+		super(basicProduction1.getSource(), basicProduction2.getTarget());
 		this.basicProductions.add(basicProduction1);
 		this.basicProductions.add(basicProduction2);
 	}
@@ -57,8 +57,8 @@ public class CompositeProduction extends Production implements ICompositeProduct
 
 	@Override
 	public ICompositeProduction compose(IBasicProduction basicProduction) {
-		if (basicProduction.getOperatorInput().equals(getOperatorInput())
-				&& basicProduction.getOperatorOutput().equals(getOperatorOutput())) {
+		if (basicProduction.getSource().equals(getSource())
+				&& basicProduction.getTarget().equals(getTarget())) {
 			basicProductions.add(basicProduction);
 			return this;
 		}

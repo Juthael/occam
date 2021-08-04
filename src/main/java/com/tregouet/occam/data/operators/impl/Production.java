@@ -29,14 +29,6 @@ public abstract class Production extends DefaultEdge implements IProduction {
 		return operatorInput.getCategory();
 	}
 
-	public IIntentAttribute getOperatorInput() {
-		return operatorInput;
-	}
-
-	public IIntentAttribute getOperatorOutput() {
-		return operatorOutput;
-	}
-
 	@Override
 	public void setOperator(IOperator operator) {
 		this.operator = operator;

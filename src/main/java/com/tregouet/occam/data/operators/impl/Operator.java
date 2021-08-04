@@ -30,7 +30,7 @@ public class Operator implements IOperator {
 		this.operation = new ArrayList<>(operation);
 		this.nextState = nextState;
 		for (IProduction production : operation) {
-			inputToOutput.put(production.getOperatorInput(), production.getOperatorOutput());
+			inputToOutput.put(production.getSource(), production.getTarget());
 		}
 		cost = calculateCost();
 	}

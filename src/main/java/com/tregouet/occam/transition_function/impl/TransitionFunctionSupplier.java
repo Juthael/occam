@@ -22,7 +22,7 @@ import com.tregouet.tree_finder.data.InTree;
 
 public class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 
-	private static final int MAX_CAPACITY = 100;
+	private static final int MAX_CAPACITY = 50;
 	
 	private final ICategories categories;
 	private final ICatTreeSupplier categoryTreeSupplier;
@@ -65,12 +65,15 @@ public class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
 			IIntentAttTreeSupplier constrTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);
 			while (constrTreeSupplier.hasNext()) {
-				transitionFunctions.add(
-						new TransitionFunction(
-								categories.getContextObjects(), categories.getObjectCategories(), 
-								currCatTree, constrTreeSupplier.next()));
-				if (transitionFunctions.size() > MAX_CAPACITY)
+				ITransitionFunction transitionFunction = new TransitionFunction(
+						categories.getContextObjects(), categories.getObjectCategories(), 
+						currCatTree, constrTreeSupplier.next());
+				if (transitionFunctions.size() <= MAX_CAPACITY)
+					transitionFunctions.add(transitionFunction);
+				else if (transitionFunction.getCost() < transitionFunctions.last().getCost()) {
+					transitionFunctions.add(transitionFunction);
 					transitionFunctions.pollLast();
+				}
 			}
 		}
 	}

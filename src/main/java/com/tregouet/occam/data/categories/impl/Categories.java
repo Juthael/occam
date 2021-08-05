@@ -90,9 +90,13 @@ public class Categories implements ICategories {
 		return absurdity;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public ICatTreeSupplier getCatTreeSupplier() {
-		return new CatTreeSupplier(hasseDiagram);
+		DirectedAcyclicGraph<ICategory, DefaultEdge> diagramWithoutAbsurdity = 
+				(DirectedAcyclicGraph<ICategory, DefaultEdge>) hasseDiagram.clone();
+		diagramWithoutAbsurdity.removeVertex(absurdity);
+		return new CatTreeSupplier(diagramWithoutAbsurdity);
 	}
 
 	@Override

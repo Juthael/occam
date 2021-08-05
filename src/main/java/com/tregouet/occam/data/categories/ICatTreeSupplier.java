@@ -6,8 +6,10 @@ import com.tregouet.tree_finder.ITreeFinder;
 
 public interface ICatTreeSupplier extends ITreeFinder<ICategory, DefaultEdge> {
 	
+	@Override
 	public int hashCode();
 	
+	@Override
 	boolean equals(Object o);
 
 }

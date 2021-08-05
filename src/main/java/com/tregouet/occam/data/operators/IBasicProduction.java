@@ -7,14 +7,14 @@ import com.tregouet.occam.data.constructs.IConstruct;
 
 public interface IBasicProduction extends IProduction {
 	
-	ILambdaExpression semanticRule();
-	
 	ILambdaExpression asLambda(List<IProduction> nextProductions);
 	
 	ILambdaExpression asLambdaFromBasicProd(List<IBasicProduction> nextProductions);
 	
+	IConstruct getValue();
+	
 	AVariable getVariable();
 	
-	IConstruct getValue();
+	ILambdaExpression semanticRule();
 
 }

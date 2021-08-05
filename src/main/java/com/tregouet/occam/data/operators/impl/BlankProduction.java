@@ -21,6 +21,21 @@ public class BlankProduction extends BasicProduction implements IBasicProduction
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		return (this == obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		return System.identityHashCode(this);
+	}
+
+	@Override
+	public boolean isBlank() {
+		return true;
+	}
+
+	@Override
 	public ILambdaExpression semanticRule() {
 		return null;
 	}
@@ -28,21 +43,6 @@ public class BlankProduction extends BasicProduction implements IBasicProduction
 	@Override
 	public String toString() {
 		return new String();  
-	}
-
-	@Override
-	public int hashCode() {
-		return System.identityHashCode(this);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return (this == obj);
-	}
-	
-	@Override
-	public boolean isBlank() {
-		return true;
 	}
 
 }

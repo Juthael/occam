@@ -19,63 +19,6 @@ public abstract class Production extends DefaultEdge implements IProduction {
 		this.operatorOutput = operatorOutput;
 	}
 
-	@Override
-	public ICategory getGenus() {
-		return operatorOutput.getCategory();
-	}
-
-	@Override
-	public ICategory getInstance() {
-		return operatorInput.getCategory();
-	}
-
-	@Override
-	public void setOperator(IOperator operator) {
-		this.operator = operator;
-	}
-
-	@Override
-	public IOperator getOperator() {
-		return operator;
-	}
-
-	@Override
-	public IIntentAttribute getSource() {
-		return operatorInput;
-	}
-
-	@Override
-	public IIntentAttribute getTarget() {
-		return operatorOutput;
-	}
-
-	@Override
-	public ICategory getSourceCategory() {
-		return operatorInput.getCategory();
-	}
-
-	@Override
-	public ICategory getTargetCategory() {
-		return operatorOutput.getCategory();
-	}
-
-	@Override
-	public String getLabel() {
-		return toString();
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((operatorInput == null) ? 0 : operatorInput.hashCode());
-		result = prime * result + ((operatorOutput == null) ? 0 : operatorOutput.hashCode());
-		return result;
-	}
-
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -99,6 +42,63 @@ public abstract class Production extends DefaultEdge implements IProduction {
 		} else if (!operatorOutput.equals(other.operatorOutput))
 			return false;
 		return true;
+	}
+
+	@Override
+	public ICategory getGenus() {
+		return operatorOutput.getCategory();
+	}
+
+	@Override
+	public ICategory getInstance() {
+		return operatorInput.getCategory();
+	}
+
+	@Override
+	public String getLabel() {
+		return toString();
+	}
+
+	@Override
+	public IOperator getOperator() {
+		return operator;
+	}
+
+	@Override
+	public IIntentAttribute getSource() {
+		return operatorInput;
+	}
+
+	@Override
+	public ICategory getSourceCategory() {
+		return operatorInput.getCategory();
+	}
+
+	@Override
+	public IIntentAttribute getTarget() {
+		return operatorOutput;
+	}
+
+	@Override
+	public ICategory getTargetCategory() {
+		return operatorOutput.getCategory();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((operatorInput == null) ? 0 : operatorInput.hashCode());
+		result = prime * result + ((operatorOutput == null) ? 0 : operatorOutput.hashCode());
+		return result;
+	}
+
+	@Override
+	public void setOperator(IOperator operator) {
+		this.operator = operator;
 	}
 
 }

@@ -28,10 +28,15 @@ public class LambdaExpression implements ILambdaExpression {
 	}
 
 	@Override
+	public boolean appliesAFunction() {
+		return (!boundVars.isEmpty());
+	}
+
+	@Override
 	public boolean binds(AVariable boundVar) {
 		return boundVars.contains(boundVar);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -61,7 +66,7 @@ public class LambdaExpression implements ILambdaExpression {
 			return false;
 		return true;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -106,11 +111,6 @@ public class LambdaExpression implements ILambdaExpression {
 			return sB.toString();	
 		}
 		else return construct.toString();
-	}
-
-	@Override
-	public boolean appliesAFunction() {
-		return (!boundVars.isEmpty());
 	}
 
 }

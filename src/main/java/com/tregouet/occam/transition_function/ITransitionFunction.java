@@ -7,22 +7,24 @@ import com.tregouet.occam.data.operators.IOperator;
 
 public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
-	double getCost();
+	@Override
+	boolean equals(Object o);
 	
 	String getCategoryStructureAsDOTFile();
 	
-	String getTransitionFunctionAsDOTFile();
+	ICompiler getCompiler();
 	
-	List<IState> getStates();
-	
-	List<IOperator> getTransitions();
+	double getCost();
 	
 	IDSLanguageDisplayer getDomainSpecificLanguage();
 	
-	ICompiler getCompiler();
+	List<IState> getStates();
 	
+	String getTransitionFunctionAsDOTFile();
+	
+	List<IOperator> getTransitions();
+	
+	@Override
 	int hashCode();
-	
-	boolean equals(Object o);
 
 }

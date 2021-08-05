@@ -116,6 +116,11 @@ public class Categories implements ICategories {
 		return null;
 	}
 
+	@Override
+	public List<IContextObject> getContextObjects() {
+		return objects;
+	}
+
 	//for test use
 	public DirectedAcyclicGraph<ICategory, DefaultEdge> getDiagram() {
 		return hasseDiagram;
@@ -145,7 +150,7 @@ public class Categories implements ICategories {
 	public List<ICategory> getObjectCategories() {
 		return objCategories;
 	}
-
+	
 	@Override
 	public ICategory getOntologicalCommitment() {
 		return ontologicalCommitment;
@@ -159,12 +164,12 @@ public class Categories implements ICategories {
 	@Override
 	public ICategory getTruism() {
 		return truism;
-	}
+	}	
 	
 	@Override
 	public ICategory getTruismAboutTruism() {
 		return truismAboutTruism;
-	}	
+	}
 	
 	@Override
 	public boolean isA(ICategory cat1, ICategory cat2) {
@@ -221,7 +226,7 @@ public class Categories implements ICategories {
 			}
 		}
 	}
-	
+
 	private Map<Set<IConstruct>, Set<IContextObject>> buildIntentToExtentRel() {
 		Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents = new HashMap<>();
 		Set<Set<IContextObject>> objectsPowerSet = buildObjectsPowerSet();
@@ -256,7 +261,7 @@ public class Categories implements ICategories {
 	    }
 	    return powerSet;
 	}
-
+	
 	private ICategory instantiateOntologicalCommitment() {
 		ICategory ontologicalCommitment;
 		ISymbol variable = new Variable(!AVariable.DEFERRED_NAMING);
@@ -269,7 +274,7 @@ public class Categories implements ICategories {
 		ontologicalCommitment.setType(ICategory.ONTOLOGICAL_COMMITMENT);
 		return ontologicalCommitment;
 	}
-	
+
 	private ICategory instantiateTruismAboutTruism() {
 		ICategory truismAboutTruism;
 		Set<IConstruct> preAccIntent = new HashSet<IConstruct>();
@@ -306,7 +311,7 @@ public class Categories implements ICategories {
 		truismAboutTruism.setType(ICategory.TRUISM_TRUISM);
 		return truismAboutTruism;
 	}
-
+	
 	private List<ICategory> removeSubCategories(Set<ICategory> categories) {
 		List<ICategory> catList = new ArrayList<>(categories);
 		for (int i = 0 ; i < catList.size() - 1 ; i++) {
@@ -321,7 +326,7 @@ public class Categories implements ICategories {
 		}
 		return new ArrayList<>(categories);
 	}
-	
+
 	private Map<Set<IConstruct>, Set<IContextObject>> singularizeConstructs(
 			Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents) {
 		Map<Set<IConstruct>, Set<IContextObject>> mapWithSingularizedIntents 
@@ -358,11 +363,6 @@ public class Categories implements ICategories {
 				updateCategoryRank(successor, rank + 1);
 			}
 		}
-	}
-
-	@Override
-	public List<IContextObject> getContextObjects() {
-		return objects;
 	}
 
 }

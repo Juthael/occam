@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.tregouet.occam.data.categories.ICategory;
+
 /**
  * <p>
  * A formal variable, used as a placeholder for some unspecified part of an abstract construct ({@link IConstruct}). 

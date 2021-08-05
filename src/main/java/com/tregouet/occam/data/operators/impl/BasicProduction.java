@@ -33,6 +33,45 @@ public class BasicProduction extends Production implements IBasicProduction {
 		value = null;
 	}
 
+	@Override
+	public ILambdaExpression asLambda(List<IProduction> nextProductions) {
+		List<IBasicProduction> basicProds = new ArrayList<>();
+		for (IProduction prod : nextProductions) {
+			if (prod instanceof ICompositeProduction)
+				basicProds.addAll(((ICompositeProduction) prod).getComponents());
+			else basicProds.add((IBasicProduction) prod);
+		}
+		return asLambdaFromBasicProd(basicProds);
+	}
+
+	@Override
+	public ILambdaExpression asLambdaFromBasicProd(List<IBasicProduction> nextProductions) {
+		ILambdaExpression lambda = semanticRule();
+		if (value.isAbstract()) {
+			int nbOfRemainingValueVars = value.getVariables().size();
+			List<IBasicProduction> remainingProd = new ArrayList<>(nextProductions);
+			Iterator<IBasicProduction> prodIte = nextProductions.iterator();
+			while (nbOfRemainingValueVars > 0 && prodIte.hasNext()) {
+				IBasicProduction nextProd = prodIte.next();
+				AVariable prodVar = nextProd.getVariable();
+				if (value.getVariables().contains(prodVar)) {
+					remainingProd.remove(nextProd);
+					lambda.setArgument(prodVar, nextProd.asLambdaFromBasicProd(remainingProd));
+					nbOfRemainingValueVars--;
+				}
+			}
+		}
+		return lambda;
+	}
+
+	@Override
+	public ICompositeProduction compose(IBasicProduction other) {
+		if (other.getSource().equals(getSource())
+				&& other.getTarget().equals(getTarget()))
+			return new CompositeProduction(this, other);
+		else return null;
+	}
+
 	/**
 	 * Given as an example to show what a Production is meant to be. No real utility. 
 	 * @param construct
@@ -47,12 +86,12 @@ public class BasicProduction extends Production implements IBasicProduction {
 		}
 		return new Construct(returned);
 	}
-
+	
 	@Override
 	public boolean derives(AVariable var) {
 		return var.equals(variable);
 	}
-
+	
 	/**
 	 * Given as an example to show what a Production is meant to be. No real utility. 
 	 * @param construct
@@ -87,27 +126,15 @@ public class BasicProduction extends Production implements IBasicProduction {
 		}
 		return new Construct(returned);
 	}
-
-	public IConstruct getValue() {
-		return value;
-	}
 	
-	public AVariable getVariable() {
-		return variable;
-	}
-	
-	public ILambdaExpression semanticRule() {
-		return new LambdaExpression(value);
-	}
-	
-	@Override
-	public String toString() {
-		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
-	}
-
 	@Override
 	public String getLabel() {
 		return toString();
+	}
+
+	@Override
+	public IConstruct getValue() {
+		return value;
 	}
 
 	@Override
@@ -116,51 +143,28 @@ public class BasicProduction extends Production implements IBasicProduction {
 	}
 
 	@Override
-	public List<AVariable> getVariables() {
-		return new ArrayList<>(Arrays.asList(new AVariable[] {variable}));
+	public AVariable getVariable() {
+		return variable;
 	}
 	
 	@Override
-	public ILambdaExpression asLambda(List<IProduction> nextProductions) {
-		List<IBasicProduction> basicProds = new ArrayList<>();
-		for (IProduction prod : nextProductions) {
-			if (prod instanceof ICompositeProduction)
-				basicProds.addAll(((ICompositeProduction) prod).getComponents());
-			else basicProds.add((IBasicProduction) prod);
-		}
-		return asLambdaFromBasicProd(basicProds);
-	}
-
-	public ILambdaExpression asLambdaFromBasicProd(List<IBasicProduction> nextProductions) {
-		ILambdaExpression lambda = semanticRule();
-		if (value.isAbstract()) {
-			int nbOfRemainingValueVars = value.getVariables().size();
-			List<IBasicProduction> remainingProd = new ArrayList<>(nextProductions);
-			Iterator<IBasicProduction> prodIte = nextProductions.iterator();
-			while (nbOfRemainingValueVars > 0 && prodIte.hasNext()) {
-				IBasicProduction nextProd = prodIte.next();
-				AVariable prodVar = nextProd.getVariable();
-				if (value.getVariables().contains(prodVar)) {
-					remainingProd.remove(nextProd);
-					lambda.setArgument(prodVar, nextProd.asLambdaFromBasicProd(remainingProd));
-					nbOfRemainingValueVars--;
-				}
-			}
-		}
-		return lambda;
-	}
-
-	@Override
-	public ICompositeProduction compose(IBasicProduction other) {
-		if (other.getSource().equals(getSource())
-				&& other.getTarget().equals(getTarget()))
-			return new CompositeProduction(this, other);
-		else return null;
+	public List<AVariable> getVariables() {
+		return new ArrayList<>(Arrays.asList(new AVariable[] {variable}));
 	}
 
 	@Override
 	public boolean isBlank() {
 		return false;
+	}
+
+	@Override
+	public ILambdaExpression semanticRule() {
+		return new LambdaExpression(value);
+	}
+
+	@Override
+	public String toString() {
+		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
 	}
 
 }

@@ -54,19 +54,7 @@ public class Representations implements com.tregouet.occam.io.output.IRepresenta
 	}
 
 	@Override
-	public com.tregouet.occam.io.output.IRepresentations getSubContext(int[] objIndexes) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public com.tregouet.occam.io.output.IRepresentations getSubContext(Set<ICategory> categories) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public com.tregouet.occam.io.output.IRepresentations getSubContext(List<List<Integer>> objIndexSets) {
+	public ITFWithConstrainedPropertyStructureSupplier getRepresentationsSupplier(IAttributeConstraint constraint) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -89,7 +77,19 @@ public class Representations implements com.tregouet.occam.io.output.IRepresenta
 	}
 
 	@Override
-	public ITFWithConstrainedPropertyStructureSupplier getRepresentationsSupplier(IAttributeConstraint constraint) {
+	public com.tregouet.occam.io.output.IRepresentations getSubContext(int[] objIndexes) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public com.tregouet.occam.io.output.IRepresentations getSubContext(List<List<Integer>> objIndexSets) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public com.tregouet.occam.io.output.IRepresentations getSubContext(Set<ICategory> categories) {
 		// TODO Auto-generated method stub
 		return null;
 	}

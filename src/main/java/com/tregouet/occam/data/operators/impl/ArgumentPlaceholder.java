@@ -13,10 +13,15 @@ public class ArgumentPlaceholder extends LambdaExpression implements IArgumentPl
 	}
 	
 	@Override
-	public boolean binds(AVariable boundVar) {
+	public boolean appliesAFunction() {
 		return false;
 	}
 	
+	@Override
+	public boolean binds(AVariable boundVar) {
+		return false;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -36,11 +41,11 @@ public class ArgumentPlaceholder extends LambdaExpression implements IArgumentPl
 			return false;
 		return true;
 	}
-
+	
 	public AVariable getVariableToBeDerived() {
 		return toBeDerived;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -56,15 +61,10 @@ public class ArgumentPlaceholder extends LambdaExpression implements IArgumentPl
 	public boolean setArgument(AVariable boundVar, ILambdaExpression argument) {
 		return false;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "(" + toBeDerived.toString() + ".deriv)";
-	}
-	
-	@Override
-	public boolean appliesAFunction() {
-		return false;
 	}	
 
 }

@@ -17,12 +17,11 @@ public interface IState {
 	static final int PREACCEPT_STATE = ICategory.TRUISM_TRUISM;
 	static final int ACCEPT_STATE = ICategory.ONTOLOGICAL_COMMITMENT;
 	
-	int hashCode();
-	
 	boolean acceptInput(ITapeSet tapeSet);
 	
 	void addTransition(IOperator operator);
 	
+	@Override
 	boolean equals(Object o);
 	
 	void generateOutputLanguage();
@@ -36,6 +35,9 @@ public interface IState {
 	int getStateID();
 	
 	int getStateType();
+	
+	@Override
+	int hashCode();
 	
 	boolean isActive();
 	

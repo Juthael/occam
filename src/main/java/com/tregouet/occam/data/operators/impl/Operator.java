@@ -15,18 +15,14 @@ import com.tregouet.occam.transition_function.IState;
 
 public class Operator implements IOperator {
 
-	private static double binaryLogarithm(double arg) {
-		return Math.log10(arg)/Math.log10(2);
-	}
-
 	private String name = IOperator.provideName();
+
 	private final IState activeState;
 	private final Map<IIntentAttribute, IIntentAttribute> inputToOutput = new HashMap<>();
 	private final List<IProduction> operation;
 	private final IState nextState;
-	
 	private final double cost;
-
+	
 	public Operator(IState activeState, List<IProduction> operation, IState nextState) {
 		this.activeState = activeState;
 		this.operation = new ArrayList<>(operation);
@@ -35,6 +31,10 @@ public class Operator implements IOperator {
 			inputToOutput.put(production.getSource(), production.getTarget());
 		}
 		cost = calculateCost();
+	}
+
+	private static double binaryLogarithm(double arg) {
+		return Math.log10(arg)/Math.log10(2);
 	}
 
 	@Override
@@ -70,10 +70,15 @@ public class Operator implements IOperator {
 	}
 
 	@Override
+	public String getName() {
+		return name;
+	}
+
+	@Override
 	public IState getNextState() {
 		return nextState;
 	}
-
+	
 	@Override
 	public IState getOperatingState() {
 		return activeState;
@@ -88,7 +93,16 @@ public class Operator implements IOperator {
 		result = prime * result + ((activeState == null) ? 0 : activeState.hashCode());
 		return result;
 	}
-	
+
+	@Override
+	public boolean isBlank() {
+		boolean isBlank = true;
+		int prodIdx = 0;
+		while (isBlank && prodIdx < operation.size())
+			isBlank = operation.get(prodIdx).isBlank();
+		return isBlank;
+	}
+
 	@Override
 	public IIntentAttribute operateOn(IIntentAttribute input) {
 		return inputToOutput.get(input);
@@ -98,7 +112,7 @@ public class Operator implements IOperator {
 	public List<IProduction> operation() {
 		return operation;
 	}
-
+	
 	@Override
 	public List<ILambdaExpression> semantics() {
 		List<ILambdaExpression> expressions = new ArrayList<>();
@@ -114,6 +128,7 @@ public class Operator implements IOperator {
 			}
 		return expressions;
 	}
+	
 
 	@Override 
 	public String toString() {
@@ -127,28 +142,13 @@ public class Operator implements IOperator {
 		sB.deleteCharAt(sB.length() - 1);
 		return sB.toString();
 	}
-	
+
 	private double calculateCost() {
 		if (this.isBlank())
 			return 0.0;
 		double currStateExtentSize = activeState.getExtent().size();
 		double nextStateExtentSize = nextState.getExtent().size();
 		return - binaryLogarithm(currStateExtentSize / nextStateExtentSize);
-	}
-	
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public boolean isBlank() {
-		boolean isBlank = true;
-		int prodIdx = 0;
-		while (isBlank && prodIdx < operation.size())
-			isBlank = operation.get(prodIdx).isBlank();
-		return isBlank;
 	}
 	
 	

@@ -26,36 +26,6 @@ public class CompositeProduction extends Production implements ICompositeProduct
 	}
 
 	@Override
-	public boolean derives(AVariable var) {
-		for (IBasicProduction prod : basicProductions) {
-			if (prod.derives(var))
-				return true;
-		}
-		return false;
-	}
-
-	@Override
-	public List<IConstruct> getValues() {
-		List<IConstruct> values = new ArrayList<>();
-		for (IBasicProduction prod : basicProductions)
-			values.add(prod.getValue());
-		return values;
-	}
-	
-	@Override
-	public List<IBasicProduction> getComponents() {
-		return new ArrayList<>(basicProductions);
-	}
-
-	@Override
-	public List<AVariable> getVariables() {
-		List<AVariable> variables = new ArrayList<>();
-		for (IBasicProduction prod : basicProductions)
-			variables.add(prod.getVariable());
-		return variables;
-	}
-
-	@Override
 	public ICompositeProduction compose(IBasicProduction basicProduction) {
 		if (basicProduction.getSource().equals(getSource())
 				&& basicProduction.getTarget().equals(getTarget())) {
@@ -66,13 +36,14 @@ public class CompositeProduction extends Production implements ICompositeProduct
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((basicProductions == null) ? 0 : basicProductions.hashCode());
-		return result;
+	public boolean derives(AVariable var) {
+		for (IBasicProduction prod : basicProductions) {
+			if (prod.derives(var))
+				return true;
+		}
+		return false;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -89,7 +60,41 @@ public class CompositeProduction extends Production implements ICompositeProduct
 			return false;
 		return true;
 	}
+
+	@Override
+	public List<IBasicProduction> getComponents() {
+		return new ArrayList<>(basicProductions);
+	}
+
+	@Override
+	public List<IConstruct> getValues() {
+		List<IConstruct> values = new ArrayList<>();
+		for (IBasicProduction prod : basicProductions)
+			values.add(prod.getValue());
+		return values;
+	}
+
+	@Override
+	public List<AVariable> getVariables() {
+		List<AVariable> variables = new ArrayList<>();
+		for (IBasicProduction prod : basicProductions)
+			variables.add(prod.getVariable());
+		return variables;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((basicProductions == null) ? 0 : basicProductions.hashCode());
+		return result;
+	}
 	
+	@Override
+	public boolean isBlank() {
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
@@ -99,11 +104,6 @@ public class CompositeProduction extends Production implements ICompositeProduct
 				sB.append(System.lineSeparator());
 		}
 		return sB.toString();
-	}
-
-	@Override
-	public boolean isBlank() {
-		return false;
 	}
 
 }

@@ -38,14 +38,26 @@ public class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 		buildTransitionFunctions();
 	}
 
-	@Override
-	public boolean hasNext() {
-		return ite.hasNext();
+	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
+			InTree<ICategory, DefaultEdge> catTree, DirectedAcyclicGraph<IIntentAttribute, IProduction> unfiltered) {
+		DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered =	
+				new DirectedAcyclicGraph<>(null, null, false);
+		Set<IIntentAttribute> vertices = new HashSet<>();
+		List<IProduction> edges = new ArrayList<>();
+		for (IProduction production : unfiltered.edgeSet()) {
+			if (isA(production.getSourceCategory(), production.getTargetCategory(), catTree)) {
+				vertices.add(production.getSource());
+				vertices.add(production.getTarget());
+				edges.add(production);
+			}
+		}
+		vertices.stream().forEach(i -> filtered.addVertex(i));
+		edges.stream().forEach(p -> filtered.addEdge(p.getSource(), p.getTarget(), p));
+		return filtered;
 	}
 
-	@Override
-	public ITransitionFunction next() {
-		return ite.next();
+	private static boolean isA(ICategory cat1, ICategory cat2, InTree<ICategory, DefaultEdge> tree) {
+		return tree.getDescendants(cat1).contains(cat2);
 	}
 
 	@Override
@@ -53,6 +65,16 @@ public class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 		return transitionFunctions.first();
 	}
 
+	@Override
+	public boolean hasNext() {
+		return ite.hasNext();
+	}
+	
+	@Override
+	public ITransitionFunction next() {
+		return ite.next();
+	}
+	
 	@Override
 	public void reset() {
 		ite = transitionFunctions.iterator();
@@ -76,28 +98,6 @@ public class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 				}
 			}
 		}
-	}
-	
-	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
-			InTree<ICategory, DefaultEdge> catTree, DirectedAcyclicGraph<IIntentAttribute, IProduction> unfiltered) {
-		DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered =	
-				new DirectedAcyclicGraph<>(null, null, false);
-		Set<IIntentAttribute> vertices = new HashSet<>();
-		List<IProduction> edges = new ArrayList<>();
-		for (IProduction production : unfiltered.edgeSet()) {
-			if (isA(production.getSourceCategory(), production.getTargetCategory(), catTree)) {
-				vertices.add(production.getSource());
-				vertices.add(production.getTarget());
-				edges.add(production);
-			}
-		}
-		vertices.stream().forEach(i -> filtered.addVertex(i));
-		edges.stream().forEach(p -> filtered.addEdge(p.getSource(), p.getTarget(), p));
-		return filtered;
-	}
-	
-	private static boolean isA(ICategory cat1, ICategory cat2, InTree<ICategory, DefaultEdge> tree) {
-		return tree.getDescendants(cat1).contains(cat2);
 	}
 
 }

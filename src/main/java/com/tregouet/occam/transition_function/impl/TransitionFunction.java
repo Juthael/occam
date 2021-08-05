@@ -60,9 +60,80 @@ public class TransitionFunction implements ITransitionFunction {
 		cost = currCost;
 	}
 
+	public static List<IOperator> buildOperators(
+			List<IProduction> productions, Map<ICategory, IState> categoryToState){
+		List<IOperator> operators = new ArrayList<>();
+		List<List<Integer>> operatorProdsSets = groupIndexesOfProductionsHandledByTheSameOperator(productions);
+		for (List<Integer> idxes : operatorProdsSets) {
+			List<IProduction> operation = new ArrayList<>();
+			IState activeState = null;
+			IState nextState = null;
+			for (int k = 0 ; k < idxes.size() ; k++) {
+				if (k == 0) {
+					IProduction kProduction = productions.get(idxes.get(k));
+					activeState = categoryToState.get(kProduction.getSourceCategory());
+					nextState = categoryToState.get(kProduction.getTargetCategory());
+					operation.add(kProduction);
+				}
+				else operation.add(productions.get(idxes.get(k)));
+			}
+			operators.add(new Operator(activeState, operation, nextState));
+		}
+		return operators;
+	}
+
+	public static List<List<Integer>> groupIndexesOfProductionsHandledByTheSameOperator(
+			List<IProduction> productions) {
+		List<List<Integer>> prodIndexesSets = new ArrayList<>();
+		List<Integer> skipIdx = new ArrayList<>();	
+		for (int i = 0 ; i < productions.size() ; i++) {
+			if (!skipIdx.contains(i)) {
+				List<Integer> sameOperatorProds = new ArrayList<>(Arrays.asList(new Integer[] {i}));
+				IProduction iProduction = productions.get(i);
+				for (int j = i+1 ; j < productions.size() ; j++) {
+					if (!skipIdx.contains(j)) {
+						IProduction jProduction = productions.get(j);
+						if (iProduction.getSourceCategory().equals(jProduction.getSourceCategory())
+								&& iProduction.getTargetCategory().equals(jProduction.getTargetCategory())
+								&& (iProduction.getTarget().equals(jProduction.getTarget())
+									|| new ArrayList<>(iProduction.getValues()).removeAll(jProduction.getValues()))) {
+							sameOperatorProds.add(j);
+							skipIdx.add(j);
+						}
+					}
+				}
+				prodIndexesSets.add(sameOperatorProds);
+			}
+		}
+		return prodIndexesSets;
+	}
+
 	@Override
-	public double getCost() {
-		return cost;
+	public int compareTo(ITransitionFunction other) {
+		if (this.getCost() < other.getCost())
+			return -1;
+		if (this.getCost() > other.getCost())
+			return 1;
+		return 0;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TransitionFunction other = (TransitionFunction) obj;
+		if (Double.doubleToLongBits(cost) != Double.doubleToLongBits(other.cost))
+			return false;
+		if (operators == null) {
+			if (other.operators != null)
+				return false;
+		} else if (!operators.equals(other.operators))
+			return false;
+		return true;
 	}
 
 	@Override
@@ -76,6 +147,27 @@ public class TransitionFunction implements ITransitionFunction {
 		Writer writer = new StringWriter();
 		exporter.exportGraph(categories, writer);
 		return writer.toString();
+	}
+
+	@Override
+	public ICompiler getCompiler() {
+		return new Compiler(objects, this);
+	}
+
+	@Override
+	public double getCost() {
+		return cost;
+	}
+	
+	@Override
+	public IDSLanguageDisplayer getDomainSpecificLanguage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<IState> getStates() {
+		return new ArrayList<>(categoryToState.values());
 	}
 
 	@Override
@@ -105,71 +197,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public List<IState> getStates() {
-		return new ArrayList<>(categoryToState.values());
-	}
-
-	@Override
 	public List<IOperator> getTransitions() {
-		return operators;
-	}
-
-	@Override
-	public IDSLanguageDisplayer getDomainSpecificLanguage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ICompiler getCompiler() {
-		return new Compiler(objects, this);
-	}
-	
-	public static List<List<Integer>> groupIndexesOfProductionsHandledByTheSameOperator(
-			List<IProduction> productions) {
-		List<List<Integer>> prodIndexesSets = new ArrayList<>();
-		List<Integer> skipIdx = new ArrayList<>();	
-		for (int i = 0 ; i < productions.size() ; i++) {
-			if (!skipIdx.contains(i)) {
-				List<Integer> sameOperatorProds = new ArrayList<>(Arrays.asList(new Integer[] {i}));
-				IProduction iProduction = productions.get(i);
-				for (int j = i+1 ; j < productions.size() ; j++) {
-					if (!skipIdx.contains(j)) {
-						IProduction jProduction = productions.get(j);
-						if (iProduction.getSourceCategory().equals(jProduction.getSourceCategory())
-								&& iProduction.getTargetCategory().equals(jProduction.getTargetCategory())
-								&& (iProduction.getTarget().equals(jProduction.getTarget())
-									|| new ArrayList<>(iProduction.getValues()).removeAll(jProduction.getValues()))) {
-							sameOperatorProds.add(j);
-							skipIdx.add(j);
-						}
-					}
-				}
-				prodIndexesSets.add(sameOperatorProds);
-			}
-		}
-		return prodIndexesSets;
-	}
-	
-	public static List<IOperator> buildOperators(
-			List<IProduction> productions, Map<ICategory, IState> categoryToState){
-		List<IOperator> operators = new ArrayList<>();
-		List<List<Integer>> operatorProdsSets = groupIndexesOfProductionsHandledByTheSameOperator(productions);
-		for (List<Integer> idxes : operatorProdsSets) {
-			List<IProduction> operation = new ArrayList<>();
-			IState activeState = null;
-			IState nextState = null;
-			for (int k = 0 ; k < idxes.size() ; k++) {
-				if (k == 0) {
-					IProduction kProduction = productions.get(idxes.get(k));
-					activeState = categoryToState.get(kProduction.getSourceCategory());
-					nextState = categoryToState.get(kProduction.getTargetCategory());
-					operation.add(kProduction);
-				}
-				else operation.add(productions.get(idxes.get(k)));
-			}
-			operators.add(new Operator(activeState, operation, nextState));
-		}
 		return operators;
 	}
 
@@ -182,34 +210,6 @@ public class TransitionFunction implements ITransitionFunction {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((operators == null) ? 0 : operators.hashCode());
 		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TransitionFunction other = (TransitionFunction) obj;
-		if (Double.doubleToLongBits(cost) != Double.doubleToLongBits(other.cost))
-			return false;
-		if (operators == null) {
-			if (other.operators != null)
-				return false;
-		} else if (!operators.equals(other.operators))
-			return false;
-		return true;
-	}
-
-	@Override
-	public int compareTo(ITransitionFunction other) {
-		if (this.getCost() < other.getCost())
-			return -1;
-		if (this.getCost() > other.getCost())
-			return 1;
-		return 0;
 	}
 
 }

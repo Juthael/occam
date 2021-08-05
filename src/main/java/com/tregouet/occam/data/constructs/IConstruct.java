@@ -5,8 +5,10 @@ import java.util.List;
 
 public interface IConstruct {
 	
+	@Override
 	public int hashCode();
 	
+	@Override
 	boolean equals(Object o);
 	
 	Iterator<ISymbol> getIteratorOverSymbols();

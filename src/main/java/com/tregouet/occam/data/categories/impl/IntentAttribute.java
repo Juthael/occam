@@ -14,6 +14,7 @@ public class IntentAttribute extends Construct implements IIntentAttribute {
 		this.category = category;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

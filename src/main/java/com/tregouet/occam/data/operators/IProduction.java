@@ -9,38 +9,41 @@ import com.tregouet.occam.data.constructs.IConstruct;
 
 public interface IProduction {
 	
-	int hashCode();
+	ICompositeProduction compose(IBasicProduction basicComponent);
 	
 	boolean derives(AVariable var);
 	
+	@Override
 	boolean equals(Object o);
 	
 	ICategory getGenus();
 	
 	ICategory getInstance();
 	
+	String getLabel();
+	
+	IOperator getOperator();
+	
+	IIntentAttribute getSource();
+	
+	ICategory getSourceCategory();
+	
+	IIntentAttribute getTarget();
+	
+	ICategory getTargetCategory();
+	
 	List<IConstruct> getValues();
 	
 	List<AVariable> getVariables();
 	
-	void setOperator(IOperator operator);
-	
-	IOperator getOperator();
-	
-	String toString();
-	
-	IIntentAttribute getSource();
-	
-	IIntentAttribute getTarget();
-	
-	ICategory getSourceCategory();
-	
-	ICategory getTargetCategory();
-	
-	String getLabel();
-	
-	ICompositeProduction compose(IBasicProduction basicComponent);
+	@Override
+	int hashCode();
 	
 	boolean isBlank();
+	
+	void setOperator(IOperator operator);
+	
+	@Override
+	String toString();
 
 }

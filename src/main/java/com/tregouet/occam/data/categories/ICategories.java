@@ -7,10 +7,12 @@ import com.tregouet.occam.data.constructs.IContextObject;
 
 public interface ICategories {
 	
+	@Override
 	public int hashCode();
 	
 	boolean areA(List<ICategory> cats, ICategory cat);
 	
+	@Override
 	boolean equals(Object o);
 	
 	ICategory getAbsurdity();

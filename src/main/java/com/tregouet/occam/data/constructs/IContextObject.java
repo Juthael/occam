@@ -7,8 +7,10 @@ import com.tregouet.subseq_finder.ISymbolSeq;
 
 public interface IContextObject {
 	
+	@Override
 	public int hashCode();
 	
+	@Override
 	boolean equals(Object o);
 	
 	List<IConstruct> getConstructs();

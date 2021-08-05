@@ -21,6 +21,9 @@ public class IntentBldr {
 	private static int[] coords;
 	private static Map<ISymbolSeq, Set<ISymbolSeq>> subsqToMaxSubsq;
 	
+	private IntentBldr() {
+	}
+	
 	public static Set<IConstruct> getIntent(List<IContextObject> extent) {
 		init();
 		arrayDimensions = new int[extent.size()];
@@ -44,11 +47,11 @@ public class IntentBldr {
 		}
 		return intent;
 	}
-	
+
 	public static Set<IConstruct> getIntent(Set<IContextObject> extent){
 		return getIntent(new ArrayList<IContextObject>(extent));
 	}
-
+	
 	//for unit test use only
 	public static Map<ISymbolSeq, Set<ISymbolSeq>> getSubsqToMaxSubsq(List<IContextObject> extent){
 		init();
@@ -129,9 +132,6 @@ public class IntentBldr {
 		}
 		for (ISymbolSeq seq : subsqToMaxSubsq.keySet())
 			subsqToMaxSubsq.put(seq, removeNonMaxSeqs(subsqToMaxSubsq.get(seq)));
-	}
-	
-	private IntentBldr() {
 	}
 
 }

@@ -17,11 +17,7 @@ public interface IRepresentations {
 
 	ICategory getLeastCommonCategoryOf(Set<IContextObject> objects);
 	
-	IRepresentations getSubContext(int[] objIndexes);
-	
-	IRepresentations getSubContext(Set<ICategory> categories);
-	
-	IRepresentations getSubContext(List<List<Integer>> objIndexSets);
+	ITFWithConstrainedPropertyStructureSupplier getRepresentationsSupplier(IAttributeConstraint constraint);
 	
 	ITransitionFunctionSupplier getRepresentationSupplier();
 	
@@ -29,6 +25,10 @@ public interface IRepresentations {
 	
 	ITFWithConstrainedSimilarityStructureSupplier getRepresentationSupplier(ISimilarityConstraint constraint);
 	
-	ITFWithConstrainedPropertyStructureSupplier getRepresentationsSupplier(IAttributeConstraint constraint);
+	IRepresentations getSubContext(int[] objIndexes);
+	
+	IRepresentations getSubContext(List<List<Integer>> objIndexSets);
+	
+	IRepresentations getSubContext(Set<ICategory> categories);
 	
 }

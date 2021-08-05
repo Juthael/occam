@@ -1,9 +1,11 @@
 package com.tregouet.occam.transition_function;
 
-public interface ITransitionFunctionSupplier {
+import java.util.Iterator;
+
+public interface ITransitionFunctionSupplier extends Iterator<ITransitionFunction> {
 	
-	public int hashCode();
+	ITransitionFunction getOptimalTransitionFunction();
 	
-	boolean equals(Object o);
+	void reset();
 
 }

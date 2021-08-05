@@ -3,6 +3,7 @@ package com.tregouet.occam.transition_function.impl;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -30,7 +31,7 @@ import com.tregouet.tree_finder.data.InTree;
 public class TransitionFunction implements ITransitionFunction {
 
 	private final List<IContextObject> objects;
-	InTree<ICategory, DefaultEdge> categories;
+	private final InTree<ICategory, DefaultEdge> categories;
 	private final Map<ICategory, IState> categoryToState = new HashMap<>();
 	private final List<IOperator> operators;
 	private final double cost;
@@ -87,7 +88,10 @@ public class TransitionFunction implements ITransitionFunction {
 		});
 		exporter.setEdgeAttributeProvider((o) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(o.getName()));
+			map.put("label", DefaultAttribute.createAttribute(
+					o.getName() 
+					+ System.lineSeparator()
+					+ Double.toString(Math.round(o.getCost()*1000.0)/1000.0)));
 			return map;
 		});		
 		Writer writer = new StringWriter();
@@ -124,10 +128,10 @@ public class TransitionFunction implements ITransitionFunction {
 	public List<IOperator> buildOperators(List<IProduction> productions){
 		List<IOperator> operators = new ArrayList<>();
 		List<Integer> skipIdx = new ArrayList<>();	
-		Map<Integer, List<Integer>> productionToSameOperatorProd = new HashMap<>();
+		List<List<Integer>> operatorProdsSets = new ArrayList<>();
 		for (int i = 0 ; i < productions.size() ; i++) {
 			if (!skipIdx.contains(i)) {
-				productionToSameOperatorProd.put(i, new ArrayList<>());
+				List<Integer> sameOperatorProds = new ArrayList<>(Arrays.asList(new Integer[] {i}));
 				IProduction iProduction = productions.get(i);
 				for (int j = i+1 ; j < productions.size() ; j++) {
 					if (!skipIdx.contains(j)) {
@@ -136,25 +140,69 @@ public class TransitionFunction implements ITransitionFunction {
 								&& iProduction.getTargetCategory().equals(jProduction.getTargetCategory())
 								&& (iProduction.getTarget().equals(jProduction.getTarget())
 									|| new ArrayList<>(iProduction.getValues()).removeAll(jProduction.getValues()))) {
-							productionToSameOperatorProd.get(i).add(j);
+							sameOperatorProds.add(j);
 							skipIdx.add(j);
 						}
 					}
-				}	
+				}
+				operatorProdsSets.add(sameOperatorProds);
 			}
 		}
-		for (Integer idx : productionToSameOperatorProd.keySet()) {
+		for (List<Integer> idxes : operatorProdsSets) {
 			List<IProduction> operation = new ArrayList<>();
-			IProduction production = productions.get(idx);
-			IState activeState = categoryToState.get(production.getSourceCategory());
-			IState nextState = categoryToState.get(production.getTargetCategory());
-			operation.add(production);
-			for (Integer associatedIdx : productionToSameOperatorProd.get(idx)) {
-				operation.add(productions.get(associatedIdx));
+			IState activeState = null;
+			IState nextState = null;
+			for (int k = 0 ; k < idxes.size() ; k++) {
+				if (k == 0) {
+					IProduction kProduction = productions.get(idxes.get(k));
+					activeState = categoryToState.get(kProduction.getSourceCategory());
+					nextState = categoryToState.get(kProduction.getTargetCategory());
+					operation.add(kProduction);
+				}
+				else operation.add(productions.get(idxes.get(k)));
 			}
 			operators.add(new Operator(activeState, operation, nextState));
 		}
 		return operators;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(cost);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((operators == null) ? 0 : operators.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TransitionFunction other = (TransitionFunction) obj;
+		if (Double.doubleToLongBits(cost) != Double.doubleToLongBits(other.cost))
+			return false;
+		if (operators == null) {
+			if (other.operators != null)
+				return false;
+		} else if (!operators.equals(other.operators))
+			return false;
+		return true;
+	}
+
+	@Override
+	public int compareTo(ITransitionFunction other) {
+		if (this.getCost() < other.getCost())
+			return -1;
+		if (this.getCost() > other.getCost())
+			return 1;
+		return 0;
 	}
 
 }

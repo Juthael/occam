@@ -8,7 +8,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.alg.TransitiveReduction;
@@ -42,22 +41,30 @@ public class Categories implements ICategories {
 	private final ICategory ontologicalCommitment;
 	private final ICategory truismAboutTruism;
 	private final ICategory truism;
+	private final List<ICategory> objCategories = new ArrayList<>();
 	private final ICategory absurdity;
 	
 	public Categories(List<IContextObject> objects) {
 		this.objects = objects;
 		hasseDiagram = new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
 		buildDiagram();
-		truism = hasseDiagram.vertexSet()
-				.stream()
-				.filter(c -> c.type() == ICategory.TRUISM)
-				.findFirst()
-				.get();
-		absurdity = hasseDiagram.vertexSet()
-				.stream()
-				.filter(c -> c.type() == ICategory.ABSURDITY)
-				.findFirst()
-				.get();
+		ICategory truism = null;
+		ICategory absurdity = null;
+		for (ICategory category : hasseDiagram.vertexSet()) {
+			switch(category.type()) {
+				case ICategory.TRUISM :
+					truism = category;
+					break;
+				case ICategory.ABSURDITY :
+					absurdity = category;
+					break;
+				case ICategory.OBJECT :
+					objCategories.add(category);
+					break;
+			}
+		}
+		this.truism = truism;
+		this.absurdity = absurdity;
 		ontologicalCommitment = instantiateOntologicalCommitment();
 		truismAboutTruism = instantiateTruismAboutTruism();
 		addTrAbTrAndOntologicalCommitmentToRelation();
@@ -132,10 +139,7 @@ public class Categories implements ICategories {
 
 	@Override
 	public List<ICategory> getObjectCategories() {
-		return hasseDiagram.vertexSet()
-				.stream()
-				.filter(d -> (d.type() == ICategory.OBJECT))
-				.collect(Collectors.toList());
+		return objCategories;
 	}
 
 	@Override
@@ -350,6 +354,11 @@ public class Categories implements ICategories {
 				updateCategoryRank(successor, rank + 1);
 			}
 		}
+	}
+
+	@Override
+	public List<IContextObject> getContextObjects() {
+		return objects;
 	}
 
 }

@@ -26,6 +26,8 @@ public interface ICategories {
 	 */
 	ICategory getCatWithExtent(Set<IContextObject> extent);
 	
+	List<IContextObject> getContextObjects();
+	
 	ICategory getLeastCommonSuperordinate(Set<ICategory> categories);
 	
 	List<ICategory> getObjectCategories();

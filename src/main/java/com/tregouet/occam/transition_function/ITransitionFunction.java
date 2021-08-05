@@ -5,7 +5,7 @@ import java.util.List;
 import com.tregouet.occam.compiler.ICompiler;
 import com.tregouet.occam.data.operators.IOperator;
 
-public interface ITransitionFunction {
+public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	double getCost();
 	

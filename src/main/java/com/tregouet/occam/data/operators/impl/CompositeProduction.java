@@ -11,7 +11,7 @@ import com.tregouet.occam.data.operators.ICompositeProduction;
 public class CompositeProduction extends Production implements ICompositeProduction {
 
 	private static final long serialVersionUID = 3178405428399810436L;
-	List<IBasicProduction> basicProductions = new ArrayList<>();
+	private final List<IBasicProduction> basicProductions = new ArrayList<>();
 	
 	public CompositeProduction(IBasicProduction basicProduction) {
 		super(basicProduction.getSource(), basicProduction.getTarget());
@@ -99,6 +99,11 @@ public class CompositeProduction extends Production implements ICompositeProduct
 				sB.append(System.lineSeparator());
 		}
 		return sB.toString();
+	}
+
+	@Override
+	public boolean isBlank() {
+		return false;
 	}
 
 }

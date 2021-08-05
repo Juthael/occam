@@ -53,7 +53,7 @@ public class TransitionFunction implements ITransitionFunction {
 				categoryToState.put(category, new State(category, extentSize));	
 			}
 		}
-		operators = buildOperators(new ArrayList<>(constructs.edgeSet()));
+		operators = buildOperators(new ArrayList<>(constructs.edgeSet()), categoryToState);
 		double currCost = 0;
 		for (IOperator operator : operators)
 			currCost += operator.getCost();
@@ -125,10 +125,10 @@ public class TransitionFunction implements ITransitionFunction {
 		return new Compiler(objects, this);
 	}
 	
-	public List<IOperator> buildOperators(List<IProduction> productions){
-		List<IOperator> operators = new ArrayList<>();
+	public static List<List<Integer>> groupIndexesOfProductionsHandledByTheSameOperator(
+			List<IProduction> productions) {
+		List<List<Integer>> prodIndexesSets = new ArrayList<>();
 		List<Integer> skipIdx = new ArrayList<>();	
-		List<List<Integer>> operatorProdsSets = new ArrayList<>();
 		for (int i = 0 ; i < productions.size() ; i++) {
 			if (!skipIdx.contains(i)) {
 				List<Integer> sameOperatorProds = new ArrayList<>(Arrays.asList(new Integer[] {i}));
@@ -145,9 +145,16 @@ public class TransitionFunction implements ITransitionFunction {
 						}
 					}
 				}
-				operatorProdsSets.add(sameOperatorProds);
+				prodIndexesSets.add(sameOperatorProds);
 			}
 		}
+		return prodIndexesSets;
+	}
+	
+	public static List<IOperator> buildOperators(
+			List<IProduction> productions, Map<ICategory, IState> categoryToState){
+		List<IOperator> operators = new ArrayList<>();
+		List<List<Integer>> operatorProdsSets = groupIndexesOfProductionsHandledByTheSameOperator(productions);
 		for (List<Integer> idxes : operatorProdsSets) {
 			List<IProduction> operation = new ArrayList<>();
 			IState activeState = null;

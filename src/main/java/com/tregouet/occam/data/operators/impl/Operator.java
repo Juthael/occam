@@ -117,19 +117,23 @@ public class Operator implements IOperator {
 
 	@Override 
 	public String toString() {
+		if (this.isBlank())
+			return new String();
 		StringBuilder sB = new StringBuilder();
-		for (int i = 0 ; i < operation.size() ; i++) {
-			sB.append(operation.get(i).toString());
-			if (i < operation.size() - 1)
-				sB.append(System.lineSeparator());
+		for (IProduction production : operation) {
+			if (!production.isBlank())
+				sB.append(production.toString() + System.lineSeparator());
 		}
+		sB.deleteCharAt(sB.length() - 1);
 		return sB.toString();
 	}
 	
 	private double calculateCost() {
+		if (this.isBlank())
+			return 0.0;
 		double currStateExtentSize = activeState.getExtent().size();
 		double nextStateExtentSize = nextState.getExtent().size();
-		return binaryLogarithm(currStateExtentSize / nextStateExtentSize);
+		return - binaryLogarithm(currStateExtentSize / nextStateExtentSize);
 	}
 	
 
@@ -137,5 +141,16 @@ public class Operator implements IOperator {
 	public String getName() {
 		return name;
 	}
+
+	@Override
+	public boolean isBlank() {
+		boolean isBlank = true;
+		int prodIdx = 0;
+		while (isBlank && prodIdx < operation.size())
+			isBlank = operation.get(prodIdx).isBlank();
+		return isBlank;
+	}
+	
+	
 
 }

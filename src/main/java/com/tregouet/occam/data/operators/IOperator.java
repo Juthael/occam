@@ -32,6 +32,8 @@ public interface IOperator {
 	
 	String toString();
 	
+	boolean isBlank();
+	
 	static String provideName() {
 		return getNextChar() + prime.toString();
 	}	

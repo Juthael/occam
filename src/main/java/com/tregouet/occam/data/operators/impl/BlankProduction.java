@@ -39,5 +39,10 @@ public class BlankProduction extends BasicProduction implements IBasicProduction
 	public boolean equals(Object obj) {
 		return (this == obj);
 	}
+	
+	@Override
+	public boolean isBlank() {
+		return true;
+	}
 
 }

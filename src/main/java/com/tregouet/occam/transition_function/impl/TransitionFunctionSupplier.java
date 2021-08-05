@@ -78,7 +78,7 @@ public class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 		}
 	}
 	
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
+	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
 			InTree<ICategory, DefaultEdge> catTree, DirectedAcyclicGraph<IIntentAttribute, IProduction> unfiltered) {
 		DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);

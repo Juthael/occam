@@ -40,5 +40,7 @@ public interface IProduction {
 	String getLabel();
 	
 	ICompositeProduction compose(IBasicProduction basicComponent);
+	
+	boolean isBlank();
 
 }

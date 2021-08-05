@@ -158,4 +158,9 @@ public class BasicProduction extends Production implements IBasicProduction {
 		else return null;
 	}
 
+	@Override
+	public boolean isBlank() {
+		return false;
+	}
+
 }

@@ -23,6 +23,7 @@ import com.tregouet.occam.data.categories.impl.CatTreeSupplier;
 import com.tregouet.occam.data.categories.impl.Categories;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -86,20 +87,50 @@ public class TransitionFunctionTest {
 	
 	@Test
 	public void whenCategoryStructureDOTFileRequestedThenReturned() throws IOException {
+		boolean dotFileReturnedIsValid = true;
 		String stringDOT = transitionFunction.getCategoryStructureAsDOTFile();
 		/*
 		 System.out.println(writer.toString());
 		 */
+		MutableGraph dotGraph = null;
+		try {
+			dotGraph = new Parser().read(stringDOT);
+		}
+		catch (Exception e) {
+			dotFileReturnedIsValid = false;
+		}
 		/*
 		//display graph
-		MutableGraph dotGraph = new Parser().read(stringDOT);
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + "cat_dot_test"));
 		*/
+		assertTrue(stringDOT != null && !stringDOT.isEmpty() && dotFileReturnedIsValid);
 	}
 	
 	@Test
-	public void whenTransitionFunctionDOTFileRequestedThenReturned() {
-		fail("NOT YET IMPLEMENTED");
+	public void whenTransitionFunctionDOTFileRequestedThenReturned() throws IOException {
+		boolean dotFileReturnedIsValid = true;
+		String stringDOT = transitionFunction.getTransitionFunctionAsDOTFile();
+		/*
+		 System.out.println(writer.toString());
+		 */
+		MutableGraph dotGraph = null;
+		try {
+			dotGraph = new Parser().read(stringDOT);
+		}
+		catch (Exception e) {
+			dotFileReturnedIsValid = false;
+		}
+		
+		//see operator definitions
+		for (IOperator operator : transitionFunction.getTransitions()) {
+			System.out.println("Operator " + operator.getName() + " : ");
+			System.out.println(operator.toString());
+		}
+		
+		//display graph
+		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + "tf_dot_test"));
+		
+		assertTrue(stringDOT != null && !stringDOT.isEmpty() && dotFileReturnedIsValid);
 	}
 	
 	@Test

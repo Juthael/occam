@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedMultigraph;
@@ -175,7 +176,7 @@ public class TransitionFunction implements ITransitionFunction {
 		DOTExporter<IState,IOperator> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((s) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(s.getInputLanguage().toString()));
+			map.put("label", DefaultAttribute.createAttribute(setAsString(s.getInputLanguage())));
 			return map;
 		});
 		exporter.setEdgeAttributeProvider((o) -> {
@@ -210,6 +211,15 @@ public class TransitionFunction implements ITransitionFunction {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((operators == null) ? 0 : operators.hashCode());
 		return result;
+	}
+	
+	private static String setAsString(Set<IIntentAttribute> attributes){
+		StringBuilder sB = new StringBuilder();
+		for (IIntentAttribute att : attributes) {
+			sB.append(att.toString() + System.lineSeparator());
+		}
+		sB.deleteCharAt(sB.length() - 1);
+		return sB.toString();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.tregouet.occam.transition_function.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IOperator;
+import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.IState;
 
 public class State implements IState {
@@ -29,7 +31,15 @@ public class State implements IState {
 
 	@Override
 	public boolean acceptInput(ITapeSet tapeSet) {
-		// TODO Auto-generated method stub
+		//Not implemented yet
+		/*
+		if (!isActive())
+			return false;
+		for (IOperator operator : transitions) {
+			if (operator.operateOn(tapeSet.))
+				
+		}
+		*/
 		return false;
 	}
 
@@ -47,8 +57,18 @@ public class State implements IState {
 
 	@Override
 	public Set<IIntentAttribute> getInputLanguage() {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.isActive()) {
+			Set<IIntentAttribute> inputlanguage = new HashSet<>();
+			for (IOperator operator : transitions) {
+				for (IProduction prod : operator.operation())
+					inputlanguage.add(prod.getSource());
+			}
+			return inputlanguage;
+		}
+		else {
+			//not proper input language. For tests use. 
+			return category.getIntent();
+		}
 	}
 
 	@Override

@@ -122,7 +122,7 @@ public class Categories implements ICategories {
 	}
 
 	//for test use
-	public DirectedAcyclicGraph<ICategory, DefaultEdge> getDiagram() {
+	public DirectedAcyclicGraph<ICategory, DefaultEdge> getGraph() {
 		return hasseDiagram;
 	}
 

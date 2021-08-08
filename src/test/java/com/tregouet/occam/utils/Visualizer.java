@@ -40,8 +40,7 @@ public class Visualizer {
 		 */
 		//display graph
 		MutableGraph dotGraph = new Parser().read(stringDOT);
-		Graphviz.fromGraph(dotGraph).width(graph.vertexSet().size()*100)
-			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
+		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
 	}
 	
 	public static void visualizeAttributeGraph(DirectedAcyclicGraph<IIntentAttribute, IProduction> graph, String fileName) throws IOException {

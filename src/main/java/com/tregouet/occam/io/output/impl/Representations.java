@@ -38,6 +38,7 @@ public class Representations implements com.tregouet.occam.io.output.IRepresenta
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
+		//Ne pas oublier la réduction transitive
 	}
 
 	@Override

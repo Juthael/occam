@@ -45,7 +45,9 @@ public class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 		Set<IIntentAttribute> vertices = new HashSet<>();
 		List<IProduction> edges = new ArrayList<>();
 		for (IProduction production : unfiltered.edgeSet()) {
-			if (isA(production.getSourceCategory(), production.getTargetCategory(), catTree)) {
+			ICategory sourceCat = production.getSourceCategory();
+			ICategory targetCat = production.getTargetCategory();
+			if (catTree.containsVertex(sourceCat) && catTree.containsVertex(targetCat) && isA(sourceCat, targetCat, catTree)) {
 				vertices.add(production.getSource());
 				vertices.add(production.getTarget());
 				edges.add(production);

@@ -98,8 +98,10 @@ public class Operator implements IOperator {
 	public boolean isBlank() {
 		boolean isBlank = true;
 		int prodIdx = 0;
-		while (isBlank && prodIdx < operation.size())
+		while (isBlank && prodIdx < operation.size()) {
 			isBlank = operation.get(prodIdx).isBlank();
+			prodIdx++;
+		}
 		return isBlank;
 	}
 
@@ -146,8 +148,8 @@ public class Operator implements IOperator {
 	private double calculateCost() {
 		if (this.isBlank())
 			return 0.0;
-		double currStateExtentSize = activeState.getExtent().size();
-		double nextStateExtentSize = nextState.getExtent().size();
+		double currStateExtentSize = activeState.getExtentSize();
+		double nextStateExtentSize = nextState.getExtentSize();
 		return - binaryLogarithm(currStateExtentSize / nextStateExtentSize);
 	}
 	

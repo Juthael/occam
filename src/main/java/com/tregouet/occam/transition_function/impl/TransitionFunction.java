@@ -77,7 +77,7 @@ public class TransitionFunction implements ITransitionFunction {
 				}
 				else operation.add(productions.get(idxes.get(k)));
 			}
-			operators.add(new Operator(activeState, operation, nextState));
+			operators.add(new Operator(activeState, operation, nextState));	
 		}
 		return operators;
 	}
@@ -175,7 +175,7 @@ public class TransitionFunction implements ITransitionFunction {
 		DOTExporter<IState,IOperator> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((s) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(s.getIntent().toString()));
+			map.put("label", DefaultAttribute.createAttribute(s.getInputLanguage().toString()));
 			return map;
 		});
 		exporter.setEdgeAttributeProvider((o) -> {

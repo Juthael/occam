@@ -46,13 +46,7 @@ public class State implements IState {
 	}
 
 	@Override
-	public Set<IContextObject> getExtent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<IIntentAttribute> getIntent() {
+	public Set<IIntentAttribute> getInputLanguage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -103,6 +97,11 @@ public class State implements IState {
 	public void setRank(int rank) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public int getExtentSize() {
+		return extentSize;
 	}
 
 }

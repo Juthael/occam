@@ -99,7 +99,7 @@ public class CompositeProduction extends Production implements ICompositeProduct
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		for (int i = 0 ; i < basicProductions.size() ; i++) {
-			sB.append(basicProductions.toString());
+			sB.append(basicProductions.get(i).toString());
 			if (i < basicProductions.size() - 1)
 				sB.append(" ");
 		}

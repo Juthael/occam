@@ -162,8 +162,7 @@ public class TransitionFunction implements ITransitionFunction {
 	
 	@Override
 	public IDSLanguageDisplayer getDomainSpecificLanguage() {
-		// TODO Auto-generated method stub
-		return null;
+		return new DSLanguageDisplayer(this.getStates(), operators);
 	}
 	
 	@Override

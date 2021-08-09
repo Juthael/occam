@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.jgrapht.graph.DirectedAcyclicGraph;
+import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.data.categories.IIntentAttribute;
@@ -28,7 +28,7 @@ public class DSLanguageDisplayer implements IDSLanguageDisplayer {
 	Map<IOperator, Set<IOperator>> productions = new LinkedHashMap<>();
 	
 	public DSLanguageDisplayer(List<IState> states, List<IOperator> operators) {
-		DirectedAcyclicGraph<IState, IOperator> dag = new DirectedAcyclicGraph<>(null, null, false);
+		DirectedMultigraph<IState, IOperator> dag = new DirectedMultigraph<>(null, null, false);
 		states.stream().forEach(s -> dag.addVertex(s));
 		operators.stream().forEach(o -> dag.addEdge(o.getOperatingState(), o.getNextState(), o));
 		TopologicalOrderIterator<IState, IOperator> topoStateIte = new TopologicalOrderIterator<>(dag);
@@ -61,6 +61,7 @@ public class DSLanguageDisplayer implements IDSLanguageDisplayer {
 				terminals.add(operator);
 			else variables.add(operator);
 		}
+		Collections.reverse(variables);
 	}
 
 	@Override
@@ -70,9 +71,8 @@ public class DSLanguageDisplayer implements IDSLanguageDisplayer {
 		for (IOperator operator : topologicalSorting) {
 			label.put(operator, nameAndFrame(operator));
 		}
-		for (IOperator operator : topologicalSorting) {
-			sB.append(label.get(operator));
-			if (variables.contains(operator)) {
+		for (IOperator operator : variables) {
+				sB.append(label.get(operator));
 				List<IOperator> rightTerms = new ArrayList<>(productions.get(operator));
 				sB.append(" ::= ");
 				for (int i = 0 ; i < rightTerms.size() ; i++) {
@@ -81,7 +81,6 @@ public class DSLanguageDisplayer implements IDSLanguageDisplayer {
 						sB.append(" | ");
 					}
 				}
-			}
 			sB.append(System.lineSeparator());
 		}
 		return sB.toString();
@@ -98,6 +97,7 @@ public class DSLanguageDisplayer implements IDSLanguageDisplayer {
 				sB.append(prods.get(i).toString());
 				if (i < prods.size() - 1)
 					sB.append(" ");
+				else sB.append(System.lineSeparator());
 			}
 			sB.append("   cost : " + Double.toString(operator.getCost()) + System.lineSeparator());
 		}

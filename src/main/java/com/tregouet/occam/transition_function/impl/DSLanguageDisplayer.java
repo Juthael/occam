@@ -91,7 +91,7 @@ public class DSLanguageDisplayer implements IDSLanguageDisplayer {
 	public String getOperatorsDescription() {
 		StringBuilder sB = new StringBuilder();
 		for (IOperator operator : topologicalSorting) {
-			sB.append("*Operator " + operator.getName() + System.lineSeparator());
+			sB.append("-operator " + operator.getName() + System.lineSeparator());
 			sB.append("   operation : ");
 			List<IProduction> prods = operator.operation();
 			for (int i = 0 ; i < prods.size() ; i++) {
@@ -121,7 +121,26 @@ public class DSLanguageDisplayer implements IDSLanguageDisplayer {
 		}
 		sB.append(System.lineSeparator() + System.lineSeparator());
 		sB.append("-terminals : ");
-		
+		for (int i = 0 ; i < variables.size() ; i++) {
+			sB.append(terminals.get(i).getName());
+			if (i < terminals.size() - 1)
+				sB.append(", ");
+			if (i > 0 && i % 10 == 0) {
+				sB.append(System.lineSeparator());
+			}
+		}
+		sB.append(System.lineSeparator() + System.lineSeparator());
+		sB.append("-productions : " + System.lineSeparator());
+		sB.append(getDomainSpecificGrammarOfOperators());
+		sB.append(System.lineSeparator() + System.lineSeparator());
+		sB.append("***** OPERATORS' DESCRIPTIONS *****" + System.lineSeparator() + System.lineSeparator());
+		sB.append(getOperatorsDescription() + System.lineSeparator() + System.lineSeparator());
+		sB.append("***** TOTAL COST : ");
+		double totalCost = 0.0;
+		for (IOperator operator : topologicalSorting)
+			totalCost += operator.getCost();
+		sB.append(Double.toString(totalCost));
+		return sB.toString();
 	}
 	
 	private String nameAndFrame(IOperator operator) {

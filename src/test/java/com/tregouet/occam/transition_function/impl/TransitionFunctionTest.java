@@ -120,16 +120,17 @@ public class TransitionFunctionTest {
 		catch (Exception e) {
 			dotFileReturnedIsValid = false;
 		}
-		
+		/*
 		//see operator definitions
 		for (IOperator operator : transitionFunction.getTransitions()) {
 			System.out.println("Operator " + operator.getName() + " : ");
 			System.out.println(operator.toString());
 		}
-		
+		*/
+		/*
 		//display graph
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + "tf_dot_test"));
-		
+		*/
 		assertTrue(stringDOT != null && !stringDOT.isEmpty() && dotFileReturnedIsValid);
 	}
 	

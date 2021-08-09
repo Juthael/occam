@@ -99,9 +99,9 @@ public class CompositeProduction extends Production implements ICompositeProduct
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		for (int i = 0 ; i < basicProductions.size() ; i++) {
-			sB.append(basicProductions.get(i).getLabel());
+			sB.append(basicProductions.toString());
 			if (i < basicProductions.size() - 1)
-				sB.append(System.lineSeparator());
+				sB.append(" ");
 		}
 		return sB.toString();
 	}

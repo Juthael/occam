@@ -42,7 +42,7 @@ public class BlankProduction extends BasicProduction implements IBasicProduction
 	
 	@Override
 	public String toString() {
-		return new String();  
+		return "inheritance";  
 	}
 
 }

@@ -16,6 +16,7 @@ import org.jgrapht.nio.dot.DOTExporter;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.transition_function.ITransitionFunction;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -67,6 +68,12 @@ public class Visualizer {
 		Graphviz.fromGraph(dotGraph)
 			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
 	}	
+	
+	public static void visualizeTransitionFunction(ITransitionFunction tF, String fileName) throws IOException {
+		MutableGraph dotGraph = new Parser().read(tF.getTransitionFunctionAsDOTFile());
+		Graphviz.fromGraph(dotGraph)
+			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
+	}
 	
 	private Visualizer() {
 	}

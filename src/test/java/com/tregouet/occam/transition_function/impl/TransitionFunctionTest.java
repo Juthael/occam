@@ -90,7 +90,7 @@ public class TransitionFunctionTest {
 				transitionFunction = 
 						new TransitionFunction(shapes1Obj, categories.getObjectCategories(), catTree, constrTree);
 				/*
-				visualize("2108081330");
+				visualize("2108140757");
 				*/
 				transitionFunctions.add(transitionFunction);
 			}
@@ -215,12 +215,15 @@ public class TransitionFunctionTest {
 	//PROBLEM HERE
 	@Test
 	public void when2NonBlankProductionsHaveSameSourceAndTargetCategoriesAndSameValueThenHandledBySameOperator() 
-			throws InvalidSemiLatticeExeption {
+			throws InvalidSemiLatticeExeption, IOException {
 		boolean sameOperator = true;
 		int checkCount = 0;
-		int transitionCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			System.out.println(transitionCount++);
+			/*
+			visualize("2108140818");
+			System.out.println(tF.getDomainSpecificLanguage().toString());
+			Visualizer.visualizeTransitionFunction(tF, "2108140828_tf");
+			*/
 			Map<IBasicProduction, IOperator> prodToOpe = new HashMap<>();
 			for (IOperator operator : tF.getTransitions()) {
 				for (IProduction production : operator.operation()) {

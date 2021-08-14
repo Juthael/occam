@@ -106,7 +106,7 @@ public class TransitionFunctionTest {
 	public void whenCategoryStructureDOTFileRequestedThenReturned() throws IOException {
 		boolean dotFileReturnedIsValid = true;
 		for (ITransitionFunction tF : transitionFunctions) {
-			String stringDOT = tF.getCategoryStructureAsDOTFile();
+			String stringDOT = tF.getCategoryTreeAsDOTFile();
 			if (stringDOT == null || stringDOT.isEmpty())
 				dotFileReturnedIsValid = false;
 			/*

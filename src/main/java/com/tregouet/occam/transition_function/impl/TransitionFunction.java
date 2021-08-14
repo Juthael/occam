@@ -18,6 +18,7 @@ import org.jgrapht.nio.dot.DOTExporter;
 
 import com.tregouet.occam.compiler.ICompiler;
 import com.tregouet.occam.compiler.impl.Compiler;
+import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
@@ -83,7 +84,7 @@ public class TransitionFunction implements ITransitionFunction {
 		return operators;
 	}
 
-	public static List<List<Integer>> groupIndexesOfProductionsHandledByTheSameOperator(
+	private static List<List<Integer>> groupIndexesOfProductionsHandledByTheSameOperator(
 			List<IProduction> productions) {
 		List<List<Integer>> prodIndexesSets = new ArrayList<>();
 		List<Integer> skipIdx = new ArrayList<>();	
@@ -138,7 +139,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public String getCategoryStructureAsDOTFile() {
+	public String getCategoryTreeAsDOTFile() {
 		DOTExporter<ICategory,DefaultEdge> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
@@ -219,6 +220,11 @@ public class TransitionFunction implements ITransitionFunction {
 		}
 		sB.deleteCharAt(sB.length() - 1);
 		return sB.toString();
+	}
+
+	@Override
+	public InTree<ICategory, DefaultEdge> getCategoryTree() {
+		return categories;
 	}
 
 }

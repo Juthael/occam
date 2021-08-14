@@ -5,7 +5,6 @@ import java.util.List;
 import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.compiler.ICompiler;
-import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.tree_finder.data.InTree;

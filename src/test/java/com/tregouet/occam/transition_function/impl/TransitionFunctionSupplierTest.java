@@ -1,13 +1,15 @@
 package com.tregouet.occam.transition_function.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
@@ -18,16 +20,16 @@ import com.tregouet.occam.data.categories.ICatTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.CatTreeSupplier;
 import com.tregouet.occam.data.categories.impl.Categories;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
-import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
+import com.tregouet.occam.utils.Visualizer;
+import com.tregouet.tree_finder.ITreeFinder;
 import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.error.InvalidSemiLatticeException;
+import com.tregouet.tree_finder.impl.TreeFinder;
 
 public class TransitionFunctionSupplierTest {
 
@@ -47,7 +49,8 @@ public class TransitionFunctionSupplierTest {
 			constructs.addVertex(p.getSource());
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
-		});		
+		});
+		TransitiveReduction.INSTANCE.reduce(constructs);
 	}
 
 	@Before
@@ -93,7 +96,7 @@ public class TransitionFunctionSupplierTest {
 	}	
 	
 	@Test
-	public void whenConstructGraphIsFilteredByCategoryTreeThenConstructsSourceAndTargetCatsAreRelatedInCatTree() {
+	public void whenConstructGraphIsFilteredByCategoryTreeThenProductionsSourceAndTargetCatsAreRelatedInCatTree() {
 		boolean sourceAndTargetCatsAreRelated = true;
 		int checkCount = 0;
 		while (catTreeSupplier.hasNext()) {
@@ -111,11 +114,28 @@ public class TransitionFunctionSupplierTest {
 		assertTrue(sourceAndTargetCatsAreRelated && checkCount > 0);
 	}
 	
+	//HERE changer
 	@Test
-	public void whenConstructGraphFilteredByCategoryTreeThenOrderedSetOfConstructsInAnUpperSemilattice() {
-		fail("Not yet implemented");
+	public void whenConstructGraphFilteredByCategoryTreeThenOrderedSetOfConstructsInAnUpperSemilattice() throws IOException {
+		boolean filteredGraphsAreUpperSemilattices = true;
+		int checkCount = 0;
+		while (catTreeSupplier.hasNext() && filteredGraphsAreUpperSemilattices) {
+			InTree<ICategory, DefaultEdge> catTree = catTreeSupplier.next();
+			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+			try {
+				//safe constructor with USL check
+				@SuppressWarnings("unused")
+				ITreeFinder<IIntentAttribute, IProduction> safeTreeFinder = new TreeFinder<>(filteredConstructs, true);
+				checkCount++;
+			}
+			catch (InvalidSemiLatticeException e) {
+				filteredGraphsAreUpperSemilattices = false;
+				Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");
+				Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
+			}
+		}
+		assertTrue(filteredGraphsAreUpperSemilattices && checkCount > 0);
 	}
 	
-
-
 }

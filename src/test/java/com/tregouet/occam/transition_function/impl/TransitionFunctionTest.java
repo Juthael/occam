@@ -41,7 +41,7 @@ import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.occam.utils.Visualizer;
 import com.tregouet.tree_finder.data.InTree;
-import com.tregouet.tree_finder.error.InvalidSemiLatticeExeption;
+import com.tregouet.tree_finder.error.InvalidSemiLatticeException;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -213,7 +213,7 @@ public class TransitionFunctionTest {
 	
 	@Test
 	public void when2NonBlankProductionsHaveSameSourceAndTargetCategoriesAndSameValueThenHandledBySameOperator() 
-			throws InvalidSemiLatticeExeption, IOException {
+			throws InvalidSemiLatticeException, IOException {
 		boolean sameOperator = true;
 		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {

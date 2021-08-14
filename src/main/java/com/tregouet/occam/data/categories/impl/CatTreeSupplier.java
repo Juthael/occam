@@ -5,7 +5,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.categories.ICatTreeSupplier;
 import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.tree_finder.error.InvalidSemiLatticeExeption;
+import com.tregouet.tree_finder.error.InvalidSemiLatticeException;
 import com.tregouet.tree_finder.impl.TreeFinder;
 
 public class CatTreeSupplier extends TreeFinder<ICategory, DefaultEdge> implements ICatTreeSupplier {
@@ -15,7 +15,7 @@ public class CatTreeSupplier extends TreeFinder<ICategory, DefaultEdge> implemen
 	}
 
 	public CatTreeSupplier(DirectedAcyclicGraph<ICategory, DefaultEdge> upperSemiLattice, boolean validateArg)
-			throws InvalidSemiLatticeExeption {
+			throws InvalidSemiLatticeException {
 		super(upperSemiLattice, validateArg);
 	}
 

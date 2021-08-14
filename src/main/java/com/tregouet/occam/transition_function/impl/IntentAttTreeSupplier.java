@@ -5,7 +5,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
-import com.tregouet.tree_finder.error.InvalidSemiLatticeExeption;
+import com.tregouet.tree_finder.error.InvalidSemiLatticeException;
 import com.tregouet.tree_finder.impl.TreeFinder;
 
 public class IntentAttTreeSupplier extends TreeFinder<IIntentAttribute, IProduction> implements IIntentAttTreeSupplier {
@@ -15,7 +15,7 @@ public class IntentAttTreeSupplier extends TreeFinder<IIntentAttribute, IProduct
 	}
 	
 	public IntentAttTreeSupplier(DirectedAcyclicGraph<IIntentAttribute, IProduction> upperSemiLattice, 
-			boolean validateArg) throws InvalidSemiLatticeExeption {
+			boolean validateArg) throws InvalidSemiLatticeException {
 		super(upperSemiLattice, validateArg);
 	}	
 

@@ -211,8 +211,6 @@ public class TransitionFunctionTest {
 		assertTrue(checkCount > 0 && sameOperator);
 	}
 	
-	
-	//PROBLEM HERE
 	@Test
 	public void when2NonBlankProductionsHaveSameSourceAndTargetCategoriesAndSameValueThenHandledBySameOperator() 
 			throws InvalidSemiLatticeExeption, IOException {
@@ -260,17 +258,56 @@ public class TransitionFunctionTest {
 	
 	@Test
 	public void whenProductionsHandledBySameOperatorThenConsistentWithRequirements() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void whenTransitionFunctionInstantiatedThenGraphIsATree() {
-		fail("Not yet implemented");
+		boolean consistent = true;
+		for (ITransitionFunction tF : transitionFunctions) {
+			for (IOperator operator : tF.getTransitions()) {
+				List<IProduction> productions = operator.operation();
+				if (!sameSourceAndTargetCategoryForAll(productions))
+					consistent = false;
+				for (IProduction production : productions) {
+					if (!sameTargetAttributeAsOneOtherProduction(production, productions) 
+							&& !sameValueAsOneOtherProduction(production, productions))
+						consistent = false;
+				}
+			}
+		}
+		assertTrue(consistent);
 	}
 	
 	@Test
 	public void whenOperatorsBuiltThenHaveExpectedCost() {
-		fail("Not yet implemented");
+		boolean expectedCost = true;
+		for (ITransitionFunction tF : transitionFunctions) {
+			for (IOperator operator : tF.getTransitions()) {
+				double expected;
+				if (operator.isBlank()) {
+					expected = 0.0;
+				}
+				else {
+					expected = 
+							-binaryLogarithm(
+									(double) operator.getOperatingState().getExtentSize()/
+									(double) operator.getNextState().getExtentSize());	
+				}
+				if (operator.getCost() != expected)
+					expectedCost = false;
+			}
+		}
+		assertTrue(expectedCost);
+	}
+	
+	@Test
+	public void whenTransitionFunctionInstantiatedThenHaveExpectedCost() {
+		boolean expectedCost = true;
+		for (ITransitionFunction tF : transitionFunctions) {
+			double expected = 0.0;
+			for (IOperator operator : tF.getTransitions())
+				expected += operator.getCost();
+			double returned = tF.getCost();
+			if (expected != returned)
+				expectedCost = false;
+		}
+		assertTrue(expectedCost);
 	}
 	
 	private static void visualize(String timestamp) throws IOException {
@@ -282,5 +319,54 @@ public class TransitionFunctionTest {
 		Visualizer.visualizeAttributeGraph(filtered_constructs, timestamp + "_filtered_const");
 		Visualizer.visualizeAttributeGraph(constrTree, timestamp + "_construct_tree");
 	}
+	
+	private static boolean sameSourceAndTargetCategoryForAll(List<IProduction> productions) {
+		boolean sameSourceAndTargetCategory = true;
+		ICategory sourceCategory = null;
+		ICategory targetCategory = null;
+		for (int i = 0 ; i < productions.size() ; i++) {
+			if (i == 0) {
+				sourceCategory = productions.get(i).getSourceCategory();
+				targetCategory = productions.get(i).getTargetCategory();
+			}
+			else {
+				if (!productions.get(i).getSourceCategory().equals(sourceCategory)
+						|| !productions.get(i).getTargetCategory().equals(targetCategory))
+					sameSourceAndTargetCategory = false;
+			}
+		}
+		return sameSourceAndTargetCategory;
+	}
+	
+	private static boolean sameTargetAttributeAsOneOtherProduction(IProduction production, List<IProduction> productions) {
+		if (productions.size() == 1)
+			return true;
+		boolean sameTargetAttributeAsOneOther = false;
+		List<IProduction> others = new ArrayList<>(productions);
+		others.remove(production);
+		for (IProduction other : others) {
+			if (production.getTarget().equals(other.getTarget()))
+				sameTargetAttributeAsOneOther = true;
+		}
+		return sameTargetAttributeAsOneOther;
+	}
+	
+	private static boolean sameValueAsOneOtherProduction(IProduction production, List<IProduction> productions) {
+		if (productions.size() == 1)
+			return true;
+		boolean sameValue = false;
+		List<IProduction> others = new ArrayList<>(productions);
+		others.remove(production);
+		for (IProduction other : others) {
+			List<IConstruct> valuesOfOther = new ArrayList<>(other.getValues());
+			if (valuesOfOther.removeAll(production.getValues()))
+				sameValue = true;
+		}
+		return sameValue;
+	}
+	
+	private static double binaryLogarithm(double arg) {
+		return Math.log10(arg)/Math.log10(2);
+	}	
 
 }

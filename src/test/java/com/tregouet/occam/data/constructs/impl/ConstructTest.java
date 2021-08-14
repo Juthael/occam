@@ -47,10 +47,6 @@ public class ConstructTest {
 					&& !construct.equals(abstractConstruct));		
 	}
 	
-	@Before
-	public void setUp() throws Exception {
-	}
-	
 	@Test
 	public void whenListOfTerminalsRequestedThenReturned() {
 		IConstruct abstractConstruct = new Construct(abstractProg);

@@ -18,4 +18,7 @@ public interface IRepresentedCatTree extends Comparable<IRepresentedCatTree> {
 	
 	boolean testAlternativeRepresentation(ITransitionFunction altRepresentation);
 	
+	@Override
+	String toString();
+	
 }

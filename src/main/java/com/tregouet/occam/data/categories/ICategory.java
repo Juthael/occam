@@ -30,5 +30,8 @@ public interface ICategory {
 	void setType(int type);
 	
 	int type();
+	
+	@Override
+	String toString();
 
 }

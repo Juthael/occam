@@ -1,8 +1,10 @@
 package com.tregouet.occam.transition_function.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 import org.jgrapht.graph.DefaultEdge;
@@ -24,12 +26,15 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	private static Iterator<Character> charIte = populateCharList().iterator();
 	
 	private final TreeSet<IRepresentedCatTree> representedCategories = new TreeSet<>();
+	private final Map<ICategory, String> objectCategoryToName = new HashMap<>();
 	private Iterator<IRepresentedCatTree> ite;
 	
 	public CatStructureAwareTFSupplier(ICategories categories,
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) {
 		super(categories, constructs);
 		populateRepresentedCategories();
+		for (ICategory objCat : categories.getObjectCategories())
+			objectCategoryToName.put(objCat, provideName());
 		ite = representedCategories.iterator();
 	}
 
@@ -61,7 +66,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	private void populateRepresentedCategories() {
 		while (categoryTreeSupplier.hasNext()) {
 			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
-			IRepresentedCatTree currCatTreeRepresentation = new RepresentedCatTree(currCatTree);
+			IRepresentedCatTree currCatTreeRepresentation = new RepresentedCatTree(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
 			IIntentAttTreeSupplier attTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);

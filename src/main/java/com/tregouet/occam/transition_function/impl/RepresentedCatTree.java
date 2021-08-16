@@ -1,9 +1,12 @@
 package com.tregouet.occam.transition_function.impl;
 
+import java.util.Map;
+
 import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
+import com.tregouet.occam.data.categories.utils.CatTreeToStringConvertor;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.tree_finder.data.InTree;
@@ -11,10 +14,12 @@ import com.tregouet.tree_finder.data.InTree;
 public class RepresentedCatTree implements IRepresentedCatTree {
 
 	private final InTree<ICategory,DefaultEdge> categoryTree;
+	private final Map<ICategory, String> objectCategoryToName;
 	private ITransitionFunction optimalRepresentation = null;
 	
-	public RepresentedCatTree(InTree<ICategory, DefaultEdge> categoryTree) {
+	public RepresentedCatTree(InTree<ICategory, DefaultEdge> categoryTree, Map<ICategory, String> objectCategoryToName) {
 		this.categoryTree = categoryTree;
+		this.objectCategoryToName = objectCategoryToName;
 	}
 
 	@Override
@@ -84,6 +89,23 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 		} else if (!optimalRepresentation.equals(other.optimalRepresentation))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		String newLine = System.lineSeparator();
+		sB.append("*** DEFINITION OF OBJECTS ***" + newLine + newLine);
+		for (ICategory objectCat : objectCategoryToName.keySet()) {
+			sB.append("**Object " + objectCategoryToName.get(objectCat) + " :" + newLine);
+			sB.append(objectCat.toString());
+			sB.append(newLine + newLine);
+		}
+		sB.append("*** CATEGORY STRUCTURE : ");
+		sB.append(new CatTreeToStringConvertor(categoryTree, objectCategoryToName).toString());
+		sB.append(newLine + newLine);
+		sB.append("*** COST : " + Double.toString(optimalRepresentation.getCost()) + newLine + newLine);
+		return sB.toString();
 	}
 
 }

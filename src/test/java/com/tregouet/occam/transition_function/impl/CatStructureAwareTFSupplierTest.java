@@ -17,7 +17,7 @@ public class CatStructureAwareTFSupplierTest {
 	}
 
 	@Test
-	public void test() {
+	public void whenRequestedThenReturnsRepresentedCatStructuresInIncreasingCostOrder() {
 		fail("Not yet implemented");
 	}
 

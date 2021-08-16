@@ -33,7 +33,7 @@ import com.tregouet.tree_finder.impl.TreeFinder;
 
 public class TransitionFunctionSupplierTest {
 
-	private static Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private static ICategories categories;
 	private static ICatTreeSupplier catTreeSupplier;

@@ -2,10 +2,8 @@ package com.tregouet.occam.transition_function.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -15,27 +13,23 @@ import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
-import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
 import com.tregouet.tree_finder.data.InTree;
 
-public class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
+public abstract class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 
-	private static final int MAX_CAPACITY = 50;
+	protected static final int MAX_CAPACITY = 50;
 	
-	private final ICategories categories;
-	private final ICatTreeSupplier categoryTreeSupplier;
-	private final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs;
-	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
-	private Iterator<ITransitionFunction> ite = transitionFunctions.iterator();
+	protected final ICategories categories;
+	protected final ICatTreeSupplier categoryTreeSupplier;
+	protected final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs;
 	
 	public TransitionFunctionSupplier(ICategories categories, 
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) {
 		this.categories = categories;
 		categoryTreeSupplier = categories.getCatTreeSupplier();
 		this.constructs = constructs;
-		buildTransitionFunctions();
+		
 	}
 
 	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
@@ -57,49 +51,11 @@ public class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 		edges.stream().forEach(p -> filtered.addEdge(p.getSource(), p.getTarget(), p));
 		return filtered;
 	}
-
+	
 	private static boolean isA(ICategory cat1, ICategory cat2, InTree<ICategory, DefaultEdge> tree) {
 		return tree.getDescendants(cat1).contains(cat2);
 	}
+	
 
-	@Override
-	public ITransitionFunction getOptimalTransitionFunction() {
-		return transitionFunctions.first();
-	}
-
-	@Override
-	public boolean hasNext() {
-		return ite.hasNext();
-	}
-	
-	@Override
-	public ITransitionFunction next() {
-		return ite.next();
-	}
-	
-	@Override
-	public void reset() {
-		ite = transitionFunctions.iterator();
-	}
-	
-	private void buildTransitionFunctions() {
-		while (categoryTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
-					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
-			IIntentAttTreeSupplier constrTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);
-			while (constrTreeSupplier.hasNext()) {
-				ITransitionFunction transitionFunction = new TransitionFunction(
-						categories.getContextObjects(), categories.getObjectCategories(), 
-						currCatTree, constrTreeSupplier.next());
-				if (transitionFunctions.size() <= MAX_CAPACITY)
-					transitionFunctions.add(transitionFunction);
-				else if (transitionFunction.getCost() < transitionFunctions.last().getCost()) {
-					transitionFunctions.add(transitionFunction);
-					transitionFunctions.pollLast();
-				}
-			}
-		}
-	}
 
 }

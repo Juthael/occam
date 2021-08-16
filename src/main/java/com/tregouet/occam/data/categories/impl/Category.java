@@ -87,17 +87,15 @@ public class Category implements ICategory {
 	@Override
 	public String toString() {
 		if (type == ICategory.ABSURDITY)
-			return "START";
+			return "ABSURDITY";
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
-		sB.append("*****INTENT : " + newLine);
 		Iterator<IIntentAttribute> iterator = intent.iterator();
 		while (iterator.hasNext()) {
-			sB.append(iterator.next().toString() + newLine);
+			sB.append(iterator.next().toString());
+			if (iterator.hasNext())
+				sB.append(newLine);
 		}
-		sB.append(newLine + "*****EXTENT : " + newLine);
-		for (IContextObject obj : extent)
-			sB.append(obj.getID() + " ; ");
 		return sB.toString();
 	}
 	

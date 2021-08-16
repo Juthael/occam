@@ -116,10 +116,10 @@ public class TransitionFunctionSupplierTest {
 	
 	//HERE changer
 	@Test
-	public void whenConstructGraphFilteredByCategoryTreeThenOrderedSetOfConstructsInAnUpperSemilattice() throws IOException {
-		boolean filteredGraphsAreUpperSemilattices = true;
+	public void whenConstructGraphFilteredByCategoryTreeThenOrderedSetOfConstructsIsARootedInvertedDAG() throws IOException {
+		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
-		while (catTreeSupplier.hasNext() && filteredGraphsAreUpperSemilattices) {
+		while (catTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
 			InTree<ICategory, DefaultEdge> catTree = catTreeSupplier.next();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
@@ -130,12 +130,12 @@ public class TransitionFunctionSupplierTest {
 				checkCount++;
 			}
 			catch (InvalidSemiLatticeException e) {
-				filteredGraphsAreUpperSemilattices = false;
+				filteredGraphsAreRootedInvertedDAGs = false;
 				Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");
 				Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			}
 		}
-		assertTrue(filteredGraphsAreUpperSemilattices && checkCount > 0);
+		assertTrue(filteredGraphsAreRootedInvertedDAGs && checkCount > 0);
 	}
 	
 }

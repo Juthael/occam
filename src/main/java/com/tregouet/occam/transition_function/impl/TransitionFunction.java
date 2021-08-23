@@ -116,7 +116,9 @@ public class TransitionFunction implements ITransitionFunction {
 			return -1;
 		if (this.getCost() > other.getCost())
 			return 1;
-		return 0;
+		if (this.hashCode() < other.hashCode())
+			return -1;
+		return 1;
 	}
 
 	@Override

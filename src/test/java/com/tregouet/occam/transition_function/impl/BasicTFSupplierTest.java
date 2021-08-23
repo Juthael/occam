@@ -57,18 +57,18 @@ public class BasicTFSupplierTest {
 		int checkCount = 1;
 		IBasicTFSupplier transFuncSupplier = new BasicTFSupplier(categories, constructs);
 		double prevCost = transFuncSupplier.next().getCost();
-		/*
+		
 		System.out.println("0 : " + Double.toString(prevCost));
-		*/
+		
 		while (transFuncSupplier.hasNext()) {
 			double nextCost = transFuncSupplier.next().getCost();
 			if (nextCost < prevCost)
 				increasingOrder = false;
 			prevCost = nextCost;
 			checkCount++;
-			/*
+			
 			System.out.println(checkCount + " : " + Double.toString(nextCost));
-			*/
+			
 		}
 		assertTrue(increasingOrder && checkCount > 0);
 	}

@@ -7,6 +7,7 @@ import org.jgrapht.graph.DefaultEdge;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
 import com.tregouet.occam.data.categories.utils.CatTreeToStringConvertor;
+import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.tree_finder.data.InTree;
@@ -28,7 +29,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 			return -1;
 		if (this.getCost() > other.getCost())
 			return 1;
-		return 0;
+		return optimalRepresentation.compareTo(other.getTransitionFunction());
 	}
 
 	@Override
@@ -95,17 +96,25 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
-		sB.append("*** DEFINITION OF OBJECTS ***" + newLine + newLine);
-		for (ICategory objectCat : objectCategoryToName.keySet()) {
-			sB.append("**Object " + objectCategoryToName.get(objectCat) + " :" + newLine);
-			sB.append(objectCat.toString());
-			sB.append(newLine + newLine);
-		}
+		sB.append(getDefinitionOfObjects());
+		sB.append(newLine + newLine);
 		sB.append("*** CATEGORY STRUCTURE : ");
-		sB.append(new CatTreeToStringConvertor(categoryTree, objectCategoryToName).toString());
+		sB.append(getExtentStructureAsString());
 		sB.append(newLine + newLine);
 		sB.append("*** COST : " + Double.toString(optimalRepresentation.getCost()) + newLine + newLine);
 		return sB.toString();
 	}
+
+	@Override
+	public String getDefinitionOfObjects() {
+		return ICatStructureAwareTFSupplier.getDefinitionOfObjects(objectCategoryToName);
+	}
+
+	@Override
+	public String getExtentStructureAsString() {
+		return new CatTreeToStringConvertor(categoryTree, objectCategoryToName).toString();
+	}
+	
+	
 
 }

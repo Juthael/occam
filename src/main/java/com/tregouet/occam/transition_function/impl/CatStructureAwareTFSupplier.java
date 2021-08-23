@@ -111,6 +111,11 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 			sB.append("'");
 		}
 		return sB.toString();
+	}
+	
+	@Override
+	public String getDefinitionOfObjects() {
+		return ICatStructureAwareTFSupplier.getDefinitionOfObjects(objectCategoryToName);
 	}	
 
 }

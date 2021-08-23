@@ -21,4 +21,8 @@ public interface IRepresentedCatTree extends Comparable<IRepresentedCatTree> {
 	@Override
 	String toString();
 	
+	String getDefinitionOfObjects();
+	
+	String getExtentStructureAsString();
+	
 }

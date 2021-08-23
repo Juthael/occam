@@ -19,7 +19,7 @@ public class AppTest
     }
 
     /**
-     * Create the test case
+     * Create the test case cas
      *
      * @param testName name of the test case
      */

@@ -20,17 +20,20 @@ public class BasicProduction extends Production implements IBasicProduction {
 	private static final long serialVersionUID = 1701074226278101143L;
 	private final AVariable variable;
 	private final IConstruct value;
+	private boolean variableSwitcher;
 	
 	public BasicProduction(AVariable variable, IConstruct value, IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
 		super(operatorInput, operatorOutput);
 		this.variable = variable;
 		this.value = value;
+		variableSwitcher = value.getNbOfTerminals() == 0;
 	}
 	
 	protected BasicProduction(IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
 		super(operatorInput, operatorOutput);
 		variable = null;
 		value = null;
+		variableSwitcher = false;
 	}
 
 	@Override
@@ -66,10 +69,10 @@ public class BasicProduction extends Production implements IBasicProduction {
 
 	@Override
 	public ICompositeProduction compose(IBasicProduction other) {
-		if (other.getSource().equals(getSource())
-				&& other.getTarget().equals(getTarget()))
+		if (other.getSource().equals(this.getSource())
+				&& other.getTarget().equals(this.getTarget()))
 			return new CompositeProduction(this, other);
-		else return null;
+		return null;
 	}
 
 	/**
@@ -165,6 +168,24 @@ public class BasicProduction extends Production implements IBasicProduction {
 	@Override
 	public String toString() {
 		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
+	}
+
+	@Override
+	public boolean isVariableSwitcher() {
+		return variableSwitcher;
+	}
+
+	@Override
+	public IProduction switchVariableOrReturnNull(IProduction varSwitcher) {
+		if (this.getTargetCategory().equals(varSwitcher.getSourceCategory()) 
+				&& this.getTarget().equals(varSwitcher.getSource()) && varSwitcher instanceof IBasicProduction) {
+			IBasicProduction basicSwitcher = (IBasicProduction) varSwitcher;
+			if (this.variable.equals(basicSwitcher.getValue().getListOfSymbols().get(0))) {
+				return new BasicProduction(basicSwitcher.getVariable(), this.value, this.getSource(), varSwitcher.getTarget());
+			}
+			return null;
+		}
+		return null;
 	}
 
 }

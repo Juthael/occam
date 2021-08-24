@@ -7,6 +7,7 @@ import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ICompositeProduction;
+import com.tregouet.occam.data.operators.IProduction;
 
 public class CompositeProduction extends Production implements ICompositeProduction {
 
@@ -23,6 +24,12 @@ public class CompositeProduction extends Production implements ICompositeProduct
 		super(basicProduction1.getSource(), basicProduction2.getTarget());
 		this.basicProductions.add(basicProduction1);
 		this.basicProductions.add(basicProduction2);
+	}
+	
+	
+	private CompositeProduction(List<IBasicProduction> basicProductions) {
+		super(basicProductions.get(0).getSource(), basicProductions.get(0).getTarget());
+		this.basicProductions.addAll(basicProductions);
 	}
 
 	@Override
@@ -104,6 +111,35 @@ public class CompositeProduction extends Production implements ICompositeProduct
 				sB.append(" ");
 		}
 		return sB.toString();
+	}
+
+	@Override
+	public boolean isVariableSwitcher() {
+		for (IBasicProduction basicProd : basicProductions) {
+			if (!basicProd.isVariableSwitcher())
+				return false;
+		}
+		return true;
+	}
+
+	@Override
+	public IProduction switchVariableOrReturnNull(IProduction varSwitcher) {
+		if (this.getTargetCategory().equals(varSwitcher.getSourceCategory())
+				&& this.getTarget().equals(varSwitcher.getSource())) {
+			ICompositeProduction compositeSwitcher = (ICompositeProduction) varSwitcher;
+			List<IBasicProduction> basicSwitchers = compositeSwitcher.getComponents();
+			List<IBasicProduction> newComponents = new ArrayList<>();
+			for (IBasicProduction previousComponent : basicProductions) {
+				for (IBasicProduction basicWitcher : basicSwitchers) {
+					IBasicProduction newComponent = (IBasicProduction) previousComponent.switchVariableOrReturnNull(basicWitcher);
+					if (newComponent != null) {
+						newComponents.add(newComponent);
+					}
+				}
+			}
+			return new CompositeProduction(newComponents);
+		}
+		return null;
 	}
 
 }

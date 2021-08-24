@@ -114,7 +114,6 @@ public class TransitionFunctionSupplierTest {
 		assertTrue(sourceAndTargetCatsAreRelated && checkCount > 0);
 	}
 	
-	//HERE changer
 	@Test
 	public void whenConstructGraphFilteredByCategoryTreeThenOrderedSetOfConstructsIsARootedInvertedDAG() throws IOException {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;

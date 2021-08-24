@@ -1,9 +1,7 @@
 package com.tregouet.occam.transition_function.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -29,31 +27,61 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		this.categories = categories;
 		categoryTreeSupplier = categories.getCatTreeSupplier();
 		this.constructs = constructs;
-		
 	}
 
 	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
-			InTree<ICategory, DefaultEdge> catTree, DirectedAcyclicGraph<IIntentAttribute, IProduction> unfiltered) {
+			InTree<ICategory, DefaultEdge> catTree, 
+			DirectedAcyclicGraph<IIntentAttribute, IProduction> unfiltered) {
 		DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);
-		Set<IIntentAttribute> vertices = new HashSet<>();
 		List<IProduction> edges = new ArrayList<>();
+		List<IProduction> varSwitchers = new ArrayList<>();
 		for (IProduction production : unfiltered.edgeSet()) {
 			ICategory sourceCat = production.getSourceCategory();
 			ICategory targetCat = production.getTargetCategory();
-			if (catTree.containsVertex(sourceCat) && catTree.containsVertex(targetCat) && isA(sourceCat, targetCat, catTree)) {
-				vertices.add(production.getSource());
-				vertices.add(production.getTarget());
-				edges.add(production);
+			if (catTree.containsVertex(sourceCat) 
+					&& catTree.containsVertex(targetCat) 
+					&& isA(sourceCat, targetCat, catTree)) {
+				if (production.isVariableSwitcher())
+					varSwitchers.add(production);
+				else edges.add(production);
 			}
 		}
-		vertices.stream().forEach(i -> filtered.addVertex(i));
+		edges = switchVariables(edges, varSwitchers);
+		edges.stream()
+			.forEach(e -> {
+				if (e.getSourceCategory().type() == ICategory.OBJECT)
+					filtered.addVertex(e.getSource());
+				filtered.addVertex(e.getTarget());
+			});
 		edges.stream().forEach(p -> filtered.addEdge(p.getSource(), p.getTarget(), p));
 		return filtered;
 	}
 	
 	private static boolean isA(ICategory cat1, ICategory cat2, InTree<ICategory, DefaultEdge> tree) {
 		return tree.getDescendants(cat1).contains(cat2);
+	}
+	
+	private static List<IProduction> switchVariables(List<IProduction> edges, List<IProduction> varSwitchers){
+		List<IProduction> edgesReturned = new ArrayList<>(edges);
+		List<IProduction> edgesToRemove = new ArrayList<>();
+		List<IProduction> edgesToAdd = new ArrayList<>();
+		IProduction newProduction;
+		for (IProduction edge : edges) {
+			int varSwitcherIdx = 0;
+			newProduction = null;
+			while (newProduction == null && varSwitcherIdx < varSwitchers.size()) {
+				newProduction = edge.switchVariableOrReturnNull(varSwitchers.get(varSwitcherIdx));
+				if (newProduction != null) {
+					edgesToRemove.add(edge);
+					edgesToAdd.add(newProduction);
+				}
+				varSwitcherIdx++;
+			}
+		}
+		edgesReturned.removeAll(edgesToRemove);
+		edgesReturned.addAll(edgesToAdd);
+		return edgesReturned;
 	}
 	
 

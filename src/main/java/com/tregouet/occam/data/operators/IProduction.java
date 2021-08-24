@@ -45,5 +45,9 @@ public interface IProduction {
 	
 	@Override
 	String toString();
+	
+	boolean isVariableSwitcher();
+	
+	IProduction switchVariableOrReturnNull(IProduction varSwitcher);
 
 }

@@ -18,7 +18,6 @@ import org.jgrapht.nio.dot.DOTExporter;
 
 import com.tregouet.occam.compiler.ICompiler;
 import com.tregouet.occam.compiler.impl.Compiler;
-import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;

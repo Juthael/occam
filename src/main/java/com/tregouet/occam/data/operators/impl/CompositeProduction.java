@@ -129,9 +129,9 @@ public class CompositeProduction extends Production implements ICompositeProduct
 			ICompositeProduction compositeSwitcher = (ICompositeProduction) varSwitcher;
 			List<IBasicProduction> basicSwitchers = compositeSwitcher.getComponents();
 			List<IBasicProduction> newComponents = new ArrayList<>();
-			for (IBasicProduction previousComponent : basicProductions) {
+			for (IBasicProduction currComponent : basicProductions) {
 				for (IBasicProduction basicWitcher : basicSwitchers) {
-					IBasicProduction newComponent = (IBasicProduction) previousComponent.switchVariableOrReturnNull(basicWitcher);
+					IBasicProduction newComponent = (IBasicProduction) currComponent.switchVariableOrReturnNull(basicWitcher);
 					if (newComponent != null) {
 						newComponents.add(newComponent);
 					}

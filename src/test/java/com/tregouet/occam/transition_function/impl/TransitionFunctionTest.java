@@ -160,11 +160,6 @@ public class TransitionFunctionTest {
 	}
 	
 	@Test
-	public void whenSwitchVariablesMethodCalledThenVariableSwitchProceeded() {
-		
-	}
-	
-	@Test
 	public void whenDomainSpecificLanguageRequestedThenReturned() {
 		boolean languageReturned = true;
 		for (ITransitionFunction tF : transitionFunctions) {

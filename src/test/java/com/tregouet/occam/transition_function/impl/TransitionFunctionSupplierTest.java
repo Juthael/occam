@@ -123,7 +123,7 @@ public class TransitionFunctionSupplierTest {
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			try {
-				//safe constructor with USL check
+				//safe constructor
 				@SuppressWarnings("unused")
 				ITreeFinder<IIntentAttribute, IProduction> safeTreeFinder = new TreeFinder<>(filteredConstructs, true);
 				checkCount++;

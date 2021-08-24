@@ -62,7 +62,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return tree.getDescendants(cat1).contains(cat2);
 	}
 	
-	private static List<IProduction> switchVariables(List<IProduction> edges, List<IProduction> varSwitchers){
+	public static List<IProduction> switchVariables(List<IProduction> edges, List<IProduction> varSwitchers){
 		List<IProduction> edgesReturned = new ArrayList<>(edges);
 		List<IProduction> edgesToRemove = new ArrayList<>();
 		List<IProduction> edgesToAdd = new ArrayList<>();

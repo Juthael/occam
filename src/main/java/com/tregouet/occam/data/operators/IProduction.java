@@ -48,6 +48,11 @@ public interface IProduction {
 	
 	boolean isVariableSwitcher();
 	
+	/**
+	 * 
+	 * @param varSwitcher a production such as varSwitcher.isVariableSwitcher() == true
+	 * @return
+	 */
 	IProduction switchVariableOrReturnNull(IProduction varSwitcher);
 
 }

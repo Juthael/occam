@@ -19,9 +19,8 @@ public interface ICatTreeSupplier extends ITreeFinder<ICategory, DefaultEdge> {
 	public static InTree<ICategory, DefaultEdge> removeTunnelCategories(InTree<ICategory, DefaultEdge> categoryTree){
 		List<ICategory> tunnelCategories = categoryTree.vertexSet()
 				.stream()
-				.filter(c -> (categoryTree.inDegreeOf(c) == 1 
-						&& categoryTree.outDegreeOf(c) == 1) 
-						&& (c.type() == ICategory.OBJECT || c.type() == ICategory.SUBSET_CAT))
+				.filter(c -> categoryTree.inDegreeOf(c) == 1 
+						&& c.type() == ICategory.SUBSET_CAT)
 				.collect(Collectors.toList());
 		for (ICategory tunnelCategory : tunnelCategories) {
 			DefaultEdge incomingEdge = categoryTree.incomingEdgesOf(tunnelCategory).iterator().next();
@@ -29,7 +28,7 @@ public interface ICatTreeSupplier extends ITreeFinder<ICategory, DefaultEdge> {
 			ICategory predecessor = categoryTree.getEdgeSource(incomingEdge);
 			ICategory successor = categoryTree.getEdgeTarget(outgoingEdge);
 			categoryTree.removeVertex(tunnelCategory);
-			categoryTree.addEdge(predecessor, successor);
+			categoryTree.addEdge(predecessor, successor, new DefaultEdge());
 		}
 		return categoryTree;
 	}

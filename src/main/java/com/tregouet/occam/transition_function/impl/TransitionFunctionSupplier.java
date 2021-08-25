@@ -3,6 +3,7 @@ package com.tregouet.occam.transition_function.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
@@ -31,31 +32,35 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 
 	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
 			InTree<ICategory, DefaultEdge> catTree, 
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> unfiltered) {
-		DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered =	
+			DirectedAcyclicGraph<IIntentAttribute, IProduction> unfilteredUnreduced) {
+		DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredReduced =	
 				new DirectedAcyclicGraph<>(null, null, false);
 		List<IProduction> edges = new ArrayList<>();
 		List<IProduction> varSwitchers = new ArrayList<>();
-		for (IProduction production : unfiltered.edgeSet()) {
+		List<IIntentAttribute> varSwitcherSources = new ArrayList<>();
+		for (IProduction production : unfilteredUnreduced.edgeSet()) {
 			ICategory sourceCat = production.getSourceCategory();
 			ICategory targetCat = production.getTargetCategory();
 			if (catTree.containsVertex(sourceCat) 
 					&& catTree.containsVertex(targetCat) 
 					&& isA(sourceCat, targetCat, catTree)) {
-				if (production.isVariableSwitcher())
+				if (production.isVariableSwitcher()) {
 					varSwitchers.add(production);
+					varSwitcherSources.add(production.getSource());
+				}
 				else edges.add(production);
 			}
 		}
 		edges = switchVariables(edges, varSwitchers);
 		edges.stream()
 			.forEach(e -> {
-				if (e.getSourceCategory().type() == ICategory.OBJECT)
-					filtered.addVertex(e.getSource());
-				filtered.addVertex(e.getTarget());
+				filteredReduced.addVertex(e.getSource());
+				filteredReduced.addVertex(e.getTarget());
 			});
-		edges.stream().forEach(p -> filtered.addEdge(p.getSource(), p.getTarget(), p));
-		return filtered;
+		edges.stream().forEach(p -> filteredReduced.addEdge(p.getSource(), p.getTarget(), p));
+		filteredReduced.removeAllVertices(varSwitcherSources);
+		TransitiveReduction.INSTANCE.reduce(filteredReduced);
+		return filteredReduced;
 	}
 	
 	private static boolean isA(ICategory cat1, ICategory cat2, InTree<ICategory, DefaultEdge> tree) {
@@ -83,7 +88,5 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		edgesReturned.addAll(edgesToAdd);
 		return edgesReturned;
 	}
-	
-
 
 }

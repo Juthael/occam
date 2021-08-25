@@ -1,13 +1,12 @@
 package com.tregouet.occam.data.operators.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -39,7 +38,6 @@ public class CompositeProductionTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		TransitiveReduction.INSTANCE.reduce(constructs);		
 	}
 
 	@Before

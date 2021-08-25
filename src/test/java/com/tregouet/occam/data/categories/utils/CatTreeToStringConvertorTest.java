@@ -60,7 +60,7 @@ public class CatTreeToStringConvertorTest {
 		Visualizer.visualizeCategoryGraph(cats.getGraph(), "CatTreeToStringConvertorTest");
 		*/
 		while (catTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> currTree = catTreeSupplier.next();
+			InTree<ICategory, DefaultEdge> currTree = catTreeSupplier.nextWithTunnelCategoriesRemoved();
 			String currTreeDesc = new CatTreeToStringConvertor(currTree, objCatToName).toString();
 			/*
 			System.out.println(currTreeDesc);

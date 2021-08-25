@@ -108,13 +108,12 @@ public class ProductionBuilderTest {
 			if (!graph.addVertex(attribute))
 				aVertexOrEdgeAdditionHasFailed = true;
 		}
-			
+		/*
 		for (IProduction production : productions) {
 			if (!graph.addEdge(production.getSource(), production.getTarget(), production))
 				aVertexOrEdgeAdditionHasFailed = true;
 		}
 		TransitiveReduction.INSTANCE.reduce(graph);
-		/*
 		Visualizer.visualizeAttributeGraph(graph, "2108040604b");
 		*/
 		assertFalse(aVertexOrEdgeAdditionHasFailed);

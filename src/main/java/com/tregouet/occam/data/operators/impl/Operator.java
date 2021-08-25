@@ -29,6 +29,7 @@ public class Operator implements IOperator {
 		this.nextState = nextState;
 		for (IProduction production : operation) {
 			inputToOutput.put(production.getSource(), production.getTarget());
+			production.setOperator(this);
 		}
 		cost = calculateCost();
 	}

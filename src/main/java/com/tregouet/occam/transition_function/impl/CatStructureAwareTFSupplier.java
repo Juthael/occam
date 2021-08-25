@@ -65,7 +65,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	
 	private void populateRepresentedCategories() {
 		while (categoryTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
+			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextWithTunnelCategoriesRemoved();
 			IRepresentedCatTree currCatTreeRepresentation = new RepresentedCatTree(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);

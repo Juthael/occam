@@ -33,7 +33,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	
 	private void populateTransitionFunctions() {
 		while (categoryTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
+			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextWithTunnelCategoriesRemoved();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
 			IIntentAttTreeSupplier attTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);

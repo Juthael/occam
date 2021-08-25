@@ -32,5 +32,7 @@ public interface ICatTreeSupplier extends ITreeFinder<ICategory, DefaultEdge> {
 		}
 		return categoryTree;
 	}
+	
+	public InTree<ICategory, DefaultEdge> nextWithTunnelCategoriesRemoved();
 
 }

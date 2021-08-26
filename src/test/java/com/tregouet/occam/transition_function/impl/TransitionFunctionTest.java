@@ -212,11 +212,12 @@ public class TransitionFunctionTest {
 		boolean sameOperator = true;
 		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			/*
-			visualize("2108251050");
+			
+			/*visualize("2108251050");
 			System.out.println(tF.getDomainSpecificLanguage().toString());
 			Visualizer.visualizeTransitionFunction(tF, "2108251050_tf");
 			*/
+			
 			List<IBasicProduction> basicProds = new ArrayList<>();
 			List<IOperator> basicProdsOperators = new ArrayList<>();
 			for (IOperator operator : tF.getTransitions()) {

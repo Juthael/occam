@@ -22,7 +22,7 @@ public interface IProduction {
 	
 	String getLabel();
 	
-	IOperator getOperator();
+	//IOperator getOperator();
 	
 	IIntentAttribute getSource();
 	
@@ -41,7 +41,7 @@ public interface IProduction {
 	
 	boolean isBlank();
 	
-	void setOperator(IOperator operator);
+	//void setOperator(IOperator operator);
 	
 	@Override
 	String toString();

@@ -4,7 +4,6 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 
 public abstract class Production extends DefaultEdge implements IProduction {
@@ -12,7 +11,6 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	private static final long serialVersionUID = 1701074226278101143L;
 	private final IIntentAttribute operatorInput;
 	private final IIntentAttribute operatorOutput;
-	private IOperator operator;
 	
 	public Production(IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
 		this.operatorInput = operatorInput;
@@ -60,11 +58,6 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	}
 
 	@Override
-	public IOperator getOperator() {
-		return operator;
-	}
-
-	@Override
 	public IIntentAttribute getSource() {
 		return operatorInput;
 	}
@@ -94,11 +87,6 @@ public abstract class Production extends DefaultEdge implements IProduction {
 		result = prime * result + ((operatorInput == null) ? 0 : operatorInput.hashCode());
 		result = prime * result + ((operatorOutput == null) ? 0 : operatorOutput.hashCode());
 		return result;
-	}
-
-	@Override
-	public void setOperator(IOperator operator) {
-		this.operator = operator;
 	}
 
 }

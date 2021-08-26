@@ -7,7 +7,6 @@ import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ICompositeProduction;
-import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 
 public class CompositeProduction extends Production implements ICompositeProduction {
@@ -141,13 +140,6 @@ public class CompositeProduction extends Production implements ICompositeProduct
 			return new CompositeProduction(newComponents);
 		}
 		return null;
-	}
-	
-	@Override
-	public void setOperator(IOperator operator) {
-		super.setOperator(operator);
-		for (IBasicProduction component : basicProductions)
-			component.setOperator(operator);
 	}
 
 }

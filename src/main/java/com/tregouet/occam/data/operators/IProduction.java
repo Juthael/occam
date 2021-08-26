@@ -43,9 +43,6 @@ public interface IProduction {
 	
 	//void setOperator(IOperator operator);
 	
-	@Override
-	String toString();
-	
 	boolean isVariableSwitcher();
 	
 	/**
@@ -54,5 +51,8 @@ public interface IProduction {
 	 * @return
 	 */
 	IProduction switchVariableOrReturnNull(IProduction varSwitcher);
+	
+	@Override
+	String toString();
 
 }

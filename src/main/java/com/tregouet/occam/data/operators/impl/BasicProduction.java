@@ -161,18 +161,13 @@ public class BasicProduction extends Production implements IBasicProduction {
 	}
 
 	@Override
-	public ILambdaExpression semanticRule() {
-		return new LambdaExpression(value);
-	}
-
-	@Override
-	public String toString() {
-		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
-	}
-
-	@Override
 	public boolean isVariableSwitcher() {
 		return variableSwitcher;
+	}
+
+	@Override
+	public ILambdaExpression semanticRule() {
+		return new LambdaExpression(value);
 	}
 
 	@Override
@@ -186,6 +181,11 @@ public class BasicProduction extends Production implements IBasicProduction {
 			return null;
 		}
 		return null;
+	}
+
+	@Override
+	public String toString() {
+		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
 	}
 
 }

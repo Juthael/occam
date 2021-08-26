@@ -56,6 +56,11 @@ public class State implements IState {
 	}
 
 	@Override
+	public int getExtentSize() {
+		return extentSize;
+	}
+
+	@Override
 	public Set<IIntentAttribute> getInputLanguage() {
 		if (this.isActive()) {
 			Set<IIntentAttribute> inputlanguage = new HashSet<>();
@@ -117,11 +122,6 @@ public class State implements IState {
 	public void setRank(int rank) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public int getExtentSize() {
-		return extentSize;
 	}
 
 }

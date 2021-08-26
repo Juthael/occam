@@ -10,12 +10,6 @@ import com.tregouet.tree_finder.data.InTree;
 
 public interface ICatTreeSupplier extends ITreeFinder<ICategory, DefaultEdge> {
 	
-	@Override
-	public int hashCode();
-	
-	@Override
-	boolean equals(Object o);
-	
 	public static InTree<ICategory, DefaultEdge> removeTunnelCategories(InTree<ICategory, DefaultEdge> categoryTree){
 		List<ICategory> tunnelCategories = categoryTree.vertexSet()
 				.stream()
@@ -33,6 +27,12 @@ public interface ICatTreeSupplier extends ITreeFinder<ICategory, DefaultEdge> {
 		return categoryTree;
 	}
 	
+	@Override
+	public int hashCode();
+	
 	public InTree<ICategory, DefaultEdge> nextWithTunnelCategoriesRemoved();
+	
+	@Override
+	boolean equals(Object o);
 
 }

@@ -31,6 +31,21 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 		return transitionFunctions.first();
 	}
 	
+	@Override
+	public boolean hasNext() {
+		return ite.hasNext();
+	}
+
+	@Override
+	public ITransitionFunction next() {
+		return ite.next();
+	}
+
+	@Override
+	public void reset() {
+		ite = transitionFunctions.iterator();
+	}
+
 	private void populateTransitionFunctions() {
 		while (categoryTreeSupplier.hasNext()) {
 			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextWithTunnelCategoriesRemoved();
@@ -49,21 +64,6 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 				}
 			}
 		}
-	}
-
-	@Override
-	public boolean hasNext() {
-		return ite.hasNext();
-	}
-
-	@Override
-	public ITransitionFunction next() {
-		return ite.next();
-	}
-
-	@Override
-	public void reset() {
-		ite = transitionFunctions.iterator();
 	}	
 
 }

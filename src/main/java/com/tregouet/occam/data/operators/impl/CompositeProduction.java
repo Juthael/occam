@@ -103,17 +103,6 @@ public class CompositeProduction extends Production implements ICompositeProduct
 	}
 
 	@Override
-	public String toString() {
-		StringBuilder sB = new StringBuilder();
-		for (int i = 0 ; i < basicProductions.size() ; i++) {
-			sB.append(basicProductions.get(i).toString());
-			if (i < basicProductions.size() - 1)
-				sB.append(" ");
-		}
-		return sB.toString();
-	}
-
-	@Override
 	public boolean isVariableSwitcher() {
 		for (IBasicProduction basicProd : basicProductions) {
 			if (!basicProd.isVariableSwitcher())
@@ -140,6 +129,17 @@ public class CompositeProduction extends Production implements ICompositeProduct
 			return new CompositeProduction(newComponents);
 		}
 		return null;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		for (int i = 0 ; i < basicProductions.size() ; i++) {
+			sB.append(basicProductions.get(i).toString());
+			if (i < basicProductions.size() - 1)
+				sB.append(" ");
+		}
+		return sB.toString();
 	}
 
 }

@@ -26,6 +26,8 @@ public interface IState {
 	
 	void generateOutputLanguage();
 	
+	int getExtentSize();
+	
 	Set<IIntentAttribute> getInputLanguage();
 	
 	int getRank();
@@ -46,7 +48,5 @@ public interface IState {
 	void proceedTransitions();
 	
 	void setRank(int rank);
-	
-	int getExtentSize();
 
 }

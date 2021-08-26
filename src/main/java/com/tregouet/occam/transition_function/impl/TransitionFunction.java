@@ -109,6 +109,15 @@ public class TransitionFunction implements ITransitionFunction {
 		return prodIndexesSets;
 	}
 
+	private static String setAsString(Set<IIntentAttribute> attributes){
+		StringBuilder sB = new StringBuilder();
+		for (IIntentAttribute att : attributes) {
+			sB.append(att.toString() + System.lineSeparator());
+		}
+		sB.deleteCharAt(sB.length() - 1);
+		return sB.toString();
+	}
+
 	@Override
 	public int compareTo(ITransitionFunction other) {
 		if (this.getCost() < other.getCost())
@@ -140,6 +149,11 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
+	public InTree<ICategory, DefaultEdge> getCategoryTree() {
+		return categories;
+	}
+
+	@Override
 	public String getCategoryTreeAsDOTFile() {
 		DOTExporter<ICategory,DefaultEdge> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {
@@ -151,22 +165,22 @@ public class TransitionFunction implements ITransitionFunction {
 		exporter.exportGraph(categories, writer);
 		return writer.toString();
 	}
-
+	
 	@Override
 	public ICompiler getCompiler() {
 		return new Compiler(objects, this);
 	}
-
+	
 	@Override
 	public double getCost() {
 		return cost;
 	}
-	
+
 	@Override
 	public IDSLanguageDisplayer getDomainSpecificLanguage() {
 		return new DSLanguageDisplayer(this.getStates(), operators);
 	}
-	
+
 	@Override
 	public List<IState> getStates() {
 		return new ArrayList<>(categoryToState.values());
@@ -197,7 +211,7 @@ public class TransitionFunction implements ITransitionFunction {
 		exporter.exportGraph(stateMachine, writer);
 		return writer.toString();
 	}
-
+	
 	@Override
 	public List<IOperator> getTransitions() {
 		return operators;
@@ -212,20 +226,6 @@ public class TransitionFunction implements ITransitionFunction {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((operators == null) ? 0 : operators.hashCode());
 		return result;
-	}
-	
-	private static String setAsString(Set<IIntentAttribute> attributes){
-		StringBuilder sB = new StringBuilder();
-		for (IIntentAttribute att : attributes) {
-			sB.append(att.toString() + System.lineSeparator());
-		}
-		sB.deleteCharAt(sB.length() - 1);
-		return sB.toString();
-	}
-
-	@Override
-	public InTree<ICategory, DefaultEdge> getCategoryTree() {
-		return categories;
 	}
 
 }

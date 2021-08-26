@@ -63,10 +63,6 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return filteredReduced;
 	}
 	
-	private static boolean isA(ICategory cat1, ICategory cat2, InTree<ICategory, DefaultEdge> tree) {
-		return tree.getDescendants(cat1).contains(cat2);
-	}
-	
 	public static List<IProduction> switchVariables(List<IProduction> edges, List<IProduction> varSwitchers){
 		List<IProduction> edgesReturned = new ArrayList<>(edges);
 		List<IProduction> edgesToRemove = new ArrayList<>();
@@ -87,6 +83,10 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		edgesReturned.removeAll(edgesToRemove);
 		edgesReturned.addAll(edgesToAdd);
 		return edgesReturned;
+	}
+	
+	private static boolean isA(ICategory cat1, ICategory cat2, InTree<ICategory, DefaultEdge> tree) {
+		return tree.getDescendants(cat1).contains(cat2);
 	}
 
 }

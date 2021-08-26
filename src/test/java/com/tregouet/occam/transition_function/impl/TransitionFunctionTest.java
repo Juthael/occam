@@ -225,13 +225,13 @@ public class TransitionFunctionTest {
 					}
 					else if (production instanceof IBasicProduction) {
 						basicProds.add((IBasicProduction) production);
-						basicProdsOperators.add(production.getOperator());
+						basicProdsOperators.add(operator);
 					}
 					else {
 						ICompositeProduction compoProd = (ICompositeProduction) production;
 						for (IBasicProduction basicProd : compoProd.getComponents()) {
 							basicProds.add(basicProd);
-							basicProdsOperators.add(basicProd.getOperator());
+							basicProdsOperators.add(operator);
 						}
 					}
 				}

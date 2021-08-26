@@ -15,8 +15,7 @@ import com.tregouet.occam.transition_function.IState;
 
 public class Operator implements IOperator {
 
-	private String name = IOperator.provideName();
-
+	private final String name;
 	private final IState activeState;
 	private final Map<IIntentAttribute, IIntentAttribute> inputToOutput = new HashMap<>();
 	private final List<IProduction> operation;
@@ -24,6 +23,7 @@ public class Operator implements IOperator {
 	private final double cost;
 	
 	public Operator(IState activeState, List<IProduction> operation, IState nextState) {
+		name = IOperator.provideName();
 		this.activeState = activeState;
 		this.operation = new ArrayList<>(operation);
 		this.nextState = nextState;

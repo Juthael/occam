@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.IState;
 
 public interface IOperator {

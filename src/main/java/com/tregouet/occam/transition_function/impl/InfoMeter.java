@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.operators.impl;
+package com.tregouet.occam.transition_function.impl;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -12,12 +12,9 @@ import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.constructs.ISymbol;
-import com.tregouet.occam.data.constructs.impl.Construct;
-import com.tregouet.occam.data.constructs.impl.Terminal;
-import com.tregouet.occam.data.operators.IInfoMeter;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.exceptions.PropertyTargetingException;
+import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.tree_finder.data.InTree;
 
 public class InfoMeter implements IInfoMeter {

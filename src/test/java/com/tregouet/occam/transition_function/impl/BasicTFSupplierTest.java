@@ -45,19 +45,19 @@ public class BasicTFSupplierTest {
 	}
 
 	@Test
-	public void whenRequestedThenReturnsTransitionFuncInIncreasingCostOrder() {
+	public void whenRequestedThenReturnsTransitionFuncInDecreasingCoherenceScoreOreder() {
 		boolean increasingOrder = true;
 		int checkCount = 1;
 		IBasicTFSupplier transFuncSupplier = new BasicTFSupplier(categories, constructs);
-		double prevCost = transFuncSupplier.next().getCost();
+		double prevScore = transFuncSupplier.next().getCoherenceScore();
 		/*
 		System.out.println("0 : " + Double.toString(prevCost));
 		*/
 		while (transFuncSupplier.hasNext()) {
-			double nextCost = transFuncSupplier.next().getCost();
-			if (nextCost < prevCost)
+			double nextScore = transFuncSupplier.next().getCoherenceScore();
+			if (nextScore > prevScore)
 				increasingOrder = false;
-			prevCost = nextCost;
+			prevScore = nextScore;
 			checkCount++;
 			/*
 			System.out.println(checkCount + " : " + Double.toString(nextCost));

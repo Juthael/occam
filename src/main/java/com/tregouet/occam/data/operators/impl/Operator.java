@@ -8,6 +8,7 @@ import java.util.Map;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ICompositeProduction;
+import com.tregouet.occam.data.operators.IInfoMeter;
 import com.tregouet.occam.data.operators.ILambdaExpression;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
@@ -20,7 +21,7 @@ public class Operator implements IOperator {
 	private final Map<IIntentAttribute, IIntentAttribute> inputToOutput = new HashMap<>();
 	private final List<IProduction> operation;
 	private final IState nextState;
-	private final double cost;
+	private double informativity = -1.0;
 	
 	public Operator(IState activeState, List<IProduction> operation, IState nextState) {
 		name = IOperator.provideName();
@@ -29,11 +30,6 @@ public class Operator implements IOperator {
 		this.nextState = nextState;
 		for (IProduction production : operation)
 			inputToOutput.put(production.getSource(), production.getTarget());
-		cost = calculateCost();
-	}
-
-	private static double binaryLogarithm(double arg) {
-		return Math.log10(arg)/Math.log10(2);
 	}
 
 	@Override
@@ -64,8 +60,8 @@ public class Operator implements IOperator {
 	}
 
 	@Override
-	public double getCost() {
-		return cost;
+	public double getInformativity() {
+		return informativity;
 	}
 
 	@Override
@@ -144,14 +140,9 @@ public class Operator implements IOperator {
 		return sB.toString();
 	}
 
-	private double calculateCost() {
-		if (this.isBlank())
-			return 0.0;
-		double currStateExtentSize = activeState.getExtentSize();
-		double nextStateExtentSize = nextState.getExtentSize();
-		return - binaryLogarithm(currStateExtentSize / nextStateExtentSize);
+	@Override
+	public void setInformativity(IInfoMeter infometer) {
+		informativity = infometer.getInformativity(this);		
 	}
-	
-	
 
 }

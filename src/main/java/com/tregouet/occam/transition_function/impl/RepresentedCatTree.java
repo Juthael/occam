@@ -61,7 +61,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 
 	@Override
 	public double getCost() {
-		return optimalRepresentation.getCost();
+		return optimalRepresentation.getCoherenceScore();
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 
 	@Override
 	public boolean testAlternativeRepresentation(ITransitionFunction altRepresentation) {
-		if (optimalRepresentation == null || altRepresentation.getCost() < this.getCost()) {
+		if (optimalRepresentation == null || altRepresentation.getCoherenceScore() < this.getCost()) {
 			optimalRepresentation = altRepresentation;
 			return true;
 		}
@@ -111,7 +111,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 		sB.append("*** CATEGORY STRUCTURE : ");
 		sB.append(getExtentStructureAsString());
 		sB.append(newLine + newLine);
-		sB.append("*** COST : " + Double.toString(optimalRepresentation.getCost()) + newLine + newLine);
+		sB.append("*** SCORE : " + Double.toString(optimalRepresentation.getCoherenceScore()) + newLine + newLine);
 		return sB.toString();
 	}
 	

@@ -113,7 +113,6 @@ public class Construct implements IConstruct {
 		return isAbstract;
 	}
 	
-	//SHOULD BE TESTED
 	@Override
 	public boolean meets(IConstruct constraint) {
 		List<ISymbol> constraintSymbols = constraint.getListOfSymbols();

@@ -21,7 +21,8 @@ public class ConstructTest {
 	private String[] concreteProgPartial = new String[] {"a", "b", "c"};
 	private String[] concreteProgWrongOrder = new String[] {"a", "b", "d", "c"};
 	private String[] abstractProg = new String[] {"a", "b", "_", "d", "_"};
-	private String[] metConstraintProg = new String[] {"b", "c"};
+	private String[] metConstraintProg1 = new String[] {"b", "c"};
+	private String[] metConstraintProg2 = new String[] {"a", "c", "d"};
 	private String[] notMetConstraintProg1 = new String[] {"a", "b", "c", "d", "e"};
 	private String[] notMetConstraintProg2 = new String[] {"b", "e"};
 	private String[] notMetConstraintProg3 = new String[] {"c", "b"};
@@ -59,11 +60,13 @@ public class ConstructTest {
 	@Test
 	public void whenSpecifiedConstraintIsMetThenIsASubsequenceOfConstraintsListOfSymbols() {
 		IConstruct construct = new Construct(concreteProg1);
-		IConstruct metConstraint = new Construct(metConstraintProg);
+		IConstruct metConstraint1 = new Construct(metConstraintProg1);
+		IConstruct metConstraint2 = new Construct(metConstraintProg2);
 		IConstruct notMetConstraint1 = new Construct(notMetConstraintProg1);
 		IConstruct notMetConstraint2 = new Construct(notMetConstraintProg2);
 		IConstruct notMetConstraint3 = new Construct(notMetConstraintProg3);
-		assertTrue(construct.meets(metConstraint)
+		assertTrue(construct.meets(metConstraint1)
+				&& construct.meets(metConstraint2)
 				&& !construct.meets(notMetConstraint1)
 				&& !construct.meets(notMetConstraint2)
 				&& !construct.meets(notMetConstraint3));

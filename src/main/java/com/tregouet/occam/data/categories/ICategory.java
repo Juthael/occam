@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.categories;
 
+import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.data.constructs.IContextObject;
@@ -33,5 +34,9 @@ public interface ICategory {
 	String toString();
 	
 	int type();
+	
+	boolean meets(List<String> constraintAsStrings);
+	
+	IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings);
 
 }

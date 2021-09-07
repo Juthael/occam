@@ -58,7 +58,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 						currCatTree, attTreeSupplier.next());
 				if (transitionFunctions.size() <= MAX_CAPACITY)
 					transitionFunctions.add(transitionFunction);
-				else if (transitionFunction.getCost() < transitionFunctions.last().getCost()) {
+				else if (transitionFunction.getCoherenceScore() < transitionFunctions.last().getCoherenceScore()) {
 					transitionFunctions.add(transitionFunction);
 					transitionFunctions.pollLast();
 				}

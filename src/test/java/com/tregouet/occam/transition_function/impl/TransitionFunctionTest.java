@@ -273,42 +273,6 @@ public class TransitionFunctionTest {
 		assertTrue(consistent);
 	}
 	
-	@Test
-	public void whenOperatorsBuiltThenHaveExpectedCost() {
-		boolean expectedCost = true;
-		for (ITransitionFunction tF : transitionFunctions) {
-			for (IOperator operator : tF.getTransitions()) {
-				double expected;
-				if (operator.isBlank()) {
-					expected = 0.0;
-				}
-				else {
-					expected = 
-							-binaryLogarithm(
-									(double) operator.getOperatingState().getExtentSize()/
-									(double) operator.getNextState().getExtentSize());	
-				}
-				if (operator.getCost() != expected)
-					expectedCost = false;
-			}
-		}
-		assertTrue(expectedCost);
-	}
-	
-	@Test
-	public void whenTransitionFunctionInstantiatedThenHaveExpectedCost() {
-		boolean expectedCost = true;
-		for (ITransitionFunction tF : transitionFunctions) {
-			double expected = 0.0;
-			for (IOperator operator : tF.getTransitions())
-				expected += operator.getCost();
-			double returned = tF.getCost();
-			if (expected != returned)
-				expectedCost = false;
-		}
-		assertTrue(expectedCost);
-	}
-	
 	private static void visualize(String timestamp) throws IOException {
 		Categories castcats = (Categories) categories;
 		Visualizer.visualizeCategoryGraph(castcats.getGraph(), timestamp + "categories");

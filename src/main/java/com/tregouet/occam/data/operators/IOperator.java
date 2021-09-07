@@ -45,7 +45,9 @@ public interface IOperator {
 	@Override
 	boolean equals(Object o);
 	
-	double getCost();
+	double getInformativity();
+	
+	void setInformativity(IInfoMeter infometer);
 	
 	String getName();
 	

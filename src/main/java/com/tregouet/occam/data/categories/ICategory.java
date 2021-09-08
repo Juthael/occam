@@ -38,5 +38,7 @@ public interface ICategory {
 	boolean meets(List<String> constraintAsStrings);
 	
 	IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings);
+	
+	int getID();
 
 }

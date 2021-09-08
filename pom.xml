@@ -46,9 +46,14 @@
 		<version>1.5.1</version>
     </dependency>
     <dependency>
-    <groupId>org.jgrapht</groupId>
-    <artifactId>jgrapht-io</artifactId>
-    <version>1.5.1</version>
+	    <groupId>org.jgrapht</groupId>
+	    <artifactId>jgrapht-io</artifactId>
+	    <version>1.5.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.jgrapht</groupId>
+		<artifactId>jgrapht-opt</artifactId>
+		<version>1.5.1</version>
 	</dependency>
 	
 	<!-- visualization -->
@@ -65,7 +70,6 @@
 	    <artifactId>logback-classic</artifactId>
 	    <version>1.2.3</version>
 	</dependency>
-
   </dependencies>
   
 </project>

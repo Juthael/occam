@@ -89,6 +89,7 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 		if (this.operatingState.equals(operator.getOperatingState()) 
 				&& this.nextState.equals(operator.getNextState())) {
 			operators.add(operator);
+			informativity += operator.getInformativity();
 			return true;
 		}
 		return false;

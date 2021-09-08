@@ -6,14 +6,14 @@ public interface ISimilarityCalculator {
 	
 	double getCoherenceScore();
 	
-	double getCoherenceScore(List<Integer> objectIndexes);
+	double getCoherenceScore(List<Integer> idxes);
 	
-	double howSimilar(int onjIdx1, int objIndex2);
+	double howSimilar(Integer idx1, Integer idx2);
 	
-	double howSimilarTo(int objIdx1, int objIdx2);
+	double howSimilarTo(Integer idx1, Integer idx2);
 	
-	double howProtoypical(int objIdx1);
+	double howProtoypical(Integer idx);
 	
-	double howPrototypicalAmong(int objIdx, List<Integer> objSubset);
+	double howPrototypicalAmong(Integer idx, List<Integer> objSubset);
 
 }

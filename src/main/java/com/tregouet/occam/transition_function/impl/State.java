@@ -21,7 +21,6 @@ public class State implements IState {
 	private List<IOperator> transitions = null;
 	private List<ITapeSet> evaluationQueue = new ArrayList<>();
 	private int rank = 0;
-	private int iD;
 	
 	
 	public State(ICategory category, int extentSize) {
@@ -84,8 +83,7 @@ public class State implements IState {
 
 	@Override
 	public int getStateID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return category.getID();
 	}
 
 	@Override
@@ -153,6 +151,11 @@ public class State implements IState {
 		} else if (!category.equals(other.category))
 			return false;
 		return true;
+	}
+
+	@Override
+	public ICategory getAssociatedCategory() {
+		return category;
 	}
 
 }

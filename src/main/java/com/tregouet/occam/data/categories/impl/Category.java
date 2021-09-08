@@ -13,39 +13,18 @@ import com.tregouet.occam.data.constructs.impl.Construct;
 
 public class Category implements ICategory {
 
+	private static int nextID = 0;
+	
 	private final Set<IIntentAttribute> intent = new HashSet<>();
 	private final Set<IContextObject> extent;
 	private int rank = 0;
 	private int type;
+	private final int iD = nextID++;
 	
 	public Category(Set<IConstruct> intent, Set<IContextObject> extent) {
 		for (IConstruct construct : intent)
 			this.intent.add(new IntentAttribute(construct, this));
 		this.extent = extent;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Category other = (Category) obj;
-		if (extent == null) {
-			if (other.extent != null)
-				return false;
-		} else if (!extent.equals(other.extent))
-			return false;
-		if (intent == null) {
-			if (other.intent != null)
-				return false;
-		} else if (!intent.equals(other.intent))
-			return false;
-		if (type != other.type)
-			return false;
-		return true;
 	}
 
 	@Override
@@ -56,19 +35,6 @@ public class Category implements ICategory {
 	@Override
 	public Set<IIntentAttribute> getIntent() {
 		return intent;
-	}
-
-	/* 
-	 * rank must not be used in hashCode() because of late ranking
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((extent == null) ? 0 : extent.hashCode());
-		result = prime * result + ((intent == null) ? 0 : intent.hashCode());
-		result = prime * result + type;
-		return result;
 	}
 
 	@Override
@@ -127,6 +93,48 @@ public class Category implements ICategory {
 				matchingAttribute = currAtt;
 		}
 		return matchingAttribute;
+	}
+
+	@Override
+	public int getID() {
+		return iD;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((extent == null) ? 0 : extent.hashCode());
+		result = prime * result + iD;
+		result = prime * result + ((intent == null) ? 0 : intent.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Category other = (Category) obj;
+		if (iD != other.iD)
+			return false;
+		if (extent == null) {
+			if (other.extent != null)
+				return false;
+		} else if (!extent.equals(other.extent))
+			return false;
+		if (intent == null) {
+			if (other.intent != null)
+				return false;
+		} else if (!intent.equals(other.intent))
+			return false;
+		return true;
 	}	
 
 }

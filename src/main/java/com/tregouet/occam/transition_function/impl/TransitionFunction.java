@@ -21,8 +21,10 @@ import com.tregouet.occam.compiler.impl.Compiler;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.data.operators.impl.ConjunctiveOperator;
 import com.tregouet.occam.data.operators.impl.Operator;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
 import com.tregouet.occam.transition_function.IInfoMeter;
@@ -37,6 +39,7 @@ public class TransitionFunction implements ITransitionFunction {
 	private final InTree<ICategory, DefaultEdge> categories;
 	private final Map<ICategory, IState> categoryToState = new HashMap<>();
 	private final List<IOperator> operators;
+	private final List<IConjunctiveOperator> conjunctiveOperators = new ArrayList<>();
 	private final IInfoMeter infometer;
 	private final ISimilarityCalculator similarityCalc;
 	
@@ -60,6 +63,10 @@ public class TransitionFunction implements ITransitionFunction {
 		operators = buildOperators(new ArrayList<>(constructs.edgeSet()), categoryToState);
 		infometer = new InfoMeter(objects, categories, operators);
 		operators.stream().forEach(o -> o.setInformativity(infometer));
+		for (IOperator op : operators) {
+			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
+				conjunctiveOperators.add(new ConjunctiveOperator(op));
+		}
 		similarityCalc = new SimilarityCalculator(objects.size(), categories, operators);
 	}
 

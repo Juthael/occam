@@ -47,5 +47,7 @@ public interface IState {
 	void proceedTransitions();
 	
 	void setRank(int rank);
+	
+	ICategory getAssociatedCategory();
 
 }

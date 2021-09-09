@@ -44,8 +44,14 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 
 	@Override
 	public double getCoherenceScore(List<Integer> catIDs) {
-		// TODO Auto-generated method stub
-		return 0;
+		double similaritySum = 0.0;
+		double n = (double) catIDs.size();
+		for (int i = 0 ; i < catIDs.size() - 1 ; i++) {
+			for (int j = i + 1 ; j < catIDs.size() ; j++) {
+				similaritySum += howSimilar(catIDs.get(i), catIDs.get(j));
+			}
+		}
+		return similaritySum / ((n*(n-1))/2);
 	}
 
 	@Override
@@ -87,15 +93,21 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 	}
 
 	@Override
-	public double howProtoypical(Integer catID1) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double howProtoypical(Integer catID) {
+		return howPrototypicalAmong(catID, breadthFirstCatIdxes.subList(0, nbOfObjects));
 	}
 
 	@Override
-	public double howPrototypicalAmong(Integer catID, List<Integer> catIDs) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double howPrototypicalAmong(Integer catID, List<Integer> objCatIDs) {
+		double similarityToParameterSum = 0.0;
+		int nbOfComparisons = 0;
+		for (Integer objCatID : objCatIDs) {
+			if (!objCatID.equals(catID)) {
+				similarityToParameterSum += howSimilarTo(objCatID, catID);
+				nbOfComparisons++;
+			}
+		}
+		return similarityToParameterSum / (double) nbOfComparisons;
 	}
 	
 	private Set<Integer> getReacheableEdgesFrom(Integer vertex) {

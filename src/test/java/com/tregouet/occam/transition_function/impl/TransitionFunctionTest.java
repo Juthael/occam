@@ -61,7 +61,6 @@ public class TransitionFunctionTest {
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private static IIntentAttTreeSupplier constrTreeSupplier;
 	private static InTree<IIntentAttribute, IProduction> constrTree;
-	private static ITransitionFunction transitionFunction;
 	private static TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	
 	@BeforeClass
@@ -82,7 +81,7 @@ public class TransitionFunctionTest {
 			constrTreeSupplier = new IntentAttTreeSupplier(filtered_reduced_constructs);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
-				transitionFunction = 
+				ITransitionFunction transitionFunction = 
 						new TransitionFunction(shapes1Obj, categories.getObjectCategories(), catTree, constrTree);
 				/*
 				visualize("2108140757");
@@ -94,7 +93,6 @@ public class TransitionFunctionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		
 	}
 	
 	@Test
@@ -159,7 +157,7 @@ public class TransitionFunctionTest {
 		boolean languageReturned = true;
 		for (ITransitionFunction tF : transitionFunctions) {
 			try {
-				IDSLanguageDisplayer languageDisplayer = transitionFunction.getDomainSpecificLanguage();
+				IDSLanguageDisplayer languageDisplayer = tF.getDomainSpecificLanguage();
 				/*
 				System.out.println(languageDisplayer.toString());
 				*/

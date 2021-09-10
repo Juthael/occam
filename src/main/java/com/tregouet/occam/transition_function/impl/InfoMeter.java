@@ -87,11 +87,14 @@ public class InfoMeter implements IInfoMeter {
 	}
 	
 	private double amountOfSurprise(IOperator property) {
-		return -binaryLogarithm(property.getOperatingState().getExtentSize() / property.getNextState().getExtentSize());
+		return -binaryLogarithm(
+				(double) property.getOperatingState().getExtentSize() 
+				/ (double) property.getNextState().getExtentSize()
+				);
 	}
 	
 	private double diagnosticity(IOperator property) {
-		return property.getOperatingState().getExtentSize() / objects.size();
+		return (double) property.getOperatingState().getExtentSize() / (double) objects.size();
 	}
 	
 	private static double binaryLogarithm(double arg) {

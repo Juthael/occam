@@ -17,7 +17,27 @@ public class SimilarityCalculatorTest {
 	}
 
 	@Test
-	public void whenNObjectsInConstructorParameterThenObjectCatIDsAtIndexZeroToNInListOfCatIDs() {
+	public void whenCoherenceScoreRequestedThenReturned() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void whenSymmetricSimilarityRequestedThenReturned() {
+		fail("Not yet implemented");
+	}	
+	
+	@Test
+	public void whenAsymmetricSimilarityRequestedThenReturned() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void whenPrototypicalityOfAnObjectRequestedThenReturned() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void whenProtoypicalityOfACategoryAmongACategorySubsetRequestedThenReturned() {
 		fail("Not yet implemented");
 	}
 

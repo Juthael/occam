@@ -67,7 +67,7 @@ public class TransitionFunction implements ITransitionFunction {
 			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
 				conjunctiveOperators.add(new ConjunctiveOperator(op));
 		}
-		similarityCalc = new SimilarityCalculator(objects.size(), categories, conjunctiveOperators);
+		similarityCalc = new SimilarityCalculator(categories, conjunctiveOperators);
 	}
 
 	public static List<IOperator> buildOperators(

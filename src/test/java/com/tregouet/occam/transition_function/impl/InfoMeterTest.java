@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.operators.impl;
+package com.tregouet.occam.transition_function.impl;
 
 import static org.junit.Assert.assertTrue;
 
@@ -24,6 +24,7 @@ import com.tregouet.occam.data.categories.impl.Categories;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.exceptions.PropertyTargetingException;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.transition_function.IInfoMeter;
@@ -36,21 +37,25 @@ import com.tregouet.tree_finder.data.InTree;
 
 public class InfoMeterTest {
 
-	private static Path shapes1 = Paths.get(".", "src", "test", "java", "files", "shapes1.txt");
-	private static List<IContextObject> shapes1Obj;
-	private static ICategories categories;
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private static Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private List<IContextObject> shapes2Obj;
+	private ICategories categories;
+	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private static ICatTreeSupplier catTreeSupplier;
-	private static InTree<ICategory, DefaultEdge> catTree;
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
-	private static IIntentAttTreeSupplier constrTreeSupplier;
-	private static Map<ITransitionFunction, IInfoMeter> transFuncToInfometer = new HashMap<>();
+	private ICatTreeSupplier catTreeSupplier;
+	private InTree<ICategory, DefaultEdge> catTree;
+	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
+	private IIntentAttTreeSupplier constrTreeSupplier;
+	private Map<ITransitionFunction, IInfoMeter> transFuncToInfometer = new HashMap<>();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		shapes1Obj = GenericFileReader.getContextObjects(shapes1);
-		categories = new Categories(shapes1Obj);
+	}
+
+	@Before
+	public void setUp() throws Exception {
+		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
+		categories = new Categories(shapes2Obj);
 		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
 		productions.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
@@ -66,17 +71,13 @@ public class InfoMeterTest {
 			while (constrTreeSupplier.hasNext()) {
 				InTree<IIntentAttribute, IProduction> constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(shapes1Obj, categories.getObjectCategories(), catTree, constrTree);
+						new TransitionFunction(shapes2Obj, categories.getObjectCategories(), catTree, constrTree);
 				/*
 				visualize("2108140757");
 				*/
 				transFuncToInfometer.put(transitionFunction, transitionFunction.getInfometer());
 			}
 		}	
-	}
-
-	@Before
-	public void setUp() throws Exception {
 	}
 
 	@Test
@@ -119,7 +120,7 @@ public class InfoMeterTest {
 		List<String> propertySpecification = new ArrayList<>(Arrays.asList(new String[] {"figure", "forme"}));
 		boolean propSpecIsValid = true;
 		int validObjIndex = 0;
-		int invalidObjIndex = shapes1Obj.size();
+		int invalidObjIndex = shapes2Obj.size();
 		for (ITransitionFunction tF : transFuncToInfometer.keySet()) {
 			IInfoMeter infometer = transFuncToInfometer.get(tF);
 			try {

@@ -75,7 +75,7 @@ public class Category implements ICategory {
 	@Override
 	public boolean meets(List<String> constraintAsStrings) {
 		IConstruct constraint = new Construct(constraintAsStrings.toArray(new String[constraintAsStrings.size()]));
-		return intent.stream().anyMatch(a -> a.meets(constraint));
+		return meets(constraint);
 	}
 
 	/**
@@ -135,6 +135,11 @@ public class Category implements ICategory {
 		} else if (!intent.equals(other.intent))
 			return false;
 		return true;
+	}
+
+	@Override
+	public boolean meets(IConstruct constraint) {
+		return intent.stream().anyMatch(a -> a.meets(constraint));
 	}	
 
 }

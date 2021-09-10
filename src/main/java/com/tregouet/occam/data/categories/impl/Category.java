@@ -10,6 +10,7 @@ import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
+import com.tregouet.occam.exceptions.PropertyTargetingException;
 
 public class Category implements ICategory {
 
@@ -80,17 +81,22 @@ public class Category implements ICategory {
 
 	/**
 	 * If many attributes meet the constraint, returns the first found. 
+	 * @throws PropertyTargetingException 
 	 */
 	@Override
-	public IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) {
+	public IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws PropertyTargetingException {
 		IIntentAttribute matchingAttribute = null;
 		IConstruct constraintAsConstruct = 
 				new Construct(constraintAsStrings.toArray(new String[constraintAsStrings.size()]));
 		Iterator<IIntentAttribute> attributeIte = intent.iterator();
-		while (matchingAttribute == null && attributeIte.hasNext()) {
+		while (attributeIte.hasNext()) {
 			IIntentAttribute currAtt = attributeIte.next();
-			if (currAtt.meets(constraintAsConstruct))
-				matchingAttribute = currAtt;
+			if (currAtt.meets(constraintAsConstruct)) {
+				if (matchingAttribute == null)
+					matchingAttribute = currAtt;
+				else throw new PropertyTargetingException("Category.getMatchingAttribute(List<String>) : "
+						+ "the constraint is not specific enough to target a single attribute.");
+			}
 		}
 		return matchingAttribute;
 	}

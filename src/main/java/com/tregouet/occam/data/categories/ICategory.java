@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.occam.exceptions.PropertyTargetingException;
 
 public interface ICategory {
 	
@@ -40,7 +41,7 @@ public interface ICategory {
 	
 	boolean meets(IConstruct constraint);
 	
-	IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings);
+	IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws PropertyTargetingException;
 	
 	int getID();
 

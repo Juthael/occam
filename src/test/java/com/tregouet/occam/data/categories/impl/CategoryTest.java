@@ -13,20 +13,20 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.ContextObject;
+import com.tregouet.occam.exceptions.PropertyTargetingException;
 
 public class CategoryTest {
 
 	private String[] prog1 = new String[] {"A", "B", "C"};
 	private String[] prog2 = new String[] {"D", "E", "F"};
-	private String[] prog3 = new String[] {"G", "H"};
+	private String[] prog3 = new String[] {"G", "H", "C"};
 	private IContextObject obj1;
-	private IContextObject obj2;
-	private IContextObject obj3;
 	private ICategory cat;
-	private ICategory cat2;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -55,7 +55,7 @@ public class CategoryTest {
 		List<String> constraint2 = Arrays.asList(new String[] {"B", "C"});
 		List<String> constraint3 = Arrays.asList(new String[] {"A", "C"});
 		List<String> constraint4 = Arrays.asList(new String[] {"D", "E", "F"});
-		List<String> constraint5 = Arrays.asList(new String[] {"H"});
+		List<String> constraint5 = Arrays.asList(new String[] {"C"});
 		List<String> constraint6 = new ArrayList<>();
 		assertTrue(cat.meets(constraint1) 
 				&& cat.meets(constraint2)
@@ -67,17 +67,41 @@ public class CategoryTest {
 	
 	@Test
 	public void whenSpecifiedConstraintIsNotMetThenReturnsFalse() {
-		fail("Not yet implemented");
+		List<String> constraint1 = Arrays.asList(new String[] {"A", "B", "X"});
+		List<String> constraint2 = Arrays.asList(new String[] {"A", "C", "B"});
+		List<String> constraint3 = Arrays.asList(new String[] {"X"});
+		List<String> constraint4 = Arrays.asList(new String[] {"D", "E", "F", "G"});
+		List<String> constraint5 = Arrays.asList(new String[] {"B", "B"});
+		assertTrue(!cat.meets(constraint1) 
+				&& !cat.meets(constraint2)
+				&& !cat.meets(constraint3)
+				&& !cat.meets(constraint4)
+				&& !cat.meets(constraint5));
 	}
 	
 	@Test
-	public void whenSpecifiedConstraintIsMatchedThenOneAttributeIsReturned() {
-		fail("Not yet implemented");
+	public void whenSpecifiedConstraintMatchedOnceThenExpectedAttributeReturned() throws PropertyTargetingException {
+		IIntentAttribute expected = new IntentAttribute(new Construct(prog1), cat);
+		IIntentAttribute returned = cat.getMatchingAttribute(Arrays.asList(new String[] {"B", "C"}));
+		assertTrue(expected.equals(returned));
 	}
 	
 	@Test
-	public void whenSpecifiedConstraintIsNotMatchedThenNullIsReturned() {
-		fail("Not yet implemented");
+	public void whenSpecifiedConstraintIsMatchedTwiceThenExceptionThrown() {
+		boolean exceptionThrown = false;
+		try {
+			cat.getMatchingAttribute(Arrays.asList(new String[] {"C"}));
+		}
+		catch (PropertyTargetingException e) {
+			exceptionThrown = true;
+		}
+		assertTrue(exceptionThrown);
+	}
+	
+	@Test
+	public void whenSpecifiedConstraintIsNotMatchedThenNullIsReturned() throws PropertyTargetingException {
+		IIntentAttribute returned = cat.getMatchingAttribute(Arrays.asList(new String[] {"X"}));
+		assertTrue(returned == null);
 	}	
 
 }

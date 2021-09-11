@@ -1,19 +1,21 @@
 package com.tregouet.occam.transition_function;
 
-import java.util.List;
+import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
 public interface ISimilarityCalculator {
 	
 	double getCoherenceScore();
 	
-	double getCoherenceScore(List<Integer> idxes);
+	double getCoherenceScore(int[] catIDs);
 	
-	double howSimilar(Integer idx1, Integer idx2);
+	double howSimilar(int catID1, int catID2);
 	
-	double howSimilarTo(Integer idx1, Integer idx2);
+	double howSimilarTo(int catID1, int catID2);
 	
-	double howProtoypical(Integer idx);
+	double howProtoypical(int catID);
 	
-	double howPrototypicalAmong(Integer idx, List<Integer> objSubset);
+	double howPrototypicalAmong(int catID, int[] otherCatIDs);
+	
+	SparseIntDirectedWeightedGraph getSparseGraph();
 
 }

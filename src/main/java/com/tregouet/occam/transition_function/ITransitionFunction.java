@@ -26,6 +26,8 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	String getTransitionFunctionAsDOTFile();
 	
+	String getTFWithConjunctiveOperatorsAsDOTFile();
+	
 	List<IOperator> getTransitions();
 	
 	@Override

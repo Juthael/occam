@@ -39,7 +39,7 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 		}
 		List<Triple<Integer, Integer, Double>> edges = new ArrayList<>();
 		for (IConjunctiveOperator op : conjunctiveOperators) {
-			//a state and its associated category have the same ID
+			//Any state has a category as one of its component. This category ID is the state ID.
 			Integer operatingStateIndex = indexOf(op.getOperatingState().getStateID());
 			Integer nextStateIndex = indexOf(op.getNextState().getStateID());
 			Double informativity = (Double) op.getInformativity();
@@ -101,6 +101,15 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 			}
 		}
 		return similaritySum / ((n*(n-1))/2);
+	}
+	
+	/**
+	 * Public for test use.
+	 * @param vertex
+	 * @return
+	 */
+	public Set<Integer> getReacheableEdgesFrom(int catID) {
+		return getReacheableEdgesFrom(indexOf(catID));
 	}
 	
 	private Set<Integer> getReacheableEdgesFrom(Integer vertex) {
@@ -167,7 +176,12 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 		return similarity;
 	}
 	
-	private Integer indexOf(int catID) {
+	/**
+	 * Public for test use
+	 * @param catID
+	 * @return
+	 */
+	public Integer indexOf(int catID) {
 		return (Integer) Ints.indexOf(topologicalSortingOfCatIDs, catID);
 	}
 

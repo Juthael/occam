@@ -70,8 +70,11 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
 	}	
 	
-	public static void visualizeTransitionFunction(ITransitionFunction tF, String fileName) throws IOException {
-		MutableGraph dotGraph = new Parser().read(tF.getTransitionFunctionAsDOTFile());
+	public static void visualizeTransitionFunction(ITransitionFunction tF, String fileName, boolean conjunctiveOperators) throws IOException {
+		MutableGraph dotGraph;
+		if (conjunctiveOperators)
+			dotGraph = new Parser().read(tF.getTFWithConjunctiveOperatorsAsDOTFile());
+		else dotGraph = new Parser().read(tF.getTransitionFunctionAsDOTFile());
 		Graphviz.fromGraph(dotGraph)
 			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
 	}

@@ -105,27 +105,26 @@ public class SimilarityCalculatorTest {
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			SimilarityCalculator calculator = (SimilarityCalculator) tF.getSimilarityCalculator();
-			
+			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
-			Visualizer.visualizeTransitionFunction(tF, "2109141241_tf", true);
-			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109141241_sg");
-			
-			
+			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
+			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
+			*/			
 			int[] objects = new int[tF.getCategoryTree().getLeaves().size()];
 			for (int i = 0 ; i < objects.length ; i++) {
 				objects[i] = tF.getCategoryTree().getLeaves().get(i).getID();
 			}
 			for (int j = 0 ; j < objects.length - 1 ; j++) {
 				for (int k = j+1 ; k < objects.length ; k++) {
-					double similarity = calculator.howSimilarTo(objects[j], objects[k]);
-					
+					double similarity = calculator.howSimilar(objects[j], objects[k]);
+					/*
 					System.out.println("OBJ 1 : ");
 					System.out.println(tF.getCategoryTree().getLeaves().get(j).toString() + System.lineSeparator());
 					System.out.println("OBJ 2 : ");
 					System.out.println(tF.getCategoryTree().getLeaves().get(k).toString() + System.lineSeparator());
 					System.out.println("Similarity : " + 
 							Double.toString(similarity) + System.lineSeparator() + System.lineSeparator());
-					
+					*/
 					if (Double.isNaN(similarity))
 						returned = false;
 					nbOfChecks++;

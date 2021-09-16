@@ -85,7 +85,7 @@ public class CatStructureAwareTFSupplierTest {
 				+ Double.toString(representedCatTree.getCost()));
 		ITransitionFunction tF = representedCatTree.getTransitionFunction();
 		System.out.println(tF.getDomainSpecificLanguage().toString());
-		Visualizer.visualizeTransitionFunction(tF, "TF_" + Integer.toString(index));
+		Visualizer.visualizeTransitionFunction(tF, "TF_" + Integer.toString(index), false);
 	}
 
 }

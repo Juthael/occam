@@ -20,7 +20,7 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 	private final IState nextState;
 
 	public ConjunctiveOperator(IOperator operator) {
-		name = operator.getName();
+		name = IConjunctiveOperator.provideName();
 		operators.add(operator);
 		informativity = operator.getInformativity();
 		operatingState = operator.getOperatingState();
@@ -93,6 +93,11 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<IOperator> getComponents() {
+		return operators;
 	}
 
 }

@@ -48,6 +48,7 @@ public class TransitionFunction implements ITransitionFunction {
 	public TransitionFunction(List<IContextObject> objects, List<ICategory> objectCategories, 
 			InTree<ICategory, DefaultEdge> categories, InTree<IIntentAttribute, IProduction> constructs) {
 		IOperator.initializeNameProvider();
+		IConjunctiveOperator.initializeNameProvider();
 		this.objects = objects;
 		this.categories = categories;
 		for (ICategory category : categories.vertexSet()) {
@@ -249,9 +250,25 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 	
 	private static String setOperatorAsString(IOperator operator) {
+		StringBuilder sB = new StringBuilder();
+		if (operator instanceof IConjunctiveOperator) {
+			BigDecimal approxInformativitySum = BigDecimal.valueOf(operator.getInformativity());
+			sB.append("***" + operator.getName() + " : " + 
+					approxInformativitySum.round(new MathContext(3)).toString()+ "***" + System.lineSeparator());
+			List<IOperator> components = new ArrayList<>();
+			for (IOperator component : ((IConjunctiveOperator) operator).getComponents()) {
+				if (!component.isBlank())
+					components.add(component);
+			}
+			for (int i = 0 ; i < components.size() ; i++) {
+				sB.append(setOperatorAsString(components.get(i)));
+				if (i < components.size() - 1)
+					sB.append(System.lineSeparator());
+			}
+			return sB.toString();
+		}
 		if (operator.isBlank())
 			return operator.getName() + " : inheritance";
-		StringBuilder sB = new StringBuilder();
 		BigDecimal approxInformativity = BigDecimal.valueOf(operator.getInformativity());
 		sB.append(operator.getName() + " : " + 
 				approxInformativity.round(new MathContext(3)).toString() + System.lineSeparator());

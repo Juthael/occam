@@ -12,6 +12,7 @@ import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.exceptions.PropertyTargetingException;
 import com.tregouet.occam.transition_function.IInfoMeter;
@@ -111,7 +112,10 @@ public class InfoMeter implements IInfoMeter {
 				.collect(Collectors.toList());
 		while (objectCategory == null && objCatIdx < objects.size()) {
 			ICategory currentObjCat = objectCategories.get(objCatIdx);
-			Set<IConstruct> currObjCatIntent = new HashSet<>(currentObjCat.getIntent());
+			Set<IConstruct> currObjCatIntent = currentObjCat.getIntent()
+					.stream()
+					.map(i -> new Construct(i))
+					.collect(Collectors.toSet());
 			if (objConstructs.equals(currObjCatIntent)) {
 				objectCategory = currentObjCat;
 			}

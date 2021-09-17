@@ -1,13 +1,14 @@
 package com.tregouet.occam.transition_function.impl;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +34,6 @@ import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.ISimilarityCalculator;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.occam.utils.Visualizer;
 import com.tregouet.tree_finder.data.InTree;
 
 public class SimilarityCalculatorTest {
@@ -135,18 +135,96 @@ public class SimilarityCalculatorTest {
 	}	
 	
 	@Test
-	public void whenAsymmetricSimilarityRequestedThenReturned() {
-		fail("Not yet implemented");
+	public void whenAsymmetricSimilarityRequestedThenReturned() throws IOException {
+		boolean returned = true;
+		int nbOfChecks = 0;
+		for (ITransitionFunction tF : transitionFunctions) {
+			SimilarityCalculator calculator = (SimilarityCalculator) tF.getSimilarityCalculator();
+			/*
+			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
+			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
+			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
+			*/
+			int[] objects = new int[tF.getCategoryTree().getLeaves().size()];
+			for (int i = 0 ; i < objects.length ; i++) {
+				objects[i] = tF.getCategoryTree().getLeaves().get(i).getID();
+			}
+			for (int j = 0 ; j < objects.length ; j++) {
+				for (int k = 0 ; k < objects.length ; k++) {
+					double similarity = calculator.howSimilarTo(objects[j], objects[k]);
+					/*
+					System.out.println("OBJ 1 : ");
+					System.out.println(tF.getCategoryTree().getLeaves().get(j).toString() + System.lineSeparator());
+					System.out.println("OBJ 2 : ");
+					System.out.println(tF.getCategoryTree().getLeaves().get(k).toString() + System.lineSeparator());
+					System.out.println("Resemblance of OBJ1 to OBJ2 : " + 
+							Double.toString(similarity) + System.lineSeparator() + System.lineSeparator());
+					*/
+					if (Double.isNaN(similarity))
+						returned = false;
+					nbOfChecks++;
+				}
+			}
+		}
+		assertTrue(returned && nbOfChecks > 0);
 	}
 	
 	@Test
 	public void whenPrototypicalityOfAnObjectRequestedThenReturned() {
-		fail("Not yet implemented");
+		boolean returned = true;
+		int nbOfChecks = 0;
+		for (ITransitionFunction tF : transitionFunctions) {
+			SimilarityCalculator calculator = (SimilarityCalculator) tF.getSimilarityCalculator();
+			/*
+			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
+			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
+			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
+			*/
+			int[] objects = new int[tF.getCategoryTree().getLeaves().size()];
+			for (int i = 0 ; i < objects.length ; i++) {
+				objects[i] = tF.getCategoryTree().getLeaves().get(i).getID();				
+			}
+			for (int j = 0 ; j < objects.length ; j++) {
+				double prototypicality = calculator.howProtoypical(objects[j]);
+				if (Double.isNaN(prototypicality))
+					returned = false;
+				/*
+				System.out.println("OBJ : ");
+				System.out.println(tF.getCategoryTree().getLeaves().get(j).toString() + System.lineSeparator());
+				System.out.println("Prototypicality : " + 
+						Double.toString(prototypicality) + System.lineSeparator() + System.lineSeparator());
+				*/
+				nbOfChecks++;
+			}
+		}
+		assertTrue(returned && nbOfChecks > 0);
 	}
 	
 	@Test
 	public void whenProtoypicalityOfACategoryAmongACategorySubsetRequestedThenReturned() {
-		fail("Not yet implemented");
+		boolean returned = true;
+		int nbOfChecks = 0;
+		Iterator<ITransitionFunction> tFIte = transitionFunctions.iterator();
+		while (tFIte.hasNext() && nbOfChecks < 50000) {
+			ITransitionFunction tF = tFIte.next();
+			ISimilarityCalculator calculator = tF.getSimilarityCalculator();
+			List<ICategory> categorySet = tF.getCategoryTree().getTopologicalSortingOfVertices();
+			List<List<ICategory>> categoryPowerSet = buildCategoryPowerSet(categorySet);
+			for (ICategory cat : categorySet) {
+				for (List<ICategory> subset : categoryPowerSet) {
+					if (!subset.isEmpty() && (subset.size() > 1 || (!subset.get(0).equals(cat)))) {
+						int[] subsetIDs = new int[subset.size()];
+						for (int i = 0 ; i < subset.size() ; i++)
+							subsetIDs[i] = subset.get(i).getID();
+						double prototypicality = calculator.howPrototypicalAmong(cat.getID(), subsetIDs);
+						if (Double.isNaN(prototypicality))
+							returned = false;
+						nbOfChecks++;
+					}
+				}
+			}
+		}
+		assertTrue(returned && nbOfChecks > 0);
 	}
 	
 	@Test
@@ -174,7 +252,19 @@ public class SimilarityCalculatorTest {
 			}
 		}
 		assertTrue(asExpected && nbOfChecks > 0);
-		
+	}
+	
+	private List<List<ICategory>> buildCategoryPowerSet(List<ICategory> categorySet) {
+	    List<List<ICategory>> powerSet = new ArrayList<>();
+	    for (int i = 0; i < (1 << categorySet.size()); i++) {
+	    	List<ICategory> subset = new ArrayList<>();
+	        for (int j = 0; j < categorySet.size(); j++) {
+	            if(((1 << j) & i) > 0)
+	            	subset.add(categorySet.get(j));
+	        }
+	        powerSet.add(subset);
+	    }
+	    return powerSet;
 	}
 
 }

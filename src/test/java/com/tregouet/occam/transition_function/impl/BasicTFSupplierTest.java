@@ -1,19 +1,16 @@
 package com.tregouet.occam.transition_function.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.ICatTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.categories.impl.Categories;
@@ -22,14 +19,12 @@ import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.transition_function.IBasicTFSupplier;
-import com.tregouet.occam.transition_function.ITransitionFunction;
 
 public class BasicTFSupplierTest {
 
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private static ICategories categories;
-	private static ICatTreeSupplier catTreeSupplier;
 	private static final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
@@ -42,33 +37,31 @@ public class BasicTFSupplierTest {
 			constructs.addVertex(p.getSource());
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
-		});
-		TransitiveReduction.INSTANCE.reduce(constructs);		
+		});		
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		catTreeSupplier = categories.getCatTreeSupplier();
 	}
 
 	@Test
-	public void whenRequestedThenReturnsTransitionFuncInIncreasingCostOrder() {
+	public void whenRequestedThenReturnsTransitionFuncInDecreasingCoherenceScoreOreder() {
 		boolean increasingOrder = true;
 		int checkCount = 1;
 		IBasicTFSupplier transFuncSupplier = new BasicTFSupplier(categories, constructs);
-		double prevCost = transFuncSupplier.next().getCost();
-		
+		double prevScore = transFuncSupplier.next().getCoherenceScore();
+		/*
 		System.out.println("0 : " + Double.toString(prevCost));
-		
+		*/
 		while (transFuncSupplier.hasNext()) {
-			double nextCost = transFuncSupplier.next().getCost();
-			if (nextCost < prevCost)
+			double nextScore = transFuncSupplier.next().getCoherenceScore();
+			if (nextScore > prevScore)
 				increasingOrder = false;
-			prevCost = nextCost;
+			prevScore = nextScore;
 			checkCount++;
-			
+			/*
 			System.out.println(checkCount + " : " + Double.toString(nextCost));
-			
+			*/
 		}
 		assertTrue(increasingOrder && checkCount > 0);
 	}

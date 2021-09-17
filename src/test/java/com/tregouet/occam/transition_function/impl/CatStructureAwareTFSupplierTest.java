@@ -1,19 +1,17 @@
 package com.tregouet.occam.transition_function.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.ICatTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.categories.impl.Categories;
@@ -31,7 +29,6 @@ public class CatStructureAwareTFSupplierTest {
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private static ICategories categories;
-	private static ICatTreeSupplier catTreeSupplier;
 	private static final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 
@@ -45,12 +42,10 @@ public class CatStructureAwareTFSupplierTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		TransitiveReduction.INSTANCE.reduce(constructs);		
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		catTreeSupplier = categories.getCatTreeSupplier();
 	}
 
 	@Test
@@ -58,22 +53,22 @@ public class CatStructureAwareTFSupplierTest {
 		boolean increasingOrder = true;
 		int checkCount = 1;
 		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(categories, constructs);
-		
+		/*
 		System.out.println(transFuncSupplier.getDefinitionOfObjects() + System.lineSeparator());
-		
+		*/
 		IRepresentedCatTree representedCatTree = transFuncSupplier.next();
 		double prevCost = representedCatTree.getCost();
-		
+		/*
 		int idx = 0;
 		visualize(representedCatTree, idx);
-		
+		*/
 		while (transFuncSupplier.hasNext()) {
 			representedCatTree = transFuncSupplier.next();			
 			double nextCost = representedCatTree.getCost();
-			
+			/*
 			idx++;
 			visualize(representedCatTree, idx);
-			
+			*/
 			if (nextCost < prevCost)
 				increasingOrder = false;
 			prevCost = nextCost;
@@ -82,6 +77,7 @@ public class CatStructureAwareTFSupplierTest {
 		assertTrue(increasingOrder && checkCount > 0);
 	}
 	
+	@SuppressWarnings("unused")
 	private void visualize(IRepresentedCatTree representedCatTree, int index) throws IOException {
 		System.out.println("********************************");
 		System.out.println(representedCatTree.getExtentStructureAsString() 
@@ -89,7 +85,7 @@ public class CatStructureAwareTFSupplierTest {
 				+ Double.toString(representedCatTree.getCost()));
 		ITransitionFunction tF = representedCatTree.getTransitionFunction();
 		System.out.println(tF.getDomainSpecificLanguage().toString());
-		Visualizer.visualizeTransitionFunction(tF, "TF_" + Integer.toString(index));
+		Visualizer.visualizeTransitionFunction(tF, "TF_" + Integer.toString(index), false);
 	}
 
 }

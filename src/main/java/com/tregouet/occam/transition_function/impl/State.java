@@ -21,7 +21,6 @@ public class State implements IState {
 	private List<IOperator> transitions = null;
 	private List<ITapeSet> evaluationQueue = new ArrayList<>();
 	private int rank = 0;
-	private int iD;
 	
 	
 	public State(ICategory category, int extentSize) {
@@ -56,6 +55,11 @@ public class State implements IState {
 	}
 
 	@Override
+	public int getExtentSize() {
+		return extentSize;
+	}
+
+	@Override
 	public Set<IIntentAttribute> getInputLanguage() {
 		if (this.isActive()) {
 			Set<IIntentAttribute> inputlanguage = new HashSet<>();
@@ -79,8 +83,7 @@ public class State implements IState {
 
 	@Override
 	public int getStateID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return category.getID();
 	}
 
 	@Override
@@ -119,9 +122,40 @@ public class State implements IState {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
-	public int getExtentSize() {
-		return extentSize;
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		State other = (State) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		return true;
+	}
+
+	@Override
+	public ICategory getAssociatedCategory() {
+		return category;
 	}
 
 }

@@ -10,19 +10,19 @@ public interface IRepresentedCatTree extends Comparable<IRepresentedCatTree> {
 	
 	InTree<ICategory, DefaultEdge> getCategoryTree();
 	
+	double getCost();
+	
+	String getDefinitionOfObjects();
+	
+	String getExtentStructureAsString();
+	
 	ITransitionFunction getTransitionFunction();
 	
 	boolean meetsConstraint(IExtentStructureConstraint constraint);
-	
-	double getCost();
 	
 	boolean testAlternativeRepresentation(ITransitionFunction altRepresentation);
 	
 	@Override
 	String toString();
-	
-	String getDefinitionOfObjects();
-	
-	String getExtentStructureAsString();
 	
 }

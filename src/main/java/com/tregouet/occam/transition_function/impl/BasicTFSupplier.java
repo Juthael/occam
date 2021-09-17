@@ -31,26 +31,6 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 		return transitionFunctions.first();
 	}
 	
-	private void populateTransitionFunctions() {
-		while (categoryTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
-					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
-			IIntentAttTreeSupplier attTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);
-			while (attTreeSupplier.hasNext()) {
-				ITransitionFunction transitionFunction = new TransitionFunction(
-						categories.getContextObjects(), categories.getObjectCategories(), 
-						currCatTree, attTreeSupplier.next());
-				if (transitionFunctions.size() <= MAX_CAPACITY)
-					transitionFunctions.add(transitionFunction);
-				else if (transitionFunction.getCost() < transitionFunctions.last().getCost()) {
-					transitionFunctions.add(transitionFunction);
-					transitionFunctions.pollLast();
-				}
-			}
-		}
-	}
-
 	@Override
 	public boolean hasNext() {
 		return ite.hasNext();
@@ -64,6 +44,26 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	@Override
 	public void reset() {
 		ite = transitionFunctions.iterator();
+	}
+
+	private void populateTransitionFunctions() {
+		while (categoryTreeSupplier.hasNext()) {
+			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextWithTunnelCategoriesRemoved();
+			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
+					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
+			IIntentAttTreeSupplier attTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);
+			while (attTreeSupplier.hasNext()) {
+				ITransitionFunction transitionFunction = new TransitionFunction(
+						categories.getContextObjects(), categories.getObjectCategories(), 
+						currCatTree, attTreeSupplier.next());
+				if (transitionFunctions.size() <= MAX_CAPACITY)
+					transitionFunctions.add(transitionFunction);
+				else if (transitionFunction.getCoherenceScore() < transitionFunctions.last().getCoherenceScore()) {
+					transitionFunctions.add(transitionFunction);
+					transitionFunctions.pollLast();
+				}
+			}
+		}
 	}	
 
 }

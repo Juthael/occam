@@ -28,13 +28,13 @@ public class ProductionGenerator {
 	 */
 	public ProductionGenerator(
 			ICategories categories, IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
-		if (!categories.isA(operatorInput.getCategory(), operatorOutput.getCategory()))
-			productions = null;
-		else {
+		if (categories.isA(operatorInput.getCategory(), operatorOutput.getCategory())) {
 			if (operatorInput.getListOfSymbols().equals(operatorOutput.getListOfSymbols()))
+				//then equal strings of terminals
 				productions = new ArrayList<>(
 						Arrays.asList(new IBasicProduction[] {new BlankProduction(operatorInput, operatorOutput)}));
 			else if (operatorInput.getListOfTerminals().containsAll(operatorOutput.getListOfTerminals())) {
+				//then input is an instance of output
 				List<ISymbol> source = operatorInput.getListOfSymbols();
 				List<ISymbol> target = operatorOutput.getListOfSymbols();
 				Map<AVariable, List<ISymbol>> varToValue = mapVariablesToValues(source, target);

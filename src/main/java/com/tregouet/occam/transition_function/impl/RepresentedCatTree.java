@@ -33,44 +33,6 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 	}
 
 	@Override
-	public InTree<ICategory, DefaultEdge> getCategoryTree() {
-		return categoryTree;
-	}
-
-	@Override
-	public ITransitionFunction getTransitionFunction() {
-		return optimalRepresentation;
-	}
-
-	@Override
-	public boolean meetsConstraint(IExtentStructureConstraint constraint) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public double getCost() {
-		return optimalRepresentation.getCost();
-	}
-
-	@Override
-	public boolean testAlternativeRepresentation(ITransitionFunction altRepresentation) {
-		if (optimalRepresentation == null || altRepresentation.getCost() < this.getCost()) {
-			optimalRepresentation = altRepresentation;
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((categoryTree == null) ? 0 : categoryTree.hashCode());
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -91,18 +53,15 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 			return false;
 		return true;
 	}
-	
+
 	@Override
-	public String toString() {
-		StringBuilder sB = new StringBuilder();
-		String newLine = System.lineSeparator();
-		sB.append(getDefinitionOfObjects());
-		sB.append(newLine + newLine);
-		sB.append("*** CATEGORY STRUCTURE : ");
-		sB.append(getExtentStructureAsString());
-		sB.append(newLine + newLine);
-		sB.append("*** COST : " + Double.toString(optimalRepresentation.getCost()) + newLine + newLine);
-		return sB.toString();
+	public InTree<ICategory, DefaultEdge> getCategoryTree() {
+		return categoryTree;
+	}
+
+	@Override
+	public double getCost() {
+		return optimalRepresentation.getCoherenceScore();
 	}
 
 	@Override
@@ -113,6 +72,47 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 	@Override
 	public String getExtentStructureAsString() {
 		return new CatTreeToStringConvertor(categoryTree, objectCategoryToName).toString();
+	}
+
+	@Override
+	public ITransitionFunction getTransitionFunction() {
+		return optimalRepresentation;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((categoryTree == null) ? 0 : categoryTree.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean meetsConstraint(IExtentStructureConstraint constraint) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean testAlternativeRepresentation(ITransitionFunction altRepresentation) {
+		if (optimalRepresentation == null || altRepresentation.getCoherenceScore() < this.getCost()) {
+			optimalRepresentation = altRepresentation;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		String newLine = System.lineSeparator();
+		sB.append(getDefinitionOfObjects());
+		sB.append(newLine + newLine);
+		sB.append("*** CATEGORY STRUCTURE : ");
+		sB.append(getExtentStructureAsString());
+		sB.append(newLine + newLine);
+		sB.append("*** SCORE : " + Double.toString(optimalRepresentation.getCoherenceScore()) + newLine + newLine);
+		return sB.toString();
 	}
 	
 	

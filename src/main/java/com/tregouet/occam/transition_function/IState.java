@@ -5,7 +5,6 @@ import java.util.Set;
 import com.tregouet.occam.compiler.ITapeSet;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IOperator;
 
 public interface IState {
@@ -25,6 +24,8 @@ public interface IState {
 	boolean equals(Object o);
 	
 	void generateOutputLanguage();
+	
+	int getExtentSize();
 	
 	Set<IIntentAttribute> getInputLanguage();
 	
@@ -47,6 +48,6 @@ public interface IState {
 	
 	void setRank(int rank);
 	
-	int getExtentSize();
+	ICategory getAssociatedCategory();
 
 }

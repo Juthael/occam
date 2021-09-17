@@ -56,17 +56,13 @@ public class TransitionFunctionTest {
 	private static ICategories categories;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> reduced_constructs = 
-			new DirectedAcyclicGraph<>(null, null, false);
 	private static ICatTreeSupplier catTreeSupplier;
 	private static InTree<ICategory, DefaultEdge> catTree;
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_constructs;
+	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private static IIntentAttTreeSupplier constrTreeSupplier;
 	private static InTree<IIntentAttribute, IProduction> constrTree;
-	private static ITransitionFunction transitionFunction;
 	private static TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	
-	@SuppressWarnings("unchecked")
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes1Obj = GenericFileReader.getContextObjects(shapes1);
@@ -77,17 +73,15 @@ public class TransitionFunctionTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		reduced_constructs = (DirectedAcyclicGraph<IIntentAttribute, IProduction>) constructs.clone();
-		TransitiveReduction.INSTANCE.reduce(reduced_constructs);
 		catTreeSupplier = categories.getCatTreeSupplier();
 		while (catTreeSupplier.hasNext()) {
-			catTree = catTreeSupplier.next();
-			filtered_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, reduced_constructs);
-			constrTreeSupplier = new IntentAttTreeSupplier(filtered_constructs);
+			catTree = catTreeSupplier.nextWithTunnelCategoriesRemoved();
+			filtered_reduced_constructs = 
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+			constrTreeSupplier = new IntentAttTreeSupplier(filtered_reduced_constructs);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
-				transitionFunction = 
+				ITransitionFunction transitionFunction = 
 						new TransitionFunction(shapes1Obj, categories.getObjectCategories(), catTree, constrTree);
 				/*
 				visualize("2108140757");
@@ -99,7 +93,6 @@ public class TransitionFunctionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		
 	}
 	
 	@Test
@@ -164,7 +157,7 @@ public class TransitionFunctionTest {
 		boolean languageReturned = true;
 		for (ITransitionFunction tF : transitionFunctions) {
 			try {
-				IDSLanguageDisplayer languageDisplayer = transitionFunction.getDomainSpecificLanguage();
+				IDSLanguageDisplayer languageDisplayer = tF.getDomainSpecificLanguage();
 				/*
 				System.out.println(languageDisplayer.toString());
 				*/
@@ -217,28 +210,31 @@ public class TransitionFunctionTest {
 		boolean sameOperator = true;
 		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			/*
-			visualize("2108140818");
+			
+			/*visualize("2108251050");
 			System.out.println(tF.getDomainSpecificLanguage().toString());
-			Visualizer.visualizeTransitionFunction(tF, "2108140828_tf");
+			Visualizer.visualizeTransitionFunction(tF, "2108251050_tf");
 			*/
-			Map<IBasicProduction, IOperator> prodToOpe = new HashMap<>();
+			
+			List<IBasicProduction> basicProds = new ArrayList<>();
+			List<IOperator> basicProdsOperators = new ArrayList<>();
 			for (IOperator operator : tF.getTransitions()) {
 				for (IProduction production : operator.operation()) {
 					if (production instanceof BlankProduction) {
 					}
 					else if (production instanceof IBasicProduction) {
-						prodToOpe.put((IBasicProduction) production, operator);
+						basicProds.add((IBasicProduction) production);
+						basicProdsOperators.add(operator);
 					}
 					else {
 						ICompositeProduction compoProd = (ICompositeProduction) production;
 						for (IBasicProduction basicProd : compoProd.getComponents()) {
-							prodToOpe.put(basicProd, operator);
+							basicProds.add(basicProd);
+							basicProdsOperators.add(operator);
 						}
 					}
 				}
 			}
-			List<IBasicProduction> basicProds = new ArrayList<>(prodToOpe.keySet());
 			for (int i = 0 ; i < basicProds.size() - 1 ; i++) {
 				for (int j = i + 1 ; j < basicProds.size() ; j++) {
 					IBasicProduction iProd = basicProds.get(i);
@@ -247,7 +243,8 @@ public class TransitionFunctionTest {
 							&& iProd.getTargetCategory().equals(jProd.getTargetCategory())
 							&& iProd.getValue().equals(jProd.getValue())) {
 						checkCount++;
-						if (!prodToOpe.get(jProd).equals(prodToOpe.get(jProd)))
+						if (!basicProdsOperators.get(basicProds.indexOf(iProd)).equals(
+								basicProdsOperators.get(basicProds.indexOf(jProd))))
 							sameOperator = false;
 					}
 				}
@@ -274,49 +271,12 @@ public class TransitionFunctionTest {
 		assertTrue(consistent);
 	}
 	
-	@Test
-	public void whenOperatorsBuiltThenHaveExpectedCost() {
-		boolean expectedCost = true;
-		for (ITransitionFunction tF : transitionFunctions) {
-			for (IOperator operator : tF.getTransitions()) {
-				double expected;
-				if (operator.isBlank()) {
-					expected = 0.0;
-				}
-				else {
-					expected = 
-							-binaryLogarithm(
-									(double) operator.getOperatingState().getExtentSize()/
-									(double) operator.getNextState().getExtentSize());	
-				}
-				if (operator.getCost() != expected)
-					expectedCost = false;
-			}
-		}
-		assertTrue(expectedCost);
-	}
-	
-	@Test
-	public void whenTransitionFunctionInstantiatedThenHaveExpectedCost() {
-		boolean expectedCost = true;
-		for (ITransitionFunction tF : transitionFunctions) {
-			double expected = 0.0;
-			for (IOperator operator : tF.getTransitions())
-				expected += operator.getCost();
-			double returned = tF.getCost();
-			if (expected != returned)
-				expectedCost = false;
-		}
-		assertTrue(expectedCost);
-	}
-	
 	private static void visualize(String timestamp) throws IOException {
 		Categories castcats = (Categories) categories;
 		Visualizer.visualizeCategoryGraph(castcats.getGraph(), timestamp + "categories");
 		Visualizer.visualizeCategoryGraph(catTree, timestamp + "_cat_tree");
 		Visualizer.visualizeAttributeGraph(constructs, timestamp + "_constructs");
-		Visualizer.visualizeAttributeGraph(reduced_constructs, timestamp + "_constructs_reduced");
-		Visualizer.visualizeAttributeGraph(filtered_constructs, timestamp + "_filtered_const");
+		Visualizer.visualizeAttributeGraph(filtered_reduced_constructs, timestamp + "_filtered_red_const");
 		Visualizer.visualizeAttributeGraph(constrTree, timestamp + "_construct_tree");
 	}
 	

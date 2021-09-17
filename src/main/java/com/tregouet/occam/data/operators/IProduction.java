@@ -22,7 +22,7 @@ public interface IProduction {
 	
 	String getLabel();
 	
-	IOperator getOperator();
+	//IOperator getOperator();
 	
 	IIntentAttribute getSource();
 	
@@ -41,7 +41,16 @@ public interface IProduction {
 	
 	boolean isBlank();
 	
-	void setOperator(IOperator operator);
+	//void setOperator(IOperator operator);
+	
+	boolean isVariableSwitcher();
+	
+	/**
+	 * 
+	 * @param varSwitcher a production such as varSwitcher.isVariableSwitcher() == true
+	 * @return
+	 */
+	IProduction switchVariableOrReturnNull(IProduction varSwitcher);
 	
 	@Override
 	String toString();

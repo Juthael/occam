@@ -12,10 +12,6 @@ import com.tregouet.tree_finder.data.InTree;
 
 public interface ICatStructureAwareTFSupplier extends ITransitionFunctionSupplier, Iterator<IRepresentedCatTree> {
 	
-	InTree<ICategory, DefaultEdge> getOptimalCategoryStructure();
-	
-	String getDefinitionOfObjects();
-	
 	public static String getDefinitionOfObjects(Map<ICategory, String> objectCategoryToName) {
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
@@ -30,5 +26,9 @@ public interface ICatStructureAwareTFSupplier extends ITransitionFunctionSupplie
 		}
 		return sB.toString();
 	}
+	
+	String getDefinitionOfObjects();
+	
+	InTree<ICategory, DefaultEdge> getOptimalCategoryStructure();
 
 }

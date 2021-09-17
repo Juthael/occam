@@ -2,6 +2,8 @@ package com.tregouet.occam.transition_function.impl;
 
 import java.io.StringWriter;
 import java.io.Writer;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,14 +20,17 @@ import org.jgrapht.nio.dot.DOTExporter;
 
 import com.tregouet.occam.compiler.ICompiler;
 import com.tregouet.occam.compiler.impl.Compiler;
-import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.data.operators.impl.ConjunctiveOperator;
 import com.tregouet.occam.data.operators.impl.Operator;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
+import com.tregouet.occam.transition_function.IInfoMeter;
+import com.tregouet.occam.transition_function.ISimilarityCalculator;
 import com.tregouet.occam.transition_function.IState;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.tree_finder.data.InTree;
@@ -36,11 +41,14 @@ public class TransitionFunction implements ITransitionFunction {
 	private final InTree<ICategory, DefaultEdge> categories;
 	private final Map<ICategory, IState> categoryToState = new HashMap<>();
 	private final List<IOperator> operators;
-	private final double cost;
+	private final List<IConjunctiveOperator> conjunctiveOperators = new ArrayList<>();
+	private final IInfoMeter infometer;
+	private final ISimilarityCalculator similarityCalc;
 	
 	public TransitionFunction(List<IContextObject> objects, List<ICategory> objectCategories, 
 			InTree<ICategory, DefaultEdge> categories, InTree<IIntentAttribute, IProduction> constructs) {
 		IOperator.initializeNameProvider();
+		IConjunctiveOperator.initializeNameProvider();
 		this.objects = objects;
 		this.categories = categories;
 		for (ICategory category : categories.vertexSet()) {
@@ -56,10 +64,13 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 		}
 		operators = buildOperators(new ArrayList<>(constructs.edgeSet()), categoryToState);
-		double currCost = 0;
-		for (IOperator operator : operators)
-			currCost += operator.getCost();
-		cost = currCost;
+		infometer = new InfoMeter(objects, categories, operators);
+		operators.stream().forEach(o -> o.setInformativity(infometer));
+		for (IOperator op : operators) {
+			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
+				conjunctiveOperators.add(new ConjunctiveOperator(op));
+		}
+		similarityCalc = new SimilarityCalculator(categories, conjunctiveOperators);
 	}
 
 	public static List<IOperator> buildOperators(
@@ -110,15 +121,13 @@ public class TransitionFunction implements ITransitionFunction {
 		return prodIndexesSets;
 	}
 
-	@Override
-	public int compareTo(ITransitionFunction other) {
-		if (this.getCost() < other.getCost())
-			return -1;
-		if (this.getCost() > other.getCost())
-			return 1;
-		if (this.hashCode() < other.hashCode())
-			return -1;
-		return 1;
+	private static String setIntentsAsString(Set<IIntentAttribute> attributes){
+		StringBuilder sB = new StringBuilder();
+		for (IIntentAttribute att : attributes) {
+			sB.append(att.toString() + System.lineSeparator());
+		}
+		sB.deleteCharAt(sB.length() - 1);
+		return sB.toString();
 	}
 
 	@Override
@@ -130,7 +139,7 @@ public class TransitionFunction implements ITransitionFunction {
 		if (getClass() != obj.getClass())
 			return false;
 		TransitionFunction other = (TransitionFunction) obj;
-		if (Double.doubleToLongBits(cost) != Double.doubleToLongBits(other.cost))
+		if (Double.doubleToLongBits(getCoherenceScore()) != Double.doubleToLongBits(other.getCoherenceScore()))
 			return false;
 		if (operators == null) {
 			if (other.operators != null)
@@ -138,6 +147,11 @@ public class TransitionFunction implements ITransitionFunction {
 		} else if (!operators.equals(other.operators))
 			return false;
 		return true;
+	}
+
+	@Override
+	public InTree<ICategory, DefaultEdge> getCategoryTree() {
+		return categories;
 	}
 
 	@Override
@@ -152,22 +166,17 @@ public class TransitionFunction implements ITransitionFunction {
 		exporter.exportGraph(categories, writer);
 		return writer.toString();
 	}
-
+	
 	@Override
 	public ICompiler getCompiler() {
 		return new Compiler(objects, this);
 	}
 
 	@Override
-	public double getCost() {
-		return cost;
-	}
-	
-	@Override
 	public IDSLanguageDisplayer getDomainSpecificLanguage() {
 		return new DSLanguageDisplayer(this.getStates(), operators);
 	}
-	
+
 	@Override
 	public List<IState> getStates() {
 		return new ArrayList<>(categoryToState.values());
@@ -176,17 +185,19 @@ public class TransitionFunction implements ITransitionFunction {
 	@Override
 	public String getTransitionFunctionAsDOTFile() {
 		DOTExporter<IState,IOperator> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
 		exporter.setVertexAttributeProvider((s) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(setAsString(s.getInputLanguage())));
+			map.put("label", DefaultAttribute.createAttribute(setIntentsAsString(s.getInputLanguage())));
 			return map;
 		});
 		exporter.setEdgeAttributeProvider((o) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(
-					o.getName() 
-					+ System.lineSeparator()
-					+ Double.toString(Math.round(o.getCost()*1000.0)/1000.0)));
+			map.put("label", DefaultAttribute.createAttribute(setOperatorAsString(o)));
 			return map;
 		});		
 		Writer writer = new StringWriter();
@@ -198,7 +209,7 @@ public class TransitionFunction implements ITransitionFunction {
 		exporter.exportGraph(stateMachine, writer);
 		return writer.toString();
 	}
-
+	
 	@Override
 	public List<IOperator> getTransitions() {
 		return operators;
@@ -207,26 +218,95 @@ public class TransitionFunction implements ITransitionFunction {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(cost);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((operators == null) ? 0 : operators.hashCode());
+		int result = prime + ((operators == null) ? 0 : operators.hashCode());
 		return result;
 	}
+
+	@Override
+	public int compareTo(ITransitionFunction other) {
+		if (this.getCoherenceScore() > other.getCoherenceScore())
+			return -1;
+		if (this.getCoherenceScore() < other.getCoherenceScore())
+			return 1;
+		//to avoid loss of elements in TreeSet
+		if (this.equals(other))
+			return 0;
+		return 1;
+	}
+
+	@Override
+	public ISimilarityCalculator getSimilarityCalculator() {
+		return similarityCalc;
+	}
+
+	@Override
+	public double getCoherenceScore() {
+		return similarityCalc.getCoherenceScore();
+	}
+
+	@Override
+	public IInfoMeter getInfometer() {
+		return infometer;
+	}
 	
-	private static String setAsString(Set<IIntentAttribute> attributes){
+	private static String setOperatorAsString(IOperator operator) {
 		StringBuilder sB = new StringBuilder();
-		for (IIntentAttribute att : attributes) {
-			sB.append(att.toString() + System.lineSeparator());
+		if (operator instanceof IConjunctiveOperator) {
+			BigDecimal approxInformativitySum = BigDecimal.valueOf(operator.getInformativity());
+			sB.append("***" + operator.getName() + " : " + 
+					approxInformativitySum.round(new MathContext(3)).toString()+ "***" + System.lineSeparator());
+			List<IOperator> components = new ArrayList<>();
+			for (IOperator component : ((IConjunctiveOperator) operator).getComponents()) {
+				if (!component.isBlank())
+					components.add(component);
+			}
+			for (int i = 0 ; i < components.size() ; i++) {
+				sB.append(setOperatorAsString(components.get(i)));
+				if (i < components.size() - 1)
+					sB.append(System.lineSeparator());
+			}
+			return sB.toString();
 		}
-		sB.deleteCharAt(sB.length() - 1);
+		if (operator.isBlank())
+			return operator.getName() + " : inheritance";
+		BigDecimal approxInformativity = BigDecimal.valueOf(operator.getInformativity());
+		sB.append(operator.getName() + " : " + 
+				approxInformativity.round(new MathContext(3)).toString() + System.lineSeparator());
+		List<IProduction> productions = operator.operation();
+		for (int i = 0 ; i < productions.size() ; i++) {
+			sB.append(productions.get(i).toString());
+			if (i < productions.size() - 1)
+				sB.append(System.lineSeparator());
+		}
 		return sB.toString();
 	}
 
 	@Override
-	public InTree<ICategory, DefaultEdge> getCategoryTree() {
-		return categories;
+	public String getTFWithConjunctiveOperatorsAsDOTFile() {
+		DOTExporter<IState,IConjunctiveOperator> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
+		exporter.setVertexAttributeProvider((s) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(setIntentsAsString(s.getInputLanguage())));
+			return map;
+		});
+		exporter.setEdgeAttributeProvider((o) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(setOperatorAsString(o)));
+			return map;
+		});		
+		Writer writer = new StringWriter();
+		DirectedMultigraph<IState, IConjunctiveOperator> stateMachine = new DirectedMultigraph<>(null, null, false);
+		for (IState state : getStates())
+			stateMachine.addVertex(state);
+		for (IConjunctiveOperator operator : conjunctiveOperators)
+			stateMachine.addEdge(operator.getOperatingState(), operator.getNextState(), operator);
+		exporter.exportGraph(stateMachine, writer);
+		return writer.toString();
 	}
 
 }

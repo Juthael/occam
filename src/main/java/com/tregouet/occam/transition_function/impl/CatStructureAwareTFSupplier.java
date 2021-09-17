@@ -38,34 +38,58 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 		ite = representedCategories.iterator();
 	}
 
-	@Override
-	public ITransitionFunction getOptimalTransitionFunction() {
-		return representedCategories.first().getTransitionFunction();
+	private static List<Character> populateCharList(){
+		List<Character> authorizedCharASCII = new ArrayList<Character>();
+		for (char curr = 'A' ; curr <= 'Z' ; curr++) {
+			authorizedCharASCII.add(curr);
+		}
+		for (char curr = 945 ; curr <= 965 ; curr++) {
+			authorizedCharASCII.add(curr);
+		}
+		return authorizedCharASCII;
 	}
 
 	@Override
-	public void reset() {
-		ite = representedCategories.iterator();
-	}
-
-	@Override
-	public boolean hasNext() {
-		return ite.hasNext();
-	}
-
-	@Override
-	public IRepresentedCatTree next() {
-		return ite.next();
+	public String getDefinitionOfObjects() {
+		return ICatStructureAwareTFSupplier.getDefinitionOfObjects(objectCategoryToName);
 	}
 
 	@Override
 	public InTree<ICategory, DefaultEdge> getOptimalCategoryStructure() {
 		return representedCategories.first().getCategoryTree();
 	}
+
+	@Override
+	public ITransitionFunction getOptimalTransitionFunction() {
+		return representedCategories.first().getTransitionFunction();
+	}
+
+	@Override
+	public boolean hasNext() {
+		return ite.hasNext();
+	}
+	
+	@Override
+	public IRepresentedCatTree next() {
+		return ite.next();
+	}
+	
+	@Override
+	public void reset() {
+		ite = representedCategories.iterator();
+	}
+	
+	private char getNextChar() {
+		if (!charIte.hasNext()) {
+			charIte = populateCharList().iterator();
+			iterationsOverAlphabet++;
+		}
+		return charIte.next();
+	}	
 	
 	private void populateRepresentedCategories() {
 		while (categoryTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
+			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextWithTunnelCategoriesRemoved();
 			IRepresentedCatTree currCatTreeRepresentation = new RepresentedCatTree(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
@@ -85,25 +109,6 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 		}
 	}
 	
-	private static List<Character> populateCharList(){
-		List<Character> authorizedCharASCII = new ArrayList<Character>();
-		for (char curr = 'A' ; curr <= 'Z' ; curr++) {
-			authorizedCharASCII.add(curr);
-		}
-		for (char curr = 945 ; curr <= 965 ; curr++) {
-			authorizedCharASCII.add(curr);
-		}
-		return authorizedCharASCII;
-	}
-	
-	private char getNextChar() {
-		if (!charIte.hasNext()) {
-			charIte = populateCharList().iterator();
-			iterationsOverAlphabet++;
-		}
-		return charIte.next();
-	}	
-	
 	private String provideName() {
 		StringBuffer sB = new StringBuffer();
 		sB.append(getNextChar());
@@ -111,11 +116,6 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 			sB.append("'");
 		}
 		return sB.toString();
-	}
-	
-	@Override
-	public String getDefinitionOfObjects() {
-		return ICatStructureAwareTFSupplier.getDefinitionOfObjects(objectCategoryToName);
 	}	
 
 }

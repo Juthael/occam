@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
@@ -50,7 +49,6 @@ public class TransitionFunctionSupplierTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		TransitiveReduction.INSTANCE.reduce(constructs);
 	}
 
 	@Before
@@ -62,7 +60,7 @@ public class TransitionFunctionSupplierTest {
 	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfProductionsSourcesOrTargetsIsTreeOfCategories() {
 		boolean expectedSetOfCategories = true;
 		while (catTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> catTree = catTreeSupplier.next();
+			InTree<ICategory, DefaultEdge> catTree = catTreeSupplier.nextWithTunnelCategoriesRemoved();
 			Set<ICategory> expectedCats = catTree.vertexSet();
 			Set<ICategory> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
@@ -81,7 +79,7 @@ public class TransitionFunctionSupplierTest {
 	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfContainerCategoriesIsTreeOfCategories() {
 		boolean expectedSetOfCategories = true;
 		while (catTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> catTree = catTreeSupplier.next();
+			InTree<ICategory, DefaultEdge> catTree = catTreeSupplier.nextWithTunnelCategoriesRemoved();
 			Set<ICategory> expectedCats = catTree.vertexSet();
 			Set<ICategory> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
@@ -100,7 +98,7 @@ public class TransitionFunctionSupplierTest {
 		boolean sourceAndTargetCatsAreRelated = true;
 		int checkCount = 0;
 		while (catTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> catTree = catTreeSupplier.next();
+			InTree<ICategory, DefaultEdge> catTree = catTreeSupplier.nextWithTunnelCategoriesRemoved();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
@@ -114,17 +112,16 @@ public class TransitionFunctionSupplierTest {
 		assertTrue(sourceAndTargetCatsAreRelated && checkCount > 0);
 	}
 	
-	//HERE changer
 	@Test
 	public void whenConstructGraphFilteredByCategoryTreeThenOrderedSetOfConstructsIsARootedInvertedDAG() throws IOException {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
 		while (catTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			InTree<ICategory, DefaultEdge> catTree = catTreeSupplier.next();
+			InTree<ICategory, DefaultEdge> catTree = catTreeSupplier.nextWithTunnelCategoriesRemoved();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			try {
-				//safe constructor with USL check
+				//safe constructor
 				@SuppressWarnings("unused")
 				ITreeFinder<IIntentAttribute, IProduction> safeTreeFinder = new TreeFinder<>(filteredConstructs, true);
 				checkCount++;

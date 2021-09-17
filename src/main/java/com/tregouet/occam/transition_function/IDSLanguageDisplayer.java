@@ -6,6 +6,7 @@ public interface IDSLanguageDisplayer {
 	
 	String getOperatorsDescription();
 	
+	@Override
 	String toString();
 
 }

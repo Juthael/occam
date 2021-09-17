@@ -20,17 +20,23 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	ICompiler getCompiler();
 	
-	double getCost();
-	
 	IDSLanguageDisplayer getDomainSpecificLanguage();
 	
 	List<IState> getStates();
 	
 	String getTransitionFunctionAsDOTFile();
 	
+	String getTFWithConjunctiveOperatorsAsDOTFile();
+	
 	List<IOperator> getTransitions();
 	
 	@Override
 	int hashCode();
+	
+	ISimilarityCalculator getSimilarityCalculator();
+	
+	double getCoherenceScore();
+	
+	IInfoMeter getInfometer();
 
 }

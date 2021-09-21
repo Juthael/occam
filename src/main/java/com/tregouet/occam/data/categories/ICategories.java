@@ -20,6 +20,8 @@ public interface ICategories {
 	
 	ICategory getAbsurdity();
 	
+	DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice();
+	
 	ICatTreeSupplier getCatTreeSupplier();
 	
 	ICatTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint);
@@ -53,6 +55,6 @@ public interface ICategories {
 	
 	boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2);
 
-	DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice();
+	DirectedAcyclicGraph<ICategory, DefaultEdge> getTransitiveReduction();
 
 }

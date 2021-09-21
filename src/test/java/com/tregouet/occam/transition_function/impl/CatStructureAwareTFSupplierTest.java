@@ -57,7 +57,7 @@ public class CatStructureAwareTFSupplierTest {
 		IRepresentedCatTree representedCatTree;
 		/*
 		System.out.println(transFuncSupplier.getDefinitionOfObjects() + System.lineSeparator());
-		Visualizer.visualizeCategoryGraph(categories.getCategoryLattice(), "2109181035_CL");
+		Visualizer.visualizeCategoryGraph(categories.getTransitiveReduction(), "2109181035_CL");
 		*/
 		while (transFuncSupplier.hasNext()) {
 			representedCatTree = transFuncSupplier.next();

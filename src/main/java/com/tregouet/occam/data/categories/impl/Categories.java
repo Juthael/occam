@@ -26,30 +26,27 @@ import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.ISymbol;
 import com.tregouet.occam.data.constructs.impl.Construct;
-import com.tregouet.occam.data.constructs.impl.Terminal;
 import com.tregouet.occam.data.constructs.impl.Variable;
-import com.tregouet.subseq_finder.ISubseqFinder;
-import com.tregouet.subseq_finder.ISymbolSeq;
-import com.tregouet.subseq_finder.impl.SubseqFinder;
-import com.tregouet.subseq_finder.impl.SymbolSeq;
 
 public class Categories implements ICategories {
 	
 	private final List<IContextObject> objects;
-	private final DirectedAcyclicGraph<ICategory, DefaultEdge> hasseDiagram;
+	private final DirectedAcyclicGraph<ICategory, DefaultEdge> lattice;
+	private final DirectedAcyclicGraph<ICategory, DefaultEdge> transitiveReduction;
 	private final List<ICategory> topologicalOrder = new ArrayList<>();
 	private final ICategory ontologicalCommitment;
 	private final ICategory truism;
 	private final List<ICategory> objCategories = new ArrayList<>();
 	private final ICategory absurdity;
 	
+	@SuppressWarnings("unchecked")
 	public Categories(List<IContextObject> objects) {
 		this.objects = objects;
-		hasseDiagram = new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
-		buildDiagram();
+		lattice = new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
+		buildLattice();
 		ICategory truism = null;
 		ICategory absurdity = null;
-		for (ICategory category : hasseDiagram.vertexSet()) {
+		for (ICategory category : lattice.vertexSet()) {
 			switch(category.type()) {
 				case ICategory.TRUISM :
 					truism = category;
@@ -64,12 +61,11 @@ public class Categories implements ICategories {
 		}
 		this.truism = truism;
 		this.absurdity = absurdity;
-		ontologicalCommitment = instantiateOntologicalCommitment();
-		hasseDiagram.addVertex(ontologicalCommitment);
-		hasseDiagram.addEdge(truism, ontologicalCommitment);
-		TransitiveReduction.INSTANCE.reduce(hasseDiagram);
+		ontologicalCommitment = addOntologicalCommitmentToLattice();
 		updateCategoryRank(absurdity, 0);
-		TopologicalOrderIterator<ICategory, DefaultEdge> sorter = new TopologicalOrderIterator<>(hasseDiagram);
+		transitiveReduction = (DirectedAcyclicGraph<ICategory, DefaultEdge>) lattice.clone();
+		TransitiveReduction.INSTANCE.reduce(transitiveReduction);
+		TopologicalOrderIterator<ICategory, DefaultEdge> sorter = new TopologicalOrderIterator<>(transitiveReduction);
 		sorter.forEachRemaining(d -> topologicalOrder.add(d));
 	}
 
@@ -89,13 +85,9 @@ public class Categories implements ICategories {
 		return absurdity;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public ICatTreeSupplier getCatTreeSupplier() {
-		DirectedAcyclicGraph<ICategory, DefaultEdge> diagramWithoutAbsurdity = 
-				(DirectedAcyclicGraph<ICategory, DefaultEdge>) hasseDiagram.clone();
-		diagramWithoutAbsurdity.removeVertex(absurdity);
-		return new CatTreeSupplierDEPRECATED(diagramWithoutAbsurdity);
+		return new CatTreeSupplier(lattice);
 	}
 
 	@Override
@@ -121,8 +113,8 @@ public class Categories implements ICategories {
 	}
 
 	@Override
-	public DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice() {
-		return hasseDiagram;
+	public DirectedAcyclicGraph<ICategory, DefaultEdge> getTransitiveReduction() {
+		return transitiveReduction;
 	}
 
 	@Override
@@ -169,7 +161,8 @@ public class Categories implements ICategories {
 	public boolean isA(ICategory cat1, ICategory cat2) {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(cat1) < topologicalOrder.indexOf(cat2)) {
-			BreadthFirstIterator<ICategory, DefaultEdge> iterator = new BreadthFirstIterator<>(hasseDiagram, cat1);
+			BreadthFirstIterator<ICategory, DefaultEdge> iterator = 
+					new BreadthFirstIterator<>(transitiveReduction, cat1);
 			iterator.next();
 			while (!isA && iterator.hasNext())
 				isA = cat2.equals(iterator.next());
@@ -179,10 +172,10 @@ public class Categories implements ICategories {
 	
 	@Override
 	public boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2) {
-		return (hasseDiagram.getEdge(cat1, cat2) != null);
+		return (transitiveReduction.getEdge(cat1, cat2) != null);
 	}
 	
-	private void buildDiagram() {
+	private void buildLattice() {
 		Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents = buildIntentToExtentRel();
 		for (Entry<Set<IConstruct>, Set<IContextObject>> entry : intentsToExtents.entrySet()) {
 			ICategory category = new Category(entry.getKey(), entry.getValue());
@@ -199,17 +192,17 @@ public class Categories implements ICategories {
 			else {
 				category.setType(ICategory.ABSURDITY);
 			}
-			hasseDiagram.addVertex(category);
+			lattice.addVertex(category);
 		}
-		List<ICategory> catList = new ArrayList<>(hasseDiagram.vertexSet());
+		List<ICategory> catList = new ArrayList<>(lattice.vertexSet());
 		for (int i = 0 ; i < catList.size() - 1 ; i++) {
 			ICategory iCat = catList.get(i);
 			for (int j = i+1 ; j < catList.size() ; j++) {
 				ICategory jCat = catList.get(j);
 				if (iCat.getExtent().containsAll(jCat.getExtent()))
-					hasseDiagram.addEdge(jCat, iCat);
+					lattice.addEdge(jCat, iCat);
 				else if (jCat.getExtent().containsAll(iCat.getExtent()))
-					hasseDiagram.addEdge(iCat, jCat);
+					lattice.addEdge(iCat, jCat);
 			}
 		}
 	}
@@ -249,16 +242,20 @@ public class Categories implements ICategories {
 	    return powerSet;
 	}
 	
-	private ICategory instantiateOntologicalCommitment() {
+	private ICategory addOntologicalCommitmentToLattice() {
 		ICategory ontologicalCommitment;
 		ISymbol variable = new Variable(!AVariable.DEFERRED_NAMING);
-		List<ISymbol> acceptProg = new ArrayList<ISymbol>();
-		acceptProg.add(variable);
-		IConstruct acceptConstruct = new Construct(acceptProg);
-		Set<IConstruct> acceptIntent =  new HashSet<IConstruct>();
-		acceptIntent.add(acceptConstruct);
-		ontologicalCommitment = new Category(acceptIntent, new HashSet<IContextObject>(objects));
+		List<ISymbol> ocProg = new ArrayList<ISymbol>();
+		ocProg.add(variable);
+		IConstruct ocConstruct = new Construct(ocProg);
+		Set<IConstruct> ocIntent =  new HashSet<IConstruct>();
+		ocIntent.add(ocConstruct);
+		ontologicalCommitment = new Category(ocIntent, new HashSet<IContextObject>(objects));
 		ontologicalCommitment.setType(ICategory.ONTOLOGICAL_COMMITMENT);
+		Set<ICategory> latticeCategories = lattice.vertexSet();
+		lattice.addVertex(ontologicalCommitment);
+		for (ICategory lattCategory : latticeCategories)
+			lattice.addEdge(lattCategory, ontologicalCommitment);
 		return ontologicalCommitment;
 	}
 	
@@ -309,10 +306,15 @@ public class Categories implements ICategories {
 	private void updateCategoryRank(ICategory category, int rank) {
 		if (category.rank() < rank || category.type() == ICategory.ABSURDITY) {
 			category.setRank(rank);
-			for (ICategory successor : Graphs.successorListOf(hasseDiagram, category)) {
+			for (ICategory successor : Graphs.successorListOf(lattice, category)) {
 				updateCategoryRank(successor, rank + 1);
 			}
 		}
+	}
+
+	@Override
+	public DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice() {
+		return lattice;
 	}
 
 }

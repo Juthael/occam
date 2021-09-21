@@ -63,7 +63,7 @@ public class SimilarityCalculatorTest {
 		});
 		catTreeSupplier = categories.getCatTreeSupplier();
 		while (catTreeSupplier.hasNext()) {
-			catTree = catTreeSupplier.nextWithTunnelCategoriesRemoved();
+			catTree = catTreeSupplier.next();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			constrTreeSupplier = new IntentAttTreeSupplier(filtered_reduced_constructs);

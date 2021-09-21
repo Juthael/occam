@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.jgrapht.alg.util.Pair;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
@@ -53,7 +52,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 
 	private void populateTransitionFunctions() {
 		while (categoryTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextWithTunnelCategoriesRemoved();
+			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
 			Map<Integer, Set<Integer>> objCatIDToSuperCatsInCatTree = new HashMap<>();
 			for (ICategory objCat : currCatTree.getLeaves()) {
 				Set<Integer> objCatSuperCatsIDs = new HashSet<>();
@@ -66,16 +65,14 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 			IIntentAttTreeSupplier attTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);
 			while (attTreeSupplier.hasNext()) {
 				InTree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
-				if (descriptionOfAnObjectDoesNotByPassAnyOfItsSuperCategories(objCatIDToSuperCatsInCatTree, attTree)) {
-					ITransitionFunction transitionFunction = new TransitionFunction(
-							categories.getContextObjects(), categories.getObjectCategories(), 
-							currCatTree, attTree);
-					if (transitionFunctions.size() <= MAX_CAPACITY)
-						transitionFunctions.add(transitionFunction);
-					else if (transitionFunction.getCoherenceScore() > transitionFunctions.last().getCoherenceScore()) {
-						transitionFunctions.add(transitionFunction);
-						transitionFunctions.pollLast();
-					}
+				ITransitionFunction transitionFunction = new TransitionFunction(
+						categories.getContextObjects(), categories.getObjectCategories(), 
+						currCatTree, attTree);
+				if (transitionFunctions.size() <= MAX_CAPACITY)
+					transitionFunctions.add(transitionFunction);
+				else if (transitionFunction.getCoherenceScore() > transitionFunctions.last().getCoherenceScore()) {
+					transitionFunctions.add(transitionFunction);
+					transitionFunctions.pollLast();
 				}
 			}
 		}

@@ -24,7 +24,6 @@ import com.tregouet.occam.data.categories.ICatTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.CatTreeSupplierDEPRECATED;
 import com.tregouet.occam.data.categories.impl.Categories;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
@@ -75,7 +74,7 @@ public class TransitionFunctionTest {
 		});
 		catTreeSupplier = categories.getCatTreeSupplier();
 		while (catTreeSupplier.hasNext()) {
-			catTree = catTreeSupplier.nextWithTunnelCategoriesRemoved();
+			catTree = catTreeSupplier.next();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			constrTreeSupplier = new IntentAttTreeSupplier(filtered_reduced_constructs);
@@ -273,7 +272,7 @@ public class TransitionFunctionTest {
 	
 	private static void visualize(String timestamp) throws IOException {
 		Categories castcats = (Categories) categories;
-		Visualizer.visualizeCategoryGraph(castcats.getCategoryLattice(), timestamp + "categories");
+		Visualizer.visualizeCategoryGraph(castcats.getTransitiveReduction(), timestamp + "categories");
 		Visualizer.visualizeCategoryGraph(catTree, timestamp + "_cat_tree");
 		Visualizer.visualizeAttributeGraph(constructs, timestamp + "_constructs");
 		Visualizer.visualizeAttributeGraph(filtered_reduced_constructs, timestamp + "_filtered_red_const");

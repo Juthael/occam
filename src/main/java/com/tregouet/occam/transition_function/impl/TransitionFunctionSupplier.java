@@ -93,23 +93,5 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	private static boolean isA(ICategory cat1, ICategory cat2, InTree<ICategory, DefaultEdge> tree) {
 		return tree.getDescendants(cat1).contains(cat2);
 	}
-	
-	protected static boolean descriptionOfAnObjectDoesNotByPassAnyOfItsSuperCategories(
-			Map<Integer, Set<Integer>> objCatIDToSuperCatsInCatTree, 
-			InTree<IIntentAttribute, IProduction> attTree) {
-		Map<Integer, Set<Integer>> objCatIDToSuperCatsInAttTree = new HashMap<>();
-		for (IIntentAttribute attLeaf : attTree.getLeaves()) {
-			Integer attLeafCatID = (Integer) attLeaf.getCategory().getID();
-			Set<Integer> attLeafSuperCategoryIDs = new HashSet<>();
-			for (IIntentAttribute abstractAtt : attTree.getDescendants(attLeaf)) {
-				attLeafSuperCategoryIDs.add((Integer) abstractAtt.getCategory().getID());
-			}
-			if (objCatIDToSuperCatsInAttTree.containsKey(attLeafCatID)) {
-				objCatIDToSuperCatsInAttTree.get(attLeafCatID).addAll(attLeafSuperCategoryIDs);
-			}
-			else objCatIDToSuperCatsInAttTree.put(attLeafCatID, attLeafSuperCategoryIDs);
-		}
-		return objCatIDToSuperCatsInCatTree.equals(objCatIDToSuperCatsInAttTree);		
-	}
 
 }

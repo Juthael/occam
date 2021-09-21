@@ -39,7 +39,6 @@ public class Categories implements ICategories {
 	private final DirectedAcyclicGraph<ICategory, DefaultEdge> hasseDiagram;
 	private final List<ICategory> topologicalOrder = new ArrayList<>();
 	private final ICategory ontologicalCommitment;
-	private final ICategory truismAboutTruism;
 	private final ICategory truism;
 	private final List<ICategory> objCategories = new ArrayList<>();
 	private final ICategory absurdity;
@@ -66,8 +65,8 @@ public class Categories implements ICategories {
 		this.truism = truism;
 		this.absurdity = absurdity;
 		ontologicalCommitment = instantiateOntologicalCommitment();
-		truismAboutTruism = instantiateTruismAboutTruism();
-		addTrAbTrAndOntologicalCommitmentToRelation();
+		hasseDiagram.addVertex(ontologicalCommitment);
+		hasseDiagram.addEdge(truism, ontologicalCommitment);
 		TransitiveReduction.INSTANCE.reduce(hasseDiagram);
 		updateCategoryRank(absurdity, 0);
 		TopologicalOrderIterator<ICategory, DefaultEdge> sorter = new TopologicalOrderIterator<>(hasseDiagram);
@@ -167,11 +166,6 @@ public class Categories implements ICategories {
 	}	
 	
 	@Override
-	public ICategory getTruismAboutTruism() {
-		return truismAboutTruism;
-	}
-	
-	@Override
 	public boolean isA(ICategory cat1, ICategory cat2) {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(cat1) < topologicalOrder.indexOf(cat2)) {
@@ -186,13 +180,6 @@ public class Categories implements ICategories {
 	@Override
 	public boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2) {
 		return (hasseDiagram.getEdge(cat1, cat2) != null);
-	}
-	
-	private void addTrAbTrAndOntologicalCommitmentToRelation() {
-		hasseDiagram.addVertex(truismAboutTruism);
-		hasseDiagram.addEdge(truism, truismAboutTruism);
-		hasseDiagram.addVertex(ontologicalCommitment);
-		hasseDiagram.addEdge(truismAboutTruism, ontologicalCommitment);
 	}
 	
 	private void buildDiagram() {
@@ -273,43 +260,6 @@ public class Categories implements ICategories {
 		ontologicalCommitment = new Category(acceptIntent, new HashSet<IContextObject>(objects));
 		ontologicalCommitment.setType(ICategory.ONTOLOGICAL_COMMITMENT);
 		return ontologicalCommitment;
-	}
-
-	private ICategory instantiateTruismAboutTruism() {
-		ICategory truismAboutTruism;
-		Set<IConstruct> preAccIntent = new HashSet<IConstruct>();
-		Set<IConstruct> lattMaxIntent = new HashSet<>(truism.getIntent());
-		List<ISymbolSeq> lattMaxSymbolSeq = new ArrayList<ISymbolSeq>();
-		for (IConstruct construct : lattMaxIntent) {
-			lattMaxSymbolSeq.add(new SymbolSeq(construct.toListOfStringsWithPlaceholders()));
-		}
-		ISubseqFinder subseqFinder = new SubseqFinder(lattMaxSymbolSeq);
-		Set<ISymbolSeq> maxCommonSubsqs = subseqFinder.getMaxCommonSubseqs();
-		for (ISymbolSeq subsq : maxCommonSubsqs) {
-			List<ISymbol> preAccSymList = new ArrayList<ISymbol>();
-			boolean lastSymStringWasPlaceholder = false;
-			for (String symString : subsq.getStringSequence()) {
-				if (symString.equals(ISymbolSeq.PLACEHOLDER)) {
-					if (lastSymStringWasPlaceholder) {
-						//do nothing. No use in consecutive placeholders.
-					}
-					else {
-						preAccSymList.add(new Variable(AVariable.DEFERRED_NAMING));
-						lastSymStringWasPlaceholder = true;
-					}
-				}
-				else {
-					preAccSymList.add(new Terminal(symString));
-					lastSymStringWasPlaceholder = false;
-				}
-			}
-			preAccIntent.add(new Construct(preAccSymList));
-		}
-		for (IConstruct construct : preAccIntent)
-			construct.nameVariables();
-		truismAboutTruism = new Category(preAccIntent, new HashSet<IContextObject>(objects));
-		truismAboutTruism.setType(ICategory.TRUISM_TRUISM);
-		return truismAboutTruism;
 	}
 	
 	private List<ICategory> removeSubCategories(Set<ICategory> categories) {

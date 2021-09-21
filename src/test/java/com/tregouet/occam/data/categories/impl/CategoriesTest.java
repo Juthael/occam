@@ -52,19 +52,16 @@ public class CategoriesTest {
 	public void whenCategoriesReturnedThenContains1Absurdity1Truism1TruismAboutTruism1Commitment() {
 		int nbOfAbsurdity = 0;
 		int nbOfTruism = 0;
-		int nbOfTruismTruism = 0;
 		int nbOfCommitments = 0;
 		for (ICategory cat : categories.getTopologicalSorting()) {
 			if (cat.type() == ICategory.ABSURDITY)
 				nbOfAbsurdity++;
 			else if (cat.type() == ICategory.TRUISM)
 				nbOfTruism++;
-			else if (cat.type() == ICategory.TRUISM_TRUISM)
-				nbOfTruismTruism++;
 			else if (cat.type() == ICategory.ONTOLOGICAL_COMMITMENT)
 				nbOfCommitments++;
 		}
-		assertTrue(nbOfAbsurdity == 1 && nbOfTruism == 1 && nbOfTruismTruism ==1 && nbOfCommitments == 1);
+		assertTrue(nbOfAbsurdity == 1 && nbOfTruism == 1 && nbOfCommitments == 1);
 	}	
 
 	@Test
@@ -76,10 +73,9 @@ public class CategoriesTest {
 	}
 	
 	@Test
-	public void whenCategoriesReturnedThenTruismAndTruismAboutTruismAndCommitmentHaveSameExtent() {
+	public void whenCategoriesReturnedThenTruismAndCommitmentHaveSameExtent() {
 		Set<Set<IContextObject>> extents = new HashSet<>();
 		extents.add(categories.getTruism().getExtent());
-		extents.add(categories.getTruismAboutTruism().getExtent());
 		extents.add(categories.getOntologicalCommitment().getExtent());
 		assertTrue(extents.size() == 1);
 	}
@@ -102,7 +98,6 @@ public class CategoriesTest {
 		ICategory cat01 = categories.getCatWithExtent(extent01);
 		ICategory cat123 = categories.getCatWithExtent(extent123);
 		ICategory truism = categories.getTruism();
-		ICategory truismTruism = categories.getTruismAboutTruism();
 		ICategory commitment = categories.getOntologicalCommitment();
 		assertTrue(absurdity.rank() == 0
 				&& cat0.rank() == 1
@@ -113,8 +108,7 @@ public class CategoriesTest {
 				&& cat01.rank() == 2
 				&& cat123.rank() == 2
 				&& truism.rank() == 3
-				&& truismTruism.rank() == 4
-				&& commitment.rank() == 5);
+				&& commitment.rank() == 4);
 	}	
 	
 	@Test
@@ -185,7 +179,6 @@ public class CategoriesTest {
 		ICategory cat01 = categories.getCatWithExtent(extent01);
 		ICategory cat123 = categories.getCatWithExtent(extent123);
 		ICategory truism = categories.getTruism();
-		ICategory truismTruism = categories.getTruismAboutTruism();
 		ICategory commitment = categories.getOntologicalCommitment();
 		assertTrue(
 				categories.isADirectSubordinateOf(absurdity, cat0)
@@ -202,10 +195,9 @@ public class CategoriesTest {
 				&& categories.isADirectSubordinateOf(cat02, truism)
 				&& categories.isADirectSubordinateOf(cat01, truism)
 				&& categories.isADirectSubordinateOf(cat123, truism)
-				&& categories.isADirectSubordinateOf(truism, truismTruism)
-				&& categories.isADirectSubordinateOf(truismTruism, commitment)
+				&& categories.isADirectSubordinateOf(truism, commitment)
 				&& !categories.isADirectSubordinateOf(cat0, truism)
-				&& !categories.isADirectSubordinateOf(cat02, truismTruism)
+				&& !categories.isADirectSubordinateOf(cat02, commitment)
 				&& !categories.isADirectSubordinateOf(cat02, cat0));
 	}
 	
@@ -217,16 +209,10 @@ public class CategoriesTest {
 			for (int j = 0 ; j < catList.size() ; j++) {
 				ICategory catJ = catList.get(j);
 				if (categories.isA(catI, catJ)) {
-					if (!catJ.getExtent().containsAll(catI.getExtent()))
+					if (!catJ.getExtent().containsAll(catI.getExtent())
+							&& catI.type() != ICategory.TRUISM
+							&& catJ.type() != ICategory.ONTOLOGICAL_COMMITMENT)
 							assertTrue(false);
-				}
-				else if (!catI.equals(categories.getTruismAboutTruism())
-						&& !catI.equals(categories.getOntologicalCommitment())
-						&& !catJ.equals(categories.getTruismAboutTruism())
-						&& !catJ.equals(categories.getOntologicalCommitment())
-						&& !catI.equals(catJ)){
-					if (catJ.getExtent().containsAll(catI.getExtent()))
-						assertTrue(false);
 				}
 			}
 		}

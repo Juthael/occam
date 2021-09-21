@@ -12,9 +12,8 @@ public interface ICategory {
 	public static final int ABSURDITY = 0;
 	public static final int OBJECT = 1;
 	public static final int SUBSET_CAT = 2;
-	public static final int TRUISM_TRUISM = 3;
-	public static final int TRUISM = 4;
-	public static final int ONTOLOGICAL_COMMITMENT = 5;
+	public static final int TRUISM = 3;
+	public static final int ONTOLOGICAL_COMMITMENT = 4;
 	
 	@Override
 	boolean equals(Object obj);

@@ -13,7 +13,6 @@ public interface IState {
 	static final int OBJ_STATE = ICategory.OBJECT;
 	static final int CAT_STATE = ICategory.SUBSET_CAT;
 	static final int TRUISM_STATE = ICategory.TRUISM;
-	static final int PREACCEPT_STATE = ICategory.TRUISM_TRUISM;
 	static final int ACCEPT_STATE = ICategory.ONTOLOGICAL_COMMITMENT;
 	
 	boolean acceptInput(ITapeSet tapeSet);

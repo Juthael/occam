@@ -43,8 +43,6 @@ public interface ICategories {
 	
 	ICategory getTruism();
 	
-	ICategory getTruismAboutTruism();
-	
 	/**
 	 * Not a reflexive relation
 	 * @param cat1

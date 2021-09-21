@@ -55,14 +55,14 @@ public class CatStructureAwareTFSupplierTest {
 		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(categories, constructs);
 		List<Double> coherenceScores = new ArrayList<>();
 		IRepresentedCatTree representedCatTree;
-		
+		/*
 		System.out.println(transFuncSupplier.getDefinitionOfObjects() + System.lineSeparator());
 		Visualizer.visualizeCategoryGraph(categories.getCategoryLattice(), "2109181035_CL");
-		
+		*/
 		while (transFuncSupplier.hasNext()) {
 			representedCatTree = transFuncSupplier.next();
 			coherenceScores.add(representedCatTree.getCoherenceScore());
-			
+			/*
 			System.out.println("***Transition Function N° " + Integer.toString(idx) + " : " 
 					+ Double.toString(representedCatTree.getCoherenceScore()));			
 			Visualizer.visualizeCategoryGraph(representedCatTree.getCategoryTree(), 
@@ -75,6 +75,7 @@ public class CatStructureAwareTFSupplierTest {
 					representedCatTree.getTransitionFunction(), 
 					"2109181035_TF_NoConj" + Integer.toString(idx), 
 					false);
+			*/
 			idx++;
 		}
 		for (int i = 0 ; i < coherenceScores.size() - 1 ; i++) {

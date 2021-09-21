@@ -1,8 +1,13 @@
 package com.tregouet.occam.transition_function.impl;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
+import org.jgrapht.alg.util.Pair;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
@@ -49,18 +54,28 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private void populateTransitionFunctions() {
 		while (categoryTreeSupplier.hasNext()) {
 			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextWithTunnelCategoriesRemoved();
+			Map<Integer, Set<Integer>> objCatIDToSuperCatsInCatTree = new HashMap<>();
+			for (ICategory objCat : currCatTree.getLeaves()) {
+				Set<Integer> objCatSuperCatsIDs = new HashSet<>();
+				for (ICategory objCatSuperCat : currCatTree.getDescendants(objCat))
+					objCatSuperCatsIDs.add((Integer) objCatSuperCat.getID());
+				objCatIDToSuperCatsInCatTree.put((Integer) objCat.getID(), objCatSuperCatsIDs);
+			}
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
 			IIntentAttTreeSupplier attTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);
 			while (attTreeSupplier.hasNext()) {
-				ITransitionFunction transitionFunction = new TransitionFunction(
-						categories.getContextObjects(), categories.getObjectCategories(), 
-						currCatTree, attTreeSupplier.next());
-				if (transitionFunctions.size() <= MAX_CAPACITY)
-					transitionFunctions.add(transitionFunction);
-				else if (transitionFunction.getCoherenceScore() < transitionFunctions.last().getCoherenceScore()) {
-					transitionFunctions.add(transitionFunction);
-					transitionFunctions.pollLast();
+				InTree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
+				if (descriptionOfAnObjectDoesNotByPassAnyOfItsSuperCategories(objCatIDToSuperCatsInCatTree, attTree)) {
+					ITransitionFunction transitionFunction = new TransitionFunction(
+							categories.getContextObjects(), categories.getObjectCategories(), 
+							currCatTree, attTree);
+					if (transitionFunctions.size() <= MAX_CAPACITY)
+						transitionFunctions.add(transitionFunction);
+					else if (transitionFunction.getCoherenceScore() > transitionFunctions.last().getCoherenceScore()) {
+						transitionFunctions.add(transitionFunction);
+						transitionFunctions.pollLast();
+					}
 				}
 			}
 		}

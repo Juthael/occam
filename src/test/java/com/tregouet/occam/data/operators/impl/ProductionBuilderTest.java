@@ -27,7 +27,7 @@ import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ICompositeProduction;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.utils.Visualizer;
+import com.tregouet.occam.io.output.utils.Visualizer;
 
 @SuppressWarnings("unused")
 public class ProductionBuilderTest {

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -19,10 +20,9 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
-import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.occam.utils.Visualizer;
 
 public class CatStructureAwareTFSupplierTest {
 	
@@ -49,43 +49,39 @@ public class CatStructureAwareTFSupplierTest {
 	}
 
 	@Test
-	public void whenRequestedThenReturnsRepresentedCatStructuresInIncreasingCostOrder() throws IOException {
+	public void whenRequestedThenReturnsRepresentedCatStructuresInDecreasingCoherenceOrder() throws IOException {
 		boolean increasingOrder = true;
-		int checkCount = 1;
-		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(categories, constructs);
-		/*
-		System.out.println(transFuncSupplier.getDefinitionOfObjects() + System.lineSeparator());
-		*/
-		IRepresentedCatTree representedCatTree = transFuncSupplier.next();
-		double prevCost = representedCatTree.getCost();
-		/*
 		int idx = 0;
-		visualize(representedCatTree, idx);
-		*/
+		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(categories, constructs);
+		List<Double> coherenceScores = new ArrayList<>();
+		IRepresentedCatTree representedCatTree;
+		
+		System.out.println(transFuncSupplier.getDefinitionOfObjects() + System.lineSeparator());
+		Visualizer.visualizeCategoryGraph(categories.getCategoryLattice(), "2109181035_CL");
+		
 		while (transFuncSupplier.hasNext()) {
-			representedCatTree = transFuncSupplier.next();			
-			double nextCost = representedCatTree.getCost();
-			/*
+			representedCatTree = transFuncSupplier.next();
+			coherenceScores.add(representedCatTree.getCoherenceScore());
+			
+			System.out.println("***Transition Function N° " + Integer.toString(idx) + " : " 
+					+ Double.toString(representedCatTree.getCoherenceScore()));			
+			Visualizer.visualizeCategoryGraph(representedCatTree.getCategoryTree(), 
+					"2109181035_CT_" + Integer.toString(idx));
+			Visualizer.visualizeTransitionFunction(
+					representedCatTree.getTransitionFunction(), 
+					"2109181035_TF" + Integer.toString(idx), 
+					true);
+			Visualizer.visualizeTransitionFunction(
+					representedCatTree.getTransitionFunction(), 
+					"2109181035_TF_NoConj" + Integer.toString(idx), 
+					false);
 			idx++;
-			visualize(representedCatTree, idx);
-			*/
-			if (nextCost < prevCost)
-				increasingOrder = false;
-			prevCost = nextCost;
-			checkCount ++;
 		}
-		assertTrue(increasingOrder && checkCount > 0);
-	}
-	
-	@SuppressWarnings("unused")
-	private void visualize(IRepresentedCatTree representedCatTree, int index) throws IOException {
-		System.out.println("********************************");
-		System.out.println(representedCatTree.getExtentStructureAsString() 
-				+ " : " 
-				+ Double.toString(representedCatTree.getCost()));
-		ITransitionFunction tF = representedCatTree.getTransitionFunction();
-		System.out.println(tF.getDomainSpecificLanguage().toString());
-		Visualizer.visualizeTransitionFunction(tF, "TF_" + Integer.toString(index), false);
+		for (int i = 0 ; i < coherenceScores.size() - 1 ; i++) {
+			if (coherenceScores.get(i) < coherenceScores.get(i + 1))
+				increasingOrder = false;
+		}
+		assertTrue(increasingOrder && idx > 0);
 	}
 
 }

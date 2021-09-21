@@ -54,7 +54,13 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 
 	@Override
 	public boolean isBlank() {
-		return false;
+		boolean isBlank = operators.get(0).isBlank();
+		int opIdx = 1;
+		while (isBlank && opIdx < operators.size()) {
+			isBlank = operators.get(opIdx).isBlank();
+			opIdx++;
+		}
+		return isBlank;
 	}
 
 	@Override

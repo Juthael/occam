@@ -10,7 +10,7 @@ public interface IRepresentedCatTree extends Comparable<IRepresentedCatTree> {
 	
 	InTree<ICategory, DefaultEdge> getCategoryTree();
 	
-	double getCost();
+	double getCoherenceScore();
 	
 	String getDefinitionOfObjects();
 	

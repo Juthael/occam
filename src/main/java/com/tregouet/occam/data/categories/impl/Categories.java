@@ -121,8 +121,8 @@ public class Categories implements ICategories {
 		return objects;
 	}
 
-	//for test use
-	public DirectedAcyclicGraph<ICategory, DefaultEdge> getGraph() {
+	@Override
+	public DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice() {
 		return hasseDiagram;
 	}
 

@@ -309,4 +309,9 @@ public class TransitionFunction implements ITransitionFunction {
 		return writer.toString();
 	}
 
+	@Override
+	public List<IConjunctiveOperator> getConjunctiveTransitions() {
+		return conjunctiveOperators;
+	}
+
 }

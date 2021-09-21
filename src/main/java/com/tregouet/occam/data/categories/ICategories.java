@@ -3,6 +3,9 @@ package com.tregouet.occam.data.categories;
 import java.util.List;
 import java.util.Set;
 
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DirectedAcyclicGraph;
+
 import com.tregouet.occam.data.constructs.IContextObject;
 
 public interface ICategories {
@@ -51,5 +54,7 @@ public interface ICategories {
 	boolean isA(ICategory cat1, ICategory cat2);
 	
 	boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2);
+
+	DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice();
 
 }

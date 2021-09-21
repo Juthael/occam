@@ -1,4 +1,4 @@
-package com.tregouet.occam.utils;
+package com.tregouet.occam.io.output.utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +29,11 @@ public class Visualizer {
 	public static void visualizeCategoryGraph(DirectedAcyclicGraph<ICategory, DefaultEdge> graph, String fileName) throws IOException {
 		//convert in DOT format
 		DOTExporter<ICategory,DefaultEdge> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(v.toString()));
@@ -48,6 +53,11 @@ public class Visualizer {
 	public static void visualizeAttributeGraph(DirectedAcyclicGraph<IIntentAttribute, IProduction> graph, String fileName) throws IOException {
 		//convert in DOT format
 		DOTExporter<IIntentAttribute,IProduction> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(v.toString()));
@@ -82,6 +92,11 @@ public class Visualizer {
 	public static void visualizeWeightedTransitionsGraph(SparseIntDirectedWeightedGraph graph, String fileName) throws IOException {
 		//convert in DOT format
 		DOTExporter<Integer, Integer> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(v.toString()));

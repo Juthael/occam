@@ -84,6 +84,8 @@ public class InfoMeter implements IInfoMeter {
 	}
 	
 	private double calculatePropertyInformativity(IOperator property) {
+		if (property.isBlank())
+			return 0.0;
 		return amountOfSurprise(property) * diagnosticity(property);
 	}
 	

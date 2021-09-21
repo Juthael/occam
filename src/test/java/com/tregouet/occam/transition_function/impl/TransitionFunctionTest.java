@@ -36,10 +36,10 @@ import com.tregouet.occam.data.operators.impl.BasicProduction;
 import com.tregouet.occam.data.operators.impl.BlankProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
 import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.occam.utils.Visualizer;
 import com.tregouet.tree_finder.data.InTree;
 import com.tregouet.tree_finder.error.InvalidSemiLatticeException;
 
@@ -273,7 +273,7 @@ public class TransitionFunctionTest {
 	
 	private static void visualize(String timestamp) throws IOException {
 		Categories castcats = (Categories) categories;
-		Visualizer.visualizeCategoryGraph(castcats.getGraph(), timestamp + "categories");
+		Visualizer.visualizeCategoryGraph(castcats.getCategoryLattice(), timestamp + "categories");
 		Visualizer.visualizeCategoryGraph(catTree, timestamp + "_cat_tree");
 		Visualizer.visualizeAttributeGraph(constructs, timestamp + "_constructs");
 		Visualizer.visualizeAttributeGraph(filtered_reduced_constructs, timestamp + "_filtered_red_const");

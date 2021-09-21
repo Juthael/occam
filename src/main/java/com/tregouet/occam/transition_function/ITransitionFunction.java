@@ -6,6 +6,7 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.compiler.ICompiler;
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.tree_finder.data.InTree;
 
@@ -29,6 +30,8 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	String getTFWithConjunctiveOperatorsAsDOTFile();
 	
 	List<IOperator> getTransitions();
+	
+	List<IConjunctiveOperator> getConjunctiveTransitions();
 	
 	@Override
 	int hashCode();

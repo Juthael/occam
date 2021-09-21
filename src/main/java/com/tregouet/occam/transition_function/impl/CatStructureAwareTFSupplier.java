@@ -2,11 +2,14 @@ package com.tregouet.occam.transition_function.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
 
+import org.jgrapht.alg.util.Pair;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
@@ -14,6 +17,7 @@ import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
@@ -88,21 +92,46 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	}	
 	
 	private void populateRepresentedCategories() {
+		//HERE
+		int errorIndex = 0;
+		//HERE
 		while (categoryTreeSupplier.hasNext()) {
 			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextWithTunnelCategoriesRemoved();
+			Map<Integer, Set<Integer>> objCatIDToSuperCatsInCatTree = new HashMap<>();
+			for (ICategory objCat : currCatTree.getLeaves()) {
+				Set<Integer> objCatSuperCatsIDs = new HashSet<>();
+				for (ICategory objCatSuperCat : currCatTree.getDescendants(objCat))
+					objCatSuperCatsIDs.add((Integer) objCatSuperCat.getID());
+				objCatIDToSuperCatsInCatTree.put((Integer) objCat.getID(), objCatSuperCatsIDs);
+			}
 			IRepresentedCatTree currCatTreeRepresentation = new RepresentedCatTree(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
 			IIntentAttTreeSupplier attTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);
 			while (attTreeSupplier.hasNext()) {
-				ITransitionFunction transitionFunction = new TransitionFunction(
-						categories.getContextObjects(), categories.getObjectCategories(), 
-						currCatTree, attTreeSupplier.next());
-				currCatTreeRepresentation.testAlternativeRepresentation(transitionFunction);
+				InTree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
+				if (descriptionOfAnObjectDoesNotByPassAnyOfItsSuperCategories(objCatIDToSuperCatsInCatTree, attTree)) {
+					ITransitionFunction transitionFunction = new TransitionFunction(
+							categories.getContextObjects(), categories.getObjectCategories(), 
+							currCatTree, attTree);
+					currCatTreeRepresentation.testAlternativeRepresentation(transitionFunction);
+				}
+				/*
+				else {
+					System.out.println("HERE");
+					try {
+						Visualizer.visualizeCategoryGraph(currCatTree, "210918_errorSearch_CT");
+						Visualizer.visualizeAttributeGraph(attTree, "210918_errorSearch_AT" + Integer.toString(errorIndex++));
+					}
+					catch (Exception e) {
+						System.out.println("error");
+					};
+				}
+				*/
 			}
 			if (representedCategories.size() <= MAX_CAPACITY)
 				representedCategories.add(currCatTreeRepresentation);
-			else if (currCatTreeRepresentation.getCost() < representedCategories.last().getCost()) {
+			else if (currCatTreeRepresentation.getCoherenceScore() > representedCategories.last().getCoherenceScore()) {
 				representedCategories.add(currCatTreeRepresentation);
 				representedCategories.pollLast();
 			}

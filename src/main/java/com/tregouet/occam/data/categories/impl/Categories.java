@@ -95,7 +95,7 @@ public class Categories implements ICategories {
 		DirectedAcyclicGraph<ICategory, DefaultEdge> diagramWithoutAbsurdity = 
 				(DirectedAcyclicGraph<ICategory, DefaultEdge>) hasseDiagram.clone();
 		diagramWithoutAbsurdity.removeVertex(absurdity);
-		return new CatTreeSupplier(diagramWithoutAbsurdity);
+		return new CatTreeSupplierDEPRECATED(diagramWithoutAbsurdity);
 	}
 
 	@Override

@@ -46,7 +46,8 @@ public class TransitionFunction implements ITransitionFunction {
 	private final ISimilarityCalculator similarityCalc;
 	
 	public TransitionFunction(List<IContextObject> objects, List<ICategory> objectCategories, 
-			InTree<ICategory, DefaultEdge> categories, InTree<IIntentAttribute, IProduction> constructs) {
+			InTree<ICategory, DefaultEdge> categories, 
+			InTree<IIntentAttribute, IProduction> constructs) {
 		IOperator.initializeNameProvider();
 		IConjunctiveOperator.initializeNameProvider();
 		this.objects = objects;

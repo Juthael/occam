@@ -24,7 +24,7 @@ import com.tregouet.occam.data.categories.ICatTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.CatTreeSupplier;
+import com.tregouet.occam.data.categories.impl.CatTreeSupplierDEPRECATED;
 import com.tregouet.occam.data.categories.impl.Categories;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;

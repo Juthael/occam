@@ -17,7 +17,7 @@ import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
-import com.tregouet.occam.data.categories.ICatTreeWithConstrainedExtentStructureSupplier;
+import com.tregouet.occam.data.categories.IClassTreeWithConstrainedExtentStructureSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
@@ -91,7 +91,7 @@ public class Categories implements ICategories {
 	}
 
 	@Override
-	public ICatTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint) {
+	public IClassTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint) {
 		// TODO Auto-generated method stub
 		return null;
 	}

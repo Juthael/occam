@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.categories;
 
-public interface ICatTreeWithConstrainedExtentStructureSupplier extends IClassificationTreeSupplier {
+public interface IClassTreeWithConstrainedExtentStructureSupplier extends IClassificationTreeSupplier {
 	
 	@Override
 	public int hashCode();

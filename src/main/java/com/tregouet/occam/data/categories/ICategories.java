@@ -24,7 +24,7 @@ public interface ICategories {
 	
 	IClassificationTreeSupplier getCatTreeSupplier();
 	
-	ICatTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint);
+	IClassTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint);
 	
 	/**
 	 * If param contains every object in the context, then return truism

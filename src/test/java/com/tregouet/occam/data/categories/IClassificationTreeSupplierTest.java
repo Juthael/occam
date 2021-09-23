@@ -14,12 +14,12 @@ import com.tregouet.occam.data.categories.impl.Categories;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
-public class ICatTreeSupplierTest {
+public class IClassificationTreeSupplierTest {
 
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private ICategories categories;
-	private ICatTreeSupplier treeSupplier;
+	private IClassificationTreeSupplier treeSupplier;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

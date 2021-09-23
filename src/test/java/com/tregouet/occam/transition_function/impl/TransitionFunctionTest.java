@@ -20,7 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.sun.source.tree.AssertTree;
-import com.tregouet.occam.data.categories.ICatTreeSupplier;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
@@ -55,7 +55,7 @@ public class TransitionFunctionTest {
 	private static ICategories categories;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private static ICatTreeSupplier catTreeSupplier;
+	private static IClassificationTreeSupplier classificationTreeSupplier;
 	private static InTree<ICategory, DefaultEdge> catTree;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private static IIntentAttTreeSupplier constrTreeSupplier;
@@ -72,9 +72,9 @@ public class TransitionFunctionTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		catTreeSupplier = categories.getCatTreeSupplier();
-		while (catTreeSupplier.hasNext()) {
-			catTree = catTreeSupplier.next();
+		classificationTreeSupplier = categories.getCatTreeSupplier();
+		while (classificationTreeSupplier.hasNext()) {
+			catTree = classificationTreeSupplier.next();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			constrTreeSupplier = new IntentAttTreeSupplier(filtered_reduced_constructs);

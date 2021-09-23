@@ -4,7 +4,7 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.tree_finder.ITreeFinder;
 
-public interface ICatTreeSupplier extends ITreeFinder<ICategory, DefaultEdge> {
+public interface IClassificationTreeSupplier extends ITreeFinder<ICategory, DefaultEdge> {
 	
 	@Override
 	public int hashCode();

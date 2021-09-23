@@ -22,7 +22,7 @@ public interface ICategories {
 	
 	DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice();
 	
-	ICatTreeSupplier getCatTreeSupplier();
+	IClassificationTreeSupplier getCatTreeSupplier();
 	
 	ICatTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint);
 	

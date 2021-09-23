@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.ICatTreeSupplier;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.impl.Categories;
@@ -31,7 +31,7 @@ public class CatTreeToStringConvertorTest {
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private static ICategories categories;
-	private static ICatTreeSupplier catTreeSupplier;
+	private static IClassificationTreeSupplier classificationTreeSupplier;
 	private static Map<ICategory, String> objCatToName = new HashMap<>();
 	
 	@BeforeClass
@@ -46,7 +46,7 @@ public class CatTreeToStringConvertorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		catTreeSupplier = categories.getCatTreeSupplier();
+		classificationTreeSupplier = categories.getCatTreeSupplier();
 	}
 
 	@Test
@@ -59,8 +59,8 @@ public class CatTreeToStringConvertorTest {
 		Categories cats = (Categories) categories;
 		Visualizer.visualizeCategoryGraph(cats.getGraph(), "CatTreeToStringConvertorTest");
 		*/
-		while (catTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> currTree = catTreeSupplier.next();
+		while (classificationTreeSupplier.hasNext()) {
+			InTree<ICategory, DefaultEdge> currTree = classificationTreeSupplier.next();
 			String currTreeDesc = new CatTreeToStringConvertor(currTree, objCatToName).toString();
 			/*
 			System.out.println(currTreeDesc);

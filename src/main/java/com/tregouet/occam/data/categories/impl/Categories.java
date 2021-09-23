@@ -16,7 +16,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.data.categories.ICatTreeSupplier;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICatTreeWithConstrainedExtentStructureSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
@@ -86,8 +86,8 @@ public class Categories implements ICategories {
 	}
 
 	@Override
-	public ICatTreeSupplier getCatTreeSupplier() {
-		return new CatTreeSupplier(lattice);
+	public IClassificationTreeSupplier getCatTreeSupplier() {
+		return new ClassificationTreeSupplier(lattice);
 	}
 
 	@Override

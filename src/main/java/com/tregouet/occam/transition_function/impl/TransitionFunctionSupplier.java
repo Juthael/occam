@@ -12,7 +12,7 @@ import org.jgrapht.alg.util.Pair;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.categories.ICatTreeSupplier;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
@@ -25,7 +25,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	protected static final int MAX_CAPACITY = 50;
 	
 	protected final ICategories categories;
-	protected final ICatTreeSupplier categoryTreeSupplier;
+	protected final IClassificationTreeSupplier categoryTreeSupplier;
 	protected final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs;
 	
 	public TransitionFunctionSupplier(ICategories categories, 

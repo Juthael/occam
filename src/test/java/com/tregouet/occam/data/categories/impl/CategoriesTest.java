@@ -18,7 +18,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.ICatTreeSupplier;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
@@ -113,14 +113,14 @@ public class CategoriesTest {
 	
 	@Test
 	public void whenCatTreeSupplierRequestedThenReturned() {
-		ICatTreeSupplier catTreeSupplier = null;
+		IClassificationTreeSupplier classificationTreeSupplier = null;
 		try {
-			catTreeSupplier = categories.getCatTreeSupplier();
+			classificationTreeSupplier = categories.getCatTreeSupplier();
 		}
 		catch (Exception e) {
 			assertTrue(false);
 		}
-		assertNotNull(catTreeSupplier);
+		assertNotNull(classificationTreeSupplier);
 	}	
 	
 	@Test

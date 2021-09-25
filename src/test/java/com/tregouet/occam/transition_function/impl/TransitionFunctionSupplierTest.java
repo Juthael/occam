@@ -64,7 +64,7 @@ public class TransitionFunctionSupplierTest {
 			Set<ICategory> expectedCats = catTree.vertexSet();
 			Set<ICategory> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
 				returnedCats.add(production.getSourceCategory());
 				returnedCats.add(production.getTargetCategory());
@@ -83,7 +83,7 @@ public class TransitionFunctionSupplierTest {
 			Set<ICategory> expectedCats = catTree.vertexSet();
 			Set<ICategory> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
 			for (IIntentAttribute intentAtt : filteredConstructs.vertexSet()) {
 				returnedCats.add(intentAtt.getCategory());
 			}
@@ -100,7 +100,7 @@ public class TransitionFunctionSupplierTest {
 		while (classificationTreeSupplier.hasNext()) {
 			InTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
 				checkCount++;
 				ICategory sourceCat = production.getSourceCategory();
@@ -119,7 +119,7 @@ public class TransitionFunctionSupplierTest {
 		while (classificationTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
 			InTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
 			try {
 				//safe constructor
 				@SuppressWarnings("unused")

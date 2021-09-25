@@ -1,20 +1,15 @@
 package com.tregouet.occam.transition_function.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.jgrapht.alg.TransitiveReduction;
-import org.jgrapht.alg.util.Pair;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
@@ -35,7 +30,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		this.constructs = constructs;
 	}
 
-	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
+	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTreeThenReduced(
 			InTree<ICategory, DefaultEdge> catTree, 
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> unfilteredUnreduced) {
 		DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredReduced =	

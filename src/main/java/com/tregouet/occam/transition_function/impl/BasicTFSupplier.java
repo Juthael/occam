@@ -61,7 +61,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 				objCatIDToSuperCatsInCatTree.put((Integer) objCat.getID(), objCatSuperCatsIDs);
 			}
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
-					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
+					getConstructGraphFilteredByCategoryTreeThenReduced(currCatTree, constructs);
 			IIntentAttTreeSupplier attTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);
 			while (attTreeSupplier.hasNext()) {
 				InTree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();

@@ -65,7 +65,7 @@ public class SimilarityCalculatorTest {
 		while (classificationTreeSupplier.hasNext()) {
 			catTree = classificationTreeSupplier.next();
 			filtered_reduced_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
 			constrTreeSupplier = new IntentAttTreeSupplier(filtered_reduced_constructs);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();

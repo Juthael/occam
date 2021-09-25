@@ -252,7 +252,7 @@ public class Categories implements ICategories {
 		ocIntent.add(ocConstruct);
 		ontologicalCommitment = new Category(ocIntent, new HashSet<IContextObject>(objects));
 		ontologicalCommitment.setType(ICategory.ONTOLOGICAL_COMMITMENT);
-		Set<ICategory> latticeCategories = lattice.vertexSet();
+		Set<ICategory> latticeCategories = new HashSet<>(lattice.vertexSet());
 		lattice.addVertex(ontologicalCommitment);
 		for (ICategory lattCategory : latticeCategories)
 			lattice.addEdge(lattCategory, ontologicalCommitment);

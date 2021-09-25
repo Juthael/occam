@@ -21,10 +21,12 @@ public class ClassificationTreeSupplier implements IClassificationTreeSupplier {
 	// quasi-lattice : lattice plus 'ontological commitment' as the successor of the maximum
 	private final DirectedAcyclicGraph<ICategory, DefaultEdge> categoryLattice;
 	private final DirectedAcyclicGraph<ICategory, DefaultEdge> catLattTransitiveReduction;
+	private final Map<Integer, ICategory> idToCategory = new HashMap<>();
 	private final Set<ICategory> atoms = new HashSet<>();
-	private final Map<Set<ICategory>, ICategory> subsetsOfAtomsToTheirSupremums = new HashMap<>();
+	private final Set<Integer> atomIDs = new HashSet<>();
+	private final Map<Set<Integer>, Integer> subsetsOfAtomIDsToTheirSupremumIDs = new HashMap<>();
 	private final ICategory ontologicalCommitment;
-	private final List<List<Set<ICategory>>> allSpanningHierarchiesOfAtomSubsets;
+	private final List<List<Set<Integer>>> allSpanningHierarchiesOfAtomIDsSubsets;
 	private final Set<Set<ICategory>> classificationTreesVertexSets = new HashSet<>();
 	private final Iterator<Set<ICategory>> classificationTreesVertexSetsIte;
 	
@@ -40,23 +42,26 @@ public class ClassificationTreeSupplier implements IClassificationTreeSupplier {
 		TransitiveReduction.INSTANCE.reduce(catLattTransitiveReduction);
 		ICategory oC = null;
 		for (ICategory category : categoryLattice.vertexSet()) {
-			if (category.type() == ICategory.OBJECT)
+			idToCategory.put(category.getID(), category);
+			if (category.type() == ICategory.OBJECT) {
 				atoms.add(category);
+				atomIDs.add(category.getID());
+			}	
 			else if (oC == null && category.type() == ICategory.ONTOLOGICAL_COMMITMENT)
 				oC = category;
 		}
 		ontologicalCommitment = oC;
-		encodeLatticeInThePowerSetOfItsSetOfAtoms();
-		Set<Set<ICategory>> maximalEncodingSubsetsOfAtoms = new HashSet<>(subsetsOfAtomsToTheirSupremums.keySet());
-		allSpanningHierarchiesOfAtomSubsets = new Partitioner<ICategory>(atoms).getAllSpanningHierarchies();
-		for (List<Set<ICategory>> hierarchy : allSpanningHierarchiesOfAtomSubsets) {
-			if (maximalEncodingSubsetsOfAtoms.containsAll(hierarchy)) {
+		encodeLatticeInThePowerSetOfItsAtoms();
+		Set<Set<Integer>> maximalEncodingSubsetsOfAtoms = new HashSet<>(subsetsOfAtomIDsToTheirSupremumIDs.keySet());
+		allSpanningHierarchiesOfAtomIDsSubsets = new Partitioner<Integer>(atomIDs).getAllSpanningHierarchies();
+		for (List<Set<Integer>> hierarchyOfAtomIDs : allSpanningHierarchiesOfAtomIDsSubsets) {
+			if (maximalEncodingSubsetsOfAtoms.containsAll(hierarchyOfAtomIDs)) {
 				Set<ICategory> treeVertexSet = new HashSet<>();
-				for (Set<ICategory> subsetOfAtoms : hierarchy) {
-					treeVertexSet.add(subsetsOfAtomsToTheirSupremums.get(subsetOfAtoms));
+				for (Set<Integer> subsetOfAtomIDs : hierarchyOfAtomIDs) {
+					treeVertexSet.add(idToCategory.get(subsetsOfAtomIDsToTheirSupremumIDs.get(subsetOfAtomIDs)));
 					treeVertexSet.add(ontologicalCommitment);
-					classificationTreesVertexSets.add(treeVertexSet);
 				}
+				classificationTreesVertexSets.add(treeVertexSet);
 			}
 		}
 		classificationTreesVertexSetsIte = classificationTreesVertexSets.iterator();
@@ -78,13 +83,13 @@ public class ClassificationTreeSupplier implements IClassificationTreeSupplier {
 		return new InTree<ICategory, DefaultEdge>(categoryLattice, treeVertexSet, ontologicalCommitment, atoms, false);
 	}
 	
-	private void encodeLatticeInThePowerSetOfItsSetOfAtoms() {
+	private void encodeLatticeInThePowerSetOfItsAtoms() {
 			for (ICategory category : categoryLattice.vertexSet()) {
 				int categoryType = category.type();
 				if (categoryType != ICategory.ABSURDITY && categoryType != ICategory.ONTOLOGICAL_COMMITMENT) {
-					Set<ICategory> atomSubSet = getLowerBounds(categoryLattice, category);
-					atomSubSet.retainAll(atoms);
-					subsetsOfAtomsToTheirSupremums.put(atomSubSet, category);
+					Set<Integer> atomSubSetIDs = getLowerBoundsIDs(categoryLattice, category);
+					atomSubSetIDs.retainAll(atomIDs);
+					subsetsOfAtomIDsToTheirSupremumIDs.put(atomSubSetIDs, category.getID());
 				}
 			}
 	}
@@ -94,6 +99,15 @@ public class ClassificationTreeSupplier implements IClassificationTreeSupplier {
 		Set<ICategory> lowerBounds = categoryLattice.getAncestors(category);
 		lowerBounds.add(category);
 		return lowerBounds;
+	}
+	
+	private static Set<Integer> getLowerBoundsIDs(DirectedAcyclicGraph<ICategory, DefaultEdge> categoryLattice, 
+			ICategory category) {
+		Set<ICategory> lowerBounds = getLowerBounds(categoryLattice, category);
+		Set<Integer> lowerBoundsIDs = new HashSet<>();
+		for (ICategory lowerBound : lowerBounds)
+			lowerBoundsIDs.add(lowerBound.getID());
+		return lowerBoundsIDs;
 	}
 
 }

@@ -2,6 +2,7 @@ package com.tregouet.occam.transition_function.impl;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -18,8 +19,11 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IBasicTFSupplier;
+import com.tregouet.occam.transition_function.ITransitionFunction;
 
+@SuppressWarnings("unused")
 public class BasicTFSupplierTest {
 
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
@@ -45,16 +49,23 @@ public class BasicTFSupplierTest {
 	}
 
 	@Test
-	public void whenRequestedThenReturnsTransitionFuncInDecreasingCoherenceScoreOreder() {
+	public void whenRequestedThenReturnsTransitionFuncInDecreasingCoherenceScoreOreder() throws IOException {
 		boolean increasingOrder = true;
 		int checkCount = 1;
 		IBasicTFSupplier transFuncSupplier = new BasicTFSupplier(categories, constructs);
-		double prevScore = transFuncSupplier.next().getCoherenceScore();
+		ITransitionFunction tF = transFuncSupplier.next();
+		double prevScore = tF.getCoherenceScore();
 		/*
-		System.out.println("0 : " + Double.toString(prevCost));
+		System.out.println("TF0 : " + Double.toString(prevScore));
+		Visualizer.visualizeTransitionFunction(tF, "2109251004_TFbasicSupp0" + Integer.toString(0), true);
 		*/
 		while (transFuncSupplier.hasNext()) {
-			double nextScore = transFuncSupplier.next().getCoherenceScore();
+			tF = transFuncSupplier.next();
+			double nextScore = tF.getCoherenceScore();
+			/*
+			System.out.println("TF" + Integer.toString(checkCount) + " : " + Double.toString(prevScore));
+			Visualizer.visualizeTransitionFunction(tF, "2109251004_TFbasicSupp0" + Integer.toString(checkCount), true);
+			*/
 			if (nextScore > prevScore)
 				increasingOrder = false;
 			prevScore = nextScore;

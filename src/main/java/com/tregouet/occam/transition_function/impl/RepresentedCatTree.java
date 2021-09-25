@@ -10,6 +10,7 @@ import com.tregouet.occam.data.categories.utils.CatTreeToStringConvertor;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.ITransitionFunction;
+import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
 import com.tregouet.tree_finder.data.InTree;
 
 public class RepresentedCatTree implements IRepresentedCatTree {
@@ -114,6 +115,6 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 		sB.append(newLine + newLine);
 		sB.append("*** SCORE : " + Double.toString(optimalRepresentation.getCoherenceScore()) + newLine + newLine);
 		return sB.toString();
-	}	
+	}
 
 }

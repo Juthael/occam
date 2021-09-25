@@ -13,6 +13,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
+import com.tregouet.partitioner.impl.ConstrainedPartitioner;
 import com.tregouet.partitioner.impl.Partitioner;
 import com.tregouet.tree_finder.data.InTree;
 
@@ -26,7 +27,7 @@ public class ClassificationTreeSupplier implements IClassificationTreeSupplier {
 	private final Set<Integer> atomIDs = new HashSet<>();
 	private final Map<Set<Integer>, Integer> subsetsOfAtomIDsToTheirSupremumIDs = new HashMap<>();
 	private final ICategory ontologicalCommitment;
-	private final List<List<Set<Integer>>> allSpanningHierarchiesOfAtomIDsSubsets;
+	private final List<List<Set<Integer>>> encodingHierarchiesOfAtomIDsSubsets;
 	private final Set<Set<ICategory>> classificationTreesVertexSets = new HashSet<>();
 	private final Iterator<Set<ICategory>> classificationTreesVertexSetsIte;
 	
@@ -53,16 +54,15 @@ public class ClassificationTreeSupplier implements IClassificationTreeSupplier {
 		ontologicalCommitment = oC;
 		encodeLatticeInThePowerSetOfItsAtoms();
 		Set<Set<Integer>> maximalEncodingSubsetsOfAtoms = new HashSet<>(subsetsOfAtomIDsToTheirSupremumIDs.keySet());
-		allSpanningHierarchiesOfAtomIDsSubsets = new Partitioner<Integer>(atomIDs).getAllSpanningHierarchies();
-		for (List<Set<Integer>> hierarchyOfAtomIDs : allSpanningHierarchiesOfAtomIDsSubsets) {
-			if (maximalEncodingSubsetsOfAtoms.containsAll(hierarchyOfAtomIDs)) {
-				Set<ICategory> treeVertexSet = new HashSet<>();
-				for (Set<Integer> subsetOfAtomIDs : hierarchyOfAtomIDs) {
-					treeVertexSet.add(idToCategory.get(subsetsOfAtomIDsToTheirSupremumIDs.get(subsetOfAtomIDs)));
-					treeVertexSet.add(ontologicalCommitment);
-				}
-				classificationTreesVertexSets.add(treeVertexSet);
+		encodingHierarchiesOfAtomIDsSubsets = 
+				new ConstrainedPartitioner<Integer>(atomIDs, maximalEncodingSubsetsOfAtoms).getAllSpanningHierarchies();
+		for (List<Set<Integer>> hierarchyOfAtomIDs : encodingHierarchiesOfAtomIDsSubsets) {
+			Set<ICategory> treeVertexSet = new HashSet<>();
+			for (Set<Integer> subsetOfAtomIDs : hierarchyOfAtomIDs) {
+				treeVertexSet.add(idToCategory.get(subsetsOfAtomIDsToTheirSupremumIDs.get(subsetOfAtomIDs)));
+				treeVertexSet.add(ontologicalCommitment);
 			}
+			classificationTreesVertexSets.add(treeVertexSet);
 		}
 		classificationTreesVertexSetsIte = classificationTreesVertexSets.iterator();
 	}
@@ -84,14 +84,14 @@ public class ClassificationTreeSupplier implements IClassificationTreeSupplier {
 	}
 	
 	private void encodeLatticeInThePowerSetOfItsAtoms() {
-			for (ICategory category : categoryLattice.vertexSet()) {
-				int categoryType = category.type();
-				if (categoryType != ICategory.ABSURDITY && categoryType != ICategory.ONTOLOGICAL_COMMITMENT) {
-					Set<Integer> atomSubSetIDs = getLowerBoundsIDs(categoryLattice, category);
-					atomSubSetIDs.retainAll(atomIDs);
-					subsetsOfAtomIDsToTheirSupremumIDs.put(atomSubSetIDs, category.getID());
-				}
+		for (ICategory category : categoryLattice.vertexSet()) {
+			int categoryType = category.type();
+			if (categoryType != ICategory.ABSURDITY && categoryType != ICategory.ONTOLOGICAL_COMMITMENT) {
+				Set<Integer> atomSubSetIDs = getLowerBoundsIDs(categoryLattice, category);
+				atomSubSetIDs.retainAll(atomIDs);
+				subsetsOfAtomIDsToTheirSupremumIDs.put(atomSubSetIDs, category.getID());
 			}
+		}
 	}
 	
 	private static Set<ICategory> getLowerBounds(DirectedAcyclicGraph<ICategory, DefaultEdge> categoryLattice, 

@@ -16,6 +16,7 @@ import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
@@ -92,13 +93,6 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	private void populateRepresentedCategories() {
 		while (categoryTreeSupplier.hasNext()) {
 			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
-			Map<Integer, Set<Integer>> objCatIDToSuperCatsInCatTree = new HashMap<>();
-			for (ICategory objCat : currCatTree.getLeaves()) {
-				Set<Integer> objCatSuperCatsIDs = new HashSet<>();
-				for (ICategory objCatSuperCat : currCatTree.getDescendants(objCat))
-					objCatSuperCatsIDs.add((Integer) objCatSuperCat.getID());
-				objCatIDToSuperCatsInCatTree.put((Integer) objCat.getID(), objCatSuperCatsIDs);
-			}
 			IRepresentedCatTree currCatTreeRepresentation = new RepresentedCatTree(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);

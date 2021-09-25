@@ -19,7 +19,6 @@ import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.impl.Categories;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.data.InTree;
 import com.tregouet.tree_finder.error.InvalidTreeException;
 
@@ -46,9 +45,9 @@ public class ClassificationTreeSupplierTest {
 		int nbOfChecks = 0;
 		while (treeSupplier.hasNext()) {
 			InTree<ICategory, DefaultEdge> nextTree = treeSupplier.next();
-			
+			/*
 			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
-			
+			*/
 			try {
 				nextTree.validate();
 				nbOfChecks++;

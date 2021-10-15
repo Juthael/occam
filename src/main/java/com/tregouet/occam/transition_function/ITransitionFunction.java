@@ -8,14 +8,14 @@ import com.tregouet.occam.compiler.ICompiler;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.data.ClassificationTree;
 
 public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	@Override
 	boolean equals(Object o);
 	
-	InTree<ICategory, DefaultEdge> getCategoryTree();
+	ClassificationTree<ICategory, DefaultEdge> getCategoryTree();
 	
 	String getCategoryTreeAsDOTFile();
 	

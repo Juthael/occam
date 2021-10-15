@@ -7,14 +7,14 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.data.ClassificationTree;
 
 public class CatTreeToStringConvertor {
 
-	private final InTree<ICategory, DefaultEdge> categoryTree;
+	private final ClassificationTree<ICategory, DefaultEdge> categoryTree;
 	private final Map<ICategory, String> leafToLeafName;
 	
-	public CatTreeToStringConvertor(InTree<ICategory, DefaultEdge> categoryTree, Map<ICategory, String> leafToLeafName) {
+	public CatTreeToStringConvertor(ClassificationTree<ICategory, DefaultEdge> categoryTree, Map<ICategory, String> leafToLeafName) {
 		this.categoryTree = categoryTree;
 		this.leafToLeafName = leafToLeafName;
 	}

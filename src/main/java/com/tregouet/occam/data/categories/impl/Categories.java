@@ -16,10 +16,9 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
-import com.tregouet.occam.data.categories.IClassTreeWithConstrainedExtentStructureSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.IClassTreeWithConstrainedExtentStructureSupplier;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
@@ -27,6 +26,9 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.ISymbol;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.Variable;
+import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.error.InvalidInputException;
+import com.tregouet.tree_finder.impl.TreeFinderOpt;
 
 public class Categories implements ICategories {
 	
@@ -86,8 +88,19 @@ public class Categories implements ICategories {
 	}
 
 	@Override
-	public IClassificationTreeSupplier getCatTreeSupplier() {
-		return new ClassificationTreeSupplier(lattice);
+	public ITreeFinder<ICategory, DefaultEdge> getCatTreeSupplier() throws InvalidInputException {
+		DirectedAcyclicGraph<ICategory, DefaultEdge> latticeWithoutAbsurdity = 
+				new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
+		Set<ICategory> categories = new HashSet<>(topologicalOrder);
+		categories.remove(absurdity);
+		for (ICategory category : categories)
+			latticeWithoutAbsurdity.addVertex(category);
+		for (DefaultEdge edge : lattice.edgeSet()) {
+			ICategory source = lattice.getEdgeSource(edge);
+			if (!source.equals(absurdity)) 
+				latticeWithoutAbsurdity.addEdge(source, lattice.getEdgeTarget(edge));
+		}
+		return new TreeFinderOpt<ICategory, DefaultEdge>(latticeWithoutAbsurdity);
 	}
 
 	@Override

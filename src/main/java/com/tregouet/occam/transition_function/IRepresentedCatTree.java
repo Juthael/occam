@@ -4,11 +4,11 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.data.ClassificationTree;
 
 public interface IRepresentedCatTree extends Comparable<IRepresentedCatTree> {
 	
-	InTree<ICategory, DefaultEdge> getCategoryTree();
+	ClassificationTree<ICategory, DefaultEdge> getCategoryTree();
 	
 	double getCoherenceScore();
 	

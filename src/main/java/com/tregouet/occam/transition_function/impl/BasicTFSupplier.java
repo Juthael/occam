@@ -15,16 +15,19 @@ import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.IBasicTFSupplier;
-import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.error.InvalidInputException;
+import com.tregouet.tree_finder.impl.TreeFinderOpt;
 
 public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasicTFSupplier {
 
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	private Iterator<ITransitionFunction> ite;
 	
-	public BasicTFSupplier(ICategories categories, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) {
+	public BasicTFSupplier(ICategories categories, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) 
+			throws InvalidInputException {
 		super(categories, constructs);
 		populateTransitionFunctions();
 		ite = transitionFunctions.iterator();
@@ -52,7 +55,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 
 	private void populateTransitionFunctions() {
 		while (categoryTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
+			ClassificationTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
 			Map<Integer, Set<Integer>> objCatIDToSuperCatsInCatTree = new HashMap<>();
 			for (ICategory objCat : currCatTree.getLeaves()) {
 				Set<Integer> objCatSuperCatsIDs = new HashSet<>();
@@ -61,10 +64,11 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 				objCatIDToSuperCatsInCatTree.put((Integer) objCat.getID(), objCatSuperCatsIDs);
 			}
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
-					getConstructGraphFilteredByCategoryTreeThenReduced(currCatTree, constructs);
-			IIntentAttTreeSupplier attTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);
+					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
+			ITreeFinder<IIntentAttribute, IProduction> attTreeSupplier = 
+					new TreeFinderOpt<>(filteredConstructGraph, true);
 			while (attTreeSupplier.hasNext()) {
-				InTree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
+				ClassificationTree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
 				ITransitionFunction transitionFunction = new TransitionFunction(
 						categories.getContextObjects(), categories.getObjectCategories(), 
 						currCatTree, attTree);

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.jgrapht.graph.DefaultEdge;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,6 +28,9 @@ import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.error.InvalidInputException;
 
 @SuppressWarnings("unused")
 public class CategoriesTest {
@@ -37,7 +42,6 @@ public class CategoriesTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
-		categories = new Categories(shapes2Obj);
 		/*
 		Categories catImpl = (Categories) categories;
 		Visualizer.visualize(catImpl.getDiagram(), "2107291658");
@@ -46,6 +50,7 @@ public class CategoriesTest {
 
 	@Before
 	public void setUp() throws Exception {
+		categories = new Categories(shapes2Obj);
 	}
 	
 	@Test
@@ -113,7 +118,7 @@ public class CategoriesTest {
 	
 	@Test
 	public void whenCatTreeSupplierRequestedThenReturned() {
-		IClassificationTreeSupplier classificationTreeSupplier = null;
+		ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier = null;
 		try {
 			classificationTreeSupplier = categories.getCatTreeSupplier();
 		}
@@ -326,5 +331,25 @@ public class CategoriesTest {
 		}
 		return cats;
 	}	
+	
+	@Test
+	public void whenTreeSuppliedThenReallyIsATree() throws IOException, InvalidInputException {
+		ITreeFinder<ICategory, DefaultEdge> treeSupplier = categories.getCatTreeSupplier();
+		int nbOfChecks = 0;
+		while (treeSupplier.hasNext()) {
+			ClassificationTree<ICategory, DefaultEdge> nextTree = treeSupplier.next();
+			/*
+			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
+			*/
+			try {
+				nextTree.validate();
+				nbOfChecks++;
+			}
+			catch (InvalidInputException e) {
+				fail();
+			}
+		}
+		assertTrue(nbOfChecks > 0);
+	}
 
 }

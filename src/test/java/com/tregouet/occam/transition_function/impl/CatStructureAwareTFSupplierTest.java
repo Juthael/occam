@@ -23,6 +23,7 @@ import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
+import com.tregouet.tree_finder.error.InvalidInputException;
 
 public class CatStructureAwareTFSupplierTest {
 	
@@ -49,7 +50,8 @@ public class CatStructureAwareTFSupplierTest {
 	}
 
 	@Test
-	public void whenRequestedThenReturnsRepresentedCatStructuresInDecreasingCoherenceOrder() throws IOException {
+	public void whenRequestedThenReturnsRepresentedCatStructuresInDecreasingCoherenceOrder() 
+			throws IOException, InvalidInputException {
 		boolean increasingOrder = true;
 		int idx = 0;
 		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(categories, constructs);

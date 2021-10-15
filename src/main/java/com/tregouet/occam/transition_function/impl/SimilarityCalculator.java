@@ -13,7 +13,7 @@ import com.google.common.primitives.Ints;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.transition_function.ISimilarityCalculator;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.data.ClassificationTree;
 
 public class SimilarityCalculator implements ISimilarityCalculator {
 
@@ -21,7 +21,7 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 	private final Integer[] objCatIdxInTopologicalSorting;
 	private final SparseIntDirectedWeightedGraph weightedTransitions;
 	
-	public SimilarityCalculator(InTree<ICategory, DefaultEdge> categories, 
+	public SimilarityCalculator(ClassificationTree<ICategory, DefaultEdge> categories, 
 			List<IConjunctiveOperator> conjunctiveOperators) {
 		int topoIdx = 0;
 		Integer objIndex = 0;

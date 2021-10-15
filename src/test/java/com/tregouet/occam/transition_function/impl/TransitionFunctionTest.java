@@ -39,8 +39,10 @@ import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
 import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.data.InTree;
-import com.tregouet.tree_finder.error.InvalidSemiLatticeException;
+import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.error.InvalidInputException;
+import com.tregouet.tree_finder.impl.TreeFinderOpt;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -55,11 +57,11 @@ public class TransitionFunctionTest {
 	private static ICategories categories;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private static IClassificationTreeSupplier classificationTreeSupplier;
-	private static InTree<ICategory, DefaultEdge> catTree;
+	private static ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier;
+	private static ClassificationTree<ICategory, DefaultEdge> catTree;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
-	private static IIntentAttTreeSupplier constrTreeSupplier;
-	private static InTree<IIntentAttribute, IProduction> constrTree;
+	private static ITreeFinder<IIntentAttribute, IProduction> constrTreeSupplier;
+	private static ClassificationTree<IIntentAttribute, IProduction> constrTree;
 	private static TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	
 	@BeforeClass
@@ -76,8 +78,8 @@ public class TransitionFunctionTest {
 		while (classificationTreeSupplier.hasNext()) {
 			catTree = classificationTreeSupplier.next();
 			filtered_reduced_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
-			constrTreeSupplier = new IntentAttTreeSupplier(filtered_reduced_constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+			constrTreeSupplier = new TreeFinderOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
@@ -205,7 +207,7 @@ public class TransitionFunctionTest {
 	
 	@Test
 	public void when2NonBlankProductionsHaveSameSourceAndTargetCategoriesAndSameValueThenHandledBySameOperator() 
-			throws InvalidSemiLatticeException, IOException {
+			throws InvalidInputException, IOException {
 		boolean sameOperator = true;
 		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {

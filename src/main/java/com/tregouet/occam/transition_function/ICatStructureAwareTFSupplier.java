@@ -8,7 +8,7 @@ import java.util.Map;
 import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.data.ClassificationTree;
 
 public interface ICatStructureAwareTFSupplier extends ITransitionFunctionSupplier, Iterator<IRepresentedCatTree> {
 	
@@ -29,6 +29,6 @@ public interface ICatStructureAwareTFSupplier extends ITransitionFunctionSupplie
 	
 	String getDefinitionOfObjects();
 	
-	InTree<ICategory, DefaultEdge> getOptimalCategoryStructure();
+	ClassificationTree<ICategory, DefaultEdge> getOptimalCategoryStructure();
 
 }

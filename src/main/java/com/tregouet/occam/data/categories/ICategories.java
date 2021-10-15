@@ -7,6 +7,8 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.error.InvalidInputException;
 
 public interface ICategories {
 	
@@ -22,7 +24,7 @@ public interface ICategories {
 	
 	DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice();
 	
-	IClassificationTreeSupplier getCatTreeSupplier();
+	ITreeFinder<ICategory, DefaultEdge> getCatTreeSupplier() throws InvalidInputException;
 	
 	IClassTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint);
 	

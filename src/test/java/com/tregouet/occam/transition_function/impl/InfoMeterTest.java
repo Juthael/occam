@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
@@ -28,12 +27,10 @@ import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.exceptions.PropertyTargetingException;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.transition_function.IInfoMeter;
-import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.occam.transition_function.impl.IntentAttTreeSupplier;
-import com.tregouet.occam.transition_function.impl.TransitionFunction;
-import com.tregouet.occam.transition_function.impl.TransitionFunctionSupplier;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.impl.TreeFinderOpt;
 
 public class InfoMeterTest {
 
@@ -42,10 +39,10 @@ public class InfoMeterTest {
 	private ICategories categories;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IClassificationTreeSupplier classificationTreeSupplier;
-	private InTree<ICategory, DefaultEdge> catTree;
+	private ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier;
+	private ClassificationTree<ICategory, DefaultEdge> catTree;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
-	private IIntentAttTreeSupplier constrTreeSupplier;
+	private ITreeFinder<IIntentAttribute, IProduction> constrTreeSupplier;
 	private Map<ITransitionFunction, IInfoMeter> transFuncToInfometer = new HashMap<>();
 	
 	@BeforeClass
@@ -66,10 +63,10 @@ public class InfoMeterTest {
 		while (classificationTreeSupplier.hasNext()) {
 			catTree = classificationTreeSupplier.next();
 			filtered_reduced_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
-			constrTreeSupplier = new IntentAttTreeSupplier(filtered_reduced_constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+			constrTreeSupplier = new TreeFinderOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
-				InTree<IIntentAttribute, IProduction> constrTree = constrTreeSupplier.next();
+				ClassificationTree<IIntentAttribute, IProduction> constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
 						new TransitionFunction(shapes2Obj, categories.getObjectCategories(), catTree, constrTree);
 				/*

@@ -7,7 +7,6 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +33,12 @@ import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.ISimilarityCalculator;
 import com.tregouet.occam.transition_function.IState;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.data.ClassificationTree;
 
 public class TransitionFunction implements ITransitionFunction {
 
 	private final List<IContextObject> objects;
-	private final InTree<ICategory, DefaultEdge> categories;
+	private final ClassificationTree<ICategory, DefaultEdge> categories;
 	private final Map<ICategory, IState> categoryToState = new HashMap<>();
 	private final List<IOperator> operators;
 	private final List<IConjunctiveOperator> conjunctiveOperators = new ArrayList<>();
@@ -47,8 +46,8 @@ public class TransitionFunction implements ITransitionFunction {
 	private final ISimilarityCalculator similarityCalc;
 	
 	public TransitionFunction(List<IContextObject> objects, List<ICategory> objectCategories, 
-			InTree<ICategory, DefaultEdge> categories, 
-			InTree<IIntentAttribute, IProduction> constructs) {
+			ClassificationTree<ICategory, DefaultEdge> categories, 
+			ClassificationTree<IIntentAttribute, IProduction> constructs) {
 		IOperator.initializeNameProvider();
 		IConjunctiveOperator.initializeNameProvider();
 		this.objects = objects;
@@ -152,7 +151,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public InTree<ICategory, DefaultEdge> getCategoryTree() {
+	public ClassificationTree<ICategory, DefaultEdge> getCategoryTree() {
 		return categories;
 	}
 

@@ -22,7 +22,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
@@ -31,10 +30,11 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.ISimilarityCalculator;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.impl.TreeFinderOpt;
 
 public class SimilarityCalculatorTest {
 
@@ -43,11 +43,11 @@ public class SimilarityCalculatorTest {
 	private static ICategories categories;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private static IClassificationTreeSupplier classificationTreeSupplier;
-	private static InTree<ICategory, DefaultEdge> catTree;
+	private static ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier;
+	private static ClassificationTree<ICategory, DefaultEdge> catTree;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
-	private static IIntentAttTreeSupplier constrTreeSupplier;
-	private static InTree<IIntentAttribute, IProduction> constrTree;
+	private static ITreeFinder<IIntentAttribute, IProduction> constrTreeSupplier;
+	private static ClassificationTree<IIntentAttribute, IProduction> constrTree;
 	private static TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	private static Map<ITransitionFunction, ISimilarityCalculator> tfToSimCalc = new HashMap<>();
 	
@@ -65,8 +65,8 @@ public class SimilarityCalculatorTest {
 		while (classificationTreeSupplier.hasNext()) {
 			catTree = classificationTreeSupplier.next();
 			filtered_reduced_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
-			constrTreeSupplier = new IntentAttTreeSupplier(filtered_reduced_constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+			constrTreeSupplier = new TreeFinderOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
@@ -109,14 +109,15 @@ public class SimilarityCalculatorTest {
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
-			*/			
-			int[] objects = new int[tF.getCategoryTree().getLeaves().size()];
-			for (int i = 0 ; i < objects.length ; i++) {
-				objects[i] = tF.getCategoryTree().getLeaves().get(i).getID();
+			*/
+			List<ICategory> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			int[] objectIDs = new int[objects.size()];
+			for (int i = 0 ; i < objectIDs.length ; i++) {
+				objectIDs[i] = objects.get(i).getID();
 			}
-			for (int j = 0 ; j < objects.length - 1 ; j++) {
-				for (int k = j+1 ; k < objects.length ; k++) {
-					double similarity = calculator.howSimilar(objects[j], objects[k]);
+			for (int j = 0 ; j < objectIDs.length - 1 ; j++) {
+				for (int k = j+1 ; k < objectIDs.length ; k++) {
+					double similarity = calculator.howSimilar(objectIDs[j], objectIDs[k]);
 					/*
 					System.out.println("OBJ 1 : ");
 					System.out.println(tF.getCategoryTree().getLeaves().get(j).toString() + System.lineSeparator());
@@ -145,13 +146,14 @@ public class SimilarityCalculatorTest {
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
-			int[] objects = new int[tF.getCategoryTree().getLeaves().size()];
-			for (int i = 0 ; i < objects.length ; i++) {
-				objects[i] = tF.getCategoryTree().getLeaves().get(i).getID();
+			List<ICategory> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			int[] objectIDs = new int[objects.size()];
+			for (int i = 0 ; i < objectIDs.length ; i++) {
+				objectIDs[i] = objects.get(i).getID();
 			}
-			for (int j = 0 ; j < objects.length ; j++) {
-				for (int k = 0 ; k < objects.length ; k++) {
-					double similarity = calculator.howSimilarTo(objects[j], objects[k]);
+			for (int j = 0 ; j < objectIDs.length ; j++) {
+				for (int k = 0 ; k < objectIDs.length ; k++) {
+					double similarity = calculator.howSimilarTo(objectIDs[j], objectIDs[k]);
 					/*
 					System.out.println("OBJ 1 : ");
 					System.out.println(tF.getCategoryTree().getLeaves().get(j).toString() + System.lineSeparator());
@@ -180,12 +182,13 @@ public class SimilarityCalculatorTest {
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
-			int[] objects = new int[tF.getCategoryTree().getLeaves().size()];
-			for (int i = 0 ; i < objects.length ; i++) {
-				objects[i] = tF.getCategoryTree().getLeaves().get(i).getID();				
+			List<ICategory> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			int[] objectIDs = new int[objects.size()];
+			for (int i = 0 ; i < objectIDs.length ; i++) {
+				objectIDs[i] = objects.get(i).getID();				
 			}
-			for (int j = 0 ; j < objects.length ; j++) {
-				double prototypicality = calculator.howProtoypical(objects[j]);
+			for (int j = 0 ; j < objectIDs.length ; j++) {
+				double prototypicality = calculator.howProtoypical(objectIDs[j]);
 				if (Double.isNaN(prototypicality))
 					returned = false;
 				/*
@@ -233,9 +236,10 @@ public class SimilarityCalculatorTest {
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			int rootID = tF.getCategoryTree().getRoot().getID();
-			int[] leavesID = new int[tF.getCategoryTree().getLeaves().size()];
+			List<ICategory> leaves = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			int[] leavesID = new int[leaves.size()];
 			for (int i = 0 ; i < leavesID.length ; i++) {
-				leavesID[i] = tF.getCategoryTree().getLeaves().get(i).getID();
+				leavesID[i] = leaves.get(i).getID();
 			}
 			SimilarityCalculator calculator = (SimilarityCalculator) tfToSimCalc.get(tF);
 			for (Integer leafID : leavesID) {

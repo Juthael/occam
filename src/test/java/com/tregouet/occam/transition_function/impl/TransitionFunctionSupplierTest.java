@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
@@ -26,16 +25,16 @@ import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.ITreeFinder;
-import com.tregouet.tree_finder.data.InTree;
-import com.tregouet.tree_finder.error.InvalidSemiLatticeException;
-import com.tregouet.tree_finder.impl.TreeFinder;
+import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.error.InvalidInputException;
+import com.tregouet.tree_finder.impl.TreeFinderOpt;
 
 public class TransitionFunctionSupplierTest {
 
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private static ICategories categories;
-	private static IClassificationTreeSupplier classificationTreeSupplier;
+	private static ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier;
 	private static final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
@@ -60,11 +59,11 @@ public class TransitionFunctionSupplierTest {
 	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfProductionsSourcesOrTargetsIsTreeOfCategories() {
 		boolean expectedSetOfCategories = true;
 		while (classificationTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
+			ClassificationTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
 			Set<ICategory> expectedCats = catTree.vertexSet();
 			Set<ICategory> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
 				returnedCats.add(production.getSourceCategory());
 				returnedCats.add(production.getTargetCategory());
@@ -79,11 +78,11 @@ public class TransitionFunctionSupplierTest {
 	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfContainerCategoriesIsTreeOfCategories() {
 		boolean expectedSetOfCategories = true;
 		while (classificationTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
+			ClassificationTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
 			Set<ICategory> expectedCats = catTree.vertexSet();
 			Set<ICategory> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IIntentAttribute intentAtt : filteredConstructs.vertexSet()) {
 				returnedCats.add(intentAtt.getCategory());
 			}
@@ -98,9 +97,9 @@ public class TransitionFunctionSupplierTest {
 		boolean sourceAndTargetCatsAreRelated = true;
 		int checkCount = 0;
 		while (classificationTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
+			ClassificationTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
 				checkCount++;
 				ICategory sourceCat = production.getSourceCategory();
@@ -117,16 +116,16 @@ public class TransitionFunctionSupplierTest {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
 		while (classificationTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			InTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
+			ClassificationTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			try {
 				//safe constructor
 				@SuppressWarnings("unused")
-				ITreeFinder<IIntentAttribute, IProduction> safeTreeFinder = new TreeFinder<>(filteredConstructs, true);
+				ITreeFinder<IIntentAttribute, IProduction> safeTreeFinder = new TreeFinderOpt<>(filteredConstructs);
 				checkCount++;
 			}
-			catch (InvalidSemiLatticeException e) {
+			catch (InvalidInputException e) {
 				filteredGraphsAreRootedInvertedDAGs = false;
 				Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");
 				Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");

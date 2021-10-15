@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.operators.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
@@ -24,12 +23,12 @@ import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.occam.transition_function.impl.IntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.impl.TransitionFunction;
 import com.tregouet.occam.transition_function.impl.TransitionFunctionSupplier;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.impl.TreeFinderOpt;
 
 public class ConjunctiveOperatorTest {
 	
@@ -38,11 +37,11 @@ public class ConjunctiveOperatorTest {
 	private static ICategories categories;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private static IClassificationTreeSupplier classificationTreeSupplier;
-	private static InTree<ICategory, DefaultEdge> catTree;
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
-	private static IIntentAttTreeSupplier constrTreeSupplier;
-	private static InTree<IIntentAttribute, IProduction> constrTree;
+	private static ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier;
+	private static ClassificationTree<ICategory, DefaultEdge> catTree;
+	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_constructs;
+	private static ITreeFinder<IIntentAttribute, IProduction> constrTreeSupplier;
+	private static ClassificationTree<IIntentAttribute, IProduction> constrTree;
 	private static TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 
 	@BeforeClass
@@ -58,9 +57,9 @@ public class ConjunctiveOperatorTest {
 		classificationTreeSupplier = categories.getCatTreeSupplier();
 		while (classificationTreeSupplier.hasNext()) {
 			catTree = classificationTreeSupplier.next();
-			filtered_reduced_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTreeThenReduced(catTree, constructs);
-			constrTreeSupplier = new IntentAttTreeSupplier(filtered_reduced_constructs);
+			filtered_constructs = 
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+			constrTreeSupplier = new TreeFinderOpt<>(filtered_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 

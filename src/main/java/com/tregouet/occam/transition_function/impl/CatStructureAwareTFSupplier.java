@@ -2,11 +2,9 @@ package com.tregouet.occam.transition_function.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
 import org.jgrapht.graph.DefaultEdge;
@@ -16,12 +14,13 @@ import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
-import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.error.InvalidInputException;
+import com.tregouet.tree_finder.impl.TreeFinderOpt;
 
 public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier implements ICatStructureAwareTFSupplier {
 
@@ -33,7 +32,8 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	private Iterator<IRepresentedCatTree> ite;
 	
 	public CatStructureAwareTFSupplier(ICategories categories,
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) {
+			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) 
+					throws InvalidInputException {
 		super(categories, constructs);
 		populateRepresentedCategories();
 		for (ICategory objCat : categories.getObjectCategories())
@@ -58,7 +58,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	}
 
 	@Override
-	public InTree<ICategory, DefaultEdge> getOptimalCategoryStructure() {
+	public ClassificationTree<ICategory, DefaultEdge> getOptimalCategoryStructure() {
 		return representedCategories.first().getCategoryTree();
 	}
 
@@ -92,13 +92,14 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	
 	private void populateRepresentedCategories() {
 		while (categoryTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
+			ClassificationTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
 			IRepresentedCatTree currCatTreeRepresentation = new RepresentedCatTree(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
-					getConstructGraphFilteredByCategoryTreeThenReduced(currCatTree, constructs);
-			IIntentAttTreeSupplier attTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);
+					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
+			ITreeFinder<IIntentAttribute, IProduction> attTreeSupplier = 
+					new TreeFinderOpt<>(filteredConstructGraph, true);
 			while (attTreeSupplier.hasNext()) {
-				InTree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
+				ClassificationTree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
 				ITransitionFunction transitionFunction = new TransitionFunction(
 						categories.getContextObjects(), categories.getObjectCategories(), 
 						currCatTree, attTree);

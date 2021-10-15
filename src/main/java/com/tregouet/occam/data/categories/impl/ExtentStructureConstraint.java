@@ -8,7 +8,7 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.data.ClassificationTree;
 
 public class ExtentStructureConstraint implements IExtentStructureConstraint {
 
@@ -28,7 +28,7 @@ public class ExtentStructureConstraint implements IExtentStructureConstraint {
 	}
 
 	@Override
-	public boolean metBy(InTree<ICategory, DefaultEdge> catTree) {
+	public boolean metBy(ClassificationTree<ICategory, DefaultEdge> catTree) {
 		// TODO Auto-generated method stub
 		return false;
 	}

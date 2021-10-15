@@ -21,6 +21,7 @@ import com.tregouet.occam.transition_function.ITFWithConstrainedPropertyStructur
 import com.tregouet.occam.transition_function.ITFWithConstrainedSimilarityStructureSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
 import com.tregouet.occam.transition_function.impl.BasicTFSupplier;
+import com.tregouet.tree_finder.error.InvalidInputException;
 
 public class Representations implements com.tregouet.occam.io.output.IRepresentations {
 
@@ -61,7 +62,7 @@ public class Representations implements com.tregouet.occam.io.output.IRepresenta
 	}
 
 	@Override
-	public ITransitionFunctionSupplier getRepresentationSupplier() {
+	public ITransitionFunctionSupplier getRepresentationSupplier() throws InvalidInputException {
 		return new BasicTFSupplier(categories, constructs);
 	}
 

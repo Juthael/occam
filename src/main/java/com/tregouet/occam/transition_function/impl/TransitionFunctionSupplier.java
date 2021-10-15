@@ -3,37 +3,37 @@ package com.tregouet.occam.transition_function.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.error.InvalidInputException;
 
 public abstract class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 
 	protected static final int MAX_CAPACITY = 50;
 	
 	protected final ICategories categories;
-	protected final IClassificationTreeSupplier categoryTreeSupplier;
+	protected final ITreeFinder<ICategory, DefaultEdge> categoryTreeSupplier;
 	protected final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs;
 	
 	public TransitionFunctionSupplier(ICategories categories, 
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) {
+			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) throws InvalidInputException {
 		this.categories = categories;
 		categoryTreeSupplier = categories.getCatTreeSupplier();
 		this.constructs = constructs;
 	}
 
-	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTreeThenReduced(
-			InTree<ICategory, DefaultEdge> catTree, 
+	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
+			ClassificationTree<ICategory, DefaultEdge> catTree, 
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> unfilteredUnreduced) {
-		DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredReduced =	
+		DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);
 		List<IProduction> edges = new ArrayList<>();
 		List<IProduction> varSwitchers = new ArrayList<>();
@@ -54,13 +54,12 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		edges = switchVariables(edges, varSwitchers);
 		edges.stream()
 			.forEach(e -> {
-				filteredReduced.addVertex(e.getSource());
-				filteredReduced.addVertex(e.getTarget());
+				filtered.addVertex(e.getSource());
+				filtered.addVertex(e.getTarget());
 			});
-		edges.stream().forEach(p -> filteredReduced.addEdge(p.getSource(), p.getTarget(), p));
-		filteredReduced.removeAllVertices(varSwitcherSources);
-		TransitiveReduction.INSTANCE.reduce(filteredReduced);
-		return filteredReduced;
+		edges.stream().forEach(p -> filtered.addEdge(p.getSource(), p.getTarget(), p));
+		filtered.removeAllVertices(varSwitcherSources);
+		return filtered;
 	}
 	
 	public static List<IProduction> switchVariables(List<IProduction> edges, List<IProduction> varSwitchers){
@@ -85,7 +84,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return edgesReturned;
 	}
 	
-	private static boolean isA(ICategory cat1, ICategory cat2, InTree<ICategory, DefaultEdge> tree) {
+	private static boolean isA(ICategory cat1, ICategory cat2, ClassificationTree<ICategory, DefaultEdge> tree) {
 		return tree.getDescendants(cat1).contains(cat2);
 	}
 

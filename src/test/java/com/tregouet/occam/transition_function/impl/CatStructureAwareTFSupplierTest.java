@@ -25,6 +25,7 @@ import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.tree_finder.error.InvalidInputException;
 
+@SuppressWarnings("unused")
 public class CatStructureAwareTFSupplierTest {
 	
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");

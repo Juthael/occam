@@ -1,7 +1,6 @@
 package com.tregouet.occam.data.operators.impl;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

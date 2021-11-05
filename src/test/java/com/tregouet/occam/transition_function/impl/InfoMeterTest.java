@@ -29,7 +29,6 @@ import com.tregouet.occam.exceptions.PropertyTargetingException;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.ITreeFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;

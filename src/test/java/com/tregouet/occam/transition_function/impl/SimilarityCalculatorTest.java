@@ -33,7 +33,6 @@ import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.transition_function.ISimilarityCalculator;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.ITreeFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;

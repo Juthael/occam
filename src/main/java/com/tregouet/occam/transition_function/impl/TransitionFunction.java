@@ -28,17 +28,18 @@ import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ConjunctiveOperator;
 import com.tregouet.occam.data.operators.impl.Operator;
+import com.tregouet.occam.data.operators.impl.Production;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
 import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.ISimilarityCalculator;
 import com.tregouet.occam.transition_function.IState;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.data.Tree;
 
 public class TransitionFunction implements ITransitionFunction {
 
 	private final List<IContextObject> objects;
-	private final ClassificationTree<ICategory, DefaultEdge> categories;
+	private final Tree<ICategory, DefaultEdge> categories;
 	private final Map<ICategory, IState> categoryToState = new HashMap<>();
 	private final List<IOperator> operators;
 	private final List<IConjunctiveOperator> conjunctiveOperators = new ArrayList<>();
@@ -46,8 +47,8 @@ public class TransitionFunction implements ITransitionFunction {
 	private final ISimilarityCalculator similarityCalc;
 	
 	public TransitionFunction(List<IContextObject> objects, List<ICategory> objectCategories, 
-			ClassificationTree<ICategory, DefaultEdge> categories, 
-			ClassificationTree<IIntentAttribute, IProduction> constructs) {
+			Tree<ICategory, DefaultEdge> categories, 
+			Tree<IIntentAttribute, IProduction> constructs) {
 		IOperator.initializeNameProvider();
 		IConjunctiveOperator.initializeNameProvider();
 		this.objects = objects;
@@ -151,7 +152,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public ClassificationTree<ICategory, DefaultEdge> getCategoryTree() {
+	public Tree<ICategory, DefaultEdge> getCategoryTree() {
 		return categories;
 	}
 
@@ -229,7 +230,7 @@ public class TransitionFunction implements ITransitionFunction {
 			return -1;
 		if (this.getCoherenceScore() < other.getCoherenceScore())
 			return 1;
-		//to avoid loss of elements in TreeSet
+		//to prevent loss of elements in TreeSet
 		if (this.equals(other))
 			return 0;
 		return 1;

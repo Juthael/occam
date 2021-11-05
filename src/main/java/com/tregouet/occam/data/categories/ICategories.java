@@ -7,7 +7,8 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
+import com.tregouet.tree_finder.data.UpperSemilattice;
 import com.tregouet.tree_finder.error.InvalidInputException;
 
 public interface ICategories {
@@ -24,7 +25,9 @@ public interface ICategories {
 	
 	DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice();
 	
-	ITreeFinder<ICategory, DefaultEdge> getCatTreeSupplier() throws InvalidInputException;
+	UpperSemilattice<ICategory, DefaultEdge> getOntologicalUpperSemilattice();
+	
+	IClassificationTreeSupplier getCatTreeSupplier() throws InvalidInputException;
 	
 	IClassTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint);
 	

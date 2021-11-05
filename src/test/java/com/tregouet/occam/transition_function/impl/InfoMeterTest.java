@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.categories.impl.Categories;
 import com.tregouet.occam.data.constructs.IContextObject;
@@ -29,8 +30,8 @@ import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.tree_finder.ITreeFinder;
-import com.tregouet.tree_finder.data.ClassificationTree;
-import com.tregouet.tree_finder.impl.TreeFinderOpt;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
+import com.tregouet.tree_finder.data.Tree;
 
 public class InfoMeterTest {
 
@@ -39,8 +40,8 @@ public class InfoMeterTest {
 	private ICategories categories;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier;
-	private ClassificationTree<ICategory, DefaultEdge> catTree;
+	private IClassificationTreeSupplier classificationTreeSupplier;
+	private Tree<ICategory, DefaultEdge> catTree;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private ITreeFinder<IIntentAttribute, IProduction> constrTreeSupplier;
 	private Map<ITransitionFunction, IInfoMeter> transFuncToInfometer = new HashMap<>();
@@ -61,12 +62,12 @@ public class InfoMeterTest {
 		});
 		classificationTreeSupplier = categories.getCatTreeSupplier();
 		while (classificationTreeSupplier.hasNext()) {
-			catTree = classificationTreeSupplier.next();
+			catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
-			constrTreeSupplier = new TreeFinderOpt<>(filtered_reduced_constructs, true);
+			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
-				ClassificationTree<IIntentAttribute, IProduction> constrTree = constrTreeSupplier.next();
+				Tree<IIntentAttribute, IProduction> constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
 						new TransitionFunction(shapes2Obj, categories.getObjectCategories(), catTree, constrTree);
 				/*

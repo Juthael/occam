@@ -16,16 +16,16 @@ import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.exceptions.PropertyTargetingException;
 import com.tregouet.occam.transition_function.IInfoMeter;
-import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.data.Tree;
 
 public class InfoMeter implements IInfoMeter {
 
 	List<IContextObject> objects;
-	ClassificationTree<ICategory, DefaultEdge> categories;
+	Tree<ICategory, DefaultEdge> categories;
 	List<IOperator> properties;
 	double[] informativity;
 	
-	public InfoMeter(List<IContextObject> objects, ClassificationTree<ICategory, DefaultEdge> categories, 
+	public InfoMeter(List<IContextObject> objects, Tree<ICategory, DefaultEdge> categories, 
 			List<IOperator> properties) {
 		this.objects = objects;
 		this.categories = categories;

@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.categories.impl.Categories;
 import com.tregouet.occam.data.constructs.IContextObject;
@@ -27,8 +28,8 @@ import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.occam.transition_function.impl.TransitionFunction;
 import com.tregouet.occam.transition_function.impl.TransitionFunctionSupplier;
 import com.tregouet.tree_finder.ITreeFinder;
-import com.tregouet.tree_finder.data.ClassificationTree;
-import com.tregouet.tree_finder.impl.TreeFinderOpt;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
+import com.tregouet.tree_finder.data.Tree;
 
 public class ConjunctiveOperatorTest {
 	
@@ -37,11 +38,11 @@ public class ConjunctiveOperatorTest {
 	private static ICategories categories;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private static ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier;
-	private static ClassificationTree<ICategory, DefaultEdge> catTree;
+	private static IClassificationTreeSupplier classificationTreeSupplier;
+	private static Tree<ICategory, DefaultEdge> catTree;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_constructs;
 	private static ITreeFinder<IIntentAttribute, IProduction> constrTreeSupplier;
-	private static ClassificationTree<IIntentAttribute, IProduction> constrTree;
+	private static Tree<IIntentAttribute, IProduction> constrTree;
 	private static TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 
 	@BeforeClass
@@ -56,10 +57,10 @@ public class ConjunctiveOperatorTest {
 		});
 		classificationTreeSupplier = categories.getCatTreeSupplier();
 		while (classificationTreeSupplier.hasNext()) {
-			catTree = classificationTreeSupplier.next();
+			catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			filtered_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
-			constrTreeSupplier = new TreeFinderOpt<>(filtered_constructs, true);
+			constrTreeSupplier = new RestrictorOpt<>(filtered_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 

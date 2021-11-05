@@ -24,7 +24,7 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.ITreeFinder;
-import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.data.Tree;
 
 @SuppressWarnings("unused")
 public class CatTreeToStringConvertorTest {
@@ -62,7 +62,7 @@ public class CatTreeToStringConvertorTest {
 		int treeIdx = 0;
 		*/
 		while (classificationTreeSupplier.hasNext()) {
-			ClassificationTree<ICategory, DefaultEdge> currTree = classificationTreeSupplier.next();
+			Tree<ICategory, DefaultEdge> currTree = classificationTreeSupplier.next();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/

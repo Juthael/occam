@@ -19,6 +19,7 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IClassTreeWithConstrainedExtentStructureSupplier;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
@@ -26,17 +27,17 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.ISymbol;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.Variable;
-import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
+import com.tregouet.tree_finder.data.UpperSemilattice;
 import com.tregouet.tree_finder.error.InvalidInputException;
-import com.tregouet.tree_finder.impl.TreeFinderOpt;
 
 public class Categories implements ICategories {
 	
 	private final List<IContextObject> objects;
 	private final DirectedAcyclicGraph<ICategory, DefaultEdge> lattice;
-	private final DirectedAcyclicGraph<ICategory, DefaultEdge> transitiveReduction;
-	private final List<ICategory> topologicalOrder = new ArrayList<>();
+	private final UpperSemilattice<ICategory, DefaultEdge> ontologicalUSL;
 	private final ICategory ontologicalCommitment;
+	private final List<ICategory> topologicalOrder;
 	private final ICategory truism;
 	private final List<ICategory> objCategories = new ArrayList<>();
 	private final ICategory absurdity;
@@ -63,12 +64,19 @@ public class Categories implements ICategories {
 		}
 		this.truism = truism;
 		this.absurdity = absurdity;
-		ontologicalCommitment = addOntologicalCommitmentToLattice();
-		updateCategoryRank(absurdity, 0);
-		transitiveReduction = (DirectedAcyclicGraph<ICategory, DefaultEdge>) lattice.clone();
-		TransitiveReduction.INSTANCE.reduce(transitiveReduction);
-		TopologicalOrderIterator<ICategory, DefaultEdge> sorter = new TopologicalOrderIterator<>(transitiveReduction);
-		sorter.forEachRemaining(d -> topologicalOrder.add(d));
+		ontologicalCommitment = instantiateOntologicalCommitment();
+		DirectedAcyclicGraph<ICategory, DefaultEdge> ontologicalUSL = 
+				(DirectedAcyclicGraph<ICategory, DefaultEdge>) lattice.clone();
+		ontologicalUSL.removeVertex(absurdity);
+		TransitiveReduction.INSTANCE.reduce(ontologicalUSL);
+		List<ICategory> topologicalOrderedSet = new ArrayList<>();
+		new TopologicalOrderIterator<>(ontologicalUSL).forEachRemaining(topologicalOrderedSet::add);
+		this.ontologicalUSL = 
+				new UpperSemilattice<>(ontologicalUSL, truism, new HashSet<>(objCategories), topologicalOrderedSet);
+		this.ontologicalUSL.addAsNewRoot(ontologicalCommitment);
+		for (ICategory objectCat : objCategories)
+			updateCategoryRank(objectCat, 1);
+		topologicalOrder = this.ontologicalUSL.getTopologicalOrder();
 	}
 
 	@Override
@@ -88,19 +96,8 @@ public class Categories implements ICategories {
 	}
 
 	@Override
-	public ITreeFinder<ICategory, DefaultEdge> getCatTreeSupplier() throws InvalidInputException {
-		DirectedAcyclicGraph<ICategory, DefaultEdge> latticeWithoutAbsurdity = 
-				new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
-		Set<ICategory> categories = new HashSet<>(topologicalOrder);
-		categories.remove(absurdity);
-		for (ICategory category : categories)
-			latticeWithoutAbsurdity.addVertex(category);
-		for (DefaultEdge edge : lattice.edgeSet()) {
-			ICategory source = lattice.getEdgeSource(edge);
-			if (!source.equals(absurdity)) 
-				latticeWithoutAbsurdity.addEdge(source, lattice.getEdgeTarget(edge));
-		}
-		return new TreeFinderOpt<ICategory, DefaultEdge>(latticeWithoutAbsurdity);
+	public IClassificationTreeSupplier getCatTreeSupplier() throws InvalidInputException {
+		return new ClassificationTreeSupplier(new UnidimensionalSorter<>(ontologicalUSL), ontologicalCommitment);
 	}
 
 	@Override
@@ -127,7 +124,7 @@ public class Categories implements ICategories {
 
 	@Override
 	public DirectedAcyclicGraph<ICategory, DefaultEdge> getTransitiveReduction() {
-		return transitiveReduction;
+		return ontologicalUSL;
 	}
 
 	@Override
@@ -156,11 +153,6 @@ public class Categories implements ICategories {
 	}
 	
 	@Override
-	public ICategory getOntologicalCommitment() {
-		return ontologicalCommitment;
-	}
-	
-	@Override
 	public List<ICategory> getTopologicalSorting() {
 		return topologicalOrder;
 	}
@@ -175,7 +167,7 @@ public class Categories implements ICategories {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(cat1) < topologicalOrder.indexOf(cat2)) {
 			BreadthFirstIterator<ICategory, DefaultEdge> iterator = 
-					new BreadthFirstIterator<>(transitiveReduction, cat1);
+					new BreadthFirstIterator<>(ontologicalUSL, cat1);
 			iterator.next();
 			while (!isA && iterator.hasNext())
 				isA = cat2.equals(iterator.next());
@@ -185,7 +177,7 @@ public class Categories implements ICategories {
 	
 	@Override
 	public boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2) {
-		return (transitiveReduction.getEdge(cat1, cat2) != null);
+		return (ontologicalUSL.getEdge(cat1, cat2) != null);
 	}
 	
 	private void buildLattice() {
@@ -255,22 +247,18 @@ public class Categories implements ICategories {
 	    return powerSet;
 	}
 	
-	private ICategory addOntologicalCommitmentToLattice() {
+	private ICategory instantiateOntologicalCommitment() {
 		ICategory ontologicalCommitment;
 		ISymbol variable = new Variable(!AVariable.DEFERRED_NAMING);
-		List<ISymbol> ocProg = new ArrayList<ISymbol>();
-		ocProg.add(variable);
-		IConstruct ocConstruct = new Construct(ocProg);
-		Set<IConstruct> ocIntent =  new HashSet<IConstruct>();
-		ocIntent.add(ocConstruct);
-		ontologicalCommitment = new Category(ocIntent, new HashSet<IContextObject>(objects));
+		List<ISymbol> acceptProg = new ArrayList<ISymbol>();
+		acceptProg.add(variable);
+		IConstruct acceptConstruct = new Construct(acceptProg);
+		Set<IConstruct> acceptIntent =  new HashSet<IConstruct>();
+		acceptIntent.add(acceptConstruct);
+		ontologicalCommitment = new Category(acceptIntent, new HashSet<IContextObject>(objects));
 		ontologicalCommitment.setType(ICategory.ONTOLOGICAL_COMMITMENT);
-		Set<ICategory> latticeCategories = new HashSet<>(lattice.vertexSet());
-		lattice.addVertex(ontologicalCommitment);
-		for (ICategory lattCategory : latticeCategories)
-			lattice.addEdge(lattCategory, ontologicalCommitment);
 		return ontologicalCommitment;
-	}
+	}	
 	
 	private List<ICategory> removeSubCategories(Set<ICategory> categories) {
 		List<ICategory> catList = new ArrayList<>(categories);
@@ -319,7 +307,7 @@ public class Categories implements ICategories {
 	private void updateCategoryRank(ICategory category, int rank) {
 		if (category.rank() < rank || category.type() == ICategory.ABSURDITY) {
 			category.setRank(rank);
-			for (ICategory successor : Graphs.successorListOf(lattice, category)) {
+			for (ICategory successor : Graphs.successorListOf(ontologicalUSL, category)) {
 				updateCategoryRank(successor, rank + 1);
 			}
 		}
@@ -328,6 +316,16 @@ public class Categories implements ICategories {
 	@Override
 	public DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice() {
 		return lattice;
+	}
+
+	@Override
+	public ICategory getOntologicalCommitment() {
+		return ontologicalCommitment;
+	}
+
+	@Override
+	public UpperSemilattice<ICategory, DefaultEdge> getOntologicalUpperSemilattice() {
+		return ontologicalUSL;
 	}
 
 }

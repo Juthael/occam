@@ -14,13 +14,14 @@ import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.data.operators.impl.Production;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.tree_finder.ITreeFinder;
-import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
+import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.error.InvalidInputException;
-import com.tregouet.tree_finder.impl.TreeFinderOpt;
 
 public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier implements ICatStructureAwareTFSupplier {
 
@@ -58,7 +59,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	}
 
 	@Override
-	public ClassificationTree<ICategory, DefaultEdge> getOptimalCategoryStructure() {
+	public Tree<ICategory, DefaultEdge> getOptimalCategoryStructure() {
 		return representedCategories.first().getCategoryTree();
 	}
 
@@ -92,14 +93,14 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	
 	private void populateRepresentedCategories() {
 		while (categoryTreeSupplier.hasNext()) {
-			ClassificationTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.next();
+			Tree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextOntologicalCommitment();
 			IRepresentedCatTree currCatTreeRepresentation = new RepresentedCatTree(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
 			ITreeFinder<IIntentAttribute, IProduction> attTreeSupplier = 
-					new TreeFinderOpt<>(filteredConstructGraph, true);
+					new RestrictorOpt<>(filteredConstructGraph, true);
 			while (attTreeSupplier.hasNext()) {
-				ClassificationTree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
+				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
 				ITransitionFunction transitionFunction = new TransitionFunction(
 						categories.getContextObjects(), categories.getObjectCategories(), 
 						currCatTree, attTree);

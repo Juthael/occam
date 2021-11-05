@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.categories.impl.Categories;
 import com.tregouet.occam.data.constructs.IContextObject;
@@ -25,22 +26,28 @@ import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.ITreeFinder;
-import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
+import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.error.InvalidInputException;
-import com.tregouet.tree_finder.impl.TreeFinderOpt;
+import com.tregouet.tree_finder.utils.StructureInspector;
 
 public class TransitionFunctionSupplierTest {
 
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private static ICategories categories;
-	private static ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier;
-	private static final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private ICategories categories;
+	private IClassificationTreeSupplier classificationTreeSupplier;
+	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
+
+	}
+
+	@Before
+	public void setUp() throws Exception {
 		categories = new Categories(shapes2Obj);
 		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
 		productions.stream().forEach(p -> {
@@ -48,18 +55,18 @@ public class TransitionFunctionSupplierTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-	}
-
-	@Before
-	public void setUp() throws Exception {
 		classificationTreeSupplier = categories.getCatTreeSupplier();
 	}
 
 	@Test
-	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfProductionsSourcesOrTargetsIsTreeOfCategories() {
+	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfProductionsSourcesOrTargetsIsTreeOfCategories() 
+			throws IOException {
 		boolean expectedSetOfCategories = true;
 		while (classificationTreeSupplier.hasNext()) {
-			ClassificationTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
+			Tree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.nextOntologicalCommitment();
+			/*
+			Visualizer.visualizeCategoryGraph(catTree, "2111051022_catTree");
+			*/
 			Set<ICategory> expectedCats = catTree.vertexSet();
 			Set<ICategory> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
@@ -68,8 +75,13 @@ public class TransitionFunctionSupplierTest {
 				returnedCats.add(production.getSourceCategory());
 				returnedCats.add(production.getTargetCategory());
 			}
-			if (!expectedCats.equals(returnedCats))
+			if (!expectedCats.equals(returnedCats)) {
 				expectedSetOfCategories = false;
+				/*
+				Visualizer.visualizeAttributeGraph(filteredConstructs, "2111051022_filteredConstructs");
+				*/
+			}
+				
 		}
 		assertTrue(expectedSetOfCategories);
 	}
@@ -78,7 +90,7 @@ public class TransitionFunctionSupplierTest {
 	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfContainerCategoriesIsTreeOfCategories() {
 		boolean expectedSetOfCategories = true;
 		while (classificationTreeSupplier.hasNext()) {
-			ClassificationTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
+			Tree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			Set<ICategory> expectedCats = catTree.vertexSet();
 			Set<ICategory> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
@@ -97,7 +109,7 @@ public class TransitionFunctionSupplierTest {
 		boolean sourceAndTargetCatsAreRelated = true;
 		int checkCount = 0;
 		while (classificationTreeSupplier.hasNext()) {
-			ClassificationTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
+			Tree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
@@ -116,20 +128,20 @@ public class TransitionFunctionSupplierTest {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
 		while (classificationTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			ClassificationTree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.next();
+			Tree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.nextOntologicalCommitment();
+			
+			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
+			
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
-			try {
-				//safe constructor
-				@SuppressWarnings("unused")
-				ITreeFinder<IIntentAttribute, IProduction> safeTreeFinder = new TreeFinderOpt<>(filteredConstructs);
-				checkCount++;
-			}
-			catch (InvalidInputException e) {
+			
+			Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");
+			System.out.println(checkCount);
+			
+			if (!StructureInspector.isARootedInvertedDirectedAcyclicGraph(filteredConstructs)) {
 				filteredGraphsAreRootedInvertedDAGs = false;
-				Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");
-				Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			}
+			checkCount++;
 		}
 		assertTrue(filteredGraphsAreRootedInvertedDAGs && checkCount > 0);
 	}

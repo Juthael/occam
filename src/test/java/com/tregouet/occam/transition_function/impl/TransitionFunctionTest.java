@@ -40,9 +40,9 @@ import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
 import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.tree_finder.ITreeFinder;
-import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
+import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.error.InvalidInputException;
-import com.tregouet.tree_finder.impl.TreeFinderOpt;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -57,11 +57,11 @@ public class TransitionFunctionTest {
 	private static ICategories categories;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private static ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier;
-	private static ClassificationTree<ICategory, DefaultEdge> catTree;
+	private static IClassificationTreeSupplier classificationTreeSupplier;
+	private static Tree<ICategory, DefaultEdge> catTree;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private static ITreeFinder<IIntentAttribute, IProduction> constrTreeSupplier;
-	private static ClassificationTree<IIntentAttribute, IProduction> constrTree;
+	private static Tree<IIntentAttribute, IProduction> constrTree;
 	private static TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	
 	@BeforeClass
@@ -76,10 +76,10 @@ public class TransitionFunctionTest {
 		});
 		classificationTreeSupplier = categories.getCatTreeSupplier();
 		while (classificationTreeSupplier.hasNext()) {
-			catTree = classificationTreeSupplier.next();
+			catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
-			constrTreeSupplier = new TreeFinderOpt<>(filtered_reduced_constructs, true);
+			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 

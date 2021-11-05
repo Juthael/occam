@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.categories.impl;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Category implements ICategory {
 	public Category(Set<IConstruct> intent, Set<IContextObject> extent) {
 		for (IConstruct construct : intent)
 			this.intent.add(new IntentAttribute(construct, this));
-		this.extent = extent;
+		this.extent = Collections.unmodifiableSet(extent);
 	}
 
 	@Override

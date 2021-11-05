@@ -10,15 +10,15 @@ import com.tregouet.occam.data.categories.utils.CatTreeToStringConvertor;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.data.ClassificationTree;
+import com.tregouet.tree_finder.data.Tree;
 
 public class RepresentedCatTree implements IRepresentedCatTree {
 
-	private final ClassificationTree<ICategory,DefaultEdge> categoryTree;
+	private final Tree<ICategory,DefaultEdge> categoryTree;
 	private final Map<ICategory, String> objectCategoryToName;
 	private ITransitionFunction optimalRepresentation = null;
 	
-	public RepresentedCatTree(ClassificationTree<ICategory, DefaultEdge> categoryTree, 
+	public RepresentedCatTree(Tree<ICategory, DefaultEdge> categoryTree, 
 			Map<ICategory, String> objectCategoryToName) {
 		this.categoryTree = categoryTree;
 		this.objectCategoryToName = objectCategoryToName;
@@ -56,7 +56,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 	}
 
 	@Override
-	public ClassificationTree<ICategory, DefaultEdge> getCategoryTree() {
+	public Tree<ICategory, DefaultEdge> getCategoryTree() {
 		return categoryTree;
 	}
 

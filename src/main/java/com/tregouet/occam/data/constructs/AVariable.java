@@ -58,14 +58,6 @@ public abstract class AVariable implements ISymbol {
 	 */
 	abstract public void setName();
 	
-	private char getNextChar() {
-		if (!charIte.hasNext()) {
-			charIte = populateCharList().iterator();
-			iterationsOverAlphabet++;
-		}
-		return charIte.next();
-	}
-	
 	protected String provideName() {
 		StringBuffer sB = new StringBuffer();
 		sB.append(getNextChar());
@@ -73,6 +65,14 @@ public abstract class AVariable implements ISymbol {
 			sB.append("'");
 		}
 		return sB.toString();
+	}
+	
+	private char getNextChar() {
+		if (!charIte.hasNext()) {
+			charIte = populateCharList().iterator();
+			iterationsOverAlphabet++;
+		}
+		return charIte.next();
 	}
 
 }

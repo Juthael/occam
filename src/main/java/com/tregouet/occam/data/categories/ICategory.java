@@ -20,10 +20,18 @@ public interface ICategory {
 	
 	Set<IContextObject> getExtent();
 	
+	int getID();
+	
 	Set<IIntentAttribute> getIntent();
+	
+	IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws PropertyTargetingException;
 	
 	@Override
 	int hashCode();
+	
+	boolean meets(IConstruct constraint);
+	
+	boolean meets(List<String> constraintAsStrings);
 	
 	int rank();
 	
@@ -35,13 +43,5 @@ public interface ICategory {
 	String toString();
 	
 	int type();
-	
-	boolean meets(List<String> constraintAsStrings);
-	
-	boolean meets(IConstruct constraint);
-	
-	IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws PropertyTargetingException;
-	
-	int getID();
 
 }

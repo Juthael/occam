@@ -118,7 +118,7 @@ public class CategoriesTest {
 	
 	@Test
 	public void whenCatTreeSupplierRequestedThenReturned() {
-		ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier = null;
+		IClassificationTreeSupplier classificationTreeSupplier = null;
 		try {
 			classificationTreeSupplier = categories.getCatTreeSupplier();
 		}
@@ -315,10 +315,10 @@ public class CategoriesTest {
 	
 	@Test
 	public void whenTreeSuppliedThenReallyIsATree() throws IOException, InvalidInputException {
-		ITreeFinder<ICategory, DefaultEdge> treeSupplier = categories.getCatTreeSupplier();
+		IClassificationTreeSupplier treeSupplier = categories.getCatTreeSupplier();
 		int nbOfChecks = 0;
 		while (treeSupplier.hasNext()) {
-			Tree<ICategory, DefaultEdge> nextTree = treeSupplier.next();
+			Tree<ICategory, DefaultEdge> nextTree = treeSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
 			*/

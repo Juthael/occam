@@ -7,8 +7,8 @@ import com.tregouet.occam.exceptions.PropertyTargetingException;
 
 public interface IInfoMeter {
 	
-	double getInformativity(IOperator property);
-	
 	double getInformativity(int objectIndex, List<String> propertySpecification) throws PropertyTargetingException;
+	
+	double getInformativity(IOperator property);
 
 }

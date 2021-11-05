@@ -7,7 +7,6 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 import com.tregouet.tree_finder.error.InvalidInputException;
 
@@ -24,8 +23,6 @@ public interface ICategories {
 	ICategory getAbsurdity();
 	
 	DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice();
-	
-	UpperSemilattice<ICategory, DefaultEdge> getOntologicalUpperSemilattice();
 	
 	IClassificationTreeSupplier getCatTreeSupplier() throws InvalidInputException;
 	
@@ -46,7 +43,11 @@ public interface ICategories {
 	
 	ICategory getOntologicalCommitment();
 	
+	UpperSemilattice<ICategory, DefaultEdge> getOntologicalUpperSemilattice();
+	
 	List<ICategory> getTopologicalSorting();
+	
+	DirectedAcyclicGraph<ICategory, DefaultEdge> getTransitiveReduction();
 	
 	ICategory getTruism();
 	
@@ -57,9 +58,7 @@ public interface ICategories {
 	 * @return
 	 */
 	boolean isA(ICategory cat1, ICategory cat2);
-	
-	boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2);
 
-	DirectedAcyclicGraph<ICategory, DefaultEdge> getTransitiveReduction();
+	boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2);
 
 }

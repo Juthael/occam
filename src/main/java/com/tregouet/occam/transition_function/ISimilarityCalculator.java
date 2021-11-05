@@ -8,14 +8,14 @@ public interface ISimilarityCalculator {
 	
 	double getCoherenceScore(int[] catIDs);
 	
-	double howSimilar(int catID1, int catID2);
-	
-	double howSimilarTo(int catID1, int catID2);
-	
-	double howProtoypical(int catID);
+	SparseIntDirectedWeightedGraph getSparseGraph();
 	
 	double howPrototypicalAmong(int catID, int[] otherCatIDs);
 	
-	SparseIntDirectedWeightedGraph getSparseGraph();
+	double howProtoypical(int catID);
+	
+	double howSimilar(int catID1, int catID2);
+	
+	double howSimilarTo(int catID1, int catID2);
 
 }

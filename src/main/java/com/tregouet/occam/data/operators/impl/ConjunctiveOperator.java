@@ -28,13 +28,24 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 	}
 
 	@Override
-	public double getInformativity() {
-		return informativity;
+	public boolean addOperator(IOperator operator) {
+		if (this.operatingState.equals(operator.getOperatingState()) 
+				&& this.nextState.equals(operator.getNextState())) {
+			operators.add(operator);
+			informativity += operator.getInformativity();
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void setInformativity(IInfoMeter infometer) {
-		// irrelevant
+	public List<IOperator> getComponents() {
+		return operators;
+	}
+
+	@Override
+	public double getInformativity() {
+		return informativity;
 	}
 
 	@Override
@@ -91,19 +102,8 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 	}
 
 	@Override
-	public boolean addOperator(IOperator operator) {
-		if (this.operatingState.equals(operator.getOperatingState()) 
-				&& this.nextState.equals(operator.getNextState())) {
-			operators.add(operator);
-			informativity += operator.getInformativity();
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public List<IOperator> getComponents() {
-		return operators;
+	public void setInformativity(IInfoMeter infometer) {
+		// irrelevant
 	}
 
 }

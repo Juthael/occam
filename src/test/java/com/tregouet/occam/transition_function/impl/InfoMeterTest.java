@@ -30,6 +30,7 @@ import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -43,7 +44,7 @@ public class InfoMeterTest {
 	private IClassificationTreeSupplier classificationTreeSupplier;
 	private Tree<ICategory, DefaultEdge> catTree;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
-	private ITreeFinder<IIntentAttribute, IProduction> constrTreeSupplier;
+	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
 	private Map<ITransitionFunction, IInfoMeter> transFuncToInfometer = new HashMap<>();
 	
 	@BeforeClass

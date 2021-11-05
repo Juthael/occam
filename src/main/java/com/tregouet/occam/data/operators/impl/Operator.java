@@ -127,6 +127,11 @@ public class Operator implements IOperator {
 	}
 	
 
+	@Override
+	public void setInformativity(IInfoMeter infometer) {
+		informativity = infometer.getInformativity(this);		
+	}
+
 	@Override 
 	public String toString() {
 		if (this.isBlank())
@@ -138,11 +143,6 @@ public class Operator implements IOperator {
 		}
 		sB.deleteCharAt(sB.length() - 1);
 		return sB.toString();
-	}
-
-	@Override
-	public void setInformativity(IInfoMeter infometer) {
-		informativity = infometer.getInformativity(this);		
 	}
 
 }

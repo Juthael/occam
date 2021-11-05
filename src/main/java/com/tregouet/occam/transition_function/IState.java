@@ -24,6 +24,8 @@ public interface IState {
 	
 	void generateOutputLanguage();
 	
+	ICategory getAssociatedCategory();
+	
 	int getExtentSize();
 	
 	Set<IIntentAttribute> getInputLanguage();
@@ -46,7 +48,5 @@ public interface IState {
 	void proceedTransitions();
 	
 	void setRank(int rank);
-	
-	ICategory getAssociatedCategory();
 
 }

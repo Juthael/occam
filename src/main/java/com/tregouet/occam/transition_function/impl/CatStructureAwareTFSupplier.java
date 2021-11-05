@@ -14,11 +14,10 @@ import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.data.operators.impl.Production;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.error.InvalidInputException;
@@ -97,7 +96,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 			IRepresentedCatTree currCatTreeRepresentation = new RepresentedCatTree(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
-			ITreeFinder<IIntentAttribute, IProduction> attTreeSupplier = 
+			IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> attTreeSupplier = 
 					new RestrictorOpt<>(filteredConstructGraph, true);
 			while (attTreeSupplier.hasNext()) {
 				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();

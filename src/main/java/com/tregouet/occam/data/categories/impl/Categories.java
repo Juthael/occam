@@ -96,6 +96,11 @@ public class Categories implements ICategories {
 	}
 
 	@Override
+	public DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice() {
+		return lattice;
+	}
+
+	@Override
 	public IClassificationTreeSupplier getCatTreeSupplier() throws InvalidInputException {
 		return new ClassificationTreeSupplier(new UnidimensionalSorter<>(ontologicalUSL), ontologicalCommitment);
 	}
@@ -120,11 +125,6 @@ public class Categories implements ICategories {
 	@Override
 	public List<IContextObject> getContextObjects() {
 		return objects;
-	}
-
-	@Override
-	public DirectedAcyclicGraph<ICategory, DefaultEdge> getTransitiveReduction() {
-		return ontologicalUSL;
 	}
 
 	@Override
@@ -153,15 +153,30 @@ public class Categories implements ICategories {
 	}
 	
 	@Override
+	public ICategory getOntologicalCommitment() {
+		return ontologicalCommitment;
+	}
+	
+	@Override
+	public UpperSemilattice<ICategory, DefaultEdge> getOntologicalUpperSemilattice() {
+		return ontologicalUSL;
+	}	
+	
+	@Override
 	public List<ICategory> getTopologicalSorting() {
 		return topologicalOrder;
 	}
 	
 	@Override
+	public DirectedAcyclicGraph<ICategory, DefaultEdge> getTransitiveReduction() {
+		return ontologicalUSL;
+	}
+	
+	@Override
 	public ICategory getTruism() {
 		return truism;
-	}	
-	
+	}
+
 	@Override
 	public boolean isA(ICategory cat1, ICategory cat2) {
 		boolean isA = false;
@@ -174,11 +189,33 @@ public class Categories implements ICategories {
 		}
 		return isA;		
 	}
-	
+
 	@Override
 	public boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2) {
 		return (ontologicalUSL.getEdge(cat1, cat2) != null);
 	}
+	
+	private Map<Set<IConstruct>, Set<IContextObject>> buildIntentToExtentRel() {
+		Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents = new HashMap<>();
+		Set<Set<IContextObject>> objectsPowerSet = buildObjectsPowerSet();
+		for (Set<IContextObject> subset : objectsPowerSet) {
+			Set<IConstruct> intent;
+			if (subset.size() > 1)
+				intent = IntentBldr.getIntent(subset);
+			else if (subset.size() == 1)
+				intent = new HashSet<IConstruct>(subset.iterator().next().getConstructs());
+			else {
+				intent = new HashSet<IConstruct>();
+				for (IContextObject obj : objects)
+					intent.addAll(obj.getConstructs());
+			}
+			if (intentsToExtents.containsKey(intent))
+				intentsToExtents.get(intent).addAll(subset);
+			else intentsToExtents.put(intent, subset);
+		}
+		intentsToExtents = singularizeConstructs(intentsToExtents);
+		return intentsToExtents;
+	}	
 	
 	private void buildLattice() {
 		Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents = buildIntentToExtentRel();
@@ -212,28 +249,6 @@ public class Categories implements ICategories {
 		}
 	}
 
-	private Map<Set<IConstruct>, Set<IContextObject>> buildIntentToExtentRel() {
-		Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents = new HashMap<>();
-		Set<Set<IContextObject>> objectsPowerSet = buildObjectsPowerSet();
-		for (Set<IContextObject> subset : objectsPowerSet) {
-			Set<IConstruct> intent;
-			if (subset.size() > 1)
-				intent = IntentBldr.getIntent(subset);
-			else if (subset.size() == 1)
-				intent = new HashSet<IConstruct>(subset.iterator().next().getConstructs());
-			else {
-				intent = new HashSet<IConstruct>();
-				for (IContextObject obj : objects)
-					intent.addAll(obj.getConstructs());
-			}
-			if (intentsToExtents.containsKey(intent))
-				intentsToExtents.get(intent).addAll(subset);
-			else intentsToExtents.put(intent, subset);
-		}
-		intentsToExtents = singularizeConstructs(intentsToExtents);
-		return intentsToExtents;
-	}
-
 	private Set<Set<IContextObject>> buildObjectsPowerSet() {
 	    Set<Set<IContextObject>> powerSet = new HashSet<Set<IContextObject>>();
 	    for (int i = 0; i < (1 << objects.size()); i++) {
@@ -246,7 +261,7 @@ public class Categories implements ICategories {
 	    }
 	    return powerSet;
 	}
-	
+
 	private ICategory instantiateOntologicalCommitment() {
 		ICategory ontologicalCommitment;
 		ISymbol variable = new Variable(!AVariable.DEFERRED_NAMING);
@@ -258,8 +273,8 @@ public class Categories implements ICategories {
 		ontologicalCommitment = new Category(acceptIntent, new HashSet<IContextObject>(objects));
 		ontologicalCommitment.setType(ICategory.ONTOLOGICAL_COMMITMENT);
 		return ontologicalCommitment;
-	}	
-	
+	}
+
 	private List<ICategory> removeSubCategories(Set<ICategory> categories) {
 		List<ICategory> catList = new ArrayList<>(categories);
 		for (int i = 0 ; i < catList.size() - 1 ; i++) {
@@ -311,21 +326,6 @@ public class Categories implements ICategories {
 				updateCategoryRank(successor, rank + 1);
 			}
 		}
-	}
-
-	@Override
-	public DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice() {
-		return lattice;
-	}
-
-	@Override
-	public ICategory getOntologicalCommitment() {
-		return ontologicalCommitment;
-	}
-
-	@Override
-	public UpperSemilattice<ICategory, DefaultEdge> getOntologicalUpperSemilattice() {
-		return ontologicalUSL;
 	}
 
 }

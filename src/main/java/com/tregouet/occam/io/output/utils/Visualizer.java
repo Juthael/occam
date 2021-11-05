@@ -26,28 +26,7 @@ import guru.nidi.graphviz.parse.Parser;
 
 public class Visualizer {
 
-	public static void visualizeCategoryGraph(DirectedAcyclicGraph<ICategory, DefaultEdge> graph, String fileName) throws IOException {
-		//convert in DOT format
-		DOTExporter<ICategory,DefaultEdge> exporter = new DOTExporter<>();
-		exporter.setGraphAttributeProvider(() -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
-			return map;
-		});
-		exporter.setVertexAttributeProvider((v) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.toString()));
-			return map;
-		});
-		Writer writer = new StringWriter();
-		exporter.exportGraph(graph, writer);
-		String stringDOT = writer.toString();
-		/*
-		 System.out.println(writer.toString());
-		 */
-		//display graph
-		MutableGraph dotGraph = new Parser().read(stringDOT);
-		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
+	private Visualizer() {
 	}
 	
 	public static void visualizeAttributeGraph(DirectedAcyclicGraph<IIntentAttribute, IProduction> graph, String fileName) throws IOException {
@@ -79,6 +58,30 @@ public class Visualizer {
 		Graphviz.fromGraph(dotGraph)
 			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
 	}	
+	
+	public static void visualizeCategoryGraph(DirectedAcyclicGraph<ICategory, DefaultEdge> graph, String fileName) throws IOException {
+		//convert in DOT format
+		DOTExporter<ICategory,DefaultEdge> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
+		exporter.setVertexAttributeProvider((v) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(v.toString()));
+			return map;
+		});
+		Writer writer = new StringWriter();
+		exporter.exportGraph(graph, writer);
+		String stringDOT = writer.toString();
+		/*
+		 System.out.println(writer.toString());
+		 */
+		//display graph
+		MutableGraph dotGraph = new Parser().read(stringDOT);
+		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
+	}
 	
 	public static void visualizeTransitionFunction(ITransitionFunction tF, String fileName, boolean conjunctiveOperators) throws IOException {
 		MutableGraph dotGraph;
@@ -117,9 +120,6 @@ public class Visualizer {
 		MutableGraph dotGraph = new Parser().read(stringDOT);
 		Graphviz.fromGraph(dotGraph)
 			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
-	}
-	
-	private Visualizer() {
 	}
 	
 

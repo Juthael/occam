@@ -42,7 +42,7 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 			//Any state has a category as one of its component. This category ID is the state ID.
 			Integer operatingStateIndex = indexOf(op.getOperatingState().getStateID());
 			Integer nextStateIndex = indexOf(op.getNextState().getStateID());
-			Double informativity = (Double) op.getInformativity();
+			Double informativity = op.getInformativity();
 			edges.add(new Triple<Integer, Integer, Double>(operatingStateIndex, nextStateIndex, informativity));
 		}
 		weightedTransitions = new SparseIntDirectedWeightedGraph(nbOfCategories, edges);
@@ -62,11 +62,20 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 		return getCoherenceScore(vertices);
 	}
 	
+	/**
+	 * Public for test use.
+	 * @param vertex
+	 * @return
+	 */
+	public Set<Integer> getReacheableEdgesFrom(int catID) {
+		return getReacheableEdgesFrom(indexOf(catID));
+	}	
+	
 	@Override
 	public SparseIntDirectedWeightedGraph getSparseGraph() {
 		return weightedTransitions;
-	}	
-	
+	}
+
 	@Override
 	public double howPrototypicalAmong(int catID, int[] otherCatIDs) {
 		Integer vertex = indexOf(catID);
@@ -81,20 +90,29 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 	public double howProtoypical(int catID) {
 		return howPrototypicalAmong(indexOf(catID), objCatIdxInTopologicalSorting);
 	}
-
+	
 	@Override
 	public double howSimilar(int catID1, int catID2) {
 		return howSimilar(indexOf(catID1), indexOf(catID2));
 	}
-	
+
 	@Override
 	public double howSimilarTo(int catID1, int catID2) {
 		return howSimilarTo(indexOf(catID1), indexOf(catID2));
 	}
-
+	
+	/**
+	 * Public for test use
+	 * @param catID
+	 * @return
+	 */
+	public Integer indexOf(int catID) {
+		return Ints.indexOf(topologicalSortingOfCatIDs, catID);
+	}
+	
 	private double getCoherenceScore(Integer[] vertices) {
 		double similaritySum = 0.0;
-		double n = (double) vertices.length;
+		double n = vertices.length;
 		for (int i = 0 ; i < vertices.length - 1 ; i++) {
 			for (int j = i + 1 ; j < vertices.length ; j++) {
 				similaritySum += howSimilar(vertices[i], vertices[j]);
@@ -103,19 +121,10 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 		return similaritySum / ((n*(n-1))/2);
 	}
 	
-	/**
-	 * Public for test use.
-	 * @param vertex
-	 * @return
-	 */
-	public Set<Integer> getReacheableEdgesFrom(int catID) {
-		return getReacheableEdgesFrom(indexOf(catID));
-	}
-	
 	private Set<Integer> getReacheableEdgesFrom(Integer vertex) {
 		return getReacheableEdgesFrom(vertex, new HashSet<Integer>());
 	}
-	
+
 	private Set<Integer> getReacheableEdgesFrom(Integer vertex, Set<Integer> alreadyFound) {
 		if (weightedTransitions.outDegreeOf(vertex) != 0) {
 			Set<Integer> nextEdges = weightedTransitions.outgoingEdgesOf(vertex);
@@ -127,7 +136,7 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 		}
 		return alreadyFound;
 	}
-
+	
 	private double howPrototypicalAmong(Integer vertex, Integer[] others) {
 		double similarityToParameterSum = 0.0;
 		int nbOfComparisons = 0;
@@ -137,9 +146,9 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 				nbOfComparisons++;
 			}
 		}
-		return similarityToParameterSum / (double) nbOfComparisons;
+		return similarityToParameterSum / nbOfComparisons;
 	}
-	
+
 	private double howSimilar(Integer vertex1, Integer vertex2) {
 		double similarity = 0.0;
 		Set<Integer> edgesFromCatID1ToRoot = getReacheableEdgesFrom(vertex1);
@@ -157,7 +166,7 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 			similarity -= weightedTransitions.getEdgeWeight(edge);
 		return similarity;
 	}
-
+	
 	private double howSimilarTo(Integer vertex1, Integer vertex2) {
 		double similarity = 0.0;
 		Set<Integer> edgesFromCatID1ToRoot = getReacheableEdgesFrom(vertex1);
@@ -174,15 +183,6 @@ public class SimilarityCalculator implements ISimilarityCalculator {
 		for (Integer edge : catID1ToRootMinusUnion)
 			similarity -= weightedTransitions.getEdgeWeight(edge);
 		return similarity;
-	}
-	
-	/**
-	 * Public for test use
-	 * @param catID
-	 * @return
-	 */
-	public Integer indexOf(int catID) {
-		return (Integer) Ints.indexOf(topologicalSortingOfCatIDs, catID);
 	}
 
 }

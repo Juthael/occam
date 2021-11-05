@@ -28,7 +28,6 @@ import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ConjunctiveOperator;
 import com.tregouet.occam.data.operators.impl.Operator;
-import com.tregouet.occam.data.operators.impl.Production;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
 import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.ISimilarityCalculator;
@@ -132,125 +131,6 @@ public class TransitionFunction implements ITransitionFunction {
 		return sB.toString();
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TransitionFunction other = (TransitionFunction) obj;
-		if (Double.doubleToLongBits(getCoherenceScore()) != Double.doubleToLongBits(other.getCoherenceScore()))
-			return false;
-		if (operators == null) {
-			if (other.operators != null)
-				return false;
-		} else if (!operators.equals(other.operators))
-			return false;
-		return true;
-	}
-
-	@Override
-	public Tree<ICategory, DefaultEdge> getCategoryTree() {
-		return categories;
-	}
-
-	@Override
-	public String getCategoryTreeAsDOTFile() {
-		DOTExporter<ICategory,DefaultEdge> exporter = new DOTExporter<>();
-		exporter.setVertexAttributeProvider((v) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.toString()));
-			return map;
-		});
-		Writer writer = new StringWriter();
-		exporter.exportGraph(categories, writer);
-		return writer.toString();
-	}
-	
-	@Override
-	public ICompiler getCompiler() {
-		return new Compiler(objects, this);
-	}
-
-	@Override
-	public IDSLanguageDisplayer getDomainSpecificLanguage() {
-		return new DSLanguageDisplayer(this.getStates(), operators);
-	}
-
-	@Override
-	public List<IState> getStates() {
-		return new ArrayList<>(categoryToState.values());
-	}
-
-	@Override
-	public String getTransitionFunctionAsDOTFile() {
-		DOTExporter<IState,IOperator> exporter = new DOTExporter<>();
-		exporter.setGraphAttributeProvider(() -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
-			return map;
-		});
-		exporter.setVertexAttributeProvider((s) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(setIntentsAsString(s.getInputLanguage())));
-			return map;
-		});
-		exporter.setEdgeAttributeProvider((o) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(setOperatorAsString(o)));
-			return map;
-		});		
-		Writer writer = new StringWriter();
-		DirectedMultigraph<IState, IOperator> stateMachine = new DirectedMultigraph<>(null, null, false);
-		for (IState state : getStates())
-			stateMachine.addVertex(state);
-		for (IOperator operator : operators)
-			stateMachine.addEdge(operator.getOperatingState(), operator.getNextState(), operator);
-		exporter.exportGraph(stateMachine, writer);
-		return writer.toString();
-	}
-	
-	@Override
-	public List<IOperator> getTransitions() {
-		return operators;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = prime + ((operators == null) ? 0 : operators.hashCode());
-		return result;
-	}
-
-	@Override
-	public int compareTo(ITransitionFunction other) {
-		if (this.getCoherenceScore() > other.getCoherenceScore())
-			return -1;
-		if (this.getCoherenceScore() < other.getCoherenceScore())
-			return 1;
-		//to prevent loss of elements in TreeSet
-		if (this.equals(other))
-			return 0;
-		return 1;
-	}
-
-	@Override
-	public ISimilarityCalculator getSimilarityCalculator() {
-		return similarityCalc;
-	}
-
-	@Override
-	public double getCoherenceScore() {
-		return similarityCalc.getCoherenceScore();
-	}
-
-	@Override
-	public IInfoMeter getInfometer() {
-		return infometer;
-	}
-	
 	private static String setOperatorAsString(IOperator operator) {
 		StringBuilder sB = new StringBuilder();
 		if (operator instanceof IConjunctiveOperator) {
@@ -284,6 +164,90 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
+	public int compareTo(ITransitionFunction other) {
+		if (this.getCoherenceScore() > other.getCoherenceScore())
+			return -1;
+		if (this.getCoherenceScore() < other.getCoherenceScore())
+			return 1;
+		//to prevent loss of elements in TreeSet
+		if (this.equals(other))
+			return 0;
+		return 1;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TransitionFunction other = (TransitionFunction) obj;
+		if (Double.doubleToLongBits(getCoherenceScore()) != Double.doubleToLongBits(other.getCoherenceScore()))
+			return false;
+		if (operators == null) {
+			if (other.operators != null)
+				return false;
+		} else if (!operators.equals(other.operators))
+			return false;
+		return true;
+	}
+	
+	@Override
+	public Tree<ICategory, DefaultEdge> getCategoryTree() {
+		return categories;
+	}
+
+	@Override
+	public String getCategoryTreeAsDOTFile() {
+		DOTExporter<ICategory,DefaultEdge> exporter = new DOTExporter<>();
+		exporter.setVertexAttributeProvider((v) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(v.toString()));
+			return map;
+		});
+		Writer writer = new StringWriter();
+		exporter.exportGraph(categories, writer);
+		return writer.toString();
+	}
+
+	@Override
+	public double getCoherenceScore() {
+		return similarityCalc.getCoherenceScore();
+	}
+
+	@Override
+	public ICompiler getCompiler() {
+		return new Compiler(objects, this);
+	}
+	
+	@Override
+	public List<IConjunctiveOperator> getConjunctiveTransitions() {
+		return conjunctiveOperators;
+	}
+
+	@Override
+	public IDSLanguageDisplayer getDomainSpecificLanguage() {
+		return new DSLanguageDisplayer(this.getStates(), operators);
+	}
+
+	@Override
+	public IInfoMeter getInfometer() {
+		return infometer;
+	}
+
+	@Override
+	public ISimilarityCalculator getSimilarityCalculator() {
+		return similarityCalc;
+	}
+
+	@Override
+	public List<IState> getStates() {
+		return new ArrayList<>(categoryToState.values());
+	}
+
+	@Override
 	public String getTFWithConjunctiveOperatorsAsDOTFile() {
 		DOTExporter<IState,IConjunctiveOperator> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
@@ -310,10 +274,45 @@ public class TransitionFunction implements ITransitionFunction {
 		exporter.exportGraph(stateMachine, writer);
 		return writer.toString();
 	}
+	
+	@Override
+	public String getTransitionFunctionAsDOTFile() {
+		DOTExporter<IState,IOperator> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
+		exporter.setVertexAttributeProvider((s) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(setIntentsAsString(s.getInputLanguage())));
+			return map;
+		});
+		exporter.setEdgeAttributeProvider((o) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(setOperatorAsString(o)));
+			return map;
+		});		
+		Writer writer = new StringWriter();
+		DirectedMultigraph<IState, IOperator> stateMachine = new DirectedMultigraph<>(null, null, false);
+		for (IState state : getStates())
+			stateMachine.addVertex(state);
+		for (IOperator operator : operators)
+			stateMachine.addEdge(operator.getOperatingState(), operator.getNextState(), operator);
+		exporter.exportGraph(stateMachine, writer);
+		return writer.toString();
+	}
 
 	@Override
-	public List<IConjunctiveOperator> getConjunctiveTransitions() {
-		return conjunctiveOperators;
+	public List<IOperator> getTransitions() {
+		return operators;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = prime + ((operators == null) ? 0 : operators.hashCode());
+		return result;
 	}	
 
 }

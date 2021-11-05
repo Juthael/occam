@@ -129,15 +129,15 @@ public class TransitionFunctionSupplierTest {
 		int checkCount = 0;
 		while (classificationTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
 			Tree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.nextOntologicalCommitment();
-			
+			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
-			
+			*/
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
-			
+			/*
 			Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");
 			System.out.println(checkCount);
-			
+			*/
 			if (!StructureInspector.isARootedInvertedDirectedAcyclicGraph(filteredConstructs)) {
 				filteredGraphsAreRootedInvertedDAGs = false;
 			}

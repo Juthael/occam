@@ -38,9 +38,8 @@ public class InfoMeter implements IInfoMeter {
 		}
 	}
 
-	@Override
-	public double getInformativity(IOperator property) {
-		return informativity[properties.indexOf(property)];
+	private static double binaryLogarithm(double arg) {
+		return Math.log10(arg)/Math.log10(2);
 	}
 
 	@Override
@@ -83,10 +82,9 @@ public class InfoMeter implements IInfoMeter {
 		return targetProperty.getInformativity();
 	}
 	
-	private double calculatePropertyInformativity(IOperator property) {
-		if (property.isBlank())
-			return 0.0;
-		return amountOfSurprise(property) * diagnosticity(property);
+	@Override
+	public double getInformativity(IOperator property) {
+		return informativity[properties.indexOf(property)];
 	}
 	
 	private double amountOfSurprise(IOperator property) {
@@ -96,12 +94,14 @@ public class InfoMeter implements IInfoMeter {
 				);
 	}
 	
-	private double diagnosticity(IOperator property) {
-		return (double) property.getOperatingState().getExtentSize() / (double) objects.size();
+	private double calculatePropertyInformativity(IOperator property) {
+		if (property.isBlank())
+			return 0.0;
+		return amountOfSurprise(property) * diagnosticity(property);
 	}
 	
-	private static double binaryLogarithm(double arg) {
-		return Math.log10(arg)/Math.log10(2);
+	private double diagnosticity(IOperator property) {
+		return (double) property.getOperatingState().getExtentSize() / (double) objects.size();
 	}
 	
 	private ICategory getObjectCategory(IContextObject object) {

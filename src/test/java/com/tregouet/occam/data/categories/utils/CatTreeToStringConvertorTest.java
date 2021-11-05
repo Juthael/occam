@@ -32,7 +32,7 @@ public class CatTreeToStringConvertorTest {
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private static ICategories categories;
-	private static ITreeFinder<ICategory, DefaultEdge> classificationTreeSupplier;
+	private static IClassificationTreeSupplier classificationTreeSupplier;
 	private static Map<ICategory, String> objCatToName = new HashMap<>();
 	
 	@BeforeClass
@@ -62,7 +62,7 @@ public class CatTreeToStringConvertorTest {
 		int treeIdx = 0;
 		*/
 		while (classificationTreeSupplier.hasNext()) {
-			Tree<ICategory, DefaultEdge> currTree = classificationTreeSupplier.next();
+			Tree<ICategory, DefaultEdge> currTree = classificationTreeSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/

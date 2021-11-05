@@ -13,6 +13,16 @@ public interface IOperator {
 	StringBuilder prime = new StringBuilder();
 	ListIterator<Character> charIte = populateCharList().listIterator();
 	
+	static void initializeNameProvider() {
+		while (charIte.hasPrevious())
+			charIte.previous();
+		prime.setLength(0);
+	}
+	
+	static String provideName() {
+		return getNextChar() + prime.toString();
+	}
+	
 	private static char getNextChar() {
 		if (!charIte.hasNext()) {
 			while(charIte.hasPrevious())
@@ -30,16 +40,6 @@ public interface IOperator {
 		return authorizedCharASCII;
 	}
 	
-	static void initializeNameProvider() {
-		while (charIte.hasPrevious())
-			charIte.previous();
-		prime.setLength(0);
-	}
-	
-	static String provideName() {
-		return getNextChar() + prime.toString();
-	}
-	
 	@Override
 	public int hashCode();
 	
@@ -47,8 +47,6 @@ public interface IOperator {
 	boolean equals(Object o);
 	
 	double getInformativity();
-	
-	void setInformativity(IInfoMeter infometer);
 	
 	String getName();
 	
@@ -58,11 +56,13 @@ public interface IOperator {
 	
 	boolean isBlank();
 	
-	IIntentAttribute operateOn(IIntentAttribute input);	
+	IIntentAttribute operateOn(IIntentAttribute input);
 	
-	List<IProduction> operation();
+	List<IProduction> operation();	
 	
 	List<ILambdaExpression> semantics();
+	
+	void setInformativity(IInfoMeter infometer);
 	
 	@Override
 	String toString();	

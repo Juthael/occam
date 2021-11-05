@@ -19,27 +19,27 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	String getCategoryTreeAsDOTFile();
 	
+	double getCoherenceScore();
+	
 	ICompiler getCompiler();
-	
-	IDSLanguageDisplayer getDomainSpecificLanguage();
-	
-	List<IState> getStates();
-	
-	String getTransitionFunctionAsDOTFile();
-	
-	String getTFWithConjunctiveOperatorsAsDOTFile();
-	
-	List<IOperator> getTransitions();
 	
 	List<IConjunctiveOperator> getConjunctiveTransitions();
 	
-	@Override
-	int hashCode();
+	IDSLanguageDisplayer getDomainSpecificLanguage();
+	
+	IInfoMeter getInfometer();
 	
 	ISimilarityCalculator getSimilarityCalculator();
 	
-	double getCoherenceScore();
+	List<IState> getStates();
 	
-	IInfoMeter getInfometer();
+	String getTFWithConjunctiveOperatorsAsDOTFile();
+	
+	String getTransitionFunctionAsDOTFile();
+	
+	List<IOperator> getTransitions();
+	
+	@Override
+	int hashCode();
 
 }

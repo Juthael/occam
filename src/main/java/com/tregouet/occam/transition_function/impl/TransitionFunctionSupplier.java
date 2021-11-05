@@ -12,7 +12,6 @@ import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
-import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.error.InvalidInputException;
 

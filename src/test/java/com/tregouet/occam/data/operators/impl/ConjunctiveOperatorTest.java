@@ -28,6 +28,7 @@ import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.occam.transition_function.impl.TransitionFunction;
 import com.tregouet.occam.transition_function.impl.TransitionFunctionSupplier;
 import com.tregouet.tree_finder.ITreeFinder;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -41,7 +42,7 @@ public class ConjunctiveOperatorTest {
 	private static IClassificationTreeSupplier classificationTreeSupplier;
 	private static Tree<ICategory, DefaultEdge> catTree;
 	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_constructs;
-	private static ITreeFinder<IIntentAttribute, IProduction> constrTreeSupplier;
+	private static IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
 	private static Tree<IIntentAttribute, IProduction> constrTree;
 	private static TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 

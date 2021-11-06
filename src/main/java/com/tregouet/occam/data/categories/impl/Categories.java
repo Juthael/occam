@@ -73,7 +73,7 @@ public class Categories implements ICategories {
 		new TopologicalOrderIterator<>(ontologicalUSL).forEachRemaining(topologicalOrderedSet::add);
 		this.ontologicalUSL = 
 				new UpperSemilattice<>(ontologicalUSL, truism, new HashSet<>(objCategories), topologicalOrderedSet);
-		this.ontologicalUSL.addAsNewRoot(ontologicalCommitment);
+		this.ontologicalUSL.addAsNewRoot(ontologicalCommitment, true);
 		for (ICategory objectCat : objCategories)
 			updateCategoryRank(objectCat, 1);
 		topologicalOrder = this.ontologicalUSL.getTopologicalOrder();

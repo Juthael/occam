@@ -57,24 +57,25 @@ public class BasicTFSupplierTest {
 		IBasicTFSupplier transFuncSupplier = new BasicTFSupplier(categories, constructs);
 		ITransitionFunction tF = transFuncSupplier.next();
 		double prevScore = tF.getCoherenceScore();
-		/*
+		
+		Visualizer.visualizeCategoryGraph(categories.getOntologicalUpperSemilattice(), "2111051132_catUSL");
 		System.out.println("TF0 : " + Double.toString(prevScore));
-		Visualizer.visualizeTransitionFunction(tF, "2109251004_TFbasicSupp0" + Integer.toString(0), true);
-		*/
+		Visualizer.visualizeTransitionFunction(tF, "2111051132_TFbasicSupp" + Integer.toString(0), true);
+		
 		while (transFuncSupplier.hasNext()) {
 			tF = transFuncSupplier.next();
 			double nextScore = tF.getCoherenceScore();
-			/*
+			
 			System.out.println("TF" + Integer.toString(checkCount) + " : " + Double.toString(prevScore));
-			Visualizer.visualizeTransitionFunction(tF, "2109251004_TFbasicSupp0" + Integer.toString(checkCount), true);
-			*/
+			Visualizer.visualizeTransitionFunction(tF, "2111051132_TFbasicSupp" + Integer.toString(checkCount), true);
+			
 			if (nextScore > prevScore)
 				increasingOrder = false;
 			prevScore = nextScore;
 			checkCount++;
-			/*
+			
 			System.out.println(checkCount + " : " + Double.toString(nextScore));
-			*/
+			
 		}
 		assertTrue(increasingOrder && checkCount > 0);
 	}

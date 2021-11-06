@@ -9,7 +9,7 @@ public interface IClassificationTreeSupplier extends IUnidimensionalSorter<ICate
 	
 	public static Tree<ICategory, DefaultEdge> proceedToOntologicalCommitment(
 			Tree<ICategory, DefaultEdge> classificationTree, ICategory ontologicalCommitment) {
-		classificationTree.addAsNewRoot(ontologicalCommitment);
+		classificationTree.addAsNewRoot(ontologicalCommitment, true);
 		return classificationTree;
 	}
 	

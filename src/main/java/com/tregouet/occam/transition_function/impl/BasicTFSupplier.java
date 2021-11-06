@@ -68,7 +68,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 			IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> attTreeSupplier = 
 					new RestrictorOpt<IIntentAttribute, IProduction>(filteredConstructGraph, true);
 			while (attTreeSupplier.hasNext()) {
-				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
+				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = new TransitionFunction(
 						categories.getContextObjects(), categories.getObjectCategories(), 
 						currCatTree, attTree);

@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
+import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
+import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
@@ -25,6 +27,10 @@ import com.tregouet.tree_finder.error.InvalidInputException;
 
 public class Representations implements com.tregouet.occam.io.output.IRepresentations {
 
+	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
+			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
+	private static final SimilarityCalculationStrategy SIM_CALC_STRATEGY = 
+			SimilarityCalculationStrategy.CONTRAST_MODEL;
 	private final List<IContextObject> objects;
 	private final ICategories categories;
 	private final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
@@ -63,7 +69,7 @@ public class Representations implements com.tregouet.occam.io.output.IRepresenta
 
 	@Override
 	public ITransitionFunctionSupplier getRepresentationSupplier() throws InvalidInputException {
-		return new BasicTFSupplier(categories, constructs);
+		return new BasicTFSupplier(categories, constructs, PROP_WHEIGHING_STRATEGY, SIM_CALC_STRATEGY);
 	}
 
 	@Override

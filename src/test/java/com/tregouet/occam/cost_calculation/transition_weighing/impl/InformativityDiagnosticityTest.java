@@ -16,6 +16,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
+import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
@@ -37,7 +39,11 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class InformativityDiagnosticityTest {
 
-	private static Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
+			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
+	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
+			SimilarityCalculationStrategy.CONTRAST_MODEL;
 	private List<IContextObject> shapes2Obj;
 	private ICategories categories;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
@@ -71,7 +77,8 @@ public class InformativityDiagnosticityTest {
 			while (constrTreeSupplier.hasNext()) {
 				Tree<IIntentAttribute, IProduction> constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(shapes2Obj, categories.getObjectCategories(), catTree, constrTree);
+						new TransitionFunction(shapes2Obj, categories.getObjectCategories(), catTree, constrTree, 
+								PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
 				/*
 				visualize("2108140757");
 				*/

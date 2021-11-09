@@ -18,10 +18,12 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
+import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
+import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
-import com.tregouet.occam.cost_calculation.property_weighing.impl.InformativityDiagnosticity;
+import com.tregouet.occam.cost_calculation.property_weighing.PropertyWeigherFactoryDep;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
-import com.tregouet.occam.cost_calculation.similarity_calculation.impl.ContrastModel;
+import com.tregouet.occam.cost_calculation.similarity_calculation.SimilarityCalculatorFactory;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
@@ -44,12 +46,13 @@ public class TransitionFunction implements ITransitionFunction {
 	private final Map<ICategory, IState> categoryToState = new HashMap<>();
 	private final List<IOperator> operators;
 	private final List<IConjunctiveOperator> conjunctiveOperators = new ArrayList<>();
-	private final IPropertyWeigher infometer;
+	private final IPropertyWeigher propWeigher;
 	private final ISimilarityCalculator similarityCalc;
 	
 	public TransitionFunction(List<IContextObject> objects, List<ICategory> objectCategories, 
 			Tree<ICategory, DefaultEdge> categories, 
-			Tree<IIntentAttribute, IProduction> constructs) {
+			Tree<IIntentAttribute, IProduction> constructs, PropertyWeighingStrategy propWeighingStrategy, 
+			SimilarityCalculationStrategy simCalculationStrategy) {
 		IOperator.initializeNameProvider();
 		IConjunctiveOperator.initializeNameProvider();
 		this.objects = objects;
@@ -67,13 +70,15 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 		}
 		operators = buildOperators(new ArrayList<>(constructs.edgeSet()), categoryToState);
-		infometer = new InformativityDiagnosticity(objects, categories, operators);
-		operators.stream().forEach(o -> o.setInformativity(infometer));
+		propWeigher = PropertyWeigherFactoryDep.apply(propWeighingStrategy);
+		propWeigher.set(objects, categories, operators);
+		operators.stream().forEach(o -> o.setInformativity(propWeigher));
 		for (IOperator op : operators) {
 			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
 				conjunctiveOperators.add(new ConjunctiveOperator(op));
 		}
-		similarityCalc = new ContrastModel(categories, conjunctiveOperators);
+		similarityCalc = SimilarityCalculatorFactory.apply(simCalculationStrategy); 
+		similarityCalc.set(categories, conjunctiveOperators);
 	}
 
 	public static List<IOperator> buildOperators(
@@ -236,7 +241,7 @@ public class TransitionFunction implements ITransitionFunction {
 
 	@Override
 	public IPropertyWeigher getInfometer() {
-		return infometer;
+		return propWeigher;
 	}
 
 	@Override

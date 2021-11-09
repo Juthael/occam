@@ -22,6 +22,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
+import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
@@ -41,22 +43,30 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class ContrastModelTest {
 
-	private static Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
+			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
+	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
+			SimilarityCalculationStrategy.CONTRAST_MODEL;
 	private static List<IContextObject> shapes2Obj;
-	private static ICategories categories;
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private ICategories categories;
+	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private static IClassificationTreeSupplier classificationTreeSupplier;
-	private static Tree<ICategory, DefaultEdge> catTree;
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
-	private static IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
-	private static Tree<IIntentAttribute, IProduction> constrTree;
-	private static TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
-	private static Map<ITransitionFunction, ISimilarityCalculator> tfToSimCalc = new HashMap<>();
+	private IClassificationTreeSupplier classificationTreeSupplier;
+	private Tree<ICategory, DefaultEdge> catTree;
+	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
+	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
+	private Tree<IIntentAttribute, IProduction> constrTree;
+	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
+	private Map<ITransitionFunction, ISimilarityCalculator> tfToSimCalc = new HashMap<>();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
+	}
+
+	@Before
+	public void setUp() throws Exception {
 		categories = new Categories(shapes2Obj);
 		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
 		productions.stream().forEach(p -> {
@@ -73,7 +83,8 @@ public class ContrastModelTest {
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(shapes2Obj, categories.getObjectCategories(), catTree, constrTree);
+						new TransitionFunction(shapes2Obj, categories.getObjectCategories(), catTree, constrTree, 
+								PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
 				transitionFunctions.add(transitionFunction);
 				/*
 				Visualizer.visualizeTransitionFunction(transitionFunction, "2109110911_tf");
@@ -82,11 +93,6 @@ public class ContrastModelTest {
 				tfToSimCalc.put(transitionFunction, transitionFunction.getSimilarityCalculator());
 			}
 		}
-
-	}
-
-	@Before
-	public void setUp() throws Exception {
 	}
 
 	@Test

@@ -29,7 +29,7 @@ import com.tregouet.tree_finder.data.Tree;
 @SuppressWarnings("unused")
 public class CatTreeToStringConvertorTest {
 
-	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private static ICategories categories;
 	private static IClassificationTreeSupplier classificationTreeSupplier;
@@ -37,7 +37,7 @@ public class CatTreeToStringConvertorTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
+		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
 		categories = new Categories(shapes2Obj);
 		char name = 'A';
 		for (ICategory objectCategory : categories.getObjectCategories()) {

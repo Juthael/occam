@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
+import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.categories.impl.Categories;
@@ -28,15 +30,23 @@ import com.tregouet.tree_finder.error.InvalidInputException;
 @SuppressWarnings("unused")
 public class CatStructureAwareTFSupplierTest {
 	
-	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
+			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
+	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
+			SimilarityCalculationStrategy.CONTRAST_MODEL;
 	private static List<IContextObject> shapes2Obj;	
-	private static ICategories categories;
-	private static final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private ICategories categories;
+	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
+		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
+	}
+
+	@Before
+	public void setUp() throws Exception {
 		categories = new Categories(shapes2Obj);
 		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
 		productions.stream().forEach(p -> {
@@ -46,16 +56,13 @@ public class CatStructureAwareTFSupplierTest {
 		});
 	}
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
 	@Test
 	public void whenRequestedThenReturnsRepresentedCatStructuresInDecreasingCoherenceOrder() 
 			throws IOException, InvalidInputException {
 		boolean increasingOrder = true;
 		int idx = 0;
-		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(categories, constructs);
+		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(categories, constructs, 
+				PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
 		List<Double> coherenceScores = new ArrayList<>();
 		IRepresentedCatTree representedCatTree;
 		/*

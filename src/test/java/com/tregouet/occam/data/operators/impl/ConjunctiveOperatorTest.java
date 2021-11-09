@@ -14,6 +14,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
+import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
@@ -33,21 +35,29 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class ConjunctiveOperatorTest {
 	
-	private static Path shapes1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
+	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
+	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
+			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
+	private static final SimilarityCalculationStrategy SIM_CALC_STRATEGY = 
+			SimilarityCalculationStrategy.CONTRAST_MODEL;
 	private static List<IContextObject> shapes1Obj;
-	private static ICategories categories;
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private ICategories categories;
+	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private static IClassificationTreeSupplier classificationTreeSupplier;
-	private static Tree<ICategory, DefaultEdge> catTree;
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_constructs;
-	private static IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
-	private static Tree<IIntentAttribute, IProduction> constrTree;
-	private static TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
+	private IClassificationTreeSupplier classificationTreeSupplier;
+	private Tree<ICategory, DefaultEdge> catTree;
+	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_constructs;
+	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
+	private Tree<IIntentAttribute, IProduction> constrTree;
+	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		shapes1Obj = GenericFileReader.getContextObjects(shapes1);
+		shapes1Obj = GenericFileReader.getContextObjects(SHAPES1);
+	}
+
+	@Before
+	public void setUp() throws Exception {
 		categories = new Categories(shapes1Obj);
 		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
 		productions.stream().forEach(p -> {
@@ -64,17 +74,14 @@ public class ConjunctiveOperatorTest {
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(shapes1Obj, categories.getObjectCategories(), catTree, constrTree);
+						new TransitionFunction(shapes1Obj, categories.getObjectCategories(), catTree, constrTree, 
+								PROP_WHEIGHING_STRATEGY, SIM_CALC_STRATEGY);
 				/*
 				visualize("2108140757");
 				*/
 				transitionFunctions.add(transitionFunction);
 			}
 		}	
-	}
-
-	@Before
-	public void setUp() throws Exception {
 	}
 
 	@Test

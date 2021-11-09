@@ -6,6 +6,8 @@ import java.util.List;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
+import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
+import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
@@ -22,12 +24,18 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	protected final ICategories categories;
 	protected final IClassificationTreeSupplier categoryTreeSupplier;
 	protected final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs;
+	protected final PropertyWeighingStrategy propWeighingStrategy;
+	protected final SimilarityCalculationStrategy simCalculationStrategy;
 	
 	public TransitionFunctionSupplier(ICategories categories, 
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) throws InvalidInputException {
+			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
+			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) 
+					throws InvalidInputException {
 		this.categories = categories;
 		categoryTreeSupplier = categories.getCatTreeSupplier();
 		this.constructs = constructs;
+		this.propWeighingStrategy = propWeighingStrategy;
+		this.simCalculationStrategy = simCalculationStrategy;
 	}
 
 	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(

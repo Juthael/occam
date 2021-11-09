@@ -29,7 +29,7 @@ import com.tregouet.tree_finder.utils.StructureInspector;
 
 public class TransitionFunctionSupplierTest {
 
-	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private ICategories categories;
 	private IClassificationTreeSupplier classificationTreeSupplier;
@@ -38,7 +38,7 @@ public class TransitionFunctionSupplierTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
+		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
 
 	}
 

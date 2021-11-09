@@ -10,6 +10,8 @@ import java.util.TreeSet;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
+import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
+import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
@@ -25,10 +27,10 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	private Iterator<ITransitionFunction> ite;
-	
-	public BasicTFSupplier(ICategories categories, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) 
+	public BasicTFSupplier(ICategories categories, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
+			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) 
 			throws InvalidInputException {
-		super(categories, constructs);
+		super(categories, constructs, propWeighingStrategy, simCalculationStrategy);
 		populateTransitionFunctions();
 		ite = transitionFunctions.iterator();
 	}
@@ -71,7 +73,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = new TransitionFunction(
 						categories.getContextObjects(), categories.getObjectCategories(), 
-						currCatTree, attTree);
+						currCatTree, attTree, propWeighingStrategy, simCalculationStrategy);
 				if (transitionFunctions.size() <= MAX_CAPACITY)
 					transitionFunctions.add(transitionFunction);
 				else if (transitionFunction.getCoherenceScore() > transitionFunctions.last().getCoherenceScore()) {

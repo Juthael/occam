@@ -2,10 +2,10 @@ package com.tregouet.occam.transition_function;
 
 import java.util.Set;
 
-import com.tregouet.occam.compiler.ITapeSet;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IOperator;
+import com.tregouet.occam.finite_state_machine.ITapeSet;
 
 public interface IState {
 	

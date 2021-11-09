@@ -66,15 +66,13 @@ public class BasicTFSupplierTest {
 			tF = transFuncSupplier.next();
 			double nextScore = tF.getCoherenceScore();
 			
-			System.out.println("TF" + Integer.toString(checkCount) + " : " + Double.toString(prevScore));
+			System.out.println("TF" + Integer.toString(checkCount) + " : " + Double.toString(nextScore));
 			Visualizer.visualizeTransitionFunction(tF, "2111051132_TFbasicSupp" + Integer.toString(checkCount), true);
 			
 			if (nextScore > prevScore)
 				increasingOrder = false;
 			prevScore = nextScore;
 			checkCount++;
-			
-			System.out.println(checkCount + " : " + Double.toString(nextScore));
 			
 		}
 		assertTrue(increasingOrder && checkCount > 0);

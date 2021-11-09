@@ -18,8 +18,6 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
-import com.tregouet.occam.compiler.ICompiler;
-import com.tregouet.occam.compiler.impl.Compiler;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
@@ -28,6 +26,8 @@ import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ConjunctiveOperator;
 import com.tregouet.occam.data.operators.impl.Operator;
+import com.tregouet.occam.finite_state_machine.IFiniteStateMachine;
+import com.tregouet.occam.finite_state_machine.impl.FiniteStateMachine;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
 import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.ISimilarityCalculator;
@@ -218,8 +218,8 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public ICompiler getCompiler() {
-		return new Compiler(objects, this);
+	public IFiniteStateMachine getCompiler() {
+		return new FiniteStateMachine(objects, this);
 	}
 	
 	@Override

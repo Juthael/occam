@@ -21,7 +21,7 @@ import org.jgrapht.nio.dot.DOTExporter;
 import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.cost_calculation.property_weighing.impl.InformativityDiagnosticity;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
-import com.tregouet.occam.cost_calculation.similarity_calculation.impl.SimilarityCalculator;
+import com.tregouet.occam.cost_calculation.similarity_calculation.impl.ContrastModel;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
@@ -73,7 +73,7 @@ public class TransitionFunction implements ITransitionFunction {
 			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
 				conjunctiveOperators.add(new ConjunctiveOperator(op));
 		}
-		similarityCalc = new SimilarityCalculator(categories, conjunctiveOperators);
+		similarityCalc = new ContrastModel(categories, conjunctiveOperators);
 	}
 
 	public static List<IOperator> buildOperators(

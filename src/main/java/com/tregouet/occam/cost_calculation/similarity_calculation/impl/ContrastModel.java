@@ -15,14 +15,22 @@ import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.tree_finder.data.Tree;
 
-public class SimilarityCalculator implements ISimilarityCalculator {
+public class ContrastModel implements ISimilarityCalculator {
 
-	private final int[] topologicalSortingOfCatIDs;
-	private final Integer[] objCatIdxInTopologicalSorting;
-	private final SparseIntDirectedWeightedGraph weightedTransitions;
+	private int[] topologicalSortingOfCatIDs;
+	private Integer[] objCatIdxInTopologicalSorting;
+	private SparseIntDirectedWeightedGraph weightedTransitions;
 	
-	public SimilarityCalculator(Tree<ICategory, DefaultEdge> categories, 
+	public ContrastModel(Tree<ICategory, DefaultEdge> categories, 
 			List<IConjunctiveOperator> conjunctiveOperators) {
+		set(categories, conjunctiveOperators);
+	}
+	
+	public ContrastModel() {
+	}
+	
+	@Override
+	public void set(Tree<ICategory, DefaultEdge> categories, List<IConjunctiveOperator> conjunctiveOperators) {
 		int topoIdx = 0;
 		Integer objIndex = 0;
 		int nbOfObjects = categories.getLeaves().size();

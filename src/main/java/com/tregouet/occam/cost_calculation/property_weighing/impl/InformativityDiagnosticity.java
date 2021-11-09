@@ -20,12 +20,21 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class InformativityDiagnosticity implements IPropertyWeigher {
 
-	List<IContextObject> objects;
-	Tree<ICategory, DefaultEdge> categories;
-	List<IOperator> properties;
-	double[] informativity;
+	private List<IContextObject> objects;
+	private Tree<ICategory, DefaultEdge> categories;
+	private List<IOperator> properties;
+	private double[] informativity;
 	
 	public InformativityDiagnosticity(List<IContextObject> objects, Tree<ICategory, DefaultEdge> categories, 
+			List<IOperator> properties) {
+		set(objects, categories, properties);
+	}
+	
+	public InformativityDiagnosticity() {
+	}	
+	
+	@Override
+	public void set(List<IContextObject> objects, Tree<ICategory, DefaultEdge> categories, 
 			List<IOperator> properties) {
 		this.objects = objects;
 		this.categories = categories;

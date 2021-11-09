@@ -39,7 +39,7 @@ import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestr
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
-public class SimilarityCalculatorTest {
+public class ContrastModelTest {
 
 	private static Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;
@@ -107,7 +107,7 @@ public class SimilarityCalculatorTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			SimilarityCalculator calculator = (SimilarityCalculator) tF.getSimilarityCalculator();
+			ContrastModel calculator = (ContrastModel) tF.getSimilarityCalculator();
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
@@ -143,7 +143,7 @@ public class SimilarityCalculatorTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			SimilarityCalculator calculator = (SimilarityCalculator) tF.getSimilarityCalculator();
+			ContrastModel calculator = (ContrastModel) tF.getSimilarityCalculator();
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
@@ -179,7 +179,7 @@ public class SimilarityCalculatorTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			SimilarityCalculator calculator = (SimilarityCalculator) tF.getSimilarityCalculator();
+			ContrastModel calculator = (ContrastModel) tF.getSimilarityCalculator();
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
@@ -244,7 +244,7 @@ public class SimilarityCalculatorTest {
 			for (int i = 0 ; i < leavesID.length ; i++) {
 				leavesID[i] = leaves.get(i).getID();
 			}
-			SimilarityCalculator calculator = (SimilarityCalculator) tfToSimCalc.get(tF);
+			ContrastModel calculator = (ContrastModel) tfToSimCalc.get(tF);
 			for (Integer leafID : leavesID) {
 				Set<Integer> returnedEdges = calculator.getReacheableEdgesFrom(leafID);
 				Set<Integer> expectedEdges = new HashSet<>();

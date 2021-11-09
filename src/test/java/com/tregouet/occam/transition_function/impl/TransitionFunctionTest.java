@@ -69,7 +69,7 @@ public class TransitionFunctionTest {
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
 	private Tree<IIntentAttribute, IProduction> constrTree;
-	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
+	private TreeSet<ITransitionFunction> transitionFunctions;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -78,6 +78,7 @@ public class TransitionFunctionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		transitionFunctions = new TreeSet<>();
 		categories = new Categories(shapes1Obj);
 		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
 		productions.stream().forEach(p -> {

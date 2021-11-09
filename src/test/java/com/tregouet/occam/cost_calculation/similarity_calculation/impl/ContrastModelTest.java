@@ -252,7 +252,7 @@ public class ContrastModelTest {
 			}
 			ContrastModel calculator = (ContrastModel) tfToSimCalc.get(tF);
 			for (Integer leafID : leavesID) {
-				Set<Integer> returnedEdges = calculator.getReacheableEdgesFrom(leafID);
+				Set<Integer> returnedEdges = calculator.getReacheableEdgesFrom(leafID.intValue());
 				Set<Integer> expectedEdges = new HashSet<>();
 				AllDirectedPaths<Integer, Integer> pathFinder = new AllDirectedPaths<>(calculator.getSparseGraph());
 				List<GraphPath<Integer, Integer>> paths = 

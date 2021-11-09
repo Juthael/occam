@@ -1,4 +1,4 @@
-package com.tregouet.occam.transition_function.impl;
+package com.tregouet.occam.cost_calculation.similarity_calculation.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,9 +10,9 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
 import com.google.common.primitives.Ints;
+import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
-import com.tregouet.occam.transition_function.ISimilarityCalculator;
 import com.tregouet.tree_finder.data.Tree;
 
 public class SimilarityCalculator implements ISimilarityCalculator {

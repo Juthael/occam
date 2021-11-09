@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ICompositeProduction;
 import com.tregouet.occam.data.operators.ILambdaExpression;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.IState;
 
 public class Operator implements IOperator {
@@ -128,8 +128,8 @@ public class Operator implements IOperator {
 	
 
 	@Override
-	public void setInformativity(IInfoMeter infometer) {
-		informativity = infometer.getInformativity(this);		
+	public void setInformativity(IPropertyWeigher infometer) {
+		informativity = infometer.getPropertyWeight(this);		
 	}
 
 	@Override 

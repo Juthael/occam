@@ -1,4 +1,4 @@
-package com.tregouet.occam.transition_function;
+package com.tregouet.occam.cost_calculation.similarity_calculation;
 
 import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 

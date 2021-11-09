@@ -18,6 +18,10 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
+import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
+import com.tregouet.occam.cost_calculation.property_weighing.impl.InformativityDiagnosticity;
+import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
+import com.tregouet.occam.cost_calculation.similarity_calculation.impl.SimilarityCalculator;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
@@ -29,8 +33,6 @@ import com.tregouet.occam.data.operators.impl.Operator;
 import com.tregouet.occam.finite_state_machine.IFiniteStateMachine;
 import com.tregouet.occam.finite_state_machine.impl.FiniteStateMachine;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
-import com.tregouet.occam.transition_function.IInfoMeter;
-import com.tregouet.occam.transition_function.ISimilarityCalculator;
 import com.tregouet.occam.transition_function.IState;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.tree_finder.data.Tree;
@@ -42,7 +44,7 @@ public class TransitionFunction implements ITransitionFunction {
 	private final Map<ICategory, IState> categoryToState = new HashMap<>();
 	private final List<IOperator> operators;
 	private final List<IConjunctiveOperator> conjunctiveOperators = new ArrayList<>();
-	private final IInfoMeter infometer;
+	private final IPropertyWeigher infometer;
 	private final ISimilarityCalculator similarityCalc;
 	
 	public TransitionFunction(List<IContextObject> objects, List<ICategory> objectCategories, 
@@ -65,7 +67,7 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 		}
 		operators = buildOperators(new ArrayList<>(constructs.edgeSet()), categoryToState);
-		infometer = new InfoMeter(objects, categories, operators);
+		infometer = new InformativityDiagnosticity(objects, categories, operators);
 		operators.stream().forEach(o -> o.setInformativity(infometer));
 		for (IOperator op : operators) {
 			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
@@ -233,7 +235,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public IInfoMeter getInfometer() {
+	public IPropertyWeigher getInfometer() {
 		return infometer;
 	}
 

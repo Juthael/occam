@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.jgrapht.graph.DefaultEdge;
 
+import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
+import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
@@ -27,7 +29,7 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	IDSLanguageDisplayer getDomainSpecificLanguage();
 	
-	IInfoMeter getInfometer();
+	IPropertyWeigher getInfometer();
 	
 	ISimilarityCalculator getSimilarityCalculator();
 	

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.IState;
 
 public interface IOperator {
@@ -62,7 +62,7 @@ public interface IOperator {
 	
 	List<ILambdaExpression> semantics();
 	
-	void setInformativity(IInfoMeter infometer);
+	void setInformativity(IPropertyWeigher infometer);
 	
 	@Override
 	String toString();	

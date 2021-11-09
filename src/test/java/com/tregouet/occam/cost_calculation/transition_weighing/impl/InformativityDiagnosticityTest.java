@@ -1,6 +1,6 @@
-package com.tregouet.occam.transition_function.impl;
+package com.tregouet.occam.cost_calculation.transition_weighing.impl;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
@@ -27,13 +28,14 @@ import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.exceptions.PropertyTargetingException;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.ITransitionFunction;
+import com.tregouet.occam.transition_function.impl.TransitionFunction;
+import com.tregouet.occam.transition_function.impl.TransitionFunctionSupplier;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
-public class InfoMeterTest {
+public class InformativityDiagnosticityTest {
 
 	private static Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private List<IContextObject> shapes2Obj;
@@ -44,7 +46,7 @@ public class InfoMeterTest {
 	private Tree<ICategory, DefaultEdge> catTree;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
-	private Map<ITransitionFunction, IInfoMeter> transFuncToInfometer = new HashMap<>();
+	private Map<ITransitionFunction, IPropertyWeigher> transFuncToInfometer = new HashMap<>();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -93,10 +95,10 @@ public class InfoMeterTest {
 			System.out.println("NEW TRANSITION FUNCTION : " + System.lineSeparator());
 			*/
 			List<IOperator> properties = tF.getTransitions();
-			IInfoMeter infometer = tF.getInfometer();
+			IPropertyWeigher infometer = tF.getInfometer();
 			for (IOperator prop : properties) {
 				try {
-					double informativity = infometer.getInformativity(prop);
+					double informativity = infometer.getPropertyWeight(prop);
 					if (Double.isNaN(informativity))
 						returnedIndeed = false;
 					/*
@@ -120,9 +122,9 @@ public class InfoMeterTest {
 		int validObjIndex = 0;
 		int invalidObjIndex = shapes2Obj.size();
 		for (ITransitionFunction tF : transFuncToInfometer.keySet()) {
-			IInfoMeter infometer = transFuncToInfometer.get(tF);
+			IPropertyWeigher infometer = transFuncToInfometer.get(tF);
 			try {
-				double informativity = infometer.getInformativity(validObjIndex, propertySpecification);
+				double informativity = infometer.getPropertyWeight(validObjIndex, propertySpecification);
 				if (Double.isNaN(informativity))
 					propSpecIsValid = false;
 			}
@@ -132,7 +134,7 @@ public class InfoMeterTest {
 			if (propSpecIsValid) {
 				boolean exceptionThrown = false;
 				try {
-					infometer.getInformativity(invalidObjIndex, propertySpecification);
+					infometer.getPropertyWeight(invalidObjIndex, propertySpecification);
 				}
 				catch (PropertyTargetingException e) {
 					exceptionThrown = true;
@@ -152,9 +154,9 @@ public class InfoMeterTest {
 		List<String> invalidSpecification = new ArrayList<>(Arrays.asList(new String[] {"figure", "foo"}));
 		int validObjIndex = 0;;
 		for (ITransitionFunction tF : transFuncToInfometer.keySet()) {
-			IInfoMeter infometer = transFuncToInfometer.get(tF);
+			IPropertyWeigher infometer = transFuncToInfometer.get(tF);
 			try {
-				double informativity = infometer.getInformativity(validObjIndex, validSpecification);
+				double informativity = infometer.getPropertyWeight(validObjIndex, validSpecification);
 				if (Double.isNaN(informativity))
 					whenValidThenOk = false;
 			}
@@ -163,7 +165,7 @@ public class InfoMeterTest {
 			}
 			boolean exceptionThrownWithInvalidSpec = false;
 			try {
-				infometer.getInformativity(validObjIndex, invalidSpecification);
+				infometer.getPropertyWeight(validObjIndex, invalidSpecification);
 			}
 			catch (PropertyTargetingException e) {
 				exceptionThrownWithInvalidSpec = true;

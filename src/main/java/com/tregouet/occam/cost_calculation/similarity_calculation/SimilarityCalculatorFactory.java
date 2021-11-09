@@ -2,6 +2,7 @@ package com.tregouet.occam.cost_calculation.similarity_calculation;
 
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.cost_calculation.similarity_calculation.impl.ContrastModel;
+import com.tregouet.occam.cost_calculation.similarity_calculation.impl.RatioModel;
 
 public class SimilarityCalculatorFactory {
 
@@ -12,6 +13,8 @@ public class SimilarityCalculatorFactory {
 		switch (strategy) {
 			case CONTRAST_MODEL :
 				return new ContrastModel();
+			case RATIO_MODEL : 
+				return new RatioModel();
 			default : 
 				return null;
 		}

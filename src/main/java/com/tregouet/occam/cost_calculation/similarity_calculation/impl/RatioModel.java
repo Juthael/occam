@@ -11,14 +11,13 @@ import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.tree_finder.data.Tree;
 
-public class ContrastModel extends AbstractSimCalculator implements ISimilarityCalculator {
+public class RatioModel extends AbstractSimCalculator implements ISimilarityCalculator {
 
-	public ContrastModel(Tree<ICategory, DefaultEdge> categories, 
-			List<IConjunctiveOperator> conjunctiveOperators) {
+	public RatioModel(Tree<ICategory, DefaultEdge> categories, List<IConjunctiveOperator> conjunctiveOperators) {
 		super(categories, conjunctiveOperators);
 	}
-	
-	public ContrastModel() {
+
+	public RatioModel() {
 	}
 
 	@Override
@@ -27,16 +26,16 @@ public class ContrastModel extends AbstractSimCalculator implements ISimilarityC
 		Set<Integer> edgesFromCatID1ToRoot = getReacheableEdgesFrom(vertex1);
 		Set<Integer> edgesFromCatID2ToRoot = getReacheableEdgesFrom(vertex2);
 		Set<Integer> intersection = new HashSet<>();
-		Set<Integer> complement = new HashSet<>();
-		intersection.addAll(edgesFromCatID1ToRoot);
-		intersection.retainAll(edgesFromCatID2ToRoot);
-		complement.addAll(edgesFromCatID1ToRoot);
-		complement.addAll(edgesFromCatID2ToRoot);
-		complement.removeAll(intersection);
-		for (Integer edge : intersection)
-			similarity += weightedTransitions.getEdgeWeight(edge);
-		for (Integer edge : complement)
-			similarity -= weightedTransitions.getEdgeWeight(edge);
+		Set<Integer> union = new HashSet<>(edgesFromCatID1ToRoot);
+		for (Integer edge : edgesFromCatID2ToRoot) {
+			if (!union.add(edge))
+				intersection.add(edge);
+		}
+		double unionWeightSum = weightSum(union);
+		if (unionWeightSum != 0) {
+			double intersectionWeightSum = weightSum(intersection);
+			similarity = intersectionWeightSum / unionWeightSum;
+		}
 		return similarity;
 	}
 	
@@ -46,17 +45,24 @@ public class ContrastModel extends AbstractSimCalculator implements ISimilarityC
 		Set<Integer> edgesFromCatID1ToRoot = getReacheableEdgesFrom(vertex1);
 		Set<Integer> edgesFromCatID2ToRoot = getReacheableEdgesFrom(vertex2);
 		Set<Integer> intersection = new HashSet<>();
-		Set<Integer> catID1Complement = new HashSet<>();
 		for (Integer edge : edgesFromCatID1ToRoot) {
 			if (edgesFromCatID2ToRoot.contains(edge))
 				intersection.add(edge);
-			else catID1Complement.add(edge);
 		}
-		for (Integer edge : intersection)
-			similarity += weightedTransitions.getEdgeWeight(edge);
-		for (Integer edge : catID1Complement)
-			similarity -= weightedTransitions.getEdgeWeight(edge);
+		double cat1WeightSum = weightSum(edgesFromCatID1ToRoot);
+		if (cat1WeightSum != 0) {
+			double intersectionWeightSum = weightSum(intersection);
+			similarity = intersectionWeightSum / cat1WeightSum;
+		}
 		return similarity;
+	}	
+	
+	private double weightSum(Set<Integer> edges) {
+		double weightSum = 0.0;
+		for (Integer edge : edges) {
+			weightSum += weightedTransitions.getEdgeWeight(edge);
+		}
+		return weightSum;
 	}
 
 }

@@ -33,7 +33,7 @@ public class BasicTFSupplierTest {
 	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
 			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
 	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
-			SimilarityCalculationStrategy.CONTRAST_MODEL;
+			SimilarityCalculationStrategy.RATIO_MODEL;
 	private static List<IContextObject> shapes2Obj;	
 	private ICategories categories;
 	private final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
@@ -64,18 +64,18 @@ public class BasicTFSupplierTest {
 				PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
 		ITransitionFunction tF = transFuncSupplier.next();
 		double prevScore = tF.getCoherenceScore();
-		/*
+		
 		Visualizer.visualizeCategoryGraph(categories.getOntologicalUpperSemilattice(), "2111051132_catUSL");
 		System.out.println("TF0 : " + Double.toString(prevScore));
 		Visualizer.visualizeTransitionFunction(tF, "2111051132_TFbasicSupp" + Integer.toString(0), true);
-		*/
+		
 		while (transFuncSupplier.hasNext()) {
 			tF = transFuncSupplier.next();
 			double nextScore = tF.getCoherenceScore();
-			/*
+			
 			System.out.println("TF" + Integer.toString(checkCount) + " : " + Double.toString(nextScore));
 			Visualizer.visualizeTransitionFunction(tF, "2111051132_TFbasicSupp" + Integer.toString(checkCount), true);
-			*/
+			
 			if (nextScore > prevScore)
 				increasingOrder = false;
 			prevScore = nextScore;

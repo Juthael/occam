@@ -21,7 +21,7 @@ import org.jgrapht.nio.dot.DOTExporter;
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
-import com.tregouet.occam.cost_calculation.property_weighing.PropertyWeigherFactoryDep;
+import com.tregouet.occam.cost_calculation.property_weighing.PropertyWeigherFactory;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.cost_calculation.similarity_calculation.SimilarityCalculatorFactory;
 import com.tregouet.occam.data.categories.ICategory;
@@ -70,7 +70,7 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 		}
 		operators = buildOperators(new ArrayList<>(constructs.edgeSet()), categoryToState);
-		propWeigher = PropertyWeigherFactoryDep.apply(propWeighingStrategy);
+		propWeigher = PropertyWeigherFactory.apply(propWeighingStrategy);
 		propWeigher.set(objects, categories, operators);
 		operators.stream().forEach(o -> o.setInformativity(propWeigher));
 		for (IOperator op : operators) {

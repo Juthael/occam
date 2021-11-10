@@ -1,5 +1,6 @@
 package com.tregouet.occam.transition_function.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,6 +17,7 @@ import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.ITransitionFunction;
@@ -102,7 +104,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 			IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> attTreeSupplier = 
 					new RestrictorOpt<>(filteredConstructGraph, true);
 			while (attTreeSupplier.hasNext()) {
-				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
+				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = new TransitionFunction(
 						categories.getContextObjects(), categories.getObjectCategories(), 
 						currCatTree, attTree, propWeighingStrategy, simCalculationStrategy);

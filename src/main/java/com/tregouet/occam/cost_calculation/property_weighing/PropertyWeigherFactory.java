@@ -3,9 +3,9 @@ package com.tregouet.occam.cost_calculation.property_weighing;
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.property_weighing.impl.InformativityDiagnosticity;
 
-public class PropertyWeigherFactoryDep{
+public class PropertyWeigherFactory{
 	
-	private PropertyWeigherFactoryDep() {
+	private PropertyWeigherFactory() {
 	}
 	
 	public static IPropertyWeigher apply(PropertyWeighingStrategy strategy) {

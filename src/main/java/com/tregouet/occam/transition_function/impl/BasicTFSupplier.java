@@ -1,10 +1,6 @@
 package com.tregouet.occam.transition_function.impl;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
 import org.jgrapht.graph.DefaultEdge;
@@ -27,6 +23,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	private Iterator<ITransitionFunction> ite;
+	
 	public BasicTFSupplier(ICategories categories, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
 			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) 
 			throws InvalidInputException {
@@ -58,13 +55,6 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private void populateTransitionFunctions() {
 		while (categoryTreeSupplier.hasNext()) {
 			Tree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextOntologicalCommitment();
-			Map<Integer, Set<Integer>> objCatIDToSuperCatsInCatTree = new HashMap<>();
-			for (ICategory objCat : currCatTree.getLeaves()) {
-				Set<Integer> objCatSuperCatsIDs = new HashSet<>();
-				for (ICategory objCatSuperCat : currCatTree.getDescendants(objCat))
-					objCatSuperCatsIDs.add(objCatSuperCat.getID());
-				objCatIDToSuperCatsInCatTree.put(objCat.getID(), objCatSuperCatsIDs);
-			}
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
 			IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> attTreeSupplier = 

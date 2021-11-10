@@ -2,10 +2,10 @@ package com.tregouet.occam.cost_calculation.similarity_calculation;
 
 import java.util.List;
 
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -25,6 +25,6 @@ public interface ISimilarityCalculator {
 	
 	double howSimilarTo(int catID1, int catID2);
 	
-	void set(Tree<ICategory, DefaultEdge> categories, List<IConjunctiveOperator> conjunctiveOperators);
+	void set(Tree<ICategory, IsA> categories, List<IConjunctiveOperator> conjunctiveOperators);
 
 }

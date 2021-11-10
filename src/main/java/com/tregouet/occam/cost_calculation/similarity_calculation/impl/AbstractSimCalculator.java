@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.jgrapht.alg.util.Triple;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
 import com.google.common.primitives.Ints;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -21,12 +21,12 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 	protected Integer[] objCatIdxInTopologicalSorting;
 	protected SparseIntDirectedWeightedGraph weightedTransitions;
 	
-	public AbstractSimCalculator(Tree<ICategory, DefaultEdge> categories, 
-			List<IConjunctiveOperator> conjunctiveOperators) {
-		set(categories, conjunctiveOperators);
+	public AbstractSimCalculator() {
 	}
 	
-	public AbstractSimCalculator() {
+	public AbstractSimCalculator(Tree<ICategory, IsA> categories, 
+			List<IConjunctiveOperator> conjunctiveOperators) {
+		set(categories, conjunctiveOperators);
 	}
 
 	@Override
@@ -41,6 +41,15 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 			vertices[i] = indexOf(catIDs[i]);
 		}
 		return getCoherenceScore(vertices);
+	}
+
+	/**
+	 * Public for test use.
+	 * @param vertex
+	 * @return
+	 */
+	public Set<Integer> getReacheableEdgesFrom(int catID) {
+		return getReacheableEdgesFrom(indexOf(catID));
 	}
 
 	@Override
@@ -72,9 +81,18 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 	public double howSimilarTo(int catID1, int catID2) {
 		return howSimilarTo(indexOf(catID1), indexOf(catID2));
 	}
-
+	
+	/**
+	 * Public for test use
+	 * @param catID
+	 * @return
+	 */
+	public Integer indexOf(int catID) {
+		return Ints.indexOf(topologicalSortingOfCatIDs, catID);
+	}	
+	
 	@Override
-	public void set(Tree<ICategory, DefaultEdge> categories, List<IConjunctiveOperator> conjunctiveOperators) {
+	public void set(Tree<ICategory, IsA> categories, List<IConjunctiveOperator> conjunctiveOperators) {
 		int topoIdx = 0;
 		Integer objIndex = 0;
 		int nbOfObjects = categories.getLeaves().size();
@@ -98,53 +116,15 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 			edges.add(new Triple<Integer, Integer, Double>(operatingStateIndex, nextStateIndex, informativity));
 		}
 		weightedTransitions = new SparseIntDirectedWeightedGraph(nbOfCategories, edges);
-	}
-	
-	/**
-	 * Public for test use
-	 * @param catID
-	 * @return
-	 */
-	public Integer indexOf(int catID) {
-		return Ints.indexOf(topologicalSortingOfCatIDs, catID);
-	}	
-	
-	/**
-	 * Public for test use.
-	 * @param vertex
-	 * @return
-	 */
-	public Set<Integer> getReacheableEdgesFrom(int catID) {
-		return getReacheableEdgesFrom(indexOf(catID));
 	}	
 	
 	protected Set<Integer> getReacheableEdgesFrom(Integer vertex) {
 		return getReacheableEdgesFrom(vertex, new HashSet<Integer>());
 	}
 
-	private Set<Integer> getReacheableEdgesFrom(Integer vertex, Set<Integer> alreadyFound) {
-		if (weightedTransitions.outDegreeOf(vertex) != 0) {
-			Set<Integer> nextEdges = weightedTransitions.outgoingEdgesOf(vertex);
-			for (Integer nextEdge : nextEdges) {
-				if (alreadyFound.add(nextEdge))
-					alreadyFound.addAll(
-							getReacheableEdgesFrom(weightedTransitions.getEdgeTarget(nextEdge), alreadyFound));
-			}
-		}
-		return alreadyFound;
-	}	
+	abstract protected double howSimilar(Integer vertex1, Integer vertex2);	
 	
-	private double howPrototypicalAmong(Integer vertex, Integer[] others) {
-		double similarityToParameterSum = 0.0;
-		int nbOfComparisons = 0;
-		for (Integer other : others) {
-			if (!vertex.equals(other)) {
-				similarityToParameterSum += howSimilarTo(other, vertex);
-				nbOfComparisons++;
-			}
-		}
-		return similarityToParameterSum / nbOfComparisons;
-	}	
+	abstract protected double howSimilarTo(Integer vertex1, Integer vertex2);	
 	
 	private double getCoherenceScore(Integer[] vertices) {
 		double similaritySum = 0.0;
@@ -157,8 +137,28 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 		return similaritySum / ((n*(n-1))/2);
 	}
 	
-	abstract protected double howSimilar(Integer vertex1, Integer vertex2);
+	private Set<Integer> getReacheableEdgesFrom(Integer vertex, Set<Integer> alreadyFound) {
+		if (weightedTransitions.outDegreeOf(vertex) != 0) {
+			Set<Integer> nextEdges = weightedTransitions.outgoingEdgesOf(vertex);
+			for (Integer nextEdge : nextEdges) {
+				if (alreadyFound.add(nextEdge))
+					alreadyFound.addAll(
+							getReacheableEdgesFrom(weightedTransitions.getEdgeTarget(nextEdge), alreadyFound));
+			}
+		}
+		return alreadyFound;
+	}
 	
-	abstract protected double howSimilarTo(Integer vertex1, Integer vertex2);
+	private double howPrototypicalAmong(Integer vertex, Integer[] others) {
+		double similarityToParameterSum = 0.0;
+		int nbOfComparisons = 0;
+		for (Integer other : others) {
+			if (!vertex.equals(other)) {
+				similarityToParameterSum += howSimilarTo(other, vertex);
+				nbOfComparisons++;
+			}
+		}
+		return similarityToParameterSum / nbOfComparisons;
+	}
 
 }

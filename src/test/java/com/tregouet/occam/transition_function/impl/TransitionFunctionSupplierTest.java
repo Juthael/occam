@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -20,6 +19,7 @@ import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.categories.impl.Categories;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
@@ -59,7 +59,7 @@ public class TransitionFunctionSupplierTest {
 			throws IOException {
 		boolean expectedSetOfCategories = true;
 		while (classificationTreeSupplier.hasNext()) {
-			Tree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.nextOntologicalCommitment();
+			Tree<ICategory, IsA> catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2111051022_catTree");
 			*/
@@ -86,7 +86,7 @@ public class TransitionFunctionSupplierTest {
 	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfContainerCategoriesIsTreeOfCategories() {
 		boolean expectedSetOfCategories = true;
 		while (classificationTreeSupplier.hasNext()) {
-			Tree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.nextOntologicalCommitment();
+			Tree<ICategory, IsA> catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			Set<ICategory> expectedCats = catTree.vertexSet();
 			Set<ICategory> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
@@ -105,7 +105,7 @@ public class TransitionFunctionSupplierTest {
 		boolean sourceAndTargetCatsAreRelated = true;
 		int checkCount = 0;
 		while (classificationTreeSupplier.hasNext()) {
-			Tree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.nextOntologicalCommitment();
+			Tree<ICategory, IsA> catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
@@ -124,7 +124,7 @@ public class TransitionFunctionSupplierTest {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
 		while (classificationTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			Tree<ICategory, DefaultEdge> catTree = classificationTreeSupplier.nextOntologicalCommitment();
+			Tree<ICategory, IsA> catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			*/

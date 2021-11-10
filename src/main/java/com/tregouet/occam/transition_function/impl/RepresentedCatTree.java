@@ -2,10 +2,9 @@ package com.tregouet.occam.transition_function.impl;
 
 import java.util.Map;
 
-import org.jgrapht.graph.DefaultEdge;
-
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.categories.utils.CatTreeToStringConvertor;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
@@ -14,11 +13,11 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class RepresentedCatTree implements IRepresentedCatTree {
 
-	private final Tree<ICategory,DefaultEdge> categoryTree;
+	private final Tree<ICategory,IsA> categoryTree;
 	private final Map<ICategory, String> objectCategoryToName;
 	private ITransitionFunction optimalRepresentation = null;
 	
-	public RepresentedCatTree(Tree<ICategory, DefaultEdge> categoryTree, 
+	public RepresentedCatTree(Tree<ICategory, IsA> categoryTree, 
 			Map<ICategory, String> objectCategoryToName) {
 		this.categoryTree = categoryTree;
 		this.objectCategoryToName = objectCategoryToName;
@@ -56,7 +55,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 	}
 
 	@Override
-	public Tree<ICategory, DefaultEdge> getCategoryTree() {
+	public Tree<ICategory, IsA> getCategoryTree() {
 		return categoryTree;
 	}
 

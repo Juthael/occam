@@ -1,6 +1,5 @@
 package com.tregouet.occam.transition_function.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
@@ -16,8 +14,8 @@ import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.ITransitionFunction;
@@ -63,7 +61,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	}
 
 	@Override
-	public Tree<ICategory, DefaultEdge> getOptimalCategoryStructure() {
+	public Tree<ICategory, IsA> getOptimalCategoryStructure() {
 		return representedCategories.first().getCategoryTree();
 	}
 
@@ -97,7 +95,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	
 	private void populateRepresentedCategories() {
 		while (categoryTreeSupplier.hasNext()) {
-			Tree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextOntologicalCommitment();
+			Tree<ICategory, IsA> currCatTree = categoryTreeSupplier.nextOntologicalCommitment();
 			IRepresentedCatTree currCatTreeRepresentation = new RepresentedCatTree(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);

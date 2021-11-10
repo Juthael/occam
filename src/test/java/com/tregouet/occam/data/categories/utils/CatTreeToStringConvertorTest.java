@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jgrapht.graph.DefaultEdge;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,10 +19,9 @@ import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.impl.Categories;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.io.output.utils.Visualizer;
-import com.tregouet.tree_finder.ITreeFinder;
 import com.tregouet.tree_finder.data.Tree;
 
 @SuppressWarnings("unused")
@@ -62,7 +60,7 @@ public class CatTreeToStringConvertorTest {
 		int treeIdx = 0;
 		*/
 		while (classificationTreeSupplier.hasNext()) {
-			Tree<ICategory, DefaultEdge> currTree = classificationTreeSupplier.nextOntologicalCommitment();
+			Tree<ICategory, IsA> currTree = classificationTreeSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/

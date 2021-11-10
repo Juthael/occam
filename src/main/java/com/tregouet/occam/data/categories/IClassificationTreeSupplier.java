@@ -1,18 +1,17 @@
 package com.tregouet.occam.data.categories;
 
-import org.jgrapht.graph.DefaultEdge;
-
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
 import com.tregouet.tree_finder.data.Tree;
 
-public interface IClassificationTreeSupplier extends IUnidimensionalSorter<ICategory, DefaultEdge> {
+public interface IClassificationTreeSupplier extends IUnidimensionalSorter<ICategory, IsA> {
 	
-	public static Tree<ICategory, DefaultEdge> proceedToOntologicalCommitment(
-			Tree<ICategory, DefaultEdge> classificationTree, ICategory ontologicalCommitment) {
+	public static Tree<ICategory, IsA> proceedToOntologicalCommitment(
+			Tree<ICategory, IsA> classificationTree, ICategory ontologicalCommitment) {
 		classificationTree.addAsNewRoot(ontologicalCommitment, true);
 		return classificationTree;
 	}
 	
-	public Tree<ICategory, DefaultEdge> nextOntologicalCommitment();
+	public Tree<ICategory, IsA> nextOntologicalCommitment();
 
 }

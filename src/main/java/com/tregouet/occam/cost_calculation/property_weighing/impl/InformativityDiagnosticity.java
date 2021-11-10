@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.jgrapht.graph.DefaultEdge;
-
 import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
@@ -21,32 +20,18 @@ import com.tregouet.tree_finder.data.Tree;
 public class InformativityDiagnosticity implements IPropertyWeigher {
 
 	private List<IContextObject> objects;
-	private Tree<ICategory, DefaultEdge> categories;
+	private Tree<ICategory, IsA> categories;
 	private List<IOperator> properties;
 	private double[] informativity;
 	
-	public InformativityDiagnosticity(List<IContextObject> objects, Tree<ICategory, DefaultEdge> categories, 
+	public InformativityDiagnosticity() {
+	}
+	
+	public InformativityDiagnosticity(List<IContextObject> objects, Tree<ICategory, IsA> categories, 
 			List<IOperator> properties) {
 		set(objects, categories, properties);
-	}
-	
-	public InformativityDiagnosticity() {
 	}	
 	
-	@Override
-	public void set(List<IContextObject> objects, Tree<ICategory, DefaultEdge> categories, 
-			List<IOperator> properties) {
-		this.objects = objects;
-		this.categories = categories;
-		this.properties = properties;
-		informativity = new double[properties.size()];
-		int propertyIdx = 0;
-		for (IOperator property : properties) {
-			informativity[propertyIdx] = calculatePropertyWeight(property);
-			propertyIdx++;
-		}
-	}
-
 	private static double binaryLogarithm(double arg) {
 		return Math.log10(arg)/Math.log10(2);
 	}
@@ -90,17 +75,24 @@ public class InformativityDiagnosticity implements IPropertyWeigher {
 		}
 		return targetProperty.getInformativity();
 	}
-	
+
 	@Override
 	public double getPropertyWeight(IOperator property) {
 		return informativity[properties.indexOf(property)];
 	}
 	
-	private double informativity(IOperator property) {
-		return -binaryLogarithm(
-				(double) property.getOperatingState().getExtentSize() 
-				/ (double) property.getNextState().getExtentSize()
-				);
+	@Override
+	public void set(List<IContextObject> objects, Tree<ICategory, IsA> categories, 
+			List<IOperator> properties) {
+		this.objects = objects;
+		this.categories = categories;
+		this.properties = properties;
+		informativity = new double[properties.size()];
+		int propertyIdx = 0;
+		for (IOperator property : properties) {
+			informativity[propertyIdx] = calculatePropertyWeight(property);
+			propertyIdx++;
+		}
 	}
 	
 	private double calculatePropertyWeight(IOperator property) {
@@ -133,6 +125,13 @@ public class InformativityDiagnosticity implements IPropertyWeigher {
 			objCatIdx++;
 		}
 		return objectCategory;
+	}
+	
+	private double informativity(IOperator property) {
+		return -binaryLogarithm(
+				(double) property.getOperatingState().getExtentSize() 
+				/ (double) property.getNextState().getExtentSize()
+				);
 	}
 
 }

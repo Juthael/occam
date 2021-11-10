@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -21,6 +20,7 @@ import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.categories.impl.Categories;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
@@ -45,7 +45,7 @@ public class ConjunctiveOperatorTest {
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IClassificationTreeSupplier classificationTreeSupplier;
-	private Tree<ICategory, DefaultEdge> catTree;
+	private Tree<ICategory, IsA> catTree;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_constructs;
 	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
 	private Tree<IIntentAttribute, IProduction> constrTree;

@@ -3,7 +3,6 @@ package com.tregouet.occam.transition_function.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
@@ -12,6 +11,7 @@ import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
 import com.tregouet.tree_finder.data.Tree;
@@ -39,8 +39,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	}
 
 	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
-			Tree<ICategory, DefaultEdge> catTree, 
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> unfilteredUnreduced) {
+			Tree<ICategory, IsA> catTree, DirectedAcyclicGraph<IIntentAttribute, IProduction> unfilteredUnreduced) {
 		DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);
 		List<IProduction> edges = new ArrayList<>();
@@ -92,7 +91,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return edgesReturned;
 	}
 	
-	private static boolean isA(ICategory cat1, ICategory cat2, Tree<ICategory, DefaultEdge> tree) {
+	private static boolean isA(ICategory cat1, ICategory cat2, Tree<ICategory, IsA> tree) {
 		return tree.getDescendants(cat1).contains(cat2);
 	}
 

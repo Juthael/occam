@@ -7,7 +7,6 @@ import java.io.Writer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
@@ -16,6 +15,7 @@ import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 
@@ -59,9 +59,9 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
 	}	
 	
-	public static void visualizeCategoryGraph(DirectedAcyclicGraph<ICategory, DefaultEdge> graph, String fileName) throws IOException {
+	public static void visualizeCategoryGraph(DirectedAcyclicGraph<ICategory, IsA> graph, String fileName) throws IOException {
 		//convert in DOT format
-		DOTExporter<ICategory,DefaultEdge> exporter = new DOTExporter<>();
+		DOTExporter<ICategory,IsA> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));

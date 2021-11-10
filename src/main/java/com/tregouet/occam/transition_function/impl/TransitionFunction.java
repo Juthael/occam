@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
@@ -26,6 +25,7 @@ import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCal
 import com.tregouet.occam.cost_calculation.similarity_calculation.SimilarityCalculatorFactory;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
@@ -42,7 +42,7 @@ import com.tregouet.tree_finder.data.Tree;
 public class TransitionFunction implements ITransitionFunction {
 
 	private final List<IContextObject> objects;
-	private final Tree<ICategory, DefaultEdge> categories;
+	private final Tree<ICategory, IsA> categories;
 	private final Map<ICategory, IState> categoryToState = new HashMap<>();
 	private final List<IOperator> operators;
 	private final List<IConjunctiveOperator> conjunctiveOperators = new ArrayList<>();
@@ -50,9 +50,8 @@ public class TransitionFunction implements ITransitionFunction {
 	private final ISimilarityCalculator similarityCalc;
 	
 	public TransitionFunction(List<IContextObject> objects, List<ICategory> objectCategories, 
-			Tree<ICategory, DefaultEdge> categories, 
-			Tree<IIntentAttribute, IProduction> constructs, PropertyWeighingStrategy propWeighingStrategy, 
-			SimilarityCalculationStrategy simCalculationStrategy) {
+			Tree<ICategory, IsA> categories, Tree<IIntentAttribute, IProduction> constructs, 
+			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) {
 		IOperator.initializeNameProvider();
 		IConjunctiveOperator.initializeNameProvider();
 		this.objects = objects;
@@ -202,13 +201,13 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 	
 	@Override
-	public Tree<ICategory, DefaultEdge> getCategoryTree() {
+	public Tree<ICategory, IsA> getCategoryTree() {
 		return categories;
 	}
 
 	@Override
 	public String getCategoryTreeAsDOTFile() {
-		DOTExporter<ICategory,DefaultEdge> exporter = new DOTExporter<>();
+		DOTExporter<ICategory,IsA> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(v.toString()));

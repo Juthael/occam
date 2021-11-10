@@ -11,7 +11,6 @@ import java.util.Set;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.alg.TransitiveReduction;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
@@ -34,8 +33,8 @@ import com.tregouet.tree_finder.error.InvalidInputException;
 public class Categories implements ICategories {
 	
 	private final List<IContextObject> objects;
-	private final DirectedAcyclicGraph<ICategory, DefaultEdge> lattice;
-	private final UpperSemilattice<ICategory, DefaultEdge> ontologicalUSL;
+	private final DirectedAcyclicGraph<ICategory, IsA> lattice;
+	private final UpperSemilattice<ICategory, IsA> ontologicalUSL;
 	private final ICategory ontologicalCommitment;
 	private final List<ICategory> topologicalOrder;
 	private final ICategory truism;
@@ -45,7 +44,7 @@ public class Categories implements ICategories {
 	@SuppressWarnings("unchecked")
 	public Categories(List<IContextObject> objects) {
 		this.objects = objects;
-		lattice = new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
+		lattice = new DirectedAcyclicGraph<>(null, IsA::new, false);
 		buildLattice();
 		ICategory truism = null;
 		ICategory absurdity = null;
@@ -65,8 +64,8 @@ public class Categories implements ICategories {
 		this.truism = truism;
 		this.absurdity = absurdity;
 		ontologicalCommitment = instantiateOntologicalCommitment();
-		DirectedAcyclicGraph<ICategory, DefaultEdge> ontologicalUSL = 
-				(DirectedAcyclicGraph<ICategory, DefaultEdge>) lattice.clone();
+		DirectedAcyclicGraph<ICategory, IsA> ontologicalUSL = 
+				(DirectedAcyclicGraph<ICategory, IsA>) lattice.clone();
 		ontologicalUSL.removeVertex(absurdity);
 		TransitiveReduction.INSTANCE.reduce(ontologicalUSL);
 		List<ICategory> topologicalOrderedSet = new ArrayList<>();
@@ -96,7 +95,7 @@ public class Categories implements ICategories {
 	}
 
 	@Override
-	public DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice() {
+	public DirectedAcyclicGraph<ICategory, IsA> getCategoryLattice() {
 		return lattice;
 	}
 
@@ -158,7 +157,7 @@ public class Categories implements ICategories {
 	}
 	
 	@Override
-	public UpperSemilattice<ICategory, DefaultEdge> getOntologicalUpperSemilattice() {
+	public UpperSemilattice<ICategory, IsA> getOntologicalUpperSemilattice() {
 		return ontologicalUSL;
 	}	
 	
@@ -168,7 +167,7 @@ public class Categories implements ICategories {
 	}
 	
 	@Override
-	public DirectedAcyclicGraph<ICategory, DefaultEdge> getTransitiveReduction() {
+	public DirectedAcyclicGraph<ICategory, IsA> getTransitiveReduction() {
 		return ontologicalUSL;
 	}
 	
@@ -181,7 +180,7 @@ public class Categories implements ICategories {
 	public boolean isA(ICategory cat1, ICategory cat2) {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(cat1) < topologicalOrder.indexOf(cat2)) {
-			BreadthFirstIterator<ICategory, DefaultEdge> iterator = 
+			BreadthFirstIterator<ICategory, IsA> iterator = 
 					new BreadthFirstIterator<>(ontologicalUSL, cat1);
 			iterator.next();
 			while (!isA && iterator.hasNext())

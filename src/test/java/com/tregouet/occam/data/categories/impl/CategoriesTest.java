@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -29,7 +28,6 @@ import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.tree_finder.ITreeFinder;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.error.InvalidInputException;
 import com.tregouet.tree_finder.utils.StructureInspector;
@@ -147,7 +145,7 @@ public class CategoriesTest {
 	
 	@Test
 	public void categoryLatticeReturnedThenReallyIsALattice() {
-		DirectedAcyclicGraph<ICategory, DefaultEdge> lattice = categories.getCategoryLattice();
+		DirectedAcyclicGraph<ICategory, IsA> lattice = categories.getCategoryLattice();
 		assertTrue(StructureInspector.isAnUpperSemilattice(lattice) 
 				&& StructureInspector.isALowerSemilattice(lattice)
 				&& !lattice.vertexSet().isEmpty());
@@ -318,7 +316,7 @@ public class CategoriesTest {
 		IClassificationTreeSupplier treeSupplier = categories.getCatTreeSupplier();
 		int nbOfChecks = 0;
 		while (treeSupplier.hasNext()) {
-			Tree<ICategory, DefaultEdge> nextTree = treeSupplier.nextOntologicalCommitment();
+			Tree<ICategory, IsA> nextTree = treeSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
 			*/

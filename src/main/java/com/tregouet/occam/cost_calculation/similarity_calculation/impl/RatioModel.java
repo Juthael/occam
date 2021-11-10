@@ -4,20 +4,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jgrapht.graph.DefaultEdge;
-
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.tree_finder.data.Tree;
 
 public class RatioModel extends AbstractSimCalculator implements ISimilarityCalculator {
 
-	public RatioModel(Tree<ICategory, DefaultEdge> categories, List<IConjunctiveOperator> conjunctiveOperators) {
-		super(categories, conjunctiveOperators);
+	public RatioModel() {
 	}
 
-	public RatioModel() {
+	public RatioModel(Tree<ICategory, IsA> categories, List<IConjunctiveOperator> conjunctiveOperators) {
+		super(categories, conjunctiveOperators);
 	}
 
 	@Override

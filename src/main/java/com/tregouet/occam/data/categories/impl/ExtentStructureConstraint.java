@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jgrapht.graph.DefaultEdge;
-
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
 import com.tregouet.tree_finder.data.Tree;
@@ -28,7 +26,7 @@ public class ExtentStructureConstraint implements IExtentStructureConstraint {
 	}
 
 	@Override
-	public boolean metBy(Tree<ICategory, DefaultEdge> catTree) {
+	public boolean metBy(Tree<ICategory, IsA> catTree) {
 		// TODO Auto-generated method stub
 		return false;
 	}

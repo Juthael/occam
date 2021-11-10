@@ -21,7 +21,6 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IBasicTFSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.tree_finder.error.InvalidInputException;

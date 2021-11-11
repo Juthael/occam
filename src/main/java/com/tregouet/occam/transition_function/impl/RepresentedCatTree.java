@@ -1,6 +1,8 @@
 package com.tregouet.occam.transition_function.impl;
 
+import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeSet;
 
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
@@ -15,7 +17,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 
 	private final Tree<ICategory,IsA> categoryTree;
 	private final Map<ICategory, String> objectCategoryToName;
-	private ITransitionFunction optimalRepresentation = null;
+	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	
 	public RepresentedCatTree(Tree<ICategory, IsA> categoryTree, 
 			Map<ICategory, String> objectCategoryToName) {
@@ -29,7 +31,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 			return -1;
 		if (this.getCoherenceScore() < other.getCoherenceScore())
 			return 1;
-		return optimalRepresentation.compareTo(other.getTransitionFunction());
+		return getOptimalTransitionFunction().compareTo(other.getOptimalTransitionFunction());
 	}
 
 	@Override
@@ -46,10 +48,11 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 				return false;
 		} else if (!categoryTree.equals(other.categoryTree))
 			return false;
-		if (optimalRepresentation == null) {
-			if (other.optimalRepresentation != null)
+		ITransitionFunction optimalTF = getOptimalTransitionFunction();
+		if (optimalTF == null) {
+			if (other.getOptimalTransitionFunction() != null)
 				return false;
-		} else if (!optimalRepresentation.equals(other.optimalRepresentation))
+		} else if (!optimalTF.equals(other.getOptimalTransitionFunction()))
 			return false;
 		return true;
 	}
@@ -61,7 +64,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 
 	@Override
 	public double getCoherenceScore() {
-		return optimalRepresentation.getCoherenceScore();
+		return getOptimalTransitionFunction().getCoherenceScore();
 	}
 
 	@Override
@@ -75,8 +78,10 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 	}
 
 	@Override
-	public ITransitionFunction getTransitionFunction() {
-		return optimalRepresentation;
+	public ITransitionFunction getOptimalTransitionFunction() {
+		if (transitionFunctions.isEmpty())
+			return null;
+		else return transitionFunctions.first();
 	}
 
 	@Override
@@ -95,12 +100,9 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 
 	@Override
 	public boolean testAlternativeRepresentation(ITransitionFunction altRepresentation) {
-		if (optimalRepresentation == null 
-				|| altRepresentation.getCoherenceScore() > optimalRepresentation.getCoherenceScore()) {
-			optimalRepresentation = altRepresentation;
-			return true;
-		}
-		return false;
+		transitionFunctions.add(altRepresentation);
+		//equality check intentionally based on reference
+		return transitionFunctions.first() == altRepresentation;
 	}
 
 	@Override
@@ -112,8 +114,14 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 		sB.append("*** CATEGORY STRUCTURE : ");
 		sB.append(getExtentStructureAsString());
 		sB.append(newLine + newLine);
-		sB.append("*** SCORE : " + Double.toString(optimalRepresentation.getCoherenceScore()) + newLine + newLine);
+		sB.append("*** SCORE : " + Double.toString(getOptimalTransitionFunction().getCoherenceScore()) + 
+				newLine + newLine);
 		return sB.toString();
+	}
+
+	@Override
+	public Iterator<ITransitionFunction> getIteratorOverTransitionFunctions() {
+		return transitionFunctions.iterator();
 	}
 
 }

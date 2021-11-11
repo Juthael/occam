@@ -1,5 +1,7 @@
 package com.tregouet.occam.transition_function;
 
+import java.util.Iterator;
+
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
 import com.tregouet.occam.data.categories.impl.IsA;
@@ -15,7 +17,9 @@ public interface IRepresentedCatTree extends Comparable<IRepresentedCatTree> {
 	
 	String getExtentStructureAsString();
 	
-	ITransitionFunction getTransitionFunction();
+	Iterator<ITransitionFunction> getIteratorOverTransitionFunctions();
+	
+	ITransitionFunction getOptimalTransitionFunction();
 	
 	boolean meetsConstraint(IExtentStructureConstraint constraint);
 	

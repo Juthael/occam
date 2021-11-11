@@ -87,13 +87,10 @@ public class TransitionFunctionTest {
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
-				constrTree = constrTreeSupplier.next();
+				constrTree = constrTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = 
 						new TransitionFunction(shapes1Obj, categories.getObjectCategories(), catTree, constrTree, 
 								PROP_WHEIGHING_STRATEGY, SIM_CALC_STRATEGY);
-				/*
-				visualize("2108140757");
-				*/
 				transitionFunctions.add(transitionFunction);
 			}
 		}

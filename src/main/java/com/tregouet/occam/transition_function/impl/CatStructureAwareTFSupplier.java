@@ -67,7 +67,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 
 	@Override
 	public ITransitionFunction getOptimalTransitionFunction() {
-		return representedCategories.first().getTransitionFunction();
+		return representedCategories.first().getOptimalTransitionFunction();
 	}
 
 	@Override

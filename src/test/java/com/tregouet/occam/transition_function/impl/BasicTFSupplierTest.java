@@ -21,8 +21,10 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IBasicTFSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
+import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
 import com.tregouet.tree_finder.error.InvalidInputException;
 
 @SuppressWarnings("unused")
@@ -66,7 +68,8 @@ public class BasicTFSupplierTest {
 		/*
 		Visualizer.visualizeCategoryGraph(categories.getOntologicalUpperSemilattice(), "2111051132_catUSL");
 		System.out.println("TF0 : " + Double.toString(prevScore));
-		Visualizer.visualizeTransitionFunction(tF, "2111051132_TFbasicSupp" + Integer.toString(0), true);
+		Visualizer.visualizeTransitionFunction(tF, "2111051132_TFbasicSupp" + Integer.toString(0), 
+				TransitionFunctionGraphType.FINITE_AUTOMATON);
 		*/
 		while (transFuncSupplier.hasNext()) {
 			tF = transFuncSupplier.next();
@@ -74,13 +77,13 @@ public class BasicTFSupplierTest {
 			/*
 			System.out.println("TF" + Integer.toString(checkCount) + " : " + Double.toString(nextScore));
 			Visualizer.visualizeCategoryGraph(tF.getCategoryTree(), "2111051132_TFCatTree" +  Integer.toString(checkCount));
-			Visualizer.visualizeTransitionFunction(tF, "2111051132_TFbasicSupp" + Integer.toString(checkCount), true);
+			Visualizer.visualizeTransitionFunction(tF, "2111051132_TFbasicSupp" + Integer.toString(checkCount), 
+					TransitionFunctionGraphType.FINITE_AUTOMATON);
 			*/
 			if (nextScore > prevScore)
 				increasingOrder = false;
 			prevScore = nextScore;
 			checkCount++;
-			
 		}
 		assertTrue(increasingOrder && checkCount > 0);
 	}

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,6 +27,7 @@ import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ICompositeProduction;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.utils.Visualizer;
 
 @SuppressWarnings("unused")
 public class ProductionBuilderTest {
@@ -46,7 +48,12 @@ public class ProductionBuilderTest {
 		builder = new ProductionBuilder(categories);
 		/*
 		Categories catImpl = (Categories) categories;
-		Visualizer.visualizeCategoryGraph(catImpl.getDiagram(), "2108040604a");
+		try {
+			Visualizer.visualizeCategoryGraph(catImpl.getCategoryLattice(), "2108040604a");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		*/
 	}
 	

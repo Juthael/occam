@@ -10,7 +10,7 @@ import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.finite_state_machine.ITapeSet;
+import com.tregouet.occam.finite_automaton.ITapeSet;
 import com.tregouet.occam.transition_function.IState;
 
 public class State implements IState {

@@ -76,9 +76,6 @@ public class ConjunctiveOperatorTest {
 				ITransitionFunction transitionFunction = 
 						new TransitionFunction(shapes1Obj, categories.getObjectCategories(), catTree, constrTree, 
 								PROP_WHEIGHING_STRATEGY, SIM_CALC_STRATEGY);
-				/*
-				visualize("2108140757");
-				*/
 				transitionFunctions.add(transitionFunction);
 			}
 		}	

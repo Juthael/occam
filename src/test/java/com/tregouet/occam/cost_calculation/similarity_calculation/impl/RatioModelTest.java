@@ -34,13 +34,16 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ITransitionFunction;
+import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
 import com.tregouet.occam.transition_function.impl.TransitionFunction;
 import com.tregouet.occam.transition_function.impl.TransitionFunctionSupplier;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
+@SuppressWarnings("unused")
 public class RatioModelTest {
 
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
@@ -87,8 +90,10 @@ public class RatioModelTest {
 								PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
 				transitionFunctions.add(transitionFunction);
 				/*
-				Visualizer.visualizeTransitionFunction(transitionFunction, "2109110911_tf");
-				Visualizer.visualizeWeightedTransitionsGraph(transitionFunction.getSimilarityCalculator().getSparseGraph(), "2109110911_sg");
+				Visualizer.visualizeTransitionFunction(transitionFunction, "2109110911_tf", 
+						TransitionFunctionGraphType.FINITE_AUTOMATON);
+				Visualizer.visualizeWeightedTransitionsGraph(transitionFunction.getSimilarityCalculator().getSparseGraph(), 
+						"2109110911_sg");
 				*/
 				tfToSimCalc.put(transitionFunction, transitionFunction.getSimilarityCalculator());
 			}
@@ -116,7 +121,7 @@ public class RatioModelTest {
 			RatioModel calculator = (RatioModel) tF.getSimilarityCalculator();
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
-			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
+			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
 			List<ICategory> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
@@ -152,7 +157,7 @@ public class RatioModelTest {
 			RatioModel calculator = (RatioModel) tF.getSimilarityCalculator();
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
-			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
+			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
 			List<ICategory> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
@@ -181,14 +186,14 @@ public class RatioModelTest {
 	}
 	
 	@Test
-	public void whenPrototypicalityOfAnObjectRequestedThenReturned() {
+	public void whenPrototypicalityOfAnObjectRequestedThenReturned() throws IOException {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			RatioModel calculator = (RatioModel) tF.getSimilarityCalculator();
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
-			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", true);
+			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
 			List<ICategory> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());

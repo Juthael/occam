@@ -36,11 +36,13 @@ import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
 import com.tregouet.occam.transition_function.ITransitionFunction;
+import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.error.InvalidInputException;
 
+import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
 
@@ -114,10 +116,6 @@ public class TransitionFunctionTest {
 			catch (Exception e) {
 				dotFileReturnedIsValid = false;
 			}
-			/*
-			//display graph
-			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + "cat_dot_test"));
-			*/
 		}
 		assertTrue(dotFileReturnedIsValid);
 	}
@@ -126,7 +124,7 @@ public class TransitionFunctionTest {
 	public void whenTransitionFunctionDOTFileRequestedThenReturned() throws IOException {
 		boolean dotFileReturnedIsValid = true;
 		for (ITransitionFunction tF : transitionFunctions) {
-			String stringDOT = tF.getTransitionFunctionAsDOTFile();
+			String stringDOT = tF.getTransitionFunctionAsDOTFile(TransitionFunctionGraphType.FINITE_AUTOMATON);
 			if (stringDOT == null || stringDOT.isEmpty())
 				dotFileReturnedIsValid = false;
 			/*
@@ -146,10 +144,6 @@ public class TransitionFunctionTest {
 				System.out.println(operator.toString());
 			}
 			*/
-			/*
-			//display graph
-			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + "tf_dot_test"));
-			*/	
 		}
 		assertTrue(dotFileReturnedIsValid);
 	}
@@ -212,12 +206,10 @@ public class TransitionFunctionTest {
 		boolean sameOperator = true;
 		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			
-			/*visualize("2108251050");
+			/*
 			System.out.println(tF.getDomainSpecificLanguage().toString());
-			Visualizer.visualizeTransitionFunction(tF, "2108251050_tf");
+			Visualizer.visualizeTransitionFunction(tF, "2108251050_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			*/
-			
 			List<IBasicProduction> basicProds = new ArrayList<>();
 			List<IOperator> basicProdsOperators = new ArrayList<>();
 			for (IOperator operator : tF.getTransitions()) {

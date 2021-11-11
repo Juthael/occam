@@ -22,6 +22,7 @@ import com.tregouet.occam.data.categories.impl.Categories;
 import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.data.Tree;
 
 @SuppressWarnings("unused")

@@ -18,6 +18,7 @@ import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.ITransitionFunction;
+import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -59,7 +60,8 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
 	}	
 	
-	public static void visualizeCategoryGraph(DirectedAcyclicGraph<ICategory, IsA> graph, String fileName) throws IOException {
+	public static void visualizeCategoryGraph(DirectedAcyclicGraph<ICategory, IsA> graph, String fileName) 
+			throws IOException {
 		//convert in DOT format
 		DOTExporter<ICategory,IsA> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
@@ -83,16 +85,15 @@ public class Visualizer {
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
 	}
 	
-	public static void visualizeTransitionFunction(ITransitionFunction tF, String fileName, boolean conjunctiveOperators) throws IOException {
-		MutableGraph dotGraph;
-		if (conjunctiveOperators)
-			dotGraph = new Parser().read(tF.getTFWithConjunctiveOperatorsAsDOTFile());
-		else dotGraph = new Parser().read(tF.getTransitionFunctionAsDOTFile());
+	public static void visualizeTransitionFunction(ITransitionFunction tF, String fileName, 
+			TransitionFunctionGraphType graphType) throws IOException {
+		MutableGraph dotGraph = new Parser().read(tF.getTransitionFunctionAsDOTFile(graphType));
 		Graphviz.fromGraph(dotGraph)
 			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
 	}
 	
-	public static void visualizeWeightedTransitionsGraph(SparseIntDirectedWeightedGraph graph, String fileName) throws IOException {
+	public static void visualizeWeightedTransitionsGraph(SparseIntDirectedWeightedGraph graph, String fileName) 
+			throws IOException {
 		//convert in DOT format
 		DOTExporter<Integer, Integer> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {

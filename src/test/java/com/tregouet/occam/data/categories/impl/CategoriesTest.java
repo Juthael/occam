@@ -28,6 +28,7 @@ import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.error.InvalidInputException;
 import com.tregouet.tree_finder.utils.StructureInspector;
@@ -44,7 +45,7 @@ public class CategoriesTest {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
 		/*
 		Categories catImpl = (Categories) categories;
-		Visualizer.visualize(catImpl.getDiagram(), "2107291658");
+		Visualizer.visualizeCategoryGraph(catImpl.getCategoryLattice(), "2107291658");
 		*/
 	}
 

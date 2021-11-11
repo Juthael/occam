@@ -1,4 +1,4 @@
-package com.tregouet.occam.finite_state_machine;
+package com.tregouet.occam.finite_automaton;
 
 public interface ISyntaxTreeTape {
 	

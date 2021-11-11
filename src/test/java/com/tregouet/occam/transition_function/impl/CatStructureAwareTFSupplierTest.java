@@ -22,8 +22,10 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
+import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
 import com.tregouet.tree_finder.error.InvalidInputException;
 
 @SuppressWarnings("unused")
@@ -79,7 +81,7 @@ public class CatStructureAwareTFSupplierTest {
 			Visualizer.visualizeTransitionFunction(
 					representedCatTree.getTransitionFunction(), 
 					"2109250747_TF" + Integer.toString(idx), 
-					true);
+					TransitionFunctionGraphType.FINITE_AUTOMATON);
 			*/
 			idx++;
 		}

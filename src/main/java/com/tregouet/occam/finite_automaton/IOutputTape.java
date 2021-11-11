@@ -1,6 +1,6 @@
-package com.tregouet.occam.finite_state_machine;
+package com.tregouet.occam.finite_automaton;
 
-public interface IInputTape {
+public interface IOutputTape {
 	
 	@Override
 	public int hashCode();

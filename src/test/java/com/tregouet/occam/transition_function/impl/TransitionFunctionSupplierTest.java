@@ -24,9 +24,11 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.StructureInspector;
 
+@SuppressWarnings("unused")
 public class TransitionFunctionSupplierTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");

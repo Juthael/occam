@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
@@ -352,6 +353,11 @@ public class TransitionFunction implements ITransitionFunction {
 				finiteAutomatonMultigraph.addEdge(operator.getOperatingState(), operator.getNextState(), operator);			
 		}
 		return finiteAutomatonMultigraph;
+	}
+
+	@Override
+	public boolean validate(Predicate<ITransitionFunction> validator) {
+		return validator.test(this);
 	}
 
 }

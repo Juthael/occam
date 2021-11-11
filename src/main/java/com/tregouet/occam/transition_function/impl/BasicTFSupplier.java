@@ -64,11 +64,13 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 				ITransitionFunction transitionFunction = new TransitionFunction(
 						categories.getContextObjects(), categories.getObjectCategories(), 
 						currCatTree, attTree, propWeighingStrategy, simCalculationStrategy);
-				if (transitionFunctions.size() <= MAX_CAPACITY)
-					transitionFunctions.add(transitionFunction);
-				else if (transitionFunction.getCoherenceScore() > transitionFunctions.last().getCoherenceScore()) {
-					transitionFunctions.add(transitionFunction);
-					transitionFunctions.pollLast();
+				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE)) {
+					if (transitionFunctions.size() <= MAX_CAPACITY)
+						transitionFunctions.add(transitionFunction);
+					else if (transitionFunction.getCoherenceScore() > transitionFunctions.last().getCoherenceScore()) {
+						transitionFunctions.add(transitionFunction);
+						transitionFunctions.pollLast();
+					}
 				}
 			}
 		}

@@ -106,7 +106,8 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 				ITransitionFunction transitionFunction = new TransitionFunction(
 						categories.getContextObjects(), categories.getObjectCategories(), 
 						currCatTree, attTree, propWeighingStrategy, simCalculationStrategy);
-				currCatTreeRepresentation.testAlternativeRepresentation(transitionFunction);
+				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE))
+					currCatTreeRepresentation.testAlternativeRepresentation(transitionFunction);
 			}
 			if (representedCategories.size() <= MAX_CAPACITY)
 				representedCategories.add(currCatTreeRepresentation);

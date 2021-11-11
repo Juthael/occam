@@ -1,6 +1,7 @@
 package com.tregouet.occam.transition_function;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.graph.DirectedMultigraph;
@@ -45,6 +46,8 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	String getTransitionFunctionAsDOTFile(TransitionFunctionGraphType graphType);
 	
 	List<IOperator> getTransitions();
+	
+	boolean validate(Predicate<ITransitionFunction> validator);
 	
 	@Override
 	int hashCode();

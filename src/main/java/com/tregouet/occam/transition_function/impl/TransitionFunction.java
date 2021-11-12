@@ -397,7 +397,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public Map<Integer, Double> getCategoricalCoherenceArray() {
+	public Map<Integer, Double> getCategoricalCoherenceMap() {
 		Map<Integer, Double> catIDToCoherenceScore = new HashMap<>();
 		TopologicalOrderIterator<ICategory, IsA> iterator = new TopologicalOrderIterator<>(categories);
 		while (iterator.hasNext()) {

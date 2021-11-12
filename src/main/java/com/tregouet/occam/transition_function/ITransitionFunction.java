@@ -53,7 +53,7 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	double[][] getAsymmetricalSimilarityMatrix();
 	
-	Map<Integer, Double> getCategoricalCoherenceArray();
+	Map<Integer, Double> getCategoricalCoherenceMap();
 	
 	double[] getTypicalityArray();
 	

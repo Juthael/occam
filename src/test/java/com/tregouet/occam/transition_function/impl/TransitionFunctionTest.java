@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
+import org.jgrapht.traverse.TopologicalOrderIterator;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -49,12 +51,12 @@ import guru.nidi.graphviz.parse.Parser;
 @SuppressWarnings("unused")
 public class TransitionFunctionTest {
 
-	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
+	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
 			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
 	private static final SimilarityCalculationStrategy SIM_CALC_STRATEGY = 
-			SimilarityCalculationStrategy.CONTRAST_MODEL;
-	private static List<IContextObject> shapes1Obj;
+			SimilarityCalculationStrategy.RATIO_MODEL;
+	private static List<IContextObject> objects;
 	private ICategories categories;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
@@ -67,13 +69,13 @@ public class TransitionFunctionTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		shapes1Obj = GenericFileReader.getContextObjects(SHAPES1);		
+		objects = GenericFileReader.getContextObjects(SHAPES);		
 	}
 
 	@Before
 	public void setUp() throws Exception {
 		transitionFunctions = new TreeSet<>();
-		categories = new Categories(shapes1Obj);
+		categories = new Categories(objects);
 		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
 		productions.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
@@ -89,7 +91,7 @@ public class TransitionFunctionTest {
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(shapes1Obj, categories.getObjectCategories(), catTree, constrTree, 
+						new TransitionFunction(objects, categories.getObjectCategories(), catTree, constrTree, 
 								PROP_WHEIGHING_STRATEGY, SIM_CALC_STRATEGY);
 				transitionFunctions.add(transitionFunction);
 			}
@@ -162,6 +164,124 @@ public class TransitionFunctionTest {
 			}
 		}
 		assertTrue(languageReturned);
+	}
+	
+	@Test
+	public void whenSimilarityMatrixRequestedThenReturned() throws IOException {
+		int tfIdx = 0;
+		int returned = 0;
+		/*
+		StringBuilder sB = new StringBuilder();
+		int objIdx = 0;
+		for (IContextObject obj : categories.getContextObjects()) {
+			sB.append("Object_" + Integer.toString(objIdx++) + " : " + System.lineSeparator() 
+				+ obj.getConstructs().toString());
+			sB.append(System.lineSeparator());
+		}
+		*/
+		for (ITransitionFunction tF : transitionFunctions) {
+			/*
+			Visualizer.visualizeTransitionFunction(tF, "TransFunc" + Integer.toString(tfIdx), 
+					TransitionFunctionGraphType.FINITE_AUTOMATON);
+			*/
+			double[][] matrix = tF.getSimilarityMatrix();
+			if (matrix != null)
+				returned++;
+			/*
+			sB.append("TRANS_FUNC_" + Integer.toString(tfIdx) + " : " + System.lineSeparator());
+			for (double[] line : matrix)
+				sB.append(Arrays.toString(line) + System.lineSeparator());
+			sB.append(System.lineSeparator());
+			*/
+			tfIdx++;
+		}
+		/*
+		System.out.println(sB.toString());
+		*/
+		assertTrue(tfIdx == returned);
+	}
+	
+	@Test
+	public void whenAsymmetricalSimilarityMatrixRequestedThenReturned() throws IOException {
+		int tfIdx = 0;
+		int returned = 0;
+		/*
+		StringBuilder sB = new StringBuilder();
+		int objIdx = 0;
+		for (IContextObject obj : categories.getContextObjects()) {
+			sB.append("Object_" + Integer.toString(objIdx++) + " : " + System.lineSeparator() 
+				+ obj.getConstructs().toString());
+			sB.append(System.lineSeparator());
+		}
+		*/
+		for (ITransitionFunction tF : transitionFunctions) {
+			/*
+			Visualizer.visualizeTransitionFunction(tF, "TransFunc" + Integer.toString(tfIdx), 
+					TransitionFunctionGraphType.FINITE_AUTOMATON);
+			*/
+			double[][] matrix = tF.getAsymmetricalSimilarityMatrix();
+			if (matrix != null)
+				returned++;
+			/*
+			sB.append("TRANS_FUNC_" + Integer.toString(tfIdx) + " : " + System.lineSeparator());
+			for (double[] line : matrix)
+				sB.append(Arrays.toString(line) + System.lineSeparator());
+			sB.append(System.lineSeparator());
+			*/
+			tfIdx++;
+		}
+		/*
+		System.out.println(sB.toString());
+		*/
+		assertTrue(tfIdx == returned);
+	}
+	
+	@Test
+	public void whenCategoricalCoherenceArrayRequestedThenReturned() throws IOException {
+		boolean returned = true;
+		int nbOfChecks = 0;
+		/*
+		StringBuilder sB = new StringBuilder();
+		int tFIdx = 0;
+		*/
+		for (ITransitionFunction tF : transitionFunctions) {
+			/*
+			sB.append("***Transition Function " + Integer.toString(tFIdx) + System.lineSeparator());
+			Visualizer.visualizeTransitionFunction(tF, "TFunc_" + Integer.toString(tFIdx++), 
+					TransitionFunctionGraphType.FINITE_AUTOMATON);
+			*/
+			Map<Integer, Double> coherenceMap = tF.getCategoricalCoherenceMap();
+			if (coherenceMap == null || coherenceMap.isEmpty())
+				returned = false;
+			/*
+			List<ICategory> topoOrder = new ArrayList<>();
+			new TopologicalOrderIterator<>(tF.getCategoryTree()).forEachRemaining(topoOrder::add);
+			for (ICategory cat : topoOrder) {
+				sB.append("Category_" + Integer.toString(cat.getID()) + " : " + System.lineSeparator() 
+					+ cat.getIntent().toString() + System.lineSeparator());
+				sB.append("Coherence : " + coherenceMap.get(cat.getID()).toString());
+				sB.append(System.lineSeparator() + System.lineSeparator());
+			}
+			*/	
+			nbOfChecks++;
+		}
+		/*
+		System.out.println(sB.toString());
+		*/
+		assertTrue(returned && nbOfChecks > 0);
+	}
+	
+	@Test
+	public void whenTypicalityArrayRequestedThenReturned() {
+		boolean returned = true;
+		int nbOfChecks = 0;
+		for (ITransitionFunction tF : transitionFunctions) {
+			double[] typicalityArray = tF.getTypicalityArray();
+			if (typicalityArray == null || typicalityArray.length != objects.size())
+				returned = false;
+			nbOfChecks++;
+		}
+		assertTrue(returned && nbOfChecks > 0);
 	}
 	
 	@Test
@@ -260,15 +380,6 @@ public class TransitionFunctionTest {
 			}
 		}
 		assertTrue(consistent);
-	}
-	
-	private void visualize(String timestamp) throws IOException {
-		Categories castcats = (Categories) categories;
-		Visualizer.visualizeCategoryGraph(castcats.getTransitiveReduction(), timestamp + "categories");
-		Visualizer.visualizeCategoryGraph(catTree, timestamp + "_cat_tree");
-		Visualizer.visualizeAttributeGraph(constructs, timestamp + "_constructs");
-		Visualizer.visualizeAttributeGraph(filtered_reduced_constructs, timestamp + "_filtered_red_const");
-		Visualizer.visualizeAttributeGraph(constrTree, timestamp + "_construct_tree");
 	}
 	
 	private static boolean sameSourceAndTargetCategoryForAll(List<IProduction> productions) {

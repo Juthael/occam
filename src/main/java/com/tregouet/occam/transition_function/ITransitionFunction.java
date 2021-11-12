@@ -1,9 +1,9 @@
 package com.tregouet.occam.transition_function;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
-import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
@@ -48,6 +48,14 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	List<IOperator> getTransitions();
 	
 	boolean validate(Predicate<ITransitionFunction> validator);
+	
+	double[][] getSimilarityMatrix();
+	
+	double[][] getAsymmetricalSimilarityMatrix();
+	
+	Map<Integer, Double> getCategoricalCoherenceArray();
+	
+	double[] getTypicalityArray();
 	
 	@Override
 	int hashCode();

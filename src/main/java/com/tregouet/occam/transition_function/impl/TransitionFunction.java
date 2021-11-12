@@ -18,6 +18,7 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
+import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
@@ -45,6 +46,7 @@ import com.tregouet.tree_finder.data.Tree;
 public class TransitionFunction implements ITransitionFunction {
 
 	private final List<IContextObject> objects;
+	private final List<ICategory> objectCategories;
 	private final Tree<ICategory, IsA> categories;
 	private final Map<ICategory, IState> categoryToState = new HashMap<>();
 	private final List<IOperator> operators;
@@ -60,6 +62,7 @@ public class TransitionFunction implements ITransitionFunction {
 		IOperator.initializeNameProvider();
 		IConjunctiveOperator.initializeNameProvider();
 		this.objects = objects;
+		this.objectCategories = objectCategories;
 		this.categories = categories;
 		for (ICategory category : categories.vertexSet()) {
 			if (objectCategories.contains(category))
@@ -358,6 +361,66 @@ public class TransitionFunction implements ITransitionFunction {
 	@Override
 	public boolean validate(Predicate<ITransitionFunction> validator) {
 		return validator.test(this);
+	}
+
+	@Override
+	public double[][] getSimilarityMatrix() {
+		int nbOfObjects = objects.size();
+		double[][] similarityMatrix = new double[nbOfObjects][nbOfObjects];
+		for (int i = 0 ; i < nbOfObjects ; i++) {
+			int iObjCatID = objectCategories.get(i).getID();
+			similarityMatrix[i][i] = 1.0;
+			for (int j = i + 1 ; j < nbOfObjects ; j++) {
+				int jObjCatID = objectCategories.get(j).getID();
+				double similarityScoreIJ = similarityCalc.howSimilar(iObjCatID, jObjCatID);
+				similarityMatrix[i][j] = similarityScoreIJ;
+				similarityMatrix[j][i] = similarityScoreIJ;
+			}
+		}
+		return similarityMatrix;
+	}
+
+	@Override
+	public double[][] getAsymmetricalSimilarityMatrix() {
+		int nbOfObjects = objects.size();
+		double[][] similarityMatrix = new double[nbOfObjects][nbOfObjects];
+		for (int i = 0 ; i < nbOfObjects ; i++) {
+			int iObjCatID = objectCategories.get(i).getID();
+			similarityMatrix[i][i] = 1.0;
+			for (int j = i + 1 ; j < nbOfObjects ; j++) {
+				int jObjCatID = objectCategories.get(j).getID();
+				similarityMatrix[i][j] = similarityCalc.howSimilarTo(iObjCatID, jObjCatID);
+				similarityMatrix[j][i] = similarityCalc.howSimilarTo(jObjCatID, iObjCatID);
+			}
+		}
+		return similarityMatrix;
+	}
+
+	@Override
+	public Map<Integer, Double> getCategoricalCoherenceArray() {
+		Map<Integer, Double> catIDToCoherenceScore = new HashMap<>();
+		TopologicalOrderIterator<ICategory, IsA> iterator = new TopologicalOrderIterator<>(categories);
+		while (iterator.hasNext()) {
+			ICategory nextCat = iterator.next();
+			Set<IContextObject> extent = nextCat.getExtent();
+			int[] extentIDs = new int[extent.size()];
+			int idx = 0;
+			for (IContextObject obj : extent) {
+				extentIDs[idx++] = objectCategories.get(objects.indexOf(obj)).getID();
+			}
+			catIDToCoherenceScore.put(nextCat.getID(), similarityCalc.getCoherenceScore(extentIDs));
+		}
+		return catIDToCoherenceScore;
+	}
+
+	@Override
+	public double[] getTypicalityArray() {
+		int nbOfObjects = objects.size();
+		double[] typicalityArray = new double[nbOfObjects];
+		for (int i = 0 ; i < nbOfObjects ; i++) {
+			typicalityArray[i] = similarityCalc.howProtoypical(objectCategories.get(i).getID());
+		}
+		return typicalityArray;
 	}
 
 }

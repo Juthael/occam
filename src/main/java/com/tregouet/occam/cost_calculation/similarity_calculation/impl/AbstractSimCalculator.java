@@ -127,6 +127,8 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 	abstract protected double howSimilarTo(Integer vertex1, Integer vertex2);	
 	
 	private double getCoherenceScore(Integer[] vertices) {
+		if (vertices.length == 1)
+			return 1.0;
 		double similaritySum = 0.0;
 		double n = vertices.length;
 		for (int i = 0 ; i < vertices.length - 1 ; i++) {

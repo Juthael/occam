@@ -1,6 +1,7 @@
 package com.tregouet.occam.data.categories.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,12 +39,13 @@ public class Categories implements ICategories {
 	private final ICategory ontologicalCommitment;
 	private final List<ICategory> topologicalOrder;
 	private final ICategory truism;
-	private final List<ICategory> objCategories = new ArrayList<>();
+	private final List<ICategory> objCategories;
 	private final ICategory absurdity;
 	
 	@SuppressWarnings("unchecked")
 	public Categories(List<IContextObject> objects) {
 		this.objects = objects;
+		objCategories = new ArrayList<>(Arrays.asList(new ICategory[objects.size()]));
 		lattice = new DirectedAcyclicGraph<>(null, IsA::new, false);
 		buildLattice();
 		ICategory truism = null;
@@ -57,7 +59,7 @@ public class Categories implements ICategories {
 					absurdity = category;
 					break;
 				case ICategory.OBJECT :
-					objCategories.add(category);
+					objCategories.set(objects.indexOf(category.getExtent().iterator().next()), category);
 					break;
 			}
 		}

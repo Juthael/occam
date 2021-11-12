@@ -39,6 +39,7 @@ public interface ICategories {
 	
 	ICategory getLeastCommonSuperordinate(Set<ICategory> categories);
 	
+	//it is guaranteed that the order is the same as getContextObjects();
 	List<ICategory> getObjectCategories();
 	
 	ICategory getOntologicalCommitment();

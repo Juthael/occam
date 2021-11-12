@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.categories.impl;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +26,31 @@ public class Category implements ICategory {
 	public Category(Set<IConstruct> intent, Set<IContextObject> extent) {
 		for (IConstruct construct : intent)
 			this.intent.add(new IntentAttribute(construct, this));
-		this.extent = extent;
+		this.extent = Collections.unmodifiableSet(extent);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Category other = (Category) obj;
+		if (iD != other.iD)
+			return false;
+		if (extent == null) {
+			if (other.extent != null)
+				return false;
+		} else if (!extent.equals(other.extent))
+			return false;
+		if (intent == null) {
+			if (other.intent != null)
+				return false;
+		} else if (!intent.equals(other.intent))
+			return false;
+		return true;
 	}
 
 	@Override
@@ -34,8 +59,59 @@ public class Category implements ICategory {
 	}
 
 	@Override
+	public int getID() {
+		return iD;
+	}
+
+	@Override
 	public Set<IIntentAttribute> getIntent() {
 		return intent;
+	}
+
+	/**
+	 * If many attributes meet the constraint, returns the first found. 
+	 * @throws PropertyTargetingException 
+	 */
+	@Override
+	public IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws PropertyTargetingException {
+		IIntentAttribute matchingAttribute = null;
+		IConstruct constraintAsConstruct = 
+				new Construct(constraintAsStrings.toArray(new String[constraintAsStrings.size()]));
+		Iterator<IIntentAttribute> attributeIte = intent.iterator();
+		while (attributeIte.hasNext()) {
+			IIntentAttribute currAtt = attributeIte.next();
+			if (currAtt.meets(constraintAsConstruct)) {
+				if (matchingAttribute == null)
+					matchingAttribute = currAtt;
+				else throw new PropertyTargetingException("Category.getMatchingAttribute(List<String>) : "
+						+ "the constraint is not specific enough to target a single attribute.");
+			}
+		}
+		return matchingAttribute;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((extent == null) ? 0 : extent.hashCode());
+		result = prime * result + iD;
+		result = prime * result + ((intent == null) ? 0 : intent.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean meets(IConstruct constraint) {
+		return intent.stream().anyMatch(a -> a.meets(constraint));
+	}
+
+	@Override
+	public boolean meets(List<String> constraintAsStrings) {
+		IConstruct constraint = new Construct(constraintAsStrings.toArray(new String[constraintAsStrings.size()]));
+		return meets(constraint);
 	}
 
 	@Override
@@ -67,85 +143,10 @@ public class Category implements ICategory {
 		}
 		return sB.toString();
 	}
-	
+
 	@Override
 	public int type() {
 		return type;
-	}
-
-	@Override
-	public boolean meets(List<String> constraintAsStrings) {
-		IConstruct constraint = new Construct(constraintAsStrings.toArray(new String[constraintAsStrings.size()]));
-		return meets(constraint);
-	}
-
-	/**
-	 * If many attributes meet the constraint, returns the first found. 
-	 * @throws PropertyTargetingException 
-	 */
-	@Override
-	public IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws PropertyTargetingException {
-		IIntentAttribute matchingAttribute = null;
-		IConstruct constraintAsConstruct = 
-				new Construct(constraintAsStrings.toArray(new String[constraintAsStrings.size()]));
-		Iterator<IIntentAttribute> attributeIte = intent.iterator();
-		while (attributeIte.hasNext()) {
-			IIntentAttribute currAtt = attributeIte.next();
-			if (currAtt.meets(constraintAsConstruct)) {
-				if (matchingAttribute == null)
-					matchingAttribute = currAtt;
-				else throw new PropertyTargetingException("Category.getMatchingAttribute(List<String>) : "
-						+ "the constraint is not specific enough to target a single attribute.");
-			}
-		}
-		return matchingAttribute;
-	}
-
-	@Override
-	public int getID() {
-		return iD;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((extent == null) ? 0 : extent.hashCode());
-		result = prime * result + iD;
-		result = prime * result + ((intent == null) ? 0 : intent.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Category other = (Category) obj;
-		if (iD != other.iD)
-			return false;
-		if (extent == null) {
-			if (other.extent != null)
-				return false;
-		} else if (!extent.equals(other.extent))
-			return false;
-		if (intent == null) {
-			if (other.intent != null)
-				return false;
-		} else if (!intent.equals(other.intent))
-			return false;
-		return true;
-	}
-
-	@Override
-	public boolean meets(IConstruct constraint) {
-		return intent.stream().anyMatch(a -> a.meets(constraint));
 	}	
 
 }

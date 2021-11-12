@@ -2,7 +2,6 @@ package com.tregouet.occam.transition_function.impl;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,38 +11,37 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import org.jgrapht.alg.TransitiveReduction;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.sun.source.tree.AssertTree;
-import com.tregouet.occam.data.categories.ICatTreeSupplier;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
+import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
+import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.CatTreeSupplier;
 import com.tregouet.occam.data.categories.impl.Categories;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ICompositeProduction;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.data.operators.impl.BasicProduction;
 import com.tregouet.occam.data.operators.impl.BlankProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
-import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.data.InTree;
-import com.tregouet.tree_finder.error.InvalidSemiLatticeException;
+import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
+import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.error.InvalidInputException;
 
-import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
@@ -51,21 +49,30 @@ import guru.nidi.graphviz.parse.Parser;
 @SuppressWarnings("unused")
 public class TransitionFunctionTest {
 
-	private static Path shapes1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
+	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
+	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
+			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
+	private static final SimilarityCalculationStrategy SIM_CALC_STRATEGY = 
+			SimilarityCalculationStrategy.CONTRAST_MODEL;
 	private static List<IContextObject> shapes1Obj;
-	private static ICategories categories;
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private ICategories categories;
+	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private static ICatTreeSupplier catTreeSupplier;
-	private static InTree<ICategory, DefaultEdge> catTree;
-	private static DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
-	private static IIntentAttTreeSupplier constrTreeSupplier;
-	private static InTree<IIntentAttribute, IProduction> constrTree;
-	private static TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
+	private IClassificationTreeSupplier classificationTreeSupplier;
+	private Tree<ICategory, IsA> catTree;
+	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
+	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
+	private Tree<IIntentAttribute, IProduction> constrTree;
+	private TreeSet<ITransitionFunction> transitionFunctions;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		shapes1Obj = GenericFileReader.getContextObjects(shapes1);
+		shapes1Obj = GenericFileReader.getContextObjects(SHAPES1);		
+	}
+
+	@Before
+	public void setUp() throws Exception {
+		transitionFunctions = new TreeSet<>();
 		categories = new Categories(shapes1Obj);
 		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
 		productions.stream().forEach(p -> {
@@ -73,26 +80,20 @@ public class TransitionFunctionTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		catTreeSupplier = categories.getCatTreeSupplier();
-		while (catTreeSupplier.hasNext()) {
-			catTree = catTreeSupplier.nextWithTunnelCategoriesRemoved();
+		classificationTreeSupplier = categories.getCatTreeSupplier();
+		while (classificationTreeSupplier.hasNext()) {
+			catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
-			constrTreeSupplier = new IntentAttTreeSupplier(filtered_reduced_constructs);
+			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
-				constrTree = constrTreeSupplier.next();
+				constrTree = constrTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(shapes1Obj, categories.getObjectCategories(), catTree, constrTree);
-				/*
-				visualize("2108140757");
-				*/
+						new TransitionFunction(shapes1Obj, categories.getObjectCategories(), catTree, constrTree, 
+								PROP_WHEIGHING_STRATEGY, SIM_CALC_STRATEGY);
 				transitionFunctions.add(transitionFunction);
 			}
-		}		
-	}
-
-	@Before
-	public void setUp() throws Exception {
+		}
 	}
 	
 	@Test
@@ -112,10 +113,6 @@ public class TransitionFunctionTest {
 			catch (Exception e) {
 				dotFileReturnedIsValid = false;
 			}
-			/*
-			//display graph
-			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + "cat_dot_test"));
-			*/
 		}
 		assertTrue(dotFileReturnedIsValid);
 	}
@@ -124,7 +121,7 @@ public class TransitionFunctionTest {
 	public void whenTransitionFunctionDOTFileRequestedThenReturned() throws IOException {
 		boolean dotFileReturnedIsValid = true;
 		for (ITransitionFunction tF : transitionFunctions) {
-			String stringDOT = tF.getTransitionFunctionAsDOTFile();
+			String stringDOT = tF.getTransitionFunctionAsDOTFile(TransitionFunctionGraphType.FINITE_AUTOMATON);
 			if (stringDOT == null || stringDOT.isEmpty())
 				dotFileReturnedIsValid = false;
 			/*
@@ -144,10 +141,6 @@ public class TransitionFunctionTest {
 				System.out.println(operator.toString());
 			}
 			*/
-			/*
-			//display graph
-			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + "tf_dot_test"));
-			*/	
 		}
 		assertTrue(dotFileReturnedIsValid);
 	}
@@ -206,16 +199,14 @@ public class TransitionFunctionTest {
 	
 	@Test
 	public void when2NonBlankProductionsHaveSameSourceAndTargetCategoriesAndSameValueThenHandledBySameOperator() 
-			throws InvalidSemiLatticeException, IOException {
+			throws InvalidInputException, IOException {
 		boolean sameOperator = true;
 		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			
-			/*visualize("2108251050");
+			/*
 			System.out.println(tF.getDomainSpecificLanguage().toString());
-			Visualizer.visualizeTransitionFunction(tF, "2108251050_tf");
+			Visualizer.visualizeTransitionFunction(tF, "2108251050_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			*/
-			
 			List<IBasicProduction> basicProds = new ArrayList<>();
 			List<IOperator> basicProdsOperators = new ArrayList<>();
 			for (IOperator operator : tF.getTransitions()) {
@@ -271,9 +262,9 @@ public class TransitionFunctionTest {
 		assertTrue(consistent);
 	}
 	
-	private static void visualize(String timestamp) throws IOException {
+	private void visualize(String timestamp) throws IOException {
 		Categories castcats = (Categories) categories;
-		Visualizer.visualizeCategoryGraph(castcats.getCategoryLattice(), timestamp + "categories");
+		Visualizer.visualizeCategoryGraph(castcats.getTransitiveReduction(), timestamp + "categories");
 		Visualizer.visualizeCategoryGraph(catTree, timestamp + "_cat_tree");
 		Visualizer.visualizeAttributeGraph(constructs, timestamp + "_constructs");
 		Visualizer.visualizeAttributeGraph(filtered_reduced_constructs, timestamp + "_filtered_red_const");

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
-import org.jgrapht.graph.DirectedMultigraph;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -32,19 +32,28 @@ import com.tregouet.occam.io.output.utils.Visualizer;
 @SuppressWarnings("unused")
 public class ProductionBuilderTest {
 
-	private static Path shapes1 = Paths.get(".", "src", "test", "java", "files", "shapes1.txt");
+	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1.txt");
 	private static List<IContextObject> shapes1Obj;
-	private static ICategories categories;
-	private static ProductionBuilder builder;
+	private ICategories categories;
+	private ProductionBuilder builder;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		shapes1Obj = GenericFileReader.getContextObjects(shapes1);
+		shapes1Obj = GenericFileReader.getContextObjects(SHAPES1);
+	}
+	
+	@Before
+	public void setUp() {
 		categories = new Categories(shapes1Obj);
 		builder = new ProductionBuilder(categories);
 		/*
 		Categories catImpl = (Categories) categories;
-		Visualizer.visualizeCategoryGraph(catImpl.getDiagram(), "2108040604a");
+		try {
+			Visualizer.visualizeCategoryGraph(catImpl.getCategoryLattice(), "2108040604a");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		*/
 	}
 	

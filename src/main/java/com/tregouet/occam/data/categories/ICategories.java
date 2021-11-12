@@ -3,10 +3,12 @@ package com.tregouet.occam.data.categories;
 import java.util.List;
 import java.util.Set;
 
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.tree_finder.data.UpperSemilattice;
+import com.tregouet.tree_finder.error.InvalidInputException;
 
 public interface ICategories {
 	
@@ -20,9 +22,11 @@ public interface ICategories {
 	
 	ICategory getAbsurdity();
 	
-	ICatTreeSupplier getCatTreeSupplier();
+	DirectedAcyclicGraph<ICategory, IsA> getCategoryLattice();
 	
-	ICatTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint);
+	IClassificationTreeSupplier getCatTreeSupplier() throws InvalidInputException;
+	
+	IClassTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint);
 	
 	/**
 	 * If param contains every object in the context, then return truism
@@ -39,11 +43,13 @@ public interface ICategories {
 	
 	ICategory getOntologicalCommitment();
 	
+	UpperSemilattice<ICategory, IsA> getOntologicalUpperSemilattice();
+	
 	List<ICategory> getTopologicalSorting();
 	
-	ICategory getTruism();
+	DirectedAcyclicGraph<ICategory, IsA> getTransitiveReduction();
 	
-	ICategory getTruismAboutTruism();
+	ICategory getTruism();
 	
 	/**
 	 * Not a reflexive relation
@@ -52,9 +58,7 @@ public interface ICategories {
 	 * @return
 	 */
 	boolean isA(ICategory cat1, ICategory cat2);
-	
-	boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2);
 
-	DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice();
+	boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2);
 
 }

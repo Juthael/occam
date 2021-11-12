@@ -12,15 +12,6 @@ public interface IConjunctiveOperator extends IOperator {
 					'Γ', 'Δ', 'Θ', 'Λ', 'Ξ', 'Π', 'Σ', 'Φ', 'Ψ', 'Ω'
 					})).listIterator();
 	
-	private static char getNextChar() {
-		if (!charIte.hasNext()) {
-			while(charIte.hasPrevious())
-				charIte.previous();
-			prime.append("'");
-		}
-		return charIte.next();
-	}
-	
 	static void initializeNameProvider() {
 		while (charIte.hasPrevious())
 			charIte.previous();
@@ -29,6 +20,15 @@ public interface IConjunctiveOperator extends IOperator {
 	
 	static String provideName() {
 		return getNextChar() + prime.toString();
+	}
+	
+	private static char getNextChar() {
+		if (!charIte.hasNext()) {
+			while(charIte.hasPrevious())
+				charIte.previous();
+			prime.append("'");
+		}
+		return charIte.next();
 	}
 	
 	boolean addOperator(IOperator operator);

@@ -1,44 +1,46 @@
 package com.tregouet.occam.transition_function.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.jgrapht.alg.TransitiveReduction;
-import org.jgrapht.alg.util.Pair;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.categories.ICatTreeSupplier;
+import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
+import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.error.InvalidInputException;
 
 public abstract class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 
 	protected static final int MAX_CAPACITY = 50;
 	
 	protected final ICategories categories;
-	protected final ICatTreeSupplier categoryTreeSupplier;
+	protected final IClassificationTreeSupplier categoryTreeSupplier;
 	protected final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs;
+	protected final PropertyWeighingStrategy propWeighingStrategy;
+	protected final SimilarityCalculationStrategy simCalculationStrategy;
 	
 	public TransitionFunctionSupplier(ICategories categories, 
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) {
+			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
+			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) 
+					throws InvalidInputException {
 		this.categories = categories;
 		categoryTreeSupplier = categories.getCatTreeSupplier();
 		this.constructs = constructs;
+		this.propWeighingStrategy = propWeighingStrategy;
+		this.simCalculationStrategy = simCalculationStrategy;
 	}
 
 	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
-			InTree<ICategory, DefaultEdge> catTree, 
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> unfilteredUnreduced) {
-		DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredReduced =	
+			Tree<ICategory, IsA> catTree, DirectedAcyclicGraph<IIntentAttribute, IProduction> unfilteredUnreduced) {
+		DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);
 		List<IProduction> edges = new ArrayList<>();
 		List<IProduction> varSwitchers = new ArrayList<>();
@@ -59,13 +61,12 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		edges = switchVariables(edges, varSwitchers);
 		edges.stream()
 			.forEach(e -> {
-				filteredReduced.addVertex(e.getSource());
-				filteredReduced.addVertex(e.getTarget());
+				filtered.addVertex(e.getSource());
+				filtered.addVertex(e.getTarget());
 			});
-		edges.stream().forEach(p -> filteredReduced.addEdge(p.getSource(), p.getTarget(), p));
-		filteredReduced.removeAllVertices(varSwitcherSources);
-		TransitiveReduction.INSTANCE.reduce(filteredReduced);
-		return filteredReduced;
+		edges.stream().forEach(p -> filtered.addEdge(p.getSource(), p.getTarget(), p));
+		filtered.removeAllVertices(varSwitcherSources);
+		return filtered;
 	}
 	
 	public static List<IProduction> switchVariables(List<IProduction> edges, List<IProduction> varSwitchers){
@@ -90,26 +91,8 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return edgesReturned;
 	}
 	
-	private static boolean isA(ICategory cat1, ICategory cat2, InTree<ICategory, DefaultEdge> tree) {
+	private static boolean isA(ICategory cat1, ICategory cat2, Tree<ICategory, IsA> tree) {
 		return tree.getDescendants(cat1).contains(cat2);
-	}
-	
-	protected static boolean descriptionOfAnObjectDoesNotByPassAnyOfItsSuperCategories(
-			Map<Integer, Set<Integer>> objCatIDToSuperCatsInCatTree, 
-			InTree<IIntentAttribute, IProduction> attTree) {
-		Map<Integer, Set<Integer>> objCatIDToSuperCatsInAttTree = new HashMap<>();
-		for (IIntentAttribute attLeaf : attTree.getLeaves()) {
-			Integer attLeafCatID = (Integer) attLeaf.getCategory().getID();
-			Set<Integer> attLeafSuperCategoryIDs = new HashSet<>();
-			for (IIntentAttribute abstractAtt : attTree.getDescendants(attLeaf)) {
-				attLeafSuperCategoryIDs.add((Integer) abstractAtt.getCategory().getID());
-			}
-			if (objCatIDToSuperCatsInAttTree.containsKey(attLeafCatID)) {
-				objCatIDToSuperCatsInAttTree.get(attLeafCatID).addAll(attLeafSuperCategoryIDs);
-			}
-			else objCatIDToSuperCatsInAttTree.put(attLeafCatID, attLeafSuperCategoryIDs);
-		}
-		return objCatIDToSuperCatsInCatTree.equals(objCatIDToSuperCatsInAttTree);		
 	}
 
 }

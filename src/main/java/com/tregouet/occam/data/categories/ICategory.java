@@ -12,19 +12,26 @@ public interface ICategory {
 	public static final int ABSURDITY = 0;
 	public static final int OBJECT = 1;
 	public static final int SUBSET_CAT = 2;
-	public static final int TRUISM_TRUISM = 3;
-	public static final int TRUISM = 4;
-	public static final int ONTOLOGICAL_COMMITMENT = 5;
+	public static final int TRUISM = 3;
+	public static final int ONTOLOGICAL_COMMITMENT = 4;
 	
 	@Override
 	boolean equals(Object obj);
 	
 	Set<IContextObject> getExtent();
 	
+	int getID();
+	
 	Set<IIntentAttribute> getIntent();
+	
+	IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws PropertyTargetingException;
 	
 	@Override
 	int hashCode();
+	
+	boolean meets(IConstruct constraint);
+	
+	boolean meets(List<String> constraintAsStrings);
 	
 	int rank();
 	
@@ -36,13 +43,5 @@ public interface ICategory {
 	String toString();
 	
 	int type();
-	
-	boolean meets(List<String> constraintAsStrings);
-	
-	boolean meets(IConstruct constraint);
-	
-	IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws PropertyTargetingException;
-	
-	int getID();
 
 }

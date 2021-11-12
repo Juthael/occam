@@ -11,46 +11,44 @@ import java.util.Set;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.alg.TransitiveReduction;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.data.categories.ICatTreeSupplier;
-import com.tregouet.occam.data.categories.ICatTreeWithConstrainedExtentStructureSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.IClassTreeWithConstrainedExtentStructureSupplier;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IExtentStructureConstraint;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.ISymbol;
 import com.tregouet.occam.data.constructs.impl.Construct;
-import com.tregouet.occam.data.constructs.impl.Terminal;
 import com.tregouet.occam.data.constructs.impl.Variable;
-import com.tregouet.subseq_finder.ISubseqFinder;
-import com.tregouet.subseq_finder.ISymbolSeq;
-import com.tregouet.subseq_finder.impl.SubseqFinder;
-import com.tregouet.subseq_finder.impl.SymbolSeq;
+import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
+import com.tregouet.tree_finder.data.UpperSemilattice;
+import com.tregouet.tree_finder.error.InvalidInputException;
 
 public class Categories implements ICategories {
 	
 	private final List<IContextObject> objects;
-	private final DirectedAcyclicGraph<ICategory, DefaultEdge> hasseDiagram;
-	private final List<ICategory> topologicalOrder = new ArrayList<>();
+	private final DirectedAcyclicGraph<ICategory, IsA> lattice;
+	private final UpperSemilattice<ICategory, IsA> ontologicalUSL;
 	private final ICategory ontologicalCommitment;
-	private final ICategory truismAboutTruism;
+	private final List<ICategory> topologicalOrder;
 	private final ICategory truism;
 	private final List<ICategory> objCategories = new ArrayList<>();
 	private final ICategory absurdity;
 	
+	@SuppressWarnings("unchecked")
 	public Categories(List<IContextObject> objects) {
 		this.objects = objects;
-		hasseDiagram = new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
-		buildDiagram();
+		lattice = new DirectedAcyclicGraph<>(null, IsA::new, false);
+		buildLattice();
 		ICategory truism = null;
 		ICategory absurdity = null;
-		for (ICategory category : hasseDiagram.vertexSet()) {
+		for (ICategory category : lattice.vertexSet()) {
 			switch(category.type()) {
 				case ICategory.TRUISM :
 					truism = category;
@@ -66,12 +64,18 @@ public class Categories implements ICategories {
 		this.truism = truism;
 		this.absurdity = absurdity;
 		ontologicalCommitment = instantiateOntologicalCommitment();
-		truismAboutTruism = instantiateTruismAboutTruism();
-		addTrAbTrAndOntologicalCommitmentToRelation();
-		TransitiveReduction.INSTANCE.reduce(hasseDiagram);
-		updateCategoryRank(absurdity, 0);
-		TopologicalOrderIterator<ICategory, DefaultEdge> sorter = new TopologicalOrderIterator<>(hasseDiagram);
-		sorter.forEachRemaining(d -> topologicalOrder.add(d));
+		DirectedAcyclicGraph<ICategory, IsA> ontologicalUSL = 
+				(DirectedAcyclicGraph<ICategory, IsA>) lattice.clone();
+		ontologicalUSL.removeVertex(absurdity);
+		TransitiveReduction.INSTANCE.reduce(ontologicalUSL);
+		List<ICategory> topologicalOrderedSet = new ArrayList<>();
+		new TopologicalOrderIterator<>(ontologicalUSL).forEachRemaining(topologicalOrderedSet::add);
+		this.ontologicalUSL = 
+				new UpperSemilattice<>(ontologicalUSL, truism, new HashSet<>(objCategories), topologicalOrderedSet);
+		this.ontologicalUSL.addAsNewRoot(ontologicalCommitment, true);
+		for (ICategory objectCat : objCategories)
+			updateCategoryRank(objectCat, 1);
+		topologicalOrder = this.ontologicalUSL.getTopologicalOrder();
 	}
 
 	@Override
@@ -90,17 +94,18 @@ public class Categories implements ICategories {
 		return absurdity;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public ICatTreeSupplier getCatTreeSupplier() {
-		DirectedAcyclicGraph<ICategory, DefaultEdge> diagramWithoutAbsurdity = 
-				(DirectedAcyclicGraph<ICategory, DefaultEdge>) hasseDiagram.clone();
-		diagramWithoutAbsurdity.removeVertex(absurdity);
-		return new CatTreeSupplier(diagramWithoutAbsurdity);
+	public DirectedAcyclicGraph<ICategory, IsA> getCategoryLattice() {
+		return lattice;
 	}
 
 	@Override
-	public ICatTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint) {
+	public IClassificationTreeSupplier getCatTreeSupplier() throws InvalidInputException {
+		return new ClassificationTreeSupplier(new UnidimensionalSorter<>(ontologicalUSL), ontologicalCommitment);
+	}
+
+	@Override
+	public IClassTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -119,11 +124,6 @@ public class Categories implements ICategories {
 	@Override
 	public List<IContextObject> getContextObjects() {
 		return objects;
-	}
-
-	@Override
-	public DirectedAcyclicGraph<ICategory, DefaultEdge> getCategoryLattice() {
-		return hasseDiagram;
 	}
 
 	@Override
@@ -157,76 +157,43 @@ public class Categories implements ICategories {
 	}
 	
 	@Override
+	public UpperSemilattice<ICategory, IsA> getOntologicalUpperSemilattice() {
+		return ontologicalUSL;
+	}	
+	
+	@Override
 	public List<ICategory> getTopologicalSorting() {
 		return topologicalOrder;
 	}
 	
 	@Override
-	public ICategory getTruism() {
-		return truism;
-	}	
-	
-	@Override
-	public ICategory getTruismAboutTruism() {
-		return truismAboutTruism;
+	public DirectedAcyclicGraph<ICategory, IsA> getTransitiveReduction() {
+		return ontologicalUSL;
 	}
 	
+	@Override
+	public ICategory getTruism() {
+		return truism;
+	}
+
 	@Override
 	public boolean isA(ICategory cat1, ICategory cat2) {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(cat1) < topologicalOrder.indexOf(cat2)) {
-			BreadthFirstIterator<ICategory, DefaultEdge> iterator = new BreadthFirstIterator<>(hasseDiagram, cat1);
+			BreadthFirstIterator<ICategory, IsA> iterator = 
+					new BreadthFirstIterator<>(ontologicalUSL, cat1);
 			iterator.next();
 			while (!isA && iterator.hasNext())
 				isA = cat2.equals(iterator.next());
 		}
 		return isA;		
 	}
-	
+
 	@Override
 	public boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2) {
-		return (hasseDiagram.getEdge(cat1, cat2) != null);
+		return (ontologicalUSL.getEdge(cat1, cat2) != null);
 	}
 	
-	private void addTrAbTrAndOntologicalCommitmentToRelation() {
-		hasseDiagram.addVertex(truismAboutTruism);
-		hasseDiagram.addEdge(truism, truismAboutTruism);
-		hasseDiagram.addVertex(ontologicalCommitment);
-		hasseDiagram.addEdge(truismAboutTruism, ontologicalCommitment);
-	}
-	
-	private void buildDiagram() {
-		Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents = buildIntentToExtentRel();
-		for (Entry<Set<IConstruct>, Set<IContextObject>> entry : intentsToExtents.entrySet()) {
-			ICategory category = new Category(entry.getKey(), entry.getValue());
-			if (!category.getExtent().isEmpty()) {
-				if (category.getExtent().size() == 1)
-					category.setType(ICategory.OBJECT);
-				else if (category.getExtent().size() == objects.size()) {
-					category.setType(ICategory.TRUISM);
-				}
-				else {
-					category.setType(ICategory.SUBSET_CAT);
-				}
-			}
-			else {
-				category.setType(ICategory.ABSURDITY);
-			}
-			hasseDiagram.addVertex(category);
-		}
-		List<ICategory> catList = new ArrayList<>(hasseDiagram.vertexSet());
-		for (int i = 0 ; i < catList.size() - 1 ; i++) {
-			ICategory iCat = catList.get(i);
-			for (int j = i+1 ; j < catList.size() ; j++) {
-				ICategory jCat = catList.get(j);
-				if (iCat.getExtent().containsAll(jCat.getExtent()))
-					hasseDiagram.addEdge(jCat, iCat);
-				else if (jCat.getExtent().containsAll(iCat.getExtent()))
-					hasseDiagram.addEdge(iCat, jCat);
-			}
-		}
-	}
-
 	private Map<Set<IConstruct>, Set<IContextObject>> buildIntentToExtentRel() {
 		Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents = new HashMap<>();
 		Set<Set<IContextObject>> objectsPowerSet = buildObjectsPowerSet();
@@ -247,6 +214,38 @@ public class Categories implements ICategories {
 		}
 		intentsToExtents = singularizeConstructs(intentsToExtents);
 		return intentsToExtents;
+	}	
+	
+	private void buildLattice() {
+		Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents = buildIntentToExtentRel();
+		for (Entry<Set<IConstruct>, Set<IContextObject>> entry : intentsToExtents.entrySet()) {
+			ICategory category = new Category(entry.getKey(), entry.getValue());
+			if (!category.getExtent().isEmpty()) {
+				if (category.getExtent().size() == 1)
+					category.setType(ICategory.OBJECT);
+				else if (category.getExtent().size() == objects.size()) {
+					category.setType(ICategory.TRUISM);
+				}
+				else {
+					category.setType(ICategory.SUBSET_CAT);
+				}
+			}
+			else {
+				category.setType(ICategory.ABSURDITY);
+			}
+			lattice.addVertex(category);
+		}
+		List<ICategory> catList = new ArrayList<>(lattice.vertexSet());
+		for (int i = 0 ; i < catList.size() - 1 ; i++) {
+			ICategory iCat = catList.get(i);
+			for (int j = i+1 ; j < catList.size() ; j++) {
+				ICategory jCat = catList.get(j);
+				if (iCat.getExtent().containsAll(jCat.getExtent()))
+					lattice.addEdge(jCat, iCat);
+				else if (jCat.getExtent().containsAll(iCat.getExtent()))
+					lattice.addEdge(iCat, jCat);
+			}
+		}
 	}
 
 	private Set<Set<IContextObject>> buildObjectsPowerSet() {
@@ -261,7 +260,7 @@ public class Categories implements ICategories {
 	    }
 	    return powerSet;
 	}
-	
+
 	private ICategory instantiateOntologicalCommitment() {
 		ICategory ontologicalCommitment;
 		ISymbol variable = new Variable(!AVariable.DEFERRED_NAMING);
@@ -275,43 +274,6 @@ public class Categories implements ICategories {
 		return ontologicalCommitment;
 	}
 
-	private ICategory instantiateTruismAboutTruism() {
-		ICategory truismAboutTruism;
-		Set<IConstruct> preAccIntent = new HashSet<IConstruct>();
-		Set<IConstruct> lattMaxIntent = new HashSet<>(truism.getIntent());
-		List<ISymbolSeq> lattMaxSymbolSeq = new ArrayList<ISymbolSeq>();
-		for (IConstruct construct : lattMaxIntent) {
-			lattMaxSymbolSeq.add(new SymbolSeq(construct.toListOfStringsWithPlaceholders()));
-		}
-		ISubseqFinder subseqFinder = new SubseqFinder(lattMaxSymbolSeq);
-		Set<ISymbolSeq> maxCommonSubsqs = subseqFinder.getMaxCommonSubseqs();
-		for (ISymbolSeq subsq : maxCommonSubsqs) {
-			List<ISymbol> preAccSymList = new ArrayList<ISymbol>();
-			boolean lastSymStringWasPlaceholder = false;
-			for (String symString : subsq.getStringSequence()) {
-				if (symString.equals(ISymbolSeq.PLACEHOLDER)) {
-					if (lastSymStringWasPlaceholder) {
-						//do nothing. No use in consecutive placeholders.
-					}
-					else {
-						preAccSymList.add(new Variable(AVariable.DEFERRED_NAMING));
-						lastSymStringWasPlaceholder = true;
-					}
-				}
-				else {
-					preAccSymList.add(new Terminal(symString));
-					lastSymStringWasPlaceholder = false;
-				}
-			}
-			preAccIntent.add(new Construct(preAccSymList));
-		}
-		for (IConstruct construct : preAccIntent)
-			construct.nameVariables();
-		truismAboutTruism = new Category(preAccIntent, new HashSet<IContextObject>(objects));
-		truismAboutTruism.setType(ICategory.TRUISM_TRUISM);
-		return truismAboutTruism;
-	}
-	
 	private List<ICategory> removeSubCategories(Set<ICategory> categories) {
 		List<ICategory> catList = new ArrayList<>(categories);
 		for (int i = 0 ; i < catList.size() - 1 ; i++) {
@@ -359,7 +321,7 @@ public class Categories implements ICategories {
 	private void updateCategoryRank(ICategory category, int rank) {
 		if (category.rank() < rank || category.type() == ICategory.ABSURDITY) {
 			category.setRank(rank);
-			for (ICategory successor : Graphs.successorListOf(hasseDiagram, category)) {
+			for (ICategory successor : Graphs.successorListOf(ontologicalUSL, category)) {
 				updateCategoryRank(successor, rank + 1);
 			}
 		}

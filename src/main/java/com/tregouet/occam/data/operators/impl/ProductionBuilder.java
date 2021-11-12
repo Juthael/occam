@@ -20,8 +20,7 @@ public class ProductionBuilder implements IProductionBuilder {
 	public ProductionBuilder(ICategories categories) {
 		topologicalOrderOnCats = categories.getTopologicalSorting();
 		//build basics
-		//topologicalOrderOnCats[0] is the 'absurdity'. Productions from its attributes would be meaningless.
-		for (int i = 1 ; i < topologicalOrderOnCats.size() - 1 ; i++) {
+		for (int i = 0 ; i < topologicalOrderOnCats.size() - 1 ; i++) {
 			for (int j = i+1 ; j < topologicalOrderOnCats.size() ; j++) {
 				for (IIntentAttribute iCatAtt : topologicalOrderOnCats.get(i).getIntent()) {
 					for (IIntentAttribute jCatAtt : topologicalOrderOnCats.get(j).getIntent()) {

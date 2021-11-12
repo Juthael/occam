@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -14,11 +15,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.ICatTreeSupplier;
+import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
@@ -26,6 +28,10 @@ import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.utils.Visualizer;
+import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.error.InvalidInputException;
+import com.tregouet.tree_finder.utils.StructureInspector;
 
 @SuppressWarnings("unused")
 public class CategoriesTest {
@@ -37,34 +43,28 @@ public class CategoriesTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
-		categories = new Categories(shapes2Obj);
 		/*
 		Categories catImpl = (Categories) categories;
-		Visualizer.visualize(catImpl.getDiagram(), "2107291658");
+		Visualizer.visualizeCategoryGraph(catImpl.getCategoryLattice(), "2107291658");
 		*/
 	}
 
 	@Before
 	public void setUp() throws Exception {
+		categories = new Categories(shapes2Obj);
 	}
 	
 	@Test
-	public void whenCategoriesReturnedThenContains1Absurdity1Truism1TruismAboutTruism1Commitment() {
-		int nbOfAbsurdity = 0;
+	public void whenCategoriesReturnedThenContains1Absurdity1Truism1Commitment() {
 		int nbOfTruism = 0;
-		int nbOfTruismTruism = 0;
 		int nbOfCommitments = 0;
 		for (ICategory cat : categories.getTopologicalSorting()) {
-			if (cat.type() == ICategory.ABSURDITY)
-				nbOfAbsurdity++;
-			else if (cat.type() == ICategory.TRUISM)
+			if (cat.type() == ICategory.TRUISM)
 				nbOfTruism++;
-			else if (cat.type() == ICategory.TRUISM_TRUISM)
-				nbOfTruismTruism++;
 			else if (cat.type() == ICategory.ONTOLOGICAL_COMMITMENT)
 				nbOfCommitments++;
 		}
-		assertTrue(nbOfAbsurdity == 1 && nbOfTruism == 1 && nbOfTruismTruism ==1 && nbOfCommitments == 1);
+		assertTrue(nbOfTruism == 1 && nbOfCommitments == 1);
 	}	
 
 	@Test
@@ -75,14 +75,14 @@ public class CategoriesTest {
 		assertTrue(intents.size() == categories.getTopologicalSorting().size());
 	}
 	
+
 	@Test
-	public void whenCategoriesReturnedThenTruismAndTruismAboutTruismAndCommitmentHaveSameExtent() {
+	public void whenCategoriesReturnedThenTruismAndCommitmentHaveSameExtent() {
 		Set<Set<IContextObject>> extents = new HashSet<>();
 		extents.add(categories.getTruism().getExtent());
-		extents.add(categories.getTruismAboutTruism().getExtent());
 		extents.add(categories.getOntologicalCommitment().getExtent());
 		assertTrue(extents.size() == 1);
-	}
+	}	
 	
 	@Test
 	public void whenCategoryRankRequestedThenAsExpected() {
@@ -102,7 +102,6 @@ public class CategoriesTest {
 		ICategory cat01 = categories.getCatWithExtent(extent01);
 		ICategory cat123 = categories.getCatWithExtent(extent123);
 		ICategory truism = categories.getTruism();
-		ICategory truismTruism = categories.getTruismAboutTruism();
 		ICategory commitment = categories.getOntologicalCommitment();
 		assertTrue(absurdity.rank() == 0
 				&& cat0.rank() == 1
@@ -113,20 +112,19 @@ public class CategoriesTest {
 				&& cat01.rank() == 2
 				&& cat123.rank() == 2
 				&& truism.rank() == 3
-				&& truismTruism.rank() == 4
-				&& commitment.rank() == 5);
+				&& commitment.rank() == 4);
 	}	
 	
 	@Test
 	public void whenCatTreeSupplierRequestedThenReturned() {
-		ICatTreeSupplier catTreeSupplier = null;
+		IClassificationTreeSupplier classificationTreeSupplier = null;
 		try {
-			catTreeSupplier = categories.getCatTreeSupplier();
+			classificationTreeSupplier = categories.getCatTreeSupplier();
 		}
 		catch (Exception e) {
 			assertTrue(false);
 		}
-		assertNotNull(catTreeSupplier);
+		assertNotNull(classificationTreeSupplier);
 	}	
 	
 	@Test
@@ -135,36 +133,23 @@ public class CategoriesTest {
 	}	
 	
 	@Test
-	public void whenInstantiatedThenIsALattice() {
-		boolean eachPairHasASupremum = true;
-		boolean eachPairHasAnInfimum = true;
-		List<ICategory> catList = categories.getTopologicalSorting(); 
-		for (int i = 0 ; i < catList.size() - 1 ; i++) {
-			ICategory pairFirst = catList.get(i);
-			for (int j = i + 1 ; j < catList.size() ; j++) {
-				ICategory pairSecond = catList.get(j);
-				if (!categories.isA(pairFirst, pairSecond) && !categories.isA(pairSecond, pairFirst)) {
-					List<ICategory> pair = new ArrayList<>();
-					pair.add(pairFirst);
-					pair.add(pairSecond);
-					Set<ICategory> pairSuperordinates = new HashSet<>();
-					Set<ICategory> pairSubordinates = new HashSet<>();
-					for (ICategory cat : catList) {
-						if (categories.areA(pair, cat))
-							pairSuperordinates.add(cat);
-						if (categories.isA(cat, pairFirst) && categories.isA(cat, pairSecond))
-							pairSubordinates.add(cat);
-					}
-					pairSuperordinates = removeNonMinimalElements(pairSuperordinates);
-					pairSubordinates = removeNonMaximalElements(pairSubordinates);
-					if (pairSuperordinates.size() != 1)
-						eachPairHasASupremum = false;
-					if (pairSubordinates.size() != 1)
-						eachPairHasAnInfimum = false;
-				}
-			}
+	public void whenOntologicalUSLReturnedThenReallyIsAnUpperSemilattice() {
+		boolean isAnUpperSemilattice = true;
+		try {
+			categories.getOntologicalUpperSemilattice().validate();
 		}
-		assertTrue(eachPairHasAnInfimum && eachPairHasASupremum);
+		catch (InvalidInputException e) {
+			isAnUpperSemilattice = false;
+		}
+		assertTrue(isAnUpperSemilattice);
+	}
+	
+	@Test
+	public void categoryLatticeReturnedThenReallyIsALattice() {
+		DirectedAcyclicGraph<ICategory, IsA> lattice = categories.getCategoryLattice();
+		assertTrue(StructureInspector.isAnUpperSemilattice(lattice) 
+				&& StructureInspector.isALowerSemilattice(lattice)
+				&& !lattice.vertexSet().isEmpty());
 	}
 	
 	@Test
@@ -176,7 +161,6 @@ public class CategoriesTest {
 		Set<IContextObject> extent02 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(2)}));
 		Set<IContextObject> extent01 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(1)}));
 		Set<IContextObject> extent123 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(1), shapes2Obj.get(2), shapes2Obj.get(3)}));
-		ICategory absurdity = categories.getAbsurdity();
 		ICategory cat0 = categories.getCatWithExtent(extent0);
 		ICategory cat1 = categories.getCatWithExtent(extent1);
 		ICategory cat2 = categories.getCatWithExtent(extent2);
@@ -185,14 +169,9 @@ public class CategoriesTest {
 		ICategory cat01 = categories.getCatWithExtent(extent01);
 		ICategory cat123 = categories.getCatWithExtent(extent123);
 		ICategory truism = categories.getTruism();
-		ICategory truismTruism = categories.getTruismAboutTruism();
 		ICategory commitment = categories.getOntologicalCommitment();
 		assertTrue(
-				categories.isADirectSubordinateOf(absurdity, cat0)
-				&& categories.isADirectSubordinateOf(absurdity, cat1)
-				&& categories.isADirectSubordinateOf(absurdity, cat2)
-				&& categories.isADirectSubordinateOf(absurdity, cat3)
-				&& categories.isADirectSubordinateOf(cat0, cat01)
+				categories.isADirectSubordinateOf(cat0, cat01)
 				&& categories.isADirectSubordinateOf(cat0, cat02)
 				&& categories.isADirectSubordinateOf(cat1, cat01)
 				&& categories.isADirectSubordinateOf(cat1, cat123)
@@ -202,10 +181,8 @@ public class CategoriesTest {
 				&& categories.isADirectSubordinateOf(cat02, truism)
 				&& categories.isADirectSubordinateOf(cat01, truism)
 				&& categories.isADirectSubordinateOf(cat123, truism)
-				&& categories.isADirectSubordinateOf(truism, truismTruism)
-				&& categories.isADirectSubordinateOf(truismTruism, commitment)
+				&& categories.isADirectSubordinateOf(truism, commitment)
 				&& !categories.isADirectSubordinateOf(cat0, truism)
-				&& !categories.isADirectSubordinateOf(cat02, truismTruism)
 				&& !categories.isADirectSubordinateOf(cat02, cat0));
 	}
 	
@@ -217,16 +194,10 @@ public class CategoriesTest {
 			for (int j = 0 ; j < catList.size() ; j++) {
 				ICategory catJ = catList.get(j);
 				if (categories.isA(catI, catJ)) {
-					if (!catJ.getExtent().containsAll(catI.getExtent()))
+					if (!catJ.getExtent().containsAll(catI.getExtent())
+							&& catI.type() != ICategory.TRUISM
+							&& catJ.type() != ICategory.ONTOLOGICAL_COMMITMENT)
 							assertTrue(false);
-				}
-				else if (!catI.equals(categories.getTruismAboutTruism())
-						&& !catI.equals(categories.getOntologicalCommitment())
-						&& !catJ.equals(categories.getTruismAboutTruism())
-						&& !catJ.equals(categories.getOntologicalCommitment())
-						&& !catI.equals(catJ)){
-					if (catJ.getExtent().containsAll(catI.getExtent()))
-						assertTrue(false);
 				}
 			}
 		}
@@ -340,5 +311,25 @@ public class CategoriesTest {
 		}
 		return cats;
 	}	
+	
+	@Test
+	public void whenTreeSuppliedThenReallyIsATree() throws IOException, InvalidInputException {
+		IClassificationTreeSupplier treeSupplier = categories.getCatTreeSupplier();
+		int nbOfChecks = 0;
+		while (treeSupplier.hasNext()) {
+			Tree<ICategory, IsA> nextTree = treeSupplier.nextOntologicalCommitment();
+			/*
+			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
+			*/
+			try {
+				nextTree.validate();
+				nbOfChecks++;
+			}
+			catch (InvalidInputException e) {
+				fail();
+			}
+		}
+		assertTrue(nbOfChecks > 0);
+	}
 
 }

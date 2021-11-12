@@ -22,16 +22,20 @@ import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class BasicProductionTest {
 
-	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private static ICategories categories;
-	private static final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private ICategories categories;
+	private final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
+		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
+	}
+
+	@Before
+	public void setUp() throws Exception {
 		categories = new Categories(shapes2Obj);
 		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
 		productions.stream().forEach(p -> {
@@ -41,12 +45,8 @@ public class BasicProductionTest {
 		});
 	}
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
 	@Test
-	public void whenSwitchVariableMethodCalledThenProceeds() {
+	public void whenSwitchVariableMethodCalledThenProceeds() throws Exception {
 		List<IProduction> basicProds = new ArrayList<>();
 		List<IBasicProduction> basicSwitchers = new ArrayList<>();
 		List<IBasicProduction> basicProdsAfterSwitch = new ArrayList<>();

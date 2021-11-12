@@ -14,10 +14,6 @@ public class PropertyTargetingException extends Exception {
 		super(message);
 	}
 
-	public PropertyTargetingException(Throwable cause) {
-		super(cause);
-	}
-
 	public PropertyTargetingException(String message, Throwable cause) {
 		super(message, cause);
 	}
@@ -25,6 +21,10 @@ public class PropertyTargetingException extends Exception {
 	public PropertyTargetingException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
+	}
+
+	public PropertyTargetingException(Throwable cause) {
+		super(cause);
 	}
 
 }

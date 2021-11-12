@@ -1,32 +1,33 @@
 package com.tregouet.occam.transition_function.impl;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
-import org.jgrapht.alg.util.Pair;
-import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
+import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
+import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.categories.ICategories;
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.IBasicTFSupplier;
-import com.tregouet.occam.transition_function.IIntentAttTreeSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
+import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
+import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.error.InvalidInputException;
 
 public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasicTFSupplier {
 
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	private Iterator<ITransitionFunction> ite;
 	
-	public BasicTFSupplier(ICategories categories, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) {
-		super(categories, constructs);
+	public BasicTFSupplier(ICategories categories, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
+			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) 
+			throws InvalidInputException {
+		super(categories, constructs, propWeighingStrategy, simCalculationStrategy);
 		populateTransitionFunctions();
 		ite = transitionFunctions.iterator();
 	}
@@ -53,23 +54,17 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 
 	private void populateTransitionFunctions() {
 		while (categoryTreeSupplier.hasNext()) {
-			InTree<ICategory, DefaultEdge> currCatTree = categoryTreeSupplier.nextWithTunnelCategoriesRemoved();
-			Map<Integer, Set<Integer>> objCatIDToSuperCatsInCatTree = new HashMap<>();
-			for (ICategory objCat : currCatTree.getLeaves()) {
-				Set<Integer> objCatSuperCatsIDs = new HashSet<>();
-				for (ICategory objCatSuperCat : currCatTree.getDescendants(objCat))
-					objCatSuperCatsIDs.add((Integer) objCatSuperCat.getID());
-				objCatIDToSuperCatsInCatTree.put((Integer) objCat.getID(), objCatSuperCatsIDs);
-			}
+			Tree<ICategory, IsA> currCatTree = categoryTreeSupplier.nextOntologicalCommitment();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
-			IIntentAttTreeSupplier attTreeSupplier = new IntentAttTreeSupplier(filteredConstructGraph);
+			IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> attTreeSupplier = 
+					new RestrictorOpt<IIntentAttribute, IProduction>(filteredConstructGraph, true);
 			while (attTreeSupplier.hasNext()) {
-				InTree<IIntentAttribute, IProduction> attTree = attTreeSupplier.next();
-				if (descriptionOfAnObjectDoesNotByPassAnyOfItsSuperCategories(objCatIDToSuperCatsInCatTree, attTree)) {
-					ITransitionFunction transitionFunction = new TransitionFunction(
-							categories.getContextObjects(), categories.getObjectCategories(), 
-							currCatTree, attTree);
+				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.nextTransitiveReduction();
+				ITransitionFunction transitionFunction = new TransitionFunction(
+						categories.getContextObjects(), categories.getObjectCategories(), 
+						currCatTree, attTree, propWeighingStrategy, simCalculationStrategy);
+				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE)) {
 					if (transitionFunctions.size() <= MAX_CAPACITY)
 						transitionFunctions.add(transitionFunction);
 					else if (transitionFunction.getCoherenceScore() > transitionFunctions.last().getCoherenceScore()) {

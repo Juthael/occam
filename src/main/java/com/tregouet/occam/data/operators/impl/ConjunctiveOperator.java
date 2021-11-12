@@ -3,12 +3,12 @@ package com.tregouet.occam.data.operators.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.ILambdaExpression;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.transition_function.IInfoMeter;
 import com.tregouet.occam.transition_function.IState;
 
 public class ConjunctiveOperator implements IConjunctiveOperator {
@@ -28,13 +28,24 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 	}
 
 	@Override
-	public double getInformativity() {
-		return informativity;
+	public boolean addOperator(IOperator operator) {
+		if (this.operatingState.equals(operator.getOperatingState()) 
+				&& this.nextState.equals(operator.getNextState())) {
+			operators.add(operator);
+			informativity += operator.getInformativity();
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void setInformativity(IInfoMeter infometer) {
-		// irrelevant
+	public List<IOperator> getComponents() {
+		return operators;
+	}
+
+	@Override
+	public double getInformativity() {
+		return informativity;
 	}
 
 	@Override
@@ -91,19 +102,8 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 	}
 
 	@Override
-	public boolean addOperator(IOperator operator) {
-		if (this.operatingState.equals(operator.getOperatingState()) 
-				&& this.nextState.equals(operator.getNextState())) {
-			operators.add(operator);
-			informativity += operator.getInformativity();
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public List<IOperator> getComponents() {
-		return operators;
+	public void setInformativity(IPropertyWeigher infometer) {
+		// irrelevant
 	}
 
 }

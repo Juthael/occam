@@ -1,45 +1,55 @@
 package com.tregouet.occam.transition_function;
 
 import java.util.List;
+import java.util.function.Predicate;
 
-import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DirectedAcyclicGraph;
+import org.jgrapht.graph.DirectedMultigraph;
+import org.jgrapht.graph.SimpleDirectedGraph;
 
-import com.tregouet.occam.compiler.ICompiler;
+import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
+import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.data.categories.ICategory;
+import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
-import com.tregouet.tree_finder.data.InTree;
+import com.tregouet.occam.finite_automaton.IFiniteAutomaton;
+import com.tregouet.tree_finder.data.Tree;
 
 public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	@Override
 	boolean equals(Object o);
 	
-	InTree<ICategory, DefaultEdge> getCategoryTree();
+	Tree<ICategory, IsA> getCategoryTree();
 	
 	String getCategoryTreeAsDOTFile();
 	
-	ICompiler getCompiler();
+	double getCoherenceScore();
 	
-	IDSLanguageDisplayer getDomainSpecificLanguage();
-	
-	List<IState> getStates();
-	
-	String getTransitionFunctionAsDOTFile();
-	
-	String getTFWithConjunctiveOperatorsAsDOTFile();
-	
-	List<IOperator> getTransitions();
+	IFiniteAutomaton getCompiler();
 	
 	List<IConjunctiveOperator> getConjunctiveTransitions();
 	
-	@Override
-	int hashCode();
+	IDSLanguageDisplayer getDomainSpecificLanguage();
+	
+	IPropertyWeigher getInfometer();
 	
 	ISimilarityCalculator getSimilarityCalculator();
 	
-	double getCoherenceScore();
+	List<IState> getStates();
 	
-	IInfoMeter getInfometer();
+	SimpleDirectedGraph<IState, IConjunctiveOperator> getFiniteAutomatonGraph();
+	
+	DirectedMultigraph<IState, IOperator> getFiniteAutomatonMultigraph();
+	
+	String getTransitionFunctionAsDOTFile(TransitionFunctionGraphType graphType);
+	
+	List<IOperator> getTransitions();
+	
+	boolean validate(Predicate<ITransitionFunction> validator);
+	
+	@Override
+	int hashCode();
 
 }

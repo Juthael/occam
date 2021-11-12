@@ -1,8 +1,10 @@
 package com.tregouet.occam.io.output;
 
+import java.nio.file.Path;
+
 public interface IOntologicalCommitment {
 	
-	boolean whatIsThere(String contextPathName);
+	boolean whatIsThere(Path contextPath);
 	
 	double getCoherenceScore();
 	

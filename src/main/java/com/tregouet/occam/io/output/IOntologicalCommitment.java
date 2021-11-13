@@ -5,7 +5,7 @@ import java.nio.file.Path;
 
 public interface IOntologicalCommitment {
 	
-	boolean whatIsThere(Path contextPath);
+	boolean whatIsThere(Path contextPath) throws IOException;
 	
 	double getCoherenceScore();
 	
@@ -13,7 +13,7 @@ public interface IOntologicalCommitment {
 	
 	void generateCategoryLatticeGraph() throws IOException;
 	
-	void generateCategoryStructureGraph() throws IOException;
+	void generateCategoryTreeGraph() throws IOException;
 	
 	void generateTransitionFunctionGraph() throws IOException;
 	
@@ -21,17 +21,17 @@ public interface IOntologicalCommitment {
 	
 	String generateAsymmetricalSimilarityMatrix(String alinea);
 	
-	String generateCategoricalCoherenceArray();
+	String generateCategoricalCoherenceArray(String alinea);
 	
 	boolean hasNextCategoricalStructure();
 	
 	boolean hasNextTransitionFunctionOverCurrentCategoricalStructure();
 	
-	void nextCategoricalStructure();
+	void nextCategoryTree() throws IOException;
 	
-	void nextTransitionFunctionOverCurrentCategoricalStructure();
+	void nextTransitionFunctionOverCurrentCategoricalStructure() throws IOException;
 	
-	void generateHTML();
+	void generateHTML() throws IOException;
 	
 	int getCategoryTreeIndex();
 	

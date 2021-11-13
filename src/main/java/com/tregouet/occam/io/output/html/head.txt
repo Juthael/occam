@@ -1,0 +1,15 @@
+<html>
+	<head>
+		<title>O.C.C.A.M.</title>
+	</head>
+	<body>
+		<header>
+			<h1>O.C.C.A.M. : Object Categorization as Construction of Abstract Machines</h1>
+			
+				<figure>
+					<img src="William_of_Ockham_-_Logica_1341.jpg"
+						alt = "Ockham — from a manuscipt of Ockham's Summa Logicae, MS Gonville and Caius College, Cambridge, 464/571, fol. 69r}" \>
+					<br />
+					<figcaption>"Numquam ponenda est pluralitas sine necessitate" (William of Occam)</figcaption>	
+				</figure>
+		</header>

@@ -1,5 +1,6 @@
 package com.tregouet.occam.io.output;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
 public interface IOntologicalCommitment {
@@ -8,17 +9,19 @@ public interface IOntologicalCommitment {
 	
 	double getCoherenceScore();
 	
-	void generateInputHTMLTranslation(String pathName, boolean asHTMLPage);
+	String generateInputHTMLTranslation(String alinea);
 	
-	void generateCategoryStructureGraph(String pathName);
+	void generateCategoryLatticeGraph() throws IOException;
 	
-	void generateTransitionFunctionGraph(String pathName);
+	void generateCategoryStructureGraph() throws IOException;
 	
-	void generateSimilarityMatrix(String pathName, boolean asHTMLPage);
+	void generateTransitionFunctionGraph() throws IOException;
 	
-	void generateAsymmetricalSimilarityMatrix(String pathName, boolean asHTMLPage);
+	String generateSimilarityMatrix(String alinea);
 	
-	void generateCategoricalCoherenceArray(String pathName, boolean asHTMLPage);
+	String generateAsymmetricalSimilarityMatrix(String alinea);
+	
+	String generateCategoricalCoherenceArray();
 	
 	boolean hasNextCategoricalStructure();
 	
@@ -27,5 +30,11 @@ public interface IOntologicalCommitment {
 	void nextCategoricalStructure();
 	
 	void nextTransitionFunctionOverCurrentCategoricalStructure();
+	
+	void generateHTML();
+	
+	int getCategoryTreeIndex();
+	
+	int getTransitionFunctionIndex();
 
 }

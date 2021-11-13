@@ -27,7 +27,13 @@ import guru.nidi.graphviz.parse.Parser;
 
 public class Visualizer {
 
+	private static String location = "D:\\ProjetDocs\\essais_viz\\";
+	
 	private Visualizer() {
+	}
+	
+	public static void setLocation(String newLocation) {
+		location = newLocation;
 	}
 	
 	public static void visualizeAttributeGraph(DirectedAcyclicGraph<IIntentAttribute, IProduction> graph, String fileName) throws IOException {
@@ -57,7 +63,7 @@ public class Visualizer {
 		//display graph
 		MutableGraph dotGraph = new Parser().read(stringDOT);
 		Graphviz.fromGraph(dotGraph)
-			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
+			.render(Format.PNG).toFile(new File(location + fileName));
 	}	
 	
 	public static void visualizeCategoryGraph(DirectedAcyclicGraph<ICategory, IsA> graph, String fileName) 
@@ -82,14 +88,14 @@ public class Visualizer {
 		 */
 		//display graph
 		MutableGraph dotGraph = new Parser().read(stringDOT);
-		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
+		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + fileName));
 	}
 	
 	public static void visualizeTransitionFunction(ITransitionFunction tF, String fileName, 
 			TransitionFunctionGraphType graphType) throws IOException {
 		MutableGraph dotGraph = new Parser().read(tF.getTransitionFunctionAsDOTFile(graphType));
 		Graphviz.fromGraph(dotGraph)
-			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
+			.render(Format.PNG).toFile(new File(location + fileName));
 	}
 	
 	public static void visualizeWeightedTransitionsGraph(SparseIntDirectedWeightedGraph graph, String fileName) 
@@ -120,7 +126,7 @@ public class Visualizer {
 		//display graph
 		MutableGraph dotGraph = new Parser().read(stringDOT);
 		Graphviz.fromGraph(dotGraph)
-			.render(Format.PNG).toFile(new File("D:\\ProjetDocs\\essais_viz\\" + fileName));
+			.render(Format.PNG).toFile(new File(location + fileName));
 	}
 	
 

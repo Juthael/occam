@@ -1,6 +1,8 @@
 package com.tregouet.occam.io.output.impl;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -217,13 +219,6 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 			line = reader.readLine();
 		}
 		sB.append(escaper.escape("<hr>"));
-		sB.append(alinea + escaper.escape("<h2>Context : </h2>") + NL);
-		sB.append(generateInputHTMLTranslation(alineaa));
-		sB.append(alineaa + escaper.escape("<h3>Category lattice : </h3>") + NL);
-		sB.append(alineaaa + escaper.escape("<p>") + NL);
-		sB.append(displayFigure("category_lattice", alineaaaa, "Category lattice") + NL);
-		sB.append(alineaaa + escaper.escape("</p>") + NL);
-		sB.append(escaper.escape("<hr>"));
 		sB.append(alinea + escaper.escape("<h2>Representation : </h2>") + NL);
 		sB.append(alineaa + escaper.escape("<p>") + NL);
 		sB.append(alineaaa + escaper.escape("<b>Score : " + round(currentTransFunc.getCoherenceScore()) + "</b>") + NL);
@@ -245,10 +240,20 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 		sB.append(alineaaa + escaper.escape("<p>") + NL);
 		sB.append(generateCategoricalCoherenceArray(alineaaaa));
 		sB.append(alineaaa + escaper.escape("</p>") + NL);
+		sB.append(escaper.escape("<hr>"));
+		sB.append(alinea + escaper.escape("<h2>Context : </h2>") + NL);
+		sB.append(generateInputHTMLTranslation(alineaa));
+		sB.append(alineaa + escaper.escape("<h3>Category lattice : </h3>") + NL);
+		sB.append(alineaaa + escaper.escape("<p>") + NL);
+		sB.append(displayFigure("category_lattice", alineaaaa, "Category lattice") + NL);
+		sB.append(alineaaa + escaper.escape("</p>") + NL);
 		sB.append("   " + escaper.escape("</body>" + NL));
 		sB.append(escaper.escape("</html>"));
 		htmlPage = sB.toString();
-		//voir File et FileWriter
+		String sep = File.separator;
+		File pageFile = new File(folderPath + sep + "representation.htm");
+		FileWriter writer = new FileWriter(pageFile);
+		writer.write(htmlPage);
 	}
 
 	@Override

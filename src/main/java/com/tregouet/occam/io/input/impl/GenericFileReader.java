@@ -1,6 +1,7 @@
 package com.tregouet.occam.io.input.impl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,7 +18,7 @@ import com.tregouet.occam.io.input.util.exceptions.FileReaderException;
  */
 public abstract class GenericFileReader {
 
-	public static final String SEPARATOR = "/";
+	public static final String SEPARATOR = File.separator;
 	
 	private GenericFileReader() {
 	}

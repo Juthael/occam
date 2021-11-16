@@ -18,7 +18,7 @@ import com.tregouet.occam.io.input.util.exceptions.FileReaderException;
  */
 public abstract class GenericFileReader {
 
-	public static final String SEPARATOR = File.separator;
+	public static final String SEPARATOR = "/";
 	
 	private GenericFileReader() {
 	}

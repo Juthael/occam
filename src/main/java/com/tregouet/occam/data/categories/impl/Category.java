@@ -15,18 +15,21 @@ import com.tregouet.occam.exceptions.PropertyTargetingException;
 
 public class Category implements ICategory {
 
-	private static int nextID = 0;
+	private static int nextID = 100;
 	
 	private final Set<IIntentAttribute> intent = new HashSet<>();
 	private final Set<IContextObject> extent;
 	private int rank = 0;
 	private int type;
-	private final int iD = nextID++;
+	private final int iD;
 	
 	public Category(Set<IConstruct> intent, Set<IContextObject> extent) {
 		for (IConstruct construct : intent)
 			this.intent.add(new IntentAttribute(construct, this));
 		this.extent = Collections.unmodifiableSet(extent);
+		if (extent.size() == 1)
+			iD = extent.iterator().next().getID();
+		else iD = nextID++;
 	}
 
 	@Override
@@ -135,6 +138,8 @@ public class Category implements ICategory {
 			return "ABSURDITY";
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
+		sB.append(Integer.toString(iD));
+		sB.append(newLine);
 		Iterator<IIntentAttribute> iterator = intent.iterator();
 		while (iterator.hasNext()) {
 			sB.append(iterator.next().toString());

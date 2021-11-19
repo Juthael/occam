@@ -274,7 +274,7 @@ public class TransitionFunction implements ITransitionFunction {
 				});
 				multigraphExporter.setVertexAttributeProvider((s) -> {
 					Map<String, Attribute> map = new LinkedHashMap<>();
-					map.put("label", DefaultAttribute.createAttribute(setIntentsAsString(s.getInputLanguage())));
+					map.put("label", DefaultAttribute.createAttribute(Integer.toString(s.getStateID())));
 					return map;
 				});
 				multigraphExporter.setEdgeAttributeProvider((o) -> {
@@ -300,7 +300,7 @@ public class TransitionFunction implements ITransitionFunction {
 				});
 				simpleGraphExporter.setVertexAttributeProvider((s) -> {
 					Map<String, Attribute> map = new LinkedHashMap<>();
-					map.put("label", DefaultAttribute.createAttribute(setIntentsAsString(s.getInputLanguage())));
+					map.put("label", DefaultAttribute.createAttribute(Integer.toString(s.getStateID())));
 					return map;
 				});
 				simpleGraphExporter.setEdgeAttributeProvider((o) -> {

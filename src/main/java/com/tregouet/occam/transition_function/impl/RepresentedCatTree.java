@@ -124,4 +124,9 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 		return transitionFunctions.iterator();
 	}
 
+	@Override
+	public boolean isValid() {
+		return !transitionFunctions.isEmpty();
+	}
+
 }

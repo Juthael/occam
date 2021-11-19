@@ -15,7 +15,9 @@ public interface IContextObject {
 	
 	List<IConstruct> getConstructs();
 	
-	String getID();
+	int getID();
+	
+	String getName();
 	
 	Iterator<IConstruct> getIteratorOverConstructs();
 	

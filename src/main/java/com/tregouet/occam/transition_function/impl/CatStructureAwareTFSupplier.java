@@ -40,7 +40,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 		super(categories, constructs, propWeighingStrategy, simCalculationStrategy);
 		populateRepresentedCategories();
 		for (ICategory objCat : categories.getObjectCategories())
-			objectCategoryToName.put(objCat, provideName());
+			objectCategoryToName.put(objCat, objCat.getExtent().iterator().next().getName());
 		ite = representedCategories.iterator();
 	}
 
@@ -109,12 +109,15 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE))
 					currCatTreeRepresentation.testAlternativeRepresentation(transitionFunction);
 			}
-			if (representedCategories.size() <= MAX_CAPACITY)
-				representedCategories.add(currCatTreeRepresentation);
-			else if (currCatTreeRepresentation.getCoherenceScore() > representedCategories.last().getCoherenceScore()) {
-				representedCategories.add(currCatTreeRepresentation);
-				representedCategories.pollLast();
+			if (currCatTreeRepresentation.isValid()) {
+				if (representedCategories.size() <= MAX_CAPACITY)
+					representedCategories.add(currCatTreeRepresentation);	
+				else if (currCatTreeRepresentation.getCoherenceScore() > representedCategories.last().getCoherenceScore()) {
+					representedCategories.add(currCatTreeRepresentation);
+					representedCategories.pollLast();
+				}
 			}
+
 		}
 	}
 	

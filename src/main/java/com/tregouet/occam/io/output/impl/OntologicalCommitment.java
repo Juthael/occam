@@ -90,6 +90,8 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 		iteOverTF = representedCatTree.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateCategoryLatticeGraph();
+		generateCategoryTreeGraph();
+		generateTransitionFunctionGraph();
 		return true;
 	}
 
@@ -100,20 +102,31 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 
 	@Override
 	public String generateInputHTMLTranslation(String alinea) {
+		String alineaa = alinea + "   ";
+		String alineaaa = alineaa + "   ";
+		String alineaaaa = alineaaa + "   ";
+		String alineaaaaa = alineaaaa + "   ";
 		StringBuilder sB = new StringBuilder();
-		sB.append(alinea + "<hr>" + NL);
 		sB.append(alinea + "<h3> Input context : </h3> <br>" + NL);
-		int objIdx = 1;
-		String largerAlinea = alinea + "   ";
+		sB.append(alineaa + "<table>" + NL);
+		sB.append(alineaaa + "<thead>" + NL);
+		sB.append(alineaaaa + "<tr>" + NL);
 		for (IContextObject obj : context) {
-			sB.append(largerAlinea + "<h4>Object " + Integer.toString(objIdx++) + " : </h4>" + NL);
-			String stillLargerAlinea = largerAlinea + "   ";
-			sB.append(stillLargerAlinea + "<p>" + NL);
-			for (IConstruct att : obj.getConstructs()) {
-				sB.append(stillLargerAlinea + att.toString() + "<br>" + NL);
-			}
-			sB.append(largerAlinea + "</p> <br>" + NL);
+			sB.append(alineaaaaa + "<th>" + obj.getName() + "</th>" + NL);
 		}
+		sB.append(alineaaaa + "</tr>" + NL);
+		sB.append(alineaaa + "</thead>" + NL);
+		sB.append(alineaaa + "<tbody>" + NL);
+		sB.append(alineaaaa + "<tr>" + NL);
+		for (IContextObject obj : context) {
+			sB.append(alineaaaaa + "<td>" + NL);
+			for (IConstruct construct : obj.getConstructs())
+				sB.append(construct.toString() + "<br>" + NL);
+			sB.append(alineaaaaa + "</td>" + NL);
+		}
+		sB.append(alineaaaa + "</tr>" + NL);
+		sB.append(alineaaa + "</tbody>" + NL);
+		sB.append(alineaa + "</table>" + NL);
 		return sB.toString();
 	}
 
@@ -148,7 +161,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	public String generateAsymmetricalSimilarityMatrix(String alinea) {
 		double[][] asymmetricalSimilarityMatrix = currentTransFunc.getAsymmetricalSimilarityMatrix();
 		StringBuilder sB = new StringBuilder();
-		sB.append(displayTable(asymmetricalSimilarityMatrix, "Similarity matrix", alinea));
+		sB.append(displayTable(asymmetricalSimilarityMatrix, "Asyymetrical similarity matrix", alinea));
 		sB.append("<br>" + NL);
 		return sB.toString();
 	}
@@ -221,15 +234,20 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 			sB.append(line + NL);
 			line = reader.readLine();
 		}
+		sB.append(alinea + "<h2>Context : </h2>" + NL);
+		sB.append(generateInputHTMLTranslation(alineaa));
 		sB.append("<hr>");
-		sB.append(alinea + "<h2>Representation : </h2>" + NL);
+		sB.append(alinea + "<h2>Representation " + Integer.toString(catTreeIdx) + " : </h2>" + NL);
 		sB.append(alineaa + "<p>" + NL);
 		sB.append(alineaaa + "<b>Score : " + round(currentTransFunc.getCoherenceScore()) + "</b>" + NL);
+		sB.append(alineaa + "</p>" + NL);
+		sB.append(alineaa + "<p>" + NL);
+		sB.append(alineaaa + "<b>Extent structure : </b>" + representedCatTree.getExtentStructureAsString() + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<h3>Category tree : </h3>" + NL);
 		sB.append(alineaaa + "<p>" + NL);
 		sB.append(displayFigure("category_tree.png", alineaaaa, "Category tree"));
-		sB.append(alineaaa + "</p>" + NL);
+		sB.append(alineaaa + "</p>" + NL);		
 		sB.append(alineaa + "<h3>Transition function : </h3>" + NL);
 		sB.append(alineaaa + "<p>" + NL);
 		sB.append(displayFigure("transition_function.png", alineaaaa, "Transition function"));
@@ -244,12 +262,10 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 		sB.append(generateCategoricalCoherenceArray(alineaaaa));
 		sB.append(alineaaa + "</p>" + NL);
 		sB.append("<hr>");
-		sB.append(alinea + "<h2>Context : </h2>" + NL);
-		sB.append(generateInputHTMLTranslation(alineaa));
-		sB.append(alineaa + "<h3>Category lattice : </h3>" + NL);
-		sB.append(alineaaa + "<p>" + NL);
-		sB.append(displayFigure("category_lattice.png", alineaaaa, "Category lattice") + NL);
-		sB.append(alineaaa + "</p>" + NL);
+		sB.append(alinea + "<h2>Category lattice : </h2>" + NL);
+		sB.append(alineaa + "<p>" + NL);
+		sB.append(displayFigure("category_lattice.png", alineaaa, "Category lattice") + NL);
+		sB.append(alineaa + "</p>" + NL);
 		sB.append("   " + "</body>" + NL);
 		sB.append("</html>");
 		htmlPage = sB.toString();
@@ -282,7 +298,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 		for (int i = 0 ; i <= context.size() ; i++) {
 			sB.append(alineaaaa + "<th>");
 			if (i > 0)
-				sB.append("obj" + Integer.toString(i));
+				sB.append("obj" + Integer.toString(i - 1));
 			sB.append("</th>" + NL);
 		}
 		sB.append(alineaaa + "</tr>" + NL);
@@ -292,7 +308,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 			sB.append(alineaaa + "<tr>" + NL);
 			for (int i = 0 ; i <= context.size() ; i++) {
 				if (i == 0)
-					sB.append(alineaaaa + "<th>obj" + Integer.toString(j) + "</th>" + NL);
+					sB.append(alineaaaa + "<th>obj" + Integer.toString(j - 1) + "</th>" + NL);
 				else sB.append(alineaaaa + "<td>" + round(table[i - 1][j - 1]) + "</td>" + NL);
 					
 			}

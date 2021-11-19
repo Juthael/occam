@@ -28,4 +28,7 @@ public interface IRepresentedCatTree extends Comparable<IRepresentedCatTree> {
 	@Override
 	String toString();
 	
+	//has a transition function
+	boolean isValid();
+	
 }

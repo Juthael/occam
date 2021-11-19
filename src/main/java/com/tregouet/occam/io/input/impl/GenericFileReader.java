@@ -19,6 +19,7 @@ import com.tregouet.occam.io.input.util.exceptions.FileReaderException;
 public abstract class GenericFileReader {
 
 	public static final String SEPARATOR = "/";
+	public static final char NAME_SYMBOL = '@';
 	
 	private GenericFileReader() {
 	}
@@ -34,8 +35,9 @@ public abstract class GenericFileReader {
 	 * 1-The text contains one or more set of constructs generated using a context-free 
 	 * grammar. <br>
 	 * 2-Every set of constructs begins with a line containing only the character '/' <br>
-	 * 3-A construct is a list of symbols from the grammar at use, separated by the 
-	 * character '/'. New path, new line. No empty line. <br>
+	 * 3-After this line, an optional line may provide a name of the next object, in the form '@NAME'
+	 * 4-A construct is a list of symbols from the grammar at use, separated by the 
+	 * character '/'. New construct, new line. No empty line. <br>
 	 * </p>
 	 * 
 	 * @param path points to a text file (UTF-8) that must respect the rules described above.
@@ -55,6 +57,7 @@ public abstract class GenericFileReader {
 		}
 		String line;
 		List<List<String>> currObjConstructsAsLists = new ArrayList<List<String>>();
+		String currObjName = null;
 		do {
 			try {
 				line = reader.readLine();
@@ -63,14 +66,20 @@ public abstract class GenericFileReader {
 				throw new FileReaderException("getContextObjects(Path) : IOException thrown."
 						+ System.lineSeparator() + e.getMessage());
 			}
-			if (line != null && !line.equals(SEPARATOR)) {
-				currObjConstructsAsLists.add(Arrays.asList(line.split(SEPARATOR)));
+			if (line == null || line.equals(SEPARATOR)) {
+				if (!currObjConstructsAsLists.isEmpty()) {
+					if (currObjName == null) 
+						objects.add(new ContextObject(currObjConstructsAsLists));
+					else objects.add(new ContextObject(currObjConstructsAsLists, currObjName));
+					currObjConstructsAsLists = new ArrayList<List<String>>();
+					currObjName = null;
+				}
+			}
+			else if (line.length() > 1 && line.charAt(0) == NAME_SYMBOL) {
+				currObjName = line.substring(1);
 			}
 			else {
-				if (!currObjConstructsAsLists.isEmpty()) {
-					objects.add(new ContextObject(currObjConstructsAsLists));
-					currObjConstructsAsLists = new ArrayList<List<String>>();
-				}
+				currObjConstructsAsLists.add(Arrays.asList(line.split(SEPARATOR)));
 			}
 		}
 		while (line != null);

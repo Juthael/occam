@@ -1,9 +1,7 @@
 package com.tregouet.occam.transition_function.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -26,9 +24,6 @@ import com.tregouet.tree_finder.error.InvalidInputException;
 
 public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier implements ICatStructureAwareTFSupplier {
 
-	private static int iterationsOverAlphabet = 0;
-	private static Iterator<Character> charIte = populateCharList().iterator();
-	
 	private final TreeSet<IRepresentedCatTree> representedCategories = new TreeSet<>();
 	private final Map<ICategory, String> objectCategoryToName = new HashMap<>();
 	private Iterator<IRepresentedCatTree> ite;
@@ -42,17 +37,6 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 		for (ICategory objCat : categories.getObjectCategories())
 			objectCategoryToName.put(objCat, objCat.getExtent().iterator().next().getName());
 		ite = representedCategories.iterator();
-	}
-
-	private static List<Character> populateCharList(){
-		List<Character> authorizedCharASCII = new ArrayList<Character>();
-		for (char curr = 'A' ; curr <= 'Z' ; curr++) {
-			authorizedCharASCII.add(curr);
-		}
-		for (char curr = 945 ; curr <= 965 ; curr++) {
-			authorizedCharASCII.add(curr);
-		}
-		return authorizedCharASCII;
 	}
 
 	@Override
@@ -83,14 +67,6 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	@Override
 	public void reset() {
 		ite = representedCategories.iterator();
-	}
-	
-	private char getNextChar() {
-		if (!charIte.hasNext()) {
-			charIte = populateCharList().iterator();
-			iterationsOverAlphabet++;
-		}
-		return charIte.next();
 	}	
 	
 	private void populateRepresentedCategories() {
@@ -120,14 +96,5 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 
 		}
 	}
-	
-	private String provideName() {
-		StringBuffer sB = new StringBuffer();
-		sB.append(getNextChar());
-		for (int i = 0 ; i < iterationsOverAlphabet ; i++) {
-			sB.append("'");
-		}
-		return sB.toString();
-	}	
 
 }

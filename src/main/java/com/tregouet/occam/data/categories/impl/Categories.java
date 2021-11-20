@@ -293,6 +293,7 @@ public class Categories implements ICategories {
 
 	private Map<Set<IConstruct>, Set<IContextObject>> singularizeConstructs(
 			Map<Set<IConstruct>, Set<IContextObject>> intentsToExtents) {
+		AVariable.resetVarNaming();
 		Map<Set<IConstruct>, Set<IContextObject>> mapWithSingularizedIntents 
 			= new HashMap<Set<IConstruct>, Set<IContextObject>>();
 		/*

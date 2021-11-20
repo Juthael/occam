@@ -28,7 +28,8 @@ public abstract class AVariable implements ISymbol {
 	public static boolean DEFERRED_NAMING = true;
 	
 	private static int iterationsOverAlphabet = 0;
-	private static Iterator<Character> charIte = populateCharList().iterator();
+	private static List<Character> charList = populateCharList();
+	private static Iterator<Character> charIte = charList.iterator();
 	
 	private static List<Character> populateCharList(){
 		List<Character> authorizedCharASCII = new ArrayList<Character>();
@@ -73,6 +74,11 @@ public abstract class AVariable implements ISymbol {
 			iterationsOverAlphabet++;
 		}
 		return charIte.next();
+	}
+	
+	public static void resetVarNaming() {
+		iterationsOverAlphabet = 0;
+		charIte = charList.iterator();
 	}
 
 }

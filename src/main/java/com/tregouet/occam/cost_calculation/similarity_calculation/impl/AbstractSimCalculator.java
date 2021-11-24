@@ -18,7 +18,7 @@ import com.tregouet.tree_finder.data.Tree;
 public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 
 	protected int[] topologicalSortingOfCatIDs;
-	protected Integer[] objCatIdxInTopologicalSorting;
+	protected Integer[] objCatIdxInTopologicalOrder;
 	protected SparseIntDirectedWeightedGraph weightedTransitions;
 	
 	public AbstractSimCalculator() {
@@ -31,7 +31,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 
 	@Override
 	public double getCoherenceScore() {
-		return getCoherenceScore(objCatIdxInTopologicalSorting);
+		return getCoherenceScore(objCatIdxInTopologicalOrder);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 
 	@Override
 	public double howProtoypical(int catID) {
-		return howPrototypicalAmong(indexOf(catID), objCatIdxInTopologicalSorting);
+		return howPrototypicalAmong(indexOf(catID), objCatIdxInTopologicalOrder);
 	}
 
 	@Override
@@ -98,11 +98,11 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 		int nbOfObjects = categories.getLeaves().size();
 		int nbOfCategories = categories.vertexSet().size();
 		topologicalSortingOfCatIDs = new int[nbOfCategories];
-		objCatIdxInTopologicalSorting = new Integer[nbOfObjects];
+		objCatIdxInTopologicalOrder = new Integer[nbOfObjects];
 		for (ICategory category : categories.getTopologicalOrder()) {
 			topologicalSortingOfCatIDs[topoIdx] = category.getID();
 			if (objIndex < nbOfObjects && category.type() == ICategory.OBJECT) {
-				objCatIdxInTopologicalSorting[objIndex] = topoIdx;
+				objCatIdxInTopologicalOrder[objIndex] = topoIdx;
 				objIndex++;
 			}
 			topoIdx++;

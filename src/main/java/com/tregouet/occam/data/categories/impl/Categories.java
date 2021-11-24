@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.categories.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.ISymbol;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.Variable;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 import com.tregouet.tree_finder.error.InvalidInputException;

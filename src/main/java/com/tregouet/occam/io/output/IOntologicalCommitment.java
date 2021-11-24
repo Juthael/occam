@@ -3,9 +3,11 @@ package com.tregouet.occam.io.output;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import com.tregouet.tree_finder.error.InvalidInputException;
+
 public interface IOntologicalCommitment {
 	
-	boolean whatIsThere(Path contextPath) throws IOException;
+	boolean whatIsThere(Path contextPath) throws IOException, InvalidInputException;
 	
 	double getCoherenceScore();
 	

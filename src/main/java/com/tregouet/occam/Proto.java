@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import com.tregouet.occam.io.output.IOntologicalCommitment;
 import com.tregouet.occam.io.output.impl.OntologicalCommitment;
+import com.tregouet.tree_finder.error.InvalidInputException;
 
 public class Proto {
 
@@ -39,7 +40,12 @@ public class Proto {
 		choice = entry.nextInt();
 		entry.nextLine();
 		switch(choice) {
-			case 1 : enterNewInput(); 
+			case 1 : try {
+				enterNewInput();
+			} catch (InvalidInputException e) {
+				System.out.println(e.getMessage() + NL);
+				mainMenu();
+			} 
 				break;
 			case 2 : enterTargetFolder();
 				break;
@@ -67,7 +73,7 @@ public class Proto {
 		}
 	}
 	
-	private void enterNewInput() {
+	private void enterNewInput() throws InvalidInputException {
 		System.out.println(NL);
 		System.out.println("Please enter a path for the next input : " + NL);
 		String inputPathString = entry.nextLine();

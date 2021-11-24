@@ -45,7 +45,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	private static final Path headPath = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io", 
 			"output", "html", "head.txt");
 	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
-			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
+			PropertyWeighingStrategy.INFORMATIVITY;
 	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
 			SimilarityCalculationStrategy.RATIO_MODEL;
 	private static final DecimalFormat df = new DecimalFormat("#.####");
@@ -65,7 +65,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	}
 
 	@Override
-	public boolean whatIsThere(Path contextPath) throws IOException {
+	public boolean whatIsThere(Path contextPath) throws IOException, InvalidInputException {
 		try {
 			context = GenericFileReader.getContextObjects(contextPath);
 		} catch (FileReaderException e) {

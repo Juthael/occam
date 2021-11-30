@@ -113,7 +113,7 @@ public class Operator implements IOperator {
 	@Override
 	public List<ILambdaExpression> semantics() {
 		List<ILambdaExpression> expressions = new ArrayList<>();
-		for (IProduction prod : operation)
+		for (IProduction prod : operation) {
 			if (prod instanceof ICompositeProduction) {
 				ICompositeProduction composite = (ICompositeProduction) prod;
 				for (IBasicProduction basicProd : composite.getComponents())
@@ -123,6 +123,7 @@ public class Operator implements IOperator {
 				IBasicProduction basic = (IBasicProduction) prod;
 				expressions.add(basic.semanticRule());
 			}
+		}
 		return expressions;
 	}
 	

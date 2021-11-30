@@ -22,6 +22,7 @@ public class Category implements ICategory {
 	private int rank = 0;
 	private int type;
 	private final int iD;
+	private ICategory rebuttedByThis = null;
 	
 	public Category(Set<IConstruct> intent, Set<IContextObject> extent) {
 		for (IConstruct construct : intent)
@@ -136,6 +137,8 @@ public class Category implements ICategory {
 	public String toString() {
 		if (type == ICategory.ABSURDITY)
 			return "ABSURDITY";
+		if (isRebutter())
+			return Integer.toString(-rebuttedByThis.getID());
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
 		sB.append(Integer.toString(iD));
@@ -152,6 +155,37 @@ public class Category implements ICategory {
 	@Override
 	public int type() {
 		return type;
+	}
+
+	@Override
+	public boolean isRebutter() {
+		return (rebuttedByThis == null);
+	}
+
+	@Override
+	public ICategory rebutThisWith(ICategory rebutter) {
+		rebutter.setAsRebutterOf(this);
+		return rebutter;
+	}
+
+	@Override
+	public void setAsRebutterOf(ICategory rebutted) {
+		rebuttedByThis = rebutted;		
+	}
+
+	@Override
+	public ICategory buildRebutterOfThis(Set<ICategory> rebutterMinimalLowerBounds) {
+		Set<IContextObject> rebutterExtent = new HashSet<>();
+		for (ICategory rebutterMinLowerBound : rebutterMinimalLowerBounds)
+			rebutterExtent.addAll(rebutterMinLowerBound.getExtent());
+		ICategory rebutter = new Category(new HashSet<IConstruct>(), rebutterExtent);
+		rebutter.setAsRebutterOf(this);
+		return rebutter;
+	}
+
+	@Override
+	public ICategory getRebutted() {
+		return rebuttedByThis;
 	}	
 
 }

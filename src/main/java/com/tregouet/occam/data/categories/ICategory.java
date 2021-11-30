@@ -6,8 +6,9 @@ import java.util.Set;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.exceptions.PropertyTargetingException;
+import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
-public interface ICategory {
+public interface ICategory extends IDichotomizable<ICategory> {
 	
 	public static final int ABSURDITY = 0;
 	public static final int OBJECT = 1;

@@ -176,7 +176,8 @@ public class BasicProduction extends Production implements IBasicProduction {
 				&& this.getTarget().equals(varSwitcher.getSource()) && varSwitcher instanceof IBasicProduction) {
 			IBasicProduction basicSwitcher = (IBasicProduction) varSwitcher;
 			if (this.variable.equals(basicSwitcher.getValue().getListOfSymbols().get(0))) {
-				return new BasicProduction(basicSwitcher.getVariable(), this.value, this.getSource(), varSwitcher.getTarget());
+				return new BasicProduction(
+						basicSwitcher.getVariable(), this.value, this.getSource(), varSwitcher.getTarget());
 			}
 			return null;
 		}

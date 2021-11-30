@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.categories.impl;
 
-import java.util.Set;
+import java.util.List;
 
 import com.tregouet.occam.data.categories.ICategory;
 import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
@@ -19,7 +19,7 @@ public class ClassificationTreeSupplier implements IClassificationTreeSupplier {
 	}
 
 	@Override
-	public Set<Tree<ICategory, IsA>> getSortingTrees() {
+	public List<Tree<ICategory, IsA>> getSortingTrees() {
 		return categorySorter.getSortingTrees();
 	}
 

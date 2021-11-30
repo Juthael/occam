@@ -35,6 +35,7 @@ import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ConjunctiveOperator;
 import com.tregouet.occam.data.operators.impl.Operator;
+import com.tregouet.occam.data.operators.impl.Rebutter;
 import com.tregouet.occam.finite_automaton.IFiniteAutomaton;
 import com.tregouet.occam.finite_automaton.impl.FiniteAutomaton;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
@@ -84,6 +85,7 @@ public class TransitionFunction implements ITransitionFunction {
 			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
 				conjunctiveOperators.add(new ConjunctiveOperator(op));
 		}
+		buildRebutterOperators();
 		similarityCalc = SimilarityCalculatorFactory.apply(simCalculationStrategy); 
 		similarityCalc.set(categories, conjunctiveOperators);
 	}
@@ -421,6 +423,36 @@ public class TransitionFunction implements ITransitionFunction {
 			typicalityArray[i] = similarityCalc.howProtoypical(objectCategories.get(i).getID());
 		}
 		return typicalityArray;
+	}
+	
+	private void buildRebutterOperators() {
+		List<IOperator> rebutterOperators = new ArrayList<>();
+		List<ICategory> rebutterCats = new ArrayList<>();
+		for (ICategory category : categories.vertexSet()) {
+			if (category.isRebutter())
+				rebutterCats.add(category);
+		}
+		for (ICategory rebutterCat : rebutterCats) {
+			ICategory rebuttedCat = rebutterCat.getRebutted();
+			IState rebutterState = categoryToState.get(rebutterCat);
+			IState rebuttedState = categoryToState.get(rebuttedCat);
+			IState rebutterNextState = null;
+			IConjunctiveOperator rebuttedOperator = null;
+			int conjunctiveOpIdx = 0;
+			while (rebuttedOperator == null) {
+				IConjunctiveOperator op = conjunctiveOperators.get(conjunctiveOpIdx);
+				if (op.getOperatingState().equals(rebuttedState)) {
+					rebuttedOperator = op;
+					rebutterNextState = op.getNextState();
+				}
+				conjunctiveOpIdx++;
+			}
+			rebutterOperators.add(new Rebutter(rebutterState, rebutterNextState, rebuttedOperator));
+		}
+		for (IOperator rebutter : rebutterOperators) {
+			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(rebutter)))
+				conjunctiveOperators.add(new ConjunctiveOperator(rebutter));
+		}
 	}
 
 }

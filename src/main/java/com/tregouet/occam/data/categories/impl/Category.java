@@ -24,7 +24,7 @@ public class Category implements ICategory {
 	private final int iD;
 	private ICategory rebuttedByThis = null;
 	
-	public Category(Set<? extends IConstruct> intent, Set<IContextObject> extent) {
+	public Category(Set<IConstruct> intent, Set<IContextObject> extent) {
 		for (IConstruct construct : intent)
 			this.intent.add(new IntentAttribute(construct, this));
 		this.extent = Collections.unmodifiableSet(extent);
@@ -167,7 +167,9 @@ public class Category implements ICategory {
 
 	@Override
 	public ICategory rebutThisWith(ICategory rebutting) {
-		ICategory rebutter = new Category(rebutting.getIntent(), rebutting.getExtent());
+		Set<IContextObject> rebutterExtent = rebutting.getExtent();
+		Set<IConstruct> rebutterIntent = new HashSet<>(rebutting.getIntent());
+		ICategory rebutter = new Category(rebutterIntent, rebutterExtent);
 		rebutter.setType(type);
 		rebutter.setAsRebutterOf(this);
 		return rebutter;

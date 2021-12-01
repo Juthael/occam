@@ -7,7 +7,7 @@ import com.tregouet.occam.data.constructs.impl.Construct;
 
 public class IntentAttribute extends Construct implements IIntentAttribute {
 
-	private ICategory category;
+	private final ICategory category;
 	
 	public IntentAttribute(IConstruct construct, ICategory category) {
 		super(construct);

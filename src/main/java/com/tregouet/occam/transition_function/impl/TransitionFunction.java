@@ -448,7 +448,8 @@ public class TransitionFunction implements ITransitionFunction {
 				}
 				catch (Exception e) {
 					try {
-						Visualizer.visualizeCategoryGraph(categories, "211201_error");
+						Visualizer.visualizeCategoryGraph(categories, "211201_catError");
+						Visualizer.visualizeTransitionFunction(this, "211201_tfError", TransitionFunctionGraphType.FINITE_AUTOMATON);
 						System.out.println("here");
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block

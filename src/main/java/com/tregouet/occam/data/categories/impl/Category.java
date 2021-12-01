@@ -24,7 +24,7 @@ public class Category implements ICategory {
 	private final int iD;
 	private ICategory rebuttedByThis = null;
 	
-	public Category(Set<IConstruct> intent, Set<IContextObject> extent) {
+	public Category(Set<? extends IConstruct> intent, Set<IContextObject> extent) {
 		for (IConstruct construct : intent)
 			this.intent.add(new IntentAttribute(construct, this));
 		this.extent = Collections.unmodifiableSet(extent);
@@ -142,6 +142,8 @@ public class Category implements ICategory {
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
 		sB.append(Integer.toString(iD));
+		//HERE REMOVE /*
+		/*
 		sB.append(newLine);
 		Iterator<IIntentAttribute> iterator = intent.iterator();
 		while (iterator.hasNext()) {
@@ -149,6 +151,7 @@ public class Category implements ICategory {
 			if (iterator.hasNext())
 				sB.append(newLine);
 		}
+		*/
 		return sB.toString();
 	}
 
@@ -159,11 +162,13 @@ public class Category implements ICategory {
 
 	@Override
 	public boolean isRebutter() {
-		return (rebuttedByThis == null);
+		return (rebuttedByThis != null);
 	}
 
 	@Override
-	public ICategory rebutThisWith(ICategory rebutter) {
+	public ICategory rebutThisWith(ICategory rebutting) {
+		ICategory rebutter = new Category(rebutting.getIntent(), rebutting.getExtent());
+		rebutter.setType(type);
 		rebutter.setAsRebutterOf(this);
 		return rebutter;
 	}
@@ -180,6 +185,7 @@ public class Category implements ICategory {
 			rebutterExtent.addAll(rebutterMinLowerBound.getExtent());
 		ICategory rebutter = new Category(new HashSet<IConstruct>(), rebutterExtent);
 		rebutter.setAsRebutterOf(this);
+		rebutter.setType(ICategory.SUBSET_CAT);
 		return rebutter;
 	}
 

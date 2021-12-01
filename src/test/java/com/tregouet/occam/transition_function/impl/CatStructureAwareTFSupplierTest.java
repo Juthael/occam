@@ -60,16 +60,15 @@ public class CatStructureAwareTFSupplierTest {
 	@Test
 	public void whenRequestedThenReturnsRepresentedCatStructuresInDecreasingCoherenceOrder() 
 			throws IOException, InvalidInputException {
+		//HERE
+		Visualizer.visualizeCategoryGraph(categories.getTransitiveReduction(), "211201_CL");
+		//HERE
 		boolean increasingOrder = true;
 		int idx = 0;
 		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(categories, constructs, 
 				PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
 		List<Double> coherenceScores = new ArrayList<>();
 		IRepresentedCatTree representedCatTree;
-		/*
-		System.out.println(transFuncSupplier.getDefinitionOfObjects() + System.lineSeparator());
-		Visualizer.visualizeCategoryGraph(categories.getTransitiveReduction(), "2109250747_CL");
-		*/
 		while (transFuncSupplier.hasNext()) {
 			representedCatTree = transFuncSupplier.next();
 			coherenceScores.add(representedCatTree.getCoherenceScore());

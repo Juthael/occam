@@ -67,7 +67,7 @@ public class DSLanguageDisplayer implements IDSLanguageDisplayer {
 	@Override
 	public String getDomainSpecificGrammarOfOperators() {
 		StringBuilder sB = new StringBuilder();
-		Map<IOperator, String> label = new HashMap<IOperator, String>();
+		Map<IOperator, String> label = new HashMap<>();
 		for (IOperator operator : topologicalSorting) {
 			label.put(operator, nameAndFrame(operator));
 		}

@@ -22,6 +22,7 @@ public class ProductionBuilder implements IProductionBuilder {
 		//build basics
 		for (int i = 0 ; i < topologicalOrderOnCats.size() - 1 ; i++) {
 			for (int j = i+1 ; j < topologicalOrderOnCats.size() ; j++) {
+				//HERE optimisable
 				for (IIntentAttribute iCatAtt : topologicalOrderOnCats.get(i).getIntent()) {
 					for (IIntentAttribute jCatAtt : topologicalOrderOnCats.get(j).getIntent()) {
 						List<IBasicProduction> ijAttProds = 

@@ -1,5 +1,6 @@
 package com.tregouet.occam.transition_function.impl;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.math.BigDecimal;
@@ -38,6 +39,7 @@ import com.tregouet.occam.data.operators.impl.Operator;
 import com.tregouet.occam.data.operators.impl.Rebutter;
 import com.tregouet.occam.finite_automaton.IFiniteAutomaton;
 import com.tregouet.occam.finite_automaton.impl.FiniteAutomaton;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
 import com.tregouet.occam.transition_function.IState;
 import com.tregouet.occam.transition_function.ITransitionFunction;

@@ -46,6 +46,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		List<IProduction> varSwitchers = new ArrayList<>();
 		List<IIntentAttribute> varSwitcherSources = new ArrayList<>();
 		for (IProduction production : unfilteredUnreduced.edgeSet()) {
+			//HERE tester ici
 			ICategory sourceCat = production.getSourceCategory();
 			ICategory targetCat = production.getTargetCategory();
 			if (catTree.containsVertex(sourceCat) 

@@ -41,53 +41,6 @@ public abstract class AbstractCategory implements ICategory {
 			}
 		}
 		return matchingAttribute;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Category other = (Category) obj;
-		if (getID() != other.getID())
-			return false;
-		//HERE optimizable
-		/*
-		Set<IContextObject> extent = getExtent();
-		Set<IContextObject> otherExtent = null;
-		if (extent == null) {
-			otherExtent = other.getExtent();
-			if (otherExtent != null)
-				return false;
-		} else if (!extent.equals(otherExtent))
-			return false;
-		Set<IIntentAttribute> intent = getIntent();
-		Set<IIntentAttribute> otherIntent = null;
-		if (intent == null) {
-			otherIntent = other.getIntent();
-			if (otherIntent != null)
-				return false;
-		} else if (!intent.equals(otherIntent))
-			return false;
-			*/
-		return true;
-	}	
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		//HERE Optimizable
-		//result = prime * result + ((getExtent() == null) ? 0 : getExtent().hashCode());
-		result = prime * result + getID();
-		//result = prime * result + ((getIntent() == null) ? 0 : getIntent().hashCode());
-		return result;
 	}	
 
 	@Override
@@ -109,6 +62,28 @@ public abstract class AbstractCategory implements ICategory {
 	@Override
 	public int type() {
 		return type;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + getID();
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof AbstractCategory))
+			return false;
+		AbstractCategory other = (AbstractCategory) obj;
+		if (getID() != other.getID())
+			return false;
+		return true;
 	}
 
 }

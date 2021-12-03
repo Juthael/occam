@@ -286,7 +286,7 @@ public class TransitionFunctionTest {
 	
 	@Test
 	public void whenCompilerRequestedThenReturned() {
-		fail("NOT YET IMPLEMENTED");
+		fail("NOT IMPLEMENTED YET");
 	}
 
 	@Test 

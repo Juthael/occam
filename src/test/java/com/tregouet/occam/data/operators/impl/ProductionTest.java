@@ -115,10 +115,10 @@ public class ProductionTest {
 		prod5Lambda = prodVar5.asLambda(remainingProds);
 		String prod5LambdaString = prod5Lambda.toString();
 		String expected = sB.toString();
-		
+		/*
 		System.out.println(prod5LambdaString);
 		System.out.println(expected);
-		
+		*/
 		assertTrue(prod5LambdaString.equals(expected));
 	}
 

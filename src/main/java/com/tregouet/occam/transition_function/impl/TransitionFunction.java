@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 import org.jgrapht.nio.Attribute;
@@ -58,10 +60,35 @@ public class TransitionFunction implements ITransitionFunction {
 	private final ISimilarityCalculator similarityCalc;
 	private DirectedMultigraph<IState, IOperator> finiteAutomatonMultigraph = null;
 	private SimpleDirectedGraph<IState, IConjunctiveOperator> finiteAutomatonGraph = null;
+	//HERE
+	private static boolean test;
+	//HERE
 	
 	public TransitionFunction(List<IContextObject> objects, List<ICategory> objectCategories, 
 			Tree<ICategory, IsA> categories, Tree<IIntentAttribute, IProduction> constructs, 
 			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) {
+		//HERE
+		test = false;
+		List<ICategory> complementaryCat = categories.vertexSet().stream()
+				.filter(c -> c.isComplementary())
+				.collect(Collectors.toList());
+		List<ICategory> complementedCat = new ArrayList<>();
+		complementaryCat.stream().forEach(c -> complementedCat.add(c.getComplemented()));
+		List<IProduction> prodWithComplementedAsSource = new ArrayList<>();
+		List<IProduction> prodWithComplementedAsTarget = new ArrayList<>();
+		if (!complementaryCat.isEmpty() && complementaryCat.stream().anyMatch(c -> !c.getIntent().isEmpty())) {
+			test = true;
+			for (IProduction prod : constructs.edgeSet()) {
+				System.out.println("prod source cat : " + prod.getSourceCategory().getID());
+				System.out.println("prod target cat : " + prod.getTargetCategory().getID() + System.lineSeparator());
+				if (complementedCat.contains(prod.getSourceCategory()))
+					prodWithComplementedAsSource.add(prod);
+				if (complementedCat.contains(prod.getTargetCategory()))
+					prodWithComplementedAsTarget.add(prod);
+			}
+			System.out.println("done1.");
+		}
+		//HERE
 		IOperator.initializeNameProvider();
 		IConjunctiveOperator.initializeNameProvider();
 		this.objects = objects;
@@ -80,6 +107,19 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 		}
 		operators = buildOperators(new ArrayList<>(constructs.edgeSet()), categoryToState);
+		//HERE
+		List<IOperator> opWithComplementedCatAsSource = new ArrayList<>();
+		List<IOperator> opWithComplementedCatAsTarget = new ArrayList<>();
+		if (test) {
+			operators.stream()
+				.filter(o -> complementedCat.contains(o.getOperatingState().getAssociatedCategory()))
+				.forEach(opWithComplementedCatAsSource::add);
+			operators.stream()
+				.filter(o -> complementedCat.contains(o.getOperatingState().getAssociatedCategory()))
+				.forEach(opWithComplementedCatAsTarget::add);
+			System.out.println("done2.");
+		}
+		//HERE
 		propWeigher = PropertyWeigherFactory.apply(propWeighingStrategy);
 		propWeigher.set(objects, categories, operators);
 		operators.stream().forEach(o -> o.setInformativity(propWeigher));
@@ -87,6 +127,30 @@ public class TransitionFunction implements ITransitionFunction {
 			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
 				conjunctiveOperators.add(new ConjunctiveOperator(op));
 		}
+		//HERE
+		List<IConjunctiveOperator> conjunctiveOpWithComplementedAsSource = new ArrayList<>();
+		if (test) {
+			conjunctiveOperators.stream()
+				.filter(o -> complementedCat.contains(o.getOperatingState().getAssociatedCategory()))
+				.forEach(conjunctiveOpWithComplementedAsSource::add);
+			List<IConjunctiveOperator> conjunctiveOpWithComplementedAsTarget = new ArrayList<>();
+			conjunctiveOperators.stream()
+				.filter(o -> complementedCat.contains(o.getOperatingState().getAssociatedCategory()))
+				.forEach(conjunctiveOpWithComplementedAsTarget::add);
+			System.out.println("done3.");
+		}
+		//HERE
+		//HERE
+		if (test) {
+			try {
+				Visualizer.visualizeCategoryGraph(categories, "211203CTErr");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("done4.");
+		}
+		//HERE
 		buildRebutterOperators();
 		similarityCalc = SimilarityCalculatorFactory.apply(simCalculationStrategy); 
 		similarityCalc.set(categories, conjunctiveOperators);
@@ -428,6 +492,17 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 	
 	private void buildRebutterOperators() {
+		//HERE
+		if (test) {
+			try {
+				Visualizer.visualizeTransitionFunction(this, "211203TF_before", TransitionFunctionGraphType.FINITE_AUTOMATON);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("done5.");
+		}
+		//HERE
 		List<IOperator> rebutterOperators = new ArrayList<>();
 		List<ICategory> rebutterCats = new ArrayList<>();
 		for (ICategory category : categories.vertexSet()) {
@@ -435,19 +510,13 @@ public class TransitionFunction implements ITransitionFunction {
 				rebutterCats.add(category);
 		}
 		for (ICategory rebutterCat : rebutterCats) {
-			ICategory rebuttedCat = rebutterCat.getComplemented();
 			IState rebutterState = categoryToState.get(rebutterCat);
-			IState rebuttedState = categoryToState.get(rebuttedCat);
-			IState rebutterNextState = null;
+			IState rebutterNextState = categoryToState.get(Graphs.successorListOf(categories, rebutterCat).get(0));
 			IConjunctiveOperator rebuttedOperator = null;
-			int conjunctiveOpIdx = 0;
-			while (rebuttedOperator == null) {
-				IConjunctiveOperator op = conjunctiveOperators.get(conjunctiveOpIdx);
-				if (op.getOperatingState().equals(rebuttedState)) {
-					rebuttedOperator = op;
-					rebutterNextState = op.getNextState();
-				}
-				conjunctiveOpIdx++;
+			for (IConjunctiveOperator operator : conjunctiveOperators) {
+				if (operator.getNextState().equals(rebutterNextState)
+						&& operator.getOperatingState().equals(categoryToState.get(rebutterCat.getComplemented())))
+					rebuttedOperator = operator;
 			}
 			rebutterOperators.add(new Rebutter(rebutterState, rebutterNextState, rebuttedOperator));
 		}
@@ -455,6 +524,17 @@ public class TransitionFunction implements ITransitionFunction {
 			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(rebutter)))
 				conjunctiveOperators.add(new ConjunctiveOperator(rebutter));
 		}
+		//HERE
+		if (test) {
+			try {
+				Visualizer.visualizeTransitionFunction(this, "211203TF_after", TransitionFunctionGraphType.FINITE_AUTOMATON);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("done6.");
+		}
+		//HERE
 	}
 
 }

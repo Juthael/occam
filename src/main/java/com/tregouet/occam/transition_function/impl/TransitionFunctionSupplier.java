@@ -1,7 +1,13 @@
 package com.tregouet.occam.transition_function.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import javax.print.attribute.HashAttributeSet;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
@@ -13,6 +19,7 @@ import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.data.categories.IIntentAttribute;
 import com.tregouet.occam.data.categories.impl.IsA;
 import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.error.InvalidInputException;
@@ -45,8 +52,8 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		List<IProduction> edges = new ArrayList<>();
 		List<IProduction> varSwitchers = new ArrayList<>();
 		List<IIntentAttribute> varSwitcherSources = new ArrayList<>();
+		//HERE chercher ici
 		for (IProduction production : unfilteredUnreduced.edgeSet()) {
-			//HERE tester ici
 			ICategory sourceCat = production.getSourceCategory();
 			ICategory targetCat = production.getTargetCategory();
 			if (catTree.containsVertex(sourceCat) 

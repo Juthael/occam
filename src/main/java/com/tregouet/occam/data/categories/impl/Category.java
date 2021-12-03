@@ -79,10 +79,10 @@ public class Category extends AbstractCategory implements ICategory {
 
 	@Override
 	public ICategory buildComplementOfThis(Set<ICategory> complementMinimalLowerBounds) {
-		Set<IContextObject> complementingExtent = new HashSet<>();
+		Set<IContextObject> complementExtent = new HashSet<>();
 		for (ICategory rebutterMinLowerBound : complementMinimalLowerBounds)
-			complementingExtent.addAll(rebutterMinLowerBound.getExtent());
-		return new ComplementaryCategory(this, complementingExtent);
+			complementExtent.addAll(rebutterMinLowerBound.getExtent());
+		return new ComplementaryCategory(this, complementExtent);
 	}
 
 	@Override

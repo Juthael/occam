@@ -2,14 +2,14 @@ package com.tregouet.occam.transition_function;
 
 import java.util.Iterator;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IExtentStructureConstraint;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IRepresentedCatTree extends Comparable<IRepresentedCatTree> {
 	
-	Tree<ICategory, IsA> getCategoryTree();
+	Tree<IConcept, IsA> getCategoryTree();
 	
 	double getCoherenceScore();
 	

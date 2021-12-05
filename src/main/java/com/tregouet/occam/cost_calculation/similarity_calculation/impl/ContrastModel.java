@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -15,9 +15,9 @@ public class ContrastModel extends AbstractSimCalculator implements ISimilarityC
 	public ContrastModel() {
 	}
 	
-	public ContrastModel(Tree<ICategory, IsA> categories, 
+	public ContrastModel(Tree<IConcept, IsA> concepts, 
 			List<IConjunctiveOperator> conjunctiveOperators) {
-		super(categories, conjunctiveOperators);
+		super(concepts, conjunctiveOperators);
 	}
 
 	@Override

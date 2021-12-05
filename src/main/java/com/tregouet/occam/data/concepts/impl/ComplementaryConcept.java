@@ -1,34 +1,34 @@
-package com.tregouet.occam.data.categories.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
 
-public class ComplementaryCategory extends AbstractCategory implements ICategory {
+public class ComplementaryConcept extends AbstractConcept implements IConcept {
 
-	private final ICategory complementedByThis;
-	private ICategory wrappedComplementing = null;
+	private final IConcept complementedByThis;
+	private IConcept wrappedComplementing = null;
 	private final Set<IContextObject> extent;
 	private final int iD;
 	
-	public ComplementaryCategory(ICategory toBeComplemented, Set<IContextObject> extent) {
+	public ComplementaryConcept(IConcept toBeComplemented, Set<IContextObject> extent) {
 		super();
 		complementedByThis = toBeComplemented;
 		this.extent = extent;
-		setType(ICategory.SUBSET_CAT);
+		setType(IConcept.SUBSET_CONCEPT);
 		iD = nextID++;
 	}
 	
-	public ComplementaryCategory(ICategory toBeComplemented, ICategory complementing) {
+	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
 		super();
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
 		this.extent = new HashSet<>(Sets.difference(complementing.getExtent(), toBeComplemented.getExtent()));
-		setType(ICategory.SUBSET_CAT);
+		setType(IConcept.SUBSET_CONCEPT);
 		iD = wrappedComplementing.getID();
 	}	
 	
@@ -43,17 +43,17 @@ public class ComplementaryCategory extends AbstractCategory implements ICategory
 	}	
 	
 	@Override
-	public ICategory complementThisWith(ICategory complementing) {
+	public IConcept complementThisWith(IConcept complementing) {
 		return null;
 	}
 
 	@Override
-	public ICategory buildComplementOfThis(Set<ICategory> rebutterMinimalLowerBounds) {
+	public IConcept buildComplementOfThis(Set<IConcept> rebutterMinimalLowerBounds) {
 		return null;
 	}
 
 	@Override
-	public ICategory getComplemented() {
+	public IConcept getComplemented() {
 		return complementedByThis;
 	}
 

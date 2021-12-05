@@ -10,8 +10,8 @@ import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
 import com.google.common.primitives.Ints;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -24,9 +24,9 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 	public AbstractSimCalculator() {
 	}
 	
-	public AbstractSimCalculator(Tree<ICategory, IsA> categories, 
+	public AbstractSimCalculator(Tree<IConcept, IsA> concepts, 
 			List<IConjunctiveOperator> conjunctiveOperators) {
-		set(categories, conjunctiveOperators);
+		set(concepts, conjunctiveOperators);
 	}
 
 	@Override
@@ -92,16 +92,16 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 	}	
 	
 	@Override
-	public void set(Tree<ICategory, IsA> categories, List<IConjunctiveOperator> conjunctiveOperators) {
+	public void set(Tree<IConcept, IsA> concepts, List<IConjunctiveOperator> conjunctiveOperators) {
 		int topoIdx = 0;
 		Integer objIndex = 0;
-		int nbOfObjects = categories.getLeaves().size();
-		int nbOfCategories = categories.vertexSet().size();
+		int nbOfObjects = concepts.getLeaves().size();
+		int nbOfCategories = concepts.vertexSet().size();
 		topologicalSortingOfCatIDs = new int[nbOfCategories];
 		objCatIdxInTopologicalOrder = new Integer[nbOfObjects];
-		for (ICategory category : categories.getTopologicalOrder()) {
-			topologicalSortingOfCatIDs[topoIdx] = category.getID();
-			if (objIndex < nbOfObjects && category.type() == ICategory.OBJECT) {
+		for (IConcept concept : concepts.getTopologicalOrder()) {
+			topologicalSortingOfCatIDs[topoIdx] = concept.getID();
+			if (objIndex < nbOfObjects && concept.type() == IConcept.SINGLETON) {
 				objCatIdxInTopologicalOrder[objIndex] = topoIdx;
 				objIndex++;
 			}

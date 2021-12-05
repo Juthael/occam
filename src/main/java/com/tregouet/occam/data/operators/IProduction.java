@@ -2,8 +2,8 @@ package com.tregouet.occam.data.operators;
 
 import java.util.List;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 
@@ -16,9 +16,9 @@ public interface IProduction {
 	@Override
 	boolean equals(Object o);
 	
-	ICategory getGenus();
+	IConcept getGenus();
 	
-	ICategory getInstance();
+	IConcept getInstance();
 	
 	String getLabel();
 	
@@ -26,11 +26,11 @@ public interface IProduction {
 	
 	IIntentAttribute getSource();
 	
-	ICategory getSourceCategory();
+	IConcept getSourceCategory();
 	
 	IIntentAttribute getTarget();
 	
-	ICategory getTargetCategory();
+	IConcept getTargetCategory();
 	
 	List<IConstruct> getValues();
 	

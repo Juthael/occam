@@ -7,10 +7,10 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.IBasicTFSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
@@ -24,10 +24,10 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	private Iterator<ITransitionFunction> ite;
 	
-	public BasicTFSupplier(ICategories categories, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
+	public BasicTFSupplier(IConcepts concepts, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
 			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) 
 			throws InvalidInputException {
-		super(categories, constructs, propWeighingStrategy, simCalculationStrategy);
+		super(concepts, constructs, propWeighingStrategy, simCalculationStrategy);
 		populateTransitionFunctions();
 		ite = transitionFunctions.iterator();
 	}
@@ -54,7 +54,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 
 	private void populateTransitionFunctions() {
 		while (categoryTreeSupplier.hasNext()) {
-			Tree<ICategory, IsA> currCatTree = categoryTreeSupplier.nextOntologicalCommitment();
+			Tree<IConcept, IsA> currCatTree = categoryTreeSupplier.nextOntologicalCommitment();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
 			IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> attTreeSupplier = 
@@ -62,7 +62,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 			while (attTreeSupplier.hasNext()) {
 				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = new TransitionFunction(
-						categories.getContextObjects(), categories.getObjectCategories(), 
+						concepts.getContextObjects(), concepts.getSingletonConcept(), 
 						currCatTree, attTree, propWeighingStrategy, simCalculationStrategy);
 				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE)) {
 					if (transitionFunctions.size() <= MAX_CAPACITY)

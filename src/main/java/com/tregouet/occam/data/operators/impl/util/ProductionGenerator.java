@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.ISymbol;
@@ -27,8 +27,8 @@ public class ProductionGenerator {
 	 * @param operatorOutput
 	 */
 	public ProductionGenerator(
-			ICategories categories, IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
-		if (categories.isA(operatorInput.getCategory(), operatorOutput.getCategory())) {
+			IConcepts concepts, IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
+		if (concepts.isA(operatorInput.getCategory(), operatorOutput.getCategory())) {
 			if (operatorInput.getListOfSymbols().equals(operatorOutput.getListOfSymbols()))
 				//then equal strings of terminals
 				productions = new ArrayList<>(

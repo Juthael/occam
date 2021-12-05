@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.categories.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import static org.junit.Assert.assertTrue;
 
@@ -14,6 +14,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.tregouet.occam.data.concepts.impl.IntentBldr;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;

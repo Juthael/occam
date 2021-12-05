@@ -1,20 +1,20 @@
-package com.tregouet.occam.data.categories.utils;
+package com.tregouet.occam.data.concepts.utils;
 
 import java.util.List;
 import java.util.Map;
 
 import org.jgrapht.Graphs;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public class CatTreeToStringConvertor {
 
-	private final Tree<ICategory, IsA> categoryTree;
-	private final Map<ICategory, String> leafToLeafName;
+	private final Tree<IConcept, IsA> categoryTree;
+	private final Map<IConcept, String> leafToLeafName;
 	
-	public CatTreeToStringConvertor(Tree<ICategory, IsA> categoryTree, Map<ICategory, String> leafToLeafName) {
+	public CatTreeToStringConvertor(Tree<IConcept, IsA> categoryTree, Map<IConcept, String> leafToLeafName) {
 		this.categoryTree = categoryTree;
 		this.leafToLeafName = leafToLeafName;
 	}
@@ -24,12 +24,12 @@ public class CatTreeToStringConvertor {
 		return getExtentStructure(categoryTree.getRoot());
 	}
 	
-	private String getExtentStructure(ICategory category) {
+	private String getExtentStructure(IConcept concept) {
 		String extentStructure;
-		if (category.type() == ICategory.OBJECT)
-			extentStructure = leafToLeafName.get(category);
+		if (concept.type() == IConcept.SINGLETON)
+			extentStructure = leafToLeafName.get(concept);
 		else {
-			List<ICategory> predecessors = Graphs.predecessorListOf(categoryTree, category);
+			List<IConcept> predecessors = Graphs.predecessorListOf(categoryTree, concept);
 			if (predecessors.size() == 1)
 				extentStructure = getExtentStructure(predecessors.get(0));
 			else {

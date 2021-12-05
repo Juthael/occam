@@ -18,14 +18,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.Categories;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IBasicProduction;
@@ -57,11 +57,11 @@ public class TransitionFunctionTest {
 	private static final SimilarityCalculationStrategy SIM_CALC_STRATEGY = 
 			SimilarityCalculationStrategy.RATIO_MODEL;
 	private static List<IContextObject> objects;
-	private ICategories categories;
+	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IClassificationTreeSupplier classificationTreeSupplier;
-	private Tree<ICategory, IsA> catTree;
+	private Tree<IConcept, IsA> catTree;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
 	private Tree<IIntentAttribute, IProduction> constrTree;
@@ -75,14 +75,14 @@ public class TransitionFunctionTest {
 	@Before
 	public void setUp() throws Exception {
 		transitionFunctions = new TreeSet<>();
-		categories = new Categories(objects);
-		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
+		concepts = new Concepts(objects);
+		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
 		productions.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationTreeSupplier = categories.getCatTreeSupplier();
+		classificationTreeSupplier = concepts.getCatTreeSupplier();
 		while (classificationTreeSupplier.hasNext()) {
 			catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			filtered_reduced_constructs = 
@@ -91,7 +91,7 @@ public class TransitionFunctionTest {
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(objects, categories.getObjectCategories(), catTree, constrTree, 
+						new TransitionFunction(objects, concepts.getSingletonConcept(), catTree, constrTree, 
 								PROP_WHEIGHING_STRATEGY, SIM_CALC_STRATEGY);
 				transitionFunctions.add(transitionFunction);
 			}
@@ -384,8 +384,8 @@ public class TransitionFunctionTest {
 	
 	private static boolean sameSourceAndTargetCategoryForAll(List<IProduction> productions) {
 		boolean sameSourceAndTargetCategory = true;
-		ICategory sourceCategory = null;
-		ICategory targetCategory = null;
+		IConcept sourceCategory = null;
+		IConcept targetCategory = null;
 		for (int i = 0 ; i < productions.size() ; i++) {
 			if (i == 0) {
 				sourceCategory = productions.get(i).getSourceCategory();

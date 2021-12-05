@@ -12,9 +12,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.Category;
-import com.tregouet.occam.data.categories.impl.IntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.Concept;
+import com.tregouet.occam.data.concepts.impl.IntentAttribute;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
@@ -66,10 +66,10 @@ public class ProductionTest {
 	private Set<IContextObject> mockExtent2 = new HashSet<>();
 	private Set<IContextObject> mockExtent3 = new HashSet<>();
 	private Set<IContextObject> mockExtent4 = new HashSet<>();
-	private IIntentAttribute constr1 = new IntentAttribute(new Construct(prog1), new Category(mockIntent1, mockExtent1));
-	private IIntentAttribute constr2 = new IntentAttribute(new Construct(prog2), new Category(mockIntent2, mockExtent2));
-	private IIntentAttribute constr3 = new IntentAttribute(new Construct(prog3), new Category(mockIntent3, mockExtent3));
-	private IIntentAttribute constr4 = new IntentAttribute(new Construct(prog4), new Category(mockIntent4, mockExtent4));
+	private IIntentAttribute constr1 = new IntentAttribute(new Construct(prog1), new Concept(mockIntent1, mockExtent1));
+	private IIntentAttribute constr2 = new IntentAttribute(new Construct(prog2), new Concept(mockIntent2, mockExtent2));
+	private IIntentAttribute constr3 = new IntentAttribute(new Construct(prog3), new Concept(mockIntent3, mockExtent3));
+	private IIntentAttribute constr4 = new IntentAttribute(new Construct(prog4), new Concept(mockIntent4, mockExtent4));
 	private IConstruct var1Value = new Construct(var1ValueProg);
 	private IConstruct var2Value = new Construct(var2ValueProg);
 	private IConstruct var3Value = new Construct(var3ValueProg);

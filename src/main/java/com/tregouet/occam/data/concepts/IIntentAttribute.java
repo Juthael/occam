@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.categories;
+package com.tregouet.occam.data.concepts;
 
 import com.tregouet.occam.data.constructs.IConstruct;
 
@@ -10,6 +10,6 @@ public interface IIntentAttribute extends IConstruct {
 	@Override
 	boolean equals(Object o);
 	
-	ICategory getCategory();
+	IConcept getCategory();
 
 }

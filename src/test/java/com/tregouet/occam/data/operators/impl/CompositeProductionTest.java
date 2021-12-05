@@ -12,9 +12,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.Categories;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.ICompositeProduction;
 import com.tregouet.occam.data.operators.IProduction;
@@ -24,7 +24,7 @@ public class CompositeProductionTest {
 	
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private ICategories categories;
+	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 
@@ -35,8 +35,8 @@ public class CompositeProductionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		categories = new Categories(shapes2Obj);
-		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
+		concepts = new Concepts(shapes2Obj);
+		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
 		productions.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
 			constructs.addVertex(p.getTarget());

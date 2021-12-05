@@ -18,12 +18,12 @@ import org.junit.Test;
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.Categories;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
@@ -45,11 +45,11 @@ public class InformativityDiagnosticityTest {
 	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
 			SimilarityCalculationStrategy.CONTRAST_MODEL;
 	private List<IContextObject> shapes2Obj;
-	private ICategories categories;
+	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IClassificationTreeSupplier classificationTreeSupplier;
-	private Tree<ICategory, IsA> catTree;
+	private Tree<IConcept, IsA> catTree;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
 	private Map<ITransitionFunction, IPropertyWeigher> transFuncToInfometer = new HashMap<>();
@@ -61,14 +61,14 @@ public class InformativityDiagnosticityTest {
 	@Before
 	public void setUp() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
-		categories = new Categories(shapes2Obj);
-		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
+		concepts = new Concepts(shapes2Obj);
+		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
 		productions.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationTreeSupplier = categories.getCatTreeSupplier();
+		classificationTreeSupplier = concepts.getCatTreeSupplier();
 		while (classificationTreeSupplier.hasNext()) {
 			catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			filtered_reduced_constructs = 
@@ -77,7 +77,7 @@ public class InformativityDiagnosticityTest {
 			while (constrTreeSupplier.hasNext()) {
 				Tree<IIntentAttribute, IProduction> constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(shapes2Obj, categories.getObjectCategories(), catTree, constrTree, 
+						new TransitionFunction(shapes2Obj, concepts.getSingletonConcept(), catTree, constrTree, 
 								PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
 				/*
 				visualize("2108140757");

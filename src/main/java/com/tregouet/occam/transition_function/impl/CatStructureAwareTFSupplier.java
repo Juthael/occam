@@ -10,10 +10,10 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
@@ -27,16 +27,16 @@ import com.tregouet.tree_finder.error.InvalidInputException;
 public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier implements ICatStructureAwareTFSupplier {
 
 	private final TreeSet<IRepresentedCatTree> representedCategories = new TreeSet<>();
-	private final Map<ICategory, String> objectCategoryToName = new HashMap<>();
+	private final Map<IConcept, String> objectCategoryToName = new HashMap<>();
 	private Iterator<IRepresentedCatTree> ite;
 	
-	public CatStructureAwareTFSupplier(ICategories categories,
+	public CatStructureAwareTFSupplier(IConcepts concepts,
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
 			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) 
 					throws InvalidInputException {
-		super(categories, constructs, propWeighingStrategy, simCalculationStrategy);
+		super(concepts, constructs, propWeighingStrategy, simCalculationStrategy);
 		populateRepresentedCategories();
-		for (ICategory objCat : categories.getObjectCategories())
+		for (IConcept objCat : concepts.getSingletonConcept())
 			objectCategoryToName.put(objCat, objCat.getExtent().iterator().next().getName());
 		ite = representedCategories.iterator();
 	}
@@ -47,7 +47,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	}
 
 	@Override
-	public Tree<ICategory, IsA> getOptimalCategoryStructure() {
+	public Tree<IConcept, IsA> getOptimalCategoryStructure() {
 		return representedCategories.first().getCategoryTree();
 	}
 
@@ -73,7 +73,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	
 	private void populateRepresentedCategories() {
 		while (categoryTreeSupplier.hasNext()) {
-			Tree<ICategory, IsA> currCatTree = categoryTreeSupplier.nextOntologicalCommitment();
+			Tree<IConcept, IsA> currCatTree = categoryTreeSupplier.nextOntologicalCommitment();
 			IRepresentedCatTree currCatTreeRepresentation = new RepresentedCatTree(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
@@ -82,7 +82,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 			while (attTreeSupplier.hasNext()) {
 				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = new TransitionFunction(
-						categories.getContextObjects(), categories.getObjectCategories(), 
+						concepts.getContextObjects(), concepts.getSingletonConcept(), 
 						currCatTree, attTree, propWeighingStrategy, simCalculationStrategy);
 				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE))
 					currCatTreeRepresentation.testAlternativeRepresentation(transitionFunction);

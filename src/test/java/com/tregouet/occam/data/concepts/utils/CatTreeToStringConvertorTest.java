@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.categories.utils;
+package com.tregouet.occam.data.concepts.utils;
 
 import static org.junit.Assert.assertTrue;
 
@@ -15,11 +15,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.impl.Categories;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.utils.CatTreeToStringConvertor;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
@@ -30,23 +31,23 @@ public class CatTreeToStringConvertorTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private static ICategories categories;
+	private static IConcepts concepts;
 	private static IClassificationTreeSupplier classificationTreeSupplier;
-	private static Map<ICategory, String> objCatToName = new HashMap<>();
+	private static Map<IConcept, String> objCatToName = new HashMap<>();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
-		categories = new Categories(shapes2Obj);
+		concepts = new Concepts(shapes2Obj);
 		char name = 'A';
-		for (ICategory objectCategory : categories.getObjectCategories()) {
+		for (IConcept objectCategory : concepts.getSingletonConcept()) {
 			objCatToName.put(objectCategory, new String(Character.toString(name++)));
 		}
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		classificationTreeSupplier = categories.getCatTreeSupplier();
+		classificationTreeSupplier = concepts.getCatTreeSupplier();
 	}
 
 	@Test
@@ -61,7 +62,7 @@ public class CatTreeToStringConvertorTest {
 		int treeIdx = 0;
 		*/
 		while (classificationTreeSupplier.hasNext()) {
-			Tree<ICategory, IsA> currTree = classificationTreeSupplier.nextOntologicalCommitment();
+			Tree<IConcept, IsA> currTree = classificationTreeSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/
@@ -82,7 +83,7 @@ public class CatTreeToStringConvertorTest {
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
 		sB.append("*** DEFINITION OF OBJECTS ***" + newLine + newLine);
-		for (ICategory objectCat : objCatToName.keySet()) {
+		for (IConcept objectCat : objCatToName.keySet()) {
 			sB.append("**Object " + objCatToName.get(objectCat) + " :" + newLine);
 			sB.append(objectCat.toString());
 			sB.append(newLine + newLine);

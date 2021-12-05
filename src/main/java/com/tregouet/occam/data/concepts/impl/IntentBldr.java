@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.categories.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;

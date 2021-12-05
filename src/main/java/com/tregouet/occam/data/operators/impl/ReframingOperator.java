@@ -9,11 +9,11 @@ import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.IState;
 
-public class Rebutter extends Operator implements IOperator {
+public class ReframingOperator extends Operator implements IOperator {
 	
 	IConjunctiveOperator rebuttedOperator;
 
-	public Rebutter(IState activeState, IState nextState, IConjunctiveOperator rebuttedOperator) {
+	public ReframingOperator(IState activeState, IState nextState, IConjunctiveOperator rebuttedOperator) {
 		super(activeState, new ArrayList<IProduction>(), nextState);
 		this.rebuttedOperator = rebuttedOperator;
 	}

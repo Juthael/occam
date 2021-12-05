@@ -7,9 +7,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
@@ -20,16 +20,16 @@ import com.tregouet.tree_finder.data.Tree;
 public class Informativity implements IPropertyWeigher {
 
 	private List<IContextObject> objects;
-	private Tree<ICategory, IsA> categories;
+	private Tree<IConcept, IsA> concepts;
 	private List<IOperator> properties;
 	private double[] informativity;
 	
 	public Informativity() {
 	}
 	
-	public Informativity(List<IContextObject> objects, Tree<ICategory, IsA> categories, 
+	public Informativity(List<IContextObject> objects, Tree<IConcept, IsA> concepts, 
 			List<IOperator> properties) {
-		set(objects, categories, properties);
+		set(objects, concepts, properties);
 	}	
 	
 	private static double binaryLogarithm(double arg) {
@@ -39,27 +39,27 @@ public class Informativity implements IPropertyWeigher {
 	@Override
 	public double getPropertyWeight(int objectIndex, List<String> propertySpecification) throws PropertyTargetingException {
 		//search for the categories that describe the specified object
-		ICategory objCat;
+		IConcept objCat;
 		try{
 			objCat = getObjectCategory(objects.get(objectIndex));
 		}
 		catch (Exception e) {
 			throw new PropertyTargetingException("No object can be found at the specified index.");
 		}
-		Set<ICategory> objSuperCats = categories.getDescendants(objCat);
+		Set<IConcept> objSuperCats = concepts.getDescendants(objCat);
 		//among these, search for the ones that meet specifications
-		List<ICategory> objSuperCatsMeetingSpecification = objSuperCats
+		List<IConcept> objSuperCatsMeetingSpecification = objSuperCats
 				.stream()
 				.filter(c -> c.meets(propertySpecification))
 				.collect(Collectors.toList());
 		if (objSuperCatsMeetingSpecification.isEmpty())
 			throw new PropertyTargetingException("The target object doesn't meet the property specification.");
 		//among these, search for the most general category
-		Iterator<ICategory> catMeetingSpecIte = objSuperCatsMeetingSpecification.iterator();
-		ICategory greatestCatMeetingSpecification = null;
+		Iterator<IConcept> catMeetingSpecIte = objSuperCatsMeetingSpecification.iterator();
+		IConcept greatestCatMeetingSpecification = null;
 		while (greatestCatMeetingSpecification == null && catMeetingSpecIte.hasNext()) {
-			ICategory nextCat = catMeetingSpecIte.next();
-			if (!categories.getDescendants(nextCat).removeAll(objSuperCatsMeetingSpecification)) {
+			IConcept nextCat = catMeetingSpecIte.next();
+			if (!concepts.getDescendants(nextCat).removeAll(objSuperCatsMeetingSpecification)) {
 				greatestCatMeetingSpecification = nextCat;
 			}
 		}
@@ -82,10 +82,10 @@ public class Informativity implements IPropertyWeigher {
 	}
 	
 	@Override
-	public void set(List<IContextObject> objects, Tree<ICategory, IsA> categories, 
+	public void set(List<IContextObject> objects, Tree<IConcept, IsA> concepts, 
 			List<IOperator> properties) {
 		this.objects = objects;
-		this.categories = categories;
+		this.concepts = concepts;
 		this.properties = properties;
 		informativity = new double[properties.size()];
 		int propertyIdx = 0;
@@ -101,16 +101,16 @@ public class Informativity implements IPropertyWeigher {
 		return informativity(property);
 	}
 	
-	private ICategory getObjectCategory(IContextObject object) {
-		ICategory objectCategory = null;
+	private IConcept getObjectCategory(IContextObject object) {
+		IConcept objectCategory = null;
 		Set<IConstruct> objConstructs = new HashSet<>(object.getConstructs());
 		int objCatIdx = 0;
-		List<ICategory> objectCategories = categories.vertexSet()
+		List<IConcept> objectCategories = concepts.vertexSet()
 				.stream()
-				.filter(c -> c.type() == ICategory.OBJECT)
+				.filter(c -> c.type() == IConcept.SINGLETON)
 				.collect(Collectors.toList());
 		while (objectCategory == null && objCatIdx < objects.size()) {
-			ICategory currentObjCat = objectCategories.get(objCatIdx);
+			IConcept currentObjCat = objectCategories.get(objCatIdx);
 			Set<IConstruct> currObjCatIntent = currentObjCat.getIntent()
 					.stream()
 					.map(i -> new Construct(i))

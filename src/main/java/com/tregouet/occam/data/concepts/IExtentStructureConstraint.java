@@ -1,6 +1,6 @@
-package com.tregouet.occam.data.categories;
+package com.tregouet.occam.data.concepts;
 
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IExtentStructureConstraint {
@@ -11,6 +11,6 @@ public interface IExtentStructureConstraint {
 	@Override
 	boolean equals(Object o);
 	
-	boolean metBy(Tree<ICategory, IsA> catTree);
+	boolean metBy(Tree<IConcept, IsA> catTree);
 
 }

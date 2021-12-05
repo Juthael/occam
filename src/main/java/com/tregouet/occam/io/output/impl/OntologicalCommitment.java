@@ -19,11 +19,11 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.Categories;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
@@ -51,7 +51,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	private static final DecimalFormat df = new DecimalFormat("#.####");
 	private final String folderPath;
 	private List<IContextObject> context = null;
-	private ICategories categories = null;
+	private IConcepts concepts = null;
 	private ICatStructureAwareTFSupplier catStructureAwareTFSupplier = null;
 	private IRepresentedCatTree representedCatTree = null;
 	private int catTreeIdx = 0;
@@ -71,8 +71,8 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 		} catch (FileReaderException e) {
 			return false;
 		}
-		categories = new Categories(context);
-		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
+		concepts = new Concepts(context);
+		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
 		DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		productions.stream().forEach(p -> {
@@ -81,7 +81,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
 		try {
-			catStructureAwareTFSupplier = new CatStructureAwareTFSupplier(categories, constructs, 
+			catStructureAwareTFSupplier = new CatStructureAwareTFSupplier(concepts, constructs, 
 					PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
 		} catch (InvalidInputException e) {
 			return false;
@@ -132,7 +132,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 
 	@Override
 	public void generateCategoryLatticeGraph() throws IOException {
-		DirectedAcyclicGraph<ICategory, IsA> lattice = categories.getCategoryLattice();
+		DirectedAcyclicGraph<IConcept, IsA> lattice = concepts.getCategoryLattice();
 		TransitiveReduction.INSTANCE.reduce(lattice); 
 		Visualizer.visualizeCategoryGraph(lattice, "category_lattice.png");
 	}
@@ -169,7 +169,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	@Override
 	public String generateCategoricalCoherenceArray(String alinea) {
 		Map<Integer, Double> catIDToCoherence = currentTransFunc.getCategoricalCoherenceMap();
-		List<ICategory> topologicalOrder = new ArrayList<>();
+		List<IConcept> topologicalOrder = new ArrayList<>();
 		new TopologicalOrderIterator<>(currentTransFunc.getCategoryTree()).forEachRemaining(topologicalOrder::add);
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
@@ -179,13 +179,13 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 		sB.append(alinea + "<caption> " + "Category coherence" + "</caption>" + NL);
 		sB.append(alineaa + "<thead>" + NL);
 		sB.append(alineaaa + "<tr>" + NL);
-		for (ICategory cat : topologicalOrder)
+		for (IConcept cat : topologicalOrder)
 			sB.append(alineaaaa + "<th>" + Integer.toString(cat.getID()) + "</th>");
 		sB.append(alineaaa + "</tr>" + NL);
 		sB.append(alineaa + "</thead>" + NL);
 		sB.append(alineaa + "<tbody>" + NL);
 		sB.append(alineaaa + "<tr>" + NL);
-		for (ICategory cat : topologicalOrder)
+		for (IConcept cat : topologicalOrder)
 			sB.append(alineaaaa + "<td>" + round(catIDToCoherence.get(cat.getID())) + "</td>");
 		sB.append(alineaaa + "</tr>" + NL);
 		sB.append(alineaa + "</tbody>" + NL);

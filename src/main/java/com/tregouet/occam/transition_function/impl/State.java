@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
@@ -15,16 +15,15 @@ import com.tregouet.occam.transition_function.IState;
 
 public class State implements IState {
 
-	private final ICategory category;
+	private final IConcept concept;
 	private final int extentSize;
-	private Set<IContextObject> extent = null;
 	private List<IOperator> transitions = null;
 	private List<ITapeSet> evaluationQueue = new ArrayList<>();
 	private int rank = 0;
 	
 	
-	public State(ICategory category, int extentSize) {
-		this.category = category;
+	public State(IConcept concept, int extentSize) {
+		this.concept = concept;
 		this.extentSize = extentSize;
 	}
 
@@ -60,10 +59,10 @@ public class State implements IState {
 		if (getClass() != obj.getClass())
 			return false;
 		State other = (State) obj;
-		if (category == null) {
-			if (other.category != null)
+		if (concept == null) {
+			if (other.concept != null)
 				return false;
-		} else if (!category.equals(other.category))
+		} else if (!concept.equals(other.concept))
 			return false;
 		return true;
 	}
@@ -75,8 +74,8 @@ public class State implements IState {
 	}
 
 	@Override
-	public ICategory getAssociatedCategory() {
-		return category;
+	public IConcept getAssociatedCategory() {
+		return concept;
 	}
 
 	@Override
@@ -96,7 +95,7 @@ public class State implements IState {
 		}
 		else {
 			//not proper input language. For tests use. 
-			return category.getIntent();
+			return concept.getIntent();
 		}
 	}
 
@@ -108,7 +107,7 @@ public class State implements IState {
 
 	@Override
 	public int getStateID() {
-		return category.getID();
+		return concept.getID();
 	}
 
 	@Override
@@ -124,7 +123,7 @@ public class State implements IState {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((concept == null) ? 0 : concept.hashCode());
 		return result;
 	}
 

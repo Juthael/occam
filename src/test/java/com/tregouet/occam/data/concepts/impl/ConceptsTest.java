@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.categories.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -20,10 +20,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
@@ -34,11 +36,11 @@ import com.tregouet.tree_finder.error.InvalidInputException;
 import com.tregouet.tree_finder.utils.StructureInspector;
 
 @SuppressWarnings("unused")
-public class CategoriesTest {
+public class ConceptsTest {
 
 	private static Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;
-	private static ICategories categories;
+	private static IConcepts concepts;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -51,17 +53,17 @@ public class CategoriesTest {
 
 	@Before
 	public void setUp() throws Exception {
-		categories = new Categories(shapes2Obj);
+		concepts = new Concepts(shapes2Obj);
 	}
 	
 	@Test
 	public void whenCategoriesReturnedThenContains1Absurdity1Truism1Commitment() {
 		int nbOfTruism = 0;
 		int nbOfCommitments = 0;
-		for (ICategory cat : categories.getTopologicalSorting()) {
-			if (cat.type() == ICategory.TRUISM)
+		for (IConcept cat : concepts.getTopologicalSorting()) {
+			if (cat.type() == IConcept.TRUISM)
 				nbOfTruism++;
-			else if (cat.type() == ICategory.ONTOLOGICAL_COMMITMENT)
+			else if (cat.type() == IConcept.ONTOLOGICAL_COMMITMENT)
 				nbOfCommitments++;
 		}
 		assertTrue(nbOfTruism == 1 && nbOfCommitments == 1);
@@ -70,17 +72,17 @@ public class CategoriesTest {
 	@Test
 	public void whenCategoriesReturnedThenEachHasADistinctIntent() {
 		Set<Set<IIntentAttribute>> intents = new HashSet<>();
-		for (ICategory cat : categories.getTopologicalSorting())
+		for (IConcept cat : concepts.getTopologicalSorting())
 			intents.add(cat.getIntent());
-		assertTrue(intents.size() == categories.getTopologicalSorting().size());
+		assertTrue(intents.size() == concepts.getTopologicalSorting().size());
 	}
 	
 
 	@Test
 	public void whenCategoriesReturnedThenTruismAndCommitmentHaveSameExtent() {
 		Set<Set<IContextObject>> extents = new HashSet<>();
-		extents.add(categories.getTruism().getExtent());
-		extents.add(categories.getOntologicalCommitment().getExtent());
+		extents.add(concepts.getTruism().getExtent());
+		extents.add(concepts.getOntologicalCommitment().getExtent());
 		assertTrue(extents.size() == 1);
 	}	
 	
@@ -93,16 +95,16 @@ public class CategoriesTest {
 		Set<IContextObject> extent02 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(2)}));
 		Set<IContextObject> extent01 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(1)}));
 		Set<IContextObject> extent123 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(1), shapes2Obj.get(2), shapes2Obj.get(3)}));
-		ICategory absurdity = categories.getAbsurdity();
-		ICategory cat0 = categories.getCatWithExtent(extent0);
-		ICategory cat1 = categories.getCatWithExtent(extent1);
-		ICategory cat2 = categories.getCatWithExtent(extent2);
-		ICategory cat3 = categories.getCatWithExtent(extent3);
-		ICategory cat02 = categories.getCatWithExtent(extent02);
-		ICategory cat01 = categories.getCatWithExtent(extent01);
-		ICategory cat123 = categories.getCatWithExtent(extent123);
-		ICategory truism = categories.getTruism();
-		ICategory commitment = categories.getOntologicalCommitment();
+		IConcept absurdity = concepts.getAbsurdity();
+		IConcept cat0 = concepts.getConceptWithExtent(extent0);
+		IConcept cat1 = concepts.getConceptWithExtent(extent1);
+		IConcept cat2 = concepts.getConceptWithExtent(extent2);
+		IConcept cat3 = concepts.getConceptWithExtent(extent3);
+		IConcept cat02 = concepts.getConceptWithExtent(extent02);
+		IConcept cat01 = concepts.getConceptWithExtent(extent01);
+		IConcept cat123 = concepts.getConceptWithExtent(extent123);
+		IConcept truism = concepts.getTruism();
+		IConcept commitment = concepts.getOntologicalCommitment();
 		assertTrue(absurdity.rank() == 0
 				&& cat0.rank() == 1
 				&& cat1.rank() == 1
@@ -119,7 +121,7 @@ public class CategoriesTest {
 	public void whenCatTreeSupplierRequestedThenReturned() {
 		IClassificationTreeSupplier classificationTreeSupplier = null;
 		try {
-			classificationTreeSupplier = categories.getCatTreeSupplier();
+			classificationTreeSupplier = concepts.getCatTreeSupplier();
 		}
 		catch (Exception e) {
 			assertTrue(false);
@@ -136,7 +138,7 @@ public class CategoriesTest {
 	public void whenOntologicalUSLReturnedThenReallyIsAnUpperSemilattice() {
 		boolean isAnUpperSemilattice = true;
 		try {
-			categories.getOntologicalUpperSemilattice().validate();
+			concepts.getOntologicalUpperSemilattice().validate();
 		}
 		catch (InvalidInputException e) {
 			isAnUpperSemilattice = false;
@@ -146,7 +148,7 @@ public class CategoriesTest {
 	
 	@Test
 	public void categoryLatticeReturnedThenReallyIsALattice() {
-		DirectedAcyclicGraph<ICategory, IsA> lattice = categories.getCategoryLattice();
+		DirectedAcyclicGraph<IConcept, IsA> lattice = concepts.getCategoryLattice();
 		assertTrue(StructureInspector.isAnUpperSemilattice(lattice) 
 				&& StructureInspector.isALowerSemilattice(lattice)
 				&& !lattice.vertexSet().isEmpty());
@@ -161,42 +163,42 @@ public class CategoriesTest {
 		Set<IContextObject> extent02 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(2)}));
 		Set<IContextObject> extent01 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(1)}));
 		Set<IContextObject> extent123 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(1), shapes2Obj.get(2), shapes2Obj.get(3)}));
-		ICategory cat0 = categories.getCatWithExtent(extent0);
-		ICategory cat1 = categories.getCatWithExtent(extent1);
-		ICategory cat2 = categories.getCatWithExtent(extent2);
-		ICategory cat3 = categories.getCatWithExtent(extent3);
-		ICategory cat02 = categories.getCatWithExtent(extent02);
-		ICategory cat01 = categories.getCatWithExtent(extent01);
-		ICategory cat123 = categories.getCatWithExtent(extent123);
-		ICategory truism = categories.getTruism();
-		ICategory commitment = categories.getOntologicalCommitment();
+		IConcept cat0 = concepts.getConceptWithExtent(extent0);
+		IConcept cat1 = concepts.getConceptWithExtent(extent1);
+		IConcept cat2 = concepts.getConceptWithExtent(extent2);
+		IConcept cat3 = concepts.getConceptWithExtent(extent3);
+		IConcept cat02 = concepts.getConceptWithExtent(extent02);
+		IConcept cat01 = concepts.getConceptWithExtent(extent01);
+		IConcept cat123 = concepts.getConceptWithExtent(extent123);
+		IConcept truism = concepts.getTruism();
+		IConcept commitment = concepts.getOntologicalCommitment();
 		assertTrue(
-				categories.isADirectSubordinateOf(cat0, cat01)
-				&& categories.isADirectSubordinateOf(cat0, cat02)
-				&& categories.isADirectSubordinateOf(cat1, cat01)
-				&& categories.isADirectSubordinateOf(cat1, cat123)
-				&& categories.isADirectSubordinateOf(cat2, cat02)
-				&& categories.isADirectSubordinateOf(cat2, cat123)
-				&& categories.isADirectSubordinateOf(cat3, cat123)
-				&& categories.isADirectSubordinateOf(cat02, truism)
-				&& categories.isADirectSubordinateOf(cat01, truism)
-				&& categories.isADirectSubordinateOf(cat123, truism)
-				&& categories.isADirectSubordinateOf(truism, commitment)
-				&& !categories.isADirectSubordinateOf(cat0, truism)
-				&& !categories.isADirectSubordinateOf(cat02, cat0));
+				concepts.isADirectSubordinateOf(cat0, cat01)
+				&& concepts.isADirectSubordinateOf(cat0, cat02)
+				&& concepts.isADirectSubordinateOf(cat1, cat01)
+				&& concepts.isADirectSubordinateOf(cat1, cat123)
+				&& concepts.isADirectSubordinateOf(cat2, cat02)
+				&& concepts.isADirectSubordinateOf(cat2, cat123)
+				&& concepts.isADirectSubordinateOf(cat3, cat123)
+				&& concepts.isADirectSubordinateOf(cat02, truism)
+				&& concepts.isADirectSubordinateOf(cat01, truism)
+				&& concepts.isADirectSubordinateOf(cat123, truism)
+				&& concepts.isADirectSubordinateOf(truism, commitment)
+				&& !concepts.isADirectSubordinateOf(cat0, truism)
+				&& !concepts.isADirectSubordinateOf(cat02, cat0));
 	}
 	
 	@Test
 	public void whenIsAMethodCalledThenConsistentReturn() {
-		List<ICategory> catList = categories.getTopologicalSorting();
+		List<IConcept> catList = concepts.getTopologicalSorting();
 		for (int i = 0 ; i < catList.size() ; i++) {
-			ICategory catI = catList.get(i);
+			IConcept catI = catList.get(i);
 			for (int j = 0 ; j < catList.size() ; j++) {
-				ICategory catJ = catList.get(j);
-				if (categories.isA(catI, catJ)) {
+				IConcept catJ = catList.get(j);
+				if (concepts.isA(catI, catJ)) {
 					if (!catJ.getExtent().containsAll(catI.getExtent())
-							&& catI.type() != ICategory.TRUISM
-							&& catJ.type() != ICategory.ONTOLOGICAL_COMMITMENT)
+							&& catI.type() != IConcept.TRUISM
+							&& catJ.type() != IConcept.ONTOLOGICAL_COMMITMENT)
 							assertTrue(false);
 				}
 			}
@@ -207,13 +209,13 @@ public class CategoriesTest {
 	@Test
 	public void whenLeastCommonSuperordinateRequiredThenExpectedReturned() {
 		boolean unexpected = false;
-		Set<Set<ICategory>> objPowerSet = buildCatsPowerSet(categories.getTopologicalSorting()); 
-		for (Set<ICategory> subset : objPowerSet) {
+		Set<Set<IConcept>> objPowerSet = buildCatsPowerSet(concepts.getTopologicalSorting()); 
+		for (Set<IConcept> subset : objPowerSet) {
 			if (!subset.isEmpty()) {
-				ICategory lcs = categories.getLeastCommonSuperordinate(subset);
-				for (ICategory current : categories.getTopologicalSorting()) {
-					if (categories.areA(new ArrayList<>(subset), current)) {
-						if (!categories.isA(lcs, current) && !lcs.equals(current))
+				IConcept lcs = concepts.getLeastCommonSuperordinate(subset);
+				for (IConcept current : concepts.getTopologicalSorting()) {
+					if (concepts.areA(new ArrayList<>(subset), current)) {
+						if (!concepts.isA(lcs, current) && !lcs.equals(current))
 							unexpected = true;
 					}
 				}
@@ -224,12 +226,12 @@ public class CategoriesTest {
 	
 	@Test
 	public void whenObjectCategoriesRequestedThenReturned() throws Exception {
-		Set<ICategory> objectCats = new HashSet<>(categories.getObjectCategories());
+		Set<IConcept> objectCats = new HashSet<>(concepts.getSingletonConcept());
 		Set<Set<IConstruct>> expectedSetsOfConstructs = new HashSet<>();
 		Set<Set<IConstruct>> objCatSetsOfConstructs = new HashSet<>();
 		for (IContextObject obj : shapes2Obj)
 			expectedSetsOfConstructs.add(new HashSet<>(obj.getConstructs()));
-		for (ICategory objCat : objectCats) {
+		for (IConcept objCat : objectCats) {
 			Set<IConstruct> catConstructs = objCat.getIntent()
 					.stream()
 					.map(a -> new Construct(a))
@@ -251,7 +253,7 @@ public class CategoriesTest {
 		expectedIntentString.add(new ArrayList<>(Arrays.asList(new String[] {"figure", "fond", "_"})));
 		expectedIntentString.add(new ArrayList<>(Arrays.asList(new String[] {"figure", "fond", "_", "couleur", "_"})));
 		expectedIntentString.add(new ArrayList<>(Arrays.asList(new String[] {"figure", "_", "couleur", "bleu"})));
-		returnedIntentString = categories.getTruism().getIntent()
+		returnedIntentString = concepts.getTruism().getIntent()
 				.stream()
 				.map(c -> c.toListOfStringsWithPlaceholders())
 				.collect(Collectors.toSet());
@@ -261,10 +263,10 @@ public class CategoriesTest {
 				&& unexpectedReturnedIntentString.isEmpty());
 	}
 	
-	private Set<Set<ICategory>> buildCatsPowerSet(List<ICategory> objects) {
-	    Set<Set<ICategory>> powerSet = new HashSet<Set<ICategory>>();
+	private Set<Set<IConcept>> buildCatsPowerSet(List<IConcept> objects) {
+	    Set<Set<IConcept>> powerSet = new HashSet<Set<IConcept>>();
 	    for (int i = 0; i < (1 << objects.size()); i++) {
-	    	Set<ICategory> subset = new HashSet<ICategory>();
+	    	Set<IConcept> subset = new HashSet<IConcept>();
 	        for (int j = 0; j < objects.size(); j++) {
 	            if(((1 << j) & i) > 0)
 	            	subset.add(objects.get(j));
@@ -274,17 +276,17 @@ public class CategoriesTest {
 	    return powerSet;
 	}
 	
-	private Set<ICategory> removeNonMaximalElements(Set<ICategory> cats){
-		List<ICategory> catList = new ArrayList<>(cats);
+	private Set<IConcept> removeNonMaximalElements(Set<IConcept> cats){
+		List<IConcept> catList = new ArrayList<>(cats);
 		for (int i = 0 ; i < catList.size() - 1 ; i++) {
-			ICategory catI = catList.get(i);
+			IConcept catI = catList.get(i);
 			if (cats.contains(catI)) {
 				for (int j = i+1 ; j < catList.size() ; j++) {
-					ICategory catJ = catList.get(j);
+					IConcept catJ = catList.get(j);
 					if (cats.contains(catJ)) {
-						if (categories.isA(catI, catJ))
+						if (concepts.isA(catI, catJ))
 							cats.remove(catI);
-						else if (categories.isA(catJ, catI))
+						else if (concepts.isA(catJ, catI))
 							cats.remove(catJ);
 					}
 				}
@@ -293,17 +295,17 @@ public class CategoriesTest {
 		return cats;
 	}
 	
-	private Set<ICategory> removeNonMinimalElements(Set<ICategory> cats){
-		List<ICategory> catList = new ArrayList<>(cats);
+	private Set<IConcept> removeNonMinimalElements(Set<IConcept> cats){
+		List<IConcept> catList = new ArrayList<>(cats);
 		for (int i = 0 ; i < catList.size() - 1 ; i++) {
-			ICategory catI = catList.get(i);
+			IConcept catI = catList.get(i);
 			if (cats.contains(catI)) {
 				for (int j = i+1 ; j < catList.size() ; j++) {
-					ICategory catJ = catList.get(j);
+					IConcept catJ = catList.get(j);
 					if (cats.contains(catJ)) {
-						if (categories.isA(catI, catJ))
+						if (concepts.isA(catI, catJ))
 							cats.remove(catJ);
-						else if (categories.isA(catJ, catI))
+						else if (concepts.isA(catJ, catI))
 							cats.remove(catI);
 					}
 				}
@@ -314,10 +316,10 @@ public class CategoriesTest {
 	
 	@Test
 	public void whenTreeSuppliedThenReallyIsATree() throws IOException, InvalidInputException {
-		IClassificationTreeSupplier treeSupplier = categories.getCatTreeSupplier();
+		IClassificationTreeSupplier treeSupplier = concepts.getCatTreeSupplier();
 		int nbOfChecks = 0;
 		while (treeSupplier.hasNext()) {
-			Tree<ICategory, IsA> nextTree = treeSupplier.nextOntologicalCommitment();
+			Tree<IConcept, IsA> nextTree = treeSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
 			*/

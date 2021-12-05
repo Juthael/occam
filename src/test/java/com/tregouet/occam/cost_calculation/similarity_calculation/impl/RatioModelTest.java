@@ -24,12 +24,12 @@ import org.junit.Test;
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.Categories;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
@@ -52,11 +52,11 @@ public class RatioModelTest {
 	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
 			SimilarityCalculationStrategy.RATIO_MODEL;
 	private static List<IContextObject> shapes2Obj;
-	private ICategories categories;
+	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IClassificationTreeSupplier classificationTreeSupplier;
-	private Tree<ICategory, IsA> catTree;
+	private Tree<IConcept, IsA> catTree;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
 	private Tree<IIntentAttribute, IProduction> constrTree;
@@ -70,14 +70,14 @@ public class RatioModelTest {
 
 	@Before
 	public void setUp() throws Exception {
-		categories = new Categories(shapes2Obj);
-		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
+		concepts = new Concepts(shapes2Obj);
+		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
 		productions.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationTreeSupplier = categories.getCatTreeSupplier();
+		classificationTreeSupplier = concepts.getCatTreeSupplier();
 		while (classificationTreeSupplier.hasNext()) {
 			catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			filtered_reduced_constructs = 
@@ -86,7 +86,7 @@ public class RatioModelTest {
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(shapes2Obj, categories.getObjectCategories(), catTree, constrTree, 
+						new TransitionFunction(shapes2Obj, concepts.getSingletonConcept(), catTree, constrTree, 
 								PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
 				transitionFunctions.add(transitionFunction);
 				/*
@@ -124,7 +124,7 @@ public class RatioModelTest {
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
-			List<ICategory> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			List<IConcept> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
 			int[] objectIDs = new int[objects.size()];
 			for (int i = 0 ; i < objectIDs.length ; i++) {
 				objectIDs[i] = objects.get(i).getID();
@@ -160,7 +160,7 @@ public class RatioModelTest {
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
-			List<ICategory> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			List<IConcept> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
 			int[] objectIDs = new int[objects.size()];
 			for (int i = 0 ; i < objectIDs.length ; i++) {
 				objectIDs[i] = objects.get(i).getID();
@@ -196,7 +196,7 @@ public class RatioModelTest {
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
-			List<ICategory> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			List<IConcept> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
 			int[] objectIDs = new int[objects.size()];
 			for (int i = 0 ; i < objectIDs.length ; i++) {
 				objectIDs[i] = objects.get(i).getID();				
@@ -225,10 +225,10 @@ public class RatioModelTest {
 		while (tFIte.hasNext() && nbOfChecks < 50000) {
 			ITransitionFunction tF = tFIte.next();
 			ISimilarityCalculator calculator = tF.getSimilarityCalculator();
-			List<ICategory> categorySet = tF.getCategoryTree().getTopologicalOrder();
-			List<List<ICategory>> categoryPowerSet = buildCategoryPowerSet(categorySet);
-			for (ICategory cat : categorySet) {
-				for (List<ICategory> subset : categoryPowerSet) {
+			List<IConcept> categorySet = tF.getCategoryTree().getTopologicalOrder();
+			List<List<IConcept>> categoryPowerSet = buildCategoryPowerSet(categorySet);
+			for (IConcept cat : categorySet) {
+				for (List<IConcept> subset : categoryPowerSet) {
 					if (!subset.isEmpty() && (subset.size() > 1 || (!subset.get(0).equals(cat)))) {
 						int[] subsetIDs = new int[subset.size()];
 						for (int i = 0 ; i < subset.size() ; i++)
@@ -250,7 +250,7 @@ public class RatioModelTest {
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			int rootID = tF.getCategoryTree().getRoot().getID();
-			List<ICategory> leaves = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			List<IConcept> leaves = new ArrayList<>(tF.getCategoryTree().getLeaves());
 			int[] leavesID = new int[leaves.size()];
 			for (int i = 0 ; i < leavesID.length ; i++) {
 				leavesID[i] = leaves.get(i).getID();
@@ -272,10 +272,10 @@ public class RatioModelTest {
 		assertTrue(asExpected && nbOfChecks > 0);
 	}
 	
-	private List<List<ICategory>> buildCategoryPowerSet(List<ICategory> categorySet) {
-	    List<List<ICategory>> powerSet = new ArrayList<>();
+	private List<List<IConcept>> buildCategoryPowerSet(List<IConcept> categorySet) {
+	    List<List<IConcept>> powerSet = new ArrayList<>();
 	    for (int i = 0; i < (1 << categorySet.size()); i++) {
-	    	List<ICategory> subset = new ArrayList<>();
+	    	List<IConcept> subset = new ArrayList<>();
 	        for (int j = 0; j < categorySet.size(); j++) {
 	            if(((1 << j) & i) > 0)
 	            	subset.add(categorySet.get(j));

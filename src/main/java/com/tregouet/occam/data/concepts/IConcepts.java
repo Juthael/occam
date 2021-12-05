@@ -1,28 +1,28 @@
-package com.tregouet.occam.data.categories;
+package com.tregouet.occam.data.concepts;
 
 import java.util.List;
 import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 import com.tregouet.tree_finder.error.InvalidInputException;
 
-public interface ICategories {
+public interface IConcepts {
 	
 	@Override
 	public int hashCode();
 	
-	boolean areA(List<ICategory> cats, ICategory cat);
+	boolean areA(List<IConcept> cats, IConcept cat);
 	
 	@Override
 	boolean equals(Object o);
 	
-	ICategory getAbsurdity();
+	IConcept getAbsurdity();
 	
-	DirectedAcyclicGraph<ICategory, IsA> getCategoryLattice();
+	DirectedAcyclicGraph<IConcept, IsA> getCategoryLattice();
 	
 	IClassificationTreeSupplier getCatTreeSupplier() throws InvalidInputException;
 	
@@ -33,24 +33,24 @@ public interface ICategories {
 	 * @param extent
 	 * @return
 	 */
-	ICategory getCatWithExtent(Set<IContextObject> extent);
+	IConcept getConceptWithExtent(Set<IContextObject> extent);
 	
 	List<IContextObject> getContextObjects();
 	
-	ICategory getLeastCommonSuperordinate(Set<ICategory> categories);
+	IConcept getLeastCommonSuperordinate(Set<IConcept> concepts);
 	
 	//it is guaranteed that the order is the same as getContextObjects();
-	List<ICategory> getObjectCategories();
+	List<IConcept> getSingletonConcept();
 	
-	ICategory getOntologicalCommitment();
+	IConcept getOntologicalCommitment();
 	
-	UpperSemilattice<ICategory, IsA> getOntologicalUpperSemilattice();
+	UpperSemilattice<IConcept, IsA> getOntologicalUpperSemilattice();
 	
-	List<ICategory> getTopologicalSorting();
+	List<IConcept> getTopologicalSorting();
 	
-	DirectedAcyclicGraph<ICategory, IsA> getTransitiveReduction();
+	DirectedAcyclicGraph<IConcept, IsA> getTransitiveReduction();
 	
-	ICategory getTruism();
+	IConcept getTruism();
 	
 	/**
 	 * Not a reflexive relation
@@ -58,8 +58,8 @@ public interface ICategories {
 	 * @param cat2
 	 * @return
 	 */
-	boolean isA(ICategory cat1, ICategory cat2);
+	boolean isA(IConcept cat1, IConcept cat2);
 
-	boolean isADirectSubordinateOf(ICategory cat1, ICategory cat2);
+	boolean isADirectSubordinateOf(IConcept cat1, IConcept cat2);
 
 }

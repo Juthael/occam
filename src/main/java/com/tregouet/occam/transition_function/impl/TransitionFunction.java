@@ -29,16 +29,16 @@ import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.cost_calculation.property_weighing.PropertyWeigherFactory;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.cost_calculation.similarity_calculation.SimilarityCalculatorFactory;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ConjunctiveOperator;
 import com.tregouet.occam.data.operators.impl.Operator;
-import com.tregouet.occam.data.operators.impl.Rebutter;
+import com.tregouet.occam.data.operators.impl.ReframingOperator;
 import com.tregouet.occam.finite_automaton.IFiniteAutomaton;
 import com.tregouet.occam.finite_automaton.impl.FiniteAutomaton;
 import com.tregouet.occam.io.output.utils.Visualizer;
@@ -51,9 +51,9 @@ import com.tregouet.tree_finder.data.Tree;
 public class TransitionFunction implements ITransitionFunction {
 
 	private final List<IContextObject> objects;
-	private final List<ICategory> objectCategories;
-	private final Tree<ICategory, IsA> categories;
-	private final Map<ICategory, IState> categoryToState = new HashMap<>();
+	private final List<IConcept> objectCategories;
+	private final Tree<IConcept, IsA> concepts;
+	private final Map<IConcept, IState> categoryToState = new HashMap<>();
 	private final List<IOperator> operators;
 	private final List<IConjunctiveOperator> conjunctiveOperators = new ArrayList<>();
 	private final IPropertyWeigher propWeigher;
@@ -61,13 +61,16 @@ public class TransitionFunction implements ITransitionFunction {
 	private DirectedMultigraph<IState, IOperator> finiteAutomatonMultigraph = null;
 	private SimpleDirectedGraph<IState, IConjunctiveOperator> finiteAutomatonGraph = null;
 	//HERE
+	/*
 	private static boolean test;
+	*/
 	//HERE
 	
-	public TransitionFunction(List<IContextObject> objects, List<ICategory> objectCategories, 
-			Tree<ICategory, IsA> categories, Tree<IIntentAttribute, IProduction> constructs, 
+	public TransitionFunction(List<IContextObject> objects, List<IConcept> objectCategories, 
+			Tree<IConcept, IsA> concepts, Tree<IIntentAttribute, IProduction> constructs, 
 			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) {
 		//HERE
+		/*
 		test = false;
 		List<ICategory> complementaryCat = categories.vertexSet().stream()
 				.filter(c -> c.isComplementary())
@@ -88,26 +91,28 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 			System.out.println("done1.");
 		}
+		*/
 		//HERE
 		IOperator.initializeNameProvider();
 		IConjunctiveOperator.initializeNameProvider();
 		this.objects = objects;
 		this.objectCategories = objectCategories;
-		this.categories = categories;
-		for (ICategory category : categories.vertexSet()) {
-			if (objectCategories.contains(category))
-				categoryToState.put(category, new State(category, 1));
+		this.concepts = concepts;
+		for (IConcept concept : concepts.vertexSet()) {
+			if (objectCategories.contains(concept))
+				categoryToState.put(concept, new State(concept, 1));
 			else {
 				int extentSize = 0;
-				for (ICategory ancestor : categories.getAncestors(category)) {
-					if (categories.inDegreeOf(ancestor) == 0)
+				for (IConcept ancestor : concepts.getAncestors(concept)) {
+					if (concepts.inDegreeOf(ancestor) == 0)
 						extentSize++;
 				}
-				categoryToState.put(category, new State(category, extentSize));	
+				categoryToState.put(concept, new State(concept, extentSize));	
 			}
 		}
 		operators = buildOperators(new ArrayList<>(constructs.edgeSet()), categoryToState);
 		//HERE
+		/*
 		List<IOperator> opWithComplementedCatAsSource = new ArrayList<>();
 		List<IOperator> opWithComplementedCatAsTarget = new ArrayList<>();
 		if (test) {
@@ -119,15 +124,17 @@ public class TransitionFunction implements ITransitionFunction {
 				.forEach(opWithComplementedCatAsTarget::add);
 			System.out.println("done2.");
 		}
+		*/
 		//HERE
 		propWeigher = PropertyWeigherFactory.apply(propWeighingStrategy);
-		propWeigher.set(objects, categories, operators);
+		propWeigher.set(objects, concepts, operators);
 		operators.stream().forEach(o -> o.setInformativity(propWeigher));
 		for (IOperator op : operators) {
 			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
 				conjunctiveOperators.add(new ConjunctiveOperator(op));
 		}
 		//HERE
+		/*
 		List<IConjunctiveOperator> conjunctiveOpWithComplementedAsSource = new ArrayList<>();
 		if (test) {
 			conjunctiveOperators.stream()
@@ -139,8 +146,10 @@ public class TransitionFunction implements ITransitionFunction {
 				.forEach(conjunctiveOpWithComplementedAsTarget::add);
 			System.out.println("done3.");
 		}
+		*/
 		//HERE
 		//HERE
+		/*
 		if (test) {
 			try {
 				Visualizer.visualizeCategoryGraph(categories, "211203CTErr");
@@ -150,14 +159,15 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 			System.out.println("done4.");
 		}
+		*/
 		//HERE
 		buildRebutterOperators();
 		similarityCalc = SimilarityCalculatorFactory.apply(simCalculationStrategy); 
-		similarityCalc.set(categories, conjunctiveOperators);
+		similarityCalc.set(concepts, conjunctiveOperators);
 	}
 
 	public static List<IOperator> buildOperators(
-			List<IProduction> productions, Map<ICategory, IState> categoryToState){
+			List<IProduction> productions, Map<IConcept, IState> categoryToState){
 		List<IOperator> operators = new ArrayList<>();
 		List<List<Integer>> operatorProdsSets = groupIndexesOfProductionsHandledByTheSameOperator(productions);
 		for (List<Integer> idxes : operatorProdsSets) {
@@ -277,20 +287,20 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 	
 	@Override
-	public Tree<ICategory, IsA> getCategoryTree() {
-		return categories;
+	public Tree<IConcept, IsA> getCategoryTree() {
+		return concepts;
 	}
 
 	@Override
 	public String getCategoryTreeAsDOTFile() {
-		DOTExporter<ICategory,IsA> exporter = new DOTExporter<>();
+		DOTExporter<IConcept,IsA> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(v.toString()));
 			return map;
 		});
 		Writer writer = new StringWriter();
-		exporter.exportGraph(categories, writer);
+		exporter.exportGraph(concepts, writer);
 		return writer.toString();
 	}
 
@@ -467,9 +477,9 @@ public class TransitionFunction implements ITransitionFunction {
 	@Override
 	public Map<Integer, Double> getCategoricalCoherenceMap() {
 		Map<Integer, Double> catIDToCoherenceScore = new HashMap<>();
-		TopologicalOrderIterator<ICategory, IsA> iterator = new TopologicalOrderIterator<>(categories);
+		TopologicalOrderIterator<IConcept, IsA> iterator = new TopologicalOrderIterator<>(concepts);
 		while (iterator.hasNext()) {
-			ICategory nextCat = iterator.next();
+			IConcept nextCat = iterator.next();
 			Set<IContextObject> extent = nextCat.getExtent();
 			int[] extentIDs = new int[extent.size()];
 			int idx = 0;
@@ -493,6 +503,7 @@ public class TransitionFunction implements ITransitionFunction {
 	
 	private void buildRebutterOperators() {
 		//HERE
+		/*
 		if (test) {
 			try {
 				Visualizer.visualizeTransitionFunction(this, "211203TF_before", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -502,29 +513,35 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 			System.out.println("done5.");
 		}
+		*/
 		//HERE
 		List<IOperator> rebutterOperators = new ArrayList<>();
-		List<ICategory> rebutterCats = new ArrayList<>();
-		for (ICategory category : categories.vertexSet()) {
-			if (category.isComplementary())
-				rebutterCats.add(category);
+		List<IConcept> rebutterCats = new ArrayList<>();
+		for (IConcept concept : concepts.vertexSet()) {
+			if (concept.isComplementary())
+				rebutterCats.add(concept);
 		}
-		for (ICategory rebutterCat : rebutterCats) {
+		for (IConcept rebutterCat : rebutterCats) {
 			IState rebutterState = categoryToState.get(rebutterCat);
-			IState rebutterNextState = categoryToState.get(Graphs.successorListOf(categories, rebutterCat).get(0));
+			IState rebutterNextState = categoryToState.get(Graphs.successorListOf(concepts, rebutterCat).get(0));
+			List<IState> rebutterPreviousStates = new ArrayList<>();
+			for (IConcept rebutterPreviousCat : Graphs.predecessorListOf(concepts, rebutterCat)) {
+				rebutterPreviousStates.add(categoryToState.get(rebutterPreviousCat));
+			}
 			IConjunctiveOperator rebuttedOperator = null;
 			for (IConjunctiveOperator operator : conjunctiveOperators) {
 				if (operator.getNextState().equals(rebutterNextState)
 						&& operator.getOperatingState().equals(categoryToState.get(rebutterCat.getComplemented())))
 					rebuttedOperator = operator;
 			}
-			rebutterOperators.add(new Rebutter(rebutterState, rebutterNextState, rebuttedOperator));
+			rebutterOperators.add(new ReframingOperator(rebutterState, rebutterNextState, rebuttedOperator));
 		}
 		for (IOperator rebutter : rebutterOperators) {
 			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(rebutter)))
 				conjunctiveOperators.add(new ConjunctiveOperator(rebutter));
 		}
 		//HERE
+		/*
 		if (test) {
 			try {
 				Visualizer.visualizeTransitionFunction(this, "211203TF_after", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -534,6 +551,7 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 			System.out.println("done6.");
 		}
+		*/
 		//HERE
 	}
 

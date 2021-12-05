@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.print.attribute.HashAttributeSet;
 
@@ -13,11 +14,12 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.ComplementaryConcept;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
@@ -28,34 +30,60 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 
 	protected static final int MAX_CAPACITY = 50;
 	
-	protected final ICategories categories;
+	protected final IConcepts concepts;
 	protected final IClassificationTreeSupplier categoryTreeSupplier;
 	protected final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs;
 	protected final PropertyWeighingStrategy propWeighingStrategy;
 	protected final SimilarityCalculationStrategy simCalculationStrategy;
 	
-	public TransitionFunctionSupplier(ICategories categories, 
+	public TransitionFunctionSupplier(IConcepts concepts, 
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
 			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) 
 					throws InvalidInputException {
-		this.categories = categories;
-		categoryTreeSupplier = categories.getCatTreeSupplier();
+		this.concepts = concepts;
+		categoryTreeSupplier = concepts.getCatTreeSupplier();
 		this.constructs = constructs;
 		this.propWeighingStrategy = propWeighingStrategy;
 		this.simCalculationStrategy = simCalculationStrategy;
 	}
 
 	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
-			Tree<ICategory, IsA> catTree, DirectedAcyclicGraph<IIntentAttribute, IProduction> unfilteredUnreduced) {
+			Tree<IConcept, IsA> catTree, DirectedAcyclicGraph<IIntentAttribute, IProduction> unfilteredUnreduced) {
 		DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);
 		List<IProduction> edges = new ArrayList<>();
 		List<IProduction> varSwitchers = new ArrayList<>();
 		List<IIntentAttribute> varSwitcherSources = new ArrayList<>();
-		//HERE chercher ici
+		//HERE
+		/*
+		List<ICategory> complementary = 
+				catTree.vertexSet().stream().filter(c -> c.isComplementary()).collect(Collectors.toList());
+		List<ICategory> complemented = new ArrayList<>();
+		complementary.stream().forEach(c -> complemented.add(c.getComplemented()));
+		boolean test = false;
+		for (ICategory cat : complementary) {
+			if (!cat.getIntent().isEmpty()) {
+				test = true;
+				try {
+					Visualizer.visualizeCategoryGraph(catTree, "211204_catTree");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}		
+		}
+		*/
+		//HERE
 		for (IProduction production : unfilteredUnreduced.edgeSet()) {
-			ICategory sourceCat = production.getSourceCategory();
-			ICategory targetCat = production.getTargetCategory();
+			IConcept sourceCat = production.getSourceCategory();
+			IConcept targetCat = production.getTargetCategory();
+			//HERE
+			/*
+			if (test && complemented.contains(sourceCat) || complemented.contains(targetCat)) {
+				System.out.println("here");
+			}
+			*/
+			//HERE
 			if (catTree.containsVertex(sourceCat) 
 					&& catTree.containsVertex(targetCat) 
 					&& isA(sourceCat, targetCat, catTree)) {
@@ -74,6 +102,18 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 			});
 		edges.stream().forEach(p -> filtered.addEdge(p.getSource(), p.getTarget(), p));
 		filtered.removeAllVertices(varSwitcherSources);
+		//HERE
+		/*
+		if (test) {
+			try {
+				Visualizer.visualizeAttributeGraph(filtered, "211204_productions", true);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		*/
+		//HERE
 		return filtered;
 	}
 	
@@ -99,7 +139,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return edgesReturned;
 	}
 	
-	private static boolean isA(ICategory cat1, ICategory cat2, Tree<ICategory, IsA> tree) {
+	private static boolean isA(IConcept cat1, IConcept cat2, Tree<IConcept, IsA> tree) {
 		return tree.getDescendants(cat1).contains(cat2);
 	}
 

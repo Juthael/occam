@@ -2,8 +2,8 @@ package com.tregouet.occam.cost_calculation.property_weighing;
 
 import java.util.List;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.exceptions.PropertyTargetingException;
@@ -15,7 +15,7 @@ public interface IPropertyWeigher {
 	
 	double getPropertyWeight(IOperator property);
 	
-	void set(List<IContextObject> objects, Tree<ICategory, IsA> categories, 
+	void set(List<IContextObject> objects, Tree<IConcept, IsA> concepts, 
 			List<IOperator> properties);
 
 }

@@ -1,25 +1,25 @@
-package com.tregouet.occam.data.categories.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import java.util.List;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IClassificationTreeSupplier;
+import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
+import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
 import com.tregouet.tree_finder.data.Tree;
 
 public class ClassificationTreeSupplier implements IClassificationTreeSupplier {
 
-	private final IUnidimensionalSorter<ICategory, IsA> categorySorter;
-	private final ICategory ontologicalCommitment;
+	private final IUnidimensionalSorter<IConcept, IsA> categorySorter;
+	private final IConcept ontologicalCommitment;
 	
-	public ClassificationTreeSupplier(IUnidimensionalSorter<ICategory, IsA> categorySorter, 
-			ICategory ontologicalCommitment) {
+	public ClassificationTreeSupplier(IUnidimensionalSorter<IConcept, IsA> categorySorter, 
+			IConcept ontologicalCommitment) {
 		this.categorySorter = categorySorter;
 		this.ontologicalCommitment = ontologicalCommitment;
 	}
 
 	@Override
-	public List<Tree<ICategory, IsA>> getSortingTrees() {
+	public List<Tree<IConcept, IsA>> getSortingTrees() {
 		return categorySorter.getSortingTrees();
 	}
 
@@ -29,12 +29,12 @@ public class ClassificationTreeSupplier implements IClassificationTreeSupplier {
 	}
 
 	@Override
-	public Tree<ICategory, IsA> next() {
+	public Tree<IConcept, IsA> next() {
 		return categorySorter.next();
 	}
 
 	@Override
-	public Tree<ICategory, IsA> nextOntologicalCommitment() {
+	public Tree<IConcept, IsA> nextOntologicalCommitment() {
 		return IClassificationTreeSupplier.proceedToOntologicalCommitment(categorySorter.next(), ontologicalCommitment);
 	}
 

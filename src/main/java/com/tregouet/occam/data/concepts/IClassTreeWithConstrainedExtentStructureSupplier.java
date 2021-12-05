@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.categories;
+package com.tregouet.occam.data.concepts;
 
 public interface IClassTreeWithConstrainedExtentStructureSupplier extends IClassificationTreeSupplier {
 	

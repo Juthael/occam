@@ -13,9 +13,9 @@ import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
@@ -66,10 +66,42 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}	
 	
-	public static void visualizeCategoryGraph(DirectedAcyclicGraph<ICategory, IsA> graph, String fileName) 
+	//HERE
+	public static void visualizeAttributeGraph(DirectedAcyclicGraph<IIntentAttribute, IProduction> graph, String fileName, boolean test) throws IOException {
+		//convert in DOT format
+		DOTExporter<IIntentAttribute,IProduction> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
+		exporter.setVertexAttributeProvider((v) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(v.getCategory().getID()));
+			return map;
+		});
+		exporter.setEdgeAttributeProvider((e) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(e.getLabel()));
+			return map;
+		}); 
+		Writer writer = new StringWriter();
+		exporter.exportGraph(graph, writer);
+		String stringDOT = writer.toString();
+		/*
+		 System.out.println(writer.toString());
+		*/ 
+		//display graph
+		MutableGraph dotGraph = new Parser().read(stringDOT);
+		Graphviz.fromGraph(dotGraph)
+			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
+	}	
+	//HERE
+	
+	public static void visualizeCategoryGraph(DirectedAcyclicGraph<IConcept, IsA> graph, String fileName) 
 			throws IOException {
 		//convert in DOT format
-		DOTExporter<ICategory,IsA> exporter = new DOTExporter<>();
+		DOTExporter<IConcept,IsA> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));

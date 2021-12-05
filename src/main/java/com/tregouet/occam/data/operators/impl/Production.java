@@ -2,8 +2,8 @@ package com.tregouet.occam.data.operators.impl;
 
 import org.jgrapht.graph.DefaultEdge;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.operators.IProduction;
 
 public abstract class Production extends DefaultEdge implements IProduction {
@@ -43,12 +43,12 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	}
 
 	@Override
-	public ICategory getGenus() {
+	public IConcept getGenus() {
 		return operatorOutput.getCategory();
 	}
 
 	@Override
-	public ICategory getInstance() {
+	public IConcept getInstance() {
 		return operatorInput.getCategory();
 	}
 
@@ -63,7 +63,7 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	}
 
 	@Override
-	public ICategory getSourceCategory() {
+	public IConcept getSourceCategory() {
 		return operatorInput.getCategory();
 	}
 
@@ -73,7 +73,7 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	}
 
 	@Override
-	public ICategory getTargetCategory() {
+	public IConcept getTargetCategory() {
 		return operatorOutput.getCategory();
 	}
 

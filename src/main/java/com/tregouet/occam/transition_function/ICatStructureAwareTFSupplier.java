@@ -5,19 +5,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface ICatStructureAwareTFSupplier extends ITransitionFunctionSupplier, Iterator<IRepresentedCatTree> {
 	
-	public static String getDefinitionOfObjects(Map<ICategory, String> objectCategoryToName) {
+	public static String getDefinitionOfObjects(Map<IConcept, String> objectCategoryToName) {
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
 		sB.append("*** DEFINITION OF OBJECTS ***" + newLine + newLine);
-		List<ICategory> objectCategories = new ArrayList<>(objectCategoryToName.keySet());
+		List<IConcept> objectCategories = new ArrayList<>(objectCategoryToName.keySet());
 		for (int i = 0 ; i < objectCategories.size() ; i++) {
-			ICategory objCat = objectCategories.get(i);
+			IConcept objCat = objectCategories.get(i);
 			sB.append("**Object " + objectCategoryToName.get(objCat) + " :" + newLine);
 			sB.append(objCat.toString());
 			if (i < objectCategories.size() - 1)
@@ -28,6 +28,6 @@ public interface ICatStructureAwareTFSupplier extends ITransitionFunctionSupplie
 	
 	String getDefinitionOfObjects();
 	
-	Tree<ICategory, IsA> getOptimalCategoryStructure();
+	Tree<IConcept, IsA> getOptimalCategoryStructure();
 
 }

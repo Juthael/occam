@@ -1,23 +1,23 @@
-package com.tregouet.occam.data.categories.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.exceptions.PropertyTargetingException;
 
-public abstract class AbstractCategory implements ICategory {
+public abstract class AbstractConcept implements IConcept {
 
 	protected static int nextID = 100;
 	
 	protected int type;
 	
-	public AbstractCategory() {
+	public AbstractConcept() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -78,9 +78,9 @@ public abstract class AbstractCategory implements ICategory {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof AbstractCategory))
+		if (!(obj instanceof AbstractConcept))
 			return false;
-		AbstractCategory other = (AbstractCategory) obj;
+		AbstractConcept other = (AbstractConcept) obj;
 		if (getID() != other.getID())
 			return false;
 		return true;

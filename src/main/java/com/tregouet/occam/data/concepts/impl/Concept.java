@@ -1,22 +1,23 @@
-package com.tregouet.occam.data.categories.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 
-public class Category extends AbstractCategory implements ICategory {
+public class Concept extends AbstractConcept implements IConcept {
 
 	private final Set<IIntentAttribute> intent = new HashSet<>();
 	private final Set<IContextObject> extent;
 	protected int rank = 0;
 	private final int iD;
 	
-	public Category(Set<IConstruct> intent, Set<IContextObject> extent) {
+	public Concept(Set<IConstruct> intent, Set<IContextObject> extent) {
 		for (IConstruct construct : intent)
 			this.intent.add(new IntentAttribute(construct, this));
 		this.extent = Collections.unmodifiableSet(extent);
@@ -25,7 +26,7 @@ public class Category extends AbstractCategory implements ICategory {
 		else iD = nextID++;
 	}
 	
-	protected Category(Set<IContextObject> extent) {
+	protected Concept(Set<IContextObject> extent) {
 		this.extent = Collections.unmodifiableSet(extent);
 		if (extent.size() == 1)
 			iD = extent.iterator().next().getID();
@@ -49,12 +50,12 @@ public class Category extends AbstractCategory implements ICategory {
 
 	@Override
 	public String toString() {
-		if (type == ICategory.ABSURDITY)
+		if (type == IConcept.ABSURDITY)
 			return "ABSURDITY";
 		StringBuilder sB = new StringBuilder();
 		sB.append(Integer.toString(iD));
-		//HERE REMOVE /*
-		/*
+		//HERE REMOVE
+		
 		String newLine = System.lineSeparator();
 		sB.append(newLine);
 		Iterator<IIntentAttribute> iterator = intent.iterator();
@@ -63,7 +64,7 @@ public class Category extends AbstractCategory implements ICategory {
 			if (iterator.hasNext())
 				sB.append(newLine);
 		}
-		*/
+		
 		return sB.toString();
 	}
 
@@ -73,20 +74,20 @@ public class Category extends AbstractCategory implements ICategory {
 	}
 
 	@Override
-	public ICategory complementThisWith(ICategory complementing) {
-		return new ComplementaryCategory(this, complementing);
+	public IConcept complementThisWith(IConcept complementing) {
+		return new ComplementaryConcept(this, complementing);
 	}
 
 	@Override
-	public ICategory buildComplementOfThis(Set<ICategory> complementMinimalLowerBounds) {
+	public IConcept buildComplementOfThis(Set<IConcept> complementMinimalLowerBounds) {
 		Set<IContextObject> complementExtent = new HashSet<>();
-		for (ICategory rebutterMinLowerBound : complementMinimalLowerBounds)
+		for (IConcept rebutterMinLowerBound : complementMinimalLowerBounds)
 			complementExtent.addAll(rebutterMinLowerBound.getExtent());
-		return new ComplementaryCategory(this, complementExtent);
+		return new ComplementaryConcept(this, complementExtent);
 	}
 
 	@Override
-	public ICategory getComplemented() {
+	public IConcept getComplemented() {
 		return null;
 	}	
 	

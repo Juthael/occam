@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.categories;
+package com.tregouet.occam.data.concepts;
 
 import java.util.List;
 import java.util.Set;
@@ -8,11 +8,11 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.exceptions.PropertyTargetingException;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
-public interface ICategory extends IDichotomizable<ICategory> {
+public interface IConcept extends IDichotomizable<IConcept> {
 	
 	public static final int ABSURDITY = 0;
-	public static final int OBJECT = 1;
-	public static final int SUBSET_CAT = 2;
+	public static final int SINGLETON = 1;
+	public static final int SUBSET_CONCEPT = 2;
 	public static final int TRUISM = 3;
 	public static final int ONTOLOGICAL_COMMITMENT = 4;
 	

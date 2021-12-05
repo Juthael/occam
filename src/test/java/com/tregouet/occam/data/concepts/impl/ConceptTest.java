@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.categories.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import static org.junit.Assert.*;
 
@@ -12,21 +12,23 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.Concept;
+import com.tregouet.occam.data.concepts.impl.IntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.ContextObject;
 import com.tregouet.occam.exceptions.PropertyTargetingException;
 
-public class CategoryTest {
+public class ConceptTest {
 
 	private String[] prog1 = new String[] {"A", "B", "C"};
 	private String[] prog2 = new String[] {"D", "E", "F"};
 	private String[] prog3 = new String[] {"G", "H", "C"};
 	private IContextObject obj1;
-	private ICategory cat;
+	private IConcept cat;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -46,7 +48,7 @@ public class CategoryTest {
 		catIntent.addAll(obj1.getConstructs());
 		Set<IContextObject> cat1Extent = new HashSet<>();
 		cat1Extent.add(obj1);
-		cat = new Category(catIntent, cat1Extent);
+		cat = new Concept(catIntent, cat1Extent);
 	}
 
 	@Test

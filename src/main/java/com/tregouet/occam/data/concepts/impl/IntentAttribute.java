@@ -1,17 +1,17 @@
-package com.tregouet.occam.data.categories.impl;
+package com.tregouet.occam.data.concepts.impl;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.impl.Construct;
 
 public class IntentAttribute extends Construct implements IIntentAttribute {
 
-	private final ICategory category;
+	private final IConcept concept;
 	
-	public IntentAttribute(IConstruct construct, ICategory category) {
+	public IntentAttribute(IConstruct construct, IConcept concept) {
 		super(construct);
-		this.category = category;
+		this.concept = concept;
 	}
 
 	@Override
@@ -23,17 +23,17 @@ public class IntentAttribute extends Construct implements IIntentAttribute {
 		if (getClass() != obj.getClass())
 			return false;
 		IntentAttribute other = (IntentAttribute) obj;
-		if (category == null) {
-			if (other.category != null)
+		if (concept == null) {
+			if (other.concept != null)
 				return false;
-		} else if (!category.equals(other.category))
+		} else if (!concept.equals(other.concept))
 			return false;
 		return true;
 	}
 	
 	@Override
-	public ICategory getCategory() {
-		return category;
+	public IConcept getCategory() {
+		return concept;
 	}
 
 	@Override

@@ -4,10 +4,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IExtentStructureConstraint;
-import com.tregouet.occam.data.categories.impl.IsA;
-import com.tregouet.occam.data.categories.utils.CatTreeToStringConvertor;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
+import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.utils.CatTreeToStringConvertor;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.ITransitionFunction;
@@ -15,12 +15,12 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class RepresentedCatTree implements IRepresentedCatTree {
 
-	private final Tree<ICategory,IsA> categoryTree;
-	private final Map<ICategory, String> objectCategoryToName;
+	private final Tree<IConcept,IsA> categoryTree;
+	private final Map<IConcept, String> objectCategoryToName;
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	
-	public RepresentedCatTree(Tree<ICategory, IsA> categoryTree, 
-			Map<ICategory, String> objectCategoryToName) {
+	public RepresentedCatTree(Tree<IConcept, IsA> categoryTree, 
+			Map<IConcept, String> objectCategoryToName) {
 		this.categoryTree = categoryTree;
 		this.objectCategoryToName = objectCategoryToName;
 	}
@@ -58,7 +58,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 	}
 
 	@Override
-	public Tree<ICategory, IsA> getCategoryTree() {
+	public Tree<IConcept, IsA> getCategoryTree() {
 		return categoryTree;
 	}
 

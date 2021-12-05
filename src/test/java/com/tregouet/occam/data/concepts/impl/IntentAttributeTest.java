@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.categories.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import static org.junit.Assert.assertTrue;
 
@@ -12,8 +12,9 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.Concept;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
@@ -28,9 +29,9 @@ public class IntentAttributeTest {
 	private IContextObject obj1;
 	private IContextObject obj2;
 	private IContextObject obj3;
-	private ICategory cat1;
-	private ICategory cat2;
-	private ICategory cat3;
+	private IConcept cat1;
+	private IConcept cat2;
+	private IConcept cat3;
 	
 	
 	@Before
@@ -59,19 +60,19 @@ public class IntentAttributeTest {
 		cat1Intent.addAll(obj1.getConstructs());
 		Set<IContextObject> cat1Extent = new HashSet<>();
 		cat1Extent.add(obj1);
-		cat1 = new Category(cat1Intent, cat1Extent);
+		cat1 = new Concept(cat1Intent, cat1Extent);
 		
 		Set<IConstruct> cat2Intent = new HashSet<>();
 		cat2Intent.addAll(obj2.getConstructs());
 		Set<IContextObject> cat2Extent = new HashSet<>();
 		cat2Extent.add(obj2);
-		cat2 = new Category(cat2Intent, cat2Extent);
+		cat2 = new Concept(cat2Intent, cat2Extent);
 		
 		Set<IConstruct> cat3Intent = new HashSet<>();
 		cat3Intent.addAll(obj3.getConstructs());
 		Set<IContextObject> cat3Extent = new HashSet<>();
 		cat3Extent.add(obj3);
-		cat3 = new Category(cat3Intent, cat3Extent);
+		cat3 = new Concept(cat3Intent, cat3Extent);
 	}
 
 	@Test

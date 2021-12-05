@@ -9,8 +9,8 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 
 import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.impl.IsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.finite_automaton.IFiniteAutomaton;
@@ -21,7 +21,7 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	@Override
 	boolean equals(Object o);
 	
-	Tree<ICategory, IsA> getCategoryTree();
+	Tree<IConcept, IsA> getCategoryTree();
 	
 	String getCategoryTreeAsDOTFile();
 	

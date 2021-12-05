@@ -18,10 +18,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.ICategory;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.Categories;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ICompositeProduction;
@@ -34,7 +34,7 @@ public class ProductionBuilderTest {
 
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1.txt");
 	private static List<IContextObject> shapes1Obj;
-	private ICategories categories;
+	private IConcepts concepts;
 	private ProductionBuilder builder;
 	
 	@BeforeClass
@@ -44,8 +44,8 @@ public class ProductionBuilderTest {
 	
 	@Before
 	public void setUp() {
-		categories = new Categories(shapes1Obj);
-		builder = new ProductionBuilder(categories);
+		concepts = new Concepts(shapes1Obj);
+		builder = new ProductionBuilder(concepts);
 		/*
 		Categories catImpl = (Categories) categories;
 		try {
@@ -105,12 +105,12 @@ public class ProductionBuilderTest {
 		boolean aVertexOrEdgeAdditionHasFailed = false;
 		List<IProduction> productions = builder.getProductions()
 				.stream()
-				.filter(p -> p.getSource().getCategory().type() != ICategory.ABSURDITY)
+				.filter(p -> p.getSource().getCategory().type() != IConcept.ABSURDITY)
 				.collect(Collectors.toList());
 		List<IIntentAttribute> attributes = new ArrayList<>();
-		for (ICategory category : categories.getTopologicalSorting()) {
-			if (category.type() != ICategory.ABSURDITY)
-				attributes.addAll(category.getIntent());
+		for (IConcept concept : concepts.getTopologicalSorting()) {
+			if (concept.type() != IConcept.ABSURDITY)
+				attributes.addAll(concept.getIntent());
 		}
 		DirectedAcyclicGraph<IIntentAttribute, IProduction> graph = new DirectedAcyclicGraph<>(IProduction.class);
 		for (IIntentAttribute attribute : attributes) {

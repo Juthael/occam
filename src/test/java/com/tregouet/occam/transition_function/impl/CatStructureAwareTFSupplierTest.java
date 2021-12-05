@@ -15,9 +15,9 @@ import org.junit.Test;
 
 import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
-import com.tregouet.occam.data.categories.ICategories;
-import com.tregouet.occam.data.categories.IIntentAttribute;
-import com.tregouet.occam.data.categories.impl.Categories;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
@@ -37,7 +37,7 @@ public class CatStructureAwareTFSupplierTest {
 	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
 			SimilarityCalculationStrategy.RATIO_MODEL;
 	private static List<IContextObject> shapes2Obj;	
-	private ICategories categories;
+	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 
@@ -48,8 +48,8 @@ public class CatStructureAwareTFSupplierTest {
 
 	@Before
 	public void setUp() throws Exception {
-		categories = new Categories(shapes2Obj);
-		List<IProduction> productions = new ProductionBuilder(categories).getProductions();
+		concepts = new Concepts(shapes2Obj);
+		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
 		productions.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
 			constructs.addVertex(p.getTarget());
@@ -61,11 +61,11 @@ public class CatStructureAwareTFSupplierTest {
 	public void whenRequestedThenReturnsRepresentedCatStructuresInDecreasingCoherenceOrder() 
 			throws IOException, InvalidInputException {
 		//HERE
-		Visualizer.visualizeCategoryGraph(categories.getTransitiveReduction(), "211201_CL");
+		Visualizer.visualizeCategoryGraph(concepts.getTransitiveReduction(), "211201_CL");
 		//HERE
 		boolean increasingOrder = true;
 		int idx = 0;
-		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(categories, constructs, 
+		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(concepts, constructs, 
 				PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
 		List<Double> coherenceScores = new ArrayList<>();
 		IRepresentedCatTree representedCatTree;

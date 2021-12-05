@@ -7,15 +7,18 @@ import java.util.Set;
 
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.finite_automaton.ITapeSet;
+import com.tregouet.occam.transition_function.IFrame;
 import com.tregouet.occam.transition_function.IState;
 
 public class State implements IState {
 
 	private final IConcept concept;
+	private final IFrame frame = new Frame();
 	private final int extentSize;
 	private List<IOperator> transitions = null;
 	private List<ITapeSet> evaluationQueue = new ArrayList<>();
@@ -74,7 +77,7 @@ public class State implements IState {
 	}
 
 	@Override
-	public IConcept getAssociatedCategory() {
+	public IConcept getAssociatedConcept() {
 		return concept;
 	}
 
@@ -155,6 +158,11 @@ public class State implements IState {
 	public void setRank(int rank) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void reframe(IFrame other) {
+		frame.restrictFrameWith(other);
 	}
 
 }

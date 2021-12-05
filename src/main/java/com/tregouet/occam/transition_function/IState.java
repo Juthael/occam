@@ -24,7 +24,7 @@ public interface IState {
 	
 	void generateOutputLanguage();
 	
-	IConcept getAssociatedCategory();
+	IConcept getAssociatedConcept();
 	
 	int getExtentSize();
 	
@@ -48,5 +48,7 @@ public interface IState {
 	void proceedTransitions();
 	
 	void setRank(int rank);
+	
+	void reframe(IFrame other);
 
 }

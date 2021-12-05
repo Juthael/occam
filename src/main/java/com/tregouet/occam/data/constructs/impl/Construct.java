@@ -13,8 +13,8 @@ import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class Construct implements IConstruct {
 
-	private final List<ISymbol> prog;
-	private final int nbOfTerminals;
+	protected final List<ISymbol> prog;
+	private int nbOfTerminals;
 	
 	public Construct(IConstruct construct) {
 		prog = new ArrayList<>(construct.getListOfSymbols());
@@ -23,12 +23,7 @@ public class Construct implements IConstruct {
 	
 	public Construct(List<ISymbol> prog) {
 		this.prog = prog;
-		int nbOfTerminals = 0;
-		for (ISymbol symbol : prog) {
-			if (symbol instanceof ITerminal)
-				nbOfTerminals++;
-		}
-		this.nbOfTerminals = nbOfTerminals;
+		nbOfTerminals = setNbOfTerminals();
 	}
 	
 	public Construct(String[] progStrings) {
@@ -157,6 +152,15 @@ public class Construct implements IConstruct {
 				sB.append(" ");
 		}
 		return sB.toString();
+	}
+	
+	protected int setNbOfTerminals() {
+		int nbOfTerminals = 0;
+		for (ISymbol symbol : prog) {
+			if (symbol instanceof ITerminal)
+				nbOfTerminals++;
+		}
+		return nbOfTerminals;
 	}
 
 }

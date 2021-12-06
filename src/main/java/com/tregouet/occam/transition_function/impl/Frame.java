@@ -12,8 +12,9 @@ import com.tregouet.occam.transition_function.IFrame;
 
 public class Frame extends Construct implements IFrame {
 
-	public Frame() {
-		super(new ArrayList<ISymbol>(Arrays.asList(new ISymbol[] {new Variable(false)})));
+	public Frame(boolean blank) {
+		super(blank ? 
+				new ArrayList<ISymbol>() : new ArrayList<ISymbol>(Arrays.asList(new ISymbol[] {new Variable(false)})));
 	}
 	
 	public Frame(List<ISymbol> prog) {
@@ -22,9 +23,10 @@ public class Frame extends Construct implements IFrame {
 
 	@Override
 	public void restrictFrameWith(IFrame other) {
-		int insertionIndex = prog.size() - 1;
-		prog.addAll(insertionIndex, other.getListOfSymbols());
-		setNbOfTerminals();
+		if (!other.getListOfTerminals().isEmpty()) {
+			prog.addAll(0, other.getListOfSymbols());
+			setNbOfTerminals();
+		}	
 	}
 
 }

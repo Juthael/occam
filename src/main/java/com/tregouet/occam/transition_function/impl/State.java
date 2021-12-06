@@ -18,7 +18,7 @@ import com.tregouet.occam.transition_function.IState;
 public class State implements IState {
 
 	private final IConcept concept;
-	private final IFrame frame = new Frame();
+	private final IFrame frame = new Frame(false);
 	private final int extentSize;
 	private List<IOperator> transitions = null;
 	private List<ITapeSet> evaluationQueue = new ArrayList<>();
@@ -161,7 +161,7 @@ public class State implements IState {
 	}
 
 	@Override
-	public void reframe(IFrame other) {
+	public void frame(IFrame other) {
 		frame.restrictFrameWith(other);
 	}
 

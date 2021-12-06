@@ -49,6 +49,6 @@ public interface IState {
 	
 	void setRank(int rank);
 	
-	void reframe(IFrame other);
+	void frame(IFrame other);
 
 }

@@ -69,30 +69,6 @@ public class TransitionFunction implements ITransitionFunction {
 	public TransitionFunction(List<IContextObject> objects, List<IConcept> singletons, 
 			Tree<IConcept, IsA> concepts, Tree<IIntentAttribute, IProduction> constructs, 
 			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) {
-		//HERE
-		/*
-		test = false;
-		List<ICategory> complementaryCat = categories.vertexSet().stream()
-				.filter(c -> c.isComplementary())
-				.collect(Collectors.toList());
-		List<ICategory> complementedCat = new ArrayList<>();
-		complementaryCat.stream().forEach(c -> complementedCat.add(c.getComplemented()));
-		List<IProduction> prodWithComplementedAsSource = new ArrayList<>();
-		List<IProduction> prodWithComplementedAsTarget = new ArrayList<>();
-		if (!complementaryCat.isEmpty() && complementaryCat.stream().anyMatch(c -> !c.getIntent().isEmpty())) {
-			test = true;
-			for (IProduction prod : constructs.edgeSet()) {
-				System.out.println("prod source cat : " + prod.getSourceCategory().getID());
-				System.out.println("prod target cat : " + prod.getTargetCategory().getID() + System.lineSeparator());
-				if (complementedCat.contains(prod.getSourceCategory()))
-					prodWithComplementedAsSource.add(prod);
-				if (complementedCat.contains(prod.getTargetCategory()))
-					prodWithComplementedAsTarget.add(prod);
-			}
-			System.out.println("done1.");
-		}
-		*/
-		//HERE
 		IOperator.initializeNameProvider();
 		IConjunctiveOperator.initializeNameProvider();
 		this.objects = objects;
@@ -111,21 +87,6 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 		}
 		operators = buildOperators(new ArrayList<>(constructs.edgeSet()), categoryToState);
-		//HERE
-		/*
-		List<IOperator> opWithComplementedCatAsSource = new ArrayList<>();
-		List<IOperator> opWithComplementedCatAsTarget = new ArrayList<>();
-		if (test) {
-			operators.stream()
-				.filter(o -> complementedCat.contains(o.getOperatingState().getAssociatedCategory()))
-				.forEach(opWithComplementedCatAsSource::add);
-			operators.stream()
-				.filter(o -> complementedCat.contains(o.getOperatingState().getAssociatedCategory()))
-				.forEach(opWithComplementedCatAsTarget::add);
-			System.out.println("done2.");
-		}
-		*/
-		//HERE
 		propWeigher = PropertyWeigherFactory.apply(propWeighingStrategy);
 		propWeigher.set(objects, concepts, operators);
 		operators.stream().forEach(o -> o.setInformativity(propWeigher));
@@ -133,35 +94,7 @@ public class TransitionFunction implements ITransitionFunction {
 			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
 				conjunctiveOperators.add(new ConjunctiveOperator(op));
 		}
-		//HERE
-		/*
-		List<IConjunctiveOperator> conjunctiveOpWithComplementedAsSource = new ArrayList<>();
-		if (test) {
-			conjunctiveOperators.stream()
-				.filter(o -> complementedCat.contains(o.getOperatingState().getAssociatedCategory()))
-				.forEach(conjunctiveOpWithComplementedAsSource::add);
-			List<IConjunctiveOperator> conjunctiveOpWithComplementedAsTarget = new ArrayList<>();
-			conjunctiveOperators.stream()
-				.filter(o -> complementedCat.contains(o.getOperatingState().getAssociatedCategory()))
-				.forEach(conjunctiveOpWithComplementedAsTarget::add);
-			System.out.println("done3.");
-		}
-		*/
-		//HERE
-		//HERE
-		/*
-		if (test) {
-			try {
-				Visualizer.visualizeCategoryGraph(categories, "211203CTErr");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("done4.");
-		}
-		*/
-		//HERE
-		buildRebutterOperators();
+		buildReframingOperators();
 		similarityCalc = SimilarityCalculatorFactory.apply(simCalculationStrategy); 
 		similarityCalc.set(concepts, conjunctiveOperators);
 	}
@@ -501,58 +434,32 @@ public class TransitionFunction implements ITransitionFunction {
 		return typicalityArray;
 	}
 	
-	private void buildRebutterOperators() {
-		//HERE
-		/*
-		if (test) {
-			try {
-				Visualizer.visualizeTransitionFunction(this, "211203TF_before", TransitionFunctionGraphType.FINITE_AUTOMATON);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("done5.");
-		}
-		*/
-		//HERE
-		List<IOperator> rebutterOperators = new ArrayList<>();
-		List<IConcept> rebutterCats = new ArrayList<>();
+	private void buildReframingOperators() {
+		List<IOperator> reframingOperators = new ArrayList<>();
+		List<IConcept> complementaryConcepts = new ArrayList<>();
 		for (IConcept concept : concepts.vertexSet()) {
 			if (concept.isComplementary())
-				rebutterCats.add(concept);
+				complementaryConcepts.add(concept);
 		}
-		for (IConcept rebutterCat : rebutterCats) {
-			IState rebutterState = categoryToState.get(rebutterCat);
-			IState rebutterNextState = categoryToState.get(Graphs.successorListOf(concepts, rebutterCat).get(0));
-			List<IState> rebutterPreviousStates = new ArrayList<>();
-			for (IConcept rebutterPreviousCat : Graphs.predecessorListOf(concepts, rebutterCat)) {
-				rebutterPreviousStates.add(categoryToState.get(rebutterPreviousCat));
+		for (IConcept compConcept : complementaryConcepts) {
+			IState complementaryState = categoryToState.get(compConcept);
+			IState compStateSuccessor = categoryToState.get(Graphs.successorListOf(concepts, compConcept).get(0));
+			List<IState> comStatePredecessors = new ArrayList<>();
+			for (IConcept compConceptPredecessor : Graphs.predecessorListOf(concepts, compConcept)) {
+				comStatePredecessors.add(categoryToState.get(compConceptPredecessor));
 			}
-			IConjunctiveOperator rebuttedOperator = null;
+			IConjunctiveOperator reframingOperator = null;
 			for (IConjunctiveOperator operator : conjunctiveOperators) {
-				if (operator.getNextState().equals(rebutterNextState)
-						&& operator.getOperatingState().equals(categoryToState.get(rebutterCat.getComplemented())))
-					rebuttedOperator = operator;
+				if (operator.getNextState().equals(compStateSuccessor)
+						&& operator.getOperatingState().equals(categoryToState.get(compConcept.getComplemented())))
+					reframingOperator = operator;
 			}
-			rebutterOperators.add(new ReframingOperator(rebutterState, rebutterNextState, rebuttedOperator));
+			reframingOperators.add(new ReframingOperator(complementaryState, compStateSuccessor, reframingOperator));
 		}
-		for (IOperator rebutter : rebutterOperators) {
-			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(rebutter)))
-				conjunctiveOperators.add(new ConjunctiveOperator(rebutter));
+		for (IOperator reframingOp : reframingOperators) {
+			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(reframingOp)))
+				conjunctiveOperators.add(new ConjunctiveOperator(reframingOp));
 		}
-		//HERE
-		/*
-		if (test) {
-			try {
-				Visualizer.visualizeTransitionFunction(this, "211203TF_after", TransitionFunctionGraphType.FINITE_AUTOMATON);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("done6.");
-		}
-		*/
-		//HERE
 	}
 
 }

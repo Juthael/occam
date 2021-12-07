@@ -22,7 +22,7 @@ import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.operators.IConjunctiveOperator;
+import com.tregouet.occam.data.operators.IConjunctiveTransition;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -33,7 +33,7 @@ import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestr
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
-public class ConjunctiveOperatorTest {
+public class ConjunctiveTransitionTest {
 	
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
@@ -87,11 +87,11 @@ public class ConjunctiveOperatorTest {
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			List<IOperator> operators = tF.getTransitions();
-			List<IConjunctiveOperator> conjunctiveOperators = new ArrayList<>();
+			List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
 			for (IOperator op : operators) {
 				boolean match = false;
-				for (IConjunctiveOperator conOp : conjunctiveOperators) {
-					if (conOp.addOperator(op)) {
+				for (IConjunctiveTransition conOp : conjunctiveTransitions) {
+					if (conOp.addTransition(op)) {
 						match = true;
 						if (!conOp.getOperatingState().equals(op.getOperatingState())
 								|| !conOp.getNextState().equals(op.getNextState())) {
@@ -101,7 +101,7 @@ public class ConjunctiveOperatorTest {
 					}
 				}
 				if (!match) {
-					conjunctiveOperators.add(new ConjunctiveOperator(op));
+					conjunctiveTransitions.add(new ConjunctiveTransition(op));
 				}
 			}
 		}
@@ -114,11 +114,11 @@ public class ConjunctiveOperatorTest {
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			List<IOperator> operators = tF.getTransitions();
-			List<IConjunctiveOperator> conjunctiveOperators = new ArrayList<>();
+			List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
 			for (IOperator op : operators) {
 				boolean noMatch = true;
-				for (IConjunctiveOperator conOp : conjunctiveOperators) {
-					if (!conOp.addOperator(op)) {
+				for (IConjunctiveTransition conOp : conjunctiveTransitions) {
+					if (!conOp.addTransition(op)) {
 						if (conOp.getOperatingState().equals(op.getOperatingState())
 								&& conOp.getNextState().equals(op.getNextState())) {
 							ifFalseThenDifferentStateTransition = false;
@@ -128,7 +128,7 @@ public class ConjunctiveOperatorTest {
 					else noMatch = false;
 				}
 				if (noMatch)
-					conjunctiveOperators.add(new ConjunctiveOperator(op));
+					conjunctiveTransitions.add(new ConjunctiveTransition(op));
 			}
 		}
 		assertTrue(nbOfChecks > 0 && ifFalseThenDifferentStateTransition);

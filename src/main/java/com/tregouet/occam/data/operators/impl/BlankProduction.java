@@ -45,10 +45,5 @@ public class BlankProduction extends BasicProduction implements IBasicProduction
 	public String toString() {
 		return "inheritance";  
 	}
-	
-	@Override
-	public IProduction rebut(IConcept complementaryConcept) {
-		return null;
-	}
 
 }

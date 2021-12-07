@@ -52,7 +52,5 @@ public interface IProduction {
 	
 	@Override
 	String toString();
-	
-	IProduction rebut(IConcept complementaryConcept);
 
 }

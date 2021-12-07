@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
-public interface IConjunctiveOperator extends IOperator {
+public interface IConjunctiveTransition extends IOperator {
 	
 	StringBuilder prime = new StringBuilder();
 	ListIterator<Character> charIte = new ArrayList<Character>(Arrays.asList(new Character[]{
@@ -31,8 +31,8 @@ public interface IConjunctiveOperator extends IOperator {
 		return charIte.next();
 	}
 	
-	boolean addOperator(IOperator operator);
+	boolean addTransition(ITransition transition);
 	
-	List<IOperator> getComponents();
+	List<ITransition> getComponents();
 
 }

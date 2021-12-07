@@ -11,7 +11,5 @@ public interface IIntentAttribute extends IConstruct {
 	boolean equals(Object o);
 	
 	IConcept getConcept();
-	
-	IIntentAttribute rebut(IConcept complementaryConcept);
 
 }

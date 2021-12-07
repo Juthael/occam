@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 import org.jgrapht.nio.Attribute;
@@ -30,11 +31,14 @@ import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.operators.IConjunctiveOperator;
+import com.tregouet.occam.data.operators.IConjunctiveTransition;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.data.operators.impl.ConjunctiveOperator;
-import com.tregouet.occam.data.operators.impl.Operator;
+import com.tregouet.occam.data.operators.IReframer;
+import com.tregouet.occam.data.operators.ITransition;
+import com.tregouet.occam.data.operators.impl.ConjunctiveTransition;
+import com.tregouet.occam.data.operators.impl.Reframer;
+import com.tregouet.occam.data.operators.impl.BasicOperator;
 import com.tregouet.occam.finite_automaton.IFiniteAutomaton;
 import com.tregouet.occam.finite_automaton.impl.FiniteAutomaton;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
@@ -49,18 +53,17 @@ public class TransitionFunction implements ITransitionFunction {
 	private final List<IConcept> singletons;
 	private final Tree<IConcept, IsA> concepts;
 	private final Map<IConcept, IState> categoryToState = new HashMap<>();
-	private final List<IOperator> operators;
-	private final List<IConjunctiveOperator> conjunctiveOperators = new ArrayList<>();
-	private final IPropertyWeigher propWeigher;
+	private final List<ITransition> transitions = new ArrayList<>();
+	private final List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
 	private final ISimilarityCalculator similarityCalc;
-	private DirectedMultigraph<IState, IOperator> finiteAutomatonMultigraph = null;
-	private SimpleDirectedGraph<IState, IConjunctiveOperator> finiteAutomatonGraph = null;
+	private DirectedMultigraph<IState, ITransition> finiteAutomatonMultigraph = null;
+	private SimpleDirectedGraph<IState, IConjunctiveTransition> finiteAutomatonGraph = null;
 	
 	public TransitionFunction(List<IContextObject> objects, List<IConcept> singletons, 
 			Tree<IConcept, IsA> concepts, Tree<IIntentAttribute, IProduction> constructs, 
-			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) {
-		IOperator.initializeNameProvider();
-		IConjunctiveOperator.initializeNameProvider();
+			SimilarityCalculationStrategy simCalculationStrategy) {
+		ITransition.initializeNameProvider();
+		IConjunctiveTransition.initializeNameProvider();
 		this.objects = objects;
 		this.singletons = singletons;
 		this.concepts = concepts;
@@ -76,16 +79,14 @@ public class TransitionFunction implements ITransitionFunction {
 				categoryToState.put(concept, new State(concept, extentSize));	
 			}
 		}
-		operators = buildOperators(new ArrayList<>(constructs.edgeSet()));
-		propWeigher = PropertyWeigherFactory.apply(propWeighingStrategy);
-		propWeigher.setUp(objects, concepts, operators);
-		operators.stream().forEach(o -> o.setInformativity(propWeigher));
-		for (IOperator op : operators) {
-			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
-				conjunctiveOperators.add(new ConjunctiveOperator(op));
+		transitions.addAll(buildOperators(new ArrayList<>(constructs.edgeSet())));
+		transitions.addAll(buildReframers());
+		for (ITransition transition : transitions) {
+			if (!conjunctiveTransitions.stream().anyMatch(c -> c.addTransition(op)))
+				conjunctiveTransitions.add(new ConjunctiveTransition(op));
 		}
 		similarityCalc = SimilarityCalculatorFactory.apply(simCalculationStrategy); 
-		similarityCalc.set(concepts, conjunctiveOperators);
+		similarityCalc.set(concepts, conjunctiveTransitions);
 	}
 
 	public List<IOperator> buildOperators(List<IProduction> productions){
@@ -104,9 +105,8 @@ public class TransitionFunction implements ITransitionFunction {
 				}
 				else operation.add(productions.get(idxes.get(k)));
 			}
-			operators.add(new Operator(activeState, operation, nextState));	
+			operators.add(new BasicOperator(activeState, operation, nextState));	
 		}
-		operators.addAll(buildReframers(concepts, operators));
 		return operators;
 	}
 
@@ -147,12 +147,12 @@ public class TransitionFunction implements ITransitionFunction {
 
 	private static String operatorAsString(IOperator operator) {
 		StringBuilder sB = new StringBuilder();
-		if (operator instanceof IConjunctiveOperator) {
+		if (operator instanceof IConjunctiveTransition) {
 			BigDecimal approxInformativitySum = BigDecimal.valueOf(operator.getInformativity());
 			sB.append("***" + operator.getName() + " : " + 
 					approxInformativitySum.round(new MathContext(3)).toString()+ "***" + System.lineSeparator());
 			List<IOperator> components = new ArrayList<>();
-			for (IOperator component : ((IConjunctiveOperator) operator).getComponents()) {
+			for (IOperator component : ((IConjunctiveTransition) operator).getComponents()) {
 				if (!component.isBlank())
 					components.add(component);
 			}
@@ -200,10 +200,10 @@ public class TransitionFunction implements ITransitionFunction {
 		TransitionFunction other = (TransitionFunction) obj;
 		if (Double.doubleToLongBits(getCoherenceScore()) != Double.doubleToLongBits(other.getCoherenceScore()))
 			return false;
-		if (operators == null) {
-			if (other.operators != null)
+		if (transitions == null) {
+			if (other.transitions != null)
 				return false;
-		} else if (!operators.equals(other.operators))
+		} else if (!transitions.equals(other.transitions))
 			return false;
 		return true;
 	}
@@ -237,13 +237,13 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 	
 	@Override
-	public List<IConjunctiveOperator> getConjunctiveTransitions() {
-		return conjunctiveOperators;
+	public List<IConjunctiveTransition> getConjunctiveTransitions() {
+		return conjunctiveTransitions;
 	}
 
 	@Override
 	public IDSLanguageDisplayer getDomainSpecificLanguage() {
-		return new DSLanguageDisplayer(this.getStates(), operators);
+		return new DSLanguageDisplayer(this.getStates(), transitions);
 	}
 
 	@Override
@@ -286,13 +286,13 @@ public class TransitionFunction implements ITransitionFunction {
 				DirectedMultigraph<IState, IOperator> stateMachine = new DirectedMultigraph<>(null, null, false);
 				for (IState state : getStates())
 					stateMachine.addVertex(state);
-				for (IOperator operator : operators)
+				for (IOperator operator : transitions)
 					stateMachine.addEdge(operator.getOperatingState(), operator.getNextState(), operator);
 				multigraphExporter.exportGraph(stateMachine, writer);
 				dOTFile = writer.toString();
 				break;
 			case FINITE_AUTOMATON : 
-				DOTExporter<IState,IConjunctiveOperator> simpleGraphExporter = new DOTExporter<>();
+				DOTExporter<IState,IConjunctiveTransition> simpleGraphExporter = new DOTExporter<>();
 				simpleGraphExporter.setGraphAttributeProvider(() -> {
 					Map<String, Attribute> map = new LinkedHashMap<>();
 					map.put("rankdir", DefaultAttribute.createAttribute("BT"));
@@ -309,11 +309,11 @@ public class TransitionFunction implements ITransitionFunction {
 					return map;
 				});		
 				Writer simpleGraphWriter = new StringWriter();
-				SimpleDirectedGraph<IState, IConjunctiveOperator> simpleGraph = 
+				SimpleDirectedGraph<IState, IConjunctiveTransition> simpleGraph = 
 						new SimpleDirectedGraph<>(null, null, false);
 				for (IState state : getStates())
 					simpleGraph.addVertex(state);
-				for (IConjunctiveOperator operator : conjunctiveOperators)
+				for (IConjunctiveTransition operator : conjunctiveTransitions)
 					simpleGraph.addEdge(operator.getOperatingState(), operator.getNextState(), operator);
 				simpleGraphExporter.exportGraph(simpleGraph, simpleGraphWriter);
 				dOTFile = simpleGraphWriter.toString();
@@ -324,35 +324,35 @@ public class TransitionFunction implements ITransitionFunction {
 
 	@Override
 	public List<IOperator> getTransitions() {
-		return operators;
+		return transitions;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = prime + ((operators == null) ? 0 : operators.hashCode());
+		int result = prime + ((transitions == null) ? 0 : transitions.hashCode());
 		return result;
 	}
 
 	@Override
-	public SimpleDirectedGraph<IState, IConjunctiveOperator> getFiniteAutomatonGraph() {
+	public SimpleDirectedGraph<IState, IConjunctiveTransition> getFiniteAutomatonGraph() {
 		if (finiteAutomatonGraph == null) {
 			finiteAutomatonGraph = new SimpleDirectedGraph<>(null, null, false);
 			for (IState state : getStates())
 				finiteAutomatonGraph.addVertex(state);
-			for (IConjunctiveOperator operator : conjunctiveOperators)
+			for (IConjunctiveTransition operator : conjunctiveTransitions)
 				finiteAutomatonGraph.addEdge(operator.getOperatingState(), operator.getNextState(), operator);
 		}
 		return finiteAutomatonGraph;
 	}
 
 	@Override
-	public DirectedMultigraph<IState, IOperator> getFiniteAutomatonMultigraph() {
+	public DirectedMultigraph<IState, ITransition> getFiniteAutomatonMultigraph() {
 		if (finiteAutomatonMultigraph == null) {
 			finiteAutomatonMultigraph = new DirectedMultigraph<>(null, null, false);
 			for (IState state : getStates())
 				finiteAutomatonMultigraph.addVertex(state);
-			for (IOperator operator : operators)
+			for (IOperator operator : transitions)
 				finiteAutomatonMultigraph.addEdge(operator.getOperatingState(), operator.getNextState(), operator);			
 		}
 		return finiteAutomatonMultigraph;
@@ -423,21 +423,20 @@ public class TransitionFunction implements ITransitionFunction {
 		return typicalityArray;
 	}
 	
-	private List<IOperator> buildReframers(Tree<IConcept, IsA> concepts, List<IOperator> operators) {
-		List<IOperator> reframingOp = new ArrayList<>(); 
-		Map<IState, IState> complementedToComplementary = new HashMap<>();
+	private List<IReframer> buildReframers() {
+		List<IReframer> reframingOp = new ArrayList<>(); 
+		List<IState> complementaryStates = new ArrayList<>();
+		List<IState> complementedStates = new ArrayList<>();
+		List<IState> successorStates = new ArrayList<>();
 		for (IConcept concept : concepts.vertexSet()) {
 			if (concept.isComplementary()) {
-				complementedToComplementary.put(
-						categoryToState.get(concept.getComplemented()), 
-						categoryToState.get(concept));
+				IState complementaryState = categoryToState.get(concept);
+				IConcept complementedConcept = concept.getComplemented();
+				IState complementedState = categoryToState.get(complementedConcept);
+				IState successorState = 
+						categoryToState.get(Graphs.successorListOf(concepts, complementedConcept).get(0));
+				reframingOp.add(new Reframer(complementaryState, complementedState, successorState));
 			}
-		}
-		for (IOperator operator : operators) {
-			IState operatingState = operator.getOperatingState();
-			IState complementaryState = complementedToComplementary.get(operatingState);
-			if (complementaryState != null)
-				reframingOp.add(operator.rebut(complementaryState));
 		}
 		return reframingOp;
 	}

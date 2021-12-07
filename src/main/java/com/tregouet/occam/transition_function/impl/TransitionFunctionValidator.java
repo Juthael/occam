@@ -3,7 +3,7 @@ package com.tregouet.occam.transition_function.impl;
 import java.util.List;
 import java.util.function.Predicate;
 
-import com.tregouet.occam.data.operators.IConjunctiveOperator;
+import com.tregouet.occam.data.operators.IConjunctiveTransition;
 import com.tregouet.occam.transition_function.IState;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 
@@ -21,7 +21,7 @@ public class TransitionFunctionValidator implements Predicate<ITransitionFunctio
 	
 	private static boolean transitsThroughEveryState(ITransitionFunction tF) {
 		List<IState> states = tF.getStates();
-		for (IConjunctiveOperator operator : tF.getConjunctiveTransitions()) {
+		for (IConjunctiveTransition operator : tF.getConjunctiveTransitions()) {
 			states.remove(operator.getOperatingState());
 			states.remove(operator.getNextState());
 		}

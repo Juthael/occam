@@ -12,7 +12,7 @@ import com.google.common.primitives.Ints;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.operators.IConjunctiveOperator;
+import com.tregouet.occam.data.operators.IConjunctiveTransition;
 import com.tregouet.tree_finder.data.Tree;
 
 public abstract class AbstractSimCalculator implements ISimilarityCalculator {
@@ -25,8 +25,8 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 	}
 	
 	public AbstractSimCalculator(Tree<IConcept, IsA> concepts, 
-			List<IConjunctiveOperator> conjunctiveOperators) {
-		set(concepts, conjunctiveOperators);
+			List<IConjunctiveTransition> conjunctiveTransitions) {
+		set(concepts, conjunctiveTransitions);
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 	}	
 	
 	@Override
-	public void set(Tree<IConcept, IsA> concepts, List<IConjunctiveOperator> conjunctiveOperators) {
+	public void set(Tree<IConcept, IsA> concepts, List<IConjunctiveTransition> conjunctiveTransitions) {
 		int topoIdx = 0;
 		Integer objIndex = 0;
 		int nbOfObjects = concepts.getLeaves().size();
@@ -108,7 +108,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 			topoIdx++;
 		}
 		List<Triple<Integer, Integer, Double>> edges = new ArrayList<>();
-		for (IConjunctiveOperator op : conjunctiveOperators) {
+		for (IConjunctiveTransition op : conjunctiveTransitions) {
 			//Any state has a category as one of its component. This category ID is the state ID.
 			Integer operatingStateIndex = indexOf(op.getOperatingState().getStateID());
 			Integer nextStateIndex = indexOf(op.getNextState().getStateID());

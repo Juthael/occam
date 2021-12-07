@@ -190,9 +190,4 @@ public class BasicProduction extends Production implements IBasicProduction {
 		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
 	}
 
-	@Override
-	public IProduction rebut(IConcept complementaryConcept) {
-		return new BasicProduction(variable, value.rebut(), getSource().rebut(complementaryConcept), getTarget());
-	}
-
 }

@@ -7,7 +7,7 @@ import java.util.Set;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.operators.IConjunctiveOperator;
+import com.tregouet.occam.data.operators.IConjunctiveTransition;
 import com.tregouet.tree_finder.data.Tree;
 
 public class RatioModel extends AbstractSimCalculator implements ISimilarityCalculator {
@@ -15,8 +15,8 @@ public class RatioModel extends AbstractSimCalculator implements ISimilarityCalc
 	public RatioModel() {
 	}
 
-	public RatioModel(Tree<IConcept, IsA> concepts, List<IConjunctiveOperator> conjunctiveOperators) {
-		super(concepts, conjunctiveOperators);
+	public RatioModel(Tree<IConcept, IsA> concepts, List<IConjunctiveTransition> conjunctiveTransitions) {
+		super(concepts, conjunctiveTransitions);
 	}
 
 	@Override

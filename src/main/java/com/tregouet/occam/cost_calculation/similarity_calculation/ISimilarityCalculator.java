@@ -6,7 +6,7 @@ import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.operators.IConjunctiveOperator;
+import com.tregouet.occam.data.operators.IConjunctiveTransition;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface ISimilarityCalculator {
@@ -25,6 +25,6 @@ public interface ISimilarityCalculator {
 	
 	double howSimilarTo(int catID1, int catID2);
 	
-	void set(Tree<IConcept, IsA> concepts, List<IConjunctiveOperator> conjunctiveOperators);
+	void set(Tree<IConcept, IsA> concepts, List<IConjunctiveTransition> conjunctiveTransitions);
 
 }

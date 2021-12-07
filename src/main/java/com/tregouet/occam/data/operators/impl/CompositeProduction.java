@@ -143,14 +143,4 @@ public class CompositeProduction extends Production implements ICompositeProduct
 		return sB.toString();
 	}
 
-	@Override
-	public IProduction rebut(IConcept complementaryConcept) {
-		List<IBasicProduction> rebuttedProductions = new ArrayList<>();
-		for (IBasicProduction basicProd : basicProductions) {
-			if (!basicProd.isBlank())
-				rebuttedProductions.add((BasicProduction) basicProd.rebut(complementaryConcept));
-		}
-		return new CompositeProduction(rebuttedProductions);
-	}
-
 }

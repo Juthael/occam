@@ -7,12 +7,12 @@ import java.util.function.Predicate;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
-import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.operators.IConjunctiveOperator;
+import com.tregouet.occam.data.operators.IConjunctiveTransition;
 import com.tregouet.occam.data.operators.IOperator;
+import com.tregouet.occam.data.operators.ITransition;
 import com.tregouet.occam.finite_automaton.IFiniteAutomaton;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -29,23 +29,21 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	IFiniteAutomaton getCompiler();
 	
-	List<IConjunctiveOperator> getConjunctiveTransitions();
+	List<IConjunctiveTransition> getConjunctiveTransitions();
 	
 	IDSLanguageDisplayer getDomainSpecificLanguage();
-	
-	IPropertyWeigher getInfometer();
 	
 	ISimilarityCalculator getSimilarityCalculator();
 	
 	List<IState> getStates();
 	
-	SimpleDirectedGraph<IState, IConjunctiveOperator> getFiniteAutomatonGraph();
+	SimpleDirectedGraph<IState, IConjunctiveTransition> getFiniteAutomatonGraph();
 	
-	DirectedMultigraph<IState, IOperator> getFiniteAutomatonMultigraph();
+	DirectedMultigraph<IState, ITransition> getFiniteAutomatonMultigraph();
 	
 	String getTransitionFunctionAsDOTFile(TransitionFunctionGraphType graphType);
 	
-	List<IOperator> getTransitions();
+	List<ITransition> getTransitions();
 	
 	boolean validate(Predicate<ITransitionFunction> validator);
 	

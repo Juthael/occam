@@ -42,10 +42,4 @@ public class IntentAttribute extends Construct implements IIntentAttribute {
 		return super.hashCode();
 	}
 
-	@Override
-	public IIntentAttribute rebut(IConcept complementaryConcept) {
-		IConstruct complementaryConstruct = this.rebut();
-		return new IntentAttribute(complementaryConstruct, complementaryConcept);
-	}
-
 }

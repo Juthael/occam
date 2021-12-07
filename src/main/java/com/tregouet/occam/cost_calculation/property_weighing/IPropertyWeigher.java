@@ -15,7 +15,7 @@ public interface IPropertyWeigher {
 	
 	double getPropertyWeight(IOperator property);
 	
-	void set(List<IContextObject> objects, Tree<IConcept, IsA> concepts, 
+	void setUp(List<IContextObject> objects, Tree<IConcept, IsA> concepts, 
 			List<IOperator> properties);
 
 }

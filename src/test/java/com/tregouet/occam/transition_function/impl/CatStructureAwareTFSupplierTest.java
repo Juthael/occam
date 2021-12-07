@@ -60,9 +60,9 @@ public class CatStructureAwareTFSupplierTest {
 	@Test
 	public void whenRequestedThenReturnsRepresentedCatStructuresInDecreasingCoherenceOrder() 
 			throws IOException, InvalidInputException {
-		//HERE
+		/*
 		Visualizer.visualizeCategoryGraph(concepts.getTransitiveReduction(), "211201_CL");
-		//HERE
+		*/
 		boolean increasingOrder = true;
 		int idx = 0;
 		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(concepts, constructs, 

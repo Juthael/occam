@@ -87,14 +87,6 @@ public class TransitionFunctionSupplierTest {
 	@Test
 	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfContainerCategoriesIsTreeOfCategories() {
 		boolean expectedSetOfCategories = true;
-		//HERE
-		try {
-			Visualizer.visualizeCategoryGraph(concepts.getCategoryLattice(), "211202_CL");
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		//HERE
 		while (classificationTreeSupplier.hasNext()) {
 			Tree<IConcept, IsA> catTree = classificationTreeSupplier.nextOntologicalCommitment();
 			Set<IConcept> expectedCats = catTree.vertexSet();

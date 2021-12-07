@@ -29,7 +29,7 @@ public class InformativityDiagnosticity implements IPropertyWeigher {
 	
 	public InformativityDiagnosticity(List<IContextObject> objects, Tree<IConcept, IsA> concepts, 
 			List<IOperator> properties) {
-		set(objects, concepts, properties);
+		setUp(objects, concepts, properties);
 	}	
 	
 	private static double binaryLogarithm(double arg) {
@@ -82,7 +82,7 @@ public class InformativityDiagnosticity implements IPropertyWeigher {
 	}
 	
 	@Override
-	public void set(List<IContextObject> objects, Tree<IConcept, IsA> concepts, 
+	public void setUp(List<IContextObject> objects, Tree<IConcept, IsA> concepts, 
 			List<IOperator> properties) {
 		this.objects = objects;
 		this.concepts = concepts;

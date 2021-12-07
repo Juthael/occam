@@ -1,6 +1,5 @@
 package com.tregouet.occam.data.concepts.impl;
 
-import com.tregouet.occam.data.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
@@ -44,7 +43,7 @@ public class IntentAttribute extends Construct implements IIntentAttribute {
 	}
 
 	@Override
-	public IIntentAttribute rebut(IComplementaryConcept complementaryConcept) {
+	public IIntentAttribute rebut(IConcept complementaryConcept) {
 		IConstruct complementaryConstruct = this.rebut();
 		return new IntentAttribute(complementaryConstruct, complementaryConcept);
 	}

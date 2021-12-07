@@ -3,7 +3,7 @@ package com.tregouet.occam.data.operators.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tregouet.occam.data.concepts.IComplementaryConcept;
+import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.operators.IBasicProduction;
@@ -144,7 +144,7 @@ public class CompositeProduction extends Production implements ICompositeProduct
 	}
 
 	@Override
-	public IProduction rebut(IComplementaryConcept complementaryConcept) {
+	public IProduction rebut(IConcept complementaryConcept) {
 		List<IBasicProduction> rebuttedProductions = new ArrayList<>();
 		for (IBasicProduction basicProd : basicProductions) {
 			if (!basicProd.isBlank())

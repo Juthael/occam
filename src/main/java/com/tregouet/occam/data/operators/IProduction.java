@@ -2,7 +2,6 @@ package com.tregouet.occam.data.operators;
 
 import java.util.List;
 
-import com.tregouet.occam.data.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.AVariable;
@@ -22,8 +21,6 @@ public interface IProduction {
 	IConcept getInstance();
 	
 	String getLabel();
-	
-	//IOperator getOperator();
 	
 	IIntentAttribute getSource();
 	
@@ -56,6 +53,6 @@ public interface IProduction {
 	@Override
 	String toString();
 	
-	IProduction rebut(IComplementaryConcept complementaryConcept);
+	IProduction rebut(IConcept complementaryConcept);
 
 }

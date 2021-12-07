@@ -12,6 +12,6 @@ public interface IIntentAttribute extends IConstruct {
 	
 	IConcept getConcept();
 	
-	IIntentAttribute rebut(IComplementaryConcept complementaryConcept);
+	IIntentAttribute rebut(IConcept complementaryConcept);
 
 }

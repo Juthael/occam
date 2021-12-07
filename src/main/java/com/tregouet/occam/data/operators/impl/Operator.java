@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
-import com.tregouet.occam.data.concepts.IComplementaryConcept;
+import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ICompositeProduction;
@@ -33,10 +33,10 @@ public class Operator implements IOperator {
 			inputToOutput.put(production.getSource(), production.getTarget());
 	}
 	
-	private Operator(IOperator rebuttedOperator, IState complementaryState, IPropertyWeigher infometer) {
+	private Operator(IOperator rebuttedOperator, IState complementaryState) {
 		name = "¬" + rebuttedOperator.getName();
 		activeState = complementaryState;
-		IComplementaryConcept compConcept = (IComplementaryConcept) complementaryState.getAssociatedConcept();
+		IConcept compConcept = complementaryState.getAssociatedConcept();
 		Map<IIntentAttribute, IIntentAttribute> rebuttedInputToOutput = rebuttedOperator.getInputToOutputMap();
 		for (IIntentAttribute rebuttedInput : rebuttedInputToOutput.keySet())
 			inputToOutput.put(rebuttedInput.rebut(compConcept), rebuttedInputToOutput.get(rebuttedInput));
@@ -46,7 +46,6 @@ public class Operator implements IOperator {
 				operation.add(rebuttedProduction.rebut(compConcept));
 		}
 		nextState = rebuttedOperator.getNextState();
-		setInformativity(infometer);
 	}
 
 	@Override
@@ -164,8 +163,8 @@ public class Operator implements IOperator {
 	}
 
 	@Override
-	public IOperator rebut(IState complementaryState, IPropertyWeigher infometer) {
-		return new Operator(this,  complementaryState, infometer);
+	public IOperator rebut(IState complementaryState) {
+		return new Operator(this,  complementaryState);
 	}
 
 	@Override

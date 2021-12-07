@@ -29,15 +29,11 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 		nextState = operator.getNextState();
 	}
 	
-	private ConjunctiveOperator(IConjunctiveOperator conjunctiveOperator, IState complementaryState, 
-			IPropertyWeigher infometer) {
+	private ConjunctiveOperator(IConjunctiveOperator conjunctiveOperator, IState complementaryState) {
 		name = "¬" + conjunctiveOperator.getName();
 		for (IOperator rebuttedOperator : conjunctiveOperator.getComponents()) {
-			if (!rebuttedOperator.isBlank()) {
-				IOperator complementaryOperator = rebuttedOperator.rebut(complementaryState, infometer);
-				complementaryOperator.setInformativity(infometer);
-				addOperator(complementaryOperator);
-			}
+			if (!rebuttedOperator.isBlank())
+				addOperator(rebuttedOperator.rebut(complementaryState));
 		}
 		operatingState = complementaryState;
 		nextState = conjunctiveOperator.getNextState();
@@ -123,8 +119,8 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 	}
 
 	@Override
-	public IOperator rebut(IState complementaryState, IPropertyWeigher infometer) {
-		return new ConjunctiveOperator(this, complementaryState, infometer);
+	public IOperator rebut(IState complementaryState) {
+		return new ConjunctiveOperator(this, complementaryState);
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.concepts.IComplementaryConcept;
+import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
@@ -191,7 +191,7 @@ public class BasicProduction extends Production implements IBasicProduction {
 	}
 
 	@Override
-	public IProduction rebut(IComplementaryConcept complementaryConcept) {
+	public IProduction rebut(IConcept complementaryConcept) {
 		return new BasicProduction(variable, value.rebut(), getSource().rebut(complementaryConcept), getTarget());
 	}
 

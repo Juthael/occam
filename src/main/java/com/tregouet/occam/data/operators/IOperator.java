@@ -68,7 +68,7 @@ public interface IOperator {
 	@Override
 	String toString();	
 	
-	IOperator rebut(IState complementaryState, IPropertyWeigher infometer);
+	IOperator rebut(IState complementaryState);
 	
 	Map<IIntentAttribute, IIntentAttribute> getInputToOutputMap();
 

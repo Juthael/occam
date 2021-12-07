@@ -2,7 +2,7 @@ package com.tregouet.occam.data.operators.impl;
 
 import java.util.List;
 
-import com.tregouet.occam.data.concepts.IComplementaryConcept;
+import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ILambdaExpression;
@@ -47,7 +47,7 @@ public class BlankProduction extends BasicProduction implements IBasicProduction
 	}
 	
 	@Override
-	public IProduction rebut(IComplementaryConcept complementaryConcept) {
+	public IProduction rebut(IConcept complementaryConcept) {
 		return null;
 	}
 

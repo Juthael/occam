@@ -1,6 +1,5 @@
 package com.tregouet.occam.transition_function.impl;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.math.BigDecimal;
@@ -8,15 +7,12 @@ import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
-import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 import org.jgrapht.nio.Attribute;
@@ -30,24 +26,18 @@ import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.cost_calculation.property_weighing.PropertyWeigherFactory;
 import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
 import com.tregouet.occam.cost_calculation.similarity_calculation.SimilarityCalculatorFactory;
-import com.tregouet.occam.data.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.constructs.ISymbol;
-import com.tregouet.occam.data.constructs.impl.Terminal;
 import com.tregouet.occam.data.operators.IConjunctiveOperator;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
 import com.tregouet.occam.data.operators.impl.ConjunctiveOperator;
 import com.tregouet.occam.data.operators.impl.Operator;
-import com.tregouet.occam.data.operators.impl.ReframingOperator;
 import com.tregouet.occam.finite_automaton.IFiniteAutomaton;
 import com.tregouet.occam.finite_automaton.impl.FiniteAutomaton;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
-import com.tregouet.occam.transition_function.IFrame;
 import com.tregouet.occam.transition_function.IState;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
@@ -65,11 +55,6 @@ public class TransitionFunction implements ITransitionFunction {
 	private final ISimilarityCalculator similarityCalc;
 	private DirectedMultigraph<IState, IOperator> finiteAutomatonMultigraph = null;
 	private SimpleDirectedGraph<IState, IConjunctiveOperator> finiteAutomatonGraph = null;
-	//HERE
-	/*
-	private static boolean test;
-	*/
-	//HERE
 	
 	public TransitionFunction(List<IContextObject> objects, List<IConcept> singletons, 
 			Tree<IConcept, IsA> concepts, Tree<IIntentAttribute, IProduction> constructs, 
@@ -91,21 +76,19 @@ public class TransitionFunction implements ITransitionFunction {
 				categoryToState.put(concept, new State(concept, extentSize));	
 			}
 		}
-		operators = buildOperators(new ArrayList<>(constructs.edgeSet()), categoryToState);
+		operators = buildOperators(new ArrayList<>(constructs.edgeSet()));
 		propWeigher = PropertyWeigherFactory.apply(propWeighingStrategy);
-		propWeigher.set(objects, concepts, operators);
+		propWeigher.setUp(objects, concepts, operators);
 		operators.stream().forEach(o -> o.setInformativity(propWeigher));
 		for (IOperator op : operators) {
 			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(op)))
 				conjunctiveOperators.add(new ConjunctiveOperator(op));
 		}
-		buildReframingOperators();
 		similarityCalc = SimilarityCalculatorFactory.apply(simCalculationStrategy); 
 		similarityCalc.set(concepts, conjunctiveOperators);
 	}
 
-	public static List<IOperator> buildOperators(
-			List<IProduction> productions, Map<IConcept, IState> categoryToState){
+	public List<IOperator> buildOperators(List<IProduction> productions){
 		List<IOperator> operators = new ArrayList<>();
 		List<List<Integer>> operatorProdsSets = groupIndexesOfProductionsHandledByTheSameOperator(productions);
 		for (List<Integer> idxes : operatorProdsSets) {
@@ -123,6 +106,7 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 			operators.add(new Operator(activeState, operation, nextState));	
 		}
+		operators.addAll(buildReframers(concepts, operators));
 		return operators;
 	}
 
@@ -439,65 +423,23 @@ public class TransitionFunction implements ITransitionFunction {
 		return typicalityArray;
 	}
 	
-	private void setUpStateFrameConstructs(Tree<IConcept, IsA> concepts, IFrame frame, IConcept concept) {
-		IFrame nextFrame;
-		IState associatedState = categoryToState.get(concept);
-		if (concept.isComplementary()) {
-			IComplementaryConcept compConcept = (IComplementaryConcept) concept;
-			IState complementedState = categoryToState.get(compConcept.getComplementedConcept());
-			List<IOperator> rebuttedOperators = operators.stream()
-					.filter(o -> o.getOperatingState().equals(complementedState))
-					.collect(Collectors.toList());
-			List<ISymbol> frameProg = new ArrayList<>(frame.getListOfSymbols());
-			if (rebuttedOperators.size() > 1) {
-				StringBuilder sB = new StringBuilder();
-				sB.append("¬{");
-				for (int i = 0 ; i < rebuttedOperators.size() ; i++) {
-					sB.append(rebuttedOperators.get(i).getName());
-					if (i < rebuttedOperators.size() - 1)
-						sB.append(" ∨ ");
-				}
-				sB.append("}");	
-				frameProg.add(new Terminal(sB.toString()));
-			}
-			else frameProg.add(new Terminal("¬" + rebuttedOperators.get(0).getName()));
-			nextFrame = new Frame(frameProg);
-		}
-		else nextFrame = frame;
-		associatedState.frame(nextFrame);
-		for (IsA incomingEdge : concepts.incomingEdgesOf(concept)) {
-			setUpStateFrameConstructs(concepts, nextFrame, concepts.getEdgeSource(incomingEdge));
-		}
-	}
-	
-	private void buildReframingOperators() {
-		
-		//HERE refaire
-		List<IOperator> reframingOperators = new ArrayList<>();
-		List<IConcept> complementaryConcepts = new ArrayList<>();
+	private List<IOperator> buildReframers(Tree<IConcept, IsA> concepts, List<IOperator> operators) {
+		List<IOperator> reframingOp = new ArrayList<>(); 
+		Map<IState, IState> complementedToComplementary = new HashMap<>();
 		for (IConcept concept : concepts.vertexSet()) {
-			if (concept.isComplementary())
-				complementaryConcepts.add(concept);
-		}
-		for (IConcept compConcept : complementaryConcepts) {
-			IState complementaryState = categoryToState.get(compConcept);
-			IState compStateSuccessor = categoryToState.get(Graphs.successorListOf(concepts, compConcept).get(0));
-			List<IState> compStatePredecessors = new ArrayList<>();
-			for (IConcept compConceptPredecessor : Graphs.predecessorListOf(concepts, compConcept)) {
-				compStatePredecessors.add(categoryToState.get(compConceptPredecessor));
+			if (concept.isComplementary()) {
+				complementedToComplementary.put(
+						categoryToState.get(concept.getComplemented()), 
+						categoryToState.get(concept));
 			}
-			IConjunctiveOperator reframingOperator = null;
-			for (IConjunctiveOperator operator : conjunctiveOperators) {
-				if (operator.getNextState().equals(compStateSuccessor)
-						&& operator.getOperatingState().equals(categoryToState.get(compConcept.getComplemented())))
-					reframingOperator = operator;
-			}
-			reframingOperators.add(new ReframingOperator(complementaryState, compStateSuccessor, reframingOperator));
 		}
-		for (IOperator reframingOp : reframingOperators) {
-			if (!conjunctiveOperators.stream().anyMatch(c -> c.addOperator(reframingOp)))
-				conjunctiveOperators.add(new ConjunctiveOperator(reframingOp));
+		for (IOperator operator : operators) {
+			IState operatingState = operator.getOperatingState();
+			IState complementaryState = complementedToComplementary.get(operatingState);
+			if (complementaryState != null)
+				reframingOp.add(operator.rebut(complementaryState));
 		}
+		return reframingOp;
 	}
 
 }

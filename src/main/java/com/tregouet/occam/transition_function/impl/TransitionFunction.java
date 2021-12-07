@@ -146,33 +146,31 @@ public class TransitionFunction implements ITransitionFunction {
 	private static String operatorAsString(ITransition transition) {
 		StringBuilder sB = new StringBuilder();
 		String nL = System.lineSeparator();
-		if (transition instanceof IConjunctiveTransition) {
-			sB.append("***" + transition.getName() + " : " + nL);
-			List<ITransition> components = new ArrayList<>();
-			for (ITransition component : ((IConjunctiveTransition) transition).getComponents()) {
-				if (component instanceof IReframer || !((IOperator)component).isBlank())
-					components.add(component);
+		if (!transition.isBlank()) {
+			if (transition instanceof IConjunctiveTransition) {
+				IConjunctiveTransition conjTrans = (IConjunctiveTransition) transition;
+				IReframer reframer = conjTrans.getReframer();
+				if (!reframer.isBlank())
+					sB.append("FRAME : " + reframer.getReframer() + nL);
+				for (IBasicOperator operator : conjTrans.getOperators()) {
+					sB.append(operatorAsString(operator) + nL);
+				}
 			}
-			for (int i = 0 ; i < components.size() ; i++) {
-				sB.append(operatorAsString(components.get(i)));
-				if (i < components.size() - 1)
-					sB.append(System.lineSeparator());
+			else if (transition instanceof IBasicOperator) {
+				IOperator operator = (IOperator) transition;
+				sB.append(operator.getName() + " : ");
+				List<IProduction> productions = operator.operation();
+				for (int i = 0 ; i < productions.size() ; i++) {
+					sB.append(productions.get(i).toString());
+					if (i < productions.size() - 1)
+						sB.append(nL);
+				}
 			}
-			return sB.toString();
+			else if (transition instanceof IReframer) {
+				IReframer reframer = (IReframer) transition;
+				sB.append(reframer.getName() + " : " + reframer.getReframer() + nL);
+			}
 		}
-		if (transition instanceof IBasicOperator) {
-			IOperator operator = (IOperator) transition;
-			sB.append(operator.getName() + " : ");
-			List<IProduction> productions = operator.operation();
-			for (int i = 0 ; i < productions.size() ; i++) {
-				sB.append(productions.get(i).toString());
-				if (i < productions.size() - 1)
-					sB.append(System.lineSeparator());
-			}
-			return sB.toString();
-		}
-		IReframer reframer = (IReframer) transition;
-		sB.append(reframer.getName() + " : " + reframer.reframing());
 		return sB.toString();
 	}
 
@@ -418,6 +416,7 @@ public class TransitionFunction implements ITransitionFunction {
 		return typicalityArray;
 	}
 	
+	//HERE gérer ça au niveau de TransitionFunctionSupplier,faire des reframers en cascade
 	private List<IReframer> buildReframers() {
 		List<IReframer> reframingOp = new ArrayList<>(); 
 		for (IConcept concept : concepts.vertexSet()) {
@@ -428,6 +427,7 @@ public class TransitionFunction implements ITransitionFunction {
 				IState successorState = 
 						categoryToState.get(Graphs.successorListOf(concepts, complementedConcept).get(0));
 				reframingOp.add(new Reframer(complementaryState, complementedState, successorState));
+				if (concept.)
 			}
 		}
 		return reframingOp;

@@ -10,8 +10,6 @@ import com.tregouet.occam.transition_function.IState;
 
 public interface IOperator extends ITransition {
 	
-	boolean isBlank();
-	
 	IIntentAttribute operateOn(IIntentAttribute input);
 	
 	List<IProduction> operation();	

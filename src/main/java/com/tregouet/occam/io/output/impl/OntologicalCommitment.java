@@ -165,7 +165,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 
 	@Override
 	public String generateCategoricalCoherenceArray(String alinea) {
-		Map<Integer, Double> catIDToCoherence = currentTransFunc.getCategoricalCoherenceMap();
+		Map<Integer, Double> catIDToCoherence = currentTransFunc.getConceptualCoherenceMap();
 		List<IConcept> topologicalOrder = new ArrayList<>();
 		new TopologicalOrderIterator<>(currentTransFunc.getCategoryTree()).forEachRemaining(topologicalOrder::add);
 		StringBuilder sB = new StringBuilder();

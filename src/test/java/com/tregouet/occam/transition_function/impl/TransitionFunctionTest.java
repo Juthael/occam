@@ -249,7 +249,7 @@ public class TransitionFunctionTest {
 			Visualizer.visualizeTransitionFunction(tF, "TFunc_" + Integer.toString(tFIdx++), 
 					TransitionFunctionGraphType.FINITE_AUTOMATON);
 			*/
-			Map<Integer, Double> coherenceMap = tF.getCategoricalCoherenceMap();
+			Map<Integer, Double> coherenceMap = tF.getConceptualCoherenceMap();
 			if (coherenceMap == null || coherenceMap.isEmpty())
 				returned = false;
 			/*

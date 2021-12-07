@@ -145,8 +145,9 @@ public class TransitionFunction implements ITransitionFunction {
 
 	private static String operatorAsString(ITransition transition) {
 		StringBuilder sB = new StringBuilder();
+		String nL = System.lineSeparator();
 		if (transition instanceof IConjunctiveTransition) {
-			sB.append("***" + transition.getName() + " : ");
+			sB.append("***" + transition.getName() + " : " + nL);
 			List<ITransition> components = new ArrayList<>();
 			for (ITransition component : ((IConjunctiveTransition) transition).getComponents()) {
 				if (component instanceof IReframer || !((IOperator)component).isBlank())
@@ -161,8 +162,6 @@ public class TransitionFunction implements ITransitionFunction {
 		}
 		if (transition instanceof IBasicOperator) {
 			IOperator operator = (IOperator) transition;
-			if (operator.isBlank())
-				return operator.getName() + " : inheritance";
 			sB.append(operator.getName() + " : ");
 			List<IProduction> productions = operator.operation();
 			for (int i = 0 ; i < productions.size() ; i++) {
@@ -393,7 +392,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public Map<Integer, Double> getCategoricalCoherenceMap() {
+	public Map<Integer, Double> getConceptualCoherenceMap() {
 		Map<Integer, Double> catIDToCoherenceScore = new HashMap<>();
 		TopologicalOrderIterator<IConcept, IsA> iterator = new TopologicalOrderIterator<>(concepts);
 		while (iterator.hasNext()) {

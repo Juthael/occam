@@ -18,13 +18,16 @@ import com.tregouet.occam.transition_function.IState;
 public class ConjunctiveTransition implements IConjunctiveTransition {
 	
 	private String name;
-	private List<ITransition> transitions = new ArrayList<>();
+	private List<IBasicOperator> operators = new ArrayList<>();
+	private IReframer reframer;
 	private final IState operatingState;
 	private final IState nextState;
 
 	public ConjunctiveTransition(ITransition transition) {
 		name = IConjunctiveTransition.provideName();
-		transitions.add(transition);
+		if (transition instanceof IReframer)
+			reframer = (IReframer) transition;
+		else operators.add((IBasicOperator) transition);
 		operatingState = transition.getOperatingState();
 		nextState = transition.getNextState();
 	}
@@ -33,14 +36,18 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	public boolean addTransition(ITransition transition) {
 		if (this.operatingState.equals(transition.getOperatingState()) 
 				&& this.nextState.equals(transition.getNextState())) {
-			transitions.add(transition);
+			if (transition instanceof IReframer)
+				reframer = (IReframer) transition;
+			else operators.add((IBasicOperator) transition);
 		}
 		return false;
 	}
 
 	@Override
 	public List<ITransition> getComponents() {
-		return transitions;
+		List<ITransition> components = new ArrayList<>(operators);
+		components.add(reframer);
+		return components;
 	}
 
 	@Override
@@ -60,14 +67,9 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 
 	@Override
 	public boolean isBlank() {
-		for (ITransition transition : transitions) {
-			if (transition instanceof IReframer)
+		for (ITransition transition : getComponents()) {
+			if (!transition.isBlank())
 				return false;
-			else {
-				IOperator op = (IOperator) transition;
-				if (!op.isBlank())
-					return false;
-			}
 		}
 		return true;
 	}
@@ -76,21 +78,16 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	public IIntentAttribute operateOn(IIntentAttribute input) {
 		IIntentAttribute output = null;
 		int opIdx = 0;
-		while (output == null && opIdx < transitions.size()) {
-			ITransition currentTrans = transitions.get(opIdx);
-			if (currentTrans instanceof IOperator)
-				output = ((IOperator) currentTrans).operateOn(input);
-			opIdx++;
-		}
+		while (output == null && opIdx < operators.size())
+			output = operators.get(opIdx++).operateOn(input);
 		return output;
 	}
 
 	@Override
 	public List<IProduction> operation() {
 		List<IProduction> operations = new ArrayList<>();
-		for (ITransition transition : transitions) {
-			if (transition instanceof IOperator)
-				operations.addAll(((IOperator) transition).operation());
+		for (IBasicOperator operator : operators) {
+			operations.addAll(operator.operation());
 		}
 		return operations;
 	}
@@ -98,11 +95,19 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	@Override
 	public List<ILambdaExpression> semantics() {
 		List<ILambdaExpression> semantics = new ArrayList<>();
-		for (ITransition transition : transitions) {
-			if (transition instanceof IOperator)
-				semantics.addAll(((IOperator) transition).semantics());
-		}
+		for (IBasicOperator operator : operators)
+			semantics.addAll(operator.semantics());
 		return semantics;
+	}
+
+	@Override
+	public List<IBasicOperator> getOperators() {
+		return operators;
+	}
+
+	@Override
+	public IReframer getReframer() {
+		return reframer;
 	}
 
 }

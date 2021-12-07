@@ -49,5 +49,7 @@ public interface ITransition {
 	IState getNextState();
 	
 	IState getOperatingState();
+	
+	boolean isBlank();
 
 }

@@ -34,5 +34,9 @@ public interface IConjunctiveTransition extends IOperator {
 	boolean addTransition(ITransition transition);
 	
 	List<ITransition> getComponents();
+	
+	List<IBasicOperator> getOperators();
+	
+	IReframer getReframer();
 
 }

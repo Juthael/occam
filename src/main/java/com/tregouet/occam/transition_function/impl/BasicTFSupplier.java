@@ -5,7 +5,6 @@ import java.util.TreeSet;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
@@ -25,9 +24,9 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private Iterator<ITransitionFunction> ite;
 	
 	public BasicTFSupplier(IConcepts concepts, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
-			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) 
+			SimilarityCalculationStrategy simCalculationStrategy) 
 			throws InvalidInputException {
-		super(concepts, constructs, propWeighingStrategy, simCalculationStrategy);
+		super(concepts, constructs, simCalculationStrategy);
 		populateTransitionFunctions();
 		ite = transitionFunctions.iterator();
 	}
@@ -63,7 +62,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = new TransitionFunction(
 						concepts.getContextObjects(), concepts.getSingletonConcept(), 
-						currCatTree, attTree, propWeighingStrategy, simCalculationStrategy);
+						currCatTree, attTree, simCalculationStrategy);
 				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE)) {
 					if (transitionFunctions.size() <= MAX_CAPACITY)
 						transitionFunctions.add(transitionFunction);

@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
@@ -32,8 +31,6 @@ import com.tregouet.tree_finder.error.InvalidInputException;
 public class CatStructureAwareTFSupplierTest {
 	
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
-	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
-			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
 	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
 			SimilarityCalculationStrategy.RATIO_MODEL;
 	private static List<IContextObject> shapes2Obj;	
@@ -66,7 +63,7 @@ public class CatStructureAwareTFSupplierTest {
 		boolean increasingOrder = true;
 		int idx = 0;
 		ICatStructureAwareTFSupplier transFuncSupplier = new CatStructureAwareTFSupplier(concepts, constructs, 
-				PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
+				SIM_CALCULATION_STRATEGY);
 		List<Double> coherenceScores = new ArrayList<>();
 		IRepresentedCatTree representedCatTree;
 		while (transFuncSupplier.hasNext()) {

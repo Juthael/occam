@@ -29,11 +29,6 @@ public class BasicOperator extends Transition implements IBasicOperator {
 	}
 
 	@Override
-	public double getInformativity() {
-		return informativity;
-	}
-
-	@Override
 	public boolean isBlank() {
 		boolean isBlank = true;
 		int prodIdx = 0;

@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
@@ -39,8 +38,6 @@ import com.tregouet.tree_finder.data.Tree;
 public class TransitionFunctionValidatorTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
-	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
-			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
 	private static final SimilarityCalculationStrategy SIM_CALC_STRATEGY = 
 			SimilarityCalculationStrategy.CONTRAST_MODEL;
 	private static List<IContextObject> shapes1Obj;
@@ -79,7 +76,7 @@ public class TransitionFunctionValidatorTest {
 				constrTree = constrTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = 
 						new TransitionFunction(shapes1Obj, concepts.getSingletonConcept(), catTree, constrTree, 
-								PROP_WHEIGHING_STRATEGY, SIM_CALC_STRATEGY);
+								SIM_CALC_STRATEGY);
 				transitionFunctions.add(transitionFunction);
 			}
 		}

@@ -112,7 +112,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 			//Any state has a category as one of its component. This category ID is the state ID.
 			Integer operatingStateIndex = indexOf(op.getOperatingState().getStateID());
 			Integer nextStateIndex = indexOf(op.getNextState().getStateID());
-			Double informativity = op.getInformativity();
+			Double informativity = 1.1;
 			edges.add(new Triple<Integer, Integer, Double>(operatingStateIndex, nextStateIndex, informativity));
 		}
 		weightedTransitions = new SparseIntDirectedWeightedGraph(nbOfCategories, edges);

@@ -17,7 +17,6 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
@@ -44,8 +43,6 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	private static final String NL = System.lineSeparator();
 	private static final Path headPath = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io", 
 			"output", "html", "head.txt");
-	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
-			PropertyWeighingStrategy.INFORMATIVITY;
 	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
 			SimilarityCalculationStrategy.RATIO_MODEL;
 	private static final DecimalFormat df = new DecimalFormat("#.####");
@@ -82,7 +79,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 		});
 		try {
 			catStructureAwareTFSupplier = new CatStructureAwareTFSupplier(concepts, constructs, 
-					PROP_WHEIGHING_STRATEGY, SIM_CALCULATION_STRATEGY);
+					SIM_CALCULATION_STRATEGY);
 		} catch (InvalidInputException e) {
 			return false;
 		}

@@ -8,7 +8,6 @@ import java.util.TreeSet;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
@@ -30,11 +29,10 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 	private final Map<IConcept, String> objectCategoryToName = new HashMap<>();
 	private Iterator<IRepresentedCatTree> ite;
 	
-	public CatStructureAwareTFSupplier(IConcepts concepts,
+	public CatStructureAwareTFSupplier(IConcepts concepts, 
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
-			PropertyWeighingStrategy propWeighingStrategy, SimilarityCalculationStrategy simCalculationStrategy) 
-					throws InvalidInputException {
-		super(concepts, constructs, propWeighingStrategy, simCalculationStrategy);
+			SimilarityCalculationStrategy simCalculationStrategy) throws InvalidInputException {
+		super(concepts, constructs, simCalculationStrategy);
 		populateRepresentedCategories();
 		for (IConcept objCat : concepts.getSingletonConcept())
 			objectCategoryToName.put(objCat, objCat.getExtent().iterator().next().getName());
@@ -83,7 +81,7 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = new TransitionFunction(
 						concepts.getContextObjects(), concepts.getSingletonConcept(), 
-						currCatTree, attTree, propWeighingStrategy, simCalculationStrategy);
+						currCatTree, attTree, simCalculationStrategy);
 				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE))
 					currCatTreeRepresentation.testAlternativeRepresentation(transitionFunction);
 			}
@@ -95,7 +93,6 @@ public class CatStructureAwareTFSupplier extends TransitionFunctionSupplier impl
 					representedCategories.pollLast();
 				}
 			}
-
 		}
 	}
 

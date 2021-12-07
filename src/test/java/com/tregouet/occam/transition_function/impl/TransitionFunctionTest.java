@@ -18,7 +18,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
@@ -28,10 +27,12 @@ import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.occam.data.operators.IBasicOperator;
 import com.tregouet.occam.data.operators.IBasicProduction;
 import com.tregouet.occam.data.operators.ICompositeProduction;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.data.operators.ITransition;
 import com.tregouet.occam.data.operators.impl.BlankProduction;
 import com.tregouet.occam.data.operators.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -52,8 +53,6 @@ import guru.nidi.graphviz.parse.Parser;
 public class TransitionFunctionTest {
 
 	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
-	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
-			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
 	private static final SimilarityCalculationStrategy SIM_CALC_STRATEGY = 
 			SimilarityCalculationStrategy.RATIO_MODEL;
 	private static List<IContextObject> objects;
@@ -92,7 +91,7 @@ public class TransitionFunctionTest {
 				constrTree = constrTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = 
 						new TransitionFunction(objects, concepts.getSingletonConcept(), catTree, constrTree, 
-								PROP_WHEIGHING_STRATEGY, SIM_CALC_STRATEGY);
+								SIM_CALC_STRATEGY);
 				transitionFunctions.add(transitionFunction);
 			}
 		}
@@ -295,9 +294,12 @@ public class TransitionFunctionTest {
 		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			Map<IProduction, IOperator> prodToOpe = new HashMap<>();
-			for (IOperator operator : tF.getTransitions()) {
-				for (IProduction production : operator.operation()) {
-					prodToOpe.put(production, operator);
+			for (ITransition transition : tF.getTransitions()) {
+				if (transition instanceof IOperator) {
+					IOperator operator = (IOperator) transition;
+					for (IProduction production : operator.operation()) {
+						prodToOpe.put(production, operator);
+					}
 				}
 			}
 			List<IProduction> productions = new ArrayList<>(prodToOpe.keySet());
@@ -329,19 +331,22 @@ public class TransitionFunctionTest {
 			*/
 			List<IBasicProduction> basicProds = new ArrayList<>();
 			List<IOperator> basicProdsOperators = new ArrayList<>();
-			for (IOperator operator : tF.getTransitions()) {
-				for (IProduction production : operator.operation()) {
-					if (production instanceof BlankProduction) {
-					}
-					else if (production instanceof IBasicProduction) {
-						basicProds.add((IBasicProduction) production);
-						basicProdsOperators.add(operator);
-					}
-					else {
-						ICompositeProduction compoProd = (ICompositeProduction) production;
-						for (IBasicProduction basicProd : compoProd.getComponents()) {
-							basicProds.add(basicProd);
+			for (ITransition transition : tF.getTransitions()) {
+				if (transition instanceof IOperator) {
+					IOperator operator = (IOperator) transition;
+					for (IProduction production : operator.operation()) {
+						if (production instanceof BlankProduction) {
+						}
+						else if (production instanceof IBasicProduction) {
+							basicProds.add((IBasicProduction) production);
 							basicProdsOperators.add(operator);
+						}
+						else {
+							ICompositeProduction compoProd = (ICompositeProduction) production;
+							for (IBasicProduction basicProd : compoProd.getComponents()) {
+								basicProds.add(basicProd);
+								basicProdsOperators.add(operator);
+							}
 						}
 					}
 				}
@@ -368,14 +373,17 @@ public class TransitionFunctionTest {
 	public void whenProductionsHandledBySameOperatorThenConsistentWithRequirements() {
 		boolean consistent = true;
 		for (ITransitionFunction tF : transitionFunctions) {
-			for (IOperator operator : tF.getTransitions()) {
-				List<IProduction> productions = operator.operation();
-				if (!sameSourceAndTargetCategoryForAll(productions))
-					consistent = false;
-				for (IProduction production : productions) {
-					if (!sameTargetAttributeAsOneOtherProduction(production, productions) 
-							&& !sameValueAsOneOtherProduction(production, productions))
+			for (ITransition transition : tF.getTransitions()) {
+				if (transition instanceof IOperator) {
+					IOperator operator = (IOperator) transition;
+					List<IProduction> productions = operator.operation();
+					if (!sameSourceAndTargetCategoryForAll(productions))
 						consistent = false;
+					for (IProduction production : productions) {
+						if (!sameTargetAttributeAsOneOtherProduction(production, productions) 
+								&& !sameValueAsOneOtherProduction(production, productions))
+							consistent = false;
+					}
 				}
 			}
 		}

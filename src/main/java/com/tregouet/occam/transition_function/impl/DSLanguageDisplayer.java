@@ -99,7 +99,6 @@ public class DSLanguageDisplayer implements IDSLanguageDisplayer {
 					sB.append(" ");
 				else sB.append(System.lineSeparator());
 			}
-			sB.append("   cost : " + Double.toString(operator.getInformativity()) + System.lineSeparator());
 		}
 		return sB.toString();
 	}
@@ -135,11 +134,6 @@ public class DSLanguageDisplayer implements IDSLanguageDisplayer {
 		sB.append(System.lineSeparator() + System.lineSeparator());
 		sB.append("***** OPERATORS' DESCRIPTIONS *****" + System.lineSeparator() + System.lineSeparator());
 		sB.append(getOperatorsDescription() + System.lineSeparator() + System.lineSeparator());
-		sB.append("***** TOTAL COST : ");
-		double totalCost = 0.0;
-		for (IOperator operator : topologicalSorting)
-			totalCost += operator.getInformativity();
-		sB.append(Double.toString(totalCost));
 		return sB.toString();
 	}
 	

@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.cost_calculation.PropertyWeighingStrategy;
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
@@ -25,6 +24,7 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.operators.IConjunctiveTransition;
 import com.tregouet.occam.data.operators.IOperator;
 import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.data.operators.ITransition;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.occam.transition_function.impl.TransitionFunction;
@@ -36,8 +36,6 @@ import com.tregouet.tree_finder.data.Tree;
 public class ConjunctiveTransitionTest {
 	
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
-	private static final PropertyWeighingStrategy PROP_WHEIGHING_STRATEGY = 
-			PropertyWeighingStrategy.INFORMATIVITY_DIAGNOSTIVITY;
 	private static final SimilarityCalculationStrategy SIM_CALC_STRATEGY = 
 			SimilarityCalculationStrategy.CONTRAST_MODEL;
 	private static List<IContextObject> shapes1Obj;
@@ -75,7 +73,7 @@ public class ConjunctiveTransitionTest {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
 						new TransitionFunction(shapes1Obj, concepts.getSingletonConcept(), catTree, constrTree, 
-								PROP_WHEIGHING_STRATEGY, SIM_CALC_STRATEGY);
+								SIM_CALC_STRATEGY);
 				transitionFunctions.add(transitionFunction);
 			}
 		}	
@@ -86,9 +84,9 @@ public class ConjunctiveTransitionTest {
 		boolean ifTrueThenSameStateTransition = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			List<IOperator> operators = tF.getTransitions();
+			List<ITransition> operators = tF.getTransitions();
 			List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
-			for (IOperator op : operators) {
+			for (ITransition op : operators) {
 				boolean match = false;
 				for (IConjunctiveTransition conOp : conjunctiveTransitions) {
 					if (conOp.addTransition(op)) {
@@ -113,9 +111,9 @@ public class ConjunctiveTransitionTest {
 		boolean ifFalseThenDifferentStateTransition = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			List<IOperator> operators = tF.getTransitions();
+			List<ITransition> operators = tF.getTransitions();
 			List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
-			for (IOperator op : operators) {
+			for (ITransition op : operators) {
 				boolean noMatch = true;
 				for (IConjunctiveTransition conOp : conjunctiveTransitions) {
 					if (!conOp.addTransition(op)) {

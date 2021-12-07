@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.concepts.impl;
 
+import com.tregouet.occam.data.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
@@ -32,7 +33,7 @@ public class IntentAttribute extends Construct implements IIntentAttribute {
 	}
 	
 	@Override
-	public IConcept getCategory() {
+	public IConcept getConcept() {
 		return concept;
 	}
 
@@ -40,6 +41,12 @@ public class IntentAttribute extends Construct implements IIntentAttribute {
 	public int hashCode() {
 		//must not use Category.hashCode(), since Category.hashCode() uses this'. 
 		return super.hashCode();
+	}
+
+	@Override
+	public IIntentAttribute rebut(IComplementaryConcept complementaryConcept) {
+		IConstruct complementaryConstruct = this.rebut();
+		return new IntentAttribute(complementaryConstruct, complementaryConcept);
 	}
 
 }

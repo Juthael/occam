@@ -33,5 +33,7 @@ public interface IConstruct {
 	void nameVariables();
 	
 	List<String> toListOfStringsWithPlaceholders();	
+	
+	IConstruct rebut();
 
 }

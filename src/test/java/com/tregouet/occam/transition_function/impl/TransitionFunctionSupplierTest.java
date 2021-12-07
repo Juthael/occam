@@ -102,7 +102,7 @@ public class TransitionFunctionSupplierTest {
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IIntentAttribute intentAtt : filteredConstructs.vertexSet()) {
-				returnedCats.add(intentAtt.getCategory());
+				returnedCats.add(intentAtt.getConcept());
 			}
 			if (!expectedCats.equals(returnedCats)) 
 				expectedSetOfCategories = false;

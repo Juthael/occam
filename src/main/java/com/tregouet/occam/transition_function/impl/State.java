@@ -18,7 +18,7 @@ import com.tregouet.occam.transition_function.IState;
 public class State implements IState {
 
 	private final IConcept concept;
-	private final IFrame frame = new Frame(false);
+	private final IFrame frame;
 	private final int extentSize;
 	private List<IOperator> transitions = null;
 	private List<ITapeSet> evaluationQueue = new ArrayList<>();
@@ -28,6 +28,7 @@ public class State implements IState {
 	public State(IConcept concept, int extentSize) {
 		this.concept = concept;
 		this.extentSize = extentSize;
+		frame = (concept.type() == IConcept.ONTOLOGICAL_COMMITMENT ? new Frame(true) : new Frame(false));
 	}
 
 	@Override

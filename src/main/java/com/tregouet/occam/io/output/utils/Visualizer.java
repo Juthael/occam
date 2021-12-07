@@ -77,7 +77,7 @@ public class Visualizer {
 		});
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.getCategory().getID()));
+			map.put("label", DefaultAttribute.createAttribute(v.getConcept().getID()));
 			return map;
 		});
 		exporter.setEdgeAttributeProvider((e) -> {

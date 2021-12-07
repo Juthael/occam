@@ -54,36 +54,9 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		List<IProduction> edges = new ArrayList<>();
 		List<IProduction> varSwitchers = new ArrayList<>();
 		List<IIntentAttribute> varSwitcherSources = new ArrayList<>();
-		//HERE
-		/*
-		List<ICategory> complementary = 
-				catTree.vertexSet().stream().filter(c -> c.isComplementary()).collect(Collectors.toList());
-		List<ICategory> complemented = new ArrayList<>();
-		complementary.stream().forEach(c -> complemented.add(c.getComplemented()));
-		boolean test = false;
-		for (ICategory cat : complementary) {
-			if (!cat.getIntent().isEmpty()) {
-				test = true;
-				try {
-					Visualizer.visualizeCategoryGraph(catTree, "211204_catTree");
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}		
-		}
-		*/
-		//HERE
 		for (IProduction production : unfilteredUnreduced.edgeSet()) {
 			IConcept sourceCat = production.getSourceCategory();
 			IConcept targetCat = production.getTargetCategory();
-			//HERE
-			/*
-			if (test && complemented.contains(sourceCat) || complemented.contains(targetCat)) {
-				System.out.println("here");
-			}
-			*/
-			//HERE
 			if (catTree.containsVertex(sourceCat) 
 					&& catTree.containsVertex(targetCat) 
 					&& isA(sourceCat, targetCat, catTree)) {
@@ -102,18 +75,6 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 			});
 		edges.stream().forEach(p -> filtered.addEdge(p.getSource(), p.getTarget(), p));
 		filtered.removeAllVertices(varSwitcherSources);
-		//HERE
-		/*
-		if (test) {
-			try {
-				Visualizer.visualizeAttributeGraph(filtered, "211204_productions", true);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-		*/
-		//HERE
 		return filtered;
 	}
 	

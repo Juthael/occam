@@ -10,6 +10,8 @@ public interface IIntentAttribute extends IConstruct {
 	@Override
 	boolean equals(Object o);
 	
-	IConcept getCategory();
+	IConcept getConcept();
+	
+	IIntentAttribute rebut(IComplementaryConcept complementaryConcept);
 
 }

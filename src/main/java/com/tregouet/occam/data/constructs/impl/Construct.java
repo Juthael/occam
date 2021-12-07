@@ -163,4 +163,12 @@ public class Construct implements IConstruct {
 		return nbOfTerminals;
 	}
 
+	@Override
+	public IConstruct rebut() {
+		List<ISymbol> complementaryProg = new ArrayList<>();
+		complementaryProg.add(new Terminal("¬"));
+		complementaryProg.addAll(prog);
+		return new Construct(complementaryProg);
+	}
+
 }

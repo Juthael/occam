@@ -13,7 +13,7 @@ public class ReframingOperator extends Operator implements IOperator {
 	
 	IConjunctiveOperator rebuttedOperator;
 
-	public ReframingOperator(IState activeState, IState nextState, IConjunctiveOperator rebuttedOperator) {
+	public ReframingOperator(IState activeState, List<IConjunctiveOperator> rebuttedOperators, IState nextState) {
 		super(activeState, new ArrayList<IProduction>(), nextState);
 		this.rebuttedOperator = rebuttedOperator;
 	}

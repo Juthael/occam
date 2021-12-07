@@ -105,7 +105,7 @@ public class ProductionBuilderTest {
 		boolean aVertexOrEdgeAdditionHasFailed = false;
 		List<IProduction> productions = builder.getProductions()
 				.stream()
-				.filter(p -> p.getSource().getCategory().type() != IConcept.ABSURDITY)
+				.filter(p -> p.getSource().getConcept().type() != IConcept.ABSURDITY)
 				.collect(Collectors.toList());
 		List<IIntentAttribute> attributes = new ArrayList<>();
 		for (IConcept concept : concepts.getTopologicalSorting()) {

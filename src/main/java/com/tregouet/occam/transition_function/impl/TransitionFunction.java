@@ -161,7 +161,7 @@ public class TransitionFunction implements ITransitionFunction {
 		return sB.toString();
 	}
 
-	private static String setOperatorAsString(IOperator operator) {
+	private static String operatorAsString(IOperator operator) {
 		StringBuilder sB = new StringBuilder();
 		if (operator instanceof IConjunctiveOperator) {
 			BigDecimal approxInformativitySum = BigDecimal.valueOf(operator.getInformativity());
@@ -173,7 +173,7 @@ public class TransitionFunction implements ITransitionFunction {
 					components.add(component);
 			}
 			for (int i = 0 ; i < components.size() ; i++) {
-				sB.append(setOperatorAsString(components.get(i)));
+				sB.append(operatorAsString(components.get(i)));
 				if (i < components.size() - 1)
 					sB.append(System.lineSeparator());
 			}
@@ -295,7 +295,7 @@ public class TransitionFunction implements ITransitionFunction {
 				});
 				multigraphExporter.setEdgeAttributeProvider((o) -> {
 					Map<String, Attribute> map = new LinkedHashMap<>();
-					map.put("label", DefaultAttribute.createAttribute(setOperatorAsString(o)));
+					map.put("label", DefaultAttribute.createAttribute(operatorAsString(o)));
 					return map;
 				});		
 				Writer writer = new StringWriter();
@@ -321,7 +321,7 @@ public class TransitionFunction implements ITransitionFunction {
 				});
 				simpleGraphExporter.setEdgeAttributeProvider((o) -> {
 					Map<String, Attribute> map = new LinkedHashMap<>();
-					map.put("label", DefaultAttribute.createAttribute(setOperatorAsString(o)));
+					map.put("label", DefaultAttribute.createAttribute(operatorAsString(o)));
 					return map;
 				});		
 				Writer simpleGraphWriter = new StringWriter();
@@ -445,7 +445,7 @@ public class TransitionFunction implements ITransitionFunction {
 		if (concept.isComplementary()) {
 			IComplementaryConcept compConcept = (IComplementaryConcept) concept;
 			IState complementedState = categoryToState.get(compConcept.getComplementedConcept());
-			List<IConjunctiveOperator> rebuttedOperators = conjunctiveOperators.stream()
+			List<IOperator> rebuttedOperators = operators.stream()
 					.filter(o -> o.getOperatingState().equals(complementedState))
 					.collect(Collectors.toList());
 			List<ISymbol> frameProg = new ArrayList<>(frame.getListOfSymbols());

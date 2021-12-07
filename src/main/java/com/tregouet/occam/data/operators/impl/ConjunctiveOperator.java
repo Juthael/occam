@@ -1,7 +1,9 @@
 package com.tregouet.occam.data.operators.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
@@ -26,6 +28,20 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 		operatingState = operator.getOperatingState();
 		nextState = operator.getNextState();
 	}
+	
+	private ConjunctiveOperator(IConjunctiveOperator conjunctiveOperator, IState complementaryState, 
+			IPropertyWeigher infometer) {
+		name = "¬" + conjunctiveOperator.getName();
+		for (IOperator rebuttedOperator : conjunctiveOperator.getComponents()) {
+			if (!rebuttedOperator.isBlank()) {
+				IOperator complementaryOperator = rebuttedOperator.rebut(complementaryState, infometer);
+				complementaryOperator.setInformativity(infometer);
+				addOperator(complementaryOperator);
+			}
+		}
+		operatingState = complementaryState;
+		nextState = conjunctiveOperator.getNextState();
+	}	
 
 	@Override
 	public boolean addOperator(IOperator operator) {
@@ -104,6 +120,20 @@ public class ConjunctiveOperator implements IConjunctiveOperator {
 	@Override
 	public void setInformativity(IPropertyWeigher infometer) {
 		// irrelevant
+	}
+
+	@Override
+	public IOperator rebut(IState complementaryState, IPropertyWeigher infometer) {
+		return new ConjunctiveOperator(this, complementaryState, infometer);
+	}
+
+	@Override
+	public Map<IIntentAttribute, IIntentAttribute> getInputToOutputMap() {
+		Map<IIntentAttribute, IIntentAttribute> inputToOutput = new HashMap<>();
+		for (IOperator operator : operators) {
+			inputToOutput.putAll(operator.getInputToOutputMap());
+		}
+		return inputToOutput;
 	}
 
 }

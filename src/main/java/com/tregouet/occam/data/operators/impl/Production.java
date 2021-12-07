@@ -44,12 +44,12 @@ public abstract class Production extends DefaultEdge implements IProduction {
 
 	@Override
 	public IConcept getGenus() {
-		return operatorOutput.getCategory();
+		return operatorOutput.getConcept();
 	}
 
 	@Override
 	public IConcept getInstance() {
-		return operatorInput.getCategory();
+		return operatorInput.getConcept();
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public abstract class Production extends DefaultEdge implements IProduction {
 
 	@Override
 	public IConcept getSourceCategory() {
-		return operatorInput.getCategory();
+		return operatorInput.getConcept();
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public abstract class Production extends DefaultEdge implements IProduction {
 
 	@Override
 	public IConcept getTargetCategory() {
-		return operatorOutput.getCategory();
+		return operatorOutput.getConcept();
 	}
 
 	/* (non-Javadoc)

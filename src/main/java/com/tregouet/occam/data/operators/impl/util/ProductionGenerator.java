@@ -28,7 +28,7 @@ public class ProductionGenerator {
 	 */
 	public ProductionGenerator(
 			IConcepts concepts, IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
-		if (concepts.isA(operatorInput.getCategory(), operatorOutput.getCategory())) {
+		if (concepts.isA(operatorInput.getConcept(), operatorOutput.getConcept())) {
 			if (operatorInput.getListOfSymbols().equals(operatorOutput.getListOfSymbols()))
 				//then equal strings of terminals
 				productions = new ArrayList<>(

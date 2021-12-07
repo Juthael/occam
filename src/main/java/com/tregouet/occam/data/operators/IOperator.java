@@ -3,6 +3,7 @@ package com.tregouet.occam.data.operators;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import com.tregouet.occam.cost_calculation.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
@@ -66,5 +67,9 @@ public interface IOperator {
 	
 	@Override
 	String toString();	
+	
+	IOperator rebut(IState complementaryState, IPropertyWeigher infometer);
+	
+	Map<IIntentAttribute, IIntentAttribute> getInputToOutputMap();
 
 }

@@ -19,15 +19,13 @@ public class State implements IState {
 
 	private final IConcept concept;
 	private final IFrame frame;
-	private final int extentSize;
 	private List<IOperator> transitions = null;
 	private List<ITapeSet> evaluationQueue = new ArrayList<>();
 	private int rank = 0;
 	
 	
-	public State(IConcept concept, int extentSize) {
+	public State(IConcept concept) {
 		this.concept = concept;
-		this.extentSize = extentSize;
 		frame = (concept.type() == IConcept.ONTOLOGICAL_COMMITMENT ? new Frame(true) : new Frame(false));
 	}
 
@@ -80,11 +78,6 @@ public class State implements IState {
 	@Override
 	public IConcept getAssociatedConcept() {
 		return concept;
-	}
-
-	@Override
-	public int getExtentSize() {
-		return extentSize;
 	}
 
 	@Override

@@ -11,14 +11,17 @@ public class Reframer extends Transition implements IReframer {
 	private final List<Integer> complementedStateIDs = new ArrayList<>();
 	private final boolean blankReframer;
 	
-	public Reframer(IState complementaryState, IState complementedState, IState successorState) {
+	public Reframer(IState complementaryState, IState complementedState, IState successorState, 
+			List<Integer> previousComplementedStatesID) {
 		super(complementaryState, successorState);
+		complementedStateIDs.addAll(previousComplementedStatesID);
 		complementedStateIDs.add(complementaryState.getStateID());
 		blankReframer = false;
 	}
 	
-	public Reframer(IState predecessorState, IState successorState, String reframing) {
+	public Reframer(IState predecessorState, IState successorState, List<Integer> previousComplementedStatesID) {
 		super(predecessorState, successorState);
+		complementedStateIDs.addAll(previousComplementedStatesID);
 		blankReframer = true;
 	}
 	
@@ -36,8 +39,8 @@ public class Reframer extends Transition implements IReframer {
 	}
 
 	@Override
-	public void reframe(IState complementedState) {
-		complementedStateIDs.add(complementedState.getStateID());
+	public List<Integer> getComplementedConceptsIDs() {
+		return new ArrayList<>(complementedStateIDs);
 	}
 
 }

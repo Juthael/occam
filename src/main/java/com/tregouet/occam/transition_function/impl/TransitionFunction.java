@@ -65,18 +65,8 @@ public class TransitionFunction implements ITransitionFunction {
 		this.objects = objects;
 		this.singletons = singletons;
 		this.concepts = concepts;
-		for (IConcept concept : concepts.vertexSet()) {
-			if (singletons.contains(concept))
-				categoryToState.put(concept, new State(concept, 1));
-			else {
-				int extentSize = 0;
-				for (IConcept ancestor : concepts.getAncestors(concept)) {
-					if (concepts.inDegreeOf(ancestor) == 0)
-						extentSize++;
-				}
-				categoryToState.put(concept, new State(concept, extentSize));	
-			}
-		}
+		for (IConcept concept : concepts.vertexSet())
+			categoryToState.put(concept, new State(concept));
 		transitions.addAll(buildOperators(new ArrayList<>(constructs.edgeSet())));
 		transitions.addAll(buildReframers());
 		for (ITransition transition : transitions) {
@@ -416,21 +406,37 @@ public class TransitionFunction implements ITransitionFunction {
 		return typicalityArray;
 	}
 	
-	//HERE gérer ça au niveau de TransitionFunctionSupplier,faire des reframers en cascade
 	private List<IReframer> buildReframers() {
-		List<IReframer> reframingOp = new ArrayList<>(); 
-		for (IConcept concept : concepts.vertexSet()) {
-			if (concept.isComplementary()) {
-				IState complementaryState = categoryToState.get(concept);
-				IConcept complementedConcept = concept.getComplemented();
-				IState complementedState = categoryToState.get(complementedConcept);
-				IState successorState = 
-						categoryToState.get(Graphs.successorListOf(concepts, complementedConcept).get(0));
-				reframingOp.add(new Reframer(complementaryState, complementedState, successorState));
-				if (concept.)
-			}
+		List<IReframer> reframers = new ArrayList<>();
+		//there can only be one such relation, actually
+		for (IsA relation : concepts.incomingEdgesOf(concepts.getRoot())) {
+			reframers.addAll(buildReframers(relation, new ArrayList<Integer>()));
 		}
-		return reframingOp;
+		return reframers;
+	}
+	
+	private List<IReframer> buildReframers(IsA relation, List<Integer> previousComplementedStatesIDs) {
+		List<IReframer> reframers = new ArrayList<>();
+		List<Integer> nextComplementedStatesIDs;
+		IConcept sourceConcept = concepts.getEdgeSource(relation);
+		IState sourceState = categoryToState.get(sourceConcept);
+		IState targetState = categoryToState.get(concepts.getEdgeTarget(relation));
+		IReframer reframer;
+		if (sourceConcept.isComplementary()) {
+			IState complementedState = categoryToState.get(sourceConcept.getComplemented());
+			reframer = new Reframer(sourceState, complementedState, targetState, previousComplementedStatesIDs);
+			nextComplementedStatesIDs = reframer.getComplementedConceptsIDs();
+		}
+		else {
+			reframer = new Reframer(sourceState, targetState, previousComplementedStatesIDs);
+			nextComplementedStatesIDs = previousComplementedStatesIDs;
+		}
+		reframers.add(reframer);
+		for (IsA nextRelation : concepts.incomingEdgesOf(sourceConcept)) {
+			reframers.addAll(buildReframers(nextRelation, nextComplementedStatesIDs));
+		}
+		return reframers;
 	}
 
 }
+

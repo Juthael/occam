@@ -4,11 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
+import com.tregouet.occam.data.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IContextObject;
 
-public class ComplementaryConcept extends AbstractConcept implements IConcept {
+public class ComplementaryConcept extends AbstractConcept implements IComplementaryConcept {
 
 	private final IConcept complementedByThis;
 	private IConcept wrappedComplementing = null;
@@ -82,6 +83,16 @@ public class ComplementaryConcept extends AbstractConcept implements IConcept {
 	@Override
 	public void setRank(int maxPathLengthFromMin) {
 		// do nothing	
+	}
+
+	@Override
+	public boolean hasAnIntent() {
+		return (wrappedComplementing != null);
+	}
+
+	@Override
+	public IConcept getEmbeddedConcept() {
+		return wrappedComplementing;
 	}	
 
 }

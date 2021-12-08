@@ -26,8 +26,6 @@ public interface IState {
 	
 	IConcept getAssociatedConcept();
 	
-	int getExtentSize();
-	
 	Set<IIntentAttribute> getInputLanguage();
 	
 	int getRank();

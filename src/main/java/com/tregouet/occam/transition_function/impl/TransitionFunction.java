@@ -140,7 +140,7 @@ public class TransitionFunction implements ITransitionFunction {
 			if (transition instanceof IConjunctiveTransition) {
 				IConjunctiveTransition conjTrans = (IConjunctiveTransition) transition;
 				IReframer reframer = conjTrans.getReframer();
-				if (!reframer.isBlank())
+				if (reframer != null && !reframer.isBlank())
 					sB.append("FRAME : " + reframer.getReframer() + nL);
 				for (IBasicOperator operator : conjTrans.getOperators()) {
 					sB.append(operatorAsString(operator) + nL);

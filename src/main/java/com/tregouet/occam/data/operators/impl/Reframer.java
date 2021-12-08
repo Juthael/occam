@@ -15,7 +15,7 @@ public class Reframer extends Transition implements IReframer {
 			List<Integer> previousComplementedStatesID) {
 		super(complementaryState, successorState);
 		complementedStateIDs.addAll(previousComplementedStatesID);
-		complementedStateIDs.add(complementaryState.getStateID());
+		complementedStateIDs.add(complementedState.getStateID());
 		blankReframer = false;
 	}
 	

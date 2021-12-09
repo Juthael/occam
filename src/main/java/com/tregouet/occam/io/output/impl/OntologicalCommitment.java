@@ -20,6 +20,7 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
+import com.tregouet.occam.data.abstract_machines.functions.IStructurallyEquivalentTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
@@ -34,7 +35,6 @@ import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.IOntologicalCommitment;
 import com.tregouet.occam.io.output.utils.Visualizer;
-import com.tregouet.occam.transition_function.IRepresentedCatTree;
 
 public class OntologicalCommitment implements IOntologicalCommitment {
 
@@ -48,7 +48,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	private List<IContextObject> context = null;
 	private IConcepts concepts = null;
 	private IConceptStructureBasedTFSupplier conceptStructureBasedTFSupplier = null;
-	private IRepresentedCatTree representedCatTree = null;
+	private IStructurallyEquivalentTransFunctions structurallyEquivalentTransFunctions = null;
 	private int catTreeIdx = 0;
 	private Iterator<ITransitionFunction> iteOverTF = null;
 	private ITransitionFunction currentTransFunc = null;
@@ -104,7 +104,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 
 	@Override
 	public void generateCategoryTreeGraph() throws IOException {
-		Visualizer.visualizeCategoryGraph(representedCatTree.getCategoryTree(), "category_tree.png");;
+		Visualizer.visualizeCategoryGraph(structurallyEquivalentTransFunctions.getCategoryTree(), "category_tree.png");;
 	}
 	
 	@Override
@@ -130,7 +130,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 		sB.append(alineaaa + "<b>Score : " + round(currentTransFunc.getCoherenceScore()) + "</b>" + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<p>" + NL);
-		sB.append(alineaaa + "<b>Extent structure : </b>" + representedCatTree.getExtentStructureAsString() + NL);
+		sB.append(alineaaa + "<b>Extent structure : </b>" + structurallyEquivalentTransFunctions.getExtentStructureAsString() + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<h3>Category tree : </h3>" + NL);
 		sB.append(alineaaa + "<p>" + NL);
@@ -236,10 +236,10 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 
 	@Override
 	public void nextCategoryTree() throws IOException {
-		representedCatTree = conceptStructureBasedTFSupplier.next();
+		structurallyEquivalentTransFunctions = conceptStructureBasedTFSupplier.next();
 		catTreeIdx++;
 		generateCategoryTreeGraph();
-		iteOverTF = representedCatTree.getIteratorOverTransitionFunctions();
+		iteOverTF = structurallyEquivalentTransFunctions.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateTransitionFunctionGraph();
 	}
@@ -272,8 +272,8 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 		} catch (IOException e) {
 			return false;
 		}
-		representedCatTree = conceptStructureBasedTFSupplier.next();
-		iteOverTF = representedCatTree.getIteratorOverTransitionFunctions();
+		structurallyEquivalentTransFunctions = conceptStructureBasedTFSupplier.next();
+		iteOverTF = structurallyEquivalentTransFunctions.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateCategoryLatticeGraph();
 		generateCategoryTreeGraph();

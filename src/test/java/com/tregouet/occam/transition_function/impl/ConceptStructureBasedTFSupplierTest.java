@@ -16,6 +16,7 @@ import org.junit.Test;
 import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
+import com.tregouet.occam.data.abstract_machines.functions.IStructurallyEquivalentTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.ProductionBuilder;
@@ -25,7 +26,6 @@ import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
-import com.tregouet.occam.transition_function.IRepresentedCatTree;
 
 @SuppressWarnings("unused")
 public class ConceptStructureBasedTFSupplierTest {
@@ -65,10 +65,10 @@ public class ConceptStructureBasedTFSupplierTest {
 		IConceptStructureBasedTFSupplier transFuncSupplier = new ConceptStructureBasedTFSupplier(concepts, constructs, 
 				SIM_CALCULATION_STRATEGY);
 		List<Double> coherenceScores = new ArrayList<>();
-		IRepresentedCatTree representedCatTree;
+		IStructurallyEquivalentTransFunctions structurallyEquivalentTransFunctions;
 		while (transFuncSupplier.hasNext()) {
-			representedCatTree = transFuncSupplier.next();
-			coherenceScores.add(representedCatTree.getCoherenceScore());
+			structurallyEquivalentTransFunctions = transFuncSupplier.next();
+			coherenceScores.add(structurallyEquivalentTransFunctions.getCoherenceScore());
 			/*
 			System.out.println("***Transition Function N° " + Integer.toString(idx) + " : " 
 					+ Double.toString(representedCatTree.getCoherenceScore()));			

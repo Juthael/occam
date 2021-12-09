@@ -10,7 +10,6 @@ import com.tregouet.occam.alg.conceptual_structure_gen.IClassTreeWithConstrained
 import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IContextObject;
-import com.tregouet.occam.transition_function.IExtentStructureConstraint;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public interface IConcepts {

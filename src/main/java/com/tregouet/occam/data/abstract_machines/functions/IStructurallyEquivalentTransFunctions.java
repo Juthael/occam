@@ -1,13 +1,13 @@
-package com.tregouet.occam.transition_function;
+package com.tregouet.occam.data.abstract_machines.functions;
 
 import java.util.Iterator;
 
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
-public interface IRepresentedCatTree extends Comparable<IRepresentedCatTree> {
+public interface IStructurallyEquivalentTransFunctions extends Comparable<IStructurallyEquivalentTransFunctions> {
 	
 	Tree<IConcept, IsA> getCategoryTree();
 	

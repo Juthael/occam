@@ -1,32 +1,32 @@
-package com.tregouet.occam.transition_function.impl;
+package com.tregouet.occam.data.abstract_machines.functions.impl;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
+import com.tregouet.occam.data.abstract_machines.functions.IStructurallyEquivalentTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.concepts.utils.CatTreeToStringConvertor;
-import com.tregouet.occam.transition_function.IExtentStructureConstraint;
-import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.tree_finder.data.Tree;
 
-public class RepresentedCatTree implements IRepresentedCatTree {
+public class StructurallyEquivalentTransFunctions implements IStructurallyEquivalentTransFunctions {
 
 	private final Tree<IConcept,IsA> categoryTree;
 	private final Map<IConcept, String> objectCategoryToName;
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	
-	public RepresentedCatTree(Tree<IConcept, IsA> categoryTree, 
+	public StructurallyEquivalentTransFunctions(Tree<IConcept, IsA> categoryTree, 
 			Map<IConcept, String> objectCategoryToName) {
 		this.categoryTree = categoryTree;
 		this.objectCategoryToName = objectCategoryToName;
 	}
 
 	@Override
-	public int compareTo(IRepresentedCatTree other) {
+	public int compareTo(IStructurallyEquivalentTransFunctions other) {
 		if (this.getCoherenceScore() > other.getCoherenceScore())
 			return -1;
 		if (this.getCoherenceScore() < other.getCoherenceScore())
@@ -42,7 +42,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RepresentedCatTree other = (RepresentedCatTree) obj;
+		StructurallyEquivalentTransFunctions other = (StructurallyEquivalentTransFunctions) obj;
 		if (categoryTree == null) {
 			if (other.categoryTree != null)
 				return false;

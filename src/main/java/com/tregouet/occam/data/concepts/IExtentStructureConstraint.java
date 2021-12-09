@@ -1,6 +1,5 @@
-package com.tregouet.occam.transition_function;
+package com.tregouet.occam.data.concepts;
 
-import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 

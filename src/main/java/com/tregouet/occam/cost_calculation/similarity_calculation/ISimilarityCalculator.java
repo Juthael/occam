@@ -6,7 +6,7 @@ import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.operators.IConjunctiveTransition;
+import com.tregouet.occam.data.transitions.IConjunctiveTransition;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface ISimilarityCalculator {

@@ -16,7 +16,7 @@ import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.data.transitions.IProduction;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
 

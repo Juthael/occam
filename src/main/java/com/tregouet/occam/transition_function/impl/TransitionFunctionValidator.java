@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.operators.IConjunctiveTransition;
+import com.tregouet.occam.data.transitions.IConjunctiveTransition;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IState;
 import com.tregouet.occam.transition_function.ITransitionFunction;

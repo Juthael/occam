@@ -25,10 +25,9 @@ import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.data.operators.impl.ProductionBuilder;
+import com.tregouet.occam.data.transitions.IProduction;
+import com.tregouet.occam.data.transitions.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.io.input.util.exceptions.FileReaderException;
 import com.tregouet.occam.io.output.IOntologicalCommitment;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
@@ -36,7 +35,6 @@ import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
 import com.tregouet.occam.transition_function.impl.CatStructureAwareTFSupplier;
-import com.tregouet.tree_finder.error.InvalidInputException;
 
 public class OntologicalCommitment implements IOntologicalCommitment {
 
@@ -62,10 +60,10 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	}
 
 	@Override
-	public boolean whatIsThere(Path contextPath) throws IOException, InvalidInputException {
+	public boolean whatIsThere(Path contextPath) throws IOException {
 		try {
 			context = GenericFileReader.getContextObjects(contextPath);
-		} catch (FileReaderException e) {
+		} catch (IOException e) {
 			return false;
 		}
 		concepts = new Concepts(context);
@@ -80,7 +78,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 		try {
 			catStructureAwareTFSupplier = new CatStructureAwareTFSupplier(concepts, constructs, 
 					SIM_CALCULATION_STRATEGY);
-		} catch (InvalidInputException e) {
+		} catch (IOException e) {
 			return false;
 		}
 		representedCatTree = catStructureAwareTFSupplier.next();

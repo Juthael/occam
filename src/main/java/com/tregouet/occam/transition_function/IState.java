@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
-import com.tregouet.occam.data.operators.IOperator;
+import com.tregouet.occam.data.transitions.IOperator;
 import com.tregouet.occam.finite_automaton.ITapeSet;
 
 public interface IState {

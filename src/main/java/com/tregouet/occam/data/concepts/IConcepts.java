@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.concepts;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -8,7 +9,6 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.tree_finder.data.UpperSemilattice;
-import com.tregouet.tree_finder.error.InvalidInputException;
 
 public interface IConcepts {
 	
@@ -24,7 +24,7 @@ public interface IConcepts {
 	
 	DirectedAcyclicGraph<IConcept, IsA> getCategoryLattice();
 	
-	IClassificationTreeSupplier getCatTreeSupplier() throws InvalidInputException;
+	IClassificationTreeSupplier getCatTreeSupplier() throws IOException;
 	
 	IClassTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint);
 	

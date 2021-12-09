@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.zip.DataFormatException;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
@@ -32,7 +33,6 @@ import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.data.Tree;
-import com.tregouet.tree_finder.error.InvalidInputException;
 import com.tregouet.tree_finder.utils.StructureInspector;
 
 @SuppressWarnings("unused")
@@ -140,7 +140,7 @@ public class ConceptsTest {
 		try {
 			concepts.getOntologicalUpperSemilattice().validate();
 		}
-		catch (InvalidInputException e) {
+		catch (DataFormatException e) {
 			isAnUpperSemilattice = false;
 		}
 		assertTrue(isAnUpperSemilattice);
@@ -315,7 +315,7 @@ public class ConceptsTest {
 	}	
 	
 	@Test
-	public void whenTreeSuppliedThenReallyIsATree() throws IOException, InvalidInputException {
+	public void whenTreeSuppliedThenReallyIsATree() throws IOException {
 		IClassificationTreeSupplier treeSupplier = concepts.getCatTreeSupplier();
 		int nbOfChecks = 0;
 		while (treeSupplier.hasNext()) {
@@ -327,7 +327,7 @@ public class ConceptsTest {
 				nextTree.validate();
 				nbOfChecks++;
 			}
-			catch (InvalidInputException e) {
+			catch (DataFormatException e) {
 				fail();
 			}
 		}

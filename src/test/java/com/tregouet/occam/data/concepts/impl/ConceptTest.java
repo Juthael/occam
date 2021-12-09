@@ -2,6 +2,7 @@ package com.tregouet.occam.data.concepts.impl;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -20,7 +21,6 @@ import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.ContextObject;
-import com.tregouet.occam.exceptions.PropertyTargetingException;
 
 public class ConceptTest {
 
@@ -82,7 +82,7 @@ public class ConceptTest {
 	}
 	
 	@Test
-	public void whenSpecifiedConstraintMatchedOnceThenExpectedAttributeReturned() throws PropertyTargetingException {
+	public void whenSpecifiedConstraintMatchedOnceThenExpectedAttributeReturned() throws IOException {
 		IIntentAttribute expected = new IntentAttribute(new Construct(prog1), cat);
 		IIntentAttribute returned = cat.getMatchingAttribute(Arrays.asList(new String[] {"B", "C"}));
 		assertTrue(expected.equals(returned));
@@ -94,14 +94,14 @@ public class ConceptTest {
 		try {
 			cat.getMatchingAttribute(Arrays.asList(new String[] {"C"}));
 		}
-		catch (PropertyTargetingException e) {
+		catch (IOException e) {
 			exceptionThrown = true;
 		}
 		assertTrue(exceptionThrown);
 	}
 	
 	@Test
-	public void whenSpecifiedConstraintIsNotMatchedThenNullIsReturned() throws PropertyTargetingException {
+	public void whenSpecifiedConstraintIsNotMatchedThenNullIsReturned() throws IOException {
 		IIntentAttribute returned = cat.getMatchingAttribute(Arrays.asList(new String[] {"X"}));
 		assertTrue(returned == null);
 	}	

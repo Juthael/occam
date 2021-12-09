@@ -27,14 +27,14 @@ import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.operators.IBasicOperator;
-import com.tregouet.occam.data.operators.IBasicProduction;
-import com.tregouet.occam.data.operators.ICompositeProduction;
-import com.tregouet.occam.data.operators.IOperator;
-import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.data.operators.ITransition;
-import com.tregouet.occam.data.operators.impl.BlankProduction;
-import com.tregouet.occam.data.operators.impl.ProductionBuilder;
+import com.tregouet.occam.data.transitions.IBasicOperator;
+import com.tregouet.occam.data.transitions.IBasicProduction;
+import com.tregouet.occam.data.transitions.ICompositeProduction;
+import com.tregouet.occam.data.transitions.IOperator;
+import com.tregouet.occam.data.transitions.IProduction;
+import com.tregouet.occam.data.transitions.ITransition;
+import com.tregouet.occam.data.transitions.impl.BlankProduction;
+import com.tregouet.occam.data.transitions.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IDSLanguageDisplayer;
@@ -43,7 +43,6 @@ import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
-import com.tregouet.tree_finder.error.InvalidInputException;
 
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
@@ -321,7 +320,7 @@ public class TransitionFunctionTest {
 	
 	@Test
 	public void when2NonBlankProductionsHaveSameSourceAndTargetCategoriesAndSameValueThenHandledBySameOperator() 
-			throws InvalidInputException, IOException {
+			throws IOException {
 		boolean sameOperator = true;
 		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {

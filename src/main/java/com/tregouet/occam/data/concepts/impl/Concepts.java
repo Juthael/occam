@@ -31,7 +31,6 @@ import com.tregouet.occam.data.constructs.impl.Variable;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
 import com.tregouet.tree_finder.data.UpperSemilattice;
-import com.tregouet.tree_finder.error.InvalidInputException;
 
 public class Concepts implements IConcepts {
 	
@@ -104,7 +103,7 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public IClassificationTreeSupplier getCatTreeSupplier() throws InvalidInputException {
+	public IClassificationTreeSupplier getCatTreeSupplier() throws IOException {
 		return new ClassificationTreeSupplier(new UnidimensionalSorter<>(ontologicalUSL), ontologicalCommitment);
 	}
 

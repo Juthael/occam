@@ -24,8 +24,8 @@ import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.data.operators.impl.ProductionBuilder;
+import com.tregouet.occam.data.transitions.IProduction;
+import com.tregouet.occam.data.transitions.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ITransitionFunction;
@@ -80,36 +80,6 @@ public class TransitionFunctionValidatorTest {
 				transitionFunctions.add(transitionFunction);
 			}
 		}
-	}
-
-	@Test
-	public void onlyWhenTransitsThroughEveryStateThenTransitionFunctionIsValid() throws IOException {
-		boolean asExpected = true;
-		Set<ITransitionFunction> validTransitionFunctions = new HashSet<>();
-		Set<ITransitionFunction> invalidTransitionFunctions = new HashSet<>();
-		for (ITransitionFunction tF : transitionFunctions) {
-			if (tF.validate(TransitionFunctionValidator.INSTANCE))
-				validTransitionFunctions.add(tF);
-			else invalidTransitionFunctions.add(tF);
-		}
-		for (ITransitionFunction valid : validTransitionFunctions) {
-			if (containsSomeUnreacheableState(valid)) {
-				/*
-				Visualizer.visualizeTransitionFunction(valid, "valid", TransitionFunctionGraphType.FINITE_AUTOMATON);
-				*/
-				asExpected = false;
-			}
-				
-		}
-		for (ITransitionFunction invalid : invalidTransitionFunctions) {
-			if (!containsSomeUnreacheableState(invalid)) {
-				/*
-				Visualizer.visualizeTransitionFunction(invalid, "invalid", TransitionFunctionGraphType.FINITE_AUTOMATON);
-				*/
-				asExpected = false;
-			}
-		}
-		assertTrue(asExpected && !validTransitionFunctions.isEmpty() && !invalidTransitionFunctions.isEmpty());
 	}
 	
 	private boolean containsSomeUnreacheableState(ITransitionFunction tF) {

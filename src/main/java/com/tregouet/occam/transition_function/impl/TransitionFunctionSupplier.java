@@ -19,11 +19,10 @@ import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.ComplementaryConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.data.transitions.IProduction;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
 import com.tregouet.tree_finder.data.Tree;
-import com.tregouet.tree_finder.error.InvalidInputException;
 
 public abstract class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 
@@ -36,7 +35,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	
 	public TransitionFunctionSupplier(IConcepts concepts, 
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
-			SimilarityCalculationStrategy simCalculationStrategy) throws InvalidInputException {
+			SimilarityCalculationStrategy simCalculationStrategy) throws IOException {
 		this.concepts = concepts;
 		categoryTreeSupplier = concepts.getCatTreeSupplier();
 		this.constructs = constructs;

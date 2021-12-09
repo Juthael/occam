@@ -1,5 +1,6 @@
 package com.tregouet.occam.transition_function.impl;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -10,13 +11,12 @@ import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.operators.IProduction;
+import com.tregouet.occam.data.transitions.IProduction;
 import com.tregouet.occam.transition_function.IBasicTFSupplier;
 import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
-import com.tregouet.tree_finder.error.InvalidInputException;
 
 public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasicTFSupplier {
 
@@ -24,8 +24,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private Iterator<ITransitionFunction> ite;
 	
 	public BasicTFSupplier(IConcepts concepts, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
-			SimilarityCalculationStrategy simCalculationStrategy) 
-			throws InvalidInputException {
+			SimilarityCalculationStrategy simCalculationStrategy) throws IOException {
 		super(concepts, constructs, simCalculationStrategy);
 		populateTransitionFunctions();
 		ite = transitionFunctions.iterator();

@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.concepts.impl;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -9,7 +10,6 @@ import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
-import com.tregouet.occam.exceptions.PropertyTargetingException;
 
 public abstract class AbstractConcept implements IConcept {
 
@@ -26,7 +26,7 @@ public abstract class AbstractConcept implements IConcept {
 	 * @throws PropertyTargetingException 
 	 */
 	@Override
-	public IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws PropertyTargetingException {
+	public IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws IOException {
 		IIntentAttribute matchingAttribute = null;
 		IConstruct constraintAsConstruct = 
 				new Construct(constraintAsStrings.toArray(new String[constraintAsStrings.size()]));
@@ -36,7 +36,7 @@ public abstract class AbstractConcept implements IConcept {
 			if (currAtt.meets(constraintAsConstruct)) {
 				if (matchingAttribute == null)
 					matchingAttribute = currAtt;
-				else throw new PropertyTargetingException("Category.getMatchingAttribute(List<String>) : "
+				else throw new IOException("Category.getMatchingAttribute(List<String>) : "
 						+ "the constraint is not specific enough to target a single attribute.");
 			}
 		}

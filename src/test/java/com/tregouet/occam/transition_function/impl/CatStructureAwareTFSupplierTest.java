@@ -18,14 +18,13 @@ import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.operators.IProduction;
-import com.tregouet.occam.data.operators.impl.ProductionBuilder;
+import com.tregouet.occam.data.transitions.IProduction;
+import com.tregouet.occam.data.transitions.impl.ProductionBuilder;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
 import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
-import com.tregouet.tree_finder.error.InvalidInputException;
 
 @SuppressWarnings("unused")
 public class CatStructureAwareTFSupplierTest {
@@ -56,7 +55,7 @@ public class CatStructureAwareTFSupplierTest {
 
 	@Test
 	public void whenRequestedThenReturnsRepresentedCatStructuresInDecreasingCoherenceOrder() 
-			throws IOException, InvalidInputException {
+			throws IOException {
 		/*
 		Visualizer.visualizeCategoryGraph(concepts.getTransitiveReduction(), "211201_CL");
 		*/

@@ -1,11 +1,11 @@
 package com.tregouet.occam.data.concepts;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.exceptions.PropertyTargetingException;
 import com.tregouet.occam.transition_function.IState;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
@@ -26,7 +26,7 @@ public interface IConcept extends IDichotomizable<IConcept> {
 	
 	Set<IIntentAttribute> getIntent();
 	
-	IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws PropertyTargetingException;
+	IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws IOException;
 	
 	@Override
 	int hashCode();

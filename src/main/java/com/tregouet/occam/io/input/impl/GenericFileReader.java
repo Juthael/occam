@@ -13,8 +13,6 @@ import java.util.Set;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.ContextObject;
-import com.tregouet.occam.io.input.util.exceptions.FileReaderException;
-import com.tregouet.tree_finder.error.InvalidInputException;
 
 /**
  * @author Gael Tregouet
@@ -48,7 +46,7 @@ public abstract class GenericFileReader {
 	 * @throws FileReaderException if BufferReader instantiation fails
 	 * @throws InvalidInputException 
 	 */
-	public static List<IContextObject> getContextObjects(Path path) throws FileReaderException, InvalidInputException {
+	public static List<IContextObject> getContextObjects(Path path) throws IOException {
 		List<IContextObject> objects = new ArrayList<IContextObject>();
 		BufferedReader reader;
 		try {
@@ -56,7 +54,7 @@ public abstract class GenericFileReader {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			throw new FileReaderException("GenericFileReader.getContextObjects(Path) : "
+			throw new IOException("GenericFileReader.getContextObjects(Path) : "
 					+ "BufferedReader ccannot be instantiated."
 					+ System.lineSeparator() + e.getMessage());
 		}
@@ -64,13 +62,7 @@ public abstract class GenericFileReader {
 		List<List<String>> currObjConstructsAsLists = new ArrayList<List<String>>();
 		String currObjName = null;
 		do {
-			try {
-				line = reader.readLine();
-			}
-			catch (IOException e) {
-				throw new FileReaderException("getContextObjects(Path) : IOException thrown."
-						+ System.lineSeparator() + e.getMessage());
-			}
+			line = reader.readLine();
 			if (line == null || line.equals(SEPARATOR)) {
 				if (!currObjConstructsAsLists.isEmpty()) {
 					if (currObjName == null) 
@@ -93,19 +85,19 @@ public abstract class GenericFileReader {
 		return objects;
 	}
 	
-	private static void cardinalityTest(List<IContextObject> objects) throws InvalidInputException {
+	private static void cardinalityTest(List<IContextObject> objects) throws IOException {
 		if (objects.size() < 2)
-			throw new InvalidInputException("Invalid input : a context should contain at least two sets of "
+			throw new IOException("Invalid input : a context should contain at least two sets of "
 					+ "constructs.");
 	}
 	
-	private static void unicityTest(List<IContextObject> objects) throws InvalidInputException {
+	private static void unicityTest(List<IContextObject> objects) throws IOException {
 		for (int i = 0 ; i < objects.size() - 1 ; i++) {
 			Set<IConstruct> iObjConstructs = new HashSet<>(objects.get(i).getConstructs());
 			for (int j = i + 1 ; j < objects.size() ; j++) {
 				Set<IConstruct> jObjConstructs = new HashSet<>(objects.get(j).getConstructs());
 				if (iObjConstructs.equals(jObjConstructs))
-					throw new InvalidInputException("Invalid input : a context should not contain two identical set of "
+					throw new IOException("Invalid input : a context should not contain two identical set of "
 							+ "constructs.");
 			}
 		}

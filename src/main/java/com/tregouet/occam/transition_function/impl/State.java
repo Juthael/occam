@@ -18,7 +18,6 @@ import com.tregouet.occam.transition_function.IState;
 public class State implements IState {
 
 	private final IConcept concept;
-	private final IFrame frame;
 	private List<IOperator> transitions = null;
 	private List<ITapeSet> evaluationQueue = new ArrayList<>();
 	private int rank = 0;
@@ -26,7 +25,6 @@ public class State implements IState {
 	
 	public State(IConcept concept) {
 		this.concept = concept;
-		frame = (concept.type() == IConcept.ONTOLOGICAL_COMMITMENT ? new Frame(true) : new Frame(false));
 	}
 
 	@Override
@@ -109,8 +107,7 @@ public class State implements IState {
 
 	@Override
 	public int getStateType() {
-		// TODO Auto-generated method stub
-		return 0;
+		return concept.type();
 	}
 
 	/* (non-Javadoc)
@@ -139,24 +136,16 @@ public class State implements IState {
 	@Override
 	public void mergeTapeSetsWithSameInput() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void proceedTransitions() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setRank(int rank) {
 		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void frame(IFrame other) {
-		frame.restrictFrameWith(other);
 	}
 
 }

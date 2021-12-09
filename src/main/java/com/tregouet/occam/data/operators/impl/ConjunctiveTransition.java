@@ -39,6 +39,7 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 			if (transition instanceof IReframer)
 				reframer = (IReframer) transition;
 			else operators.add((IBasicOperator) transition);
+			return true;
 		}
 		return false;
 	}

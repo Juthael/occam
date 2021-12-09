@@ -3,7 +3,7 @@ package com.tregouet.occam.io.output;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public interface IOntologicalCommitment {
+public interface IRepresentation {
 	
 	String generateAsymmetricalSimilarityMatrix(String alinea);
 	

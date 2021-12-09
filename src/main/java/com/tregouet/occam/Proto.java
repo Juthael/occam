@@ -6,13 +6,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-import com.tregouet.occam.io.output.IOntologicalCommitment;
-import com.tregouet.occam.io.output.impl.OntologicalCommitment;
+import com.tregouet.occam.io.output.IRepresentation;
+import com.tregouet.occam.io.output.impl.Representation;
 
 public class Proto {
 
 	private static final String NL = System.lineSeparator();
-	private IOntologicalCommitment representations;
+	private IRepresentation representations;
 	private final Scanner entry = new Scanner(System.in);
 	private String folderPath = null;
 	
@@ -35,7 +35,7 @@ public class Proto {
 		String inputPathString = entry.nextLine();
 		if (isValidPath(inputPathString)) {
 			Path inputPath = Paths.get(inputPathString);
-			representations = new OntologicalCommitment(folderPath);
+			representations = new Representation(folderPath);
 			try {
 				representations.whatIsThere(inputPath);
 				representations.generateHTML();

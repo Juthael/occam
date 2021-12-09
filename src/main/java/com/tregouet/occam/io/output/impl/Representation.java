@@ -33,10 +33,10 @@ import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.io.output.IOntologicalCommitment;
+import com.tregouet.occam.io.output.IRepresentation;
 import com.tregouet.occam.io.output.utils.Visualizer;
 
-public class OntologicalCommitment implements IOntologicalCommitment {
+public class Representation implements IRepresentation {
 
 	private static final String NL = System.lineSeparator();
 	private static final Path headPath = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io", 
@@ -54,7 +54,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	private ITransitionFunction currentTransFunc = null;
 	private int transFuncIdx = 0;
 	
-	public OntologicalCommitment(String folderPath) {
+	public Representation(String folderPath) {
 		this.folderPath = folderPath;
 		Visualizer.setLocation(folderPath);
 	}

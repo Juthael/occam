@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.data.constructs.IConstruct;
-import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.constructs.impl.ContextObject;
+import com.tregouet.occam.data.languages.generic.IConstruct;
+import com.tregouet.occam.data.languages.generic.IContextObject;
+import com.tregouet.occam.data.languages.generic.impl.ContextObject;
 
 /**
  * @author Gael Tregouet

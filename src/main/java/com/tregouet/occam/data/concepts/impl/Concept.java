@@ -7,8 +7,8 @@ import java.util.Set;
 
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
-import com.tregouet.occam.data.constructs.IConstruct;
-import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.occam.data.languages.generic.IConstruct;
+import com.tregouet.occam.data.languages.generic.IContextObject;
 
 public class Concept extends AbstractConcept implements IConcept {
 

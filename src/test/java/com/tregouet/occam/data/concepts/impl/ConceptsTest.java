@@ -21,17 +21,17 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.constructs.IConstruct;
-import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.constructs.impl.Construct;
+import com.tregouet.occam.data.languages.generic.IConstruct;
+import com.tregouet.occam.data.languages.generic.IContextObject;
+import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
-import com.tregouet.occam.transition_function.IClassificationTreeSupplier;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.StructureInspector;
 
@@ -119,14 +119,14 @@ public class ConceptsTest {
 	
 	@Test
 	public void whenCatTreeSupplierRequestedThenReturned() {
-		IClassificationTreeSupplier classificationTreeSupplier = null;
+		IConceptTreeSupplier conceptTreeSupplier = null;
 		try {
-			classificationTreeSupplier = concepts.getCatTreeSupplier();
+			conceptTreeSupplier = concepts.getCatTreeSupplier();
 		}
 		catch (Exception e) {
 			assertTrue(false);
 		}
-		assertNotNull(classificationTreeSupplier);
+		assertNotNull(conceptTreeSupplier);
 	}	
 	
 	@Test
@@ -316,7 +316,7 @@ public class ConceptsTest {
 	
 	@Test
 	public void whenTreeSuppliedThenReallyIsATree() throws IOException {
-		IClassificationTreeSupplier treeSupplier = concepts.getCatTreeSupplier();
+		IConceptTreeSupplier treeSupplier = concepts.getCatTreeSupplier();
 		int nbOfChecks = 0;
 		while (treeSupplier.hasNext()) {
 			Tree<IConcept, IsA> nextTree = treeSupplier.nextOntologicalCommitment();

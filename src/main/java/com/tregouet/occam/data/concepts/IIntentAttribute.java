@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.concepts;
 
-import com.tregouet.occam.data.constructs.IConstruct;
+import com.tregouet.occam.data.languages.generic.IConstruct;
 
 public interface IIntentAttribute extends IConstruct {
 	

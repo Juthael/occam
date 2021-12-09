@@ -7,7 +7,7 @@ import com.google.common.collect.Sets;
 import com.tregouet.occam.data.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
-import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.occam.data.languages.generic.IContextObject;
 
 public class ComplementaryConcept extends AbstractConcept implements IComplementaryConcept {
 

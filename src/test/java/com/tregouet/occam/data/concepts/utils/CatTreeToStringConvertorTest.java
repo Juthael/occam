@@ -15,15 +15,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.concepts.utils.CatTreeToStringConvertor;
-import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
-import com.tregouet.occam.transition_function.IClassificationTreeSupplier;
 import com.tregouet.tree_finder.data.Tree;
 
 @SuppressWarnings("unused")
@@ -32,7 +32,7 @@ public class CatTreeToStringConvertorTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private static IConcepts concepts;
-	private static IClassificationTreeSupplier classificationTreeSupplier;
+	private static IConceptTreeSupplier conceptTreeSupplier;
 	private static Map<IConcept, String> objCatToName = new HashMap<>();
 	
 	@BeforeClass
@@ -47,7 +47,7 @@ public class CatTreeToStringConvertorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		classificationTreeSupplier = concepts.getCatTreeSupplier();
+		conceptTreeSupplier = concepts.getCatTreeSupplier();
 	}
 
 	@Test
@@ -61,8 +61,8 @@ public class CatTreeToStringConvertorTest {
 		Visualizer.visualizeCategoryGraph(cats.getCategoryLattice(), "CatTreeToStringConvertorTest");
 		int treeIdx = 0;
 		*/
-		while (classificationTreeSupplier.hasNext()) {
-			Tree<IConcept, IsA> currTree = classificationTreeSupplier.nextOntologicalCommitment();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IsA> currTree = conceptTreeSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/

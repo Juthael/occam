@@ -10,11 +10,11 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.data.constructs.AVariable;
-import com.tregouet.occam.data.constructs.ISymbol;
-import com.tregouet.occam.data.constructs.impl.Terminal;
-import com.tregouet.occam.data.constructs.impl.Variable;
-import com.tregouet.occam.data.transitions.impl.util.ProductionGenerator;
+import com.tregouet.occam.alg.transition_function_gen.util.ProductionGenerator;
+import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.languages.generic.ISymbol;
+import com.tregouet.occam.data.languages.generic.impl.Terminal;
+import com.tregouet.occam.data.languages.generic.impl.Variable;
 
 public class ProductionGeneratorTest {
 

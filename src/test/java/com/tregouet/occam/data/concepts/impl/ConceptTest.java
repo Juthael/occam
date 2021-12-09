@@ -17,10 +17,10 @@ import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.Concept;
 import com.tregouet.occam.data.concepts.impl.IntentAttribute;
-import com.tregouet.occam.data.constructs.IConstruct;
-import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.constructs.impl.Construct;
-import com.tregouet.occam.data.constructs.impl.ContextObject;
+import com.tregouet.occam.data.languages.generic.IConstruct;
+import com.tregouet.occam.data.languages.generic.IContextObject;
+import com.tregouet.occam.data.languages.generic.impl.Construct;
+import com.tregouet.occam.data.languages.generic.impl.ContextObject;
 
 public class ConceptTest {
 

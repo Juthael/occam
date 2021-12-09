@@ -13,12 +13,12 @@ import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
+import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
+import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.transitions.IProduction;
-import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;

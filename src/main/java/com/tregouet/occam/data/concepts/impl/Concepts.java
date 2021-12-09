@@ -17,19 +17,19 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
+import com.tregouet.occam.alg.conceptual_structure_gen.IClassTreeWithConstrainedExtentStructureSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.impl.ConceptTreeSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.util.IntentBldr;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.constructs.AVariable;
-import com.tregouet.occam.data.constructs.IConstruct;
-import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.constructs.ISymbol;
-import com.tregouet.occam.data.constructs.impl.Construct;
-import com.tregouet.occam.data.constructs.impl.Variable;
-import com.tregouet.occam.transition_function.IClassTreeWithConstrainedExtentStructureSupplier;
-import com.tregouet.occam.transition_function.IClassificationTreeSupplier;
+import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.languages.generic.IConstruct;
+import com.tregouet.occam.data.languages.generic.IContextObject;
+import com.tregouet.occam.data.languages.generic.ISymbol;
+import com.tregouet.occam.data.languages.generic.impl.Construct;
+import com.tregouet.occam.data.languages.generic.impl.Variable;
 import com.tregouet.occam.transition_function.IExtentStructureConstraint;
-import com.tregouet.occam.transition_function.impl.ClassificationTreeSupplier;
-import com.tregouet.occam.transition_function.impl.IntentBldr;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
@@ -104,8 +104,8 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public IClassificationTreeSupplier getCatTreeSupplier() throws IOException {
-		return new ClassificationTreeSupplier(new UnidimensionalSorter<>(ontologicalUSL), ontologicalCommitment);
+	public IConceptTreeSupplier getCatTreeSupplier() throws IOException {
+		return new ConceptTreeSupplier(new UnidimensionalSorter<>(ontologicalUSL), ontologicalCommitment);
 	}
 
 	@Override

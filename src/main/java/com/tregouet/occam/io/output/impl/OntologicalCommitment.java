@@ -17,24 +17,24 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
+import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
+import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
+import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.abstract_machines.transitions.impl.ProductionBuilder;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.constructs.IConstruct;
-import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.transitions.IProduction;
-import com.tregouet.occam.data.transitions.impl.ProductionBuilder;
+import com.tregouet.occam.data.languages.generic.IConstruct;
+import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.IOntologicalCommitment;
 import com.tregouet.occam.io.output.utils.Visualizer;
-import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
-import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
-import com.tregouet.occam.transition_function.impl.CatStructureAwareTFSupplier;
 
 public class OntologicalCommitment implements IOntologicalCommitment {
 
@@ -47,7 +47,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	private final String folderPath;
 	private List<IContextObject> context = null;
 	private IConcepts concepts = null;
-	private ICatStructureAwareTFSupplier catStructureAwareTFSupplier = null;
+	private IConceptStructureBasedTFSupplier conceptStructureBasedTFSupplier = null;
 	private IRepresentedCatTree representedCatTree = null;
 	private int catTreeIdx = 0;
 	private Iterator<ITransitionFunction> iteOverTF = null;
@@ -226,7 +226,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 
 	@Override
 	public boolean hasNextCategoricalStructure() {
-		return (catStructureAwareTFSupplier != null && catStructureAwareTFSupplier.hasNext());
+		return (conceptStructureBasedTFSupplier != null && conceptStructureBasedTFSupplier.hasNext());
 	}
 
 	@Override
@@ -236,7 +236,7 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 
 	@Override
 	public void nextCategoryTree() throws IOException {
-		representedCatTree = catStructureAwareTFSupplier.next();
+		representedCatTree = conceptStructureBasedTFSupplier.next();
 		catTreeIdx++;
 		generateCategoryTreeGraph();
 		iteOverTF = representedCatTree.getIteratorOverTransitionFunctions();
@@ -267,12 +267,12 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
 		try {
-			catStructureAwareTFSupplier = new CatStructureAwareTFSupplier(concepts, constructs, 
+			conceptStructureBasedTFSupplier = new ConceptStructureBasedTFSupplier(concepts, constructs, 
 					SIM_CALCULATION_STRATEGY);
 		} catch (IOException e) {
 			return false;
 		}
-		representedCatTree = catStructureAwareTFSupplier.next();
+		representedCatTree = conceptStructureBasedTFSupplier.next();
 		iteOverTF = representedCatTree.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateCategoryLatticeGraph();

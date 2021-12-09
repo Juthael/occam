@@ -2,8 +2,8 @@ package com.tregouet.occam.data.concepts.impl;
 
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
-import com.tregouet.occam.data.constructs.IConstruct;
-import com.tregouet.occam.data.constructs.impl.Construct;
+import com.tregouet.occam.data.languages.generic.IConstruct;
+import com.tregouet.occam.data.languages.generic.impl.Construct;
 
 public class IntentAttribute extends Construct implements IIntentAttribute {
 

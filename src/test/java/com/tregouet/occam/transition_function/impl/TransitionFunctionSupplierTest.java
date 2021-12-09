@@ -14,17 +14,18 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
+import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.abstract_machines.transitions.impl.ProductionBuilder;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.transitions.IProduction;
-import com.tregouet.occam.data.transitions.impl.ProductionBuilder;
+import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
-import com.tregouet.occam.transition_function.IClassificationTreeSupplier;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.StructureInspector;
 
@@ -34,7 +35,7 @@ public class TransitionFunctionSupplierTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
-	private IClassificationTreeSupplier classificationTreeSupplier;
+	private IConceptTreeSupplier conceptTreeSupplier;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
@@ -53,15 +54,15 @@ public class TransitionFunctionSupplierTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationTreeSupplier = concepts.getCatTreeSupplier();
+		conceptTreeSupplier = concepts.getCatTreeSupplier();
 	}
 
 	@Test
 	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfProductionsSourcesOrTargetsIsTreeOfCategories() 
 			throws IOException {
 		boolean expectedSetOfCategories = true;
-		while (classificationTreeSupplier.hasNext()) {
-			Tree<IConcept, IsA> catTree = classificationTreeSupplier.nextOntologicalCommitment();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IsA> catTree = conceptTreeSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2111051022_catTree");
 			*/
@@ -87,8 +88,8 @@ public class TransitionFunctionSupplierTest {
 	@Test
 	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfContainerCategoriesIsTreeOfCategories() {
 		boolean expectedSetOfCategories = true;
-		while (classificationTreeSupplier.hasNext()) {
-			Tree<IConcept, IsA> catTree = classificationTreeSupplier.nextOntologicalCommitment();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IsA> catTree = conceptTreeSupplier.nextOntologicalCommitment();
 			Set<IConcept> expectedCats = catTree.vertexSet();
 			Set<IConcept> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
@@ -107,8 +108,8 @@ public class TransitionFunctionSupplierTest {
 	public void whenConstructGraphIsFilteredByCategoryTreeThenProductionsSourceAndTargetCatsAreRelatedInCatTree() {
 		boolean sourceAndTargetCatsAreRelated = true;
 		int checkCount = 0;
-		while (classificationTreeSupplier.hasNext()) {
-			Tree<IConcept, IsA> catTree = classificationTreeSupplier.nextOntologicalCommitment();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IsA> catTree = conceptTreeSupplier.nextOntologicalCommitment();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
@@ -126,8 +127,8 @@ public class TransitionFunctionSupplierTest {
 	public void whenConstructGraphFilteredByCategoryTreeThenOrderedSetOfConstructsIsARootedInvertedDAG() throws IOException {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
-		while (classificationTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			Tree<IConcept, IsA> catTree = classificationTreeSupplier.nextOntologicalCommitment();
+		while (conceptTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
+			Tree<IConcept, IsA> catTree = conceptTreeSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			*/

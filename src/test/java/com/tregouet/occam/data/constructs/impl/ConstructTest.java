@@ -9,9 +9,11 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import com.tregouet.occam.data.constructs.AVariable;
-import com.tregouet.occam.data.constructs.IConstruct;
-import com.tregouet.occam.data.constructs.ITerminal;
+import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.languages.generic.IConstruct;
+import com.tregouet.occam.data.languages.generic.ITerminal;
+import com.tregouet.occam.data.languages.generic.impl.Construct;
+import com.tregouet.occam.data.languages.generic.impl.Terminal;
 import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class ConstructTest {

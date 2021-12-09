@@ -12,18 +12,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
+import com.tregouet.occam.alg.transition_function_gen.impl.BasicTFSupplier;
+import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
+import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.abstract_machines.transitions.impl.ProductionBuilder;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.Concepts;
-import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.transitions.IProduction;
-import com.tregouet.occam.data.transitions.impl.ProductionBuilder;
+import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
-import com.tregouet.occam.transition_function.IBasicTFSupplier;
-import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
 
 @SuppressWarnings("unused")
 public class BasicTFSupplierTest {

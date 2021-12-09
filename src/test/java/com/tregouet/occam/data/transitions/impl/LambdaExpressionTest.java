@@ -8,15 +8,15 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.tregouet.occam.data.constructs.AVariable;
-import com.tregouet.occam.data.constructs.IConstruct;
-import com.tregouet.occam.data.constructs.ISymbol;
-import com.tregouet.occam.data.constructs.ITerminal;
-import com.tregouet.occam.data.constructs.impl.Construct;
-import com.tregouet.occam.data.constructs.impl.Terminal;
-import com.tregouet.occam.data.constructs.impl.Variable;
-import com.tregouet.occam.data.lambdas.ILambdaExpression;
-import com.tregouet.occam.data.lambdas.impl.LambdaExpression;
+import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.languages.generic.IConstruct;
+import com.tregouet.occam.data.languages.generic.ISymbol;
+import com.tregouet.occam.data.languages.generic.ITerminal;
+import com.tregouet.occam.data.languages.generic.impl.Construct;
+import com.tregouet.occam.data.languages.generic.impl.Terminal;
+import com.tregouet.occam.data.languages.generic.impl.Variable;
+import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
+import com.tregouet.occam.data.languages.lambda.impl.LambdaExpression;
 
 public class LambdaExpressionTest {
 

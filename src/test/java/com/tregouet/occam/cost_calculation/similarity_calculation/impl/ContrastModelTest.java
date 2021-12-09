@@ -21,23 +21,24 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
-import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCalculator;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.cost_calc.similarity_calc.ISimilarityCalculator;
+import com.tregouet.occam.alg.cost_calc.similarity_calc.impl.ContrastModel;
+import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
+import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
+import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
+import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.abstract_machines.transitions.impl.ProductionBuilder;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.transitions.IProduction;
-import com.tregouet.occam.data.transitions.impl.ProductionBuilder;
+import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
-import com.tregouet.occam.transition_function.IClassificationTreeSupplier;
-import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
-import com.tregouet.occam.transition_function.impl.TransitionFunction;
-import com.tregouet.occam.transition_function.impl.TransitionFunctionSupplier;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
@@ -52,7 +53,7 @@ public class ContrastModelTest {
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IClassificationTreeSupplier classificationTreeSupplier;
+	private IConceptTreeSupplier conceptTreeSupplier;
 	private Tree<IConcept, IsA> catTree;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
@@ -74,9 +75,9 @@ public class ContrastModelTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationTreeSupplier = concepts.getCatTreeSupplier();
-		while (classificationTreeSupplier.hasNext()) {
-			catTree = classificationTreeSupplier.nextOntologicalCommitment();
+		conceptTreeSupplier = concepts.getCatTreeSupplier();
+		while (conceptTreeSupplier.hasNext()) {
+			catTree = conceptTreeSupplier.nextOntologicalCommitment();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);

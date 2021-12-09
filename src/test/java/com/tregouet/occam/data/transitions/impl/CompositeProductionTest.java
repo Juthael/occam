@@ -12,13 +12,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
+import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.abstract_machines.transitions.impl.ProductionBuilder;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.Concepts;
-import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.data.transitions.ICompositeProduction;
-import com.tregouet.occam.data.transitions.IProduction;
-import com.tregouet.occam.data.transitions.impl.ProductionBuilder;
+import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class CompositeProductionTest {

@@ -4,13 +4,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
+import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
+import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.concepts.utils.CatTreeToStringConvertor;
-import com.tregouet.occam.transition_function.ICatStructureAwareTFSupplier;
 import com.tregouet.occam.transition_function.IExtentStructureConstraint;
 import com.tregouet.occam.transition_function.IRepresentedCatTree;
-import com.tregouet.occam.transition_function.ITransitionFunction;
 import com.tregouet.tree_finder.data.Tree;
 
 public class RepresentedCatTree implements IRepresentedCatTree {
@@ -69,7 +69,7 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 
 	@Override
 	public String getDefinitionOfObjects() {
-		return ICatStructureAwareTFSupplier.getDefinitionOfObjects(objectCategoryToName);
+		return IConceptStructureBasedTFSupplier.getDefinitionOfObjects(objectCategoryToName);
 	}
 
 	@Override

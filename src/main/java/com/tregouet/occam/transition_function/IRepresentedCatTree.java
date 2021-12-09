@@ -2,6 +2,7 @@ package com.tregouet.occam.transition_function;
 
 import java.util.Iterator;
 
+import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;

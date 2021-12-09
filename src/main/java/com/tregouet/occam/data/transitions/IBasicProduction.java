@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
+import com.tregouet.occam.data.lambdas.ILambdaExpression;
 
 public interface IBasicProduction extends IProduction {
 	

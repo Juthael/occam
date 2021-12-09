@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.transitions;
+package com.tregouet.occam.data.lambdas;
 
 import com.tregouet.occam.data.constructs.AVariable;
 

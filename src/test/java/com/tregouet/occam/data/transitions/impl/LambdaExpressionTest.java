@@ -15,8 +15,8 @@ import com.tregouet.occam.data.constructs.ITerminal;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.Terminal;
 import com.tregouet.occam.data.constructs.impl.Variable;
-import com.tregouet.occam.data.transitions.ILambdaExpression;
-import com.tregouet.occam.data.transitions.impl.LambdaExpression;
+import com.tregouet.occam.data.lambdas.ILambdaExpression;
+import com.tregouet.occam.data.lambdas.impl.LambdaExpression;
 
 public class LambdaExpressionTest {
 

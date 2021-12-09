@@ -8,6 +8,9 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.constructs.IContextObject;
+import com.tregouet.occam.transition_function.IClassTreeWithConstrainedExtentStructureSupplier;
+import com.tregouet.occam.transition_function.IClassificationTreeSupplier;
+import com.tregouet.occam.transition_function.IExtentStructureConstraint;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public interface IConcepts {

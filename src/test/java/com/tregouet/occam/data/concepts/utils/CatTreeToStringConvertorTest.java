@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.impl.Concepts;
@@ -24,6 +23,7 @@ import com.tregouet.occam.data.concepts.utils.CatTreeToStringConvertor;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
+import com.tregouet.occam.transition_function.IClassificationTreeSupplier;
 import com.tregouet.tree_finder.data.Tree;
 
 @SuppressWarnings("unused")

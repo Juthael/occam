@@ -3,8 +3,8 @@ package com.tregouet.occam.data.transitions.impl;
 import java.util.List;
 
 import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.lambdas.ILambdaExpression;
 import com.tregouet.occam.data.transitions.IBasicProduction;
-import com.tregouet.occam.data.transitions.ILambdaExpression;
 import com.tregouet.occam.data.transitions.IProduction;
 
 public class BlankProduction extends BasicProduction implements IBasicProduction {

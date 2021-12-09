@@ -14,11 +14,11 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.data.concepts.impl.IntentBldr;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.transition_function.impl.IntentBldr;
 import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class IntentBldrTest {

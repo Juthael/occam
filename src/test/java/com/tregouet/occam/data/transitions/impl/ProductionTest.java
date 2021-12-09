@@ -23,8 +23,8 @@ import com.tregouet.occam.data.constructs.ITerminal;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.Terminal;
 import com.tregouet.occam.data.constructs.impl.Variable;
+import com.tregouet.occam.data.lambdas.ILambdaExpression;
 import com.tregouet.occam.data.transitions.IBasicProduction;
-import com.tregouet.occam.data.transitions.ILambdaExpression;
 import com.tregouet.occam.data.transitions.IProduction;
 import com.tregouet.occam.data.transitions.impl.BasicProduction;
 

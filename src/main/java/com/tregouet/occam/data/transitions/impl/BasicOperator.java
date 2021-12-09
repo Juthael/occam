@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.lambdas.ILambdaExpression;
 import com.tregouet.occam.data.transitions.IBasicOperator;
 import com.tregouet.occam.data.transitions.IBasicProduction;
 import com.tregouet.occam.data.transitions.ICompositeProduction;
-import com.tregouet.occam.data.transitions.ILambdaExpression;
 import com.tregouet.occam.data.transitions.IProduction;
 import com.tregouet.occam.transition_function.IState;
 

@@ -1,9 +1,10 @@
-package com.tregouet.occam.data.concepts.impl;
+package com.tregouet.occam.transition_function.impl;
 
 import java.util.List;
 
-import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.transition_function.IClassificationTreeSupplier;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
 import com.tregouet.tree_finder.data.Tree;
 

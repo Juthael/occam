@@ -10,9 +10,10 @@ import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.ISymbol;
 import com.tregouet.occam.data.constructs.impl.Construct;
+import com.tregouet.occam.data.lambdas.ILambdaExpression;
+import com.tregouet.occam.data.lambdas.impl.LambdaExpression;
 import com.tregouet.occam.data.transitions.IBasicProduction;
 import com.tregouet.occam.data.transitions.ICompositeProduction;
-import com.tregouet.occam.data.transitions.ILambdaExpression;
 import com.tregouet.occam.data.transitions.IProduction;
 
 public class BasicProduction extends Production implements IBasicProduction {

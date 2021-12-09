@@ -17,17 +17,19 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.data.concepts.IClassTreeWithConstrainedExtentStructureSupplier;
-import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.ISymbol;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.Variable;
+import com.tregouet.occam.transition_function.IClassTreeWithConstrainedExtentStructureSupplier;
+import com.tregouet.occam.transition_function.IClassificationTreeSupplier;
+import com.tregouet.occam.transition_function.IExtentStructureConstraint;
+import com.tregouet.occam.transition_function.impl.ClassificationTreeSupplier;
+import com.tregouet.occam.transition_function.impl.IntentBldr;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 

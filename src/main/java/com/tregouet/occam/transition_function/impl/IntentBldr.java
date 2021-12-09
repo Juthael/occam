@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.concepts.impl;
+package com.tregouet.occam.transition_function.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;

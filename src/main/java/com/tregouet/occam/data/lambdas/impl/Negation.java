@@ -1,9 +1,9 @@
-package com.tregouet.occam.data.transitions.impl;
+package com.tregouet.occam.data.lambdas.impl;
 
 import java.util.List;
 
 import com.tregouet.occam.data.constructs.AVariable;
-import com.tregouet.occam.data.transitions.ILambdaExpression;
+import com.tregouet.occam.data.lambdas.ILambdaExpression;
 
 public class Negation implements ILambdaExpression {
 	

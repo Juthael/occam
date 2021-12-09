@@ -1,5 +1,6 @@
-package com.tregouet.occam.data.concepts;
+package com.tregouet.occam.transition_function;
 
+import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
 import com.tregouet.tree_finder.data.Tree;

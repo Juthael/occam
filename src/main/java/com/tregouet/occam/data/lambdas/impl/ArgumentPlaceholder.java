@@ -1,8 +1,8 @@
-package com.tregouet.occam.data.transitions.impl;
+package com.tregouet.occam.data.lambdas.impl;
 
 import com.tregouet.occam.data.constructs.AVariable;
-import com.tregouet.occam.data.transitions.IArgumentPlaceholder;
-import com.tregouet.occam.data.transitions.ILambdaExpression;
+import com.tregouet.occam.data.lambdas.IArgumentPlaceholder;
+import com.tregouet.occam.data.lambdas.ILambdaExpression;
 
 public class ArgumentPlaceholder extends LambdaExpression implements IArgumentPlaceholder {
 

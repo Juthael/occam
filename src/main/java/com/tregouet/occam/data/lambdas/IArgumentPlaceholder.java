@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.transitions;
+package com.tregouet.occam.data.lambdas;
 
 public interface IArgumentPlaceholder extends ILambdaExpression {
 	

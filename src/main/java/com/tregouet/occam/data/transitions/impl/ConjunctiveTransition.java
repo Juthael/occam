@@ -1,15 +1,11 @@
 package com.tregouet.occam.data.transitions.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.transitions.IBasicOperator;
 import com.tregouet.occam.data.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.transitions.ILambdaExpression;
-import com.tregouet.occam.data.transitions.IOperator;
 import com.tregouet.occam.data.transitions.IProduction;
 import com.tregouet.occam.data.transitions.IReframer;
 import com.tregouet.occam.data.transitions.ITransition;
@@ -67,6 +63,16 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	}
 
 	@Override
+	public List<IBasicOperator> getOperators() {
+		return operators;
+	}
+
+	@Override
+	public IReframer getReframer() {
+		return reframer;
+	}
+
+	@Override
 	public boolean isBlank() {
 		for (ITransition transition : getComponents()) {
 			if (!transition.isBlank())
@@ -99,16 +105,6 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 		for (IBasicOperator operator : operators)
 			semantics.addAll(operator.semantics());
 		return semantics;
-	}
-
-	@Override
-	public List<IBasicOperator> getOperators() {
-		return operators;
-	}
-
-	@Override
-	public IReframer getReframer() {
-		return reframer;
 	}
 
 }

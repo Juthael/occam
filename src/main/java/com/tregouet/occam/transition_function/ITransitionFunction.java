@@ -11,7 +11,6 @@ import com.tregouet.occam.cost_calculation.similarity_calculation.ISimilarityCal
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.transitions.IOperator;
 import com.tregouet.occam.data.transitions.ITransition;
 import com.tregouet.occam.finite_automaton.IFiniteAutomaton;
 import com.tregouet.tree_finder.data.Tree;
@@ -21,6 +20,8 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	@Override
 	boolean equals(Object o);
 	
+	double[][] getAsymmetricalSimilarityMatrix();
+	
 	Tree<IConcept, IsA> getCategoryTree();
 	
 	String getCategoryTreeAsDOTFile();
@@ -29,33 +30,31 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	IFiniteAutomaton getCompiler();
 	
+	Map<Integer, Double> getConceptualCoherenceMap();
+	
 	List<IConjunctiveTransition> getConjunctiveTransitions();
 	
 	IDSLanguageDisplayer getDomainSpecificLanguage();
-	
-	ISimilarityCalculator getSimilarityCalculator();
-	
-	List<IState> getStates();
 	
 	SimpleDirectedGraph<IState, IConjunctiveTransition> getFiniteAutomatonGraph();
 	
 	DirectedMultigraph<IState, ITransition> getFiniteAutomatonMultigraph();
 	
-	String getTransitionFunctionAsDOTFile(TransitionFunctionGraphType graphType);
-	
-	List<ITransition> getTransitions();
-	
-	boolean validate(Predicate<ITransitionFunction> validator);
+	ISimilarityCalculator getSimilarityCalculator();
 	
 	double[][] getSimilarityMatrix();
 	
-	double[][] getAsymmetricalSimilarityMatrix();
+	List<IState> getStates();
 	
-	Map<Integer, Double> getConceptualCoherenceMap();
+	String getTransitionFunctionAsDOTFile(TransitionFunctionGraphType graphType);
+	
+	List<ITransition> getTransitions();
 	
 	double[] getTypicalityArray();
 	
 	@Override
 	int hashCode();
+	
+	boolean validate(Predicate<ITransitionFunction> validator);
 
 }

@@ -7,12 +7,9 @@ import java.util.Set;
 
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
-import com.tregouet.occam.data.constructs.IConstruct;
-import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.transitions.IOperator;
 import com.tregouet.occam.data.transitions.IProduction;
 import com.tregouet.occam.finite_automaton.ITapeSet;
-import com.tregouet.occam.transition_function.IFrame;
 import com.tregouet.occam.transition_function.IState;
 
 public class State implements IState {

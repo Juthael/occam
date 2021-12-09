@@ -5,23 +5,27 @@ import java.nio.file.Path;
 
 public interface IOntologicalCommitment {
 	
-	boolean whatIsThere(Path contextPath) throws IOException;
+	String generateAsymmetricalSimilarityMatrix(String alinea);
 	
-	double getCoherenceScore();
-	
-	String generateInputHTMLTranslation(String alinea);
+	String generateCategoricalCoherenceArray(String alinea);
 	
 	void generateCategoryLatticeGraph() throws IOException;
 	
 	void generateCategoryTreeGraph() throws IOException;
 	
-	void generateTransitionFunctionGraph() throws IOException;
+	void generateHTML() throws IOException;
+	
+	String generateInputHTMLTranslation(String alinea);
 	
 	String generateSimilarityMatrix(String alinea);
 	
-	String generateAsymmetricalSimilarityMatrix(String alinea);
+	void generateTransitionFunctionGraph() throws IOException;
 	
-	String generateCategoricalCoherenceArray(String alinea);
+	int getCategoryTreeIndex();
+	
+	double getCoherenceScore();
+	
+	int getTransitionFunctionIndex();
 	
 	boolean hasNextCategoricalStructure();
 	
@@ -31,10 +35,6 @@ public interface IOntologicalCommitment {
 	
 	void nextTransitionFunctionOverCurrentCategoricalStructure() throws IOException;
 	
-	void generateHTML() throws IOException;
-	
-	int getCategoryTreeIndex();
-	
-	int getTransitionFunctionIndex();
+	boolean whatIsThere(Path contextPath) throws IOException;
 
 }

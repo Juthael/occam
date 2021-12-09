@@ -55,10 +55,8 @@ public class ContextObject implements IContextObject {
 	}
 	
 	@Override
-	public String getName() {
-		if (name == null)
-			return Integer.toString(iD);
-		else return name;
+	public int getID() {
+		return iD;
 	}
 
 	@Override
@@ -66,6 +64,13 @@ public class ContextObject implements IContextObject {
 		return constructs.iterator();
 	}
 	
+	@Override
+	public String getName() {
+		if (name == null)
+			return Integer.toString(iD);
+		else return name;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -89,11 +94,6 @@ public class ContextObject implements IContextObject {
 		for (IConstruct construct : constructs)
 			symbolSeqs.add(new SymbolSeq(construct.toListOfStringsWithPlaceholders()));
 		return symbolSeqs;
-	}
-
-	@Override
-	public int getID() {
-		return iD;
 	}
 
 }

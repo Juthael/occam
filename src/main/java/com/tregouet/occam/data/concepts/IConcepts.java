@@ -39,12 +39,12 @@ public interface IConcepts {
 	
 	IConcept getLeastCommonSuperordinate(Set<IConcept> concepts);
 	
-	//it is guaranteed that the order is the same as getContextObjects();
-	List<IConcept> getSingletonConcept();
-	
 	IConcept getOntologicalCommitment();
 	
 	UpperSemilattice<IConcept, IsA> getOntologicalUpperSemilattice();
+	
+	//it is guaranteed that the order is the same as getContextObjects();
+	List<IConcept> getSingletonConcept();
 	
 	List<IConcept> getTopologicalSorting();
 	

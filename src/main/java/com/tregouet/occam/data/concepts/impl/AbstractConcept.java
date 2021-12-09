@@ -3,12 +3,9 @@ package com.tregouet.occam.data.concepts.impl;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.constructs.IConstruct;
-import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.impl.Construct;
 
 public abstract class AbstractConcept implements IConcept {
@@ -20,6 +17,20 @@ public abstract class AbstractConcept implements IConcept {
 	public AbstractConcept() {
 		// TODO Auto-generated constructor stub
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof AbstractConcept))
+			return false;
+		AbstractConcept other = (AbstractConcept) obj;
+		if (getID() != other.getID())
+			return false;
+		return true;
+	}	
 
 	/**
 	 * If many attributes meet the constraint, returns the first found. 
@@ -41,7 +52,15 @@ public abstract class AbstractConcept implements IConcept {
 			}
 		}
 		return matchingAttribute;
-	}	
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + getID();
+		return result;
+	}
 
 	@Override
 	public boolean meets(IConstruct constraint) {
@@ -62,28 +81,6 @@ public abstract class AbstractConcept implements IConcept {
 	@Override
 	public int type() {
 		return type;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + getID();
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof AbstractConcept))
-			return false;
-		AbstractConcept other = (AbstractConcept) obj;
-		if (getID() != other.getID())
-			return false;
-		return true;
 	}
 
 }

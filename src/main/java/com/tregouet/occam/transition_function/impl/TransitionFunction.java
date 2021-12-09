@@ -2,8 +2,6 @@ package com.tregouet.occam.transition_function.impl;
 
 import java.io.StringWriter;
 import java.io.Writer;
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,7 +11,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 import org.jgrapht.nio.Attribute;
@@ -77,27 +74,6 @@ public class TransitionFunction implements ITransitionFunction {
 		similarityCalc.set(concepts, conjunctiveTransitions);
 	}
 
-	public List<IOperator> buildOperators(List<IProduction> productions){
-		List<IOperator> operators = new ArrayList<>();
-		List<List<Integer>> operatorProdsSets = groupIndexesOfProductionsHandledByTheSameOperator(productions);
-		for (List<Integer> idxes : operatorProdsSets) {
-			List<IProduction> operation = new ArrayList<>();
-			IState activeState = null;
-			IState nextState = null;
-			for (int k = 0 ; k < idxes.size() ; k++) {
-				if (k == 0) {
-					IProduction kProduction = productions.get(idxes.get(k));
-					activeState = categoryToState.get(kProduction.getSourceCategory());
-					nextState = categoryToState.get(kProduction.getTargetCategory());
-					operation.add(kProduction);
-				}
-				else operation.add(productions.get(idxes.get(k)));
-			}
-			operators.add(new BasicOperator(activeState, operation, nextState));	
-		}
-		return operators;
-	}
-
 	private static List<List<Integer>> groupIndexesOfProductionsHandledByTheSameOperator(
 			List<IProduction> productions) {
 		List<List<Integer>> prodIndexesSets = new ArrayList<>();
@@ -122,15 +98,6 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 		}
 		return prodIndexesSets;
-	}
-
-	private static String setIntentsAsString(Set<IIntentAttribute> attributes){
-		StringBuilder sB = new StringBuilder();
-		for (IIntentAttribute att : attributes) {
-			sB.append(att.toString() + System.lineSeparator());
-		}
-		sB.deleteCharAt(sB.length() - 1);
-		return sB.toString();
 	}
 
 	private static String operatorAsString(ITransition transition) {
@@ -162,6 +129,36 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 		}
 		return sB.toString();
+	}
+
+	private static String setIntentsAsString(Set<IIntentAttribute> attributes){
+		StringBuilder sB = new StringBuilder();
+		for (IIntentAttribute att : attributes) {
+			sB.append(att.toString() + System.lineSeparator());
+		}
+		sB.deleteCharAt(sB.length() - 1);
+		return sB.toString();
+	}
+
+	public List<IOperator> buildOperators(List<IProduction> productions){
+		List<IOperator> operators = new ArrayList<>();
+		List<List<Integer>> operatorProdsSets = groupIndexesOfProductionsHandledByTheSameOperator(productions);
+		for (List<Integer> idxes : operatorProdsSets) {
+			List<IProduction> operation = new ArrayList<>();
+			IState activeState = null;
+			IState nextState = null;
+			for (int k = 0 ; k < idxes.size() ; k++) {
+				if (k == 0) {
+					IProduction kProduction = productions.get(idxes.get(k));
+					activeState = categoryToState.get(kProduction.getSourceCategory());
+					nextState = categoryToState.get(kProduction.getTargetCategory());
+					operation.add(kProduction);
+				}
+				else operation.add(productions.get(idxes.get(k)));
+			}
+			operators.add(new BasicOperator(activeState, operation, nextState));	
+		}
+		return operators;
 	}
 
 	@Override
@@ -196,6 +193,22 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 	
 	@Override
+	public double[][] getAsymmetricalSimilarityMatrix() {
+		int nbOfObjects = objects.size();
+		double[][] similarityMatrix = new double[nbOfObjects][nbOfObjects];
+		for (int i = 0 ; i < nbOfObjects ; i++) {
+			int iObjCatID = singletons.get(i).getID();
+			similarityMatrix[i][i] = 1.0;
+			for (int j = i + 1 ; j < nbOfObjects ; j++) {
+				int jObjCatID = singletons.get(j).getID();
+				similarityMatrix[i][j] = similarityCalc.howSimilarTo(iObjCatID, jObjCatID);
+				similarityMatrix[j][i] = similarityCalc.howSimilarTo(jObjCatID, iObjCatID);
+			}
+		}
+		return similarityMatrix;
+	}
+
+	@Override
 	public Tree<IConcept, IsA> getCategoryTree() {
 		return concepts;
 	}
@@ -217,12 +230,29 @@ public class TransitionFunction implements ITransitionFunction {
 	public double getCoherenceScore() {
 		return similarityCalc.getCoherenceScore();
 	}
-
+	
 	@Override
 	public IFiniteAutomaton getCompiler() {
 		return new FiniteAutomaton(objects, this);
 	}
-	
+
+	@Override
+	public Map<Integer, Double> getConceptualCoherenceMap() {
+		Map<Integer, Double> catIDToCoherenceScore = new HashMap<>();
+		TopologicalOrderIterator<IConcept, IsA> iterator = new TopologicalOrderIterator<>(concepts);
+		while (iterator.hasNext()) {
+			IConcept nextCat = iterator.next();
+			Set<IContextObject> extent = nextCat.getExtent();
+			int[] extentIDs = new int[extent.size()];
+			int idx = 0;
+			for (IContextObject obj : extent) {
+				extentIDs[idx++] = singletons.get(objects.indexOf(obj)).getID();
+			}
+			catIDToCoherenceScore.put(nextCat.getID(), similarityCalc.getCoherenceScore(extentIDs));
+		}
+		return catIDToCoherenceScore;
+	}
+
 	@Override
 	public List<IConjunctiveTransition> getConjunctiveTransitions() {
 		return conjunctiveTransitions;
@@ -233,6 +263,30 @@ public class TransitionFunction implements ITransitionFunction {
 		//NOT IMPLEMENTED YET
 		return null;
 	}
+	
+	@Override
+	public SimpleDirectedGraph<IState, IConjunctiveTransition> getFiniteAutomatonGraph() {
+		if (finiteAutomatonGraph == null) {
+			finiteAutomatonGraph = new SimpleDirectedGraph<>(null, null, false);
+			for (IState state : getStates())
+				finiteAutomatonGraph.addVertex(state);
+			for (IConjunctiveTransition operator : conjunctiveTransitions)
+				finiteAutomatonGraph.addEdge(operator.getOperatingState(), operator.getNextState(), operator);
+		}
+		return finiteAutomatonGraph;
+	}
+
+	@Override
+	public DirectedMultigraph<IState, ITransition> getFiniteAutomatonMultigraph() {
+		if (finiteAutomatonMultigraph == null) {
+			finiteAutomatonMultigraph = new DirectedMultigraph<>(null, null, false);
+			for (IState state : getStates())
+				finiteAutomatonMultigraph.addVertex(state);
+			for (ITransition operator : transitions)
+				finiteAutomatonMultigraph.addEdge(operator.getOperatingState(), operator.getNextState(), operator);			
+		}
+		return finiteAutomatonMultigraph;
+	}
 
 	@Override
 	public ISimilarityCalculator getSimilarityCalculator() {
@@ -240,10 +294,27 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
+	public double[][] getSimilarityMatrix() {
+		int nbOfObjects = objects.size();
+		double[][] similarityMatrix = new double[nbOfObjects][nbOfObjects];
+		for (int i = 0 ; i < nbOfObjects ; i++) {
+			int iObjCatID = singletons.get(i).getID();
+			similarityMatrix[i][i] = 1.0;
+			for (int j = i + 1 ; j < nbOfObjects ; j++) {
+				int jObjCatID = singletons.get(j).getID();
+				double similarityScoreIJ = similarityCalc.howSimilar(iObjCatID, jObjCatID);
+				similarityMatrix[i][j] = similarityScoreIJ;
+				similarityMatrix[j][i] = similarityScoreIJ;
+			}
+		}
+		return similarityMatrix;
+	}
+
+	@Override
 	public List<IState> getStates() {
 		return new ArrayList<>(categoryToState.values());
 	}
-	
+
 	@Override
 	public String getTransitionFunctionAsDOTFile(TransitionFunctionGraphType graphType) {
 		String dOTFile = null;
@@ -311,92 +382,6 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = prime + ((transitions == null) ? 0 : transitions.hashCode());
-		return result;
-	}
-
-	@Override
-	public SimpleDirectedGraph<IState, IConjunctiveTransition> getFiniteAutomatonGraph() {
-		if (finiteAutomatonGraph == null) {
-			finiteAutomatonGraph = new SimpleDirectedGraph<>(null, null, false);
-			for (IState state : getStates())
-				finiteAutomatonGraph.addVertex(state);
-			for (IConjunctiveTransition operator : conjunctiveTransitions)
-				finiteAutomatonGraph.addEdge(operator.getOperatingState(), operator.getNextState(), operator);
-		}
-		return finiteAutomatonGraph;
-	}
-
-	@Override
-	public DirectedMultigraph<IState, ITransition> getFiniteAutomatonMultigraph() {
-		if (finiteAutomatonMultigraph == null) {
-			finiteAutomatonMultigraph = new DirectedMultigraph<>(null, null, false);
-			for (IState state : getStates())
-				finiteAutomatonMultigraph.addVertex(state);
-			for (ITransition operator : transitions)
-				finiteAutomatonMultigraph.addEdge(operator.getOperatingState(), operator.getNextState(), operator);			
-		}
-		return finiteAutomatonMultigraph;
-	}
-
-	@Override
-	public boolean validate(Predicate<ITransitionFunction> validator) {
-		return validator.test(this);
-	}
-
-	@Override
-	public double[][] getSimilarityMatrix() {
-		int nbOfObjects = objects.size();
-		double[][] similarityMatrix = new double[nbOfObjects][nbOfObjects];
-		for (int i = 0 ; i < nbOfObjects ; i++) {
-			int iObjCatID = singletons.get(i).getID();
-			similarityMatrix[i][i] = 1.0;
-			for (int j = i + 1 ; j < nbOfObjects ; j++) {
-				int jObjCatID = singletons.get(j).getID();
-				double similarityScoreIJ = similarityCalc.howSimilar(iObjCatID, jObjCatID);
-				similarityMatrix[i][j] = similarityScoreIJ;
-				similarityMatrix[j][i] = similarityScoreIJ;
-			}
-		}
-		return similarityMatrix;
-	}
-
-	@Override
-	public double[][] getAsymmetricalSimilarityMatrix() {
-		int nbOfObjects = objects.size();
-		double[][] similarityMatrix = new double[nbOfObjects][nbOfObjects];
-		for (int i = 0 ; i < nbOfObjects ; i++) {
-			int iObjCatID = singletons.get(i).getID();
-			similarityMatrix[i][i] = 1.0;
-			for (int j = i + 1 ; j < nbOfObjects ; j++) {
-				int jObjCatID = singletons.get(j).getID();
-				similarityMatrix[i][j] = similarityCalc.howSimilarTo(iObjCatID, jObjCatID);
-				similarityMatrix[j][i] = similarityCalc.howSimilarTo(jObjCatID, iObjCatID);
-			}
-		}
-		return similarityMatrix;
-	}
-
-	@Override
-	public Map<Integer, Double> getConceptualCoherenceMap() {
-		Map<Integer, Double> catIDToCoherenceScore = new HashMap<>();
-		TopologicalOrderIterator<IConcept, IsA> iterator = new TopologicalOrderIterator<>(concepts);
-		while (iterator.hasNext()) {
-			IConcept nextCat = iterator.next();
-			Set<IContextObject> extent = nextCat.getExtent();
-			int[] extentIDs = new int[extent.size()];
-			int idx = 0;
-			for (IContextObject obj : extent) {
-				extentIDs[idx++] = singletons.get(objects.indexOf(obj)).getID();
-			}
-			catIDToCoherenceScore.put(nextCat.getID(), similarityCalc.getCoherenceScore(extentIDs));
-		}
-		return catIDToCoherenceScore;
-	}
-
-	@Override
 	public double[] getTypicalityArray() {
 		int nbOfObjects = objects.size();
 		double[] typicalityArray = new double[nbOfObjects];
@@ -404,6 +389,18 @@ public class TransitionFunction implements ITransitionFunction {
 			typicalityArray[i] = similarityCalc.howProtoypical(singletons.get(i).getID());
 		}
 		return typicalityArray;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = prime + ((transitions == null) ? 0 : transitions.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean validate(Predicate<ITransitionFunction> validator) {
+		return validator.test(this);
 	}
 	
 	private List<IReframer> buildReframers() {

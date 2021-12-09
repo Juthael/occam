@@ -3,7 +3,6 @@ package com.tregouet.occam.data.transitions.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.constructs.AVariable;
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.transitions.IBasicProduction;

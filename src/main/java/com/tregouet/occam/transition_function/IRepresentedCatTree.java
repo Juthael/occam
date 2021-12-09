@@ -21,14 +21,14 @@ public interface IRepresentedCatTree extends Comparable<IRepresentedCatTree> {
 	
 	ITransitionFunction getOptimalTransitionFunction();
 	
+	//has a transition function
+	boolean isValid();
+	
 	boolean meetsConstraint(IExtentStructureConstraint constraint);
 	
 	boolean testAlternativeRepresentation(ITransitionFunction altRepresentation);
 	
 	@Override
 	String toString();
-	
-	//has a transition function
-	boolean isValid();
 	
 }

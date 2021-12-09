@@ -31,6 +31,11 @@ public abstract class AVariable implements ISymbol {
 	private static List<Character> charList = populateCharList();
 	private static Iterator<Character> charIte = charList.iterator();
 	
+	public static void resetVarNaming() {
+		iterationsOverAlphabet = 0;
+		charIte = charList.iterator();
+	}
+	
 	private static List<Character> populateCharList(){
 		List<Character> authorizedCharASCII = new ArrayList<Character>();
 		for (char curr = 'a' ; curr <= 'z' ; curr++) {
@@ -43,13 +48,13 @@ public abstract class AVariable implements ISymbol {
 	}
 	
 	@Override
-	public abstract boolean equals(Object o);
+	public abstract boolean equals(Object o);	
 	
 	/**
 	 * 
 	 * @return this variable's name
 	 */
-	abstract public String getName();	
+	abstract public String getName();
 	
 	@Override
 	public abstract int hashCode();
@@ -74,11 +79,6 @@ public abstract class AVariable implements ISymbol {
 			iterationsOverAlphabet++;
 		}
 		return charIte.next();
-	}
-	
-	public static void resetVarNaming() {
-		iterationsOverAlphabet = 0;
-		charIte = charList.iterator();
 	}
 
 }

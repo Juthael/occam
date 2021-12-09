@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.tregouet.occam.data.constructs.ISymbol;
-import com.tregouet.occam.data.constructs.ITerminal;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.Variable;
 import com.tregouet.occam.transition_function.IFrame;

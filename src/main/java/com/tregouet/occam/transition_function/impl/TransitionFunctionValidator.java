@@ -1,17 +1,12 @@
 package com.tregouet.occam.transition_function.impl;
 
-import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.transitions.IConjunctiveTransition;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.IState;
 import com.tregouet.occam.transition_function.ITransitionFunction;
-import com.tregouet.occam.transition_function.TransitionFunctionGraphType;
 
 public class TransitionFunctionValidator implements Predicate<ITransitionFunction> {
 
@@ -20,11 +15,6 @@ public class TransitionFunctionValidator implements Predicate<ITransitionFunctio
 	private TransitionFunctionValidator() {
 	}
 
-	@Override
-	public boolean test(ITransitionFunction tF) {
-		return noBlankState(tF);
-	}
-	
 	private static boolean noBlankState(ITransitionFunction tF) {
 		//HERE
 		/*
@@ -43,6 +33,11 @@ public class TransitionFunctionValidator implements Predicate<ITransitionFunctio
 				states.remove(operator.getOperatingState());
 		}
 		return (states.isEmpty());
+	}
+	
+	@Override
+	public boolean test(ITransitionFunction tF) {
+		return noBlankState(tF);
 	}
 
 }

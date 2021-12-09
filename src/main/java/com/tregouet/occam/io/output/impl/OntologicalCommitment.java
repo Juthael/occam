@@ -60,99 +60,6 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	}
 
 	@Override
-	public boolean whatIsThere(Path contextPath) throws IOException {
-		try {
-			context = GenericFileReader.getContextObjects(contextPath);
-		} catch (IOException e) {
-			return false;
-		}
-		concepts = new Concepts(context);
-		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
-		DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
-				new DirectedAcyclicGraph<>(null, null, false);
-		productions.stream().forEach(p -> {
-			constructs.addVertex(p.getSource());
-			constructs.addVertex(p.getTarget());
-			constructs.addEdge(p.getSource(), p.getTarget(), p);
-		});
-		try {
-			catStructureAwareTFSupplier = new CatStructureAwareTFSupplier(concepts, constructs, 
-					SIM_CALCULATION_STRATEGY);
-		} catch (IOException e) {
-			return false;
-		}
-		representedCatTree = catStructureAwareTFSupplier.next();
-		iteOverTF = representedCatTree.getIteratorOverTransitionFunctions();
-		currentTransFunc = iteOverTF.next();
-		generateCategoryLatticeGraph();
-		generateCategoryTreeGraph();
-		generateTransitionFunctionGraph();
-		return true;
-	}
-
-	@Override
-	public double getCoherenceScore() {
-		return currentTransFunc.getCoherenceScore();
-	}
-
-	@Override
-	public String generateInputHTMLTranslation(String alinea) {
-		String alineaa = alinea + "   ";
-		String alineaaa = alineaa + "   ";
-		String alineaaaa = alineaaa + "   ";
-		String alineaaaaa = alineaaaa + "   ";
-		StringBuilder sB = new StringBuilder();
-		sB.append(alinea + "<h3> Input context : </h3> <br>" + NL);
-		sB.append(alineaa + "<table>" + NL);
-		sB.append(alineaaa + "<thead>" + NL);
-		sB.append(alineaaaa + "<tr>" + NL);
-		for (IContextObject obj : context) {
-			sB.append(alineaaaaa + "<th>" + obj.getName() + "</th>" + NL);
-		}
-		sB.append(alineaaaa + "</tr>" + NL);
-		sB.append(alineaaa + "</thead>" + NL);
-		sB.append(alineaaa + "<tbody>" + NL);
-		sB.append(alineaaaa + "<tr>" + NL);
-		for (IContextObject obj : context) {
-			sB.append(alineaaaaa + "<td>" + NL);
-			for (IConstruct construct : obj.getConstructs())
-				sB.append(construct.toString() + "<br>" + NL);
-			sB.append(alineaaaaa + "</td>" + NL);
-		}
-		sB.append(alineaaaa + "</tr>" + NL);
-		sB.append(alineaaa + "</tbody>" + NL);
-		sB.append(alineaa + "</table>" + NL);
-		return sB.toString();
-	}
-
-	@Override
-	public void generateCategoryLatticeGraph() throws IOException {
-		DirectedAcyclicGraph<IConcept, IsA> lattice = concepts.getCategoryLattice();
-		TransitiveReduction.INSTANCE.reduce(lattice); 
-		Visualizer.visualizeCategoryGraph(lattice, "category_lattice.png");
-	}
-	
-	@Override
-	public void generateCategoryTreeGraph() throws IOException {
-		Visualizer.visualizeCategoryGraph(representedCatTree.getCategoryTree(), "category_tree.png");;
-	}
-
-	@Override
-	public void generateTransitionFunctionGraph() throws IOException {
-		Visualizer.visualizeTransitionFunction(currentTransFunc, "transition_function.png", 
-				TransitionFunctionGraphType.FINITE_AUTOMATON);
-	}
-
-	@Override
-	public String generateSimilarityMatrix(String alinea) {
-		double[][] similarityMatrix = currentTransFunc.getSimilarityMatrix();
-		StringBuilder sB = new StringBuilder();
-		sB.append(displayTable(similarityMatrix, "Similarity matrix", alinea));
-		sB.append("<br>" + NL);
-		return sB.toString();
-	}
-
-	@Override
 	public String generateAsymmetricalSimilarityMatrix(String alinea) {
 		double[][] asymmetricalSimilarityMatrix = currentTransFunc.getAsymmetricalSimilarityMatrix();
 		StringBuilder sB = new StringBuilder();
@@ -189,31 +96,17 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	}
 
 	@Override
-	public boolean hasNextCategoricalStructure() {
-		return (catStructureAwareTFSupplier != null && catStructureAwareTFSupplier.hasNext());
+	public void generateCategoryLatticeGraph() throws IOException {
+		DirectedAcyclicGraph<IConcept, IsA> lattice = concepts.getCategoryLattice();
+		TransitiveReduction.INSTANCE.reduce(lattice); 
+		Visualizer.visualizeCategoryGraph(lattice, "category_lattice.png");
 	}
 
 	@Override
-	public boolean hasNextTransitionFunctionOverCurrentCategoricalStructure() {
-		return (iteOverTF != null && iteOverTF.hasNext());
+	public void generateCategoryTreeGraph() throws IOException {
+		Visualizer.visualizeCategoryGraph(representedCatTree.getCategoryTree(), "category_tree.png");;
 	}
-
-	@Override
-	public void nextCategoryTree() throws IOException {
-		representedCatTree = catStructureAwareTFSupplier.next();
-		catTreeIdx++;
-		generateCategoryTreeGraph();
-		iteOverTF = representedCatTree.getIteratorOverTransitionFunctions();
-		currentTransFunc = iteOverTF.next();
-		generateTransitionFunctionGraph();
-	}
-
-	@Override
-	public void nextTransitionFunctionOverCurrentCategoricalStructure() throws IOException {
-		currentTransFunc = iteOverTF.next();
-		generateTransitionFunctionGraph();
-	}
-
+	
 	@Override
 	public void generateHTML() throws IOException {
 		String htmlPage;
@@ -272,13 +165,131 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 	}
 
 	@Override
+	public String generateInputHTMLTranslation(String alinea) {
+		String alineaa = alinea + "   ";
+		String alineaaa = alineaa + "   ";
+		String alineaaaa = alineaaa + "   ";
+		String alineaaaaa = alineaaaa + "   ";
+		StringBuilder sB = new StringBuilder();
+		sB.append(alinea + "<h3> Input context : </h3> <br>" + NL);
+		sB.append(alineaa + "<table>" + NL);
+		sB.append(alineaaa + "<thead>" + NL);
+		sB.append(alineaaaa + "<tr>" + NL);
+		for (IContextObject obj : context) {
+			sB.append(alineaaaaa + "<th>" + obj.getName() + "</th>" + NL);
+		}
+		sB.append(alineaaaa + "</tr>" + NL);
+		sB.append(alineaaa + "</thead>" + NL);
+		sB.append(alineaaa + "<tbody>" + NL);
+		sB.append(alineaaaa + "<tr>" + NL);
+		for (IContextObject obj : context) {
+			sB.append(alineaaaaa + "<td>" + NL);
+			for (IConstruct construct : obj.getConstructs())
+				sB.append(construct.toString() + "<br>" + NL);
+			sB.append(alineaaaaa + "</td>" + NL);
+		}
+		sB.append(alineaaaa + "</tr>" + NL);
+		sB.append(alineaaa + "</tbody>" + NL);
+		sB.append(alineaa + "</table>" + NL);
+		return sB.toString();
+	}
+
+	@Override
+	public String generateSimilarityMatrix(String alinea) {
+		double[][] similarityMatrix = currentTransFunc.getSimilarityMatrix();
+		StringBuilder sB = new StringBuilder();
+		sB.append(displayTable(similarityMatrix, "Similarity matrix", alinea));
+		sB.append("<br>" + NL);
+		return sB.toString();
+	}
+
+	@Override
+	public void generateTransitionFunctionGraph() throws IOException {
+		Visualizer.visualizeTransitionFunction(currentTransFunc, "transition_function.png", 
+				TransitionFunctionGraphType.FINITE_AUTOMATON);
+	}
+
+	@Override
 	public int getCategoryTreeIndex() {
 		return catTreeIdx;
 	}
 
 	@Override
+	public double getCoherenceScore() {
+		return currentTransFunc.getCoherenceScore();
+	}
+
+	@Override
 	public int getTransitionFunctionIndex() {
 		return transFuncIdx;
+	}
+
+	@Override
+	public boolean hasNextCategoricalStructure() {
+		return (catStructureAwareTFSupplier != null && catStructureAwareTFSupplier.hasNext());
+	}
+
+	@Override
+	public boolean hasNextTransitionFunctionOverCurrentCategoricalStructure() {
+		return (iteOverTF != null && iteOverTF.hasNext());
+	}
+
+	@Override
+	public void nextCategoryTree() throws IOException {
+		representedCatTree = catStructureAwareTFSupplier.next();
+		catTreeIdx++;
+		generateCategoryTreeGraph();
+		iteOverTF = representedCatTree.getIteratorOverTransitionFunctions();
+		currentTransFunc = iteOverTF.next();
+		generateTransitionFunctionGraph();
+	}
+
+	@Override
+	public void nextTransitionFunctionOverCurrentCategoricalStructure() throws IOException {
+		currentTransFunc = iteOverTF.next();
+		generateTransitionFunctionGraph();
+	}
+
+	@Override
+	public boolean whatIsThere(Path contextPath) throws IOException {
+		try {
+			context = GenericFileReader.getContextObjects(contextPath);
+		} catch (IOException e) {
+			return false;
+		}
+		concepts = new Concepts(context);
+		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
+		DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+				new DirectedAcyclicGraph<>(null, null, false);
+		productions.stream().forEach(p -> {
+			constructs.addVertex(p.getSource());
+			constructs.addVertex(p.getTarget());
+			constructs.addEdge(p.getSource(), p.getTarget(), p);
+		});
+		try {
+			catStructureAwareTFSupplier = new CatStructureAwareTFSupplier(concepts, constructs, 
+					SIM_CALCULATION_STRATEGY);
+		} catch (IOException e) {
+			return false;
+		}
+		representedCatTree = catStructureAwareTFSupplier.next();
+		iteOverTF = representedCatTree.getIteratorOverTransitionFunctions();
+		currentTransFunc = iteOverTF.next();
+		generateCategoryLatticeGraph();
+		generateCategoryTreeGraph();
+		generateTransitionFunctionGraph();
+		return true;
+	}
+	
+	private String displayFigure(String fileName, String alinea, String caption) {
+		StringBuilder sB = new StringBuilder();
+		String alineaa = alinea + "   ";
+		sB.append(alinea + "<figure>" + NL);
+		sB.append(alineaa + "<img src = \"" + "file:///" + folderPath + "\\" + fileName + "\" alt = " + fileName + ">" 
+			+ NL);
+		sB.append(alineaa + "<figcaption>" + caption + "</figcaption>" + NL);
+		sB.append(alinea + "</figure>" + NL);
+		return sB.toString();
 	}
 	
 	private String displayTable(double[][] table, String caption, String alinea) {
@@ -311,17 +322,6 @@ public class OntologicalCommitment implements IOntologicalCommitment {
 		}
 		sB.append(alineaa + "</tbody>" + NL);
 		sB.append(alinea + "</table>" + NL);
-		return sB.toString();
-	}
-	
-	private String displayFigure(String fileName, String alinea, String caption) {
-		StringBuilder sB = new StringBuilder();
-		String alineaa = alinea + "   ";
-		sB.append(alinea + "<figure>" + NL);
-		sB.append(alineaa + "<img src = \"" + "file:///" + folderPath + "\\" + fileName + "\" alt = " + fileName + ">" 
-			+ NL);
-		sB.append(alineaa + "<figcaption>" + caption + "</figcaption>" + NL);
-		sB.append(alinea + "</figure>" + NL);
 		return sB.toString();
 	}
 	

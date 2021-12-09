@@ -34,19 +34,52 @@ public class Concept extends AbstractConcept implements IConcept {
 	}	
 
 	@Override
+	public IConcept buildComplementOfThis(Set<IConcept> complementMinimalLowerBounds) {
+		Set<IContextObject> complementExtent = new HashSet<>();
+		for (IConcept rebutterMinLowerBound : complementMinimalLowerBounds)
+			complementExtent.addAll(rebutterMinLowerBound.getExtent());
+		return new ComplementaryConcept(this, complementExtent);
+	}
+
+	@Override
+	public IConcept complementThisWith(IConcept complementing) {
+		return new ComplementaryConcept(this, complementing);
+	}
+	
+	@Override
+	public IConcept getComplemented() {
+		return null;
+	}	
+
+	@Override
 	public Set<IContextObject> getExtent() {
 		return extent;
+	}
+
+	@Override
+	public int getID() {
+		return iD;
 	}
 
 	@Override
 	public Set<IIntentAttribute> getIntent() {
 		return intent;
 	}
+
+	@Override
+	public boolean isComplementary() {
+		return false;
+	}
+
+	@Override
+	public int rank() {
+		return rank;
+	}	
 	
 	@Override
-	public int getID() {
-		return iD;
-	}	
+	public void setRank(int maxPathLengthFromMin) {
+		rank = maxPathLengthFromMin;
+	}
 
 	@Override
 	public String toString() {
@@ -66,39 +99,6 @@ public class Concept extends AbstractConcept implements IConcept {
 		}
 		
 		return sB.toString();
-	}
-
-	@Override
-	public boolean isComplementary() {
-		return false;
-	}
-
-	@Override
-	public IConcept complementThisWith(IConcept complementing) {
-		return new ComplementaryConcept(this, complementing);
-	}
-
-	@Override
-	public IConcept buildComplementOfThis(Set<IConcept> complementMinimalLowerBounds) {
-		Set<IContextObject> complementExtent = new HashSet<>();
-		for (IConcept rebutterMinLowerBound : complementMinimalLowerBounds)
-			complementExtent.addAll(rebutterMinLowerBound.getExtent());
-		return new ComplementaryConcept(this, complementExtent);
-	}
-
-	@Override
-	public IConcept getComplemented() {
-		return null;
-	}	
-	
-	@Override
-	public int rank() {
-		return rank;
-	}
-
-	@Override
-	public void setRank(int maxPathLengthFromMin) {
-		rank = maxPathLengthFromMin;
 	}	
 
 }

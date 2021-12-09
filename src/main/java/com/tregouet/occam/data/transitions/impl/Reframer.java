@@ -26,6 +26,11 @@ public class Reframer extends Transition implements IReframer {
 	}
 	
 	@Override
+	public List<Integer> getComplementedConceptsIDs() {
+		return new ArrayList<>(complementedStateIDs);
+	}
+
+	@Override
 	public String getReframer() {
 		if (!blankReframer) {
 			return "¬" + Integer.toString(complementedStateIDs.get(complementedStateIDs.size() - 1));
@@ -36,11 +41,6 @@ public class Reframer extends Transition implements IReframer {
 	@Override
 	public boolean isBlank() {
 		return blankReframer;
-	}
-
-	@Override
-	public List<Integer> getComplementedConceptsIDs() {
-		return new ArrayList<>(complementedStateIDs);
 	}
 
 }

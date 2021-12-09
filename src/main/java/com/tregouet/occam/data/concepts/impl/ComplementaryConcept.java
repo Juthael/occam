@@ -16,14 +16,6 @@ public class ComplementaryConcept extends AbstractConcept implements IComplement
 	private final Set<IContextObject> extent;
 	private final int iD;
 	
-	public ComplementaryConcept(IConcept toBeComplemented, Set<IContextObject> extent) {
-		super();
-		complementedByThis = toBeComplemented;
-		this.extent = extent;
-		setType(IConcept.SUBSET_CONCEPT);
-		iD = nextID++;
-	}
-	
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
 		super();
 		complementedByThis = toBeComplemented;
@@ -31,31 +23,34 @@ public class ComplementaryConcept extends AbstractConcept implements IComplement
 		this.extent = new HashSet<>(Sets.difference(complementing.getExtent(), toBeComplemented.getExtent()));
 		setType(IConcept.SUBSET_CONCEPT);
 		iD = wrappedComplementing.getID();
+	}
+	
+	public ComplementaryConcept(IConcept toBeComplemented, Set<IContextObject> extent) {
+		super();
+		complementedByThis = toBeComplemented;
+		this.extent = extent;
+		setType(IConcept.SUBSET_CONCEPT);
+		iD = nextID++;
 	}	
 	
 	@Override
-	public String toString() {
-		return Integer.toString(-complementedByThis.getID());
-	}	
-	
-	@Override
-	public boolean isComplementary() {
-		return true;
+	public IConcept buildComplementOfThis(Set<IConcept> rebutterMinimalLowerBounds) {
+		return null;
 	}	
 	
 	@Override
 	public IConcept complementThisWith(IConcept complementing) {
 		return null;
-	}
-
-	@Override
-	public IConcept buildComplementOfThis(Set<IConcept> rebutterMinimalLowerBounds) {
-		return null;
-	}
-
+	}	
+	
 	@Override
 	public IConcept getComplemented() {
 		return complementedByThis;
+	}
+
+	@Override
+	public IConcept getEmbeddedConcept() {
+		return wrappedComplementing;
 	}
 
 	@Override
@@ -76,6 +71,16 @@ public class ComplementaryConcept extends AbstractConcept implements IComplement
 	}
 
 	@Override
+	public boolean hasAnIntent() {
+		return (wrappedComplementing != null);
+	}
+
+	@Override
+	public boolean isComplementary() {
+		return true;
+	}
+
+	@Override
 	public int rank() {
 		return -1;
 	}
@@ -86,13 +91,8 @@ public class ComplementaryConcept extends AbstractConcept implements IComplement
 	}
 
 	@Override
-	public boolean hasAnIntent() {
-		return (wrappedComplementing != null);
-	}
-
-	@Override
-	public IConcept getEmbeddedConcept() {
-		return wrappedComplementing;
+	public String toString() {
+		return Integer.toString(-complementedByThis.getID());
 	}	
 
 }

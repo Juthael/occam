@@ -28,7 +28,6 @@ import com.tregouet.occam.data.constructs.IContextObject;
 import com.tregouet.occam.data.constructs.ISymbol;
 import com.tregouet.occam.data.constructs.impl.Construct;
 import com.tregouet.occam.data.constructs.impl.Variable;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
@@ -150,11 +149,6 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public List<IConcept> getSingletonConcept() {
-		return singletons;
-	}
-	
-	@Override
 	public IConcept getOntologicalCommitment() {
 		return ontologicalCommitment;
 	}
@@ -162,6 +156,11 @@ public class Concepts implements IConcepts {
 	@Override
 	public UpperSemilattice<IConcept, IsA> getOntologicalUpperSemilattice() {
 		return ontologicalUSL;
+	}
+	
+	@Override
+	public List<IConcept> getSingletonConcept() {
+		return singletons;
 	}	
 	
 	@Override

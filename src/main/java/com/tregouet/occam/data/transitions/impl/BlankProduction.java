@@ -2,7 +2,6 @@ package com.tregouet.occam.data.transitions.impl;
 
 import java.util.List;
 
-import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.transitions.IBasicProduction;
 import com.tregouet.occam.data.transitions.ILambdaExpression;

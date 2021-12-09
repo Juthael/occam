@@ -2,14 +2,7 @@ package com.tregouet.occam.transition_function.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.print.attribute.HashAttributeSet;
-
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.cost_calculation.SimilarityCalculationStrategy;
@@ -17,10 +10,8 @@ import com.tregouet.occam.data.concepts.IClassificationTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
-import com.tregouet.occam.data.concepts.impl.ComplementaryConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.transitions.IProduction;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.occam.transition_function.ITransitionFunctionSupplier;
 import com.tregouet.tree_finder.data.Tree;
 

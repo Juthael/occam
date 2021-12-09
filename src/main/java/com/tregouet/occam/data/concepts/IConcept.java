@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.tregouet.occam.data.constructs.IConstruct;
 import com.tregouet.occam.data.constructs.IContextObject;
-import com.tregouet.occam.transition_function.IState;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
 public interface IConcept extends IDichotomizable<IConcept> {

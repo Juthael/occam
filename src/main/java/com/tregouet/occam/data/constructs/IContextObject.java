@@ -17,9 +17,9 @@ public interface IContextObject {
 	
 	int getID();
 	
-	String getName();
-	
 	Iterator<IConstruct> getIteratorOverConstructs();
+	
+	String getName();
 	
 	List<ISymbolSeq> toSymbolSeqs();	
 

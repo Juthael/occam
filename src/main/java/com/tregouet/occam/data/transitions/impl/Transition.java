@@ -1,14 +1,5 @@
 package com.tregouet.occam.data.transitions.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.tregouet.occam.data.concepts.IIntentAttribute;
-import com.tregouet.occam.data.transitions.ILambdaExpression;
-import com.tregouet.occam.data.transitions.IOperator;
-import com.tregouet.occam.data.transitions.IProduction;
 import com.tregouet.occam.data.transitions.ITransition;
 import com.tregouet.occam.transition_function.IState;
 
@@ -22,29 +13,6 @@ public abstract class Transition implements ITransition {
 		name = ITransition.provideName();
 		this.activeState = activeState;
 		this.nextState = nextState;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public IState getNextState() {
-		return nextState;
-	}
-	
-	@Override
-	public IState getOperatingState() {
-		return activeState;
-	}
-
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((activeState == null) ? 0 : activeState.hashCode());
-		result = prime * result + ((nextState == null) ? 0 : nextState.hashCode());
-		return result;
 	}
 
 	@Override
@@ -67,6 +35,30 @@ public abstract class Transition implements ITransition {
 		} else if (!nextState.equals(other.nextState))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
+	
+	@Override
+	public IState getNextState() {
+		return nextState;
+	}
+
+	@Override
+	public IState getOperatingState() {
+		return activeState;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((activeState == null) ? 0 : activeState.hashCode());
+		result = prime * result + ((nextState == null) ? 0 : nextState.hashCode());
+		return result;
 	}
 
 }

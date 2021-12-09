@@ -11,8 +11,8 @@ import com.tregouet.occam.io.output.impl.OntologicalCommitment;
 
 public class Proto {
 
-	private IOntologicalCommitment representations;
 	private static final String NL = System.lineSeparator();
+	private IOntologicalCommitment representations;
 	private final Scanner entry = new Scanner(System.in);
 	private String folderPath = null;
 	
@@ -20,12 +20,51 @@ public class Proto {
 		welcome();
 	}
 	
-	private void welcome() {
-		System.out.println("********************");
-		System.out.println("********OCCAM********");
-		System.out.println("********************");
+	private static boolean isValidPath(String path) {
+	    try {
+	        Paths.get(path);
+	    } catch (InvalidPathException | NullPointerException ex) {
+	        return false;
+	    }
+	    return true;
+	}
+	
+	private void enterNewInput() throws IOException {
 		System.out.println(NL);
-		enterTargetFolder();
+		System.out.println("Please enter a path for the next input : " + NL);
+		String inputPathString = entry.nextLine();
+		if (isValidPath(inputPathString)) {
+			Path inputPath = Paths.get(inputPathString);
+			representations = new OntologicalCommitment(folderPath);
+			try {
+				representations.whatIsThere(inputPath);
+				representations.generateHTML();
+				outputMenu();
+			} catch (IOException e) {
+				System.out.println("An error has occurred." + NL);
+				e.printStackTrace();
+				enterNewInput();
+			}
+		}
+		else {
+			System.out.println("This path is invalid." + NL);
+			enterTargetFolder();
+		}
+		
+	}
+	
+	private void enterTargetFolder() {
+		System.out.println(NL);
+		System.out.println("Please enter a path for the target folder : " + NL);
+		String pathString = entry.nextLine();
+		if (isValidPath(pathString)) {
+			folderPath = pathString;
+			mainMenu();
+		}
+		else {
+			System.out.println("This path is invalid." + NL);
+			enterTargetFolder();
+		}
 	}
 	
 	private void mainMenu() {
@@ -58,51 +97,33 @@ public class Proto {
 		}
 	}
 	
-	private void enterTargetFolder() {
+	private void nextCategoricalStructure() {
 		System.out.println(NL);
-		System.out.println("Please enter a path for the target folder : " + NL);
-		String pathString = entry.nextLine();
-		if (isValidPath(pathString)) {
-			folderPath = pathString;
-			mainMenu();
+		try {
+			representations.nextCategoryTree();
+			representations.generateHTML();
+		} catch (IOException e) {
+			System.out.println("An error has occurred." + NL);
+			e.printStackTrace();
+			outputMenu();
 		}
-		else {
-			System.out.println("This path is invalid." + NL);
-			enterTargetFolder();
-		}
+		System.out.println("A new transition function based on a new categorical structure has been generated." + NL);
+		outputMenu();
 	}
 	
-	private void enterNewInput() throws IOException {
+	private void nextTransitionFunction() {
 		System.out.println(NL);
-		System.out.println("Please enter a path for the next input : " + NL);
-		String inputPathString = entry.nextLine();
-		if (isValidPath(inputPathString)) {
-			Path inputPath = Paths.get(inputPathString);
-			representations = new OntologicalCommitment(folderPath);
-			try {
-				representations.whatIsThere(inputPath);
-				representations.generateHTML();
-				outputMenu();
-			} catch (IOException e) {
-				System.out.println("An error has occurred." + NL);
-				e.printStackTrace();
-				enterNewInput();
-			}
+		try {
+			representations.nextTransitionFunctionOverCurrentCategoricalStructure();
+			representations.generateHTML();
+		} catch (IOException e) {
+			System.out.println("An error has occurred." + NL);
+			e.printStackTrace();
+			outputMenu();
 		}
-		else {
-			System.out.println("This path is invalid." + NL);
-			enterTargetFolder();
-		}
-		
-	}
-	
-	private static boolean isValidPath(String path) {
-	    try {
-	        Paths.get(path);
-	    } catch (InvalidPathException | NullPointerException ex) {
-	        return false;
-	    }
-	    return true;
+		System.out.println("A new transition function based on the current categorical structure has been generated."
+				+ NL);
+		outputMenu();
 	}
 	
 	private void outputMenu() {
@@ -169,33 +190,12 @@ public class Proto {
 		}
 	}
 	
-	private void nextCategoricalStructure() {
+	private void welcome() {
+		System.out.println("********************");
+		System.out.println("********OCCAM********");
+		System.out.println("********************");
 		System.out.println(NL);
-		try {
-			representations.nextCategoryTree();
-			representations.generateHTML();
-		} catch (IOException e) {
-			System.out.println("An error has occurred." + NL);
-			e.printStackTrace();
-			outputMenu();
-		}
-		System.out.println("A new transition function based on a new categorical structure has been generated." + NL);
-		outputMenu();
-	}
-	
-	private void nextTransitionFunction() {
-		System.out.println(NL);
-		try {
-			representations.nextTransitionFunctionOverCurrentCategoricalStructure();
-			representations.generateHTML();
-		} catch (IOException e) {
-			System.out.println("An error has occurred." + NL);
-			e.printStackTrace();
-			outputMenu();
-		}
-		System.out.println("A new transition function based on the current categorical structure has been generated."
-				+ NL);
-		outputMenu();
+		enterTargetFolder();
 	}	
 
 }

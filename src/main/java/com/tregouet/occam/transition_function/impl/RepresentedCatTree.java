@@ -78,12 +78,17 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 	}
 
 	@Override
+	public Iterator<ITransitionFunction> getIteratorOverTransitionFunctions() {
+		return transitionFunctions.iterator();
+	}
+
+	@Override
 	public ITransitionFunction getOptimalTransitionFunction() {
 		if (transitionFunctions.isEmpty())
 			return null;
 		else return transitionFunctions.first();
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -91,7 +96,12 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 		result = prime * result + ((categoryTree == null) ? 0 : categoryTree.hashCode());
 		return result;
 	}
-	
+
+	@Override
+	public boolean isValid() {
+		return !transitionFunctions.isEmpty();
+	}
+
 	@Override
 	public boolean meetsConstraint(IExtentStructureConstraint constraint) {
 		// TODO Auto-generated method stub
@@ -117,16 +127,6 @@ public class RepresentedCatTree implements IRepresentedCatTree {
 		sB.append("*** SCORE : " + Double.toString(getOptimalTransitionFunction().getCoherenceScore()) + 
 				newLine + newLine);
 		return sB.toString();
-	}
-
-	@Override
-	public Iterator<ITransitionFunction> getIteratorOverTransitionFunctions() {
-		return transitionFunctions.iterator();
-	}
-
-	@Override
-	public boolean isValid() {
-		return !transitionFunctions.isEmpty();
 	}
 
 }

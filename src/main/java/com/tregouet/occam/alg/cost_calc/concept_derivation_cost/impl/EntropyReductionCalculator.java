@@ -28,7 +28,7 @@ public class EntropyReductionCalculator implements IConceptDerivationCostCalcula
 	}
 
 	@Override
-	public void input(Tree<IConcept, IsA> classificationTree) {
+	public EntropyReductionCalculator input(Tree<IConcept, IsA> classificationTree) {
 		conceptToExtentSize = new HashMap<>();
 		derivationToCost = new HashMap<>();
 		Set<IConcept> singletons = classificationTree.getLeaves();
@@ -45,6 +45,7 @@ public class EntropyReductionCalculator implements IConceptDerivationCostCalcula
 			double derivationCost = -binaryLogarithm(speciesExtentSize / genusExtentSize);
 			derivationToCost.put(derivation, derivationCost);
 		}
+		return this;
 	}	
 
 }

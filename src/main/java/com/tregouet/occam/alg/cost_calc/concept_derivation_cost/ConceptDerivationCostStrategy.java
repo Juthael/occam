@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.cost_calc.concept_derivation_cost;
 
-public enum ConceptDerivationCostCalcStrategy {
+public enum ConceptDerivationCostStrategy {
 	
 	ENTROPY_REDUCTION;
 

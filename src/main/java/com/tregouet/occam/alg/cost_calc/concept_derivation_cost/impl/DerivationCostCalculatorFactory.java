@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.cost_calc.concept_derivation_cost.impl;
 
-import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.ConceptDerivationCostCalcStrategy;
+import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
 import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.IConceptDerivationCostCalculator;
 
 public class DerivationCostCalculatorFactory {
@@ -8,7 +8,7 @@ public class DerivationCostCalculatorFactory {
 	private DerivationCostCalculatorFactory() {
 	}
 	
-	public static IConceptDerivationCostCalculator apply(ConceptDerivationCostCalcStrategy strategy) {
+	public static IConceptDerivationCostCalculator apply(ConceptDerivationCostStrategy strategy) {
 		switch (strategy) {
 			case ENTROPY_REDUCTION : 
 				return new EntropyReductionCalculator();

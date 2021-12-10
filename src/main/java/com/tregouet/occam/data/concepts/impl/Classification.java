@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.concepts.impl;
 
-import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.ConceptDerivationCostCalcStrategy;
+import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
 import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.IConceptDerivationCostCalculator;
 import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.impl.DerivationCostCalculatorFactory;
 import com.tregouet.occam.data.concepts.IClassification;
@@ -12,9 +12,9 @@ public class Classification implements IClassification {
 	private final Tree<IConcept, IsA> classificationTree;
 	private final IConceptDerivationCostCalculator costCalc;
 	
-	public Classification(Tree<IConcept, IsA> classificationTree, ConceptDerivationCostCalcStrategy costStrategy) {
+	public Classification(Tree<IConcept, IsA> classificationTree, ConceptDerivationCostStrategy costStrategy) {
 		this.classificationTree = classificationTree;
-		costCalc = DerivationCostCalculatorFactory.apply(costStrategy);
+		costCalc = DerivationCostCalculatorFactory.apply(costStrategy).input(classificationTree);
 	}
 
 	@Override

@@ -16,7 +16,7 @@ import org.junit.Test;
 import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.IStructurallyEquivalentTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.ProductionBuilder;
@@ -65,10 +65,10 @@ public class ConceptStructureBasedTFSupplierTest {
 		IConceptStructureBasedTFSupplier transFuncSupplier = new ConceptStructureBasedTFSupplier(concepts, constructs, 
 				SIM_CALCULATION_STRATEGY);
 		List<Double> coherenceScores = new ArrayList<>();
-		IStructurallyEquivalentTransFunctions structurallyEquivalentTransFunctions;
+		IRelatedTransFunctions relatedTransFunctions;
 		while (transFuncSupplier.hasNext()) {
-			structurallyEquivalentTransFunctions = transFuncSupplier.next();
-			coherenceScores.add(structurallyEquivalentTransFunctions.getCoherenceScore());
+			relatedTransFunctions = transFuncSupplier.next();
+			coherenceScores.add(relatedTransFunctions.getCoherenceScore());
 			/*
 			System.out.println("***Transition Function N° " + Integer.toString(idx) + " : " 
 					+ Double.toString(representedCatTree.getCoherenceScore()));			

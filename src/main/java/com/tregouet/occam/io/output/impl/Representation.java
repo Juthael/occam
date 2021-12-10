@@ -20,7 +20,7 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.IStructurallyEquivalentTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
@@ -48,7 +48,7 @@ public class Representation implements IRepresentation {
 	private List<IContextObject> context = null;
 	private IConcepts concepts = null;
 	private IConceptStructureBasedTFSupplier conceptStructureBasedTFSupplier = null;
-	private IStructurallyEquivalentTransFunctions structurallyEquivalentTransFunctions = null;
+	private IRelatedTransFunctions relatedTransFunctions = null;
 	private int catTreeIdx = 0;
 	private Iterator<ITransitionFunction> iteOverTF = null;
 	private ITransitionFunction currentTransFunc = null;
@@ -104,7 +104,7 @@ public class Representation implements IRepresentation {
 
 	@Override
 	public void generateCategoryTreeGraph() throws IOException {
-		Visualizer.visualizeCategoryGraph(structurallyEquivalentTransFunctions.getCategoryTree(), "category_tree.png");;
+		Visualizer.visualizeCategoryGraph(relatedTransFunctions.getCategoryTree(), "category_tree.png");;
 	}
 	
 	@Override
@@ -130,7 +130,7 @@ public class Representation implements IRepresentation {
 		sB.append(alineaaa + "<b>Score : " + round(currentTransFunc.getCoherenceScore()) + "</b>" + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<p>" + NL);
-		sB.append(alineaaa + "<b>Extent structure : </b>" + structurallyEquivalentTransFunctions.getExtentStructureAsString() + NL);
+		sB.append(alineaaa + "<b>Extent structure : </b>" + relatedTransFunctions.getExtentStructureAsString() + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<h3>Category tree : </h3>" + NL);
 		sB.append(alineaaa + "<p>" + NL);
@@ -236,10 +236,10 @@ public class Representation implements IRepresentation {
 
 	@Override
 	public void nextCategoryTree() throws IOException {
-		structurallyEquivalentTransFunctions = conceptStructureBasedTFSupplier.next();
+		relatedTransFunctions = conceptStructureBasedTFSupplier.next();
 		catTreeIdx++;
 		generateCategoryTreeGraph();
-		iteOverTF = structurallyEquivalentTransFunctions.getIteratorOverTransitionFunctions();
+		iteOverTF = relatedTransFunctions.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateTransitionFunctionGraph();
 	}
@@ -272,8 +272,8 @@ public class Representation implements IRepresentation {
 		} catch (IOException e) {
 			return false;
 		}
-		structurallyEquivalentTransFunctions = conceptStructureBasedTFSupplier.next();
-		iteOverTF = structurallyEquivalentTransFunctions.getIteratorOverTransitionFunctions();
+		relatedTransFunctions = conceptStructureBasedTFSupplier.next();
+		iteOverTF = relatedTransFunctions.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateCategoryLatticeGraph();
 		generateCategoryTreeGraph();

@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.IStructurallyEquivalentTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
@@ -13,20 +13,20 @@ import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.concepts.utils.CatTreeToStringConvertor;
 import com.tregouet.tree_finder.data.Tree;
 
-public class StructurallyEquivalentTransFunctions implements IStructurallyEquivalentTransFunctions {
+public class RelatedTransFunctions implements IRelatedTransFunctions {
 
 	private final Tree<IConcept,IsA> categoryTree;
 	private final Map<IConcept, String> objectCategoryToName;
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	
-	public StructurallyEquivalentTransFunctions(Tree<IConcept, IsA> categoryTree, 
+	public RelatedTransFunctions(Tree<IConcept, IsA> categoryTree, 
 			Map<IConcept, String> objectCategoryToName) {
 		this.categoryTree = categoryTree;
 		this.objectCategoryToName = objectCategoryToName;
 	}
 
 	@Override
-	public int compareTo(IStructurallyEquivalentTransFunctions other) {
+	public int compareTo(IRelatedTransFunctions other) {
 		if (this.getCoherenceScore() > other.getCoherenceScore())
 			return -1;
 		if (this.getCoherenceScore() < other.getCoherenceScore())
@@ -42,7 +42,7 @@ public class StructurallyEquivalentTransFunctions implements IStructurallyEquiva
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StructurallyEquivalentTransFunctions other = (StructurallyEquivalentTransFunctions) obj;
+		RelatedTransFunctions other = (RelatedTransFunctions) obj;
 		if (categoryTree == null) {
 			if (other.categoryTree != null)
 				return false;

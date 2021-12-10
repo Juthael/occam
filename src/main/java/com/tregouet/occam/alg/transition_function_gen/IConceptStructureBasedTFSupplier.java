@@ -5,12 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.abstract_machines.functions.IStructurallyEquivalentTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunctions;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
-public interface IConceptStructureBasedTFSupplier extends ITransitionFunctionSupplier, Iterator<IStructurallyEquivalentTransFunctions> {
+public interface IConceptStructureBasedTFSupplier extends ITransitionFunctionSupplier, Iterator<IRelatedTransFunctions> {
 	
 	public static String getDefinitionOfObjects(Map<IConcept, String> objectCategoryToName) {
 		StringBuilder sB = new StringBuilder();

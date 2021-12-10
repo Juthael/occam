@@ -93,8 +93,7 @@ public class State implements IState {
 
 	@Override
 	public int getRank() {
-		// TODO Auto-generated method stub
-		return 0;
+		return rank;
 	}
 
 	@Override

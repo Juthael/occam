@@ -10,9 +10,9 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.IStructurallyEquivalentTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.impl.StructurallyEquivalentTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.impl.RelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.util.TransitionFunctionValidator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
@@ -26,9 +26,9 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier implements IConceptStructureBasedTFSupplier {
 
-	private final TreeSet<IStructurallyEquivalentTransFunctions> representedCategories = new TreeSet<>();
+	private final TreeSet<IRelatedTransFunctions> representedCategories = new TreeSet<>();
 	private final Map<IConcept, String> objectCategoryToName = new HashMap<>();
-	private Iterator<IStructurallyEquivalentTransFunctions> ite;
+	private Iterator<IRelatedTransFunctions> ite;
 	
 	public ConceptStructureBasedTFSupplier(IConcepts concepts, 
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
@@ -61,7 +61,7 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier 
 	}
 	
 	@Override
-	public IStructurallyEquivalentTransFunctions next() {
+	public IRelatedTransFunctions next() {
 		return ite.next();
 	}
 	
@@ -73,7 +73,7 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier 
 	private void populateRepresentedCategories() {
 		while (categoryTreeSupplier.hasNext()) {
 			Tree<IConcept, IsA> currCatTree = categoryTreeSupplier.nextOntologicalCommitment();
-			IStructurallyEquivalentTransFunctions currCatTreeRepresentation = new StructurallyEquivalentTransFunctions(currCatTree, objectCategoryToName);
+			IRelatedTransFunctions currCatTreeRepresentation = new RelatedTransFunctions(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
 			IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> attTreeSupplier = 

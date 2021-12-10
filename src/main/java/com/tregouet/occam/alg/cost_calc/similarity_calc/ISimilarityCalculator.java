@@ -28,6 +28,6 @@ public interface ISimilarityCalculator {
 	
 	double howSimilarTo(int conceptID1, int conceptID2);
 	
-	void setUpCalculator(IClassification classification);
+	ISimilarityCalculator input(IClassification classification);
 
 }

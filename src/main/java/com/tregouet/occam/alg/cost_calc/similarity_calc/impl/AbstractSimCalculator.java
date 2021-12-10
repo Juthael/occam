@@ -26,7 +26,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 	}
 	
 	public AbstractSimCalculator(IClassification classification) {
-		setUpCalculator(classification);
+		input(classification);
 	}	
 
 	@Override
@@ -90,7 +90,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 	}
 	
 	@Override
-	public void setUpCalculator(IClassification classification) {
+	public ISimilarityCalculator input(IClassification classification) {
 		Tree<IConcept, IsA> classTree = classification.getClassificationTree();
 		List<IConcept> topoOrderOverConcepts = classTree.getTopologicalOrder();
 		Integer objIndex = 0;
@@ -117,6 +117,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 		for (int i = 0 ; i < nbOfConcepts - 1 ; i++) {
 			successorIdxes[i] = Graphs.successorListOf(weightedTransitions, i).get(0);
 		}
+		return this;
 	}	
 	
 	protected List<Integer> getEdgeChainToRootFrom(int conceptID) {

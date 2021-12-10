@@ -1,6 +1,5 @@
 package com.tregouet.occam.data.abstract_machines.states.impl;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +15,9 @@ public class State implements IState {
 
 	private final IConcept concept;
 	private List<IOperator> transitions = null;
-	private List<ITapeSet> evaluationQueue = new ArrayList<>();
+	@SuppressWarnings("unused")
+	//used by unimplemented methods
+	private List<ITapeSet> evaluationQueue = null;
 	private int rank = 0;
 	
 	

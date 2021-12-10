@@ -20,7 +20,7 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.cost_calc.similarity_calc.ISimilarityCalculator;
-import com.tregouet.occam.alg.cost_calc.similarity_calc.SimilarityCalculatorFactory;
+import com.tregouet.occam.alg.cost_calc.similarity_calc.impl.SimilarityCalculatorFactory;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;

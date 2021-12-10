@@ -1,8 +1,7 @@
-package com.tregouet.occam.alg.cost_calc.similarity_calc;
+package com.tregouet.occam.alg.cost_calc.similarity_calc.impl;
 
 import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
-import com.tregouet.occam.alg.cost_calc.similarity_calc.impl.ContrastModel;
-import com.tregouet.occam.alg.cost_calc.similarity_calc.impl.RatioModel;
+import com.tregouet.occam.alg.cost_calc.similarity_calc.ISimilarityCalculator;
 
 public class SimilarityCalculatorFactory {
 

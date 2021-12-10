@@ -20,7 +20,7 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassTreeWithConstrainedExtentStructureSupplier;
 import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.conceptual_structure_gen.impl.ConceptTreeSupplier;
-import com.tregouet.occam.alg.conceptual_structure_gen.util.IntentBldr;
+import com.tregouet.occam.alg.conceptual_structure_gen.utils.IntentBldr;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IExtentStructureConstraint;

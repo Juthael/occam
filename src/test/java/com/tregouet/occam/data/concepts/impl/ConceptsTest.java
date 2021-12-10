@@ -130,11 +130,6 @@ public class ConceptsTest {
 	}	
 	
 	@Test
-	public void whenCatTreeSupplierWithConstrainedExtentStructureRequestedThenReturned() {
-		fail("Not yet implemented");
-	}	
-	
-	@Test
 	public void whenOntologicalUSLReturnedThenReallyIsAnUpperSemilattice() {
 		boolean isAnUpperSemilattice = true;
 		try {

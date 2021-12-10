@@ -14,7 +14,7 @@ import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunction
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.impl.RelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.util.TransitionFunctionValidator;
+import com.tregouet.occam.data.abstract_machines.functions.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;

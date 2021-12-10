@@ -71,7 +71,7 @@ public class TransitionFunction implements ITransitionFunction {
 				conjunctiveTransitions.add(new ConjunctiveTransition(transition));
 		}
 		similarityCalc = SimilarityCalculatorFactory.apply(simCalculationStrategy); 
-		similarityCalc.set(concepts, conjunctiveTransitions);
+		similarityCalc.setUp(concepts, conjunctiveTransitions);
 	}
 
 	private static List<List<Integer>> groupIndexesOfProductionsHandledByTheSameOperator(

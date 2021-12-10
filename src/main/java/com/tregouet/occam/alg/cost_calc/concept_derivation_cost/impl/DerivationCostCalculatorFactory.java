@@ -11,7 +11,7 @@ public class DerivationCostCalculatorFactory {
 	public static IConceptDerivationCostCalculator apply(ConceptDerivationCostStrategy strategy) {
 		switch (strategy) {
 			case ENTROPY_REDUCTION : 
-				return new EntropyReductionCalculator();
+				return new EntropyReduction();
 			default : 
 				return null;
 		}

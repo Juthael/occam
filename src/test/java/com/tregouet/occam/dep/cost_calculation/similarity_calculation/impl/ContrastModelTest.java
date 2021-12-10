@@ -24,7 +24,7 @@ import org.junit.Test;
 import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.cost_calc.similarity_calc.ISimilarityCalculator;
-import com.tregouet.occam.alg.cost_calc.similarity_calc.impl.ContrastModel;
+import com.tregouet.occam.alg.cost_calc.similarity_calc.impl.ContrastModelDep;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
@@ -115,7 +115,7 @@ public class ContrastModelTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			ContrastModel calculator = (ContrastModel) tF.getSimilarityCalculator();
+			ContrastModelDep calculator = (ContrastModelDep) tF.getSimilarityCalculator();
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -151,7 +151,7 @@ public class ContrastModelTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			ContrastModel calculator = (ContrastModel) tF.getSimilarityCalculator();
+			ContrastModelDep calculator = (ContrastModelDep) tF.getSimilarityCalculator();
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -187,7 +187,7 @@ public class ContrastModelTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			ContrastModel calculator = (ContrastModel) tF.getSimilarityCalculator();
+			ContrastModelDep calculator = (ContrastModelDep) tF.getSimilarityCalculator();
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -252,7 +252,7 @@ public class ContrastModelTest {
 			for (int i = 0 ; i < leavesID.length ; i++) {
 				leavesID[i] = leaves.get(i).getID();
 			}
-			ContrastModel calculator = (ContrastModel) tfToSimCalc.get(tF);
+			ContrastModelDep calculator = (ContrastModelDep) tfToSimCalc.get(tF);
 			for (Integer leafID : leavesID) {
 				Set<Integer> returnedEdges = calculator.getReacheableEdgesFrom(leafID.intValue());
 				Set<Integer> expectedEdges = new HashSet<>();

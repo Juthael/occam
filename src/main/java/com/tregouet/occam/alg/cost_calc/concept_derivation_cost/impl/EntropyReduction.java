@@ -10,12 +10,12 @@ import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
-public class EntropyReductionCalculator implements IConceptDerivationCostCalculator {
+public class EntropyReduction implements IConceptDerivationCostCalculator {
 
 	private Map<IConcept, Integer> conceptToExtentSize;
 	private Map<IsA, Double> derivationToCost;
 	
-	public EntropyReductionCalculator() {
+	public EntropyReduction() {
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class EntropyReductionCalculator implements IConceptDerivationCostCalcula
 	}
 
 	@Override
-	public EntropyReductionCalculator input(Tree<IConcept, IsA> classificationTree) {
+	public EntropyReduction input(Tree<IConcept, IsA> classificationTree) {
 		conceptToExtentSize = new HashMap<>();
 		derivationToCost = new HashMap<>();
 		Set<IConcept> singletons = classificationTree.getLeaves();

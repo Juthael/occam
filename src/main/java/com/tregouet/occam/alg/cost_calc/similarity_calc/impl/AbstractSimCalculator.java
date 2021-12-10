@@ -1,127 +1,141 @@
 package com.tregouet.occam.alg.cost_calc.similarity_calc.impl;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import org.jgrapht.Graphs;
 import org.jgrapht.alg.util.Triple;
 import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
 import com.google.common.primitives.Ints;
 import com.tregouet.occam.alg.cost_calc.similarity_calc.ISimilarityCalculator;
-import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 
-	protected int[] topologicalSortingOfCatIDs;
-	protected Integer[] objCatIdxInTopologicalOrder;
-	protected SparseIntDirectedWeightedGraph weightedTransitions;
+	protected int[] topologicalSortingOfConceptIDs = null;
+	protected Integer[] successorIdxes = null;
+	protected Integer[] singletonConceptsIdxes = null;
+	protected SparseIntDirectedWeightedGraph weightedTransitions = null;
+	int rootVertex = topologicalSortingOfConceptIDs.length - 1;
 	
 	public AbstractSimCalculator() {
 	}
 	
-	public AbstractSimCalculator(Tree<IConcept, IsA> concepts, 
-			List<IConjunctiveTransition> conjunctiveTransitions) {
-		set(concepts, conjunctiveTransitions);
-	}
+	public AbstractSimCalculator(IClassification classification) {
+		setUpCalculator(classification);
+	}	
 
 	@Override
 	public double getCoherenceScore() {
-		return getCoherenceScore(objCatIdxInTopologicalOrder);
-	}
-
-	@Override
-	public double getCoherenceScore(int[] catIDs) {
-		Integer[] vertices = new Integer[catIDs.length];
-		for (int i = 0 ; i < catIDs.length ; i++) {
-			vertices[i] = indexOf(catIDs[i]);
-		}
+		Integer[] vertices = new Integer[topologicalSortingOfConceptIDs.length];
+		for (int i = 0 ; i < topologicalSortingOfConceptIDs.length ; i++)
+			vertices[i] = i;
 		return getCoherenceScore(vertices);
 	}
 
-	/**
-	 * Public for test use.
-	 * @param vertex
-	 * @return
-	 */
-	public Set<Integer> getReacheableEdgesFrom(int catID) {
-		return getReacheableEdgesFrom(indexOf(catID));
+	@Override
+	public double getCoherenceScore(int[] conceptIDs) {
+		Integer[] vertices = new Integer[conceptIDs.length];
+		for (int i = 0 ; i < conceptIDs.length ; i++) {
+			vertices[i] = indexOf(conceptIDs[i]);
+		}
+		return getCoherenceScore(vertices);
 	}
 
 	@Override
 	public SparseIntDirectedWeightedGraph getSparseGraph() {
 		return weightedTransitions;
 	}
-
+	
 	@Override
-	public double howPrototypicalAmong(int catID, int[] otherCatIDs) {
-		Integer vertex = indexOf(catID);
-		Integer[] otherVertices = new Integer[otherCatIDs.length];
-		for (int i = 0 ; i < otherCatIDs.length ; i++) {
-			otherVertices[i] = indexOf(otherCatIDs[i]);
+	public double howPrototypicalAmong(int conceptID, int[] otherConceptsIDs) {
+		Integer vertex = indexOf(conceptID);
+		Integer[] otherVertices = new Integer[otherConceptsIDs.length];
+		for (Integer i = 0 ; i < otherConceptsIDs.length ; i++) {
+			otherVertices[i] = indexOf(otherConceptsIDs[i]);
 		}
 		return howPrototypicalAmong(vertex, otherVertices);
 	}
 
 	@Override
-	public double howProtoypical(int catID) {
-		return howPrototypicalAmong(indexOf(catID), objCatIdxInTopologicalOrder);
+	public double howProtoypical(int conceptID) {
+		int nbOfConcepts = topologicalSortingOfConceptIDs.length;
+		Integer[] vertices = new Integer[nbOfConcepts];
+		for (Integer i = 0 ; i < nbOfConcepts ; i++)
+			vertices[i] = i;
+		return howPrototypicalAmong(indexOf(conceptID), vertices);
 	}
 
 	@Override
-	public double howSimilar(int catID1, int catID2) {
-		return howSimilar(indexOf(catID1), indexOf(catID2));
+	public double howSimilar(int conceptID1, int conceptID2) {
+		return howSimilar(indexOf(conceptID1), indexOf(conceptID2));
 	}
 
 	@Override
-	public double howSimilarTo(int catID1, int catID2) {
-		return howSimilarTo(indexOf(catID1), indexOf(catID2));
+	public double howSimilarTo(int conceptID1, int conceptID2) {
+		return howSimilarTo(indexOf(conceptID1), indexOf(conceptID2));
 	}
-	
+
 	/**
 	 * Public for test use
-	 * @param catID
+	 * @param conceptID
 	 * @return
 	 */
-	public Integer indexOf(int catID) {
-		return Ints.indexOf(topologicalSortingOfCatIDs, catID);
-	}	
+	public Integer indexOf(int conceptID) {
+		return Ints.indexOf(topologicalSortingOfConceptIDs, conceptID);
+	}
 	
 	@Override
-	public void set(Tree<IConcept, IsA> concepts, List<IConjunctiveTransition> conjunctiveTransitions) {
-		int topoIdx = 0;
+	public void setUpCalculator(IClassification classification) {
+		Tree<IConcept, IsA> classTree = classification.getClassificationTree();
+		List<IConcept> topoOrderOverConcepts = classTree.getTopologicalOrder();
 		Integer objIndex = 0;
-		int nbOfObjects = concepts.getLeaves().size();
-		int nbOfCategories = concepts.vertexSet().size();
-		topologicalSortingOfCatIDs = new int[nbOfCategories];
-		objCatIdxInTopologicalOrder = new Integer[nbOfObjects];
-		for (IConcept concept : concepts.getTopologicalOrder()) {
-			topologicalSortingOfCatIDs[topoIdx] = concept.getID();
-			if (objIndex < nbOfObjects && concept.type() == IConcept.SINGLETON) {
-				objCatIdxInTopologicalOrder[objIndex] = topoIdx;
-				objIndex++;
+		int nbOfObjects = classTree.getLeaves().size();
+		int nbOfConcepts = topoOrderOverConcepts.size();
+		topologicalSortingOfConceptIDs = new int[nbOfConcepts];
+		singletonConceptsIdxes = new Integer[nbOfObjects];
+		for (int i = 0 ; i < nbOfConcepts ; i++) {
+			IConcept iConcept = topoOrderOverConcepts.get(i);
+			topologicalSortingOfConceptIDs[i] = iConcept.getID();
+			if (objIndex < nbOfObjects && iConcept.type() == IConcept.SINGLETON) {
+				singletonConceptsIdxes[objIndex++] = i;
 			}
-			topoIdx++;
 		}
 		List<Triple<Integer, Integer, Double>> edges = new ArrayList<>();
-		for (IConjunctiveTransition op : conjunctiveTransitions) {
-			//Any state has a category as one of its component. This category ID is the state ID.
-			Integer operatingStateIndex = indexOf(op.getOperatingState().getStateID());
-			Integer nextStateIndex = indexOf(op.getNextState().getStateID());
-			Double informativity = 1.1;
-			edges.add(new Triple<Integer, Integer, Double>(operatingStateIndex, nextStateIndex, informativity));
+		for (IsA derivation : classTree.edgeSet()) {
+			Integer genusIdx = indexOf(classTree.getEdgeTarget(derivation).getID());
+			Integer speciesIdx = indexOf(classTree.getEdgeSource(derivation).getID());
+			edges.add(new Triple<>(speciesIdx, genusIdx, classification.getCostOf(derivation)));
 		}
-		weightedTransitions = new SparseIntDirectedWeightedGraph(nbOfCategories, edges);
+		weightedTransitions = new SparseIntDirectedWeightedGraph(nbOfConcepts, edges);
+		//the root has no successor, others have only 1 since the graph is an inverted tree
+		successorIdxes = new Integer[nbOfConcepts - 1];
+		for (int i = 0 ; i < nbOfConcepts - 1 ; i++) {
+			successorIdxes[i] = Graphs.successorListOf(weightedTransitions, i).get(0);
+		}
 	}	
 	
-	protected Set<Integer> getReacheableEdgesFrom(Integer vertex) {
-		return getReacheableEdgesFrom(vertex, new HashSet<Integer>());
-	}
+	protected List<Integer> getEdgeChainToRootFrom(int conceptID) {
+		return getEdgeChainToRootVertexFrom(indexOf(conceptID));
+	}		
 
+	protected List<Integer> getEdgeChainToRootVertexFrom(Integer vertex) {
+		if (vertex == rootVertex)
+			return new ArrayList<>();
+		List<Integer> vertexToRootEdgeChain = new ArrayList<>();
+		Integer nextVertex = vertex;
+		do {
+			vertex = Integer.valueOf(nextVertex);
+			nextVertex = successorIdxes[vertex];
+			vertexToRootEdgeChain.add(weightedTransitions.getEdge(vertex, nextVertex));
+		} while (nextVertex != rootVertex);
+		return vertexToRootEdgeChain;
+	}
+	
 	abstract protected double howSimilar(Integer vertex1, Integer vertex2);	
 	
 	abstract protected double howSimilarTo(Integer vertex1, Integer vertex2);	
@@ -137,19 +151,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 			}
 		}
 		return similaritySum / ((n*(n-1))/2);
-	}
-	
-	private Set<Integer> getReacheableEdgesFrom(Integer vertex, Set<Integer> alreadyFound) {
-		if (weightedTransitions.outDegreeOf(vertex) != 0) {
-			Set<Integer> nextEdges = weightedTransitions.outgoingEdgesOf(vertex);
-			for (Integer nextEdge : nextEdges) {
-				if (alreadyFound.add(nextEdge))
-					alreadyFound.addAll(
-							getReacheableEdgesFrom(weightedTransitions.getEdgeTarget(nextEdge), alreadyFound));
-			}
-		}
-		return alreadyFound;
-	}
+	}	
 	
 	private double howPrototypicalAmong(Integer vertex, Integer[] others) {
 		double similarityToParameterSum = 0.0;
@@ -161,6 +163,6 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 			}
 		}
 		return similarityToParameterSum / nbOfComparisons;
-	}
+	}	
 
 }

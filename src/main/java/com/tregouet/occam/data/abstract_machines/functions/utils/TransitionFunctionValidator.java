@@ -16,16 +16,6 @@ public class TransitionFunctionValidator implements Predicate<ITransitionFunctio
 	}
 
 	private static boolean noBlankState(ITransitionFunction tF) {
-		//HERE
-		/*
-		try {
-			Visualizer.visualizeTransitionFunction(tF, "211209_errorSearch", TransitionFunctionGraphType.FINITE_AUTOMATON);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-		//HERE
 		Set<IState> states = new HashSet<>(tF.getStates());
 		states.removeIf(s -> s.getStateType() == IState.OC_STATE);
 		for (IConjunctiveTransition operator : tF.getConjunctiveTransitions()) {

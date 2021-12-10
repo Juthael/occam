@@ -66,38 +66,6 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}	
 	
-	//HERE
-	public static void visualizeAttributeGraph(DirectedAcyclicGraph<IIntentAttribute, IProduction> graph, String fileName, boolean test) throws IOException {
-		//convert in DOT format
-		DOTExporter<IIntentAttribute,IProduction> exporter = new DOTExporter<>();
-		exporter.setGraphAttributeProvider(() -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
-			return map;
-		});
-		exporter.setVertexAttributeProvider((v) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.getConcept().getID()));
-			return map;
-		});
-		exporter.setEdgeAttributeProvider((e) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(e.getLabel()));
-			return map;
-		}); 
-		Writer writer = new StringWriter();
-		exporter.exportGraph(graph, writer);
-		String stringDOT = writer.toString();
-		/*
-		 System.out.println(writer.toString());
-		*/ 
-		//display graph
-		MutableGraph dotGraph = new Parser().read(stringDOT);
-		Graphviz.fromGraph(dotGraph)
-			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
-	}	
-	//HERE
-	
 	public static void visualizeCategoryGraph(DirectedAcyclicGraph<IConcept, IsA> graph, String fileName) 
 			throws IOException {
 		//convert in DOT format

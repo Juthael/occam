@@ -14,10 +14,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
@@ -58,14 +60,11 @@ public class TransitionFunctionSupplierTest {
 	}
 
 	@Test
-	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfProductionsSourcesOrTargetsIsTreeOfCategories() 
+	public void whenConstructGraphFilteredByConceptTreeThenSetOfProdSourcesOrTargetsIsConceptTreeMinusFramingConcepts() 
 			throws IOException {
 		boolean expectedSetOfCategories = true;
 		while (conceptTreeSupplier.hasNext()) {
 			Tree<IConcept, IsA> catTree = conceptTreeSupplier.nextOntologicalCommitment();
-			/*
-			Visualizer.visualizeCategoryGraph(catTree, "2111051022_catTree");
-			*/
 			Set<IConcept> expectedCats = catTree.vertexSet();
 			Set<IConcept> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
@@ -75,10 +74,11 @@ public class TransitionFunctionSupplierTest {
 				returnedCats.add(production.getTargetCategory());
 			}
 			if (!expectedCats.equals(returnedCats)) {
-				expectedSetOfCategories = false;
-				/*
-				Visualizer.visualizeAttributeGraph(filteredConstructs, "2111051022_filteredConstructs");
-				*/
+				Set<IConcept> conceptsNotFound = Sets.difference(expectedCats, returnedCats);
+				for (IConcept notFound : conceptsNotFound) {
+					if (!notFound.isComplementary() && ((IComplementaryConcept) notFound).getEmbeddedConcept() != null)
+						expectedSetOfCategories = false;
+				}
 			}
 				
 		}
@@ -86,7 +86,7 @@ public class TransitionFunctionSupplierTest {
 	}
 	
 	@Test
-	public void whenConstructGraphIsFilteredByCategoryTreeThenSetOfContainerCategoriesIsTreeOfCategories() {
+	public void whenConstructGraphIsFilteredByConceptTreeThenSetOfContainingConceptsIsConceptTreeMinusFramingConcepts() {
 		boolean expectedSetOfCategories = true;
 		while (conceptTreeSupplier.hasNext()) {
 			Tree<IConcept, IsA> catTree = conceptTreeSupplier.nextOntologicalCommitment();
@@ -97,9 +97,13 @@ public class TransitionFunctionSupplierTest {
 			for (IIntentAttribute intentAtt : filteredConstructs.vertexSet()) {
 				returnedCats.add(intentAtt.getConcept());
 			}
-			if (!expectedCats.equals(returnedCats)) 
-				expectedSetOfCategories = false;
-
+			if (!expectedCats.equals(returnedCats)) {
+				Set<IConcept> conceptsNotFound = Sets.difference(expectedCats, returnedCats);
+				for (IConcept notFound : conceptsNotFound) {
+					if (!notFound.isComplementary() && ((IComplementaryConcept) notFound).getEmbeddedConcept() != null)
+						expectedSetOfCategories = false;
+				}
+			}
 		}
 		assertTrue(expectedSetOfCategories);
 	}	

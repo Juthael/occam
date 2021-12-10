@@ -148,25 +148,6 @@ public class TransitionFunctionTest {
 	}
 	
 	@Test
-	public void whenDomainSpecificLanguageRequestedThenReturned() {
-		boolean languageReturned = true;
-		for (ITransitionFunction tF : transitionFunctions) {
-			try {
-				IDomainSpecificLanguage languageDisplayer = tF.getDomainSpecificLanguage();
-				/*
-				System.out.println(languageDisplayer.toString());
-				*/
-				if (languageDisplayer == null)
-					languageReturned = false;
-			}
-			catch (Exception e) {
-				languageReturned = false;
-			}
-		}
-		assertTrue(languageReturned);
-	}
-	
-	@Test
 	public void whenSimilarityMatrixRequestedThenReturned() throws IOException {
 		int tfIdx = 0;
 		int returned = 0;
@@ -282,11 +263,6 @@ public class TransitionFunctionTest {
 			nbOfChecks++;
 		}
 		assertTrue(returned && nbOfChecks > 0);
-	}
-	
-	@Test
-	public void whenCompilerRequestedThenReturned() {
-		fail("NOT IMPLEMENTED YET");
 	}
 
 	@Test 

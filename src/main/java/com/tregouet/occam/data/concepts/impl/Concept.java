@@ -87,8 +87,6 @@ public class Concept extends AbstractConcept implements IConcept {
 			return "ABSURDITY";
 		StringBuilder sB = new StringBuilder();
 		sB.append(Integer.toString(iD));
-		//HERE REMOVE
-		
 		String newLine = System.lineSeparator();
 		sB.append(newLine);
 		Iterator<IIntentAttribute> iterator = intent.iterator();

@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
@@ -43,7 +43,7 @@ public class ConjunctiveTransitionTest {
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IConceptTreeSupplier conceptTreeSupplier;
+	private IClassificationSupplier classificationSupplier;
 	private Tree<IConcept, IsA> catTree;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_constructs;
 	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
@@ -64,9 +64,9 @@ public class ConjunctiveTransitionTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		conceptTreeSupplier = concepts.getCatTreeSupplier();
-		while (conceptTreeSupplier.hasNext()) {
-			catTree = conceptTreeSupplier.nextOntologicalCommitment();
+		classificationSupplier = concepts.getCatTreeSupplier();
+		while (classificationSupplier.hasNext()) {
+			catTree = classificationSupplier.nextOntologicalCommitment();
 			filtered_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_constructs, true);

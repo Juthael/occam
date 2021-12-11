@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
@@ -119,14 +119,14 @@ public class ConceptsTest {
 	
 	@Test
 	public void whenCatTreeSupplierRequestedThenReturned() {
-		IConceptTreeSupplier conceptTreeSupplier = null;
+		IClassificationSupplier classificationSupplier = null;
 		try {
-			conceptTreeSupplier = concepts.getCatTreeSupplier();
+			classificationSupplier = concepts.getCatTreeSupplier();
 		}
 		catch (Exception e) {
 			assertTrue(false);
 		}
-		assertNotNull(conceptTreeSupplier);
+		assertNotNull(classificationSupplier);
 	}	
 	
 	@Test
@@ -311,7 +311,7 @@ public class ConceptsTest {
 	
 	@Test
 	public void whenTreeSuppliedThenReallyIsATree() throws IOException {
-		IConceptTreeSupplier treeSupplier = concepts.getCatTreeSupplier();
+		IClassificationSupplier treeSupplier = concepts.getCatTreeSupplier();
 		int nbOfChecks = 0;
 		while (treeSupplier.hasNext()) {
 			Tree<IConcept, IsA> nextTree = treeSupplier.nextOntologicalCommitment();

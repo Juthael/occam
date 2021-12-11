@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.impl.Concepts;
@@ -32,7 +32,7 @@ public class CatTreeToStringConvertorTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private static IConcepts concepts;
-	private static IConceptTreeSupplier conceptTreeSupplier;
+	private static IClassificationSupplier classificationSupplier;
 	private static Map<IConcept, String> objCatToName = new HashMap<>();
 	
 	@BeforeClass
@@ -47,7 +47,7 @@ public class CatTreeToStringConvertorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		conceptTreeSupplier = concepts.getCatTreeSupplier();
+		classificationSupplier = concepts.getCatTreeSupplier();
 	}
 
 	@Test
@@ -61,8 +61,8 @@ public class CatTreeToStringConvertorTest {
 		Visualizer.visualizeCategoryGraph(cats.getCategoryLattice(), "CatTreeToStringConvertorTest");
 		int treeIdx = 0;
 		*/
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IsA> currTree = conceptTreeSupplier.nextOntologicalCommitment();
+		while (classificationSupplier.hasNext()) {
+			Tree<IConcept, IsA> currTree = classificationSupplier.nextOntologicalCommitment();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/

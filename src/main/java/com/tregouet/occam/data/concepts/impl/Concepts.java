@@ -18,8 +18,8 @@ import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassTreeWithConstrainedExtentStructureSupplier;
-import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
-import com.tregouet.occam.alg.conceptual_structure_gen.impl.ConceptTreeSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.impl.ClassificationSupplier;
 import com.tregouet.occam.alg.conceptual_structure_gen.utils.IntentBldr;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
@@ -37,7 +37,7 @@ public class Concepts implements IConcepts {
 	
 	private final List<IContextObject> objects;
 	private final DirectedAcyclicGraph<IConcept, IsA> lattice;
-	private final UpperSemilattice<IConcept, IsA> ontologicalUSL;
+	private final UpperSemilattice<IConcept, IsA> conceptUSL;
 	private final IConcept ontologicalCommitment;
 	private final List<IConcept> topologicalOrder;
 	private final IConcept truism;
@@ -74,12 +74,12 @@ public class Concepts implements IConcepts {
 		TransitiveReduction.INSTANCE.reduce(ontologicalUSL);
 		List<IConcept> topologicalOrderedSet = new ArrayList<>();
 		new TopologicalOrderIterator<>(ontologicalUSL).forEachRemaining(topologicalOrderedSet::add);
-		this.ontologicalUSL = 
+		this.conceptUSL = 
 				new UpperSemilattice<>(ontologicalUSL, truism, new HashSet<>(singletons), topologicalOrderedSet);
-		this.ontologicalUSL.addAsNewRoot(ontologicalCommitment, true);
+		this.conceptUSL.addAsNewRoot(ontologicalCommitment, true);
 		for (IConcept objectCat : singletons)
 			updateCategoryRank(objectCat, 1);
-		topologicalOrder = this.ontologicalUSL.getTopologicalOrder();
+		topologicalOrder = this.conceptUSL.getTopologicalOrder();
 	}
 
 	@Override
@@ -104,8 +104,8 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public IConceptTreeSupplier getCatTreeSupplier() throws IOException {
-		return new ConceptTreeSupplier(new UnidimensionalSorter<>(ontologicalUSL), ontologicalCommitment);
+	public IClassificationSupplier getCatTreeSupplier() throws IOException {
+		return new ClassificationSupplier(new UnidimensionalSorter<>(conceptUSL), ontologicalCommitment);
 	}
 
 	@Override
@@ -157,7 +157,7 @@ public class Concepts implements IConcepts {
 	
 	@Override
 	public UpperSemilattice<IConcept, IsA> getOntologicalUpperSemilattice() {
-		return ontologicalUSL;
+		return conceptUSL;
 	}
 	
 	@Override
@@ -172,7 +172,7 @@ public class Concepts implements IConcepts {
 	
 	@Override
 	public DirectedAcyclicGraph<IConcept, IsA> getTransitiveReduction() {
-		return ontologicalUSL;
+		return conceptUSL;
 	}
 	
 	@Override
@@ -185,7 +185,7 @@ public class Concepts implements IConcepts {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(concept1) < topologicalOrder.indexOf(concept2)) {
 			BreadthFirstIterator<IConcept, IsA> iterator = 
-					new BreadthFirstIterator<>(ontologicalUSL, concept1);
+					new BreadthFirstIterator<>(conceptUSL, concept1);
 			iterator.next();
 			while (!isA && iterator.hasNext())
 				isA = concept2.equals(iterator.next());
@@ -195,7 +195,7 @@ public class Concepts implements IConcepts {
 
 	@Override
 	public boolean isADirectSubordinateOf(IConcept concept1, IConcept concept2) {
-		return (ontologicalUSL.getEdge(concept1, concept2) != null);
+		return (conceptUSL.getEdge(concept1, concept2) != null);
 	}
 	
 	private Map<Set<IConstruct>, Set<IContextObject>> buildIntentToExtentRel() {
@@ -326,7 +326,7 @@ public class Concepts implements IConcepts {
 	private void updateCategoryRank(IConcept concept, int rank) {
 		if (concept.rank() < rank || concept.type() == IConcept.ABSURDITY) {
 			concept.setRank(rank);
-			for (IConcept successor : Graphs.successorListOf(ontologicalUSL, concept)) {
+			for (IConcept successor : Graphs.successorListOf(conceptUSL, concept)) {
 				updateCategoryRank(successor, rank + 1);
 			}
 		}

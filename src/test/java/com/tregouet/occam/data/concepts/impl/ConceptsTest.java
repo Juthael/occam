@@ -22,6 +22,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.score_calc.CalculatorFactory;
+import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
@@ -45,10 +47,7 @@ public class ConceptsTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
-		/*
-		Categories catImpl = (Categories) categories;
-		Visualizer.visualizeCategoryGraph(catImpl.getCategoryLattice(), "2107291658");
-		*/
+		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
 	}
 
 	@Before

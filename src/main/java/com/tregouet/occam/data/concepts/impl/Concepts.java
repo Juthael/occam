@@ -21,8 +21,6 @@ import com.tregouet.occam.alg.conceptual_structure_gen.IConstrainedClassificatio
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.alg.conceptual_structure_gen.impl.ClassificationSupplier;
 import com.tregouet.occam.alg.conceptual_structure_gen.utils.IntentBldr;
-import com.tregouet.occam.alg.score_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
-import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
@@ -111,13 +109,6 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public IConstrainedClassificationSupplier getConstrainedClassificationSupplier(
-			IExtentStructureConstraint constraint) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public IConcept getConceptWithExtent(Set<IContextObject> extent) {
 		if (extent.containsAll(objects))
 			return truism;
@@ -125,6 +116,13 @@ public class Concepts implements IConcepts {
 			if (concept.getExtent().equals(extent))
 				return concept;
 		}
+		return null;
+	}
+
+	@Override
+	public IConstrainedClassificationSupplier getConstrainedClassificationSupplier(
+			IExtentStructureConstraint constraint) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

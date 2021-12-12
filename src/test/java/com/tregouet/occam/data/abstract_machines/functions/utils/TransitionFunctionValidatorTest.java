@@ -17,6 +17,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.score_calc.CalculatorFactory;
+import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
@@ -41,8 +43,6 @@ import com.tregouet.tree_finder.data.Tree;
 public class TransitionFunctionValidatorTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
-	private static final SimilarityCalculationStrategy SIM_CALC_STRATEGY = 
-			SimilarityCalculationStrategy.CONTRAST_MODEL;
 	private static List<IContextObject> shapes1Obj;
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
@@ -57,6 +57,7 @@ public class TransitionFunctionValidatorTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes1Obj = GenericFileReader.getContextObjects(SHAPES2);	
+		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
 	}
 
 	@Before

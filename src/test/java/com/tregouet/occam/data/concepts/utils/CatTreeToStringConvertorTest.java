@@ -16,6 +16,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.score_calc.CalculatorFactory;
+import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.impl.Concepts;
@@ -31,22 +33,23 @@ public class CatTreeToStringConvertorTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private static IConcepts concepts;
-	private static IClassificationSupplier classificationSupplier;
-	private static Map<IConcept, String> objCatToName = new HashMap<>();
+	private IConcepts concepts;
+	private IClassificationSupplier classificationSupplier;
+	private Map<IConcept, String> objCatToName = new HashMap<>();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
+		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
+	}
+
+	@Before
+	public void setUp() throws Exception {
 		concepts = new Concepts(shapes2Obj);
 		char name = 'A';
 		for (IConcept objectCategory : concepts.getSingletonConcept()) {
 			objCatToName.put(objectCategory, new String(Character.toString(name++)));
 		}
-	}
-
-	@Before
-	public void setUp() throws Exception {
 		classificationSupplier = concepts.getClassificationSupplier();
 	}
 

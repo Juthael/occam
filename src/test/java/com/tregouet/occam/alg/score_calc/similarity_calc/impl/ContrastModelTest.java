@@ -1,27 +1,25 @@
 package com.tregouet.occam.alg.score_calc.similarity_calc.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
-import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.score_calc.CalculatorFactory;
+import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
 import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
@@ -59,6 +57,7 @@ public class ContrastModelTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
+		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
 	}
 
 	@Before
@@ -242,37 +241,7 @@ public class ContrastModelTest {
 			}
 		}
 		assertTrue(returned && nbOfChecks > 0);
-	}	
-	
-	@Test
-	public void whenReacheableEdgesRequestedThenExpectedReturned() {
-		boolean asExpected = true;
-		int nbOfChecks = 0;
-		for (ITransitionFunction tF : transitionFunctions) {
-			int rootID = tF.getCategoryTree().getRoot().getID();
-			List<IConcept> leaves = new ArrayList<>(tF.getCategoryTree().getLeaves());
-			int[] leavesID = new int[leaves.size()];
-			for (int i = 0 ; i < leavesID.length ; i++) {
-				leavesID[i] = leaves.get(i).getID();
-			}
-			ContrastModel calculator = 
-					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
-							SimilarityCalculationStrategy.CONTRAST_MODEL).input(tF.getClassification());
-			for (Integer leafID : leavesID) {
-				Set<Integer> returnedEdges = new HashSet<>(calculator.getEdgeChainToRootFrom(leafID.intValue()));
-				Set<Integer> expectedEdges = new HashSet<>();
-				AllDirectedPaths<Integer, Integer> pathFinder = new AllDirectedPaths<>(calculator.getSparseGraph());
-				List<GraphPath<Integer, Integer>> paths = 
-						pathFinder.getAllPaths(calculator.indexOf(leafID), calculator.indexOf(rootID), true, 999);
-				for (GraphPath<Integer, Integer> path : paths)
-					expectedEdges.addAll(path.getEdgeList());
-				if (!returnedEdges.equals(expectedEdges))
-					asExpected = false;
-				nbOfChecks++;
-			}
-		}
-		assertTrue(asExpected && nbOfChecks > 0);
-	}	
+	}		
 	
 	private List<List<IConcept>> buildCategoryPowerSet(List<IConcept> categorySet) {
 	    List<List<IConcept>> powerSet = new ArrayList<>();

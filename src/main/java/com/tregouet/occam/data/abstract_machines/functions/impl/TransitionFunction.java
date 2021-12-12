@@ -64,6 +64,15 @@ public class TransitionFunction implements ITransitionFunction {
 		}
 	}
 
+	public static String setIntentsAsString(Set<IIntentAttribute> attributes){
+		StringBuilder sB = new StringBuilder();
+		for (IIntentAttribute att : attributes) {
+			sB.append(att.toString() + System.lineSeparator());
+		}
+		sB.deleteCharAt(sB.length() - 1);
+		return sB.toString();
+	}
+
 	private static List<List<Integer>> groupIndexesOfProductionsHandledByTheSameOperator(
 			List<IProduction> productions) {
 		List<List<Integer>> prodIndexesSets = new ArrayList<>();
@@ -118,15 +127,6 @@ public class TransitionFunction implements ITransitionFunction {
 				sB.append(reframer.getName() + " : " + reframer.getReframer() + nL);
 			}
 		}
-		return sB.toString();
-	}
-
-	public static String setIntentsAsString(Set<IIntentAttribute> attributes){
-		StringBuilder sB = new StringBuilder();
-		for (IIntentAttribute att : attributes) {
-			sB.append(att.toString() + System.lineSeparator());
-		}
-		sB.deleteCharAt(sB.length() - 1);
 		return sB.toString();
 	}
 
@@ -210,10 +210,15 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
+	public IClassification getClassification() {
+		return classification;
+	}
+	
+	@Override
 	public double getCoherenceScore() {
 		return classification.getCoherenceScore();
 	}
-	
+
 	@Override
 	public IFiniteAutomaton getCompiler() {
 		//NOT IMPLEMENTED YET
@@ -229,13 +234,13 @@ public class TransitionFunction implements ITransitionFunction {
 	public List<IConjunctiveTransition> getConjunctiveTransitions() {
 		return conjunctiveTransitions;
 	}
-
+	
 	@Override
 	public IDomainSpecificLanguage getDomainSpecificLanguage() {
 		//NOT IMPLEMENTED YET
 		return null;
 	}
-	
+
 	@Override
 	public SimpleDirectedGraph<IState, IConjunctiveTransition> getFiniteAutomatonGraph() {
 		if (finiteAutomatonGraph == null) {
@@ -337,6 +342,14 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
+	public double getTransitionFunctionCost() {
+		if (cost == null) {
+			cost = CalculatorFactory.INSTANCE.getTransitionFunctionCostCalculator().apply(this);
+		}
+		return cost;
+	}
+
+	@Override
 	public List<ITransition> getTransitions() {
 		return transitions;
 	}
@@ -345,19 +358,19 @@ public class TransitionFunction implements ITransitionFunction {
 	public double[] getTypicalityArray() {
 		return classification.getTypicalityArray();
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = prime + ((transitions == null) ? 0 : transitions.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean validate(Predicate<ITransitionFunction> validator) {
 		return validator.test(this);
 	}
-	
+
 	private List<IReframer> buildReframers() {
 		List<IReframer> reframers = new ArrayList<>();
 		Tree<IConcept, IsA> concepts = classification.getClassificationTree();
@@ -367,7 +380,7 @@ public class TransitionFunction implements ITransitionFunction {
 		}
 		return reframers;
 	}
-	
+
 	private List<IReframer> buildReframers(IsA relation, List<Integer> previousComplementedStatesIDs) {
 		List<IReframer> reframers = new ArrayList<>();
 		List<Integer> nextComplementedStatesIDs;
@@ -390,19 +403,6 @@ public class TransitionFunction implements ITransitionFunction {
 			reframers.addAll(buildReframers(nextRelation, nextComplementedStatesIDs));
 		}
 		return reframers;
-	}
-
-	@Override
-	public double getTransitionFunctionCost() {
-		if (cost == null) {
-			cost = CalculatorFactory.INSTANCE.getTransitionFunctionCostCalculator().apply(this);
-		}
-		return cost;
-	}
-
-	@Override
-	public IClassification getClassification() {
-		return classification;
 	}
 
 }

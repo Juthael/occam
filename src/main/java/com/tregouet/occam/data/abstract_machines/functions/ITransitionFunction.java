@@ -27,9 +27,9 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	Tree<IConcept, IsA> getCategoryTree();
 	
-	IClassification getClassification();
-	
 	String getCategoryTreeAsDOTFile();
+	
+	IClassification getClassification();
 	
 	double getCoherenceScore();
 	
@@ -53,6 +53,8 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	String getTransitionFunctionAsDOTFile(TransitionFunctionGraphType graphType);
 	
+	double getTransitionFunctionCost();
+	
 	List<ITransition> getTransitions();
 	
 	double[] getTypicalityArray();
@@ -61,7 +63,5 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	int hashCode();
 	
 	boolean validate(Predicate<ITransitionFunction> validator);
-	
-	double getTransitionFunctionCost();
 
 }

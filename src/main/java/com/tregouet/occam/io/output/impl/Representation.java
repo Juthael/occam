@@ -17,7 +17,6 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
@@ -41,8 +40,6 @@ public class Representation implements IRepresentation {
 	private static final String NL = System.lineSeparator();
 	private static final Path headPath = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io", 
 			"output", "html", "head.txt");
-	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
-			SimilarityCalculationStrategy.RATIO_MODEL;
 	private static final DecimalFormat df = new DecimalFormat("#.####");
 	private final String folderPath;
 	private List<IContextObject> context = null;
@@ -267,8 +264,7 @@ public class Representation implements IRepresentation {
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
 		try {
-			conceptStructureBasedTFSupplier = new ConceptStructureBasedTFSupplier(concepts, constructs, 
-					SIM_CALCULATION_STRATEGY);
+			conceptStructureBasedTFSupplier = new ConceptStructureBasedTFSupplier(concepts, constructs);
 		} catch (IOException e) {
 			return false;
 		}

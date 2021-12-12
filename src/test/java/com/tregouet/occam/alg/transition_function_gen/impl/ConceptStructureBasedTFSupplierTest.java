@@ -13,6 +13,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.alg.score_calc.CalculatorFactory;
+import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
@@ -31,8 +33,6 @@ import com.tregouet.occam.io.output.utils.Visualizer;
 public class ConceptStructureBasedTFSupplierTest {
 	
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
-	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
-			SimilarityCalculationStrategy.RATIO_MODEL;
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
@@ -41,6 +41,7 @@ public class ConceptStructureBasedTFSupplierTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
+		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
 	}
 
 	@Before
@@ -62,8 +63,7 @@ public class ConceptStructureBasedTFSupplierTest {
 		*/
 		boolean increasingOrder = true;
 		int idx = 0;
-		IConceptStructureBasedTFSupplier transFuncSupplier = new ConceptStructureBasedTFSupplier(concepts, constructs, 
-				SIM_CALCULATION_STRATEGY);
+		IConceptStructureBasedTFSupplier transFuncSupplier = new ConceptStructureBasedTFSupplier(concepts, constructs);
 		List<Double> coherenceScores = new ArrayList<>();
 		IRelatedTransFunctions relatedTransFunctions;
 		while (transFuncSupplier.hasNext()) {

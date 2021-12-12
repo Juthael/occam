@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.alg.score_calc.CalculatorFactory;
+import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.BasicTFSupplier;
@@ -39,7 +41,8 @@ public class BasicTFSupplierTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);	
+		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
+		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
 	}
 
 	@Before

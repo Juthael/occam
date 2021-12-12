@@ -12,6 +12,7 @@ public class SimilarityCalculatorFactory implements Function<SimilarityCalculati
 	private SimilarityCalculatorFactory() {
 	}
 
+	@Override
 	public ISimilarityCalculator apply(SimilarityCalculationStrategy strategy) {
 		switch (strategy) {
 			case CONTRAST_MODEL :

@@ -18,13 +18,13 @@ public class EntropyReduction implements IConceptDerivationCostCalculator {
 	public EntropyReduction() {
 	}
 
+	private static double binaryLogarithm(double arg) {
+		return Math.log10(arg)/Math.log10(2);
+	}
+	
 	@Override
 	public double costOf(IsA conceptDerivation) {
 		return derivationToCost.get(conceptDerivation);
-	}
-	
-	private static double binaryLogarithm(double arg) {
-		return Math.log10(arg)/Math.log10(2);
 	}
 
 	@Override
@@ -39,9 +39,9 @@ public class EntropyReduction implements IConceptDerivationCostCalculator {
 		}
 		for (IsA derivation : classificationTree.edgeSet()) {
 			double genusExtentSize = 
-					(double) conceptToExtentSize.get(classificationTree.getEdgeTarget(derivation));
+					conceptToExtentSize.get(classificationTree.getEdgeTarget(derivation));
 			double speciesExtentSize = 
-					(double) conceptToExtentSize.get(classificationTree.getEdgeSource(derivation));
+					conceptToExtentSize.get(classificationTree.getEdgeSource(derivation));
 			double derivationCost = -binaryLogarithm(speciesExtentSize / genusExtentSize);
 			derivationToCost.put(derivation, derivationCost);
 		}

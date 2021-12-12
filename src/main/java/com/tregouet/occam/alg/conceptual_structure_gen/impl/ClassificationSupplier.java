@@ -31,6 +31,14 @@ public class ClassificationSupplier implements IClassificationSupplier {
 	}
 
 	@Override
+	public TreeSet<IClassification> getRemainingClassifications() {
+		TreeSet<IClassification> remainingClassifications = new TreeSet<>();
+		while (hasNext())
+			remainingClassifications.add(next());
+		return remainingClassifications;
+	}
+
+	@Override
 	public boolean hasNext() {
 		return categorySorter.hasNext();
 	}
@@ -39,14 +47,6 @@ public class ClassificationSupplier implements IClassificationSupplier {
 	public IClassification next() {
 		return new Classification(IClassificationSupplier.commit(categorySorter.next(), ontologicalCommitment), 
 				singletons);
-	}
-
-	@Override
-	public TreeSet<IClassification> getRemainingClassifications() {
-		TreeSet<IClassification> remainingClassifications = new TreeSet<>();
-		while (hasNext())
-			remainingClassifications.add(next());
-		return remainingClassifications;
 	}
 
 }

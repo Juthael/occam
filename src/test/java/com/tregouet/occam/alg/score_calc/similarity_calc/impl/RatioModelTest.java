@@ -1,4 +1,4 @@
-package com.tregouet.occam.dep.cost_calculation.similarity_calculation.impl;
+package com.tregouet.occam.alg.score_calc.similarity_calc.impl;
 
 import static org.junit.Assert.*;
 
@@ -7,30 +7,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
-import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.score_calc.CalculatorFactory;
+import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
 import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
-import com.tregouet.occam.alg.score_calc.similarity_calc.impl.ContrastModel;
-import com.tregouet.occam.alg.score_calc.similarity_calc.impl.RatioModel;
-import com.tregouet.occam.alg.score_calc.similarity_calc.impl.SimilarityCalculatorFactory;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IClassification;
@@ -41,17 +35,13 @@ import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
-@SuppressWarnings("unused")
 public class RatioModelTest {
 
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
-	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
-			SimilarityCalculationStrategy.RATIO_MODEL;
 	private static List<IContextObject> shapes2Obj;
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
@@ -67,6 +57,7 @@ public class RatioModelTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
+		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
 	}
 
 	@Before
@@ -246,36 +237,6 @@ public class RatioModelTest {
 			}
 		}
 		assertTrue(returned && nbOfChecks > 0);
-	}
-	
-	@Test
-	public void whenReacheableEdgesRequestedThenExpectedReturned() {
-		boolean asExpected = true;
-		int nbOfChecks = 0;
-		for (ITransitionFunction tF : transitionFunctions) {
-			int rootID = tF.getCategoryTree().getRoot().getID();
-			List<IConcept> leaves = new ArrayList<>(tF.getCategoryTree().getLeaves());
-			int[] leavesID = new int[leaves.size()];
-			for (int i = 0 ; i < leavesID.length ; i++) {
-				leavesID[i] = leaves.get(i).getID();
-			}
-			RatioModel calculator = 
-					(RatioModel) SimilarityCalculatorFactory.INSTANCE.apply(
-							SimilarityCalculationStrategy.RATIO_MODEL).input(tF.getClassification());
-			for (Integer leafID : leavesID) {
-				Set<Integer> returnedEdges = new HashSet<>(calculator.getEdgeChainToRootFrom(leafID.intValue()));
-				Set<Integer> expectedEdges = new HashSet<>();
-				AllDirectedPaths<Integer, Integer> pathFinder = new AllDirectedPaths<>(calculator.getSparseGraph());
-				List<GraphPath<Integer, Integer>> paths = 
-						pathFinder.getAllPaths(calculator.indexOf(leafID), calculator.indexOf(rootID), true, 999);
-				for (GraphPath<Integer, Integer> path : paths)
-					expectedEdges.addAll(path.getEdgeList());
-				if (!returnedEdges.equals(expectedEdges))
-					asExpected = false;
-				nbOfChecks++;
-			}
-		}
-		assertTrue(asExpected && nbOfChecks > 0);
 	}
 	
 	private List<List<IConcept>> buildCategoryPowerSet(List<IConcept> categorySet) {

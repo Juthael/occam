@@ -8,19 +8,19 @@ import com.tregouet.tree_finder.data.Tree;
 
 public interface IClassification extends Comparable<IClassification> {
 	
-	Tree<IConcept, IsA> getClassificationTree();
+	double[][] getAsymmetricalSimilarityMatrix();
 	
-	double getCostOf(IsA relation);
+	Tree<IConcept, IsA> getClassificationTree();
 	
 	double getCoherenceScore();
 	
+	Map<Integer, Double> getConceptualCoherenceMap();
+	
+	double getCostOf(IsA relation);
+	
 	ISimilarityCalculator getSimilarityCalculator();
 	
-	double[][] getAsymmetricalSimilarityMatrix();
-	
 	double[][] getSimilarityMatrix();
-	
-	Map<Integer, Double> getConceptualCoherenceMap();
 	
 	double[] getTypicalityArray();
 	

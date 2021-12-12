@@ -7,8 +7,6 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IConstrainedClassificationSupplier;
-import com.tregouet.occam.alg.score_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
-import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IContextObject;
@@ -30,14 +28,14 @@ public interface IConcepts {
 	
 	IClassificationSupplier getClassificationSupplier() throws IOException;
 	
-	IConstrainedClassificationSupplier getConstrainedClassificationSupplier(IExtentStructureConstraint constraint);
-	
 	/**
 	 * If param contains every object in the context, then return truism
 	 * @param extent
 	 * @return
 	 */
 	IConcept getConceptWithExtent(Set<IContextObject> extent);
+	
+	IConstrainedClassificationSupplier getConstrainedClassificationSupplier(IExtentStructureConstraint constraint);
 	
 	List<IContextObject> getContextObjects();
 	

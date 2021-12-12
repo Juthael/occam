@@ -35,16 +35,6 @@ public class Classification implements IClassification {
 	}
 
 	@Override
-	public Tree<IConcept, IsA> getClassificationTree() {
-		return classificationTree;
-	}
-
-	@Override
-	public double getCostOf(IsA derivation) {
-		return costCalc.costOf(derivation);
-	}
-
-	@Override
 	public int compareTo(IClassification o) {
 		if (o == this)
 			return 0;
@@ -60,16 +50,6 @@ public class Classification implements IClassification {
 		if (thisNbOfEdges > otherNbOfEdges)
 			return -1;
 		return (System.identityHashCode(this) - System.identityHashCode(o));
-	}
-
-	@Override
-	public double getCoherenceScore() {
-		return coherenceScore;
-	}
-
-	@Override
-	public ISimilarityCalculator getSimilarityCalculator() {
-		return similarityCalc;
 	}
 
 	@Override
@@ -91,22 +71,13 @@ public class Classification implements IClassification {
 	}
 
 	@Override
-	public double[][] getSimilarityMatrix() {
-		if (similarityMatrix == null) {
-			int nbOfObjects = singletons.size();
-			similarityMatrix = new double[nbOfObjects][nbOfObjects];
-			for (int i = 0 ; i < nbOfObjects ; i++) {
-				int iObjCatID = singletons.get(i).getID();
-				similarityMatrix[i][i] = 1.0;
-				for (int j = i + 1 ; j < nbOfObjects ; j++) {
-					int jObjCatID = singletons.get(j).getID();
-					double similarityScoreIJ = similarityCalc.howSimilar(iObjCatID, jObjCatID);
-					similarityMatrix[i][j] = similarityScoreIJ;
-					similarityMatrix[j][i] = similarityScoreIJ;
-				}
-			}
-		}
-		return similarityMatrix;
+	public Tree<IConcept, IsA> getClassificationTree() {
+		return classificationTree;
+	}
+
+	@Override
+	public double getCoherenceScore() {
+		return coherenceScore;
 	}
 
 	@Override
@@ -127,6 +98,35 @@ public class Classification implements IClassification {
 			catIDToCoherenceScore.put(nextCat.getID(), similarityCalc.getCoherenceScore(extentIDs));
 		}
 		return catIDToCoherenceScore;
+	}
+
+	@Override
+	public double getCostOf(IsA derivation) {
+		return costCalc.costOf(derivation);
+	}
+
+	@Override
+	public ISimilarityCalculator getSimilarityCalculator() {
+		return similarityCalc;
+	}
+
+	@Override
+	public double[][] getSimilarityMatrix() {
+		if (similarityMatrix == null) {
+			int nbOfObjects = singletons.size();
+			similarityMatrix = new double[nbOfObjects][nbOfObjects];
+			for (int i = 0 ; i < nbOfObjects ; i++) {
+				int iObjCatID = singletons.get(i).getID();
+				similarityMatrix[i][i] = 1.0;
+				for (int j = i + 1 ; j < nbOfObjects ; j++) {
+					int jObjCatID = singletons.get(j).getID();
+					double similarityScoreIJ = similarityCalc.howSimilar(iObjCatID, jObjCatID);
+					similarityMatrix[i][j] = similarityScoreIJ;
+					similarityMatrix[j][i] = similarityScoreIJ;
+				}
+			}
+		}
+		return similarityMatrix;
 	}
 
 	@Override

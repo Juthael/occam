@@ -8,7 +8,6 @@ import java.util.TreeSet;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
@@ -33,8 +32,7 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier
 	private Iterator<IRelatedTransFunctions> ite;
 	
 	public ConceptStructureBasedTFSupplier(IConcepts concepts, 
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
-			SimilarityCalculationStrategy simCalculationStrategy) throws IOException {
+			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) throws IOException {
 		super(concepts, constructs);
 		populateRepresentedCategories();
 		for (IConcept objCat : concepts.getSingletonConcept())

@@ -20,7 +20,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 	protected Integer[] successorIdxes = null;
 	protected Integer[] singletonConceptsIdxes = null;
 	protected SparseIntDirectedWeightedGraph weightedTransitions = null;
-	int rootVertex = topologicalSortingOfConceptIDs.length - 1;
+	Integer rootVertex = null;
 	
 	public AbstractSimCalculator() {
 	}
@@ -105,6 +105,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 				singletonConceptsIdxes[objIndex++] = i;
 			}
 		}
+		rootVertex = topologicalSortingOfConceptIDs.length - 1;
 		List<Triple<Integer, Integer, Double>> edges = new ArrayList<>();
 		for (IsA derivation : classTree.edgeSet()) {
 			Integer genusIdx = indexOf(classTree.getEdgeTarget(derivation).getID());

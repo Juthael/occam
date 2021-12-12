@@ -97,7 +97,7 @@ public class ContrastModelTest {
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			double coherenceScore = tfToSimCalc.get(tF).getCoherenceScore();
-			if (Double.isNaN(coherenceScore) || coherenceScore == 0.0)
+			if (Double.isNaN(coherenceScore))
 				scoreReturned = false;
 			nbOfChecks++;
 		}

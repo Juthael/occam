@@ -9,6 +9,7 @@ import com.tregouet.occam.alg.score_calc.concept_derivation_cost.IConceptDerivat
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.utils.Functions;
 
 public class EntropyReduction implements IConceptDerivationCostCalculator {
 
@@ -35,7 +36,7 @@ public class EntropyReduction implements IConceptDerivationCostCalculator {
 		for (IConcept concept : classificationTree.vertexSet()) {
 			conceptToExtentSize.put(
 					concept, 
-					Sets.intersection(classificationTree.getAncestors(concept), singletons).size());
+					Sets.intersection(Functions.lowerSet(classificationTree, concept), singletons).size());
 		}
 		for (IsA derivation : classificationTree.edgeSet()) {
 			double genusExtentSize = 

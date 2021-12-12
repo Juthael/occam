@@ -154,13 +154,13 @@ public class TransitionFunction implements ITransitionFunction {
 	@Override
 	public int compareTo(ITransitionFunction other) {
 		if (this.getCoherenceScore() > other.getCoherenceScore())
-			return 1;
+			return -1;
 		if (this.getCoherenceScore() < other.getCoherenceScore())
-			return -1;
-		if (this.getTransitionFunctionCost() < other.getTransitionFunctionCost())
 			return 1;
-		if (this.getTransitionFunctionCost() > other.getTransitionFunctionCost())
+		if (this.getTransitionFunctionCost() < other.getTransitionFunctionCost())
 			return -1;
+		if (this.getTransitionFunctionCost() > other.getTransitionFunctionCost())
+			return 1;
 		//to prevent loss of elements in TreeSet
 		if (this.equals(other))
 			return 0;

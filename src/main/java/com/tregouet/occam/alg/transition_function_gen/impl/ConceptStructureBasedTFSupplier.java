@@ -8,7 +8,7 @@ import java.util.TreeSet;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
@@ -71,8 +71,8 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier 
 	}	
 	
 	private void populateRepresentedCategories() {
-		while (categoryTreeSupplier.hasNext()) {
-			Tree<IConcept, IsA> currCatTree = categoryTreeSupplier.nextOntologicalCommitment();
+		while (classificationSupplier.hasNext()) {
+			Tree<IConcept, IsA> currCatTree = classificationSupplier.nextOntologicalCommitment();
 			IRelatedTransFunctions currCatTreeRepresentation = new RelatedTransFunctions(currCatTree, objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);

@@ -2,7 +2,7 @@ package com.tregouet.occam.data.concepts;
 
 import java.util.Map;
 
-import com.tregouet.occam.alg.cost_calc.similarity_calc.ISimilarityCalculator;
+import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 

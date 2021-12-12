@@ -17,7 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
-import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;

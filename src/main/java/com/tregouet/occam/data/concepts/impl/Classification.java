@@ -8,12 +8,12 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
-import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
-import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.IConceptDerivationCostCalculator;
-import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.impl.DerivationCostCalculatorFactory;
-import com.tregouet.occam.alg.cost_calc.similarity_calc.ISimilarityCalculator;
-import com.tregouet.occam.alg.cost_calc.similarity_calc.impl.SimilarityCalculatorFactory;
+import com.tregouet.occam.alg.score_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
+import com.tregouet.occam.alg.score_calc.concept_derivation_cost.IConceptDerivationCostCalculator;
+import com.tregouet.occam.alg.score_calc.concept_derivation_cost.impl.DerivationCostCalculatorFactory;
+import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
+import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.score_calc.similarity_calc.impl.SimilarityCalculatorFactory;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.tree_finder.data.Tree;

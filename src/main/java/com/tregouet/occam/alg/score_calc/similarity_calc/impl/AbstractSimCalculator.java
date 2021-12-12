@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.cost_calc.similarity_calc.impl;
+package com.tregouet.occam.alg.score_calc.similarity_calc.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.jgrapht.alg.util.Triple;
 import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
 import com.google.common.primitives.Ints;
-import com.tregouet.occam.alg.cost_calc.similarity_calc.ISimilarityCalculator;
+import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;

@@ -17,7 +17,7 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;

@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
-import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
-import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
+import com.tregouet.occam.alg.score_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
+import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.Classification;
@@ -29,8 +29,7 @@ public class ClassificationSupplier implements IClassificationSupplier {
 		try {
 			this.categorySorter = new UnidimensionalSorter<>(conceptUSL);
 		} catch (IOException e) {
-			throw new IOException("ClassificationSupplier() : error." + System.lineSeparator() + e.getMessage()
-					 + System.lineSeparator() + e.getStackTrace().toString());
+			throw new IOException("ClassificationSupplier() : error." + System.lineSeparator() + e.getMessage());
 		}
 		this.singletons = singletons;
 		this.ontologicalCommitment = ontologicalCommitment;

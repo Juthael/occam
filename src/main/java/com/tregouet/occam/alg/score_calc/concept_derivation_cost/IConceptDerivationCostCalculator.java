@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.cost_calc.concept_derivation_cost;
+package com.tregouet.occam.alg.score_calc.concept_derivation_cost;
 
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;

@@ -1,11 +1,11 @@
-package com.tregouet.occam.alg.cost_calc.concept_derivation_cost.impl;
+package com.tregouet.occam.alg.score_calc.concept_derivation_cost.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.cost_calc.concept_derivation_cost.IConceptDerivationCostCalculator;
+import com.tregouet.occam.alg.score_calc.concept_derivation_cost.IConceptDerivationCostCalculator;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;

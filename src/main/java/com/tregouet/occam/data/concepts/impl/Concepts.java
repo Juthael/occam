@@ -17,10 +17,12 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IClassTreeWithConstrainedExtentStructureSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConstrainedClassificationSupplier;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.alg.conceptual_structure_gen.impl.ClassificationSupplier;
 import com.tregouet.occam.alg.conceptual_structure_gen.utils.IntentBldr;
+import com.tregouet.occam.alg.score_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
+import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
@@ -30,7 +32,6 @@ import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.data.languages.generic.ISymbol;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Variable;
-import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public class Concepts implements IConcepts {
@@ -104,12 +105,15 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public IClassificationSupplier getCatTreeSupplier() throws IOException {
-		return new ClassificationSupplier(new UnidimensionalSorter<>(conceptUSL), ontologicalCommitment);
+	public IClassificationSupplier getClassificationSupplier(ConceptDerivationCostStrategy derivationCostStrategy,	
+			SimilarityCalculationStrategy similarityStrategy) throws IOException {
+		return new ClassificationSupplier(
+				conceptUSL, singletons, ontologicalCommitment, derivationCostStrategy, similarityStrategy);
 	}
 
 	@Override
-	public IClassTreeWithConstrainedExtentStructureSupplier getCatTreeSupplier(IExtentStructureConstraint constraint) {
+	public IConstrainedClassificationSupplier getConstrainedClassificationSupplier(
+			IExtentStructureConstraint constraint) {
 		// TODO Auto-generated method stub
 		return null;
 	}

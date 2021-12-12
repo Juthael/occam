@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
-import com.tregouet.occam.alg.cost_calc.similarity_calc.ISimilarityCalculator;
+import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;

@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.cost_calc.concept_derivation_cost;
+package com.tregouet.occam.alg.score_calc.concept_derivation_cost;
 
 public enum ConceptDerivationCostStrategy {
 	

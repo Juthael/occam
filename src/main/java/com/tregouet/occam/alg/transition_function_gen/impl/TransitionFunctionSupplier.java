@@ -6,7 +6,8 @@ import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
-import com.tregouet.occam.alg.cost_calc.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.score_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
+import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
@@ -20,17 +21,16 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	protected static final int MAX_CAPACITY = 50;
 	
 	protected final IConcepts concepts;
-	protected final IClassificationSupplier categoryTreeSupplier;
+	protected final IClassificationSupplier classificationSupplier;
 	protected final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs;
-	protected final SimilarityCalculationStrategy simCalculationStrategy;
 	
 	public TransitionFunctionSupplier(IConcepts concepts, 
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
+			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs,
+			ConceptDerivationCostStrategy derivationCostStrategy,
 			SimilarityCalculationStrategy simCalculationStrategy) throws IOException {
 		this.concepts = concepts;
-		categoryTreeSupplier = concepts.getCatTreeSupplier();
+		classificationSupplier = concepts.getClassificationSupplier(derivationCostStrategy, simCalculationStrategy);
 		this.constructs = constructs;
-		this.simCalculationStrategy = simCalculationStrategy;
 	}
 
 	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(

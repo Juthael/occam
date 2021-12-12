@@ -1,10 +1,10 @@
-package com.tregouet.occam.alg.cost_calc.similarity_calc.impl;
+package com.tregouet.occam.alg.score_calc.similarity_calc.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.cost_calc.similarity_calc.ISimilarityCalculator;
+import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
 import com.tregouet.occam.data.concepts.IClassification;
 
 public class RatioModel extends AbstractSimCalculator implements ISimilarityCalculator {

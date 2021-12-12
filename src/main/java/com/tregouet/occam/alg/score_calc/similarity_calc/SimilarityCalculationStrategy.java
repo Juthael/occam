@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.cost_calc;
+package com.tregouet.occam.alg.score_calc.similarity_calc;
 
 public enum SimilarityCalculationStrategy {
 	

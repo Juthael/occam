@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
-import com.tregouet.occam.alg.score_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
-import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.Classification;
@@ -20,12 +18,9 @@ public class ClassificationSupplier implements IClassificationSupplier {
 	private final IUnidimensionalSorter<IConcept, IsA> categorySorter;
 	private final List<IConcept> singletons;
 	private final IConcept ontologicalCommitment;
-	private final ConceptDerivationCostStrategy derivationCostStrategy;
-	private final SimilarityCalculationStrategy similarityStrategy;
 	
 	public ClassificationSupplier(UpperSemilattice<IConcept, IsA> conceptUSL, List<IConcept> singletons,
-			IConcept ontologicalCommitment, ConceptDerivationCostStrategy derivationCostStrategy,	
-			SimilarityCalculationStrategy similarityStrategy) throws IOException {
+			IConcept ontologicalCommitment) throws IOException {
 		try {
 			this.categorySorter = new UnidimensionalSorter<>(conceptUSL);
 		} catch (IOException e) {
@@ -33,8 +28,6 @@ public class ClassificationSupplier implements IClassificationSupplier {
 		}
 		this.singletons = singletons;
 		this.ontologicalCommitment = ontologicalCommitment;
-		this.derivationCostStrategy = derivationCostStrategy;
-		this.similarityStrategy = similarityStrategy;
 	}
 
 	@Override
@@ -45,7 +38,7 @@ public class ClassificationSupplier implements IClassificationSupplier {
 	@Override
 	public IClassification next() {
 		return new Classification(IClassificationSupplier.commit(categorySorter.next(), ontologicalCommitment), 
-				singletons, derivationCostStrategy, similarityStrategy);
+				singletons);
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import com.tregouet.occam.data.abstract_machines.functions.impl.RelatedTransFunc
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
@@ -24,7 +25,8 @@ import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestr
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
-public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier implements IConceptStructureBasedTFSupplier {
+public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier 
+	implements IConceptStructureBasedTFSupplier {
 
 	private final TreeSet<IRelatedTransFunctions> representedCategories = new TreeSet<>();
 	private final Map<IConcept, String> objectCategoryToName = new HashMap<>();
@@ -33,7 +35,7 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier 
 	public ConceptStructureBasedTFSupplier(IConcepts concepts, 
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
 			SimilarityCalculationStrategy simCalculationStrategy) throws IOException {
-		super(concepts, constructs, simCalculationStrategy);
+		super(concepts, constructs);
 		populateRepresentedCategories();
 		for (IConcept objCat : concepts.getSingletonConcept())
 			objectCategoryToName.put(objCat, objCat.getExtent().iterator().next().getName());
@@ -72,24 +74,26 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier 
 	
 	private void populateRepresentedCategories() {
 		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IsA> currCatTree = classificationSupplier.nextOntologicalCommitment();
-			IRelatedTransFunctions currCatTreeRepresentation = new RelatedTransFunctions(currCatTree, objectCategoryToName);
+			IClassification currClassification = classificationSupplier.next();
+			IRelatedTransFunctions currCatTreeRepresentation = new RelatedTransFunctions(
+					currClassification.getClassificationTree(), objectCategoryToName);
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
-					getConstructGraphFilteredByCategoryTree(currCatTree, constructs);
+					getConstructGraphFilteredByCategoryTree(
+							currClassification.getClassificationTree(), constructs);
 			IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> attTreeSupplier = 
 					new RestrictorOpt<>(filteredConstructGraph, true);
 			while (attTreeSupplier.hasNext()) {
 				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = new TransitionFunction(
-						concepts.getContextObjects(), concepts.getSingletonConcept(), 
-						currCatTree, attTree, simCalculationStrategy);
+						currClassification, attTree);
 				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE))
 					currCatTreeRepresentation.testAlternativeRepresentation(transitionFunction);
 			}
 			if (currCatTreeRepresentation.isValid()) {
 				if (representedCategories.size() <= MAX_CAPACITY)
 					representedCategories.add(currCatTreeRepresentation);	
-				else if (currCatTreeRepresentation.getCoherenceScore() > representedCategories.last().getCoherenceScore()) {
+				else if (currCatTreeRepresentation.getCoherenceScore() 
+							> representedCategories.last().getCoherenceScore()) {
 					representedCategories.add(currCatTreeRepresentation);
 					representedCategories.pollLast();
 				}

@@ -24,13 +24,16 @@ import org.junit.Test;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
 import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
-import com.tregouet.occam.alg.score_calc.similarity_calc.impl.RatioModelDep;
+import com.tregouet.occam.alg.score_calc.similarity_calc.impl.ContrastModel;
+import com.tregouet.occam.alg.score_calc.similarity_calc.impl.RatioModel;
+import com.tregouet.occam.alg.score_calc.similarity_calc.impl.SimilarityCalculatorFactory;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
@@ -75,17 +78,17 @@ public class RatioModelTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationSupplier = concepts.getCatTreeSupplier();
+		classificationSupplier = concepts.getClassificationSupplier();
 		while (classificationSupplier.hasNext()) {
-			catTree = classificationSupplier.nextOntologicalCommitment();
+			IClassification currClassification = classificationSupplier.next();
+			catTree = currClassification.getClassificationTree();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(shapes2Obj, concepts.getSingletonConcept(), catTree, constrTree, 
-								SIM_CALCULATION_STRATEGY);
+						new TransitionFunction(currClassification, constrTree);
 				transitionFunctions.add(transitionFunction);
 				/*
 				Visualizer.visualizeTransitionFunction(transitionFunction, "2109110911_tf", 
@@ -116,7 +119,8 @@ public class RatioModelTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			RatioModelDep calculator = (RatioModelDep) tF.getSimilarityCalculator();
+			RatioModel calculator = (RatioModel) SimilarityCalculatorFactory.INSTANCE.apply(
+					SimilarityCalculationStrategy.RATIO_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -152,7 +156,8 @@ public class RatioModelTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			RatioModelDep calculator = (RatioModelDep) tF.getSimilarityCalculator();
+			RatioModel calculator = (RatioModel) SimilarityCalculatorFactory.INSTANCE.apply(
+					SimilarityCalculationStrategy.RATIO_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -188,7 +193,8 @@ public class RatioModelTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			RatioModelDep calculator = (RatioModelDep) tF.getSimilarityCalculator();
+			RatioModel calculator = (RatioModel) SimilarityCalculatorFactory.INSTANCE.apply(
+					SimilarityCalculationStrategy.RATIO_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -253,9 +259,11 @@ public class RatioModelTest {
 			for (int i = 0 ; i < leavesID.length ; i++) {
 				leavesID[i] = leaves.get(i).getID();
 			}
-			RatioModelDep calculator = (RatioModelDep) tfToSimCalc.get(tF);
+			RatioModel calculator = 
+					(RatioModel) SimilarityCalculatorFactory.INSTANCE.apply(
+							SimilarityCalculationStrategy.RATIO_MODEL).input(tF.getClassification());
 			for (Integer leafID : leavesID) {
-				Set<Integer> returnedEdges = calculator.getReacheableEdgesFrom(leafID.intValue());
+				Set<Integer> returnedEdges = new HashSet<>(calculator.getEdgeChainToRootFrom(leafID.intValue()));
 				Set<Integer> expectedEdges = new HashSet<>();
 				AllDirectedPaths<Integer, Integer> pathFinder = new AllDirectedPaths<>(calculator.getSparseGraph());
 				List<GraphPath<Integer, Integer>> paths = 

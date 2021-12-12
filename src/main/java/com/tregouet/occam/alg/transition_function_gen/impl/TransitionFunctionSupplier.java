@@ -25,11 +25,9 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	protected final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs;
 	
 	public TransitionFunctionSupplier(IConcepts concepts, 
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs,
-			ConceptDerivationCostStrategy derivationCostStrategy,
-			SimilarityCalculationStrategy simCalculationStrategy) throws IOException {
+			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) throws IOException {
 		this.concepts = concepts;
-		classificationSupplier = concepts.getClassificationSupplier(derivationCostStrategy, simCalculationStrategy);
+		classificationSupplier = concepts.getClassificationSupplier();
 		this.constructs = constructs;
 	}
 

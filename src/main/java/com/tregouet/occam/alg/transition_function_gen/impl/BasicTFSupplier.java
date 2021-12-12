@@ -25,10 +25,9 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	private Iterator<ITransitionFunction> ite;
 	
-	public BasicTFSupplier(IConcepts concepts, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs, 
-			ConceptDerivationCostStrategy derivationCostStrategy, 
-			SimilarityCalculationStrategy simCalculationStrategy) throws IOException {
-		super(concepts, constructs, derivationCostStrategy, simCalculationStrategy);
+	public BasicTFSupplier(IConcepts concepts, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) 
+			throws IOException {
+		super(concepts, constructs);
 		populateTransitionFunctions();
 		ite = transitionFunctions.iterator();
 	}

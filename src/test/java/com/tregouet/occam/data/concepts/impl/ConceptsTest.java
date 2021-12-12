@@ -121,7 +121,7 @@ public class ConceptsTest {
 	public void whenCatTreeSupplierRequestedThenReturned() {
 		IClassificationSupplier classificationSupplier = null;
 		try {
-			classificationSupplier = concepts.getCatTreeSupplier();
+			classificationSupplier = concepts.getClassificationSupplier();
 		}
 		catch (Exception e) {
 			assertTrue(false);
@@ -311,10 +311,10 @@ public class ConceptsTest {
 	
 	@Test
 	public void whenTreeSuppliedThenReallyIsATree() throws IOException {
-		IClassificationSupplier treeSupplier = concepts.getCatTreeSupplier();
+		IClassificationSupplier classificationSupplier = concepts.getClassificationSupplier();
 		int nbOfChecks = 0;
-		while (treeSupplier.hasNext()) {
-			Tree<IConcept, IsA> nextTree = treeSupplier.nextOntologicalCommitment();
+		while (classificationSupplier.hasNext()) {
+			Tree<IConcept, IsA> nextTree = classificationSupplier.next().getClassificationTree();
 			/*
 			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
 			*/

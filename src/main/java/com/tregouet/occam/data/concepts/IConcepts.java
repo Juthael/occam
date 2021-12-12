@@ -28,8 +28,7 @@ public interface IConcepts {
 	
 	DirectedAcyclicGraph<IConcept, IsA> getCategoryLattice();
 	
-	IClassificationSupplier getClassificationSupplier(ConceptDerivationCostStrategy derivationCostStrategy,	
-			SimilarityCalculationStrategy similarityStrategy) throws IOException;
+	IClassificationSupplier getClassificationSupplier() throws IOException;
 	
 	IConstrainedClassificationSupplier getConstrainedClassificationSupplier(IExtentStructureConstraint constraint);
 	

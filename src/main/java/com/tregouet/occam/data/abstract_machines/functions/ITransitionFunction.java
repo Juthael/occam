@@ -12,6 +12,7 @@ import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
+import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
@@ -25,6 +26,8 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	double[][] getAsymmetricalSimilarityMatrix();
 	
 	Tree<IConcept, IsA> getCategoryTree();
+	
+	IClassification getClassification();
 	
 	String getCategoryTreeAsDOTFile();
 	
@@ -58,5 +61,7 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	int hashCode();
 	
 	boolean validate(Predicate<ITransitionFunction> validator);
+	
+	double getTransitionFunctionCost();
 
 }

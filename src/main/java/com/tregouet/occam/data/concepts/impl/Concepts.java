@@ -105,10 +105,9 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public IClassificationSupplier getClassificationSupplier(ConceptDerivationCostStrategy derivationCostStrategy,	
-			SimilarityCalculationStrategy similarityStrategy) throws IOException {
+	public IClassificationSupplier getClassificationSupplier() throws IOException {
 		return new ClassificationSupplier(
-				conceptUSL, singletons, ontologicalCommitment, derivationCostStrategy, similarityStrategy);
+				conceptUSL, singletons, ontologicalCommitment);
 	}
 
 	@Override

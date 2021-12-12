@@ -56,7 +56,7 @@ public class TransitionFunctionSupplierTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationSupplier = concepts.getCatTreeSupplier();
+		classificationSupplier = concepts.getClassificationSupplier();
 	}
 
 	@Test
@@ -64,7 +64,7 @@ public class TransitionFunctionSupplierTest {
 			throws IOException {
 		boolean expectedSetOfCategories = true;
 		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IsA> catTree = classificationSupplier.nextOntologicalCommitment();
+			Tree<IConcept, IsA> catTree = classificationSupplier.next().getClassificationTree();
 			Set<IConcept> expectedCats = catTree.vertexSet();
 			Set<IConcept> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
@@ -76,7 +76,8 @@ public class TransitionFunctionSupplierTest {
 			if (!expectedCats.equals(returnedCats)) {
 				Set<IConcept> conceptsNotFound = Sets.difference(expectedCats, returnedCats);
 				for (IConcept notFound : conceptsNotFound) {
-					if (!notFound.isComplementary() && ((IComplementaryConcept) notFound).getEmbeddedConcept() != null)
+					if (!notFound.isComplementary() && 
+							((IComplementaryConcept) notFound).getEmbeddedConcept() != null)
 						expectedSetOfCategories = false;
 				}
 			}
@@ -89,7 +90,7 @@ public class TransitionFunctionSupplierTest {
 	public void whenConstructGraphIsFilteredByConceptTreeThenSetOfContainingConceptsIsConceptTreeMinusFramingConcepts() {
 		boolean expectedSetOfCategories = true;
 		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IsA> catTree = classificationSupplier.nextOntologicalCommitment();
+			Tree<IConcept, IsA> catTree = classificationSupplier.next().getClassificationTree();
 			Set<IConcept> expectedCats = catTree.vertexSet();
 			Set<IConcept> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
@@ -100,7 +101,8 @@ public class TransitionFunctionSupplierTest {
 			if (!expectedCats.equals(returnedCats)) {
 				Set<IConcept> conceptsNotFound = Sets.difference(expectedCats, returnedCats);
 				for (IConcept notFound : conceptsNotFound) {
-					if (!notFound.isComplementary() && ((IComplementaryConcept) notFound).getEmbeddedConcept() != null)
+					if (!notFound.isComplementary() 
+							&& ((IComplementaryConcept) notFound).getEmbeddedConcept() != null)
 						expectedSetOfCategories = false;
 				}
 			}
@@ -113,7 +115,7 @@ public class TransitionFunctionSupplierTest {
 		boolean sourceAndTargetCatsAreRelated = true;
 		int checkCount = 0;
 		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IsA> catTree = classificationSupplier.nextOntologicalCommitment();
+			Tree<IConcept, IsA> catTree = classificationSupplier.next().getClassificationTree();
 			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
@@ -132,7 +134,7 @@ public class TransitionFunctionSupplierTest {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
 		while (classificationSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			Tree<IConcept, IsA> catTree = classificationSupplier.nextOntologicalCommitment();
+			Tree<IConcept, IsA> catTree = classificationSupplier.next().getClassificationTree();
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			*/

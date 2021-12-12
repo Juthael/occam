@@ -47,7 +47,7 @@ public class CatTreeToStringConvertorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		classificationSupplier = concepts.getCatTreeSupplier();
+		classificationSupplier = concepts.getClassificationSupplier();
 	}
 
 	@Test
@@ -62,7 +62,7 @@ public class CatTreeToStringConvertorTest {
 		int treeIdx = 0;
 		*/
 		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IsA> currTree = classificationSupplier.nextOntologicalCommitment();
+			Tree<IConcept, IsA> currTree = classificationSupplier.next().getClassificationTree();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/

@@ -58,7 +58,7 @@ public class BasicTFSupplierTest {
 			throws IOException {
 		boolean increasingOrder = true;
 		int checkCount = 1;
-		IBasicTFSupplier transFuncSupplier = new BasicTFSupplier(concepts, constructs, SIM_CALCULATION_STRATEGY);
+		IBasicTFSupplier transFuncSupplier = new BasicTFSupplier(concepts, constructs);
 		ITransitionFunction tF = transFuncSupplier.next();
 		double prevScore = tF.getCoherenceScore();
 		/*

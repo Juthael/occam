@@ -32,6 +32,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.BlankProduction;
+import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
@@ -61,7 +62,6 @@ public class TransitionFunctionTest {
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IClassificationSupplier classificationSupplier;
-	private Tree<IConcept, IsA> catTree;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
 	private Tree<IIntentAttribute, IProduction> constrTree;
@@ -82,17 +82,17 @@ public class TransitionFunctionTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationSupplier = concepts.getCatTreeSupplier();
+		classificationSupplier = concepts.getClassificationSupplier();
 		while (classificationSupplier.hasNext()) {
-			catTree = classificationSupplier.nextOntologicalCommitment();
+			IClassification currClassification  = classificationSupplier.next();
 			filtered_reduced_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(
+							currClassification.getClassificationTree(), constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(objects, concepts.getSingletonConcept(), catTree, constrTree, 
-								SIM_CALC_STRATEGY);
+						new TransitionFunction(currClassification, constrTree);
 				transitionFunctions.add(transitionFunction);
 			}
 		}

@@ -1,4 +1,4 @@
-package com.tregouet.occam.dep.cost_calculation.similarity_calculation.impl;
+package com.tregouet.occam.alg.score_calc.similarity_calc.impl;
 
 import static org.junit.Assert.*;
 
@@ -24,13 +24,12 @@ import org.junit.Test;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
 import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
-import com.tregouet.occam.alg.score_calc.similarity_calc.impl.ContrastModelDep;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
@@ -38,17 +37,13 @@ import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
-@SuppressWarnings("unused")
 public class ContrastModelTest {
-
+	
 	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
-	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
-			SimilarityCalculationStrategy.CONTRAST_MODEL;
 	private static List<IContextObject> shapes2Obj;
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
@@ -60,7 +55,7 @@ public class ContrastModelTest {
 	private Tree<IIntentAttribute, IProduction> constrTree;
 	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	private Map<ITransitionFunction, ISimilarityCalculator> tfToSimCalc = new HashMap<>();
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
@@ -75,17 +70,17 @@ public class ContrastModelTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationSupplier = concepts.getCatTreeSupplier();
+		classificationSupplier = concepts.getClassificationSupplier();
 		while (classificationSupplier.hasNext()) {
-			catTree = classificationSupplier.nextOntologicalCommitment();
+			IClassification currClassification = classificationSupplier.next();
+			catTree = currClassification.getClassificationTree();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(shapes2Obj, concepts.getSingletonConcept(), catTree, constrTree, 
-								SIM_CALCULATION_STRATEGY);
+						new TransitionFunction(currClassification, constrTree);
 				transitionFunctions.add(transitionFunction);
 				/*
 				Visualizer.visualizeTransitionFunction(transitionFunction, "2109110911_tf", 
@@ -115,7 +110,9 @@ public class ContrastModelTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			ContrastModelDep calculator = (ContrastModelDep) tF.getSimilarityCalculator();
+			ContrastModel calculator = 
+					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
+							SimilarityCalculationStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -151,7 +148,9 @@ public class ContrastModelTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			ContrastModelDep calculator = (ContrastModelDep) tF.getSimilarityCalculator();
+			ContrastModel calculator = 
+					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
+							SimilarityCalculationStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -180,14 +179,16 @@ public class ContrastModelTest {
 			}
 		}
 		assertTrue(returned && nbOfChecks > 0);
-	}
+	}	
 	
 	@Test
 	public void whenPrototypicalityOfAnObjectRequestedThenReturned() throws IOException {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			ContrastModelDep calculator = (ContrastModelDep) tF.getSimilarityCalculator();
+			ContrastModel calculator = 
+					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
+							SimilarityCalculationStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -212,7 +213,7 @@ public class ContrastModelTest {
 			}
 		}
 		assertTrue(returned && nbOfChecks > 0);
-	}
+	}	
 	
 	@Test
 	public void whenProtoypicalityOfACategoryAmongACategorySubsetRequestedThenReturned() {
@@ -221,7 +222,9 @@ public class ContrastModelTest {
 		Iterator<ITransitionFunction> tFIte = transitionFunctions.iterator();
 		while (tFIte.hasNext() && nbOfChecks < 50000) {
 			ITransitionFunction tF = tFIte.next();
-			ISimilarityCalculator calculator = tF.getSimilarityCalculator();
+			ContrastModel calculator = 
+					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
+							SimilarityCalculationStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			List<IConcept> categorySet = tF.getCategoryTree().getTopologicalOrder();
 			List<List<IConcept>> categoryPowerSet = buildCategoryPowerSet(categorySet);
 			for (IConcept cat : categorySet) {
@@ -239,7 +242,7 @@ public class ContrastModelTest {
 			}
 		}
 		assertTrue(returned && nbOfChecks > 0);
-	}
+	}	
 	
 	@Test
 	public void whenReacheableEdgesRequestedThenExpectedReturned() {
@@ -252,9 +255,11 @@ public class ContrastModelTest {
 			for (int i = 0 ; i < leavesID.length ; i++) {
 				leavesID[i] = leaves.get(i).getID();
 			}
-			ContrastModelDep calculator = (ContrastModelDep) tfToSimCalc.get(tF);
+			ContrastModel calculator = 
+					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
+							SimilarityCalculationStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			for (Integer leafID : leavesID) {
-				Set<Integer> returnedEdges = calculator.getReacheableEdgesFrom(leafID.intValue());
+				Set<Integer> returnedEdges = new HashSet<>(calculator.getEdgeChainToRootFrom(leafID.intValue()));
 				Set<Integer> expectedEdges = new HashSet<>();
 				AllDirectedPaths<Integer, Integer> pathFinder = new AllDirectedPaths<>(calculator.getSparseGraph());
 				List<GraphPath<Integer, Integer>> paths = 
@@ -267,7 +272,7 @@ public class ContrastModelTest {
 			}
 		}
 		assertTrue(asExpected && nbOfChecks > 0);
-	}
+	}	
 	
 	private List<List<IConcept>> buildCategoryPowerSet(List<IConcept> categorySet) {
 	    List<List<IConcept>> powerSet = new ArrayList<>();
@@ -280,6 +285,6 @@ public class ContrastModelTest {
 	        powerSet.add(subset);
 	    }
 	    return powerSet;
-	}
+	}	
 
 }

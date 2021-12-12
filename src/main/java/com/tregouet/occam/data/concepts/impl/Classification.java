@@ -8,12 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.score_calc.concept_derivation_cost.ConceptDerivationCostStrategy;
+import com.tregouet.occam.alg.score_calc.CalculatorFactory;
 import com.tregouet.occam.alg.score_calc.concept_derivation_cost.IConceptDerivationCostCalculator;
-import com.tregouet.occam.alg.score_calc.concept_derivation_cost.impl.DerivationCostCalculatorFactory;
 import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
-import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
-import com.tregouet.occam.alg.score_calc.similarity_calc.impl.SimilarityCalculatorFactory;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.tree_finder.data.Tree;
@@ -29,12 +26,11 @@ public class Classification implements IClassification {
 	private double[][] asymmetricalSimilarityMatrix = null;
 	private final double coherenceScore;
 	
-	public Classification(Tree<IConcept, IsA> classificationTree, List<IConcept> singletons, 
-			ConceptDerivationCostStrategy costStrategy,	SimilarityCalculationStrategy similarityStrategy) {
+	public Classification(Tree<IConcept, IsA> classificationTree, List<IConcept> singletons) {
 		this.classificationTree = classificationTree;
 		this.singletons = singletons;
-		costCalc = DerivationCostCalculatorFactory.apply(costStrategy).input(classificationTree);
-		similarityCalc = SimilarityCalculatorFactory.apply(similarityStrategy).input(this);
+		costCalc = CalculatorFactory.INSTANCE.getConceptDerivationCostCalculator().input(classificationTree);
+		similarityCalc = CalculatorFactory.INSTANCE.getSimilarityCalculator().input(this);
 		coherenceScore = similarityCalc.getCoherenceScore();
 	}
 

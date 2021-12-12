@@ -24,6 +24,7 @@ import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
@@ -68,17 +69,17 @@ public class TransitionFunctionValidatorTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationSupplier = concepts.getCatTreeSupplier();
+		classificationSupplier = concepts.getClassificationSupplier();
 		while (classificationSupplier.hasNext()) {
-			catTree = classificationSupplier.nextOntologicalCommitment();
+			IClassification currClassification = classificationSupplier.next();
+			catTree = currClassification.getClassificationTree();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(shapes1Obj, concepts.getSingletonConcept(), catTree, constrTree, 
-								SIM_CALC_STRATEGY);
+						new TransitionFunction(currClassification, constrTree);
 				transitionFunctions.add(transitionFunction);
 			}
 		}

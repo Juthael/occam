@@ -17,6 +17,7 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
+import com.tregouet.occam.alg.score_calc.CalculatorFactory;
 import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
@@ -47,6 +48,7 @@ public class TransitionFunction implements ITransitionFunction {
 	private final List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
 	private DirectedMultigraph<IState, ITransition> finiteAutomatonMultigraph = null;
 	private SimpleDirectedGraph<IState, IConjunctiveTransition> finiteAutomatonGraph = null;
+	private Double cost = null;
 	
 	public TransitionFunction(IClassification classification, Tree<IIntentAttribute, IProduction> constructs) {
 		ITransition.initializeNameProvider();
@@ -152,13 +154,17 @@ public class TransitionFunction implements ITransitionFunction {
 	@Override
 	public int compareTo(ITransitionFunction other) {
 		if (this.getCoherenceScore() > other.getCoherenceScore())
-			return -1;
-		if (this.getCoherenceScore() < other.getCoherenceScore())
 			return 1;
+		if (this.getCoherenceScore() < other.getCoherenceScore())
+			return -1;
+		if (this.getTransitionFunctionCost() < other.getTransitionFunctionCost())
+			return 1;
+		if (this.getTransitionFunctionCost() > other.getTransitionFunctionCost())
+			return -1;
 		//to prevent loss of elements in TreeSet
 		if (this.equals(other))
 			return 0;
-		return 1;
+		return System.identityHashCode(this) - System.identityHashCode(other);
 	}
 
 	@Override
@@ -384,6 +390,19 @@ public class TransitionFunction implements ITransitionFunction {
 			reframers.addAll(buildReframers(nextRelation, nextComplementedStatesIDs));
 		}
 		return reframers;
+	}
+
+	@Override
+	public double getTransitionFunctionCost() {
+		if (cost == null) {
+			cost = CalculatorFactory.INSTANCE.getTransitionFunctionCostCalculator().apply(this);
+		}
+		return cost;
+	}
+
+	@Override
+	public IClassification getClassification() {
+		return classification;
 	}
 
 }

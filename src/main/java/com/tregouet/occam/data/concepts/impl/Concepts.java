@@ -98,7 +98,7 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public DirectedAcyclicGraph<IConcept, IsA> getCategoryLattice() {
+	public DirectedAcyclicGraph<IConcept, IsA> getConceptLattice() {
 		return lattice;
 	}
 

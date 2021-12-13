@@ -25,7 +25,7 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	double[][] getAsymmetricalSimilarityMatrix();
 	
-	Tree<IConcept, IsA> getCategoryTree();
+	Tree<IConcept, IsA> getConceptTree();
 	
 	String getCategoryTreeAsDOTFile();
 	

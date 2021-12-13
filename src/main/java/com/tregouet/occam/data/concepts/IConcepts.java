@@ -24,7 +24,7 @@ public interface IConcepts {
 	
 	IConcept getAbsurdity();
 	
-	DirectedAcyclicGraph<IConcept, IsA> getCategoryLattice();
+	DirectedAcyclicGraph<IConcept, IsA> getConceptLattice();
 	
 	IClassificationSupplier getClassificationSupplier() throws IOException;
 	

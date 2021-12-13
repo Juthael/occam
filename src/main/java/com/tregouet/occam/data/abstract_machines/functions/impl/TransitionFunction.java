@@ -192,7 +192,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public Tree<IConcept, IsA> getCategoryTree() {
+	public Tree<IConcept, IsA> getConceptTree() {
 		return classification.getClassificationTree();
 	}
 

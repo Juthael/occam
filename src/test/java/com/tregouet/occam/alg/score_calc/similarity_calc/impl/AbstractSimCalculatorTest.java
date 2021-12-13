@@ -92,8 +92,8 @@ public class AbstractSimCalculatorTest {
 		boolean asExpected = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			int rootID = tF.getCategoryTree().getRoot().getID();
-			List<IConcept> leaves = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			int rootID = tF.getConceptTree().getRoot().getID();
+			List<IConcept> leaves = new ArrayList<>(tF.getConceptTree().getLeaves());
 			int[] leavesID = new int[leaves.size()];
 			for (int i = 0 ; i < leavesID.length ; i++) {
 				leavesID[i] = leaves.get(i).getID();

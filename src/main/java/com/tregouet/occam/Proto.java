@@ -6,13 +6,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-import com.tregouet.occam.io.output.IRepresentation;
-import com.tregouet.occam.io.output.impl.Representation;
+import com.tregouet.occam.io.output.IRepresentationDisplayer;
+import com.tregouet.occam.io.output.impl.RepresentationDisplayer;
 
 public class Proto {
 
 	private static final String NL = System.lineSeparator();
-	private IRepresentation representations;
+	private IRepresentationDisplayer representationDisplayer;
 	private final Scanner entry = new Scanner(System.in);
 	private String folderPath = null;
 	
@@ -35,10 +35,10 @@ public class Proto {
 		String inputPathString = entry.nextLine();
 		if (isValidPath(inputPathString)) {
 			Path inputPath = Paths.get(inputPathString);
-			representations = new Representation(folderPath);
+			representationDisplayer = new RepresentationDisplayer(folderPath);
 			try {
-				representations.whatIsThere(inputPath);
-				representations.generateHTML();
+				representationDisplayer.represent(inputPath);
+				representationDisplayer.generateHTML();
 				outputMenu();
 			} catch (IOException e) {
 				System.out.println("An error has occurred." + NL);
@@ -100,8 +100,8 @@ public class Proto {
 	private void nextCategoricalStructure() {
 		System.out.println(NL);
 		try {
-			representations.nextCategoryTree();
-			representations.generateHTML();
+			representationDisplayer.nextConceptTree();
+			representationDisplayer.generateHTML();
 		} catch (IOException e) {
 			System.out.println("An error has occurred." + NL);
 			e.printStackTrace();
@@ -114,8 +114,8 @@ public class Proto {
 	private void nextTransitionFunction() {
 		System.out.println(NL);
 		try {
-			representations.nextTransitionFunctionOverCurrentCategoricalStructure();
-			representations.generateHTML();
+			representationDisplayer.nextTransitionFunctionOverCurrentCategoricalStructure();
+			representationDisplayer.generateHTML();
 		} catch (IOException e) {
 			System.out.println("An error has occurred." + NL);
 			e.printStackTrace();
@@ -128,8 +128,8 @@ public class Proto {
 	
 	private void outputMenu() {
 		System.out.println(NL);
-		if (representations.hasNextCategoricalStructure() 
-				&& representations.hasNextTransitionFunctionOverCurrentCategoricalStructure()) {
+		if (representationDisplayer.hasNextConceptualStructure() 
+				&& representationDisplayer.hasNextTransitionFunctionOverCurrentConceptualStructure()) {
 			System.out.println("1 : generate a new transition function based on the current categorical structure." + NL);
 			System.out.println("2 : generate a new transition function based on a new categorical structure." + NL);
 			System.out.println("3 : back to main menu." + NL);
@@ -148,7 +148,7 @@ public class Proto {
 				break;
 			}
 		}
-		else if (representations.hasNextCategoricalStructure()) {
+		else if (representationDisplayer.hasNextConceptualStructure()) {
 			System.out.println("No additional transition function can be generated from the current "
 					+ "categorical structure." + NL);
 			System.out.println("1 : generate a new transition function based on a new categorical structure." + NL);
@@ -166,7 +166,7 @@ public class Proto {
 				break;
 			}
 		}
-		else if (representations.hasNextTransitionFunctionOverCurrentCategoricalStructure()) {
+		else if (representationDisplayer.hasNextTransitionFunctionOverCurrentConceptualStructure()) {
 			System.out.println("No additional categorical structure can be generated." + NL);
 			System.out.println("1 : generate a new transition function based on the current categorical structure." 
 					+ NL);

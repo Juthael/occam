@@ -17,8 +17,10 @@ import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.concepts.IIntentAttribute;
 import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.tree_finder.data.Tree;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -66,7 +68,32 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}	
 	
-	public static void visualizeCategoryGraph(DirectedAcyclicGraph<IConcept, IsA> graph, String fileName) 
+	public static void vizualizeGenusDifferentiaTree(Tree<IConcept, IGenusDifferentiaDefinition> prophyrianTree, 
+			String fileName) throws IOException {
+		//convert in DOT format
+		DOTExporter<IConcept,IGenusDifferentiaDefinition> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
+		exporter.setVertexAttributeProvider((v) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(v.toString()));
+			return map;
+		});
+		Writer writer = new StringWriter();
+		exporter.exportGraph(prophyrianTree, writer);
+		String stringDOT = writer.toString();
+		/*
+		 System.out.println(writer.toString());
+		 */
+		//display graph
+		MutableGraph dotGraph = new Parser().read(stringDOT);
+		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
+	}
+	
+	public static void visualizeConceptGraph(DirectedAcyclicGraph<IConcept, IsA> graph, String fileName) 
 			throws IOException {
 		//convert in DOT format
 		DOTExporter<IConcept,IsA> exporter = new DOTExporter<>();

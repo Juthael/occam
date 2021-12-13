@@ -142,7 +142,7 @@ public class ConceptsTest {
 	
 	@Test
 	public void categoryLatticeReturnedThenReallyIsALattice() {
-		DirectedAcyclicGraph<IConcept, IsA> lattice = concepts.getCategoryLattice();
+		DirectedAcyclicGraph<IConcept, IsA> lattice = concepts.getConceptLattice();
 		assertTrue(StructureInspector.isAnUpperSemilattice(lattice) 
 				&& StructureInspector.isALowerSemilattice(lattice)
 				&& !lattice.vertexSet().isEmpty());

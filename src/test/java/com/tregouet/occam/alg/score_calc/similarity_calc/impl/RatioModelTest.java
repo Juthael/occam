@@ -117,7 +117,7 @@ public class RatioModelTest {
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
-			List<IConcept> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			List<IConcept> objects = new ArrayList<>(tF.getConceptTree().getLeaves());
 			int[] objectIDs = new int[objects.size()];
 			for (int i = 0 ; i < objectIDs.length ; i++) {
 				objectIDs[i] = objects.get(i).getID();
@@ -154,7 +154,7 @@ public class RatioModelTest {
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
-			List<IConcept> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			List<IConcept> objects = new ArrayList<>(tF.getConceptTree().getLeaves());
 			int[] objectIDs = new int[objects.size()];
 			for (int i = 0 ; i < objectIDs.length ; i++) {
 				objectIDs[i] = objects.get(i).getID();
@@ -191,7 +191,7 @@ public class RatioModelTest {
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
-			List<IConcept> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			List<IConcept> objects = new ArrayList<>(tF.getConceptTree().getLeaves());
 			int[] objectIDs = new int[objects.size()];
 			for (int i = 0 ; i < objectIDs.length ; i++) {
 				objectIDs[i] = objects.get(i).getID();				
@@ -220,7 +220,7 @@ public class RatioModelTest {
 		while (tFIte.hasNext() && nbOfChecks < 50000) {
 			ITransitionFunction tF = tFIte.next();
 			ISimilarityCalculator calculator = tF.getSimilarityCalculator();
-			List<IConcept> categorySet = tF.getCategoryTree().getTopologicalOrder();
+			List<IConcept> categorySet = tF.getConceptTree().getTopologicalOrder();
 			List<List<IConcept>> categoryPowerSet = buildCategoryPowerSet(categorySet);
 			for (IConcept cat : categorySet) {
 				for (List<IConcept> subset : categoryPowerSet) {

@@ -117,7 +117,7 @@ public class ContrastModelTest {
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
-			List<IConcept> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			List<IConcept> objects = new ArrayList<>(tF.getConceptTree().getLeaves());
 			int[] objectIDs = new int[objects.size()];
 			for (int i = 0 ; i < objectIDs.length ; i++) {
 				objectIDs[i] = objects.get(i).getID();
@@ -155,7 +155,7 @@ public class ContrastModelTest {
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
-			List<IConcept> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			List<IConcept> objects = new ArrayList<>(tF.getConceptTree().getLeaves());
 			int[] objectIDs = new int[objects.size()];
 			for (int i = 0 ; i < objectIDs.length ; i++) {
 				objectIDs[i] = objects.get(i).getID();
@@ -193,7 +193,7 @@ public class ContrastModelTest {
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
 			Visualizer.visualizeWeightedTransitionsGraph(calculator.getSparseGraph(), "2109161427_sg");
 			*/
-			List<IConcept> objects = new ArrayList<>(tF.getCategoryTree().getLeaves());
+			List<IConcept> objects = new ArrayList<>(tF.getConceptTree().getLeaves());
 			int[] objectIDs = new int[objects.size()];
 			for (int i = 0 ; i < objectIDs.length ; i++) {
 				objectIDs[i] = objects.get(i).getID();				
@@ -224,7 +224,7 @@ public class ContrastModelTest {
 			ContrastModel calculator = 
 					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
 							SimilarityCalculationStrategy.CONTRAST_MODEL).input(tF.getClassification());
-			List<IConcept> categorySet = tF.getCategoryTree().getTopologicalOrder();
+			List<IConcept> categorySet = tF.getConceptTree().getTopologicalOrder();
 			List<List<IConcept>> categoryPowerSet = buildCategoryPowerSet(categorySet);
 			for (IConcept cat : categorySet) {
 				for (List<IConcept> subset : categoryPowerSet) {

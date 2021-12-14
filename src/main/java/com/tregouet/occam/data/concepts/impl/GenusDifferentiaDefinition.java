@@ -16,6 +16,11 @@ public class GenusDifferentiaDefinition extends IsA implements IGenusDifferentia
 	}
 
 	@Override
+	public List<ITransition> getDifferentiae() {
+		return differentiae;
+	}
+
+	@Override
 	public IConcept getGenus() {
 		return (IConcept) getTarget();
 	}
@@ -23,11 +28,6 @@ public class GenusDifferentiaDefinition extends IsA implements IGenusDifferentia
 	@Override
 	public IConcept getSpecies() {
 		return (IConcept) getSource();
-	}
-
-	@Override
-	public List<ITransition> getDifferentiae() {
-		return differentiae;
 	}
 	
 	@Override

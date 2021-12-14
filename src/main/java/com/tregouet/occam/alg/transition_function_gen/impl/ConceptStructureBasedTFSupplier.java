@@ -9,7 +9,7 @@ import java.util.TreeSet;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.ISetOfRelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.impl.RelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
@@ -18,8 +18,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
@@ -27,32 +26,32 @@ import com.tregouet.tree_finder.data.Tree;
 public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier 
 	implements IConceptStructureBasedTFSupplier {
 
-	private final TreeSet<IRelatedTransFunctions> representedCategories = new TreeSet<>();
-	private final Map<IConcept, String> objectCategoryToName = new HashMap<>();
-	private Iterator<IRelatedTransFunctions> ite;
+	private final TreeSet<ISetOfRelatedTransFunctions> transFunctionSets = new TreeSet<>();
+	private final Map<IConcept, String> singletonConceptToName = new HashMap<>();
+	private Iterator<ISetOfRelatedTransFunctions> ite;
 	
 	public ConceptStructureBasedTFSupplier(IConcepts concepts, 
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) throws IOException {
+			DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs) throws IOException {
 		super(concepts, constructs);
-		populateRepresentedCategories();
+		populateSetsOfRelatedTransFunctions();
 		for (IConcept objCat : concepts.getSingletonConcept())
-			objectCategoryToName.put(objCat, objCat.getExtent().iterator().next().getName());
-		ite = representedCategories.iterator();
+			singletonConceptToName.put(objCat, objCat.getExtent().iterator().next().getName());
+		ite = transFunctionSets.iterator();
 	}
 
 	@Override
 	public String getDefinitionOfObjects() {
-		return IConceptStructureBasedTFSupplier.getDefinitionOfObjects(objectCategoryToName);
+		return IConceptStructureBasedTFSupplier.getDefinitionOfObjects(singletonConceptToName);
 	}
 
 	@Override
-	public Tree<IConcept, IsA> getOptimalCategoryStructure() {
-		return representedCategories.first().getCategoryTree();
+	public IClassification getOptimalClassification() {
+		return transFunctionSets.first().getOptimalTransitionFunction().getClassification();
 	}
 
 	@Override
 	public ITransitionFunction getOptimalTransitionFunction() {
-		return representedCategories.first().getOptimalTransitionFunction();
+		return transFunctionSets.first().getOptimalTransitionFunction();
 	}
 
 	@Override
@@ -61,39 +60,39 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier
 	}
 	
 	@Override
-	public IRelatedTransFunctions next() {
+	public ISetOfRelatedTransFunctions next() {
 		return ite.next();
 	}
 	
 	@Override
 	public void reset() {
-		ite = representedCategories.iterator();
+		ite = transFunctionSets.iterator();
 	}	
 	
-	private void populateRepresentedCategories() {
+	private void populateSetsOfRelatedTransFunctions() {
 		while (classificationSupplier.hasNext()) {
 			IClassification currClassification = classificationSupplier.next();
-			IRelatedTransFunctions currCatTreeRepresentation = new RelatedTransFunctions(
-					currClassification.getClassificationTree(), objectCategoryToName);
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
+			ISetOfRelatedTransFunctions currSetOfRelatedTransFunctions = new RelatedTransFunctions(
+					currClassification.getClassificationTree(), singletonConceptToName);
+			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(
 							currClassification.getClassificationTree(), constructs);
-			IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> attTreeSupplier = 
+			IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constructTreeSupplier = 
 					new RestrictorOpt<>(filteredConstructGraph, true);
-			while (attTreeSupplier.hasNext()) {
-				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.nextTransitiveReduction();
+			while (constructTreeSupplier.hasNext()) {
+				Tree<IIntentConstruct, IProduction> constructTree = constructTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = new TransitionFunction(
-						currClassification, attTree);
+						currClassification, constructTree);
 				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE))
-					currCatTreeRepresentation.testAlternativeRepresentation(transitionFunction);
+					currSetOfRelatedTransFunctions.testAlternativeRepresentation(transitionFunction);
 			}
-			if (currCatTreeRepresentation.isValid()) {
-				if (representedCategories.size() <= MAX_CAPACITY)
-					representedCategories.add(currCatTreeRepresentation);	
-				else if (currCatTreeRepresentation.getCoherenceScore() 
-							> representedCategories.last().getCoherenceScore()) {
-					representedCategories.add(currCatTreeRepresentation);
-					representedCategories.pollLast();
+			if (currSetOfRelatedTransFunctions.isValid()) {
+				if (transFunctionSets.size() <= MAX_CAPACITY)
+					transFunctionSets.add(currSetOfRelatedTransFunctions);	
+				else if (currSetOfRelatedTransFunctions.getCoherenceScore() 
+							> transFunctionSets.last().getCoherenceScore()) {
+					transFunctionSets.add(currSetOfRelatedTransFunctions);
+					transFunctionSets.pollLast();
 				}
 			}
 		}

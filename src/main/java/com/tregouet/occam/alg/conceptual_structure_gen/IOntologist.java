@@ -19,7 +19,7 @@ import com.tregouet.tree_finder.data.Tree;
 public interface IOntologist {
 	
 	public static Tree<IConcept, IGenusDifferentiaDefinition> whatIsThere(ITransitionFunction transitionFunction){
-		Tree<IConcept, IsA> conceptTree = transitionFunction.getConceptTree();
+		Tree<IConcept, IsA> conceptTree = transitionFunction.getTreeOfConcepts();
 		DirectedAcyclicGraph<IConcept, IGenusDifferentiaDefinition> prophyrianTree = 
 				new DirectedAcyclicGraph<IConcept, IGenusDifferentiaDefinition>(null, null, false);
 		Graphs.addAllVertices(prophyrianTree, conceptTree.vertexSet());

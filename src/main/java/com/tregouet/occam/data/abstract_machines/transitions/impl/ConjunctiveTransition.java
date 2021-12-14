@@ -9,7 +9,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransit
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
 public class ConjunctiveTransition implements IConjunctiveTransition {
@@ -83,8 +83,8 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	}
 
 	@Override
-	public IIntentAttribute operateOn(IIntentAttribute input) {
-		IIntentAttribute output = null;
+	public IIntentConstruct operateOn(IIntentConstruct input) {
+		IIntentConstruct output = null;
 		int opIdx = 0;
 		while (output == null && opIdx < operators.size())
 			output = operators.get(opIdx++).operateOn(input);

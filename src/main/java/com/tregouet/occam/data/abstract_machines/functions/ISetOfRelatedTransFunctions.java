@@ -7,9 +7,7 @@ import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
-public interface IRelatedTransFunctions extends Comparable<IRelatedTransFunctions> {
-	
-	Tree<IConcept, IsA> getCategoryTree();
+public interface ISetOfRelatedTransFunctions extends Comparable<ISetOfRelatedTransFunctions> {
 	
 	double getCoherenceScore();
 	
@@ -20,6 +18,8 @@ public interface IRelatedTransFunctions extends Comparable<IRelatedTransFunction
 	Iterator<ITransitionFunction> getIteratorOverTransitionFunctions();
 	
 	ITransitionFunction getOptimalTransitionFunction();
+	
+	Tree<IConcept, IsA> getTreeOfConcepts();
 	
 	//has a transition function
 	boolean isValid();

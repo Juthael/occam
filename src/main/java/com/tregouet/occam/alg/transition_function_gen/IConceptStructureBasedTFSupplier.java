@@ -5,23 +5,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.ISetOfRelatedTransFunctions;
+import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.tree_finder.data.Tree;
 
-public interface IConceptStructureBasedTFSupplier extends ITransitionFunctionSupplier, Iterator<IRelatedTransFunctions> {
+public interface IConceptStructureBasedTFSupplier extends ITransitionFunctionSupplier, Iterator<ISetOfRelatedTransFunctions> {
 	
-	public static String getDefinitionOfObjects(Map<IConcept, String> objectCategoryToName) {
+	public static String getDefinitionOfObjects(Map<IConcept, String> singletonConceptToName) {
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
 		sB.append("*** DEFINITION OF OBJECTS ***" + newLine + newLine);
-		List<IConcept> objectCategories = new ArrayList<>(objectCategoryToName.keySet());
-		for (int i = 0 ; i < objectCategories.size() ; i++) {
-			IConcept objCat = objectCategories.get(i);
-			sB.append("**Object " + objectCategoryToName.get(objCat) + " :" + newLine);
-			sB.append(objCat.toString());
-			if (i < objectCategories.size() - 1)
+		List<IConcept> singletonConcepts = new ArrayList<>(singletonConceptToName.keySet());
+		for (int i = 0 ; i < singletonConcepts.size() ; i++) {
+			IConcept singleton = singletonConcepts.get(i);
+			sB.append("**Object " + singletonConceptToName.get(singleton) + " :" + newLine);
+			sB.append(singleton.toString());
+			if (i < singletonConcepts.size() - 1)
 				sB.append(newLine + newLine);
 		}
 		return sB.toString();
@@ -29,6 +28,6 @@ public interface IConceptStructureBasedTFSupplier extends ITransitionFunctionSup
 	
 	String getDefinitionOfObjects();
 	
-	Tree<IConcept, IsA> getOptimalCategoryStructure();
+	IClassification getOptimalClassification();
 
 }

@@ -10,7 +10,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.BasicProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.BlankProduction;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.ISymbol;
@@ -27,7 +27,7 @@ public class ProductionGenerator {
 	 * @param operatorOutput
 	 */
 	public ProductionGenerator(
-			IConcepts concepts, IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
+			IConcepts concepts, IIntentConstruct operatorInput, IIntentConstruct operatorOutput) {
 		if (concepts.isA(operatorInput.getConcept(), operatorOutput.getConcept())) {
 			if (operatorInput.getListOfSymbols().equals(operatorOutput.getListOfSymbols()))
 				//then equal strings of terminals

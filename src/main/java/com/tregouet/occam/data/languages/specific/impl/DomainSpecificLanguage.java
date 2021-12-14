@@ -16,7 +16,7 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
 
 public class DomainSpecificLanguage implements IDomainSpecificLanguage {
@@ -39,12 +39,12 @@ public class DomainSpecificLanguage implements IDomainSpecificLanguage {
 			Set<IOperator> outgoingEdges = dag.outgoingEdgesOf(currState);
 			for (IOperator outEdge : outgoingEdges) {
 				productions.put(outEdge, new HashSet<>());
-				List<IIntentAttribute> outEdgeAcceptedInputs = outEdge.operation()
+				List<IIntentConstruct> outEdgeAcceptedInputs = outEdge.operation()
 						.stream()
 						.map(p -> p.getSource())
 						.collect(Collectors.toList());
 				for (IOperator inEdge : incomingEdges) {
-					List<IIntentAttribute> inEdgeOutputs = inEdge.operation()
+					List<IIntentConstruct> inEdgeOutputs = inEdge.operation()
 							.stream()
 							.map(p -> p.getTarget())
 							.collect(Collectors.toList());

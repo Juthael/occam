@@ -5,7 +5,7 @@ import java.util.Set;
 import com.tregouet.occam.data.abstract_machines.tapes.ITapeSet;
 import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 
 public interface IState {
 	
@@ -26,7 +26,7 @@ public interface IState {
 	
 	IConcept getAssociatedConcept();
 	
-	Set<IIntentAttribute> getInputLanguage();
+	Set<IIntentConstruct> getInputLanguage();
 	
 	int getRank();
 	

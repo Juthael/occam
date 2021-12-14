@@ -9,19 +9,19 @@ import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
-public class CatTreeToStringConvertor {
+public class TreeOfConceptsToStringConvertor {
 
-	private final Tree<IConcept, IsA> categoryTree;
+	private final Tree<IConcept, IsA> treeOfConcepts;
 	private final Map<IConcept, String> leafToLeafName;
 	
-	public CatTreeToStringConvertor(Tree<IConcept, IsA> categoryTree, Map<IConcept, String> leafToLeafName) {
-		this.categoryTree = categoryTree;
+	public TreeOfConceptsToStringConvertor(Tree<IConcept, IsA> treeOfConcepts, Map<IConcept, String> leafToLeafName) {
+		this.treeOfConcepts = treeOfConcepts;
 		this.leafToLeafName = leafToLeafName;
 	}
 	
 	@Override
 	public String toString() {
-		return getExtentStructure(categoryTree.getRoot());
+		return getExtentStructure(treeOfConcepts.getRoot());
 	}
 	
 	private String getExtentStructure(IConcept concept) {
@@ -29,7 +29,7 @@ public class CatTreeToStringConvertor {
 		if (concept.type() == IConcept.SINGLETON)
 			extentStructure = leafToLeafName.get(concept);
 		else {
-			List<IConcept> predecessors = Graphs.predecessorListOf(categoryTree, concept);
+			List<IConcept> predecessors = Graphs.predecessorListOf(treeOfConcepts, concept);
 			if (predecessors.size() == 1)
 				extentStructure = getExtentStructure(predecessors.get(0));
 			else {

@@ -7,7 +7,7 @@ import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
 public class Negation implements ILambdaExpression {
 	
-	List<ILambdaExpression> terms;
+	List<ILambdaExpression> arguments;
 
 	public Negation() {
 	}
@@ -24,7 +24,7 @@ public class Negation implements ILambdaExpression {
 
 	@Override
 	public boolean setArgument(AVariable boundVar, ILambdaExpression argument) {
-		terms.add(argument);
+		arguments.add(argument);
 		return true;
 	}
 	
@@ -34,9 +34,9 @@ public class Negation implements ILambdaExpression {
 		StringBuilder sB = new StringBuilder();
 		char conjunction = '∧';
 		sB.append("¬(");
-		int nbOfTerms = terms.size();
+		int nbOfTerms = arguments.size();
 		for (int i = 0 ; i < nbOfTerms ; i++) {
-			sB.append(terms.get(i).toString());
+			sB.append(arguments.get(i).toString());
 			if (i < nbOfTerms - 1) {
 				sB.append(nL + conjunction);
 			}

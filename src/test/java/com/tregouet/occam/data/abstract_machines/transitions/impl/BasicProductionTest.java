@@ -16,7 +16,7 @@ import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -26,7 +26,7 @@ public class BasicProductionTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
-	private final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private final DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
 	

@@ -113,7 +113,7 @@ public class CompositeProduction extends Production implements ICompositeProduct
 
 	@Override
 	public IProduction switchVariableOrReturnNull(IProduction varSwitcher) {
-		if (this.getTargetCategory().equals(varSwitcher.getSourceCategory())
+		if (this.getTargetConcept().equals(varSwitcher.getSourceCategory())
 				&& this.getTarget().equals(varSwitcher.getSource())) {
 			ICompositeProduction compositeSwitcher = (ICompositeProduction) varSwitcher;
 			List<IBasicProduction> basicSwitchers = compositeSwitcher.getComponents();

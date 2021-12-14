@@ -76,8 +76,8 @@ public class Concepts implements IConcepts {
 		this.conceptUSL = 
 				new UpperSemilattice<>(ontologicalUSL, truism, new HashSet<>(singletons), topologicalOrderedSet);
 		this.conceptUSL.addAsNewRoot(ontologicalCommitment, true);
-		for (IConcept objectCat : singletons)
-			updateCategoryRank(objectCat, 1);
+		for (IConcept singleton : singletons)
+			updateCategoryRank(singleton, 1);
 		topologicalOrder = this.conceptUSL.getTopologicalOrder();
 	}
 
@@ -98,14 +98,14 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public DirectedAcyclicGraph<IConcept, IsA> getConceptLattice() {
-		return lattice;
-	}
-
-	@Override
 	public IClassificationSupplier getClassificationSupplier() throws IOException {
 		return new ClassificationSupplier(
 				conceptUSL, singletons, ontologicalCommitment);
+	}
+
+	@Override
+	public DirectedAcyclicGraph<IConcept, IsA> getConceptLattice() {
+		return lattice;
 	}
 
 	@Override

@@ -35,7 +35,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.impl.ConjunctiveTra
 import com.tregouet.occam.data.abstract_machines.transitions.impl.Reframer;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
 import com.tregouet.tree_finder.data.Tree;
@@ -43,19 +43,19 @@ import com.tregouet.tree_finder.data.Tree;
 public class TransitionFunction implements ITransitionFunction {
 
 	private final IClassification classification;
-	private final Map<IConcept, IState> categoryToState = new HashMap<>();
+	private final Map<IConcept, IState> conceptToState = new HashMap<>();
 	private final List<ITransition> transitions = new ArrayList<>();
 	private final List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
 	private DirectedMultigraph<IState, ITransition> finiteAutomatonMultigraph = null;
 	private SimpleDirectedGraph<IState, IConjunctiveTransition> finiteAutomatonGraph = null;
 	private Double cost = null;
 	
-	public TransitionFunction(IClassification classification, Tree<IIntentAttribute, IProduction> constructs) {
+	public TransitionFunction(IClassification classification, Tree<IIntentConstruct, IProduction> constructs) {
 		ITransition.initializeNameProvider();
 		IConjunctiveTransition.initializeNameProvider();
 		this.classification = classification;
 		for (IConcept concept : classification.getClassificationTree().vertexSet())
-			categoryToState.put(concept, new State(concept));
+			conceptToState.put(concept, new State(concept));
 		transitions.addAll(buildOperators(new ArrayList<>(constructs.edgeSet())));
 		transitions.addAll(buildReframers());
 		for (ITransition transition : transitions) {
@@ -64,9 +64,9 @@ public class TransitionFunction implements ITransitionFunction {
 		}
 	}
 
-	public static String setIntentsAsString(Set<IIntentAttribute> attributes){
+	public static String setIntentsAsString(Set<IIntentConstruct> intentConstructs){
 		StringBuilder sB = new StringBuilder();
-		for (IIntentAttribute att : attributes) {
+		for (IIntentConstruct att : intentConstructs) {
 			sB.append(att.toString() + System.lineSeparator());
 		}
 		sB.deleteCharAt(sB.length() - 1);
@@ -85,7 +85,7 @@ public class TransitionFunction implements ITransitionFunction {
 					if (!skipIdx.contains(j)) {
 						IProduction jProduction = productions.get(j);
 						if (iProduction.getSourceCategory().equals(jProduction.getSourceCategory())
-								&& iProduction.getTargetCategory().equals(jProduction.getTargetCategory())
+								&& iProduction.getTargetConcept().equals(jProduction.getTargetConcept())
 								&& (iProduction.getTarget().equals(jProduction.getTarget())
 									|| new ArrayList<>(iProduction.getValues()).removeAll(jProduction.getValues()))) {
 							sameOperatorProds.add(j);
@@ -140,8 +140,8 @@ public class TransitionFunction implements ITransitionFunction {
 			for (int k = 0 ; k < idxes.size() ; k++) {
 				if (k == 0) {
 					IProduction kProduction = productions.get(idxes.get(k));
-					activeState = categoryToState.get(kProduction.getSourceCategory());
-					nextState = categoryToState.get(kProduction.getTargetCategory());
+					activeState = conceptToState.get(kProduction.getSourceCategory());
+					nextState = conceptToState.get(kProduction.getTargetConcept());
 					operation.add(kProduction);
 				}
 				else operation.add(productions.get(idxes.get(k)));
@@ -192,28 +192,10 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public Tree<IConcept, IsA> getConceptTree() {
-		return classification.getClassificationTree();
-	}
-
-	@Override
-	public String getCategoryTreeAsDOTFile() {
-		DOTExporter<IConcept,IsA> exporter = new DOTExporter<>();
-		exporter.setVertexAttributeProvider((v) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.toString()));
-			return map;
-		});
-		Writer writer = new StringWriter();
-		exporter.exportGraph(classification.getClassificationTree(), writer);
-		return writer.toString();
-	}
-
-	@Override
 	public IClassification getClassification() {
 		return classification;
 	}
-	
+
 	@Override
 	public double getCoherenceScore() {
 		return classification.getCoherenceScore();
@@ -224,7 +206,7 @@ public class TransitionFunction implements ITransitionFunction {
 		//NOT IMPLEMENTED YET
 		return null;
 	}
-
+	
 	@Override
 	public Map<Integer, Double> getConceptualCoherenceMap() {
 		return classification.getConceptualCoherenceMap();
@@ -234,7 +216,7 @@ public class TransitionFunction implements ITransitionFunction {
 	public List<IConjunctiveTransition> getConjunctiveTransitions() {
 		return conjunctiveTransitions;
 	}
-	
+
 	@Override
 	public IDomainSpecificLanguage getDomainSpecificLanguage() {
 		//NOT IMPLEMENTED YET
@@ -252,7 +234,7 @@ public class TransitionFunction implements ITransitionFunction {
 		}
 		return finiteAutomatonGraph;
 	}
-
+	
 	@Override
 	public DirectedMultigraph<IState, ITransition> getFiniteAutomatonMultigraph() {
 		if (finiteAutomatonMultigraph == null) {
@@ -277,7 +259,7 @@ public class TransitionFunction implements ITransitionFunction {
 
 	@Override
 	public List<IState> getStates() {
-		return new ArrayList<>(categoryToState.values());
+		return new ArrayList<>(conceptToState.values());
 	}
 
 	@Override
@@ -355,6 +337,24 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
+	public Tree<IConcept, IsA> getTreeOfConcepts() {
+		return classification.getClassificationTree();
+	}
+
+	@Override
+	public String getTreeOfConceptsAsDOTFile() {
+		DOTExporter<IConcept,IsA> exporter = new DOTExporter<>();
+		exporter.setVertexAttributeProvider((v) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(v.toString()));
+			return map;
+		});
+		Writer writer = new StringWriter();
+		exporter.exportGraph(classification.getClassificationTree(), writer);
+		return writer.toString();
+	}
+
+	@Override
 	public double[] getTypicalityArray() {
 		return classification.getTypicalityArray();
 	}
@@ -386,11 +386,11 @@ public class TransitionFunction implements ITransitionFunction {
 		List<Integer> nextComplementedStatesIDs;
 		Tree<IConcept, IsA> concepts = classification.getClassificationTree();
 		IConcept sourceConcept = concepts.getEdgeSource(relation);
-		IState sourceState = categoryToState.get(sourceConcept);
-		IState targetState = categoryToState.get(concepts.getEdgeTarget(relation));
+		IState sourceState = conceptToState.get(sourceConcept);
+		IState targetState = conceptToState.get(concepts.getEdgeTarget(relation));
 		IReframer reframer;
 		if (sourceConcept.isComplementary()) {
-			IState complementedState = categoryToState.get(sourceConcept.getComplemented());
+			IState complementedState = conceptToState.get(sourceConcept.getComplemented());
 			reframer = new Reframer(sourceState, complementedState, targetState, previousComplementedStatesIDs);
 			nextComplementedStatesIDs = reframer.getComplementedConceptsIDs();
 		}

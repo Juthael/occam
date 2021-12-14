@@ -14,9 +14,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.Concept;
-import com.tregouet.occam.data.concepts.impl.IntentAttribute;
+import com.tregouet.occam.data.concepts.impl.IntentConstruct;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
@@ -83,8 +83,8 @@ public class ConceptTest {
 	
 	@Test
 	public void whenSpecifiedConstraintMatchedOnceThenExpectedAttributeReturned() throws IOException {
-		IIntentAttribute expected = new IntentAttribute(new Construct(prog1), cat);
-		IIntentAttribute returned = cat.getMatchingAttribute(Arrays.asList(new String[] {"B", "C"}));
+		IIntentConstruct expected = new IntentConstruct(new Construct(prog1), cat);
+		IIntentConstruct returned = cat.getMatchingIntentConstruct(Arrays.asList(new String[] {"B", "C"}));
 		assertTrue(expected.equals(returned));
 	}
 	
@@ -92,7 +92,7 @@ public class ConceptTest {
 	public void whenSpecifiedConstraintIsMatchedTwiceThenExceptionThrown() {
 		boolean exceptionThrown = false;
 		try {
-			cat.getMatchingAttribute(Arrays.asList(new String[] {"C"}));
+			cat.getMatchingIntentConstruct(Arrays.asList(new String[] {"C"}));
 		}
 		catch (IOException e) {
 			exceptionThrown = true;
@@ -102,7 +102,7 @@ public class ConceptTest {
 	
 	@Test
 	public void whenSpecifiedConstraintIsNotMatchedThenNullIsReturned() throws IOException {
-		IIntentAttribute returned = cat.getMatchingAttribute(Arrays.asList(new String[] {"X"}));
+		IIntentConstruct returned = cat.getMatchingIntentConstruct(Arrays.asList(new String[] {"X"}));
 		assertTrue(returned == null);
 	}	
 

@@ -10,12 +10,12 @@ import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
 public class BasicOperator extends Transition implements IBasicOperator {
 
-	private final Map<IIntentAttribute, IIntentAttribute> inputToOutput = new HashMap<>();
+	private final Map<IIntentConstruct, IIntentConstruct> inputToOutput = new HashMap<>();
 	private final List<IProduction> operation;
 	
 	public BasicOperator(IState activeState, List<IProduction> operation, IState nextState) {
@@ -68,7 +68,7 @@ public class BasicOperator extends Transition implements IBasicOperator {
 	}
 	
 	@Override
-	public IIntentAttribute operateOn(IIntentAttribute input) {
+	public IIntentConstruct operateOn(IIntentConstruct input) {
 		return inputToOutput.get(input);
 	}
 

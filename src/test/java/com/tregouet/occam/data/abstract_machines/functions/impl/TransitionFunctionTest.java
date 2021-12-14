@@ -37,7 +37,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.impl.BlankProductio
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IConstruct;
@@ -59,12 +59,12 @@ public class TransitionFunctionTest {
 	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> objects;
 	private IConcepts concepts;
-	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IClassificationSupplier classificationSupplier;
-	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
-	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
-	private Tree<IIntentAttribute, IProduction> constrTree;
+	private DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered_reduced_constructs;
+	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
+	private Tree<IIntentConstruct, IProduction> constrTree;
 	private TreeSet<ITransitionFunction> transitionFunctions;
 	
 	@BeforeClass
@@ -103,7 +103,7 @@ public class TransitionFunctionTest {
 	public void whenCategoryStructureDOTFileRequestedThenReturned() throws IOException {
 		boolean dotFileReturnedIsValid = true;
 		for (ITransitionFunction tF : transitionFunctions) {
-			String stringDOT = tF.getCategoryTreeAsDOTFile();
+			String stringDOT = tF.getTreeOfConceptsAsDOTFile();
 			if (stringDOT == null || stringDOT.isEmpty())
 				dotFileReturnedIsValid = false;
 			/*
@@ -334,7 +334,7 @@ public class TransitionFunctionTest {
 					IBasicProduction iProd = basicProds.get(i);
 					IBasicProduction jProd = basicProds.get(j);
 					if (iProd.getSourceCategory().equals(jProd.getSourceCategory())
-							&& iProd.getTargetCategory().equals(jProd.getTargetCategory())
+							&& iProd.getTargetConcept().equals(jProd.getTargetConcept())
 							&& iProd.getValue().equals(jProd.getValue())) {
 						checkCount++;
 						if (!basicProdsOperators.get(basicProds.indexOf(iProd)).equals(
@@ -375,11 +375,11 @@ public class TransitionFunctionTest {
 		for (int i = 0 ; i < productions.size() ; i++) {
 			if (i == 0) {
 				sourceCategory = productions.get(i).getSourceCategory();
-				targetCategory = productions.get(i).getTargetCategory();
+				targetCategory = productions.get(i).getTargetConcept();
 			}
 			else {
 				if (!productions.get(i).getSourceCategory().equals(sourceCategory)
-						|| !productions.get(i).getTargetCategory().equals(targetCategory))
+						|| !productions.get(i).getTargetConcept().equals(targetCategory))
 					sameSourceAndTargetCategory = false;
 			}
 		}

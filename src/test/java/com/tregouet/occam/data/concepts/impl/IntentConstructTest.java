@@ -13,14 +13,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.Concept;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.ContextObject;
 
-public class IntentAttributeTest {
+public class IntentConstructTest {
 
 	private String[] prog1 = new String[] {"A", "B", "C"};
 	private String[] prog2 = new String[] {"D", "E", "F"};
@@ -86,11 +86,11 @@ public class IntentAttributeTest {
 		commonConstructsCat2Cat3.retainAll(constructsCat3);
 		Set<IConstruct> commonConstructsCat1Cat3 = new HashSet<>(constructsCat1);
 		commonConstructsCat1Cat3.retainAll(constructsCat3);
-		Set<IIntentAttribute> commonAttributesCat1Cat2 = new HashSet<>(cat1.getIntent());
+		Set<IIntentConstruct> commonAttributesCat1Cat2 = new HashSet<>(cat1.getIntent());
 		commonAttributesCat1Cat2.retainAll(cat2.getIntent());
-		Set<IIntentAttribute> commonAttributesCat2Cat3 = new HashSet<>(cat2.getIntent());
+		Set<IIntentConstruct> commonAttributesCat2Cat3 = new HashSet<>(cat2.getIntent());
 		commonAttributesCat2Cat3.retainAll(cat3.getIntent());
-		Set<IIntentAttribute> commonAttributesCat1Cat3 = new HashSet<>(cat1.getIntent());
+		Set<IIntentConstruct> commonAttributesCat1Cat3 = new HashSet<>(cat1.getIntent());
 		commonAttributesCat1Cat3.retainAll(cat3.getIntent());		
 		assertTrue(!commonConstructsCat1Cat2.isEmpty() && commonAttributesCat1Cat2.isEmpty() 
 				&& !commonConstructsCat2Cat3.isEmpty() && commonAttributesCat2Cat3.isEmpty() 

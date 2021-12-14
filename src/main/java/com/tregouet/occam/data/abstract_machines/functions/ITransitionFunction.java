@@ -25,10 +25,6 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	double[][] getAsymmetricalSimilarityMatrix();
 	
-	Tree<IConcept, IsA> getConceptTree();
-	
-	String getCategoryTreeAsDOTFile();
-	
 	IClassification getClassification();
 	
 	double getCoherenceScore();
@@ -56,6 +52,10 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	double getTransitionFunctionCost();
 	
 	List<ITransition> getTransitions();
+	
+	Tree<IConcept, IsA> getTreeOfConcepts();
+	
+	String getTreeOfConceptsAsDOTFile();
 	
 	double[] getTypicalityArray();
 	

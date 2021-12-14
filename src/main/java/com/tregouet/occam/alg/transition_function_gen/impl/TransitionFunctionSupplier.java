@@ -10,7 +10,7 @@ import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplie
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -20,28 +20,29 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	
 	protected final IConcepts concepts;
 	protected final IClassificationSupplier classificationSupplier;
-	protected final DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs;
+	protected final DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs;
 	
 	public TransitionFunctionSupplier(IConcepts concepts, 
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) throws IOException {
+			DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs) throws IOException {
 		this.concepts = concepts;
 		classificationSupplier = concepts.getClassificationSupplier();
 		this.constructs = constructs;
 	}
 
-	public static DirectedAcyclicGraph<IIntentAttribute, IProduction> getConstructGraphFilteredByCategoryTree(
-			Tree<IConcept, IsA> catTree, DirectedAcyclicGraph<IIntentAttribute, IProduction> unfilteredUnreduced) {
-		DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered =	
+	public static DirectedAcyclicGraph<IIntentConstruct, IProduction> getConstructGraphFilteredByCategoryTree(
+			Tree<IConcept, IsA> treeOfConcepts, 
+			DirectedAcyclicGraph<IIntentConstruct, IProduction> unfilteredUnreduced) {
+		DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);
 		List<IProduction> edges = new ArrayList<>();
 		List<IProduction> varSwitchers = new ArrayList<>();
-		List<IIntentAttribute> varSwitcherSources = new ArrayList<>();
+		List<IIntentConstruct> varSwitcherSources = new ArrayList<>();
 		for (IProduction production : unfilteredUnreduced.edgeSet()) {
-			IConcept sourceCat = production.getSourceCategory();
-			IConcept targetCat = production.getTargetCategory();
-			if (catTree.containsVertex(sourceCat) 
-					&& catTree.containsVertex(targetCat) 
-					&& isA(sourceCat, targetCat, catTree)) {
+			IConcept sourceConcept = production.getSourceCategory();
+			IConcept targetConcept = production.getTargetConcept();
+			if (treeOfConcepts.containsVertex(sourceConcept) 
+					&& treeOfConcepts.containsVertex(targetConcept) 
+					&& isA(sourceConcept, targetConcept, treeOfConcepts)) {
 				if (production.isVariableSwitcher()) {
 					varSwitchers.add(production);
 					varSwitcherSources.add(production.getSource());
@@ -82,8 +83,8 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return edgesReturned;
 	}
 	
-	private static boolean isA(IConcept cat1, IConcept cat2, Tree<IConcept, IsA> tree) {
-		return tree.getDescendants(cat1).contains(cat2);
+	private static boolean isA(IConcept concept1, IConcept concept2, Tree<IConcept, IsA> treeOfConcepts) {
+		return treeOfConcepts.getDescendants(concept1).contains(concept2);
 	}
 
 }

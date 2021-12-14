@@ -9,25 +9,25 @@ import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 
 public class ProductionBuilder implements IProductionBuilder {
 
-	private final List<IConcept> topologicalOrderOnCats;
+	private final List<IConcept> topologicalOrderOnConcepts;
 	private final List<IBasicProduction> basicProductions = new ArrayList<>();
 	private final List<IProduction> productions = new ArrayList<>();
 	
 	public ProductionBuilder(IConcepts concepts) {
-		topologicalOrderOnCats = concepts.getTopologicalSorting();
+		topologicalOrderOnConcepts = concepts.getTopologicalSorting();
 		//build basics
-		for (int i = 0 ; i < topologicalOrderOnCats.size() - 1 ; i++) {
-			for (int j = i+1 ; j < topologicalOrderOnCats.size() ; j++) {
-				for (IIntentAttribute iCatAtt : topologicalOrderOnCats.get(i).getIntent()) {
-					for (IIntentAttribute jCatAtt : topologicalOrderOnCats.get(j).getIntent()) {
-						List<IBasicProduction> ijAttProds = 
-								new ProductionGenerator(concepts, iCatAtt, jCatAtt).getProduction();
-						if (ijAttProds != null)
-							basicProductions.addAll(ijAttProds);
+		for (int i = 0 ; i < topologicalOrderOnConcepts.size() - 1 ; i++) {
+			for (int j = i+1 ; j < topologicalOrderOnConcepts.size() ; j++) {
+				for (IIntentConstruct iConceptConstr : topologicalOrderOnConcepts.get(i).getIntent()) {
+					for (IIntentConstruct jConceptConstr : topologicalOrderOnConcepts.get(j).getIntent()) {
+						List<IBasicProduction> ijConstructsProds = 
+								new ProductionGenerator(concepts, iConceptConstr, jConceptConstr).getProduction();
+						if (ijConstructsProds != null)
+							basicProductions.addAll(ijConstructsProds);
 					}
 				}
 			}

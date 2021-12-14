@@ -18,7 +18,7 @@ import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGra
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -36,61 +36,6 @@ public class Visualizer {
 	
 	public static void setLocation(String newLocation) {
 		location = newLocation;
-	}
-	
-	public static void visualizeAttributeGraph(DirectedAcyclicGraph<IIntentAttribute, IProduction> graph, String fileName) throws IOException {
-		//convert in DOT format
-		DOTExporter<IIntentAttribute,IProduction> exporter = new DOTExporter<>();
-		exporter.setGraphAttributeProvider(() -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
-			return map;
-		});
-		exporter.setVertexAttributeProvider((v) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.toString()));
-			return map;
-		});
-		exporter.setEdgeAttributeProvider((e) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(e.getLabel()));
-			return map;
-		}); 
-		Writer writer = new StringWriter();
-		exporter.exportGraph(graph, writer);
-		String stringDOT = writer.toString();
-		/*
-		 System.out.println(writer.toString());
-		*/ 
-		//display graph
-		MutableGraph dotGraph = new Parser().read(stringDOT);
-		Graphviz.fromGraph(dotGraph)
-			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
-	}	
-	
-	public static void vizualizeGenusDifferentiaTree(Tree<IConcept, IGenusDifferentiaDefinition> prophyrianTree, 
-			String fileName) throws IOException {
-		//convert in DOT format
-		DOTExporter<IConcept,IGenusDifferentiaDefinition> exporter = new DOTExporter<>();
-		exporter.setGraphAttributeProvider(() -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
-			return map;
-		});
-		exporter.setVertexAttributeProvider((v) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.toString()));
-			return map;
-		});
-		Writer writer = new StringWriter();
-		exporter.exportGraph(prophyrianTree, writer);
-		String stringDOT = writer.toString();
-		/*
-		 System.out.println(writer.toString());
-		 */
-		//display graph
-		MutableGraph dotGraph = new Parser().read(stringDOT);
-		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}
 	
 	public static void visualizeConceptGraph(DirectedAcyclicGraph<IConcept, IsA> graph, String fileName) 
@@ -116,6 +61,36 @@ public class Visualizer {
 		//display graph
 		MutableGraph dotGraph = new Parser().read(stringDOT);
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
+	}	
+	
+	public static void visualizeConstructGraph(DirectedAcyclicGraph<IIntentConstruct, IProduction> graph, String fileName) throws IOException {
+		//convert in DOT format
+		DOTExporter<IIntentConstruct,IProduction> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
+		exporter.setVertexAttributeProvider((v) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(v.toString()));
+			return map;
+		});
+		exporter.setEdgeAttributeProvider((e) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(e.getLabel()));
+			return map;
+		}); 
+		Writer writer = new StringWriter();
+		exporter.exportGraph(graph, writer);
+		String stringDOT = writer.toString();
+		/*
+		 System.out.println(writer.toString());
+		*/ 
+		//display graph
+		MutableGraph dotGraph = new Parser().read(stringDOT);
+		Graphviz.fromGraph(dotGraph)
+			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}
 	
 	public static void visualizeTransitionFunction(ITransitionFunction tF, String fileName, 
@@ -125,7 +100,7 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}
 	
-	public static void visualizeWeightedTransitionsGraph(SparseIntDirectedWeightedGraph graph, String fileName) 
+	public static void visualizeWeightedSparseGraph(SparseIntDirectedWeightedGraph graph, String fileName) 
 			throws IOException {
 		//convert in DOT format
 		DOTExporter<Integer, Integer> exporter = new DOTExporter<>();
@@ -154,6 +129,31 @@ public class Visualizer {
 		MutableGraph dotGraph = new Parser().read(stringDOT);
 		Graphviz.fromGraph(dotGraph)
 			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
+	}
+	
+	public static void vizualizeOntology(Tree<IConcept, IGenusDifferentiaDefinition> prophyrianTree, 
+			String fileName) throws IOException {
+		//convert in DOT format
+		DOTExporter<IConcept,IGenusDifferentiaDefinition> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
+		exporter.setVertexAttributeProvider((v) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(v.toString()));
+			return map;
+		});
+		Writer writer = new StringWriter();
+		exporter.exportGraph(prophyrianTree, writer);
+		String stringDOT = writer.toString();
+		/*
+		 System.out.println(writer.toString());
+		 */
+		//display graph
+		MutableGraph dotGraph = new Parser().read(stringDOT);
+		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}
 	
 

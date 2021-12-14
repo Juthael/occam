@@ -6,7 +6,7 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.tregouet.occam.data.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 
 public class ComplementaryConcept extends AbstractConcept implements IComplementaryConcept {
@@ -64,7 +64,7 @@ public class ComplementaryConcept extends AbstractConcept implements IComplement
 	}
 
 	@Override
-	public Set<IIntentAttribute> getIntent() {
+	public Set<IIntentConstruct> getIntent() {
 		if (wrappedComplementing == null)
 			return new HashSet<>();
 		else return wrappedComplementing.getIntent();

@@ -26,7 +26,7 @@ import com.tregouet.occam.alg.score_calc.CalculatorFactory;
 import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IConstruct;
@@ -70,7 +70,7 @@ public class ConceptsTest {
 
 	@Test
 	public void whenCategoriesReturnedThenEachHasADistinctIntent() {
-		Set<Set<IIntentAttribute>> intents = new HashSet<>();
+		Set<Set<IIntentConstruct>> intents = new HashSet<>();
 		for (IConcept cat : concepts.getTopologicalSorting())
 			intents.add(cat.getIntent());
 		assertTrue(intents.size() == concepts.getTopologicalSorting().size());

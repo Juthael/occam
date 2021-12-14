@@ -15,14 +15,14 @@ import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public class ClassificationSupplier implements IClassificationSupplier {
 
-	private final IUnidimensionalSorter<IConcept, IsA> categorySorter;
+	private final IUnidimensionalSorter<IConcept, IsA> conceptSorter;
 	private final List<IConcept> singletons;
 	private final IConcept ontologicalCommitment;
 	
 	public ClassificationSupplier(UpperSemilattice<IConcept, IsA> conceptUSL, List<IConcept> singletons,
 			IConcept ontologicalCommitment) throws IOException {
 		try {
-			this.categorySorter = new UnidimensionalSorter<>(conceptUSL);
+			this.conceptSorter = new UnidimensionalSorter<>(conceptUSL);
 		} catch (IOException e) {
 			throw new IOException("ClassificationSupplier() : error." + System.lineSeparator() + e.getMessage());
 		}
@@ -40,12 +40,12 @@ public class ClassificationSupplier implements IClassificationSupplier {
 
 	@Override
 	public boolean hasNext() {
-		return categorySorter.hasNext();
+		return conceptSorter.hasNext();
 	}
 
 	@Override
 	public IClassification next() {
-		return new Classification(IClassificationSupplier.commit(categorySorter.next(), ontologicalCommitment), 
+		return new Classification(IClassificationSupplier.commit(conceptSorter.next(), ontologicalCommitment), 
 				singletons);
 	}
 

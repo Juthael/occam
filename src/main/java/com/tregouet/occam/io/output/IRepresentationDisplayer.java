@@ -11,11 +11,11 @@ public interface IRepresentationDisplayer {
 	
 	String generateAsymmetricalSimilarityMatrix(String alinea);
 	
-	String generateConceptualCoherenceArray(String alinea);
-	
 	void generateConceptLatticeGraph() throws IOException;
 	
 	void generateConceptTreeGraph() throws IOException;
+	
+	String generateConceptualCoherenceArray(String alinea);
 	
 	void generateHTML() throws IOException;
 	
@@ -25,9 +25,9 @@ public interface IRepresentationDisplayer {
 	
 	void generateTransitionFunctionGraph() throws IOException;
 	
-	int getConceptTreeIndex();
-	
 	double getCoherenceScore();
+	
+	int getConceptTreeIndex();
 	
 	int getTransitionFunctionIndex();
 	

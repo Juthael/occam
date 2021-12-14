@@ -22,14 +22,14 @@ import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.concepts.utils.CatTreeToStringConvertor;
+import com.tregouet.occam.data.concepts.utils.TreeOfConceptsToStringConvertor;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.data.Tree;
 
 @SuppressWarnings("unused")
-public class CatTreeToStringConvertorTest {
+public class TreeOfConceptsToStringConvertorTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
@@ -69,7 +69,7 @@ public class CatTreeToStringConvertorTest {
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/
-			String currTreeDesc = new CatTreeToStringConvertor(currTree, objCatToName).toString();
+			String currTreeDesc = new TreeOfConceptsToStringConvertor(currTree, objCatToName).toString();
 			/*
 			System.out.println(currTreeDesc);
 			*/

@@ -13,7 +13,7 @@ import com.tregouet.occam.data.abstract_machines.functions.utils.TransitionFunct
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
@@ -23,7 +23,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	private Iterator<ITransitionFunction> ite;
 	
-	public BasicTFSupplier(IConcepts concepts, DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs) 
+	public BasicTFSupplier(IConcepts concepts, DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs) 
 			throws IOException {
 		super(concepts, constructs);
 		populateTransitionFunctions();
@@ -53,13 +53,13 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private void populateTransitionFunctions() {
 		while (classificationSupplier.hasNext()) {
 			IClassification currClassification = classificationSupplier.next();
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructGraph = 
+			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currClassification.getClassificationTree(), constructs);
-			IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> attTreeSupplier = 
-					new RestrictorOpt<IIntentAttribute, IProduction>(filteredConstructGraph, true);
-			while (attTreeSupplier.hasNext()) {
-				Tree<IIntentAttribute, IProduction> attTree = attTreeSupplier.nextTransitiveReduction();
-				ITransitionFunction transitionFunction = new TransitionFunction(currClassification, attTree);
+			IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constructTreeSupplier = 
+					new RestrictorOpt<IIntentConstruct, IProduction>(filteredConstructGraph, true);
+			while (constructTreeSupplier.hasNext()) {
+				Tree<IIntentConstruct, IProduction> constructTree = constructTreeSupplier.nextTransitiveReduction();
+				ITransitionFunction transitionFunction = new TransitionFunction(currClassification, constructTree);
 				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE)) {
 					if (transitionFunctions.size() <= MAX_CAPACITY)
 						transitionFunctions.add(transitionFunction);

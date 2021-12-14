@@ -19,11 +19,11 @@ import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationSt
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
-import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.ISetOfRelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -35,7 +35,7 @@ public class ConceptStructureBasedTFSupplierTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
-	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 
 	@BeforeClass
@@ -65,10 +65,10 @@ public class ConceptStructureBasedTFSupplierTest {
 		int idx = 0;
 		IConceptStructureBasedTFSupplier transFuncSupplier = new ConceptStructureBasedTFSupplier(concepts, constructs);
 		List<Double> coherenceScores = new ArrayList<>();
-		IRelatedTransFunctions relatedTransFunctions;
+		ISetOfRelatedTransFunctions setOfRelatedTransFunctions;
 		while (transFuncSupplier.hasNext()) {
-			relatedTransFunctions = transFuncSupplier.next();
-			coherenceScores.add(relatedTransFunctions.getCoherenceScore());
+			setOfRelatedTransFunctions = transFuncSupplier.next();
+			coherenceScores.add(setOfRelatedTransFunctions.getCoherenceScore());
 			/*
 			System.out.println("***Transition Function N° " + Integer.toString(idx) + " : " 
 					+ Double.toString(representedCatTree.getCoherenceScore()));			

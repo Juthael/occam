@@ -1,15 +1,15 @@
 package com.tregouet.occam.data.concepts.impl;
 
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 
-public class IntentAttribute extends Construct implements IIntentAttribute {
+public class IntentConstruct extends Construct implements IIntentConstruct {
 
 	private final IConcept concept;
 	
-	public IntentAttribute(IConstruct construct, IConcept concept) {
+	public IntentConstruct(IConstruct construct, IConcept concept) {
 		super(construct);
 		this.concept = concept;
 	}
@@ -22,7 +22,7 @@ public class IntentAttribute extends Construct implements IIntentAttribute {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		IntentAttribute other = (IntentAttribute) obj;
+		IntentConstruct other = (IntentConstruct) obj;
 		if (concept == null) {
 			if (other.concept != null)
 				return false;

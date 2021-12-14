@@ -1,12 +1,12 @@
 package com.tregouet.occam.data.abstract_machines.transitions;
 
 import java.util.List;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
 public interface IOperator extends ITransition {
 	
-	IIntentAttribute operateOn(IIntentAttribute input);
+	IIntentConstruct operateOn(IIntentConstruct input);
 	
 	List<IProduction> operation();	
 	

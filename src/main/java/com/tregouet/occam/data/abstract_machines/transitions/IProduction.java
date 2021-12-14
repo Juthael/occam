@@ -3,7 +3,7 @@ package com.tregouet.occam.data.abstract_machines.transitions;
 import java.util.List;
 
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 
@@ -18,17 +18,17 @@ public interface IProduction {
 	
 	IConcept getGenus();
 	
-	IConcept getInstance();
-	
 	String getLabel();
 	
-	IIntentAttribute getSource();
+	IIntentConstruct getSource();
 	
 	IConcept getSourceCategory();
 	
-	IIntentAttribute getTarget();
+	IConcept getSpecies();
 	
-	IConcept getTargetCategory();
+	IIntentConstruct getTarget();
+	
+	IConcept getTargetConcept();
 	
 	List<IConstruct> getValues();
 	

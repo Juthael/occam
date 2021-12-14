@@ -23,14 +23,14 @@ import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
-import com.tregouet.occam.data.abstract_machines.functions.IRelatedTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.ISetOfRelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IConstruct;
@@ -50,7 +50,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	private List<IContextObject> context = null;
 	private IConcepts concepts = null;
 	private IConceptStructureBasedTFSupplier conceptStructureBasedTFSupplier = null;
-	private IRelatedTransFunctions relatedTransFunctions = null;
+	private ISetOfRelatedTransFunctions setOfRelatedTransFunctions = null;
 	private int conceptTreeIdx = 0;
 	private Iterator<ITransitionFunction> iteOverTF = null;
 	private ITransitionFunction currentTransFunc = null;
@@ -72,10 +72,22 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	}
 
 	@Override
+	public void generateConceptLatticeGraph() throws IOException {
+		DirectedAcyclicGraph<IConcept, IsA> lattice = concepts.getConceptLattice();
+		TransitiveReduction.INSTANCE.reduce(lattice); 
+		Visualizer.visualizeConceptGraph(lattice, "concept_lattice.png");
+	}
+
+	@Override
+	public void generateConceptTreeGraph() throws IOException {
+		Visualizer.visualizeConceptGraph(setOfRelatedTransFunctions.getTreeOfConcepts(), "concept_tree.png");;
+	}
+
+	@Override
 	public String generateConceptualCoherenceArray(String alinea) {
 		Map<Integer, Double> catIDToCoherence = currentTransFunc.getConceptualCoherenceMap();
 		List<IConcept> topologicalOrder = new ArrayList<>();
-		new TopologicalOrderIterator<>(currentTransFunc.getConceptTree()).forEachRemaining(topologicalOrder::add);
+		new TopologicalOrderIterator<>(currentTransFunc.getTreeOfConcepts()).forEachRemaining(topologicalOrder::add);
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
 		String alineaaa = alineaa + "   ";
@@ -96,18 +108,6 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alineaa + "</tbody>" + NL);
 		sB.append(alinea + "</table><br>" + NL);
 		return sB.toString();
-	}
-
-	@Override
-	public void generateConceptLatticeGraph() throws IOException {
-		DirectedAcyclicGraph<IConcept, IsA> lattice = concepts.getConceptLattice();
-		TransitiveReduction.INSTANCE.reduce(lattice); 
-		Visualizer.visualizeConceptGraph(lattice, "concept_lattice.png");
-	}
-
-	@Override
-	public void generateConceptTreeGraph() throws IOException {
-		Visualizer.visualizeConceptGraph(relatedTransFunctions.getCategoryTree(), "concept_tree.png");;
 	}
 	
 	@Override
@@ -133,7 +133,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alineaaa + "<b>Score : " + round(currentTransFunc.getCoherenceScore()) + "</b>" + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<p>" + NL);
-		sB.append(alineaaa + "<b>Extent structure : </b>" + relatedTransFunctions.getExtentStructureAsString() + NL);
+		sB.append(alineaaa + "<b>Extent structure : </b>" + setOfRelatedTransFunctions.getExtentStructureAsString() + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<h3>Concept tree : </h3>" + NL);
 		sB.append(alineaaa + "<p>" + NL);
@@ -213,13 +213,13 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	}
 
 	@Override
-	public int getConceptTreeIndex() {
-		return conceptTreeIdx;
+	public double getCoherenceScore() {
+		return currentTransFunc.getCoherenceScore();
 	}
 
 	@Override
-	public double getCoherenceScore() {
-		return currentTransFunc.getCoherenceScore();
+	public int getConceptTreeIndex() {
+		return conceptTreeIdx;
 	}
 
 	@Override
@@ -239,10 +239,10 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void nextConceptTree() throws IOException {
-		relatedTransFunctions = conceptStructureBasedTFSupplier.next();
+		setOfRelatedTransFunctions = conceptStructureBasedTFSupplier.next();
 		conceptTreeIdx++;
 		generateConceptTreeGraph();
-		iteOverTF = relatedTransFunctions.getIteratorOverTransitionFunctions();
+		iteOverTF = setOfRelatedTransFunctions.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateTransitionFunctionGraph();
 	}
@@ -262,7 +262,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		}
 		concepts = new Concepts(context);
 		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
-		DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+		DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		productions.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
@@ -274,13 +274,18 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		} catch (IOException e) {
 			return false;
 		}
-		relatedTransFunctions = conceptStructureBasedTFSupplier.next();
-		iteOverTF = relatedTransFunctions.getIteratorOverTransitionFunctions();
+		setOfRelatedTransFunctions = conceptStructureBasedTFSupplier.next();
+		iteOverTF = setOfRelatedTransFunctions.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateConceptLatticeGraph();
 		generateConceptTreeGraph();
 		generateTransitionFunctionGraph();
 		return true;
+	}
+	
+	@Override
+	public Tree<IConcept, IGenusDifferentiaDefinition> whatIsThere() {
+		return IOntologist.whatIsThere(currentTransFunc);
 	}
 	
 	private String displayFigure(String fileName, String alinea, String caption) {
@@ -326,14 +331,9 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alinea + "</table>" + NL);
 		return sB.toString();
 	}
-	
+
 	private String round(double nb) {
 		return df.format(nb).toString();
-	}
-
-	@Override
-	public Tree<IConcept, IGenusDifferentiaDefinition> whatIsThere() {
-		return IOntologist.whatIsThere(currentTransFunc);
 	}
 
 }

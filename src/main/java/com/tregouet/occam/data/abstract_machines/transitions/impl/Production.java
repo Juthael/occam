@@ -4,15 +4,15 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 
 public abstract class Production extends DefaultEdge implements IProduction {
 
 	private static final long serialVersionUID = 1701074226278101143L;
-	private final IIntentAttribute operatorInput;
-	private final IIntentAttribute operatorOutput;
+	private final IIntentConstruct operatorInput;
+	private final IIntentConstruct operatorOutput;
 	
-	public Production(IIntentAttribute operatorInput, IIntentAttribute operatorOutput) {
+	public Production(IIntentConstruct operatorInput, IIntentConstruct operatorOutput) {
 		this.operatorInput = operatorInput;
 		this.operatorOutput = operatorOutput;
 	}
@@ -48,17 +48,12 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	}
 
 	@Override
-	public IConcept getInstance() {
-		return operatorInput.getConcept();
-	}
-
-	@Override
 	public String getLabel() {
 		return toString();
 	}
 
 	@Override
-	public IIntentAttribute getSource() {
+	public IIntentConstruct getSource() {
 		return operatorInput;
 	}
 
@@ -68,12 +63,17 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	}
 
 	@Override
-	public IIntentAttribute getTarget() {
+	public IConcept getSpecies() {
+		return operatorInput.getConcept();
+	}
+
+	@Override
+	public IIntentConstruct getTarget() {
 		return operatorOutput;
 	}
 
 	@Override
-	public IConcept getTargetCategory() {
+	public IConcept getTargetConcept() {
 		return operatorOutput.getConcept();
 	}
 

@@ -23,9 +23,9 @@ public interface IConcept extends IDichotomizable<IConcept> {
 	
 	int getID();
 	
-	Set<IIntentAttribute> getIntent();
+	Set<IIntentConstruct> getIntent();
 	
-	IIntentAttribute getMatchingAttribute(List<String> constraintAsStrings) throws IOException;
+	IIntentConstruct getMatchingIntentConstruct(List<String> constraintAsStrings) throws IOException;
 	
 	@Override
 	int hashCode();

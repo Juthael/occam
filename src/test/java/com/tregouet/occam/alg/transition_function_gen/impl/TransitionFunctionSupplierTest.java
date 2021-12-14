@@ -24,7 +24,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IContextObject;
@@ -40,7 +40,7 @@ public class TransitionFunctionSupplierTest {
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
 	private IClassificationSupplier classificationSupplier;
-	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
 	@BeforeClass
@@ -69,11 +69,11 @@ public class TransitionFunctionSupplierTest {
 			Tree<IConcept, IsA> catTree = classificationSupplier.next().getClassificationTree();
 			Set<IConcept> expectedCats = catTree.vertexSet();
 			Set<IConcept> returnedCats = new HashSet<>();
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
+			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
 				returnedCats.add(production.getSourceCategory());
-				returnedCats.add(production.getTargetCategory());
+				returnedCats.add(production.getTargetConcept());
 			}
 			if (!expectedCats.equals(returnedCats)) {
 				Set<IConcept> conceptsNotFound = Sets.difference(expectedCats, returnedCats);
@@ -95,9 +95,9 @@ public class TransitionFunctionSupplierTest {
 			Tree<IConcept, IsA> catTree = classificationSupplier.next().getClassificationTree();
 			Set<IConcept> expectedCats = catTree.vertexSet();
 			Set<IConcept> returnedCats = new HashSet<>();
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
+			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
-			for (IIntentAttribute intentAtt : filteredConstructs.vertexSet()) {
+			for (IIntentConstruct intentAtt : filteredConstructs.vertexSet()) {
 				returnedCats.add(intentAtt.getConcept());
 			}
 			if (!expectedCats.equals(returnedCats)) {
@@ -118,12 +118,12 @@ public class TransitionFunctionSupplierTest {
 		int checkCount = 0;
 		while (classificationSupplier.hasNext()) {
 			Tree<IConcept, IsA> catTree = classificationSupplier.next().getClassificationTree();
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
+			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
 				checkCount++;
 				IConcept sourceCat = production.getSourceCategory();
-				IConcept targetCat = production.getTargetCategory();
+				IConcept targetCat = production.getTargetConcept();
 				if (!catTree.getDescendants(sourceCat).contains(targetCat))
 					sourceAndTargetCatsAreRelated = false;
 			}
@@ -140,7 +140,7 @@ public class TransitionFunctionSupplierTest {
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			*/
-			DirectedAcyclicGraph<IIntentAttribute, IProduction> filteredConstructs = 
+			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			/*
 			Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");

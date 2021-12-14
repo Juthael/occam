@@ -9,7 +9,7 @@ import com.tregouet.occam.data.abstract_machines.tapes.ITapeSet;
 import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 
 public class State implements IState {
 
@@ -77,9 +77,9 @@ public class State implements IState {
 	}
 
 	@Override
-	public Set<IIntentAttribute> getInputLanguage() {
+	public Set<IIntentConstruct> getInputLanguage() {
 		if (this.isActive()) {
-			Set<IIntentAttribute> inputlanguage = new HashSet<>();
+			Set<IIntentConstruct> inputlanguage = new HashSet<>();
 			for (IOperator operator : transitions) {
 				for (IProduction prod : operator.operation())
 					inputlanguage.add(prod.getSource());

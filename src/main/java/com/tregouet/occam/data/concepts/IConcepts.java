@@ -24,9 +24,9 @@ public interface IConcepts {
 	
 	IConcept getAbsurdity();
 	
-	DirectedAcyclicGraph<IConcept, IsA> getConceptLattice();
-	
 	IClassificationSupplier getClassificationSupplier() throws IOException;
+	
+	DirectedAcyclicGraph<IConcept, IsA> getConceptLattice();
 	
 	/**
 	 * If param contains every object in the context, then return truism

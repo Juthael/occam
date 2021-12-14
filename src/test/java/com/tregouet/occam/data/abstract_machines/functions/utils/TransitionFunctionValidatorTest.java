@@ -29,7 +29,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IContextObject;
@@ -45,13 +45,13 @@ public class TransitionFunctionValidatorTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes1Obj;
 	private IConcepts concepts;
-	private DirectedAcyclicGraph<IIntentAttribute, IProduction> constructs = 
+	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IClassificationSupplier classificationSupplier;
 	private Tree<IConcept, IsA> catTree;
-	private DirectedAcyclicGraph<IIntentAttribute, IProduction> filtered_reduced_constructs;
-	private IHierarchicalRestrictionFinder<IIntentAttribute, IProduction> constrTreeSupplier;
-	private Tree<IIntentAttribute, IProduction> constrTree;
+	private DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered_reduced_constructs;
+	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
+	private Tree<IIntentConstruct, IProduction> constrTree;
 	private TreeSet<ITransitionFunction> transitionFunctions;	
 	
 	@BeforeClass

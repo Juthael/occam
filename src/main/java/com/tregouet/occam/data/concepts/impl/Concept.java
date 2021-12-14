@@ -6,20 +6,20 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentAttribute;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 
 public class Concept extends AbstractConcept implements IConcept {
 
-	private final Set<IIntentAttribute> intent = new HashSet<>();
+	private final Set<IIntentConstruct> intent = new HashSet<>();
 	private final Set<IContextObject> extent;
 	protected int rank = 0;
 	private final int iD;
 	
 	public Concept(Set<IConstruct> intent, Set<IContextObject> extent) {
 		for (IConstruct construct : intent)
-			this.intent.add(new IntentAttribute(construct, this));
+			this.intent.add(new IntentConstruct(construct, this));
 		this.extent = Collections.unmodifiableSet(extent);
 		if (extent.size() == 1)
 			iD = extent.iterator().next().getID();
@@ -62,7 +62,7 @@ public class Concept extends AbstractConcept implements IConcept {
 	}
 
 	@Override
-	public Set<IIntentAttribute> getIntent() {
+	public Set<IIntentConstruct> getIntent() {
 		return intent;
 	}
 
@@ -89,7 +89,7 @@ public class Concept extends AbstractConcept implements IConcept {
 		sB.append(Integer.toString(iD));
 		String newLine = System.lineSeparator();
 		sB.append(newLine);
-		Iterator<IIntentAttribute> iterator = intent.iterator();
+		Iterator<IIntentConstruct> iterator = intent.iterator();
 		while (iterator.hasNext()) {
 			sB.append(iterator.next().toString());
 			if (iterator.hasNext())

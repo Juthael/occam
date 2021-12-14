@@ -116,11 +116,11 @@ public class Classification implements IClassification {
 			int nbOfObjects = singletons.size();
 			similarityMatrix = new double[nbOfObjects][nbOfObjects];
 			for (int i = 0 ; i < nbOfObjects ; i++) {
-				int iObjCatID = singletons.get(i).getID();
+				int iSingletonID = singletons.get(i).getID();
 				similarityMatrix[i][i] = 1.0;
 				for (int j = i + 1 ; j < nbOfObjects ; j++) {
-					int jObjCatID = singletons.get(j).getID();
-					double similarityScoreIJ = similarityCalc.howSimilar(iObjCatID, jObjCatID);
+					int jSingletonID = singletons.get(j).getID();
+					double similarityScoreIJ = similarityCalc.howSimilar(iSingletonID, jSingletonID);
 					similarityMatrix[i][j] = similarityScoreIJ;
 					similarityMatrix[j][i] = similarityScoreIJ;
 				}

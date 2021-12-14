@@ -107,4 +107,9 @@ public class BasicOperator extends Transition implements IBasicOperator {
 		return sB.toString();
 	}
 
+	@Override
+	public boolean isReframer() {
+		return false;
+	}
+
 }

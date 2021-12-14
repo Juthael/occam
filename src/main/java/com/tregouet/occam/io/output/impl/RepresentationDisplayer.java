@@ -17,7 +17,6 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IOntologist;
 import com.tregouet.occam.alg.score_calc.CalculatorFactory;
 import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
@@ -57,7 +56,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	public RepresentationDisplayer(String folderPath) {
 		this.folderPath = folderPath;
 		Visualizer.setLocation(folderPath);
-		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE_MULTIFRAME);
 	}
 
 	@Override
@@ -339,7 +338,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void generatePorphyrianTree() throws IOException {
-		Visualizer.vizualizeOntology(IOntologist.getPorphyrianTree(currentTransFunc), "porphyrian_tree.png");
+		Visualizer.visualizePorphyrianTree(currentTransFunc, "porphyrian_tree.png");
 	}
 
 }

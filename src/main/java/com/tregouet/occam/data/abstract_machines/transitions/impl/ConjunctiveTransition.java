@@ -16,13 +16,13 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	
 	private String name;
 	private List<IBasicOperator> operators = new ArrayList<>();
-	private IReframer reframer;
+	private IReframer reframer = null;
 	private final IState operatingState;
 	private final IState nextState;
 
 	public ConjunctiveTransition(ITransition transition) {
 		name = IConjunctiveTransition.provideName();
-		if (transition instanceof IReframer)
+		if (transition.isReframer())
 			reframer = (IReframer) transition;
 		else operators.add((IBasicOperator) transition);
 		operatingState = transition.getOperatingState();
@@ -33,7 +33,7 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	public boolean addTransition(ITransition transition) {
 		if (this.operatingState.equals(transition.getOperatingState()) 
 				&& this.nextState.equals(transition.getNextState())) {
-			if (transition instanceof IReframer)
+			if (transition.isReframer())
 				reframer = (IReframer) transition;
 			else operators.add((IBasicOperator) transition);
 			return true;
@@ -106,6 +106,11 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 		for (IBasicOperator operator : operators)
 			semantics.addAll(operator.semantics());
 		return semantics;
+	}
+
+	@Override
+	public boolean isReframer() {
+		return reframer != null;
 	}
 
 }

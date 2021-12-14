@@ -51,5 +51,7 @@ public interface ITransition {
 	IState getOperatingState();
 	
 	boolean isBlank();
+	
+	boolean isReframer();
 
 }

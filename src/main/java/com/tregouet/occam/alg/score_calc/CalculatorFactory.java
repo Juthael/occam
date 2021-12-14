@@ -9,6 +9,7 @@ import com.tregouet.occam.alg.score_calc.similarity_calc.impl.SimilarityCalculat
 import com.tregouet.occam.alg.score_calc.transition_function_cost.ITransitionFunctionCostCalculator;
 import com.tregouet.occam.alg.score_calc.transition_function_cost.TransitionFunctionCostStrategy;
 import com.tregouet.occam.alg.score_calc.transition_function_cost.impl.TransitionFunctionCostCalcFactory;
+import com.tregouet.occam.data.concepts.IIsA;
 
 public class CalculatorFactory {
 
@@ -38,6 +39,12 @@ public class CalculatorFactory {
 				derivationCostStrategy = ConceptDerivationCostStrategy.ENTROPY_REDUCTION;
 				similarityStrategy = SimilarityCalculationStrategy.RATIO_MODEL;
 				transitionFunctionCostStrategy = TransitionFunctionCostStrategy.NUMBER_OF_TRANSITIONS;
+				break;
+			case CONCEPTUAL_COHERENCE_MULTIFRAME : 
+				derivationCostStrategy = ConceptDerivationCostStrategy.ENTROPY_REDUCTION_MULTIFRAME;
+				similarityStrategy = SimilarityCalculationStrategy.RATIO_MODEL;
+				transitionFunctionCostStrategy = TransitionFunctionCostStrategy.NUMBER_OF_TRANSITIONS;
+				break;
 		}
 	}
 

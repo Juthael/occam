@@ -9,9 +9,13 @@ import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
 public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 
 	private static final long serialVersionUID = -2693542568124185602L;
+	private final IConcept species;
+	private final IConcept genus;
 	private final List<ITransition> differentiae;
 	
-	public GenusDifferentiaDefinition(List<ITransition> differentiae) {
+	public GenusDifferentiaDefinition(IConcept species, IConcept genus, List<ITransition> differentiae) {
+		this.species = species;
+		this.genus = genus;
 		this.differentiae = differentiae;
 	}
 
@@ -22,12 +26,22 @@ public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 
 	@Override
 	public IConcept getGenus() {
-		return (IConcept) getTarget();
+		return genus;
 	}
 
 	@Override
 	public IConcept getSpecies() {
-		return (IConcept) getSource();
+		return species;
+	}
+	
+	@Override
+	public IConcept getSource() {
+		return species;
+	}
+	
+	@Override
+	public IConcept getTarget() {
+		return genus;
 	}
 	
 	@Override
@@ -41,6 +55,14 @@ public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 				sB.append(nL);
 		}
 		return sB.toString();
+	}
+
+	@Override
+	public boolean isReframer() {
+		for (ITransition differentia : differentiae)
+			if (differentia.isReframer())
+				return true;
+		return false;
 	}	
 
 }

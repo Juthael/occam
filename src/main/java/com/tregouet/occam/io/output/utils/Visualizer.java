@@ -13,9 +13,11 @@ import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
 
+import com.tregouet.occam.alg.conceptual_structure_gen.IOntologist;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
@@ -132,8 +134,11 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}
 	
-	public static void vizualizeOntology(Tree<IConcept, IGenusDifferentiaDefinition> prophyrianTree, 
+	public static void visualizePorphyrianTree(ITransitionFunction transitionFunction, 
 			String fileName) throws IOException {
+		Tree<IConcept, IGenusDifferentiaDefinition> prophyrianTree = 
+				IOntologist.getPorphyrianTree(transitionFunction);
+		IClassification classification = transitionFunction.getClassification();
 		//convert in DOT format
 		DOTExporter<IConcept,IGenusDifferentiaDefinition> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
@@ -143,9 +148,14 @@ public class Visualizer {
 		});
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.toString()));
+			map.put("label", DefaultAttribute.createAttribute(Integer.toString(v.getID())));
 			return map;
 		});
+		exporter.setEdgeAttributeProvider((e) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(buildGenDiffStringDesc(e, classification)));
+			return map;
+		}); 		
 		Writer writer = new StringWriter();
 		exporter.exportGraph(prophyrianTree, writer);
 		String stringDOT = writer.toString();
@@ -155,6 +165,15 @@ public class Visualizer {
 		//display graph
 		MutableGraph dotGraph = new Parser().read(stringDOT);
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
+	}
+	
+	private static  String buildGenDiffStringDesc(IGenusDifferentiaDefinition def, 
+			IClassification classification) {
+		StringBuilder sB = new StringBuilder();
+		sB.append("Informativity : ");
+		sB.append(Double.toString(classification.getCostOf(def)) + System.lineSeparator());
+		sB.append(def.toString());
+		return sB.toString();
 	}
 	
 

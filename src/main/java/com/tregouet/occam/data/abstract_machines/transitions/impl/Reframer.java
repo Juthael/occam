@@ -42,5 +42,15 @@ public class Reframer extends Transition implements IReframer {
 	public boolean isBlank() {
 		return blankReframer;
 	}
+	
+	@Override
+	public String toString() {
+		return getReframer();
+	}
+
+	@Override
+	public boolean isReframer() {
+		return true;
+	}
 
 }

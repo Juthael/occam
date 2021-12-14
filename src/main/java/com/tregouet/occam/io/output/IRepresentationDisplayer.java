@@ -3,10 +3,6 @@ package com.tregouet.occam.io.output;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
-import com.tregouet.tree_finder.data.Tree;
-
 public interface IRepresentationDisplayer {
 	
 	String generateAsymmetricalSimilarityMatrix(String alinea);

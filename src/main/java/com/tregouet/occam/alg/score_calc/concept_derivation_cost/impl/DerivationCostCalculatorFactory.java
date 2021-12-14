@@ -18,6 +18,8 @@ public class DerivationCostCalculatorFactory
 		switch (strategy) {
 			case ENTROPY_REDUCTION : 
 				return new EntropyReduction();
+			case ENTROPY_REDUCTION_MULTIFRAME : 
+				return new EntropyReductionMultiFrame();
 			default : 
 				return null;
 		}

@@ -20,8 +20,8 @@ import com.tregouet.occam.alg.score_calc.CalculatorFactory;
 import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.Concepts;
-import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.concepts.utils.TreeOfConceptsToStringConvertor;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -65,7 +65,7 @@ public class TreeOfConceptsToStringConvertorTest {
 		int treeIdx = 0;
 		*/
 		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IsA> currTree = classificationSupplier.next().getClassificationTree();
+			Tree<IConcept, IIsA> currTree = classificationSupplier.next().getClassificationTree();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/

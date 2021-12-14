@@ -4,12 +4,14 @@ import java.util.List;
 
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 
-public interface IGenusDifferentiaDefinition {
+public abstract class IGenusDifferentiaDefinition extends IIsA {
 	
-	List<ITransition> getDifferentiae();
+	private static final long serialVersionUID = -1660518980107230824L;
+
+	abstract public List<ITransition> getDifferentiae();
 	
-	IConcept getGenus();
+	abstract public IConcept getGenus();
 	
-	IConcept getSpecies();
+	abstract public IConcept getSpecies();
 
 }

@@ -9,14 +9,14 @@ import java.util.Scanner;
 import com.tregouet.occam.io.output.IRepresentationDisplayer;
 import com.tregouet.occam.io.output.impl.RepresentationDisplayer;
 
-public class Proto {
+public class PrototypeMenu {
 
 	private static final String NL = System.lineSeparator();
 	private IRepresentationDisplayer representationDisplayer;
 	private final Scanner entry = new Scanner(System.in);
 	private String folderPath = null;
 	
-	public Proto() {
+	public PrototypeMenu() {
 		welcome();
 	}
 	

@@ -13,12 +13,13 @@ import com.tregouet.occam.alg.score_calc.concept_derivation_cost.IConceptDerivat
 import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public class Classification implements IClassification {
 
-	private final Tree<IConcept, IsA> classificationTree;
+	private final Tree<IConcept, IIsA> classificationTree;
 	private final List<IConcept> singletons;
 	private final IConceptDerivationCostCalculator costCalc;
 	private final ISimilarityCalculator similarityCalc;
@@ -26,7 +27,7 @@ public class Classification implements IClassification {
 	private double[][] asymmetricalSimilarityMatrix = null;
 	private final double coherenceScore;
 	
-	public Classification(Tree<IConcept, IsA> classificationTree, List<IConcept> singletons) {
+	public Classification(Tree<IConcept, IIsA> classificationTree, List<IConcept> singletons) {
 		this.classificationTree = classificationTree;
 		this.singletons = singletons;
 		costCalc = CalculatorFactory.INSTANCE.getConceptDerivationCostCalculator().input(classificationTree);
@@ -71,7 +72,7 @@ public class Classification implements IClassification {
 	}
 
 	@Override
-	public Tree<IConcept, IsA> getClassificationTree() {
+	public Tree<IConcept, IIsA> getClassificationTree() {
 		return classificationTree;
 	}
 
@@ -101,7 +102,7 @@ public class Classification implements IClassification {
 	}
 
 	@Override
-	public double getCostOf(IsA derivation) {
+	public double getCostOf(IIsA derivation) {
 		return costCalc.costOf(derivation);
 	}
 

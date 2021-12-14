@@ -11,7 +11,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public abstract class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
@@ -30,7 +30,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	}
 
 	public static DirectedAcyclicGraph<IIntentConstruct, IProduction> getConstructGraphFilteredByCategoryTree(
-			Tree<IConcept, IsA> treeOfConcepts, 
+			Tree<IConcept, IIsA> treeOfConcepts, 
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> unfilteredUnreduced) {
 		DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);
@@ -83,7 +83,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return edgesReturned;
 	}
 	
-	private static boolean isA(IConcept concept1, IConcept concept2, Tree<IConcept, IsA> treeOfConcepts) {
+	private static boolean isA(IConcept concept1, IConcept concept2, Tree<IConcept, IIsA> treeOfConcepts) {
 		return treeOfConcepts.getDescendants(concept1).contains(concept2);
 	}
 

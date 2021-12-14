@@ -5,13 +5,13 @@ import java.util.TreeSet;
 
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IClassificationSupplier extends Iterator<IClassification> {
 	
-	public static Tree<IConcept, IsA> commit(
-			Tree<IConcept, IsA> classificationTree, IConcept ontologicalCommitment) {
+	public static Tree<IConcept, IIsA> commit(
+			Tree<IConcept, IIsA> classificationTree, IConcept ontologicalCommitment) {
 		classificationTree.addAsNewRoot(ontologicalCommitment, true);
 		return classificationTree;
 	}

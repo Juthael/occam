@@ -8,7 +8,6 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.conceptual_structure_gen.IConstrainedClassificationSupplier;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
-import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
@@ -26,7 +25,7 @@ public interface IConcepts {
 	
 	IClassificationSupplier getClassificationSupplier() throws IOException;
 	
-	DirectedAcyclicGraph<IConcept, IsA> getConceptLattice();
+	DirectedAcyclicGraph<IConcept, IIsA> getConceptLattice();
 	
 	/**
 	 * If param contains every object in the context, then return truism
@@ -43,14 +42,14 @@ public interface IConcepts {
 	
 	IConcept getOntologicalCommitment();
 	
-	UpperSemilattice<IConcept, IsA> getOntologicalUpperSemilattice();
+	UpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice();
 	
 	//it is guaranteed that the order is the same as getContextObjects();
 	List<IConcept> getSingletonConcept();
 	
 	List<IConcept> getTopologicalSorting();
 	
-	DirectedAcyclicGraph<IConcept, IsA> getTransitiveReduction();
+	DirectedAcyclicGraph<IConcept, IIsA> getTransitiveReduction();
 	
 	IConcept getTruism();
 	

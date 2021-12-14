@@ -13,13 +13,15 @@ public interface IRepresentationDisplayer {
 	
 	void generateConceptLatticeGraph() throws IOException;
 	
-	void generateConceptTreeGraph() throws IOException;
+	void generateTreeOfConcepts() throws IOException;
 	
 	String generateConceptualCoherenceArray(String alinea);
 	
 	void generateHTML() throws IOException;
 	
 	String generateInputHTMLTranslation(String alinea);
+	
+	void generatePorphyrianTree() throws IOException;
 	
 	String generateSimilarityMatrix(String alinea);
 	
@@ -40,7 +42,5 @@ public interface IRepresentationDisplayer {
 	void nextTransitionFunctionOverCurrentCategoricalStructure() throws IOException;
 	
 	boolean represent(Path contextPath) throws IOException;
-	
-	Tree<IConcept, IGenusDifferentiaDefinition> whatIsThere();
 
 }

@@ -27,8 +27,8 @@ import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.Concepts;
-import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
@@ -142,7 +142,7 @@ public class ConceptsTest {
 	
 	@Test
 	public void categoryLatticeReturnedThenReallyIsALattice() {
-		DirectedAcyclicGraph<IConcept, IsA> lattice = concepts.getConceptLattice();
+		DirectedAcyclicGraph<IConcept, IIsA> lattice = concepts.getConceptLattice();
 		assertTrue(StructureInspector.isAnUpperSemilattice(lattice) 
 				&& StructureInspector.isALowerSemilattice(lattice)
 				&& !lattice.vertexSet().isEmpty());
@@ -313,7 +313,7 @@ public class ConceptsTest {
 		IClassificationSupplier classificationSupplier = concepts.getClassificationSupplier();
 		int nbOfChecks = 0;
 		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IsA> nextTree = classificationSupplier.next().getClassificationTree();
+			Tree<IConcept, IIsA> nextTree = classificationSupplier.next().getClassificationTree();
 			/*
 			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
 			*/

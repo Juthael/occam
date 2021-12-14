@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface ISetOfRelatedTransFunctions extends Comparable<ISetOfRelatedTransFunctions> {
@@ -19,7 +19,7 @@ public interface ISetOfRelatedTransFunctions extends Comparable<ISetOfRelatedTra
 	
 	ITransitionFunction getOptimalTransitionFunction();
 	
-	Tree<IConcept, IsA> getTreeOfConcepts();
+	Tree<IConcept, IIsA> getTreeOfConcepts();
 	
 	//has a transition function
 	boolean isValid();

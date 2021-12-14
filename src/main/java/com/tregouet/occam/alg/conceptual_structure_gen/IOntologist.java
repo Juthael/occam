@@ -12,17 +12,19 @@ import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.GenusDifferentiaDefinition;
-import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IOntologist {
 	
-	public static Tree<IConcept, IGenusDifferentiaDefinition> whatIsThere(ITransitionFunction transitionFunction){
-		Tree<IConcept, IsA> conceptTree = transitionFunction.getTreeOfConcepts();
-		DirectedAcyclicGraph<IConcept, IGenusDifferentiaDefinition> prophyrianTree = 
-				new DirectedAcyclicGraph<IConcept, IGenusDifferentiaDefinition>(null, null, false);
-		Graphs.addAllVertices(prophyrianTree, conceptTree.vertexSet());
+	public static Tree<IConcept, IGenusDifferentiaDefinition> getPorphyrianTree(
+			ITransitionFunction transitionFunction){
+		Tree<IConcept, IIsA> conceptTree = transitionFunction.getTreeOfConcepts();
+		DirectedAcyclicGraph<IConcept, IGenusDifferentiaDefinition> porphyrianTree = 
+				new DirectedAcyclicGraph<IConcept, IGenusDifferentiaDefinition>(IGenusDifferentiaDefinition.class);
+		for (IConcept concept : conceptTree.vertexSet())
+			porphyrianTree.addVertex(concept);
 		Map<Integer, List<ITransition>> sourceIDToTransitions = new HashMap<>();
 		for (ITransition transition : transitionFunction.getTransitions()) {
 			Integer sourceID = transition.getOperatingState().getStateID();
@@ -34,15 +36,21 @@ public interface IOntologist {
 				sourceIDToTransitions.put(sourceID, transitions);
 			}
 		}
-		for (IsA isA : conceptTree.edgeSet()) {
+		for (IIsA isA : conceptTree.edgeSet()) {
 			IConcept species = conceptTree.getEdgeSource(isA);
 			IConcept genus = conceptTree.getEdgeTarget(isA);
 			IGenusDifferentiaDefinition genusDiff = 
 					new GenusDifferentiaDefinition(sourceIDToTransitions.get(species.getID()));
-			prophyrianTree.addEdge(species, genus, genusDiff);
+			//HERE
+			try {
+				porphyrianTree.addEdge(species, genus, genusDiff);
+			}
+			catch (Exception e) {
+				System.out.println("here");
+			}
 		}
 		return new Tree<IConcept, IGenusDifferentiaDefinition>(
-				prophyrianTree, conceptTree.getRoot(), conceptTree.getLeaves(), conceptTree.getTopologicalOrder());
+				porphyrianTree, conceptTree.getRoot(), conceptTree.getLeaves(), conceptTree.getTopologicalOrder());
 	}
 
 }

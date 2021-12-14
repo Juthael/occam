@@ -14,7 +14,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransit
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -53,7 +53,7 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	List<ITransition> getTransitions();
 	
-	Tree<IConcept, IsA> getTreeOfConcepts();
+	Tree<IConcept, IIsA> getTreeOfConcepts();
 	
 	String getTreeOfConceptsAsDOTFile();
 	

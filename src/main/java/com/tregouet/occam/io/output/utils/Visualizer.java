@@ -19,7 +19,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 import guru.nidi.graphviz.engine.Format;
@@ -38,10 +38,10 @@ public class Visualizer {
 		location = newLocation;
 	}
 	
-	public static void visualizeConceptGraph(DirectedAcyclicGraph<IConcept, IsA> graph, String fileName) 
+	public static void visualizeConceptGraph(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName) 
 			throws IOException {
 		//convert in DOT format
-		DOTExporter<IConcept,IsA> exporter = new DOTExporter<>();
+		DOTExporter<IConcept,IIsA> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
@@ -63,7 +63,8 @@ public class Visualizer {
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}	
 	
-	public static void visualizeConstructGraph(DirectedAcyclicGraph<IIntentConstruct, IProduction> graph, String fileName) throws IOException {
+	public static void visualizeConstructGraph(DirectedAcyclicGraph<IIntentConstruct, IProduction> graph, 
+			String fileName) throws IOException {
 		//convert in DOT format
 		DOTExporter<IIntentConstruct,IProduction> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {

@@ -7,14 +7,14 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.score_calc.concept_derivation_cost.IConceptDerivationCostCalculator;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public class EntropyReduction implements IConceptDerivationCostCalculator {
 
 	private Map<IConcept, Integer> conceptToExtentSize;
-	private Map<IsA, Double> derivationToCost;
+	private Map<IIsA, Double> derivationToCost;
 	
 	public EntropyReduction() {
 	}
@@ -24,12 +24,12 @@ public class EntropyReduction implements IConceptDerivationCostCalculator {
 	}
 	
 	@Override
-	public double costOf(IsA conceptDerivation) {
+	public double costOf(IIsA conceptDerivation) {
 		return derivationToCost.get(conceptDerivation);
 	}
 
 	@Override
-	public EntropyReduction input(Tree<IConcept, IsA> classificationTree) {
+	public EntropyReduction input(Tree<IConcept, IIsA> classificationTree) {
 		conceptToExtentSize = new HashMap<>();
 		derivationToCost = new HashMap<>();
 		Set<IConcept> singletons = classificationTree.getLeaves();
@@ -38,7 +38,7 @@ public class EntropyReduction implements IConceptDerivationCostCalculator {
 					concept, 
 					Sets.intersection(Functions.lowerSet(classificationTree, concept), singletons).size());
 		}
-		for (IsA derivation : classificationTree.edgeSet()) {
+		for (IIsA derivation : classificationTree.edgeSet()) {
 			double genusExtentSize = 
 					conceptToExtentSize.get(classificationTree.getEdgeTarget(derivation));
 			double speciesExtentSize = 

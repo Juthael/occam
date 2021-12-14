@@ -9,17 +9,17 @@ import com.tregouet.occam.data.abstract_machines.functions.ISetOfRelatedTransFun
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.utils.TreeOfConceptsToStringConvertor;
 import com.tregouet.tree_finder.data.Tree;
 
 public class RelatedTransFunctions implements ISetOfRelatedTransFunctions {
 
-	private final Tree<IConcept,IsA> treeOfConcepts;
+	private final Tree<IConcept,IIsA> treeOfConcepts;
 	private final Map<IConcept, String> singletonConceptToName;
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
 	
-	public RelatedTransFunctions(Tree<IConcept, IsA> treeOfConcepts, 
+	public RelatedTransFunctions(Tree<IConcept, IIsA> treeOfConcepts, 
 			Map<IConcept, String> singletonConceptToName) {
 		this.treeOfConcepts = treeOfConcepts;
 		this.singletonConceptToName = singletonConceptToName;
@@ -85,7 +85,7 @@ public class RelatedTransFunctions implements ISetOfRelatedTransFunctions {
 	}
 
 	@Override
-	public Tree<IConcept, IsA> getTreeOfConcepts() {
+	public Tree<IConcept, IIsA> getTreeOfConcepts() {
 		return treeOfConcepts;
 	}
 	

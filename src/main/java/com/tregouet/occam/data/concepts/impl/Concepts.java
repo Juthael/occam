@@ -24,6 +24,7 @@ import com.tregouet.occam.alg.conceptual_structure_gen.utils.IntentBldr;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.IContextObject;
@@ -35,8 +36,8 @@ import com.tregouet.tree_finder.data.UpperSemilattice;
 public class Concepts implements IConcepts {
 	
 	private final List<IContextObject> objects;
-	private final DirectedAcyclicGraph<IConcept, IsA> lattice;
-	private final UpperSemilattice<IConcept, IsA> conceptUSL;
+	private final DirectedAcyclicGraph<IConcept, IIsA> lattice;
+	private final UpperSemilattice<IConcept, IIsA> conceptUSL;
 	private final IConcept ontologicalCommitment;
 	private final List<IConcept> topologicalOrder;
 	private final IConcept truism;
@@ -67,8 +68,8 @@ public class Concepts implements IConcepts {
 		this.truism = truism;
 		this.absurdity = absurdity;
 		ontologicalCommitment = instantiateOntologicalCommitment();
-		DirectedAcyclicGraph<IConcept, IsA> ontologicalUSL = 
-				(DirectedAcyclicGraph<IConcept, IsA>) lattice.clone();
+		DirectedAcyclicGraph<IConcept, IIsA> ontologicalUSL = 
+				(DirectedAcyclicGraph<IConcept, IIsA>) lattice.clone();
 		ontologicalUSL.removeVertex(absurdity);
 		TransitiveReduction.INSTANCE.reduce(ontologicalUSL);
 		List<IConcept> topologicalOrderedSet = new ArrayList<>();
@@ -104,7 +105,7 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public DirectedAcyclicGraph<IConcept, IsA> getConceptLattice() {
+	public DirectedAcyclicGraph<IConcept, IIsA> getConceptLattice() {
 		return lattice;
 	}
 
@@ -157,7 +158,7 @@ public class Concepts implements IConcepts {
 	}
 	
 	@Override
-	public UpperSemilattice<IConcept, IsA> getOntologicalUpperSemilattice() {
+	public UpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice() {
 		return conceptUSL;
 	}
 	
@@ -172,7 +173,7 @@ public class Concepts implements IConcepts {
 	}
 	
 	@Override
-	public DirectedAcyclicGraph<IConcept, IsA> getTransitiveReduction() {
+	public DirectedAcyclicGraph<IConcept, IIsA> getTransitiveReduction() {
 		return conceptUSL;
 	}
 	
@@ -185,7 +186,7 @@ public class Concepts implements IConcepts {
 	public boolean isA(IConcept concept1, IConcept concept2) {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(concept1) < topologicalOrder.indexOf(concept2)) {
-			BreadthFirstIterator<IConcept, IsA> iterator = 
+			BreadthFirstIterator<IConcept, IIsA> iterator = 
 					new BreadthFirstIterator<>(conceptUSL, concept1);
 			iterator.next();
 			while (!isA && iterator.hasNext())

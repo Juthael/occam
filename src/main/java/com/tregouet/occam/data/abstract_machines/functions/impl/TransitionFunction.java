@@ -36,7 +36,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.impl.Reframer;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -337,13 +337,13 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public Tree<IConcept, IsA> getTreeOfConcepts() {
+	public Tree<IConcept, IIsA> getTreeOfConcepts() {
 		return classification.getClassificationTree();
 	}
 
 	@Override
 	public String getTreeOfConceptsAsDOTFile() {
-		DOTExporter<IConcept,IsA> exporter = new DOTExporter<>();
+		DOTExporter<IConcept,IIsA> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(v.toString()));
@@ -373,18 +373,18 @@ public class TransitionFunction implements ITransitionFunction {
 
 	private List<IReframer> buildReframers() {
 		List<IReframer> reframers = new ArrayList<>();
-		Tree<IConcept, IsA> concepts = classification.getClassificationTree();
+		Tree<IConcept, IIsA> concepts = classification.getClassificationTree();
 		//there can only be one such relation, actually
-		for (IsA relation : concepts.incomingEdgesOf(concepts.getRoot())) {
+		for (IIsA relation : concepts.incomingEdgesOf(concepts.getRoot())) {
 			reframers.addAll(buildReframers(relation, new ArrayList<Integer>()));
 		}
 		return reframers;
 	}
 
-	private List<IReframer> buildReframers(IsA relation, List<Integer> previousComplementedStatesIDs) {
+	private List<IReframer> buildReframers(IIsA relation, List<Integer> previousComplementedStatesIDs) {
 		List<IReframer> reframers = new ArrayList<>();
 		List<Integer> nextComplementedStatesIDs;
-		Tree<IConcept, IsA> concepts = classification.getClassificationTree();
+		Tree<IConcept, IIsA> concepts = classification.getClassificationTree();
 		IConcept sourceConcept = concepts.getEdgeSource(relation);
 		IState sourceState = conceptToState.get(sourceConcept);
 		IState targetState = conceptToState.get(concepts.getEdgeTarget(relation));
@@ -399,7 +399,7 @@ public class TransitionFunction implements ITransitionFunction {
 			nextComplementedStatesIDs = previousComplementedStatesIDs;
 		}
 		reframers.add(reframer);
-		for (IsA nextRelation : concepts.incomingEdgesOf(sourceConcept)) {
+		for (IIsA nextRelation : concepts.incomingEdgesOf(sourceConcept)) {
 			reframers.addAll(buildReframers(nextRelation, nextComplementedStatesIDs));
 		}
 		return reframers;

@@ -7,19 +7,19 @@ import java.util.TreeSet;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.Classification;
-import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public class ClassificationSupplier implements IClassificationSupplier {
 
-	private final IUnidimensionalSorter<IConcept, IsA> conceptSorter;
+	private final IUnidimensionalSorter<IConcept, IIsA> conceptSorter;
 	private final List<IConcept> singletons;
 	private final IConcept ontologicalCommitment;
 	
-	public ClassificationSupplier(UpperSemilattice<IConcept, IsA> conceptUSL, List<IConcept> singletons,
+	public ClassificationSupplier(UpperSemilattice<IConcept, IIsA> conceptUSL, List<IConcept> singletons,
 			IConcept ontologicalCommitment) throws IOException {
 		try {
 			this.conceptSorter = new UnidimensionalSorter<>(conceptUSL);

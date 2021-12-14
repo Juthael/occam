@@ -6,7 +6,7 @@ public class Occam {
 	}
 
 	public static void main(String[] args) {
-		new Proto();
+		new PrototypeMenu();
 	}
 
 }

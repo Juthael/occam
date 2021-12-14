@@ -6,7 +6,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
 
-public class GenusDifferentiaDefinition extends IsA implements IGenusDifferentiaDefinition {
+public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 
 	private static final long serialVersionUID = -2693542568124185602L;
 	private final List<ITransition> differentiae;
@@ -41,6 +41,6 @@ public class GenusDifferentiaDefinition extends IsA implements IGenusDifferentia
 				sB.append(nL);
 		}
 		return sB.toString();
-	}
+	}	
 
 }

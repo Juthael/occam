@@ -6,15 +6,15 @@ import java.util.Map;
 import org.jgrapht.Graphs;
 
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public class TreeOfConceptsToStringConvertor {
 
-	private final Tree<IConcept, IsA> treeOfConcepts;
+	private final Tree<IConcept, IIsA> treeOfConcepts;
 	private final Map<IConcept, String> leafToLeafName;
 	
-	public TreeOfConceptsToStringConvertor(Tree<IConcept, IsA> treeOfConcepts, Map<IConcept, String> leafToLeafName) {
+	public TreeOfConceptsToStringConvertor(Tree<IConcept, IIsA> treeOfConcepts, Map<IConcept, String> leafToLeafName) {
 		this.treeOfConcepts = treeOfConcepts;
 		this.leafToLeafName = leafToLeafName;
 	}

@@ -30,8 +30,8 @@ import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.Concepts;
-import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
@@ -69,7 +69,7 @@ public class AbstractSimCalculatorTest {
 		classificationSupplier = concepts.getClassificationSupplier();
 		while (classificationSupplier.hasNext()) {
 			IClassification currClassification = classificationSupplier.next();
-			Tree<IConcept, IsA> currConceptTree = currClassification.getClassificationTree();
+			Tree<IConcept, IIsA> currConceptTree = currClassification.getClassificationTree();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(currConceptTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);

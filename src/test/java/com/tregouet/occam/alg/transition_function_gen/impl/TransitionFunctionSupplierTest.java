@@ -25,8 +25,8 @@ import com.tregouet.occam.data.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.Concepts;
-import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.utils.Visualizer;
@@ -66,7 +66,7 @@ public class TransitionFunctionSupplierTest {
 			throws IOException {
 		boolean expectedSetOfCategories = true;
 		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IsA> catTree = classificationSupplier.next().getClassificationTree();
+			Tree<IConcept, IIsA> catTree = classificationSupplier.next().getClassificationTree();
 			Set<IConcept> expectedCats = catTree.vertexSet();
 			Set<IConcept> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
@@ -92,7 +92,7 @@ public class TransitionFunctionSupplierTest {
 	public void whenConstructGraphIsFilteredByConceptTreeThenSetOfContainingConceptsIsConceptTreeMinusFramingConcepts() {
 		boolean expectedSetOfCategories = true;
 		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IsA> catTree = classificationSupplier.next().getClassificationTree();
+			Tree<IConcept, IIsA> catTree = classificationSupplier.next().getClassificationTree();
 			Set<IConcept> expectedCats = catTree.vertexSet();
 			Set<IConcept> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
@@ -117,7 +117,7 @@ public class TransitionFunctionSupplierTest {
 		boolean sourceAndTargetCatsAreRelated = true;
 		int checkCount = 0;
 		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IsA> catTree = classificationSupplier.next().getClassificationTree();
+			Tree<IConcept, IIsA> catTree = classificationSupplier.next().getClassificationTree();
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
@@ -136,7 +136,7 @@ public class TransitionFunctionSupplierTest {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
 		while (classificationSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			Tree<IConcept, IsA> catTree = classificationSupplier.next().getClassificationTree();
+			Tree<IConcept, IIsA> catTree = classificationSupplier.next().getClassificationTree();
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			*/

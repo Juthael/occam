@@ -11,7 +11,7 @@ import com.google.common.primitives.Ints;
 import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
 import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public abstract class AbstractSimCalculator implements ISimilarityCalculator {
@@ -91,7 +91,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 	
 	@Override
 	public ISimilarityCalculator input(IClassification classification) {
-		Tree<IConcept, IsA> classTree = classification.getClassificationTree();
+		Tree<IConcept, IIsA> classTree = classification.getClassificationTree();
 		List<IConcept> topoOrderOverConcepts = classTree.getTopologicalOrder();
 		Integer objIndex = 0;
 		int nbOfObjects = classTree.getLeaves().size();
@@ -107,7 +107,7 @@ public abstract class AbstractSimCalculator implements ISimilarityCalculator {
 		}
 		rootVertex = topologicalSortingOfConceptIDs.length - 1;
 		List<Triple<Integer, Integer, Double>> edges = new ArrayList<>();
-		for (IsA derivation : classTree.edgeSet()) {
+		for (IIsA derivation : classTree.edgeSet()) {
 			Integer genusIdx = indexOf(classTree.getEdgeTarget(derivation).getID());
 			Integer speciesIdx = indexOf(classTree.getEdgeSource(derivation).getID());
 			edges.add(new Triple<>(speciesIdx, genusIdx, classification.getCostOf(derivation)));

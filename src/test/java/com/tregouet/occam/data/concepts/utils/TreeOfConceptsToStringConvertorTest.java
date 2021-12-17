@@ -15,9 +15,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.calculators.ScoringStrategy;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
-import com.tregouet.occam.alg.score_calc.CalculatorFactory;
-import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIsA;
@@ -40,7 +40,7 @@ public class TreeOfConceptsToStringConvertorTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
-		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
 	}
 
 	@Before

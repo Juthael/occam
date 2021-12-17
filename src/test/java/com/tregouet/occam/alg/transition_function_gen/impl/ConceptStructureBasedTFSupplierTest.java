@@ -13,9 +13,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.score_calc.CalculatorFactory;
-import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
-import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.calculators.ScoringStrategy;
+import com.tregouet.occam.alg.calculators.scores.SimilarityScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
@@ -41,7 +41,7 @@ public class ConceptStructureBasedTFSupplierTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
-		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
 	}
 
 	@Before

@@ -13,9 +13,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.calculators.ScoringStrategy;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
-import com.tregouet.occam.alg.score_calc.CalculatorFactory;
-import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
@@ -52,7 +52,7 @@ public class ConjunctiveTransitionTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes1Obj = GenericFileReader.getContextObjects(SHAPES1);
-		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
 	}
 
 	@Before

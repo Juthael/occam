@@ -22,6 +22,7 @@ public class BasicProduction extends Production implements IBasicProduction {
 	private final AVariable variable;
 	private final IConstruct value;
 	private boolean variableSwitcher;
+	private Double cost = null;
 	
 	public BasicProduction(AVariable variable, IConstruct value, IIntentConstruct operatorInput, 
 			IIntentConstruct operatorOutput) {
@@ -189,6 +190,14 @@ public class BasicProduction extends Production implements IBasicProduction {
 	@Override
 	public String toString() {
 		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
+	}
+	
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
+	public Double getCost() {
+		return cost;
 	}
 
 }

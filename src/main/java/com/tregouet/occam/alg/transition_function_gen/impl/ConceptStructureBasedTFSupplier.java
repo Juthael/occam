@@ -15,10 +15,10 @@ import com.tregouet.occam.data.abstract_machines.functions.impl.RelatedTransFunc
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
@@ -45,11 +45,6 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier
 	}
 
 	@Override
-	public IClassification getOptimalClassification() {
-		return transFunctionSets.first().getOptimalTransitionFunction().getClassification();
-	}
-
-	@Override
 	public ITransitionFunction getOptimalTransitionFunction() {
 		return transFunctionSets.first().getOptimalTransitionFunction();
 	}
@@ -71,12 +66,11 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier
 	
 	private void populateSetsOfRelatedTransFunctions() {
 		while (classificationSupplier.hasNext()) {
-			IClassification currClassification = classificationSupplier.next();
+			Tree<IConcept, IIsA> currClassification = classificationSupplier.next();
 			ISetOfRelatedTransFunctions currSetOfRelatedTransFunctions = new RelatedTransFunctions(
-					currClassification.getClassificationTree(), singletonConceptToName);
+					currClassification, singletonConceptToName);
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructGraph = 
-					getConstructGraphFilteredByCategoryTree(
-							currClassification.getClassificationTree(), constructs);
+					getConstructGraphFilteredByCategoryTree(currClassification, constructs);
 			IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constructTreeSupplier = 
 					new RestrictorOpt<>(filteredConstructGraph, true);
 			while (constructTreeSupplier.hasNext()) {

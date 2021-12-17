@@ -100,8 +100,7 @@ public class Concepts implements IConcepts {
 
 	@Override
 	public IClassificationSupplier getClassificationSupplier() throws IOException {
-		return new ClassificationSupplier(
-				conceptUSL, singletons, ontologicalCommitment);
+		return new ClassificationSupplier(conceptUSL, ontologicalCommitment);
 	}
 
 	@Override

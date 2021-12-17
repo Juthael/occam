@@ -1,9 +1,11 @@
 package com.tregouet.occam.data.abstract_machines.functions.impl;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
+import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ISetOfRelatedTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
@@ -17,7 +19,9 @@ public class RelatedTransFunctions implements ISetOfRelatedTransFunctions {
 
 	private final Tree<IConcept,IIsA> treeOfConcepts;
 	private final Map<IConcept, String> singletonConceptToName;
-	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
+	private final Comparator<ITransitionFunction> transFuncComparator = 
+			CalculatorsAbstractFactory.INSTANCE.getTransFuncComparator();
+	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(transFuncComparator);
 	
 	public RelatedTransFunctions(Tree<IConcept, IIsA> treeOfConcepts, 
 			Map<IConcept, String> singletonConceptToName) {
@@ -31,7 +35,8 @@ public class RelatedTransFunctions implements ISetOfRelatedTransFunctions {
 			return -1;
 		if (this.getCoherenceScore() < other.getCoherenceScore())
 			return 1;
-		return getOptimalTransitionFunction().compareTo(other.getOptimalTransitionFunction());
+		return transFuncComparator.compare(
+				this.getOptimalTransitionFunction(), other.getOptimalTransitionFunction());
 	}
 
 	@Override
@@ -59,7 +64,7 @@ public class RelatedTransFunctions implements ISetOfRelatedTransFunctions {
 
 	@Override
 	public double getCoherenceScore() {
-		return getOptimalTransitionFunction().getCoherenceScore();
+		return getOptimalTransitionFunction().getSimilarityCalculator().getCoherenceScore();
 	}
 
 	@Override
@@ -124,7 +129,8 @@ public class RelatedTransFunctions implements ISetOfRelatedTransFunctions {
 		sB.append("*** CATEGORY STRUCTURE : ");
 		sB.append(getExtentStructureAsString());
 		sB.append(newLine + newLine);
-		sB.append("*** SCORE : " + Double.toString(getOptimalTransitionFunction().getCoherenceScore()) + 
+		sB.append("*** SCORE : " + Double.toString(
+				getOptimalTransitionFunction().getSimilarityCalculator().getCoherenceScore()) + 
 				newLine + newLine);
 		return sB.toString();
 	}

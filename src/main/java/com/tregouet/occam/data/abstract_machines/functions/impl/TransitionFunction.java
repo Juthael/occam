@@ -17,8 +17,9 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
-import com.tregouet.occam.alg.score_calc.CalculatorFactory;
-import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
+import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.calculators.scores.ISimilarityScorer;
+import com.tregouet.occam.alg.conceptual_structure_gen.IOntologist;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
@@ -33,8 +34,8 @@ import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.BasicOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.ConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.Reframer;
-import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
@@ -42,19 +43,22 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class TransitionFunction implements ITransitionFunction {
 
-	private final IClassification classification;
+	private final Tree<IConcept, IIsA> concepts;
 	private final Map<IConcept, IState> conceptToState = new HashMap<>();
 	private final List<ITransition> transitions = new ArrayList<>();
 	private final List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
+	private final Tree<IConcept, IGenusDifferentiaDefinition> prophyrianTree;
 	private DirectedMultigraph<IState, ITransition> finiteAutomatonMultigraph = null;
 	private SimpleDirectedGraph<IState, IConjunctiveTransition> finiteAutomatonGraph = null;
-	private Double cost = null;
+	private ISimilarityScorer similarityScorer;
+	private Double size = null;
+	private Double score = null;
 	
-	public TransitionFunction(IClassification classification, Tree<IIntentConstruct, IProduction> constructs) {
+	public TransitionFunction(Tree<IConcept, IIsA> concepts, Tree<IIntentConstruct, IProduction> constructs) {
 		ITransition.initializeNameProvider();
 		IConjunctiveTransition.initializeNameProvider();
-		this.classification = classification;
-		for (IConcept concept : classification.getClassificationTree().vertexSet())
+		this.concepts = concepts;
+		for (IConcept concept : concepts.vertexSet())
 			conceptToState.put(concept, new State(concept));
 		transitions.addAll(buildOperators(new ArrayList<>(constructs.edgeSet())));
 		transitions.addAll(buildReframers());
@@ -62,6 +66,8 @@ public class TransitionFunction implements ITransitionFunction {
 			if (!conjunctiveTransitions.stream().anyMatch(t -> t.addTransition(transition)))
 				conjunctiveTransitions.add(new ConjunctiveTransition(transition));
 		}
+		prophyrianTree = IOntologist.getPorphyrianTree(this);
+		similarityScorer = CalculatorsAbstractFactory.INSTANCE.getSimilarityCalculator().input(this);
 	}
 
 	public static String setIntentsAsString(Set<IIntentConstruct> intentConstructs){
@@ -152,22 +158,6 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public int compareTo(ITransitionFunction other) {
-		if (this.getCoherenceScore() > other.getCoherenceScore())
-			return -1;
-		if (this.getCoherenceScore() < other.getCoherenceScore())
-			return 1;
-		if (this.getTransitionFunctionCost() < other.getTransitionFunctionCost())
-			return -1;
-		if (this.getTransitionFunctionCost() > other.getTransitionFunctionCost())
-			return 1;
-		//to prevent loss of elements in TreeSet
-		if (this.equals(other))
-			return 0;
-		return System.identityHashCode(this) - System.identityHashCode(other);
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -176,8 +166,6 @@ public class TransitionFunction implements ITransitionFunction {
 		if (getClass() != obj.getClass())
 			return false;
 		TransitionFunction other = (TransitionFunction) obj;
-		if (Double.doubleToLongBits(getCoherenceScore()) != Double.doubleToLongBits(other.getCoherenceScore()))
-			return false;
 		if (transitions == null) {
 			if (other.transitions != null)
 				return false;
@@ -185,31 +173,11 @@ public class TransitionFunction implements ITransitionFunction {
 			return false;
 		return true;
 	}
-	
-	@Override
-	public double[][] getAsymmetricalSimilarityMatrix() {
-		return classification.getAsymmetricalSimilarityMatrix();
-	}
-
-	@Override
-	public IClassification getClassification() {
-		return classification;
-	}
-
-	@Override
-	public double getCoherenceScore() {
-		return classification.getCoherenceScore();
-	}
 
 	@Override
 	public IFiniteAutomaton getCompiler() {
 		//NOT IMPLEMENTED YET
 		return null;
-	}
-	
-	@Override
-	public Map<Integer, Double> getConceptualCoherenceMap() {
-		return classification.getConceptualCoherenceMap();
 	}
 
 	@Override
@@ -248,13 +216,8 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public ISimilarityCalculator getSimilarityCalculator() {
-		return classification.getSimilarityCalculator();
-	}
-
-	@Override
-	public double[][] getSimilarityMatrix() {
-		return classification.getSimilarityMatrix();
+	public ISimilarityScorer getSimilarityCalculator() {
+		return similarityScorer;
 	}
 
 	@Override
@@ -324,21 +287,13 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public double getTransitionFunctionCost() {
-		if (cost == null) {
-			cost = CalculatorFactory.INSTANCE.getTransitionFunctionCostCalculator().apply(this);
-		}
-		return cost;
-	}
-
-	@Override
 	public List<ITransition> getTransitions() {
 		return transitions;
 	}
 
 	@Override
 	public Tree<IConcept, IIsA> getTreeOfConcepts() {
-		return classification.getClassificationTree();
+		return concepts;
 	}
 
 	@Override
@@ -350,13 +305,8 @@ public class TransitionFunction implements ITransitionFunction {
 			return map;
 		});
 		Writer writer = new StringWriter();
-		exporter.exportGraph(classification.getClassificationTree(), writer);
+		exporter.exportGraph(concepts, writer);
 		return writer.toString();
-	}
-
-	@Override
-	public double[] getTypicalityArray() {
-		return classification.getTypicalityArray();
 	}
 	
 	@Override
@@ -373,7 +323,6 @@ public class TransitionFunction implements ITransitionFunction {
 
 	private List<IReframer> buildReframers() {
 		List<IReframer> reframers = new ArrayList<>();
-		Tree<IConcept, IIsA> concepts = classification.getClassificationTree();
 		//there can only be one such relation, actually
 		for (IIsA relation : concepts.incomingEdgesOf(concepts.getRoot())) {
 			reframers.addAll(buildReframers(relation, new ArrayList<Integer>()));
@@ -384,7 +333,6 @@ public class TransitionFunction implements ITransitionFunction {
 	private List<IReframer> buildReframers(IIsA relation, List<Integer> previousComplementedStatesIDs) {
 		List<IReframer> reframers = new ArrayList<>();
 		List<Integer> nextComplementedStatesIDs;
-		Tree<IConcept, IIsA> concepts = classification.getClassificationTree();
 		IConcept sourceConcept = concepts.getEdgeSource(relation);
 		IState sourceState = conceptToState.get(sourceConcept);
 		IState targetState = conceptToState.get(concepts.getEdgeTarget(relation));
@@ -403,6 +351,34 @@ public class TransitionFunction implements ITransitionFunction {
 			reframers.addAll(buildReframers(nextRelation, nextComplementedStatesIDs));
 		}
 		return reframers;
+	}
+
+	@Override
+	public Tree<IConcept, IGenusDifferentiaDefinition> getPorphyrianTree() {
+		return prophyrianTree;
+	}
+
+	@Override
+	public void setScore(Double score) {
+		this.score() = score;
+	}
+
+	@Override
+	public Double score() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setSize(int size) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Integer getSize() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

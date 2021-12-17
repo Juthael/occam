@@ -19,6 +19,7 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	private IReframer reframer = null;
 	private final IState operatingState;
 	private final IState nextState;
+	private Double cost = null;
 
 	public ConjunctiveTransition(ITransition transition) {
 		name = IConjunctiveTransition.provideName();
@@ -112,5 +113,13 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	public boolean isReframer() {
 		return reframer != null;
 	}
+	
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
+	public Double getCost() {
+		return cost;
+	}	
 
 }

@@ -10,6 +10,8 @@ import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 public abstract class IGenusDifferentiaDefinition extends IIsA {
 	
 	private static final long serialVersionUID = -1660518980107230824L;
+	
+	private Double cost = null;
 
 	abstract public List<ITransition> getDifferentiae();
 	
@@ -42,6 +44,14 @@ public abstract class IGenusDifferentiaDefinition extends IIsA {
 				sB.append(nL);
 		}
 		return sB.toString();
+	}
+	
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
+	public Double getCost() {
+		return cost;
 	}
 
 }

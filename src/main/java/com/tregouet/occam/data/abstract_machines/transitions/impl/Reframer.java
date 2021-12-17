@@ -10,6 +10,7 @@ public class Reframer extends Transition implements IReframer {
 
 	private final List<Integer> complementedStateIDs = new ArrayList<>();
 	private final boolean blankReframer;
+	private Double cost = null;
 	
 	public Reframer(IState complementaryState, IState complementedState, IState successorState, 
 			List<Integer> previousComplementedStatesID) {
@@ -52,5 +53,13 @@ public class Reframer extends Transition implements IReframer {
 	public boolean isReframer() {
 		return true;
 	}
+	
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
+	public Double getCost() {
+		return cost;
+	}	
 
 }

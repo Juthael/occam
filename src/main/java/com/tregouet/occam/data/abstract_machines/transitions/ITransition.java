@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.tregouet.occam.alg.calculators.costs.ICosted;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 
-public interface ITransition {
+public interface ITransition extends ICosted {
 	
 	StringBuilder prime = new StringBuilder();
 	ListIterator<Character> charIte = populateCharList().listIterator();

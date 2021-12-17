@@ -17,8 +17,8 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.score_calc.CalculatorFactory;
-import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
+import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.calculators.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
@@ -56,7 +56,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	public RepresentationDisplayer(String folderPath) {
 		this.folderPath = folderPath;
 		Visualizer.setLocation(folderPath);
-		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE_MULTIFRAME);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE_MULTIFRAME);
 	}
 
 	@Override

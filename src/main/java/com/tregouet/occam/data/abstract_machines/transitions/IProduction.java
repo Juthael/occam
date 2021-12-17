@@ -52,5 +52,9 @@ public interface IProduction {
 	
 	@Override
 	String toString();
+	
+	void setCost(double cost);
+	
+	Double getCost();	
 
 }

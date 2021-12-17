@@ -7,31 +7,25 @@ import java.util.function.Predicate;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
-import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
+import com.tregouet.occam.alg.calculators.costs.ICosted;
+import com.tregouet.occam.alg.calculators.scores.IRated;
+import com.tregouet.occam.alg.calculators.scores.ISimilarityScorer;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
-import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
 import com.tregouet.tree_finder.data.Tree;
 
-public interface ITransitionFunction extends Comparable<ITransitionFunction> {
+public interface ITransitionFunction extends ICosted, IRated {
 	
 	@Override
 	boolean equals(Object o);
 	
-	double[][] getAsymmetricalSimilarityMatrix();
-	
-	IClassification getClassification();
-	
-	double getCoherenceScore();
-	
 	IFiniteAutomaton getCompiler();
-	
-	Map<Integer, Double> getConceptualCoherenceMap();
 	
 	List<IConjunctiveTransition> getConjunctiveTransitions();
 	
@@ -41,9 +35,7 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	DirectedMultigraph<IState, ITransition> getFiniteAutomatonMultigraph();
 	
-	ISimilarityCalculator getSimilarityCalculator();
-	
-	double[][] getSimilarityMatrix();
+	ISimilarityScorer getSimilarityCalculator();
 	
 	List<IState> getStates();
 	
@@ -57,11 +49,11 @@ public interface ITransitionFunction extends Comparable<ITransitionFunction> {
 	
 	String getTreeOfConceptsAsDOTFile();
 	
-	double[] getTypicalityArray();
-	
 	@Override
 	int hashCode();
 	
 	boolean validate(Predicate<ITransitionFunction> validator);
-
+	
+	Tree<IConcept, IGenusDifferentiaDefinition> getPorphyrianTree();
+	
 }

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.data.abstract_machines.functions.ISetOfRelatedTransFunctions;
-import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 
 public interface IConceptStructureBasedTFSupplier extends ITransitionFunctionSupplier, Iterator<ISetOfRelatedTransFunctions> {
@@ -27,7 +26,5 @@ public interface IConceptStructureBasedTFSupplier extends ITransitionFunctionSup
 	}
 	
 	String getDefinitionOfObjects();
-	
-	IClassification getOptimalClassification();
 
 }

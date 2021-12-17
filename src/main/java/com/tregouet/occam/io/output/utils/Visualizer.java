@@ -167,8 +167,7 @@ public class Visualizer {
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}
 	
-	private static  String buildGenDiffStringDesc(IGenusDifferentiaDefinition def, 
-			IClassification classification) {
+	private static  String buildGenDiffStringDesc(IGenusDifferentiaDefinition def) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("Informativity : ");
 		sB.append(Double.toString(classification.getCostOf(def)) + System.lineSeparator());

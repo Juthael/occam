@@ -13,6 +13,7 @@ public class CompositeProduction extends Production implements ICompositeProduct
 
 	private static final long serialVersionUID = 3178405428399810436L;
 	private final List<IBasicProduction> basicProductions = new ArrayList<>();
+	private Double cost = null;
 	
 	public CompositeProduction(IBasicProduction basicProduction) {
 		super(basicProduction.getSource(), basicProduction.getTarget());
@@ -140,6 +141,14 @@ public class CompositeProduction extends Production implements ICompositeProduct
 				sB.append(" ");
 		}
 		return sB.toString();
+	}
+	
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
+	public Double getCost() {
+		return cost;
 	}
 
 }

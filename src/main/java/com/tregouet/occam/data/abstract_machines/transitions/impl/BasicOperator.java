@@ -17,6 +17,7 @@ public class BasicOperator extends Transition implements IBasicOperator {
 
 	private final Map<IIntentConstruct, IIntentConstruct> inputToOutput = new HashMap<>();
 	private final List<IProduction> operation;
+	private Double cost = null;
 	
 	public BasicOperator(IState activeState, List<IProduction> operation, IState nextState) {
 		super(activeState, nextState);
@@ -110,6 +111,14 @@ public class BasicOperator extends Transition implements IBasicOperator {
 	@Override
 	public boolean isReframer() {
 		return false;
+	}
+	
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
+	public Double getCost() {
+		return cost;
 	}
 
 }

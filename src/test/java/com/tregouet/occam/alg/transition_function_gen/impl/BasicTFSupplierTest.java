@@ -12,9 +12,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.score_calc.CalculatorFactory;
-import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
-import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
+import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.calculators.ScoringStrategy;
+import com.tregouet.occam.alg.calculators.scores.SimilarityScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.BasicTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
@@ -32,8 +32,8 @@ import com.tregouet.occam.io.output.utils.Visualizer;
 public class BasicTFSupplierTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
-	private static final SimilarityCalculationStrategy SIM_CALCULATION_STRATEGY = 
-			SimilarityCalculationStrategy.RATIO_MODEL;
+	private static final SimilarityScoringStrategy SIM_CALCULATION_STRATEGY = 
+			SimilarityScoringStrategy.RATIO_MODEL;
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
 	private final DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
@@ -42,7 +42,7 @@ public class BasicTFSupplierTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
-		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
 	}
 
 	@Before

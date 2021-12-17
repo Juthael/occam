@@ -17,11 +17,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.calculators.ScoringStrategy;
+import com.tregouet.occam.alg.calculators.scores.ISimilarityScorer;
+import com.tregouet.occam.alg.calculators.scores.SimilarityScoringStrategy;
+import com.tregouet.occam.alg.calculators.scores.impl.SimilarityCalculatorFactory;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
-import com.tregouet.occam.alg.score_calc.CalculatorFactory;
-import com.tregouet.occam.alg.score_calc.OverallScoringStrategy;
-import com.tregouet.occam.alg.score_calc.similarity_calc.ISimilarityCalculator;
-import com.tregouet.occam.alg.score_calc.similarity_calc.SimilarityCalculationStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
@@ -52,12 +53,12 @@ public class ContrastModelTest {
 	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
 	private Tree<IIntentConstruct, IProduction> constrTree;
 	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
-	private Map<ITransitionFunction, ISimilarityCalculator> tfToSimCalc = new HashMap<>();
+	private Map<ITransitionFunction, ISimilarityScorer> tfToSimCalc = new HashMap<>();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
-		CalculatorFactory.INSTANCE.setUpStrategy(OverallScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
 	}
 
 	@Before
@@ -111,7 +112,7 @@ public class ContrastModelTest {
 		for (ITransitionFunction tF : transitionFunctions) {
 			ContrastModel calculator = 
 					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
-							SimilarityCalculationStrategy.CONTRAST_MODEL).input(tF.getClassification());
+							SimilarityScoringStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -149,7 +150,7 @@ public class ContrastModelTest {
 		for (ITransitionFunction tF : transitionFunctions) {
 			ContrastModel calculator = 
 					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
-							SimilarityCalculationStrategy.CONTRAST_MODEL).input(tF.getClassification());
+							SimilarityScoringStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -187,7 +188,7 @@ public class ContrastModelTest {
 		for (ITransitionFunction tF : transitionFunctions) {
 			ContrastModel calculator = 
 					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
-							SimilarityCalculationStrategy.CONTRAST_MODEL).input(tF.getClassification());
+							SimilarityScoringStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
 			Visualizer.visualizeTransitionFunction(tF, "2109161427_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -223,7 +224,7 @@ public class ContrastModelTest {
 			ITransitionFunction tF = tFIte.next();
 			ContrastModel calculator = 
 					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
-							SimilarityCalculationStrategy.CONTRAST_MODEL).input(tF.getClassification());
+							SimilarityScoringStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			List<IConcept> categorySet = tF.getTreeOfConcepts().getTopologicalOrder();
 			List<List<IConcept>> categoryPowerSet = buildCategoryPowerSet(categorySet);
 			for (IConcept cat : categorySet) {

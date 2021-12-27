@@ -2,13 +2,12 @@ package com.tregouet.occam.data.abstract_machines.transitions;
 
 import java.util.List;
 
-import com.tregouet.occam.alg.calculators.costs.ICosted;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 
-public interface IProduction extends ICosted {
+public interface IProduction {
 	
 	ICompositeProduction compose(IBasicProduction basicComponent);
 	
@@ -53,9 +52,5 @@ public interface IProduction extends ICosted {
 	
 	@Override
 	String toString();
-	
-	void setCost(double cost);
-	
-	Double getCost();	
 
 }

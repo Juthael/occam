@@ -11,6 +11,7 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	private static final long serialVersionUID = 1701074226278101143L;
 	private final IIntentConstruct operatorInput;
 	private final IIntentConstruct operatorOutput;
+	private Double cost = null;
 	
 	public Production(IIntentConstruct operatorInput, IIntentConstruct operatorOutput) {
 		this.operatorInput = operatorInput;
@@ -88,5 +89,13 @@ public abstract class Production extends DefaultEdge implements IProduction {
 		result = prime * result + ((operatorOutput == null) ? 0 : operatorOutput.hashCode());
 		return result;
 	}
+	
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
+	public Double getCost() {
+		return cost;
+	}	
 
 }

@@ -15,6 +15,10 @@ public class FunctionCosterFactory implements
 	@Override
 	public IFunctionCoster apply(FunctionCostingStrategy strategy) {
 		switch (strategy) {
+			case TRANSITION_COSTS : 
+				return TransitionCosts.INSTANCE;
+			case NB_OF_INSTANTIATIONS : 
+				return NbOfInstantiations.INSTANCE;
 			default : 
 				return null;
 		}

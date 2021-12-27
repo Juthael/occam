@@ -1,19 +1,19 @@
-package com.tregouet.occam.data.concepts.impl;
+package com.tregouet.occam.data.abstract_machines.functions.descriptions.impl;
 
 import java.util.List;
 
+import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
 
 public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 
 	private static final long serialVersionUID = -2693542568124185602L;
-	private final IConcept species;
-	private final IConcept genus;
+	private final IState species;
+	private final IState genus;
 	private final List<ITransition> differentiae;
 	
-	public GenusDifferentiaDefinition(IConcept species, IConcept genus, List<ITransition> differentiae) {
+	public GenusDifferentiaDefinition(IState species, IState genus, List<ITransition> differentiae) {
 		this.species = species;
 		this.genus = genus;
 		this.differentiae = differentiae;
@@ -25,22 +25,22 @@ public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 	}
 
 	@Override
-	public IConcept getGenus() {
+	public IState getGenus() {
 		return genus;
 	}
 
 	@Override
-	public IConcept getSpecies() {
+	public IState getSpecies() {
 		return species;
 	}
 	
 	@Override
-	public IConcept getSource() {
+	public IState getSource() {
 		return species;
 	}
 	
 	@Override
-	public IConcept getTarget() {
+	public IState getTarget() {
 		return genus;
 	}
 	
@@ -63,6 +63,6 @@ public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 			if (differentia.isReframer())
 				return true;
 		return false;
-	}	
+	}		
 
 }

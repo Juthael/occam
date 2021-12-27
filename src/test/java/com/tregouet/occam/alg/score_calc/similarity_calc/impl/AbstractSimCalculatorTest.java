@@ -19,8 +19,8 @@ import org.junit.Test;
 
 import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.calculators.ScoringStrategy;
-import com.tregouet.occam.alg.calculators.scores.SimilarityScoringStrategy;
-import com.tregouet.occam.alg.calculators.scores.impl.SimilarityCalculatorFactory;
+import com.tregouet.occam.alg.calculators.scores.similarity.SimilarityScoringStrategy;
+import com.tregouet.occam.alg.calculators.scores.similarity.impl.SimilarityScorerFactory;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
@@ -100,7 +100,7 @@ public class AbstractSimCalculatorTest {
 				leavesID[i] = leaves.get(i).getID();
 			}
 			ContrastModel calculator = 
-					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
+					(ContrastModel) SimilarityScorerFactory.INSTANCE.apply(
 							SimilarityScoringStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			for (Integer leafID : leavesID) {
 				Set<Integer> returnedEdges = new HashSet<>(calculator.getEdgeChainToRootFrom(leafID.intValue()));

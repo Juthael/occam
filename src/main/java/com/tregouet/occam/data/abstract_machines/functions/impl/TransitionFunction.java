@@ -18,11 +18,12 @@ import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
 import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
-import com.tregouet.occam.alg.calculators.scores.ISimilarityScorer;
-import com.tregouet.occam.alg.conceptual_structure_gen.IOntologist;
+import com.tregouet.occam.alg.calculators.scores.similarity.ISimilarityScorer;
+import com.tregouet.occam.alg.transition_function_gen.IOntologist;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
+import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.states.impl.State;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
@@ -35,7 +36,6 @@ import com.tregouet.occam.data.abstract_machines.transitions.impl.BasicOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.ConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.Reframer;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
@@ -47,7 +47,7 @@ public class TransitionFunction implements ITransitionFunction {
 	private final Map<IConcept, IState> conceptToState = new HashMap<>();
 	private final List<ITransition> transitions = new ArrayList<>();
 	private final List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
-	private final Tree<IConcept, IGenusDifferentiaDefinition> prophyrianTree;
+	private final Tree<IState, IGenusDifferentiaDefinition> prophyrianTree;
 	private DirectedMultigraph<IState, ITransition> finiteAutomatonMultigraph = null;
 	private SimpleDirectedGraph<IState, IConjunctiveTransition> finiteAutomatonGraph = null;
 	private ISimilarityScorer similarityScorer;
@@ -68,8 +68,8 @@ public class TransitionFunction implements ITransitionFunction {
 		}
 		prophyrianTree = IOntologist.getPorphyrianTree(this);
 		CalculatorsAbstractFactory factory = CalculatorsAbstractFactory.INSTANCE;
-		factory.getTransitionFunctionCostCalculator().input(this).setCost();
-		similarityScorer = factory.getSimilarityCalculator().input(this);
+		factory.getTransitionFunctionCoster().input(this).setCost();
+		similarityScorer = factory.getSimilarityRater().input(this);
 		similarityScorer.setScore();
 	}
 
@@ -357,7 +357,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public Tree<IConcept, IGenusDifferentiaDefinition> getPorphyrianTree() {
+	public Tree<IState, IGenusDifferentiaDefinition> getPorphyrianTree() {
 		return prophyrianTree;
 	}
 
@@ -382,9 +382,8 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public double getTransitionFunctionCost() {
-		// TODO Auto-generated method stub
-		return 0;
+	public IState getAssociatedStateOf(IConcept concept) {
+		return conceptToState.get(concept);
 	}
 
 }

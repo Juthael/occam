@@ -19,9 +19,9 @@ import org.junit.Test;
 
 import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.calculators.ScoringStrategy;
-import com.tregouet.occam.alg.calculators.scores.ISimilarityScorer;
-import com.tregouet.occam.alg.calculators.scores.SimilarityScoringStrategy;
-import com.tregouet.occam.alg.calculators.scores.impl.SimilarityCalculatorFactory;
+import com.tregouet.occam.alg.calculators.scores.similarity.ISimilarityScorer;
+import com.tregouet.occam.alg.calculators.scores.similarity.SimilarityScoringStrategy;
+import com.tregouet.occam.alg.calculators.scores.similarity.impl.SimilarityScorerFactory;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
@@ -111,7 +111,7 @@ public class ContrastModelTest {
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			ContrastModel calculator = 
-					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
+					(ContrastModel) SimilarityScorerFactory.INSTANCE.apply(
 							SimilarityScoringStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
@@ -149,7 +149,7 @@ public class ContrastModelTest {
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			ContrastModel calculator = 
-					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
+					(ContrastModel) SimilarityScorerFactory.INSTANCE.apply(
 							SimilarityScoringStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
@@ -187,7 +187,7 @@ public class ContrastModelTest {
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			ContrastModel calculator = 
-					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
+					(ContrastModel) SimilarityScorerFactory.INSTANCE.apply(
 							SimilarityScoringStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
@@ -223,7 +223,7 @@ public class ContrastModelTest {
 		while (tFIte.hasNext() && nbOfChecks < 50000) {
 			ITransitionFunction tF = tFIte.next();
 			ContrastModel calculator = 
-					(ContrastModel) SimilarityCalculatorFactory.INSTANCE.apply(
+					(ContrastModel) SimilarityScorerFactory.INSTANCE.apply(
 							SimilarityScoringStrategy.CONTRAST_MODEL).input(tF.getClassification());
 			List<IConcept> categorySet = tF.getTreeOfConcepts().getTopologicalOrder();
 			List<List<IConcept>> categoryPowerSet = buildCategoryPowerSet(categorySet);

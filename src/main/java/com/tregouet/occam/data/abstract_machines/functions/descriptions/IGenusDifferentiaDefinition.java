@@ -1,13 +1,16 @@
-package com.tregouet.occam.data.concepts;
+package com.tregouet.occam.data.abstract_machines.functions.descriptions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
+import org.jgrapht.graph.DefaultEdge;
+
+import com.tregouet.occam.alg.calculators.costs.ICosted;
+import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 
-public abstract class IGenusDifferentiaDefinition extends IIsA {
+public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements ICosted {
 	
 	private static final long serialVersionUID = -1660518980107230824L;
 	
@@ -15,9 +18,9 @@ public abstract class IGenusDifferentiaDefinition extends IIsA {
 
 	abstract public List<ITransition> getDifferentiae();
 	
-	abstract public IConcept getGenus();
+	abstract public IState getGenus();
 	
-	abstract public IConcept getSpecies();
+	abstract public IState getSpecies();
 	
 	abstract public boolean isReframer();
 	
@@ -46,12 +49,27 @@ public abstract class IGenusDifferentiaDefinition extends IIsA {
 		return sB.toString();
 	}
 	
+	@Override
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
 	
+	@Override
 	public Double getCost() {
 		return cost;
 	}
+	
+	@Override
+	public int hashCode() {
+		return getSource().hashCode() + getTarget().hashCode();
+	}	
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof IGenusDifferentiaDefinition))
+			return false;
+		IGenusDifferentiaDefinition other = (IGenusDifferentiaDefinition) o;
+		return (getSource().equals(other.getSource()) && getTarget().equals(other.getTarget()));
+	}	
 
 }

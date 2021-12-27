@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.calculators.scores.impl;
+package com.tregouet.occam.alg.calculators.scores.similarity.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.calculators.scores.ISimilarityScorer;
+import com.tregouet.occam.alg.calculators.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIsA;

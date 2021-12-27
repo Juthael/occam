@@ -1,9 +1,10 @@
-package com.tregouet.occam.alg.calculators.scores;
+package com.tregouet.occam.alg.calculators.scores.similarity;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.alg.calculators.scores.impl.IScorer;
+import com.tregouet.occam.alg.calculators.scores.IScorer;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.concepts.IConcept;
 

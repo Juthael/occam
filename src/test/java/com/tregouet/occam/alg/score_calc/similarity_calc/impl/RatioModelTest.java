@@ -19,9 +19,9 @@ import org.junit.Test;
 
 import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.calculators.ScoringStrategy;
-import com.tregouet.occam.alg.calculators.scores.ISimilarityScorer;
-import com.tregouet.occam.alg.calculators.scores.SimilarityScoringStrategy;
-import com.tregouet.occam.alg.calculators.scores.impl.SimilarityCalculatorFactory;
+import com.tregouet.occam.alg.calculators.scores.similarity.ISimilarityScorer;
+import com.tregouet.occam.alg.calculators.scores.similarity.SimilarityScoringStrategy;
+import com.tregouet.occam.alg.calculators.scores.similarity.impl.SimilarityScorerFactory;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
@@ -111,7 +111,7 @@ public class RatioModelTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			RatioModel calculator = (RatioModel) SimilarityCalculatorFactory.INSTANCE.apply(
+			RatioModel calculator = (RatioModel) SimilarityScorerFactory.INSTANCE.apply(
 					SimilarityScoringStrategy.RATIO_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
@@ -148,7 +148,7 @@ public class RatioModelTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			RatioModel calculator = (RatioModel) SimilarityCalculatorFactory.INSTANCE.apply(
+			RatioModel calculator = (RatioModel) SimilarityScorerFactory.INSTANCE.apply(
 					SimilarityScoringStrategy.RATIO_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());
@@ -185,7 +185,7 @@ public class RatioModelTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			RatioModel calculator = (RatioModel) SimilarityCalculatorFactory.INSTANCE.apply(
+			RatioModel calculator = (RatioModel) SimilarityScorerFactory.INSTANCE.apply(
 					SimilarityScoringStrategy.RATIO_MODEL).input(tF.getClassification());
 			/*
 			System.out.println("***NEW TRANSITION FUNCTION***" + System.lineSeparator());

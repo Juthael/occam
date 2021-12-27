@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.calculators.costs.dep.concept_definition.impl;
 
 import com.tregouet.occam.alg.calculators.costs.dep.concept_definition.IConceptDefinitionCostCalculator;
-import com.tregouet.occam.data.concepts.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 
 public class SumOfTransitionCosts implements IConceptDefinitionCostCalculator {
 

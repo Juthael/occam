@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.calculators.scores;
 
-public interface IRated {
+public interface IScored {
 	
 	void setScore(double score);
 	

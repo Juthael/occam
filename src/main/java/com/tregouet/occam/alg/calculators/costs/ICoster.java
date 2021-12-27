@@ -1,11 +1,9 @@
 package com.tregouet.occam.alg.calculators.costs;
 
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-
-public interface ICoster<C extends ICoster<C, D>, D> {
+public interface ICoster<C extends ICoster<C, D>, D extends ICosted> {
 	
-	C input(ITransitionFunction transitionFunction);
+	C input(ICosted costed);
 	
-	double evaluateCost(D costed);
+	void setCost();
 
 }

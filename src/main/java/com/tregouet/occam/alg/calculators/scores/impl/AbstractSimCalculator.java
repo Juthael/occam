@@ -62,9 +62,6 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	}
 
 	@Override
-	abstract public double howProtoypical(int conceptID);
-
-	@Override
 	abstract public double howSimilar(int conceptID1, int conceptID2);
 
 	@Override
@@ -142,5 +139,28 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 		}
 		return conceptIDToCoherenceScore;
 	}	
+	
+	@Override
+	public List<IConcept> getListOfSingletons() {
+		return new ArrayList<>(singletons);
+	}	
+	
+	@Override
+	public double howProtoypical(int conceptID) {
+		int n = 0;
+		double similaritySum = 0.0;
+		for (int singletonID : singletonIDs) {
+			if (conceptID != singletonID) {
+				similaritySum += howSimilarTo(singletonID, conceptID);
+				n++;
+			}
+		}
+		return similaritySum / (double) n;
+	}	
+	
+	@Override
+	public void setScore() {
+		transitionFunction.setScore(getCoherenceScore(singletonIDs));
+	}
 
 }

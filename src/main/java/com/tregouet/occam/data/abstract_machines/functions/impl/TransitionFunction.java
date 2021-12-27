@@ -51,7 +51,7 @@ public class TransitionFunction implements ITransitionFunction {
 	private DirectedMultigraph<IState, ITransition> finiteAutomatonMultigraph = null;
 	private SimpleDirectedGraph<IState, IConjunctiveTransition> finiteAutomatonGraph = null;
 	private ISimilarityScorer similarityScorer;
-	private Double size = null;
+	private Double cost = null;
 	private Double score = null;
 	
 	public TransitionFunction(Tree<IConcept, IIsA> concepts, Tree<IIntentConstruct, IProduction> constructs) {
@@ -67,7 +67,10 @@ public class TransitionFunction implements ITransitionFunction {
 				conjunctiveTransitions.add(new ConjunctiveTransition(transition));
 		}
 		prophyrianTree = IOntologist.getPorphyrianTree(this);
-		similarityScorer = CalculatorsAbstractFactory.INSTANCE.getSimilarityCalculator().input(this);
+		CalculatorsAbstractFactory factory = CalculatorsAbstractFactory.INSTANCE;
+		factory.getTransitionFunctionCostCalculator().input(this).setCost();
+		similarityScorer = factory.getSimilarityCalculator().input(this);
+		similarityScorer.setScore();
 	}
 
 	public static String setIntentsAsString(Set<IIntentConstruct> intentConstructs){
@@ -359,26 +362,29 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public void setScore(Double score) {
-		this.score() = score;
+	public void setCost(double cost) {
+		this.cost = cost;		
 	}
 
 	@Override
-	public Double score() {
-		// TODO Auto-generated method stub
-		return null;
+	public Double getCost() {
+		return cost;
 	}
 
 	@Override
-	public void setSize(int size) {
-		// TODO Auto-generated method stub
-		
+	public void setScore(double score) {
+		this.score = score;		
 	}
 
 	@Override
-	public Integer getSize() {
+	public Double getScore() {
+		return score;
+	}
+
+	@Override
+	public double getTransitionFunctionCost() {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 }

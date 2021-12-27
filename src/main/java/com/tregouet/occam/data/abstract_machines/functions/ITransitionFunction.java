@@ -1,7 +1,6 @@
 package com.tregouet.occam.data.abstract_machines.functions;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Predicate;
 
 import org.jgrapht.graph.DirectedMultigraph;

@@ -3,14 +3,11 @@ package com.tregouet.occam.alg.calculators.scores;
 import java.util.List;
 import java.util.Map;
 
-import org.jgrapht.opt.graph.sparse.SparseIntDirectedWeightedGraph;
-
+import com.tregouet.occam.alg.calculators.scores.impl.IScorer;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.tree_finder.data.Tree;
 
-public interface ISimilarityScorer {
+public interface ISimilarityScorer extends IScorer<ISimilarityScorer, ITransitionFunction> {
 	
 	double getCoherenceScore();
 	

@@ -5,9 +5,9 @@ import java.util.Comparator;
 import com.tregouet.occam.alg.calculators.costs.dep.concept_derivation.ConceptDerivationCostStrategy;
 import com.tregouet.occam.alg.calculators.costs.dep.concept_derivation.IConceptDerivationCostCalculator;
 import com.tregouet.occam.alg.calculators.costs.dep.concept_derivation.impl.DerivationCostCalculatorFactory;
-import com.tregouet.occam.alg.calculators.costs.dep.transition_function.ITransitionFunctionCostCalculator;
-import com.tregouet.occam.alg.calculators.costs.dep.transition_function.TransitionFunctionCostStrategy;
-import com.tregouet.occam.alg.calculators.costs.dep.transition_function.impl.TransitionFunctionCostCalcFactory;
+import com.tregouet.occam.alg.calculators.costs.functions.FunctionCostingStrategy;
+import com.tregouet.occam.alg.calculators.costs.functions.IFunctionCoster;
+import com.tregouet.occam.alg.calculators.costs.functions.impl.FunctionCosterFactory;
 import com.tregouet.occam.alg.calculators.scores.ISimilarityScorer;
 import com.tregouet.occam.alg.calculators.scores.SimilarityScoringStrategy;
 import com.tregouet.occam.alg.calculators.scores.impl.SimilarityCalculatorFactory;
@@ -18,7 +18,7 @@ public class CalculatorsAbstractFactory {
 	public static final CalculatorsAbstractFactory INSTANCE = new CalculatorsAbstractFactory();
 	private ConceptDerivationCostStrategy derivationCostStrategy = null;
 	private SimilarityScoringStrategy similarityScoringStrategy = null;
-	private TransitionFunctionCostStrategy transitionFunctionCostStrategy = null;
+	private FunctionCostingStrategy functionCostingStrategy = null;
 	private Comparator<ITransitionFunction> transFuncComparator = null;
 	
 	private CalculatorsAbstractFactory() {
@@ -32,8 +32,8 @@ public class CalculatorsAbstractFactory {
 		return SimilarityCalculatorFactory.INSTANCE.apply(similarityScoringStrategy);
 	}
 	
-	public ITransitionFunctionCostCalculator getTransitionFunctionCostCalculator() {
-		return TransitionFunctionCostCalcFactory.INSTANCE.apply(transitionFunctionCostStrategy);
+	public IFunctionCoster getTransitionFunctionCostCalculator() {
+		return FunctionCosterFactory.INSTANCE.apply(functionCostingStrategy);
 	}
 	
 	public Comparator<ITransitionFunction> getTransFuncComparator() {

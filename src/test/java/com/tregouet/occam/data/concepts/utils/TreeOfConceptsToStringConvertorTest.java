@@ -17,7 +17,7 @@ import org.junit.Test;
 
 import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.calculators.ScoringStrategy;
-import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIsA;
@@ -34,7 +34,7 @@ public class TreeOfConceptsToStringConvertorTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
-	private IClassificationSupplier classificationSupplier;
+	private IConceptTreeSupplier conceptTreeSupplier;
 	private Map<IConcept, String> objCatToName = new HashMap<>();
 	
 	@BeforeClass
@@ -50,7 +50,7 @@ public class TreeOfConceptsToStringConvertorTest {
 		for (IConcept objectCategory : concepts.getSingletonConcept()) {
 			objCatToName.put(objectCategory, new String(Character.toString(name++)));
 		}
-		classificationSupplier = concepts.getClassificationSupplier();
+		conceptTreeSupplier = concepts.getClassificationSupplier();
 	}
 
 	@Test
@@ -64,8 +64,8 @@ public class TreeOfConceptsToStringConvertorTest {
 		Visualizer.visualizeCategoryGraph(cats.getCategoryLattice(), "CatTreeToStringConvertorTest");
 		int treeIdx = 0;
 		*/
-		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currTree = classificationSupplier.next().getClassificationTree();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> currTree = conceptTreeSupplier.next().getClassificationTree();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/

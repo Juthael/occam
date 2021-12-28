@@ -402,7 +402,7 @@ public class TransitionFunction implements ITransitionFunction {
 		IDefinitionCoster definitionCoster = factory.getDefinitionCoster();
 		for (IGenusDifferentiaDefinition definition : prophyrianTree.edgeSet())
 			definitionCoster.input(definition).setCost();
-		//concept similarity scores
+		//concepts similarity scores
 		similarityScorer = factory.getSimilarityRater().input(this);
 		//function score
 		IFunctionScorer functionScorer = factory.getTransitionFunctionScorer();

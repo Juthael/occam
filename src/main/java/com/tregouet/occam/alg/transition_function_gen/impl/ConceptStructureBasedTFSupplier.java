@@ -65,8 +65,8 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier
 	}	
 	
 	private void populateSetsOfRelatedTransFunctions() {
-		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currClassification = classificationSupplier.next();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> currClassification = conceptTreeSupplier.next();
 			IIsomorphicTransFunctions currSetOfRelatedTransFunctions = new IsomorphicTransFunctions(
 					currClassification, singletonConceptToName);
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructGraph = 

@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IConstrainedClassificationSupplier;
-import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConstrainedConceptTreeSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
@@ -23,7 +23,7 @@ public interface IConcepts {
 	
 	IConcept getAbsurdity();
 	
-	IClassificationSupplier getClassificationSupplier() throws IOException;
+	IConceptTreeSupplier getClassificationSupplier() throws IOException;
 	
 	DirectedAcyclicGraph<IConcept, IIsA> getConceptLattice();
 	
@@ -34,7 +34,7 @@ public interface IConcepts {
 	 */
 	IConcept getConceptWithExtent(Set<IContextObject> extent);
 	
-	IConstrainedClassificationSupplier getConstrainedClassificationSupplier(IExtentStructureConstraint constraint);
+	IConstrainedConceptTreeSupplier getConstrainedClassificationSupplier(IExtentStructureConstraint constraint);
 	
 	List<IContextObject> getContextObjects();
 	

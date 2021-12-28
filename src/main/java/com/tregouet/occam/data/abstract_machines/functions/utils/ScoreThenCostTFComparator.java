@@ -3,11 +3,11 @@ import java.util.Comparator;
 
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 
-public class ScoreThenCostThenRef implements Comparator<ITransitionFunction> {
+public class ScoreThenCostTFComparator implements Comparator<ITransitionFunction> {
 
-	public static final ScoreThenCostThenRef INSTANCE = new ScoreThenCostThenRef();
+	public static final ScoreThenCostTFComparator INSTANCE = new ScoreThenCostTFComparator();
 	
-	private ScoreThenCostThenRef() {
+	private ScoreThenCostTFComparator() {
 	}
 
 	@Override

@@ -6,10 +6,10 @@ import java.util.Comparator;
 import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostThenRef;
+import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
@@ -22,16 +22,16 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	protected static final int MAX_CAPACITY = 50;
 	
 	protected final IConcepts concepts;
-	protected final IClassificationSupplier classificationSupplier;
+	protected final IConceptTreeSupplier conceptTreeSupplier;
 	protected final DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs;
 	protected final Comparator<ITransitionFunction> functionComparator;
 	
 	public TransitionFunctionSupplier(IConcepts concepts, 
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs) throws IOException {
 		this.concepts = concepts;
-		classificationSupplier = concepts.getClassificationSupplier();
+		conceptTreeSupplier = concepts.getClassificationSupplier();
 		this.constructs = constructs;
-		functionComparator = ScoreThenCostThenRef.INSTANCE;
+		functionComparator = ScoreThenCostTFComparator.INSTANCE;
 	}
 
 	public static DirectedAcyclicGraph<IIntentConstruct, IProduction> getConstructGraphFilteredByConceptTree(

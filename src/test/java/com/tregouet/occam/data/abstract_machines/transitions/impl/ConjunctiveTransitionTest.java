@@ -15,15 +15,15 @@ import org.junit.Test;
 
 import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.calculators.ScoringStrategy;
-import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
-import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
@@ -42,8 +42,8 @@ public class ConjunctiveTransitionTest {
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IClassificationSupplier classificationSupplier;
-	private Tree<IConcept, IIsA> catTree;
+	private IConceptTreeSupplier conceptTreeSupplier;
+	private Tree<IConcept, IIsA> conceptTree;
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered_constructs;
 	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
 	private Tree<IIntentConstruct, IProduction> constrTree;
@@ -52,7 +52,7 @@ public class ConjunctiveTransitionTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes1Obj = GenericFileReader.getContextObjects(SHAPES1);
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
 	@Before
@@ -64,17 +64,16 @@ public class ConjunctiveTransitionTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationSupplier = concepts.getClassificationSupplier();
-		while (classificationSupplier.hasNext()) {
-			IClassification currClassification = classificationSupplier.next();
-			catTree = currClassification.getClassificationTree();
+		conceptTreeSupplier = concepts.getClassificationSupplier();
+		while (conceptTreeSupplier.hasNext()) {
+			conceptTree = conceptTreeSupplier.next();
 			filtered_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(conceptTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(currClassification, constrTree);
+						new TransitionFunction(conceptTree, constrTree);
 				transitionFunctions.add(transitionFunction);
 			}
 		}	
@@ -85,7 +84,7 @@ public class ConjunctiveTransitionTest {
 		boolean ifTrueThenSameStateTransition = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			List<ITransition> operators = tF.getTransitions();
+			List<ICostedTransition> operators = tF.getTransitions();
 			List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
 			for (ITransition op : operators) {
 				boolean match = false;
@@ -112,7 +111,7 @@ public class ConjunctiveTransitionTest {
 		boolean ifFalseThenDifferentStateTransition = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			List<ITransition> operators = tF.getTransitions();
+			List<ICostedTransition> operators = tF.getTransitions();
 			List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
 			for (ITransition op : operators) {
 				boolean noMatch = true;

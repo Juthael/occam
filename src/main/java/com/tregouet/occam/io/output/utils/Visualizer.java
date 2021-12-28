@@ -17,8 +17,8 @@ import com.tregouet.occam.alg.transition_function_gen.IOntologist;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.IIsA;
@@ -136,11 +136,10 @@ public class Visualizer {
 	
 	public static void visualizePorphyrianTree(ITransitionFunction transitionFunction, 
 			String fileName) throws IOException {
-		Tree<IConcept, IGenusDifferentiaDefinition> prophyrianTree = 
+		Tree<IState, IGenusDifferentiaDefinition> prophyrianTree = 
 				IOntologist.getPorphyrianTree(transitionFunction);
-		IClassification classification = transitionFunction.getClassification();
 		//convert in DOT format
-		DOTExporter<IConcept,IGenusDifferentiaDefinition> exporter = new DOTExporter<>();
+		DOTExporter<IState,IGenusDifferentiaDefinition> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
@@ -148,12 +147,12 @@ public class Visualizer {
 		});
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(Integer.toString(v.getID())));
+			map.put("label", DefaultAttribute.createAttribute(Integer.toString(v.getStateID())));
 			return map;
 		});
 		exporter.setEdgeAttributeProvider((e) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(buildGenDiffStringDesc(e, classification)));
+			map.put("label", DefaultAttribute.createAttribute(buildGenDiffStringDesc(e)));
 			return map;
 		}); 		
 		Writer writer = new StringWriter();
@@ -170,7 +169,7 @@ public class Visualizer {
 	private static  String buildGenDiffStringDesc(IGenusDifferentiaDefinition def) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("Informativity : ");
-		sB.append(Double.toString(classification.getCostOf(def)) + System.lineSeparator());
+		sB.append(Double.toString(def.getCost()) + System.lineSeparator());
 		sB.append(def.toString());
 		return sB.toString();
 	}

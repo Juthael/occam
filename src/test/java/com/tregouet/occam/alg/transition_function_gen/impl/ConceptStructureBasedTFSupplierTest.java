@@ -41,7 +41,7 @@ public class ConceptStructureBasedTFSupplierTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
 	@Before

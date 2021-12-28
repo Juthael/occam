@@ -17,9 +17,9 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IConstrainedClassificationSupplier;
-import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
-import com.tregouet.occam.alg.conceptual_structure_gen.impl.ClassificationSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConstrainedConceptTreeSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.impl.ConceptTreeSupplier;
 import com.tregouet.occam.alg.conceptual_structure_gen.utils.IntentBldr;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
@@ -99,8 +99,8 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public IClassificationSupplier getClassificationSupplier() throws IOException {
-		return new ClassificationSupplier(conceptUSL, ontologicalCommitment);
+	public IConceptTreeSupplier getClassificationSupplier() throws IOException {
+		return new ConceptTreeSupplier(conceptUSL, ontologicalCommitment);
 	}
 
 	@Override
@@ -120,7 +120,7 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public IConstrainedClassificationSupplier getConstrainedClassificationSupplier(
+	public IConstrainedConceptTreeSupplier getConstrainedClassificationSupplier(
 			IExtentStructureConstraint constraint) {
 		// TODO Auto-generated method stub
 		return null;

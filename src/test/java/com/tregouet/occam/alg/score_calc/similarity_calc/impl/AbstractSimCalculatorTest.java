@@ -21,7 +21,7 @@ import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.calculators.ScoringStrategy;
 import com.tregouet.occam.alg.calculators.scores.similarity.SimilarityScoringStrategy;
 import com.tregouet.occam.alg.calculators.scores.similarity.impl.SimilarityScorerFactory;
-import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
@@ -46,7 +46,7 @@ public class AbstractSimCalculatorTest {
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IClassificationSupplier classificationSupplier;
+	private IConceptTreeSupplier conceptTreeSupplier;
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
 	private Tree<IIntentConstruct, IProduction> constrTree;
@@ -55,7 +55,7 @@ public class AbstractSimCalculatorTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
 	@Before
@@ -67,17 +67,16 @@ public class AbstractSimCalculatorTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationSupplier = concepts.getClassificationSupplier();
-		while (classificationSupplier.hasNext()) {
-			IClassification currClassification = classificationSupplier.next();
-			Tree<IConcept, IIsA> currConceptTree = currClassification.getClassificationTree();
+		conceptTreeSupplier = concepts.getClassificationSupplier();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> currConceptTree = conceptTreeSupplier.next();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(currConceptTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(currClassification, constrTree);
+						new TransitionFunction(currConceptTree, constrTree);
 				transitionFunctions.add(transitionFunction);
 				/*
 				Visualizer.visualizeTransitionFunction(transitionFunction, "2109110911_tf", 

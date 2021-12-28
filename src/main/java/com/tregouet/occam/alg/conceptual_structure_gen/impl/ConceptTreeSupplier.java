@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
@@ -12,12 +12,12 @@ import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalS
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
-public class ClassificationSupplier implements IClassificationSupplier {
+public class ConceptTreeSupplier implements IConceptTreeSupplier {
 
 	private final IUnidimensionalSorter<IConcept, IIsA> conceptSorter;
 	private final IConcept ontologicalCommitment;
 	
-	public ClassificationSupplier(UpperSemilattice<IConcept, IIsA> conceptUSL,
+	public ConceptTreeSupplier(UpperSemilattice<IConcept, IIsA> conceptUSL,
 			IConcept ontologicalCommitment) throws IOException {
 		try {
 			this.conceptSorter = new UnidimensionalSorter<>(conceptUSL);
@@ -42,7 +42,7 @@ public class ClassificationSupplier implements IClassificationSupplier {
 
 	@Override
 	public Tree<IConcept, IIsA> next() {
-		return IClassificationSupplier.commit(conceptSorter.next(), ontologicalCommitment);
+		return IConceptTreeSupplier.commit(conceptSorter.next(), ontologicalCommitment);
 	}
 
 }

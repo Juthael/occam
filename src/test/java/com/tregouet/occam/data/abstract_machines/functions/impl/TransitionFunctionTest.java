@@ -21,7 +21,7 @@ import org.junit.Test;
 import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.calculators.ScoringStrategy;
 import com.tregouet.occam.alg.calculators.scores.similarity.SimilarityScoringStrategy;
-import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
@@ -34,10 +34,10 @@ import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.BlankProduction;
-import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.IContextObject;
@@ -60,7 +60,7 @@ public class TransitionFunctionTest {
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IClassificationSupplier classificationSupplier;
+	private IConceptTreeSupplier conceptTreeSupplier;
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
 	private Tree<IIntentConstruct, IProduction> constrTree;
@@ -69,7 +69,7 @@ public class TransitionFunctionTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		objects = GenericFileReader.getContextObjects(SHAPES);	
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
 	@Before
@@ -82,17 +82,17 @@ public class TransitionFunctionTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationSupplier = concepts.getClassificationSupplier();
-		while (classificationSupplier.hasNext()) {
-			IClassification currClassification  = classificationSupplier.next();
+		conceptTreeSupplier = concepts.getClassificationSupplier();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> currConceptTree  = conceptTreeSupplier.next();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(
-							currClassification.getClassificationTree(), constructs);
+							currConceptTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(currClassification, constrTree);
+						new TransitionFunction(currConceptTree, constrTree);
 				transitionFunctions.add(transitionFunction);
 			}
 		}
@@ -165,7 +165,7 @@ public class TransitionFunctionTest {
 			Visualizer.visualizeTransitionFunction(tF, "TransFunc" + Integer.toString(tfIdx), 
 					TransitionFunctionGraphType.FINITE_AUTOMATON);
 			*/
-			double[][] matrix = tF.getSimilarityMatrix();
+			double[][] matrix = tF.getSimilarityCalculator().getSimilarityMatrix();
 			if (matrix != null)
 				returned++;
 			/*
@@ -200,7 +200,7 @@ public class TransitionFunctionTest {
 			Visualizer.visualizeTransitionFunction(tF, "TransFunc" + Integer.toString(tfIdx), 
 					TransitionFunctionGraphType.FINITE_AUTOMATON);
 			*/
-			double[][] matrix = tF.getAsymmetricalSimilarityMatrix();
+			double[][] matrix = tF.getSimilarityCalculator().getAsymmetricalSimilarityMatrix();
 			if (matrix != null)
 				returned++;
 			/*
@@ -231,7 +231,7 @@ public class TransitionFunctionTest {
 			Visualizer.visualizeTransitionFunction(tF, "TFunc_" + Integer.toString(tFIdx++), 
 					TransitionFunctionGraphType.FINITE_AUTOMATON);
 			*/
-			Map<Integer, Double> coherenceMap = tF.getConceptualCoherenceMap();
+			Map<Integer, Double> coherenceMap = tF.getSimilarityCalculator().getConceptualCoherenceMap();
 			if (coherenceMap == null || coherenceMap.isEmpty())
 				returned = false;
 			/*
@@ -257,7 +257,7 @@ public class TransitionFunctionTest {
 		boolean returned = true;
 		int nbOfChecks = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			double[] typicalityArray = tF.getTypicalityArray();
+			double[] typicalityArray = tF.getSimilarityCalculator().getTypicalityArray();
 			if (typicalityArray == null || typicalityArray.length != objects.size())
 				returned = false;
 			nbOfChecks++;

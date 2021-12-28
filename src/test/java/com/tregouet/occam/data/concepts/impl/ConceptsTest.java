@@ -23,7 +23,7 @@ import org.junit.Test;
 
 import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.calculators.ScoringStrategy;
-import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
@@ -118,14 +118,14 @@ public class ConceptsTest {
 	
 	@Test
 	public void whenCatTreeSupplierRequestedThenReturned() {
-		IClassificationSupplier classificationSupplier = null;
+		IConceptTreeSupplier conceptTreeSupplier = null;
 		try {
-			classificationSupplier = concepts.getClassificationSupplier();
+			conceptTreeSupplier = concepts.getClassificationSupplier();
 		}
 		catch (Exception e) {
 			assertTrue(false);
 		}
-		assertNotNull(classificationSupplier);
+		assertNotNull(conceptTreeSupplier);
 	}	
 	
 	@Test
@@ -310,10 +310,10 @@ public class ConceptsTest {
 	
 	@Test
 	public void whenTreeSuppliedThenReallyIsATree() throws IOException {
-		IClassificationSupplier classificationSupplier = concepts.getClassificationSupplier();
+		IConceptTreeSupplier conceptTreeSupplier = concepts.getClassificationSupplier();
 		int nbOfChecks = 0;
-		while (classificationSupplier.hasNext()) {
-			Tree<IConcept, IIsA> nextTree = classificationSupplier.next().getClassificationTree();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> nextTree = conceptTreeSupplier.next().getClassificationTree();
 			/*
 			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
 			*/

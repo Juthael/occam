@@ -56,12 +56,13 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	public RepresentationDisplayer(String folderPath) {
 		this.folderPath = folderPath;
 		Visualizer.setLocation(folderPath);
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE_MULTIFRAME);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
 	@Override
 	public String generateAsymmetricalSimilarityMatrix(String alinea) {
-		double[][] asymmetricalSimilarityMatrix = currentTransFunc.getAsymmetricalSimilarityMatrix();
+		double[][] asymmetricalSimilarityMatrix = 
+				currentTransFunc.getSimilarityCalculator().getAsymmetricalSimilarityMatrix();
 		StringBuilder sB = new StringBuilder();
 		sB.append(displayTable(asymmetricalSimilarityMatrix, "Asymmetrical similarity matrix", alinea));
 		sB.append("<br>" + NL);
@@ -82,7 +83,8 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public String generateConceptualCoherenceArray(String alinea) {
-		Map<Integer, Double> catIDToCoherence = currentTransFunc.getConceptualCoherenceMap();
+		Map<Integer, Double> catIDToCoherence = 
+				currentTransFunc.getSimilarityCalculator().getConceptualCoherenceMap();
 		List<IConcept> topologicalOrder = new ArrayList<>();
 		new TopologicalOrderIterator<>(currentTransFunc.getTreeOfConcepts()).forEachRemaining(topologicalOrder::add);
 		StringBuilder sB = new StringBuilder();
@@ -127,8 +129,9 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append("<hr>");
 		sB.append(alinea + "<h2>Representation " + Integer.toString(conceptTreeIdx) + " : </h2>" + NL);
 		sB.append(alineaa + "<p>" + NL);
-		sB.append(alineaaa + "<b>Coherence score : " + round(currentTransFunc.getCoherenceScore()) + "</b>" + NL);
-		sB.append(alineaaa + "Transition function cost : " + round(currentTransFunc.getTransitionFunctionCost()) + NL);
+		sB.append(alineaaa + "<b>Coherence score : " 
+				+ round(currentTransFunc.getSimilarityCalculator().getCoherenceScore()) + "</b>" + NL);
+		sB.append(alineaaa + "Transition function cost : " + round(currentTransFunc.getCost()) + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<p>" + NL);
 		sB.append(alineaaa + "<b>Extent structure : </b>" + isomorphicTransFunctions.getExtentStructureAsString() + NL);
@@ -201,7 +204,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public String generateSimilarityMatrix(String alinea) {
-		double[][] similarityMatrix = currentTransFunc.getSimilarityMatrix();
+		double[][] similarityMatrix = currentTransFunc.getSimilarityCalculator().getSimilarityMatrix();
 		StringBuilder sB = new StringBuilder();
 		sB.append(displayTable(similarityMatrix, "Similarity matrix", alinea));
 		sB.append("<br>" + NL);
@@ -216,7 +219,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public double getCoherenceScore() {
-		return currentTransFunc.getCoherenceScore();
+		return currentTransFunc.getSimilarityCalculator().getCoherenceScore();
 	}
 
 	@Override

@@ -32,8 +32,6 @@ import com.tregouet.occam.io.output.utils.Visualizer;
 public class BasicTFSupplierTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
-	private static final SimilarityScoringStrategy SIM_CALCULATION_STRATEGY = 
-			SimilarityScoringStrategy.RATIO_MODEL;
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
 	private final DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
@@ -42,7 +40,7 @@ public class BasicTFSupplierTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
 	@Before
@@ -63,7 +61,7 @@ public class BasicTFSupplierTest {
 		int checkCount = 1;
 		IBasicTFSupplier transFuncSupplier = new BasicTFSupplier(concepts, constructs);
 		ITransitionFunction tF = transFuncSupplier.next();
-		double prevScore = tF.getCoherenceScore();
+		double prevScore = tF.getScore();
 		/*
 		Visualizer.visualizeCategoryGraph(concepts.getOntologicalUpperSemilattice(), "2111051132_catUSL");
 		System.out.println("TF0 : " + Double.toString(prevScore));
@@ -72,7 +70,7 @@ public class BasicTFSupplierTest {
 		*/
 		while (transFuncSupplier.hasNext()) {
 			tF = transFuncSupplier.next();
-			double nextScore = tF.getCoherenceScore();
+			double nextScore = tF.getScore();
 			/*
 			System.out.println("TF" + Integer.toString(checkCount) + " : " + Double.toString(nextScore));
 			Visualizer.visualizeCategoryGraph(tF.getCategoryTree(), "2111051132_TFCatTree" +  Integer.toString(checkCount));

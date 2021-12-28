@@ -22,7 +22,7 @@ import com.tregouet.occam.alg.calculators.ScoringStrategy;
 import com.tregouet.occam.alg.calculators.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.alg.calculators.scores.similarity.SimilarityScoringStrategy;
 import com.tregouet.occam.alg.calculators.scores.similarity.impl.SimilarityScorerFactory;
-import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
+import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
@@ -47,7 +47,7 @@ public class RatioModelTest {
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IClassificationSupplier classificationSupplier;
+	private IConceptTreeSupplier conceptTreeSupplier;
 	private Tree<IConcept, IIsA> catTree;
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
@@ -70,9 +70,9 @@ public class RatioModelTest {
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		classificationSupplier = concepts.getClassificationSupplier();
-		while (classificationSupplier.hasNext()) {
-			IClassification currClassification = classificationSupplier.next();
+		conceptTreeSupplier = concepts.getClassificationSupplier();
+		while (conceptTreeSupplier.hasNext()) {
+			IClassification currClassification = conceptTreeSupplier.next();
 			catTree = currClassification.getClassificationTree();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);

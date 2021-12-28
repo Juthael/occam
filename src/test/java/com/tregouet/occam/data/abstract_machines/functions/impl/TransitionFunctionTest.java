@@ -86,7 +86,7 @@ public class TransitionFunctionTest {
 		while (classificationSupplier.hasNext()) {
 			IClassification currClassification  = classificationSupplier.next();
 			filtered_reduced_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(
 							currClassification.getClassificationTree(), constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {

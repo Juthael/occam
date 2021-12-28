@@ -75,7 +75,7 @@ public class RatioModelTest {
 			IClassification currClassification = classificationSupplier.next();
 			catTree = currClassification.getClassificationTree();
 			filtered_reduced_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();

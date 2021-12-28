@@ -70,7 +70,7 @@ public class TransitionFunctionSupplierTest {
 			Set<IConcept> expectedCats = catTree.vertexSet();
 			Set<IConcept> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
 				returnedCats.add(production.getSourceCategory());
 				returnedCats.add(production.getTargetConcept());
@@ -96,7 +96,7 @@ public class TransitionFunctionSupplierTest {
 			Set<IConcept> expectedCats = catTree.vertexSet();
 			Set<IConcept> returnedCats = new HashSet<>();
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
 			for (IIntentConstruct intentAtt : filteredConstructs.vertexSet()) {
 				returnedCats.add(intentAtt.getConcept());
 			}
@@ -119,7 +119,7 @@ public class TransitionFunctionSupplierTest {
 		while (classificationSupplier.hasNext()) {
 			Tree<IConcept, IIsA> catTree = classificationSupplier.next().getClassificationTree();
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
 				checkCount++;
 				IConcept sourceCat = production.getSourceCategory();
@@ -141,7 +141,7 @@ public class TransitionFunctionSupplierTest {
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			*/
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
 			/*
 			Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");
 			System.out.println(checkCount);

@@ -55,7 +55,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 		while (classificationSupplier.hasNext()) {
 			Tree<IConcept, IIsA> currClassification = classificationSupplier.next();
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructGraph = 
-					getConstructGraphFilteredByCategoryTree(currClassification, constructs);
+					getConstructGraphFilteredByConceptTree(currClassification, constructs);
 			IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constructTreeSupplier = 
 					new RestrictorOpt<IIntentConstruct, IProduction>(filteredConstructGraph, true);
 			while (constructTreeSupplier.hasNext()) {

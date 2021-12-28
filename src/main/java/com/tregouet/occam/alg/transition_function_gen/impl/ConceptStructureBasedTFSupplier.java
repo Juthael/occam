@@ -70,7 +70,7 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier
 			IIsomorphicTransFunctions currSetOfRelatedTransFunctions = new IsomorphicTransFunctions(
 					currClassification, singletonConceptToName);
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructGraph = 
-					getConstructGraphFilteredByCategoryTree(currClassification, constructs);
+					getConstructGraphFilteredByConceptTree(currClassification, constructs);
 			IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constructTreeSupplier = 
 					new RestrictorOpt<>(filteredConstructGraph, true);
 			while (constructTreeSupplier.hasNext()) {

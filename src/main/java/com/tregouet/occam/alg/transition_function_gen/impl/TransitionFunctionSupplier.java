@@ -33,7 +33,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		functionComparator = ScoreThenCostThenRef.INSTANCE;
 	}
 
-	public static DirectedAcyclicGraph<IIntentConstruct, IProduction> getConstructGraphFilteredByCategoryTree(
+	public static DirectedAcyclicGraph<IIntentConstruct, IProduction> getConstructGraphFilteredByConceptTree(
 			Tree<IConcept, IIsA> treeOfConcepts, 
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> unfilteredUnreduced) {
 		DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered =	

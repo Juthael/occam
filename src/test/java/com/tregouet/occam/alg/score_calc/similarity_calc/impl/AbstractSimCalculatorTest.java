@@ -72,7 +72,7 @@ public class AbstractSimCalculatorTest {
 			IClassification currClassification = classificationSupplier.next();
 			Tree<IConcept, IIsA> currConceptTree = currClassification.getClassificationTree();
 			filtered_reduced_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(currConceptTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(currConceptTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();

@@ -69,7 +69,7 @@ public class ConjunctiveTransitionTest {
 			IClassification currClassification = classificationSupplier.next();
 			catTree = currClassification.getClassificationTree();
 			filtered_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByCategoryTree(catTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.next();

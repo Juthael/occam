@@ -17,7 +17,7 @@ public class FunctionScorerFactory implements
 	public IFunctionScorer apply(FunctionScoringStrategy strategy) {
 		switch (strategy) {
 			case CONCEPTUAL_COHERENCE : 
-				return new ConceptualCoherence();
+				return ConceptualCoherence.INSTANCE;
 			default : 
 				return null;
 		}

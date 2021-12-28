@@ -19,7 +19,7 @@ public class EntropyReduction implements ITransitionCoster {
 	private Double[][] entropyReductionMatrix = null;
 	private ITransition transition = null;
 	
-	public EntropyReduction() {
+	private EntropyReduction() {
 	}
 
 	@Override

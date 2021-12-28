@@ -5,9 +5,10 @@ import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 
 public class ConceptualCoherence implements IFunctionScorer {
 
+	public static final ConceptualCoherence INSTANCE = new ConceptualCoherence();
 	private ITransitionFunction transitionFunction = null;
 	
-	public ConceptualCoherence() {
+	private ConceptualCoherence() {
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class TransitionCosterFactory implements
 	public ITransitionCoster apply(TransitionCostingStrategy strategy) {
 		switch (strategy) {
 			case ENTROPY_REDUCTION : 
-				return new EntropyReduction();
+				return EntropyReduction.INSTANCE;
 			default : 
 				return null;
 		}

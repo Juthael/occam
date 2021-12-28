@@ -2,13 +2,14 @@ package com.tregouet.occam.alg.transition_function_gen.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.calculators.costs.functions.IFunctionComparator;
-import com.tregouet.occam.alg.calculators.costs.functions.impl.ScoreThenCostThenRef;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
+import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostThenRef;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
@@ -23,7 +24,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	protected final IConcepts concepts;
 	protected final IClassificationSupplier classificationSupplier;
 	protected final DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs;
-	protected final IFunctionComparator functionComparator;
+	protected final Comparator<ITransitionFunction> functionComparator;
 	
 	public TransitionFunctionSupplier(IConcepts concepts, 
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs) throws IOException {

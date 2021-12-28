@@ -18,6 +18,10 @@ import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
 import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.calculators.costs.definitions.IDefinitionCoster;
+import com.tregouet.occam.alg.calculators.costs.functions.IFunctionCoster;
+import com.tregouet.occam.alg.calculators.costs.transitions.ITransitionCoster;
+import com.tregouet.occam.alg.calculators.scores.functions.IFunctionScorer;
 import com.tregouet.occam.alg.calculators.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.alg.transition_function_gen.IOntologist;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
@@ -28,6 +32,7 @@ import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.states.impl.State;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
@@ -45,7 +50,7 @@ public class TransitionFunction implements ITransitionFunction {
 
 	private final Tree<IConcept, IIsA> concepts;
 	private final Map<IConcept, IState> conceptToState = new HashMap<>();
-	private final List<ITransition> transitions = new ArrayList<>();
+	private final List<ICostedTransition> transitions = new ArrayList<>();
 	private final List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
 	private final Tree<IState, IGenusDifferentiaDefinition> prophyrianTree;
 	private DirectedMultigraph<IState, ITransition> finiteAutomatonMultigraph = null;
@@ -67,10 +72,7 @@ public class TransitionFunction implements ITransitionFunction {
 				conjunctiveTransitions.add(new ConjunctiveTransition(transition));
 		}
 		prophyrianTree = IOntologist.getPorphyrianTree(this);
-		CalculatorsAbstractFactory factory = CalculatorsAbstractFactory.INSTANCE;
-		factory.getTransitionFunctionCoster().input(this).setCost();
-		similarityScorer = factory.getSimilarityRater().input(this);
-		similarityScorer.setScore();
+		setUpCostsAndScores();
 	}
 
 	public static String setIntentsAsString(Set<IIntentConstruct> intentConstructs){
@@ -139,8 +141,8 @@ public class TransitionFunction implements ITransitionFunction {
 		return sB.toString();
 	}
 
-	public List<IOperator> buildOperators(List<IProduction> productions){
-		List<IOperator> operators = new ArrayList<>();
+	public List<IBasicOperator> buildOperators(List<IProduction> productions){
+		List<IBasicOperator> operators = new ArrayList<>();
 		List<List<Integer>> operatorProdsSets = groupIndexesOfProductionsHandledByTheSameOperator(productions);
 		for (List<Integer> idxes : operatorProdsSets) {
 			List<IProduction> operation = new ArrayList<>();
@@ -290,7 +292,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
-	public List<ITransition> getTransitions() {
+	public List<ICostedTransition> getTransitions() {
 		return transitions;
 	}
 
@@ -384,6 +386,27 @@ public class TransitionFunction implements ITransitionFunction {
 	@Override
 	public IState getAssociatedStateOf(IConcept concept) {
 		return conceptToState.get(concept);
+	}
+	
+	private void setUpCostsAndScores() {
+		CalculatorsAbstractFactory factory = CalculatorsAbstractFactory.INSTANCE;
+		//transition costs
+		ITransitionCoster transitionCoster = factory.getTransitionCoster();
+		transitionCoster.setNewCosterParameters(this);
+		for (ICostedTransition transition : transitions)
+			transitionCoster.input(transition).setCost();
+		//function cost
+		IFunctionCoster transitionFunctionCoster = factory.getTransitionFunctionCoster();
+		transitionFunctionCoster.input(this).setCost();
+		//concept definition costs
+		IDefinitionCoster definitionCoster = factory.getDefinitionCoster();
+		for (IGenusDifferentiaDefinition definition : prophyrianTree.edgeSet())
+			definitionCoster.input(definition).setCost();
+		//concept similarity scores
+		similarityScorer = factory.getSimilarityRater().input(this);
+		//function score
+		IFunctionScorer functionScorer = factory.getTransitionFunctionScorer();
+		functionScorer.input(this).setScore();
 	}
 
 }

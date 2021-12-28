@@ -7,6 +7,7 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.alg.calculators.costs.ICosted;
 import com.tregouet.occam.data.abstract_machines.states.IState;
+import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 
@@ -16,7 +17,7 @@ public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements
 	
 	private Double cost = null;
 
-	abstract public List<ITransition> getDifferentiae();
+	abstract public List<IConjunctiveTransition> getDifferentiae();
 	
 	abstract public IState getGenus();
 	

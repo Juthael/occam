@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.tregouet.occam.alg.calculators.costs.definitions.IDefinitionCoster;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
+import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 
 public class DifferentiaeCosts implements IDefinitionCoster {
 
@@ -23,9 +23,9 @@ public class DifferentiaeCosts implements IDefinitionCoster {
 	@Override
 	public void setCost() {
 		double cost = 0.0;
-		List<ITransition> transitions = definition.getDifferentiae();
-		for (ITransition transition : transitions)
-			cost += transition.getCost();
+		List<IConjunctiveTransition> transitions = definition.getDifferentiae();
+		for (IConjunctiveTransition transition : transitions)
+			cost += transition.getCostOfComponents();
 		definition.setCost(cost);
 	}
 

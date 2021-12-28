@@ -1,14 +1,14 @@
 package com.tregouet.occam.data.abstract_machines.functions.impl;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
-import com.tregouet.occam.alg.calculators.costs.functions.IFunctionComparator;
-import com.tregouet.occam.alg.calculators.costs.functions.impl.ScoreThenCostThenRef;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.IIsomorphicTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostThenRef;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
 import com.tregouet.occam.data.concepts.IIsA;
@@ -19,7 +19,7 @@ public class IsomorphicTransFunctions implements IIsomorphicTransFunctions {
 
 	private final Tree<IConcept,IIsA> treeOfConcepts;
 	private final Map<IConcept, String> singletonConceptToName;
-	private final IFunctionComparator functionComparator = ScoreThenCostThenRef.INSTANCE;
+	private final Comparator<ITransitionFunction> functionComparator = ScoreThenCostThenRef.INSTANCE;
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(functionComparator);
 	
 	public IsomorphicTransFunctions(Tree<IConcept, IIsA> treeOfConcepts, 

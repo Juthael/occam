@@ -6,6 +6,7 @@ import java.util.List;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
@@ -19,7 +20,6 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	private IReframer reframer = null;
 	private final IState operatingState;
 	private final IState nextState;
-	private Double cost = null;
 
 	public ConjunctiveTransition(ITransition transition) {
 		name = IConjunctiveTransition.provideName();
@@ -43,8 +43,8 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	}
 
 	@Override
-	public List<ITransition> getComponents() {
-		List<ITransition> components = new ArrayList<>(operators);
+	public List<ICostedTransition> getComponents() {
+		List<ICostedTransition> components = new ArrayList<>(operators);
 		components.add(reframer);
 		return components;
 	}
@@ -114,11 +114,10 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 		return reframer != null;
 	}
 	
-	public void setCost(double cost) {
-		this.cost = cost;
-	}
-	
-	public Double getCost() {
+	public double getCostOfComponents() {
+		double cost = 0.0;
+		for (ICostedTransition component : getComponents())
+			cost += component.getCost();
 		return cost;
 	}	
 

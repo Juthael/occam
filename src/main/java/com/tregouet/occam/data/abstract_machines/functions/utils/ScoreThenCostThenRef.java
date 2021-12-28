@@ -1,9 +1,9 @@
-package com.tregouet.occam.alg.calculators.costs.functions.impl;
+package com.tregouet.occam.data.abstract_machines.functions.utils;
+import java.util.Comparator;
 
-import com.tregouet.occam.alg.calculators.costs.functions.IFunctionComparator;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 
-public class ScoreThenCostThenRef implements IFunctionComparator {
+public class ScoreThenCostThenRef implements Comparator<ITransitionFunction> {
 
 	public static final ScoreThenCostThenRef INSTANCE = new ScoreThenCostThenRef();
 	

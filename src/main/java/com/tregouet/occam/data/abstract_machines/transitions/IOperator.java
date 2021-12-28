@@ -6,7 +6,7 @@ import com.tregouet.occam.alg.calculators.costs.ICosted;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
-public interface IOperator extends ITransition, ICosted {
+public interface IOperator extends ITransition {
 	
 	IIntentConstruct operateOn(IIntentConstruct input);
 	

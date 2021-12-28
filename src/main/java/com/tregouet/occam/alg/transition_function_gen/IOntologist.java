@@ -13,6 +13,7 @@ import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.impl.GenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
+import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIsA;
@@ -25,13 +26,13 @@ public interface IOntologist {
 		DirectedAcyclicGraph<IState, IGenusDifferentiaDefinition> porphyrianTree = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		Tree<IConcept, IIsA> conceptTree = transitionFunction.getTreeOfConcepts();
-		Map<IState, List<ITransition>> sourceToTransitions = new HashMap<>();
-		for (ITransition transition : transitionFunction.getTransitions()) {
+		Map<IState, List<IConjunctiveTransition>> sourceToTransitions = new HashMap<>();
+		for (IConjunctiveTransition transition : transitionFunction.getConjunctiveTransitions()) {
 			IState source = transition.getOperatingState();
 			if (sourceToTransitions.containsKey(source))
 				sourceToTransitions.get(source).add(transition);
 			else {
-				List<ITransition> transitions = new ArrayList<>();
+				List<IConjunctiveTransition> transitions = new ArrayList<>();
 				transitions.add(transition);
 				sourceToTransitions.put(source, transitions);
 			}

@@ -7,7 +7,7 @@ import java.util.ListIterator;
 import com.tregouet.occam.alg.calculators.costs.ICosted;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 
-public interface ITransition extends ICosted {
+public interface ITransition {
 	
 	StringBuilder prime = new StringBuilder();
 	ListIterator<Character> charIte = populateCharList().listIterator();

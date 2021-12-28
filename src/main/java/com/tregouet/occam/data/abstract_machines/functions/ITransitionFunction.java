@@ -13,6 +13,7 @@ import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIsA;
@@ -40,7 +41,7 @@ public interface ITransitionFunction extends ICosted, IScored {
 	
 	String getTransitionFunctionAsDOTFile(TransitionFunctionGraphType graphType);
 	
-	List<ITransition> getTransitions();
+	List<ICostedTransition> getTransitions();
 	
 	Tree<IConcept, IIsA> getTreeOfConcepts();
 	

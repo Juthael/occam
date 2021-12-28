@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
+import com.tregouet.occam.alg.calculators.costs.functions.IFunctionComparator;
+import com.tregouet.occam.alg.calculators.costs.functions.impl.ScoreThenCostThenRef;
 import com.tregouet.occam.alg.conceptual_structure_gen.IClassificationSupplier;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
@@ -21,12 +23,14 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	protected final IConcepts concepts;
 	protected final IClassificationSupplier classificationSupplier;
 	protected final DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs;
+	protected final IFunctionComparator functionComparator;
 	
 	public TransitionFunctionSupplier(IConcepts concepts, 
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs) throws IOException {
 		this.concepts = concepts;
 		classificationSupplier = concepts.getClassificationSupplier();
 		this.constructs = constructs;
+		functionComparator = ScoreThenCostThenRef.INSTANCE;
 	}
 
 	public static DirectedAcyclicGraph<IIntentConstruct, IProduction> getConstructGraphFilteredByCategoryTree(

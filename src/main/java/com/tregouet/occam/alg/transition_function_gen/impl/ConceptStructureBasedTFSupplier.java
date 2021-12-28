@@ -9,9 +9,9 @@ import java.util.TreeSet;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.ISetOfRelatedTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.IIsomorphicTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.impl.RelatedTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.impl.IsomorphicTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
@@ -26,9 +26,9 @@ import com.tregouet.tree_finder.data.Tree;
 public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier 
 	implements IConceptStructureBasedTFSupplier {
 
-	private final TreeSet<ISetOfRelatedTransFunctions> transFunctionSets = new TreeSet<>();
+	private final TreeSet<IIsomorphicTransFunctions> transFunctionSets = new TreeSet<>();
 	private final Map<IConcept, String> singletonConceptToName = new HashMap<>();
-	private Iterator<ISetOfRelatedTransFunctions> ite;
+	private Iterator<IIsomorphicTransFunctions> ite;
 	
 	public ConceptStructureBasedTFSupplier(IConcepts concepts, 
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs) throws IOException {
@@ -55,7 +55,7 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier
 	}
 	
 	@Override
-	public ISetOfRelatedTransFunctions next() {
+	public IIsomorphicTransFunctions next() {
 		return ite.next();
 	}
 	
@@ -67,7 +67,7 @@ public class ConceptStructureBasedTFSupplier extends TransitionFunctionSupplier
 	private void populateSetsOfRelatedTransFunctions() {
 		while (classificationSupplier.hasNext()) {
 			Tree<IConcept, IIsA> currClassification = classificationSupplier.next();
-			ISetOfRelatedTransFunctions currSetOfRelatedTransFunctions = new RelatedTransFunctions(
+			IIsomorphicTransFunctions currSetOfRelatedTransFunctions = new IsomorphicTransFunctions(
 					currClassification, singletonConceptToName);
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructGraph = 
 					getConstructGraphFilteredByCategoryTree(currClassification, constructs);

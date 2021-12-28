@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.abstract_machines.functions.ISetOfRelatedTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.IIsomorphicTransFunctions;
 import com.tregouet.occam.data.concepts.IConcept;
 
-public interface IConceptStructureBasedTFSupplier extends ITransitionFunctionSupplier, Iterator<ISetOfRelatedTransFunctions> {
+public interface IConceptStructureBasedTFSupplier extends ITransitionFunctionSupplier, Iterator<IIsomorphicTransFunctions> {
 	
 	public static String getDefinitionOfObjects(Map<IConcept, String> singletonConceptToName) {
 		StringBuilder sB = new StringBuilder();

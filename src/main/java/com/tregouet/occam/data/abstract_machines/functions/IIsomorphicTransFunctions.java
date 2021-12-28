@@ -7,7 +7,7 @@ import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
-public interface ISetOfRelatedTransFunctions extends Comparable<ISetOfRelatedTransFunctions> {
+public interface IIsomorphicTransFunctions extends Comparable<IIsomorphicTransFunctions> {
 	
 	double getCoherenceScore();
 	

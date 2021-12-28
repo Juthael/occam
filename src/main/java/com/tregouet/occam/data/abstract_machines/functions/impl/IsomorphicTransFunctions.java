@@ -1,13 +1,13 @@
 package com.tregouet.occam.data.abstract_machines.functions.impl;
 
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
-import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.calculators.costs.functions.IFunctionComparator;
+import com.tregouet.occam.alg.calculators.costs.functions.impl.ScoreThenCostThenRef;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.ISetOfRelatedTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.IIsomorphicTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
@@ -15,27 +15,26 @@ import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.utils.TreeOfConceptsToStringConvertor;
 import com.tregouet.tree_finder.data.Tree;
 
-public class RelatedTransFunctions implements ISetOfRelatedTransFunctions {
+public class IsomorphicTransFunctions implements IIsomorphicTransFunctions {
 
 	private final Tree<IConcept,IIsA> treeOfConcepts;
 	private final Map<IConcept, String> singletonConceptToName;
-	private final Comparator<ITransitionFunction> transFuncComparator = 
-			CalculatorsAbstractFactory.INSTANCE.getTransFuncComparator();
-	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(transFuncComparator);
+	private final IFunctionComparator functionComparator = ScoreThenCostThenRef.INSTANCE;
+	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(functionComparator);
 	
-	public RelatedTransFunctions(Tree<IConcept, IIsA> treeOfConcepts, 
+	public IsomorphicTransFunctions(Tree<IConcept, IIsA> treeOfConcepts, 
 			Map<IConcept, String> singletonConceptToName) {
 		this.treeOfConcepts = treeOfConcepts;
 		this.singletonConceptToName = singletonConceptToName;
 	}
 
 	@Override
-	public int compareTo(ISetOfRelatedTransFunctions other) {
+	public int compareTo(IIsomorphicTransFunctions other) {
 		if (this.getCoherenceScore() > other.getCoherenceScore())
 			return -1;
 		if (this.getCoherenceScore() < other.getCoherenceScore())
 			return 1;
-		return transFuncComparator.compare(
+		return functionComparator.compare(
 				this.getOptimalTransitionFunction(), other.getOptimalTransitionFunction());
 	}
 
@@ -47,7 +46,7 @@ public class RelatedTransFunctions implements ISetOfRelatedTransFunctions {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RelatedTransFunctions other = (RelatedTransFunctions) obj;
+		IsomorphicTransFunctions other = (IsomorphicTransFunctions) obj;
 		if (treeOfConcepts == null) {
 			if (other.treeOfConcepts != null)
 				return false;

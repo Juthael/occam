@@ -22,7 +22,7 @@ import com.tregouet.occam.alg.calculators.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
-import com.tregouet.occam.data.abstract_machines.functions.ISetOfRelatedTransFunctions;
+import com.tregouet.occam.data.abstract_machines.functions.IIsomorphicTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
@@ -47,7 +47,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	private List<IContextObject> context = null;
 	private IConcepts concepts = null;
 	private IConceptStructureBasedTFSupplier conceptStructureBasedTFSupplier = null;
-	private ISetOfRelatedTransFunctions setOfRelatedTransFunctions = null;
+	private IIsomorphicTransFunctions isomorphicTransFunctions = null;
 	private int conceptTreeIdx = 0;
 	private Iterator<ITransitionFunction> iteOverTF = null;
 	private ITransitionFunction currentTransFunc = null;
@@ -77,7 +77,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void generateTreeOfConcepts() throws IOException {
-		Visualizer.visualizeConceptGraph(setOfRelatedTransFunctions.getTreeOfConcepts(), "concept_tree.png");;
+		Visualizer.visualizeConceptGraph(isomorphicTransFunctions.getTreeOfConcepts(), "concept_tree.png");;
 	}
 
 	@Override
@@ -131,7 +131,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alineaaa + "Transition function cost : " + round(currentTransFunc.getTransitionFunctionCost()) + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<p>" + NL);
-		sB.append(alineaaa + "<b>Extent structure : </b>" + setOfRelatedTransFunctions.getExtentStructureAsString() + NL);
+		sB.append(alineaaa + "<b>Extent structure : </b>" + isomorphicTransFunctions.getExtentStructureAsString() + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<h3>Prophyrian tree : </h3>" + NL);
 		sB.append(alineaaa + "<p>" + NL);
@@ -241,10 +241,10 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void nextConceptTree() throws IOException {
-		setOfRelatedTransFunctions = conceptStructureBasedTFSupplier.next();
+		isomorphicTransFunctions = conceptStructureBasedTFSupplier.next();
 		conceptTreeIdx++;
 		generateTreeOfConcepts();
-		iteOverTF = setOfRelatedTransFunctions.getIteratorOverTransitionFunctions();
+		iteOverTF = isomorphicTransFunctions.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateTransitionFunctionGraph();
 		generatePorphyrianTree();
@@ -278,8 +278,8 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		} catch (IOException e) {
 			return false;
 		}
-		setOfRelatedTransFunctions = conceptStructureBasedTFSupplier.next();
-		iteOverTF = setOfRelatedTransFunctions.getIteratorOverTransitionFunctions();
+		isomorphicTransFunctions = conceptStructureBasedTFSupplier.next();
+		iteOverTF = isomorphicTransFunctions.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateConceptLatticeGraph();
 		generateTreeOfConcepts();

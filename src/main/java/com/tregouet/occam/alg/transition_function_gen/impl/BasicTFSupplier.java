@@ -6,7 +6,6 @@ import java.util.TreeSet;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
@@ -22,8 +21,7 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasicTFSupplier {
 
-	private final TreeSet<ITransitionFunction> transitionFunctions = 
-			new TreeSet<>(CalculatorsAbstractFactory.INSTANCE.getTransFuncComparator());
+	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(functionComparator);
 	private Iterator<ITransitionFunction> ite;
 	
 	public BasicTFSupplier(IConcepts concepts, DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs) 

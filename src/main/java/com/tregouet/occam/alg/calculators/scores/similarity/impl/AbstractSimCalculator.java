@@ -54,7 +54,7 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 		int nbOfComparisons = 0;
 		for (int otherConceptID : otherConceptsIDs) {
 			if (conceptID != otherConceptID) {
-				similarityToParameterSum += howSimilarTo(otherConceptID, otherConceptID);
+				similarityToParameterSum += howSimilarTo(otherConceptID, conceptID);
 				nbOfComparisons++;
 			}
 		}

@@ -15,6 +15,8 @@ public class TransitionCosterFactory implements
 	@Override
 	public ITransitionCoster apply(TransitionCostingStrategy strategy) {
 		switch (strategy) {
+			case ENTROPY_REDUCTION : 
+				return new EntropyReduction();
 			default : 
 				return null;
 		}

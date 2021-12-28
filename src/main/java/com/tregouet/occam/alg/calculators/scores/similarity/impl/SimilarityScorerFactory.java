@@ -15,6 +15,8 @@ public class SimilarityScorerFactory implements Function<SimilarityScoringStrate
 	@Override
 	public ISimilarityScorer apply(SimilarityScoringStrategy strategy) {
 		switch (strategy) {
+			case DYNAMIC_FRAMING : 
+				return new DynamicFraming();
 			default : 
 				return null;
 		}

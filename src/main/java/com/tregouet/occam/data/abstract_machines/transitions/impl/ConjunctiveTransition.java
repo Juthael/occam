@@ -121,6 +121,16 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 		for (IBasicOperator operator : operators)
 			semantics.addAll(operator.semantics());
 		return semantics;
+	}
+
+	@Override
+	public int howManyProperties() {
+		int nbOfProperties = (reframer == null ? 0 : 1);
+		for (IBasicOperator operator : operators) {
+			if (!operator.isBlank())
+				nbOfProperties++;
+		}
+		return nbOfProperties;
 	}	
 
 }

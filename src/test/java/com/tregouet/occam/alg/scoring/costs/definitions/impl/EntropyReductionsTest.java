@@ -1,8 +1,7 @@
-package com.tregouet.occam.alg.scoring.costs.transitions.impl;
+package com.tregouet.occam.alg.scoring.costs.definitions.impl;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -16,15 +15,14 @@ import org.junit.Test;
 import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
-import com.tregouet.occam.alg.scoring.costs.transitions.ITransitionCoster;
-import com.tregouet.occam.alg.scoring.costs.transitions.TransitionCostingStrategy;
+import com.tregouet.occam.alg.scoring.costs.definitions.DefinitionCostingStrategy;
+import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
-import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
@@ -37,8 +35,7 @@ import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestr
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
-@SuppressWarnings("unused")
-public class EntropyReductionTest {
+public class EntropyReductionsTest {
 	
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> shapes1Obj;
@@ -83,28 +80,23 @@ public class EntropyReductionTest {
 	}
 
 	@Test
-	public void whenTransitionCostRequestedThenReturned() throws IOException {
+	public void whenDefinitionCostsRequestedThenReturned() {
 		boolean asExpected = true;
 		int nbOfTests = 0;
-		ITransitionCoster coster = 
-				TransitionCosterFactory.INSTANCE.apply(TransitionCostingStrategy.ENTROPY_REDUCTION);
+		IDefinitionCoster coster = 
+				DefinitionCosterFactory.INSTANCE.apply(DefinitionCostingStrategy.ENTROPY_REDUCTIONS);
 		for (ITransitionFunction transitionFunction : transitionFunctions) {
-			/*
-			Visualizer.visualizeTransitionFunction(transitionFunction, "211229_entropyRedTest");
-			*/
 			coster.setCosterParameters(transitionFunction);
-			for (IConjunctiveTransition conjunctivetransition : transitionFunction.getConjunctiveTransitions()) {
-				Double transitionCost = null;
-				for (ICostedTransition costedComponent : conjunctivetransition.getComponents()) {
-					try {
-						coster.input(costedComponent).setCost();
-					}
-					catch (Exception e) {
-						asExpected = false;
-					}
+			for (IGenusDifferentiaDefinition definition : transitionFunction.getPorphyrianTree().edgeSet()) {
+				Double definitionCost = null;
+				try {
+					coster.input(definition).setCost();
+					definitionCost = definition.getCost();
 				}
-				transitionCost = conjunctivetransition.getCostOfComponents();
-				if (transitionCost == null)
+				catch (Exception e) {
+					asExpected = false;
+				}
+				if (definitionCost == null)
 					asExpected = false;
 				nbOfTests++;
 			}

@@ -17,6 +17,10 @@ public class TransitionCosterFactory implements
 		switch (strategy) {
 			case ENTROPY_REDUCTION : 
 				return EntropyReduction.INSTANCE;
+			case IF_PROPERTY_THEN_ONE : 
+				return IfPropertyThenOne.INSTANCE;
+			case COSTLESS : 
+				return Costless.INSTANCE;
 			default : 
 				return null;
 		}

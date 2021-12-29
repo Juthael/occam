@@ -6,6 +6,8 @@ import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
 
 public interface ITransitionCoster extends ICoster<ITransitionCoster, ICostedTransition> {
 	
-	void setCosterParameters(ITransitionFunction transitionFunction);
+	default void setCosterParameters(ITransitionFunction transitionFunction) {
+		//no parameter to be set;
+	}
 
 }

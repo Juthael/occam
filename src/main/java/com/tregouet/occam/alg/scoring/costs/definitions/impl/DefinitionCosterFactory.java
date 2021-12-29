@@ -15,7 +15,9 @@ public class DefinitionCosterFactory implements Function<DefinitionCostingStrate
 	public IDefinitionCoster apply(DefinitionCostingStrategy strategy) {
 		switch (strategy) {
 			case TRANSITION_COSTS : 
-				return DifferentiaeCosts.INSTANCE;
+				return TransitionCosts.INSTANCE;
+			case ENTROPY_REDUCTIONS : 
+				return EntropyReductions.INSTANCE;
 			default : 
 				return null;
 		}

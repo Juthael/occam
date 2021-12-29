@@ -6,12 +6,12 @@ import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 
-public class DifferentiaeCosts implements IDefinitionCoster {
+public class TransitionCosts implements IDefinitionCoster {
 
-	public static final DifferentiaeCosts INSTANCE = new DifferentiaeCosts();
+	public static final TransitionCosts INSTANCE = new TransitionCosts();
 	private IGenusDifferentiaDefinition definition = null;
 	
-	private DifferentiaeCosts() {
+	private TransitionCosts() {
 	}
 
 	@Override

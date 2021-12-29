@@ -187,7 +187,9 @@ public class Visualizer {
 		StringBuilder sB = new StringBuilder();
 		sB.append("Informativity : ");
 		sB.append(Double.toString(def.getCost()) + System.lineSeparator());
-		sB.append(def.toString());
+		for (IConjunctiveTransition conjTrans : def.getDifferentiae()) {
+			sB.append(operatorAsString(conjTrans));
+		}
 		return sB.toString();
 	}
 	
@@ -199,14 +201,14 @@ public class Visualizer {
 				IConjunctiveTransition conjTrans = (IConjunctiveTransition) transition;
 				IReframer reframer = conjTrans.getReframer();
 				if (reframer != null && !reframer.isBlank())
-					sB.append("FRAME : " + reframer.getReframer() + " | " + round(reframer.getCost()) +  nL);
+					sB.append("FRAME " + reframer.getReframer() + " : " + round(reframer.getCost()) +  nL);
 				for (IBasicOperator operator : conjTrans.getOperators()) {
 					sB.append(operatorAsString(operator) + nL);
 				}
 			}
 			else if (transition instanceof IBasicOperator) {
 				IBasicOperator operator = (IBasicOperator) transition;
-				sB.append(operator.getName() + " : " + round(operator.getCost()));
+				sB.append(operator.getName() + " : " + round(operator.getCost()) + nL);
 				List<IProduction> productions = operator.operation();
 				for (int i = 0 ; i < productions.size() ; i++) {
 					sB.append(productions.get(i).toString());
@@ -216,7 +218,7 @@ public class Visualizer {
 			}
 			else if (transition instanceof IReframer) {
 				IReframer reframer = (IReframer) transition;
-				sB.append(reframer.getName() + " : " + " | " + round(reframer.getCost()) +  nL);
+				sB.append(reframer.getName() + " : " + round(reframer.getCost()) +  nL);
 			}
 		}
 		return sB.toString();

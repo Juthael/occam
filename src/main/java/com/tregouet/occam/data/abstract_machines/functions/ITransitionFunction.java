@@ -6,9 +6,9 @@ import java.util.function.Predicate;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
-import com.tregouet.occam.alg.calculators.costs.ICosted;
-import com.tregouet.occam.alg.calculators.scores.IScored;
-import com.tregouet.occam.alg.calculators.scores.similarity.ISimilarityScorer;
+import com.tregouet.occam.alg.scoring.costs.ICosted;
+import com.tregouet.occam.alg.scoring.scores.IScored;
+import com.tregouet.occam.alg.scoring.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;

@@ -21,9 +21,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
-import com.tregouet.occam.alg.calculators.ScoringStrategy;
 import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
@@ -47,7 +47,7 @@ public class ConceptsTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
 	@Before
@@ -313,7 +313,7 @@ public class ConceptsTest {
 		IConceptTreeSupplier conceptTreeSupplier = concepts.getClassificationSupplier();
 		int nbOfChecks = 0;
 		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> nextTree = conceptTreeSupplier.next().getClassificationTree();
+			Tree<IConcept, IIsA> nextTree = conceptTreeSupplier.next();
 			/*
 			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
 			*/

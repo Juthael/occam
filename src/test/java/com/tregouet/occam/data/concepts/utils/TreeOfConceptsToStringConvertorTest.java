@@ -15,9 +15,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
-import com.tregouet.occam.alg.calculators.ScoringStrategy;
 import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIsA;
@@ -40,7 +40,7 @@ public class TreeOfConceptsToStringConvertorTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.CONCEPTUAL_COHERENCE);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
 	@Before
@@ -65,7 +65,7 @@ public class TreeOfConceptsToStringConvertorTest {
 		int treeIdx = 0;
 		*/
 		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currTree = conceptTreeSupplier.next().getClassificationTree();
+			Tree<IConcept, IIsA> currTree = conceptTreeSupplier.next();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/

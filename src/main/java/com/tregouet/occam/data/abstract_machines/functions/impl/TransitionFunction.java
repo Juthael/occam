@@ -17,12 +17,12 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
-import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
-import com.tregouet.occam.alg.calculators.costs.definitions.IDefinitionCoster;
-import com.tregouet.occam.alg.calculators.costs.functions.IFunctionCoster;
-import com.tregouet.occam.alg.calculators.costs.transitions.ITransitionCoster;
-import com.tregouet.occam.alg.calculators.scores.functions.IFunctionScorer;
-import com.tregouet.occam.alg.calculators.scores.similarity.ISimilarityScorer;
+import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
+import com.tregouet.occam.alg.scoring.costs.functions.IFunctionCoster;
+import com.tregouet.occam.alg.scoring.costs.transitions.ITransitionCoster;
+import com.tregouet.occam.alg.scoring.scores.functions.IFunctionScorer;
+import com.tregouet.occam.alg.scoring.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.alg.transition_function_gen.IOntologist;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;

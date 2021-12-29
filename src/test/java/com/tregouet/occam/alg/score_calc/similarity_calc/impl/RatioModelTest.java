@@ -17,12 +17,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.calculators.CalculatorsAbstractFactory;
-import com.tregouet.occam.alg.calculators.ScoringStrategy;
-import com.tregouet.occam.alg.calculators.scores.similarity.ISimilarityScorer;
-import com.tregouet.occam.alg.calculators.scores.similarity.SimilarityScoringStrategy;
-import com.tregouet.occam.alg.calculators.scores.similarity.impl.SimilarityScorerFactory;
 import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.scoring.ScoringStrategy;
+import com.tregouet.occam.alg.scoring.scores.similarity.ISimilarityScorer;
+import com.tregouet.occam.alg.scoring.scores.similarity.SimilarityScoringStrategy;
+import com.tregouet.occam.alg.scoring.scores.similarity.impl.SimilarityScorerFactory;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;

@@ -1,17 +1,12 @@
-package com.tregouet.occam.alg.score_calc.similarity_calc.impl;
+package com.tregouet.occam.alg.scoring.costs.definitions.impl;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
-import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.AllDirectedPaths;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -20,14 +15,16 @@ import org.junit.Test;
 import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
-import com.tregouet.occam.alg.scoring.scores.similarity.SimilarityScoringStrategy;
-import com.tregouet.occam.alg.scoring.scores.similarity.impl.SimilarityScorerFactory;
+import com.tregouet.occam.alg.scoring.costs.definitions.DefinitionCostingStrategy;
+import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
+import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
+import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IClassification;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
@@ -39,10 +36,10 @@ import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestr
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
-public class AbstractSimCalculatorTest {
-
-	private static final Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
-	private static List<IContextObject> shapes2Obj;
+public class DifferentiaeCostsTest {
+	
+	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
+	private static List<IContextObject> objects;
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
 			new DirectedAcyclicGraph<>(null, null, false);
@@ -50,17 +47,18 @@ public class AbstractSimCalculatorTest {
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
 	private Tree<IIntentConstruct, IProduction> constrTree;
-	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
-	
+	private TreeSet<ITransitionFunction> transitionFunctions;
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
+		objects = GenericFileReader.getContextObjects(SHAPES);	
 		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		concepts = new Concepts(shapes2Obj);
+		transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
+		concepts = new Concepts(objects);
 		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
 		productions.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
@@ -69,52 +67,45 @@ public class AbstractSimCalculatorTest {
 		});
 		conceptTreeSupplier = concepts.getClassificationSupplier();
 		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currConceptTree = conceptTreeSupplier.next();
+			Tree<IConcept, IIsA> currConceptTree  = conceptTreeSupplier.next();
 			filtered_reduced_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(currConceptTree, constructs);
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(
+							currConceptTree, constructs);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (constrTreeSupplier.hasNext()) {
-				constrTree = constrTreeSupplier.next();
+				constrTree = constrTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = 
 						new TransitionFunction(currConceptTree, constrTree);
 				transitionFunctions.add(transitionFunction);
-				/*
-				Visualizer.visualizeTransitionFunction(transitionFunction, "2109110911_tf", 
-						TransitionFunctionGraphType.FINITE_AUTOMATON);
-				Visualizer.visualizeWeightedTransitionsGraph(transitionFunction.getSimilarityCalculator().getSparseGraph(), "2109110911_sg");
-				*/
 			}
 		}
 	}
 
 	@Test
-	public void whenReacheableEdgesRequestedThenExpectedReturned() {
-		boolean asExpected = true;
-		int nbOfChecks = 0;
+	public void whenDefinitionCostRequestedThenReturned() {
+		boolean costReturned = true;
+		int nbOfTests = 0;
+		IDefinitionCoster coster = 
+				DefinitionCosterFactory.INSTANCE.apply(DefinitionCostingStrategy.TRANSITION_COSTS);
 		for (ITransitionFunction tF : transitionFunctions) {
-			int rootID = tF.getTreeOfConcepts().getRoot().getID();
-			List<IConcept> leaves = new ArrayList<>(tF.getTreeOfConcepts().getLeaves());
-			int[] leavesID = new int[leaves.size()];
-			for (int i = 0 ; i < leavesID.length ; i++) {
-				leavesID[i] = leaves.get(i).getID();
-			}
-			ContrastModel calculator = 
-					(ContrastModel) SimilarityScorerFactory.INSTANCE.apply(
-							SimilarityScoringStrategy.CONTRAST_MODEL).input(tF.getClassification());
-			for (Integer leafID : leavesID) {
-				Set<Integer> returnedEdges = new HashSet<>(calculator.getEdgeChainToRootFrom(leafID.intValue()));
-				Set<Integer> expectedEdges = new HashSet<>();
-				AllDirectedPaths<Integer, Integer> pathFinder = new AllDirectedPaths<>(calculator.getSparseGraph());
-				List<GraphPath<Integer, Integer>> paths = 
-						pathFinder.getAllPaths(calculator.indexOf(leafID), calculator.indexOf(rootID), true, 999);
-				for (GraphPath<Integer, Integer> path : paths)
-					expectedEdges.addAll(path.getEdgeList());
-				if (!returnedEdges.equals(expectedEdges))
-					asExpected = false;
-				nbOfChecks++;
+			Tree<IState, IGenusDifferentiaDefinition> porphyrianTree = tF.getPorphyrianTree();
+			for (IGenusDifferentiaDefinition def : porphyrianTree.edgeSet()) {
+				Double defCost = null;
+				try {
+					coster.input(def).setCost();
+					defCost = def.getCost();
+				}
+				catch (Exception e) {
+					costReturned = false;
+				}
+				if (defCost == null)
+					costReturned = false;
+				nbOfTests++;
 			}
 		}
-		assertTrue(asExpected && nbOfChecks > 0);
-	}	
+		if (nbOfTests == 0)
+			costReturned = false;
+		assertTrue(costReturned);
+	}
 
 }

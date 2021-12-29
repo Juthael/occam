@@ -279,7 +279,7 @@ public class TransitionFunction implements ITransitionFunction {
 		CalculatorsAbstractFactory factory = CalculatorsAbstractFactory.INSTANCE;
 		//transition costs
 		ITransitionCoster transitionCoster = factory.getTransitionCoster();
-		transitionCoster.setNewCosterParameters(this);
+		transitionCoster.setCosterParameters(this);
 		for (ICostedTransition transition : transitions)
 			transitionCoster.input(transition).setCost();
 		//function cost

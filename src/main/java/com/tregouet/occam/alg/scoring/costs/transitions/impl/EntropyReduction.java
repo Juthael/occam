@@ -36,7 +36,7 @@ public class EntropyReduction implements ITransitionCoster {
 	}
 
 	@Override
-	public void setNewCosterParameters(ITransitionFunction transitionFunction) {
+	public void setCosterParameters(ITransitionFunction transitionFunction) {
 		Tree<IConcept, IIsA> treeOfConcepts = transitionFunction.getTreeOfConcepts();
 		List<IConcept> topoOrderedConcepts = treeOfConcepts.getTopologicalOrder();
 		int cardinal = topoOrderedConcepts.size();

@@ -102,7 +102,7 @@ public class TransitionFunctionTest {
 	public void whenCategoryStructureDOTFileRequestedThenReturned() throws IOException {
 		boolean dotFileReturnedIsValid = true;
 		for (ITransitionFunction tF : transitionFunctions) {
-			String stringDOT = tF.getTreeOfConceptsAsDOTFile();
+			String stringDOT = tF.getTreeOfConceptsAsGraph();
 			if (stringDOT == null || stringDOT.isEmpty())
 				dotFileReturnedIsValid = false;
 			/*
@@ -123,7 +123,7 @@ public class TransitionFunctionTest {
 	public void whenTransitionFunctionDOTFileRequestedThenReturned() throws IOException {
 		boolean dotFileReturnedIsValid = true;
 		for (ITransitionFunction tF : transitionFunctions) {
-			String stringDOT = tF.getTransitionFunctionAsDOTFile(TransitionFunctionGraphType.FINITE_AUTOMATON);
+			String stringDOT = tF.getTransitionFunctionAsGraph(TransitionFunctionGraphType.FINITE_AUTOMATON);
 			if (stringDOT == null || stringDOT.isEmpty())
 				dotFileReturnedIsValid = false;
 			/*

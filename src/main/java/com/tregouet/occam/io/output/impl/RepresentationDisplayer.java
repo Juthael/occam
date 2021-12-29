@@ -24,7 +24,6 @@ import com.tregouet.occam.alg.transition_function_gen.impl.ConceptStructureBased
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.data.abstract_machines.functions.IIsomorphicTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
@@ -213,8 +212,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void generateTransitionFunctionGraph() throws IOException {
-		Visualizer.visualizeTransitionFunction(currentTransFunc, "transition_function.png", 
-				TransitionFunctionGraphType.FINITE_AUTOMATON);
+		Visualizer.visualizeTransitionFunction(currentTransFunc, "transition_function.png");
 	}
 
 	@Override
@@ -340,7 +338,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		return sB.toString();
 	}
 
-	private String round(double nb) {
+	private static String round(double nb) {
 		return df.format(nb).toString();
 	}
 

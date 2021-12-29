@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 import org.jgrapht.nio.Attribute;
@@ -26,7 +27,6 @@ import com.tregouet.occam.alg.scoring.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.alg.transition_function_gen.IOntologist;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.states.impl.State;
@@ -108,37 +108,6 @@ public class TransitionFunction implements ITransitionFunction {
 			}
 		}
 		return prodIndexesSets;
-	}
-
-	private static String operatorAsString(ITransition transition) {
-		StringBuilder sB = new StringBuilder();
-		String nL = System.lineSeparator();
-		if (!transition.isBlank()) {
-			if (transition instanceof IConjunctiveTransition) {
-				IConjunctiveTransition conjTrans = (IConjunctiveTransition) transition;
-				IReframer reframer = conjTrans.getReframer();
-				if (reframer != null && !reframer.isBlank())
-					sB.append("FRAME : " + reframer.getReframer() + nL);
-				for (IBasicOperator operator : conjTrans.getOperators()) {
-					sB.append(operatorAsString(operator) + nL);
-				}
-			}
-			else if (transition instanceof IBasicOperator) {
-				IOperator operator = (IOperator) transition;
-				sB.append(operator.getName() + " : ");
-				List<IProduction> productions = operator.operation();
-				for (int i = 0 ; i < productions.size() ; i++) {
-					sB.append(productions.get(i).toString());
-					if (i < productions.size() - 1)
-						sB.append(nL);
-				}
-			}
-			else if (transition instanceof IReframer) {
-				IReframer reframer = (IReframer) transition;
-				sB.append(reframer.getName() + " : " + reframer.getReframer() + nL);
-			}
-		}
-		return sB.toString();
 	}
 
 	public List<IBasicOperator> buildOperators(List<IProduction> productions){
@@ -251,67 +220,6 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 	
 	@Override
-	public String getTransitionFunctionAsDOTFile(TransitionFunctionGraphType graphType) {
-		String dOTFile = null;
-		switch (graphType) {
-			case FINITE_AUTOMATON_MULTIGRAPH : 
-				DOTExporter<IState,ITransition> multigraphExporter = new DOTExporter<>();
-				multigraphExporter.setGraphAttributeProvider(() -> {
-					Map<String, Attribute> map = new LinkedHashMap<>();
-					map.put("rankdir", DefaultAttribute.createAttribute("BT"));
-					return map;
-				});
-				multigraphExporter.setVertexAttributeProvider((s) -> {
-					Map<String, Attribute> map = new LinkedHashMap<>();
-					map.put("label", DefaultAttribute.createAttribute(Integer.toString(s.getStateID())));
-					return map;
-				});
-				multigraphExporter.setEdgeAttributeProvider((o) -> {
-					Map<String, Attribute> map = new LinkedHashMap<>();
-					map.put("label", DefaultAttribute.createAttribute(operatorAsString(o)));
-					return map;
-				});		
-				Writer writer = new StringWriter();
-				DirectedMultigraph<IState, ITransition> stateMachine = new DirectedMultigraph<>(null, null, false);
-				for (IState state : getStates())
-					stateMachine.addVertex(state);
-				for (ITransition transition : transitions)
-					stateMachine.addEdge(transition.getOperatingState(), transition.getNextState(), transition);
-				multigraphExporter.exportGraph(stateMachine, writer);
-				dOTFile = writer.toString();
-				break;
-			case FINITE_AUTOMATON : 
-				DOTExporter<IState,IConjunctiveTransition> simpleGraphExporter = new DOTExporter<>();
-				simpleGraphExporter.setGraphAttributeProvider(() -> {
-					Map<String, Attribute> map = new LinkedHashMap<>();
-					map.put("rankdir", DefaultAttribute.createAttribute("BT"));
-					return map;
-				});
-				simpleGraphExporter.setVertexAttributeProvider((s) -> {
-					Map<String, Attribute> map = new LinkedHashMap<>();
-					map.put("label", DefaultAttribute.createAttribute(Integer.toString(s.getStateID())));
-					return map;
-				});
-				simpleGraphExporter.setEdgeAttributeProvider((o) -> {
-					Map<String, Attribute> map = new LinkedHashMap<>();
-					map.put("label", DefaultAttribute.createAttribute(operatorAsString(o)));
-					return map;
-				});		
-				Writer simpleGraphWriter = new StringWriter();
-				SimpleDirectedGraph<IState, IConjunctiveTransition> simpleGraph = 
-						new SimpleDirectedGraph<>(null, null, false);
-				for (IState state : getStates())
-					simpleGraph.addVertex(state);
-				for (IConjunctiveTransition operator : conjunctiveTransitions)
-					simpleGraph.addEdge(operator.getOperatingState(), operator.getNextState(), operator);
-				simpleGraphExporter.exportGraph(simpleGraph, simpleGraphWriter);
-				dOTFile = simpleGraphWriter.toString();
-				break;
-		}
-		return dOTFile;
-	}
-	
-	@Override
 	public List<ICostedTransition> getTransitions() {
 		return transitions;
 	}
@@ -319,19 +227,6 @@ public class TransitionFunction implements ITransitionFunction {
 	@Override
 	public Tree<IConcept, IIsA> getTreeOfConcepts() {
 		return concepts;
-	}
-
-	@Override
-	public String getTreeOfConceptsAsDOTFile() {
-		DOTExporter<IConcept,IIsA> exporter = new DOTExporter<>();
-		exporter.setVertexAttributeProvider((v) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.toString()));
-			return map;
-		});
-		Writer writer = new StringWriter();
-		exporter.exportGraph(concepts, writer);
-		return writer.toString();
 	}
 
 	@Override

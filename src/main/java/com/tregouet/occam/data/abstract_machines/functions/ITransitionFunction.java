@@ -3,6 +3,7 @@ package com.tregouet.occam.data.abstract_machines.functions;
 import java.util.List;
 import java.util.function.Predicate;
 
+import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
@@ -43,13 +44,9 @@ public interface ITransitionFunction extends ICosted, IScored {
 	
 	List<IState> getStates();
 	
-	String getTransitionFunctionAsDOTFile(TransitionFunctionGraphType graphType);
-	
 	List<ICostedTransition> getTransitions();
 	
 	Tree<IConcept, IIsA> getTreeOfConcepts();
-	
-	String getTreeOfConceptsAsDOTFile();
 	
 	@Override
 	int hashCode();

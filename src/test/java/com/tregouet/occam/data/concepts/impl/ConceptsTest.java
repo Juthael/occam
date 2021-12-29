@@ -33,7 +33,6 @@ import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.StructureInspector;
 
@@ -50,11 +49,19 @@ public class ConceptsTest {
 		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
+	@Test
+	public void categoryLatticeReturnedThenReallyIsALattice() {
+		DirectedAcyclicGraph<IConcept, IIsA> lattice = concepts.getConceptLattice();
+		assertTrue(StructureInspector.isAnUpperSemilattice(lattice) 
+				&& StructureInspector.isALowerSemilattice(lattice)
+				&& !lattice.vertexSet().isEmpty());
+	}
+	
 	@Before
 	public void setUp() throws Exception {
 		concepts = new Concepts(shapes2Obj);
-	}
-	
+	}	
+
 	@Test
 	public void whenCategoriesReturnedThenContains1Absurdity1Truism1Commitment() {
 		int nbOfTruism = 0;
@@ -66,7 +73,8 @@ public class ConceptsTest {
 				nbOfCommitments++;
 		}
 		assertTrue(nbOfTruism == 1 && nbOfCommitments == 1);
-	}	
+	}
+	
 
 	@Test
 	public void whenCategoriesReturnedThenEachHasADistinctIntent() {
@@ -74,9 +82,8 @@ public class ConceptsTest {
 		for (IConcept cat : concepts.getTopologicalSorting())
 			intents.add(cat.getIntent());
 		assertTrue(intents.size() == concepts.getTopologicalSorting().size());
-	}
+	}	
 	
-
 	@Test
 	public void whenCategoriesReturnedThenTruismAndCommitmentHaveSameExtent() {
 		Set<Set<IContextObject>> extents = new HashSet<>();
@@ -126,26 +133,6 @@ public class ConceptsTest {
 			assertTrue(false);
 		}
 		assertNotNull(conceptTreeSupplier);
-	}	
-	
-	@Test
-	public void whenOntologicalUSLReturnedThenReallyIsAnUpperSemilattice() {
-		boolean isAnUpperSemilattice = true;
-		try {
-			concepts.getOntologicalUpperSemilattice().validate();
-		}
-		catch (DataFormatException e) {
-			isAnUpperSemilattice = false;
-		}
-		assertTrue(isAnUpperSemilattice);
-	}
-	
-	@Test
-	public void categoryLatticeReturnedThenReallyIsALattice() {
-		DirectedAcyclicGraph<IConcept, IIsA> lattice = concepts.getConceptLattice();
-		assertTrue(StructureInspector.isAnUpperSemilattice(lattice) 
-				&& StructureInspector.isALowerSemilattice(lattice)
-				&& !lattice.vertexSet().isEmpty());
 	}
 	
 	@Test
@@ -237,6 +224,38 @@ public class ConceptsTest {
 	}
 	
 	@Test
+	public void whenOntologicalUSLReturnedThenReallyIsAnUpperSemilattice() {
+		boolean isAnUpperSemilattice = true;
+		try {
+			concepts.getOntologicalUpperSemilattice().validate();
+		}
+		catch (DataFormatException e) {
+			isAnUpperSemilattice = false;
+		}
+		assertTrue(isAnUpperSemilattice);
+	}
+	
+	@Test
+	public void whenTreeSuppliedThenReallyIsATree() throws IOException {
+		IConceptTreeSupplier conceptTreeSupplier = concepts.getClassificationSupplier();
+		int nbOfChecks = 0;
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> nextTree = conceptTreeSupplier.next();
+			/*
+			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
+			*/
+			try {
+				nextTree.validate();
+				nbOfChecks++;
+			}
+			catch (DataFormatException e) {
+				fail();
+			}
+		}
+		assertTrue(nbOfChecks > 0);
+	}
+	
+	@Test
 	public void whenTruismRequestedThenReturnedWithExpectedIntent() {
 		Set<List<String>> expectedIntentString = new HashSet<>();
 		Set<List<String>> returnedIntentString;
@@ -287,7 +306,7 @@ public class ConceptsTest {
 			}
 		}
 		return cats;
-	}
+	}	
 	
 	private Set<IConcept> removeNonMinimalElements(Set<IConcept> cats){
 		List<IConcept> catList = new ArrayList<>(cats);
@@ -306,26 +325,6 @@ public class ConceptsTest {
 			}
 		}
 		return cats;
-	}	
-	
-	@Test
-	public void whenTreeSuppliedThenReallyIsATree() throws IOException {
-		IConceptTreeSupplier conceptTreeSupplier = concepts.getClassificationSupplier();
-		int nbOfChecks = 0;
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> nextTree = conceptTreeSupplier.next();
-			/*
-			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
-			*/
-			try {
-				nextTree.validate();
-				nbOfChecks++;
-			}
-			catch (DataFormatException e) {
-				fail();
-			}
-		}
-		assertTrue(nbOfChecks > 0);
 	}
 
 }

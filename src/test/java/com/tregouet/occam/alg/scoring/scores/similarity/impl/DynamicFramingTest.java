@@ -81,33 +81,6 @@ public class DynamicFramingTest {
 	}
 
 	@Test
-	public void whenSymmetricalSimilarityRequestedThenReturned() {
-		boolean returned = true;
-		int nbOfTests = 0;
-		ISimilarityScorer scorer = 
-				SimilarityScorerFactory.INSTANCE.apply(SimilarityScoringStrategy.DYNAMIC_FRAMING);
-		for (ITransitionFunction tF : transitionFunctions) {
-			scorer.input(tF);
-			List<IConcept> objects = new ArrayList<>(tF.getTreeOfConcepts().getLeaves());
-			int[] objectIDs = new int[objects.size()];
-			for (int i = 0 ; i < objectIDs.length ; i++) {
-				objectIDs[i] = objects.get(i).getID();
-			}
-			for (int j = 0 ; j < objectIDs.length - 1 ; j++) {
-				for (int k = j+1 ; k < objectIDs.length ; k++) {
-					double similarity = scorer.howSimilar(objectIDs[j], objectIDs[k]);
-					if (Double.isNaN(similarity))
-						returned = false;
-					nbOfTests++;
-				}
-			}
-		}
-		if (nbOfTests == 0)
-			returned = false;
-		assertTrue(returned);
-	}
-	
-	@Test
 	public void whenAsymmetricalSimilarityRequestedThenReturned() {
 		boolean returned = true;
 		int nbOfTests = 0;
@@ -123,6 +96,33 @@ public class DynamicFramingTest {
 			for (int j = 0 ; j < objectIDs.length ; j++) {
 				for (int k = 0 ; k < objectIDs.length ; k++) {
 					double similarity = scorer.howSimilarTo(objectIDs[j], objectIDs[k]);
+					if (Double.isNaN(similarity))
+						returned = false;
+					nbOfTests++;
+				}
+			}
+		}
+		if (nbOfTests == 0)
+			returned = false;
+		assertTrue(returned);
+	}
+	
+	@Test
+	public void whenSymmetricalSimilarityRequestedThenReturned() {
+		boolean returned = true;
+		int nbOfTests = 0;
+		ISimilarityScorer scorer = 
+				SimilarityScorerFactory.INSTANCE.apply(SimilarityScoringStrategy.DYNAMIC_FRAMING);
+		for (ITransitionFunction tF : transitionFunctions) {
+			scorer.input(tF);
+			List<IConcept> objects = new ArrayList<>(tF.getTreeOfConcepts().getLeaves());
+			int[] objectIDs = new int[objects.size()];
+			for (int i = 0 ; i < objectIDs.length ; i++) {
+				objectIDs[i] = objects.get(i).getID();
+			}
+			for (int j = 0 ; j < objectIDs.length - 1 ; j++) {
+				for (int k = j+1 ; k < objectIDs.length ; k++) {
+					double similarity = scorer.howSimilar(objectIDs[j], objectIDs[k]);
 					if (Double.isNaN(similarity))
 						returned = false;
 					nbOfTests++;

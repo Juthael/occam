@@ -64,6 +64,55 @@ public class TransitionFunctionTest {
 		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
+	private static double binaryLogarithm(double arg) {
+		return Math.log10(arg)/Math.log10(2);
+	}
+	
+	private static boolean sameSourceAndTargetCategoryForAll(List<IProduction> productions) {
+		boolean sameSourceAndTargetCategory = true;
+		IConcept sourceCategory = null;
+		IConcept targetCategory = null;
+		for (int i = 0 ; i < productions.size() ; i++) {
+			if (i == 0) {
+				sourceCategory = productions.get(i).getSourceCategory();
+				targetCategory = productions.get(i).getTargetConcept();
+			}
+			else {
+				if (!productions.get(i).getSourceCategory().equals(sourceCategory)
+						|| !productions.get(i).getTargetConcept().equals(targetCategory))
+					sameSourceAndTargetCategory = false;
+			}
+		}
+		return sameSourceAndTargetCategory;
+	}
+	
+	private static boolean sameTargetAttributeAsOneOtherProduction(IProduction production, List<IProduction> productions) {
+		if (productions.size() == 1)
+			return true;
+		boolean sameTargetAttributeAsOneOther = false;
+		List<IProduction> others = new ArrayList<>(productions);
+		others.remove(production);
+		for (IProduction other : others) {
+			if (production.getTarget().equals(other.getTarget()))
+				sameTargetAttributeAsOneOther = true;
+		}
+		return sameTargetAttributeAsOneOther;
+	}
+	
+	private static boolean sameValueAsOneOtherProduction(IProduction production, List<IProduction> productions) {
+		if (productions.size() == 1)
+			return true;
+		boolean sameValue = false;
+		List<IProduction> others = new ArrayList<>(productions);
+		others.remove(production);
+		for (IProduction other : others) {
+			List<IConstruct> valuesOfOther = new ArrayList<>(other.getValues());
+			if (valuesOfOther.removeAll(production.getValues()))
+				sameValue = true;
+		}
+		return sameValue;
+	}
+	
 	@Before
 	public void setUp() throws Exception {
 		transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
@@ -91,55 +140,84 @@ public class TransitionFunctionTest {
 	}
 	
 	@Test
-	public void whenTransitionFunctionGraphRequestedThenReturned() throws IOException {
-		boolean graphReturned = true;;
+	public void when2NonBlankProductionsHaveSameSourceAndTargetCategoriesAndSameValueThenHandledBySameOperator() 
+			throws IOException {
+		boolean sameOperator = true;
+		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			SimpleDirectedGraph<IState, IConjunctiveTransition> graph = null;
-			try {
-				graph = tF.getFiniteAutomatonGraph();
+			/*
+			System.out.println(tF.getDomainSpecificLanguage().toString());
+			Visualizer.visualizeTransitionFunction(tF, "2108251050_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
+			*/
+			List<IBasicProduction> basicProds = new ArrayList<>();
+			List<IOperator> basicProdsOperators = new ArrayList<>();
+			for (ITransition transition : tF.getTransitions()) {
+				if (transition instanceof IOperator) {
+					IOperator operator = (IOperator) transition;
+					for (IProduction production : operator.operation()) {
+						if (production instanceof BlankProduction) {
+						}
+						else if (production instanceof IBasicProduction) {
+							basicProds.add((IBasicProduction) production);
+							basicProdsOperators.add(operator);
+						}
+						else {
+							ICompositeProduction compoProd = (ICompositeProduction) production;
+							for (IBasicProduction basicProd : compoProd.getComponents()) {
+								basicProds.add(basicProd);
+								basicProdsOperators.add(operator);
+							}
+						}
+					}
+				}
 			}
-			catch (Exception e) {
-				graphReturned = false;
+			for (int i = 0 ; i < basicProds.size() - 1 ; i++) {
+				for (int j = i + 1 ; j < basicProds.size() ; j++) {
+					IBasicProduction iProd = basicProds.get(i);
+					IBasicProduction jProd = basicProds.get(j);
+					if (iProd.getSourceCategory().equals(jProd.getSourceCategory())
+							&& iProd.getTargetConcept().equals(jProd.getTargetConcept())
+							&& iProd.getValue().equals(jProd.getValue())) {
+						checkCount++;
+						if (!basicProdsOperators.get(basicProds.indexOf(iProd)).equals(
+								basicProdsOperators.get(basicProds.indexOf(jProd))))
+							sameOperator = false;
+					}
+				}
 			}
-			if (graph == null)
-				graphReturned = false;
 		}
-		assertTrue(graphReturned);
+		assertTrue(sameOperator == true && checkCount > 0);
 	}
-	
-	@Test
-	public void whenSimilarityMatrixRequestedThenReturned() throws IOException {
-		int tfIdx = 0;
-		int returned = 0;
-		/*
-		StringBuilder sB = new StringBuilder();
-		int objIdx = 0;
-		for (IContextObject obj : categories.getContextObjects()) {
-			sB.append("Object_" + Integer.toString(objIdx++) + " : " + System.lineSeparator() 
-				+ obj.getConstructs().toString());
-			sB.append(System.lineSeparator());
-		}
-		*/
+
+	@Test 
+	public void when2ProductionsHaveSameSourceCategoryAndSameTargetAttributeThenHandledBySameOperator() {
+		boolean sameOperator = true;
+		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
-			/*
-			Visualizer.visualizeTransitionFunction(tF, "TransFunc" + Integer.toString(tfIdx), 
-					TransitionFunctionGraphType.FINITE_AUTOMATON);
-			*/
-			double[][] matrix = tF.getSimilarityCalculator().getSimilarityMatrix();
-			if (matrix != null)
-				returned++;
-			/*
-			sB.append("TRANS_FUNC_" + Integer.toString(tfIdx) + " : " + System.lineSeparator());
-			for (double[] line : matrix)
-				sB.append(Arrays.toString(line) + System.lineSeparator());
-			sB.append(System.lineSeparator());
-			*/
-			tfIdx++;
+			Map<IProduction, IOperator> prodToOpe = new HashMap<>();
+			for (ITransition transition : tF.getTransitions()) {
+				if (transition instanceof IOperator) {
+					IOperator operator = (IOperator) transition;
+					for (IProduction production : operator.operation()) {
+						prodToOpe.put(production, operator);
+					}
+				}
+			}
+			List<IProduction> productions = new ArrayList<>(prodToOpe.keySet());
+			for (int i = 0 ; i < productions.size() - 1 ; i++) {
+				for (int j = i + 1 ; j < productions.size() ; j++) {
+					IProduction iProd = productions.get(i);
+					IProduction jProd = productions.get(j);
+					if (iProd.getSourceCategory().equals(jProd.getSourceCategory())
+							&& iProd.getTarget().equals(jProd.getTarget())) {
+						checkCount++;
+						if (!prodToOpe.get(iProd).equals(prodToOpe.get(jProd)))
+							sameOperator = false;						
+					}
+				}
+			}
 		}
-		/*
-		System.out.println(sB.toString());
-		*/
-		assertTrue(tfIdx == returned);
+		assertTrue(checkCount > 0 && sameOperator);
 	}
 	
 	@Test
@@ -213,100 +291,6 @@ public class TransitionFunctionTest {
 	}
 	
 	@Test
-	public void whenTypicalityArrayRequestedThenReturned() {
-		boolean returned = true;
-		int nbOfChecks = 0;
-		for (ITransitionFunction tF : transitionFunctions) {
-			double[] typicalityArray = tF.getSimilarityCalculator().getTypicalityArray();
-			if (typicalityArray == null || typicalityArray.length != objects.size())
-				returned = false;
-			nbOfChecks++;
-		}
-		assertTrue(returned && nbOfChecks > 0);
-	}
-
-	@Test 
-	public void when2ProductionsHaveSameSourceCategoryAndSameTargetAttributeThenHandledBySameOperator() {
-		boolean sameOperator = true;
-		int checkCount = 0;
-		for (ITransitionFunction tF : transitionFunctions) {
-			Map<IProduction, IOperator> prodToOpe = new HashMap<>();
-			for (ITransition transition : tF.getTransitions()) {
-				if (transition instanceof IOperator) {
-					IOperator operator = (IOperator) transition;
-					for (IProduction production : operator.operation()) {
-						prodToOpe.put(production, operator);
-					}
-				}
-			}
-			List<IProduction> productions = new ArrayList<>(prodToOpe.keySet());
-			for (int i = 0 ; i < productions.size() - 1 ; i++) {
-				for (int j = i + 1 ; j < productions.size() ; j++) {
-					IProduction iProd = productions.get(i);
-					IProduction jProd = productions.get(j);
-					if (iProd.getSourceCategory().equals(jProd.getSourceCategory())
-							&& iProd.getTarget().equals(jProd.getTarget())) {
-						checkCount++;
-						if (!prodToOpe.get(iProd).equals(prodToOpe.get(jProd)))
-							sameOperator = false;						
-					}
-				}
-			}
-		}
-		assertTrue(checkCount > 0 && sameOperator);
-	}
-	
-	@Test
-	public void when2NonBlankProductionsHaveSameSourceAndTargetCategoriesAndSameValueThenHandledBySameOperator() 
-			throws IOException {
-		boolean sameOperator = true;
-		int checkCount = 0;
-		for (ITransitionFunction tF : transitionFunctions) {
-			/*
-			System.out.println(tF.getDomainSpecificLanguage().toString());
-			Visualizer.visualizeTransitionFunction(tF, "2108251050_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
-			*/
-			List<IBasicProduction> basicProds = new ArrayList<>();
-			List<IOperator> basicProdsOperators = new ArrayList<>();
-			for (ITransition transition : tF.getTransitions()) {
-				if (transition instanceof IOperator) {
-					IOperator operator = (IOperator) transition;
-					for (IProduction production : operator.operation()) {
-						if (production instanceof BlankProduction) {
-						}
-						else if (production instanceof IBasicProduction) {
-							basicProds.add((IBasicProduction) production);
-							basicProdsOperators.add(operator);
-						}
-						else {
-							ICompositeProduction compoProd = (ICompositeProduction) production;
-							for (IBasicProduction basicProd : compoProd.getComponents()) {
-								basicProds.add(basicProd);
-								basicProdsOperators.add(operator);
-							}
-						}
-					}
-				}
-			}
-			for (int i = 0 ; i < basicProds.size() - 1 ; i++) {
-				for (int j = i + 1 ; j < basicProds.size() ; j++) {
-					IBasicProduction iProd = basicProds.get(i);
-					IBasicProduction jProd = basicProds.get(j);
-					if (iProd.getSourceCategory().equals(jProd.getSourceCategory())
-							&& iProd.getTargetConcept().equals(jProd.getTargetConcept())
-							&& iProd.getValue().equals(jProd.getValue())) {
-						checkCount++;
-						if (!basicProdsOperators.get(basicProds.indexOf(iProd)).equals(
-								basicProdsOperators.get(basicProds.indexOf(jProd))))
-							sameOperator = false;
-					}
-				}
-			}
-		}
-		assertTrue(sameOperator == true && checkCount > 0);
-	}
-	
-	@Test
 	public void whenProductionsHandledBySameOperatorThenConsistentWithRequirements() {
 		boolean consistent = true;
 		for (ITransitionFunction tF : transitionFunctions) {
@@ -327,53 +311,69 @@ public class TransitionFunctionTest {
 		assertTrue(consistent);
 	}
 	
-	private static boolean sameSourceAndTargetCategoryForAll(List<IProduction> productions) {
-		boolean sameSourceAndTargetCategory = true;
-		IConcept sourceCategory = null;
-		IConcept targetCategory = null;
-		for (int i = 0 ; i < productions.size() ; i++) {
-			if (i == 0) {
-				sourceCategory = productions.get(i).getSourceCategory();
-				targetCategory = productions.get(i).getTargetConcept();
+	@Test
+	public void whenSimilarityMatrixRequestedThenReturned() throws IOException {
+		int tfIdx = 0;
+		int returned = 0;
+		/*
+		StringBuilder sB = new StringBuilder();
+		int objIdx = 0;
+		for (IContextObject obj : categories.getContextObjects()) {
+			sB.append("Object_" + Integer.toString(objIdx++) + " : " + System.lineSeparator() 
+				+ obj.getConstructs().toString());
+			sB.append(System.lineSeparator());
+		}
+		*/
+		for (ITransitionFunction tF : transitionFunctions) {
+			/*
+			Visualizer.visualizeTransitionFunction(tF, "TransFunc" + Integer.toString(tfIdx), 
+					TransitionFunctionGraphType.FINITE_AUTOMATON);
+			*/
+			double[][] matrix = tF.getSimilarityCalculator().getSimilarityMatrix();
+			if (matrix != null)
+				returned++;
+			/*
+			sB.append("TRANS_FUNC_" + Integer.toString(tfIdx) + " : " + System.lineSeparator());
+			for (double[] line : matrix)
+				sB.append(Arrays.toString(line) + System.lineSeparator());
+			sB.append(System.lineSeparator());
+			*/
+			tfIdx++;
+		}
+		/*
+		System.out.println(sB.toString());
+		*/
+		assertTrue(tfIdx == returned);
+	}
+	
+	@Test
+	public void whenTransitionFunctionGraphRequestedThenReturned() throws IOException {
+		boolean graphReturned = true;;
+		for (ITransitionFunction tF : transitionFunctions) {
+			SimpleDirectedGraph<IState, IConjunctiveTransition> graph = null;
+			try {
+				graph = tF.getFiniteAutomatonGraph();
 			}
-			else {
-				if (!productions.get(i).getSourceCategory().equals(sourceCategory)
-						|| !productions.get(i).getTargetConcept().equals(targetCategory))
-					sameSourceAndTargetCategory = false;
+			catch (Exception e) {
+				graphReturned = false;
 			}
+			if (graph == null)
+				graphReturned = false;
 		}
-		return sameSourceAndTargetCategory;
+		assertTrue(graphReturned);
 	}
 	
-	private static boolean sameTargetAttributeAsOneOtherProduction(IProduction production, List<IProduction> productions) {
-		if (productions.size() == 1)
-			return true;
-		boolean sameTargetAttributeAsOneOther = false;
-		List<IProduction> others = new ArrayList<>(productions);
-		others.remove(production);
-		for (IProduction other : others) {
-			if (production.getTarget().equals(other.getTarget()))
-				sameTargetAttributeAsOneOther = true;
+	@Test
+	public void whenTypicalityArrayRequestedThenReturned() {
+		boolean returned = true;
+		int nbOfChecks = 0;
+		for (ITransitionFunction tF : transitionFunctions) {
+			double[] typicalityArray = tF.getSimilarityCalculator().getTypicalityArray();
+			if (typicalityArray == null || typicalityArray.length != objects.size())
+				returned = false;
+			nbOfChecks++;
 		}
-		return sameTargetAttributeAsOneOther;
-	}
-	
-	private static boolean sameValueAsOneOtherProduction(IProduction production, List<IProduction> productions) {
-		if (productions.size() == 1)
-			return true;
-		boolean sameValue = false;
-		List<IProduction> others = new ArrayList<>(productions);
-		others.remove(production);
-		for (IProduction other : others) {
-			List<IConstruct> valuesOfOther = new ArrayList<>(other.getValues());
-			if (valuesOfOther.removeAll(production.getValues()))
-				sameValue = true;
-		}
-		return sameValue;
-	}
-	
-	private static double binaryLogarithm(double arg) {
-		return Math.log10(arg)/Math.log10(2);
+		assertTrue(returned && nbOfChecks > 0);
 	}	
 
 }

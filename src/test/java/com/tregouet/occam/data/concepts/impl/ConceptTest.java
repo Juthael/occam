@@ -52,6 +52,18 @@ public class ConceptTest {
 	}
 
 	@Test
+	public void whenSpecifiedConstraintIsMatchedTwiceThenExceptionThrown() {
+		boolean exceptionThrown = false;
+		try {
+			cat.getMatchingIntentConstruct(Arrays.asList(new String[] {"C"}));
+		}
+		catch (IOException e) {
+			exceptionThrown = true;
+		}
+		assertTrue(exceptionThrown);
+	}
+	
+	@Test
 	public void whenSpecifiedConstraintIsMetThenReturnsTrue() {
 		List<String> constraint1 = Arrays.asList(new String[] {"A", "B", "C"});
 		List<String> constraint2 = Arrays.asList(new String[] {"B", "C"});
@@ -65,6 +77,12 @@ public class ConceptTest {
 				&& cat.meets(constraint4)
 				&& cat.meets(constraint5)
 				&& cat.meets(constraint6));
+	}
+	
+	@Test
+	public void whenSpecifiedConstraintIsNotMatchedThenNullIsReturned() throws IOException {
+		IIntentConstruct returned = cat.getMatchingIntentConstruct(Arrays.asList(new String[] {"X"}));
+		assertTrue(returned == null);
 	}
 	
 	@Test
@@ -86,24 +104,6 @@ public class ConceptTest {
 		IIntentConstruct expected = new IntentConstruct(new Construct(prog1), cat);
 		IIntentConstruct returned = cat.getMatchingIntentConstruct(Arrays.asList(new String[] {"B", "C"}));
 		assertTrue(expected.equals(returned));
-	}
-	
-	@Test
-	public void whenSpecifiedConstraintIsMatchedTwiceThenExceptionThrown() {
-		boolean exceptionThrown = false;
-		try {
-			cat.getMatchingIntentConstruct(Arrays.asList(new String[] {"C"}));
-		}
-		catch (IOException e) {
-			exceptionThrown = true;
-		}
-		assertTrue(exceptionThrown);
-	}
-	
-	@Test
-	public void whenSpecifiedConstraintIsNotMatchedThenNullIsReturned() throws IOException {
-		IIntentConstruct returned = cat.getMatchingIntentConstruct(Arrays.asList(new String[] {"X"}));
-		assertTrue(returned == null);
 	}	
 
 }

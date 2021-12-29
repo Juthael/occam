@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -28,7 +27,6 @@ import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.io.output.utils.Visualizer;
 
 @SuppressWarnings("unused")
 public class ProductionBuilderTest {
@@ -41,6 +39,22 @@ public class ProductionBuilderTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes1Obj = GenericFileReader.getContextObjects(SHAPES1);
+	}
+	
+	@Test
+	public void noTwoBasicProductionsHaveSameSourceAndTarget() {
+		List<IBasicProduction> basicProductions = builder.getProductions()
+				.stream()
+				.filter(p -> p instanceof IBasicProduction)
+				.map(p -> (IBasicProduction) p)
+				.collect(Collectors.toList());
+		Set<List<IIntentConstruct>> sourceTargetPairs = new HashSet<>();
+		for (IBasicProduction basicProd : basicProductions) {
+			sourceTargetPairs.add(
+					new ArrayList<>(
+							Arrays.asList(new IIntentConstruct[] {basicProd.getSource(), basicProd.getTarget()})));
+		}
+		assertTrue(basicProductions.size() == sourceTargetPairs.size());
 	}
 	
 	@Before
@@ -83,22 +97,6 @@ public class ProductionBuilderTest {
 			}
 		}
 		assertTrue(!compositeProds.isEmpty() && componentsHaveSameSourceAndTarget);
-	}
-	
-	@Test
-	public void noTwoBasicProductionsHaveSameSourceAndTarget() {
-		List<IBasicProduction> basicProductions = builder.getProductions()
-				.stream()
-				.filter(p -> p instanceof IBasicProduction)
-				.map(p -> (IBasicProduction) p)
-				.collect(Collectors.toList());
-		Set<List<IIntentConstruct>> sourceTargetPairs = new HashSet<>();
-		for (IBasicProduction basicProd : basicProductions) {
-			sourceTargetPairs.add(
-					new ArrayList<>(
-							Arrays.asList(new IIntentConstruct[] {basicProd.getSource(), basicProd.getTarget()})));
-		}
-		assertTrue(basicProductions.size() == sourceTargetPairs.size());
 	}
 
 	@Test

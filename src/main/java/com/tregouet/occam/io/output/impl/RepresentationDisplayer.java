@@ -58,6 +58,10 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
 	}
 
+	private static String round(double nb) {
+		return df.format(nb).toString();
+	}
+
 	@Override
 	public String generateAsymmetricalSimilarityMatrix(String alinea) {
 		double[][] asymmetricalSimilarityMatrix = 
@@ -102,7 +106,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alinea + "</table><br>" + NL);
 		return sB.toString();
 	}
-
+	
 	@Override
 	public void generateHTML() throws IOException {
 		String htmlPage;
@@ -165,7 +169,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		writer.write(htmlPage);
 		writer.close();
 	}
-	
+
 	@Override
 	public String generateInputHTMLTranslation(String alinea) {
 		String alineaa = alinea + "   ";
@@ -255,7 +259,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		generateTransitionFunctionGraph();
 		generatePorphyrianTree();
 	}
-
+	
 	@Override
 	public void nextTransitionFunctionOverCurrentCategoricalStructure() throws IOException {
 		currentTransFunc = iteOverTF.next();
@@ -293,7 +297,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		generatePorphyrianTree();
 		return true;
 	}
-	
+
 	private String displayFigure(String fileName, String alinea, String caption) {
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
@@ -336,10 +340,6 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alineaa + "</tbody>" + NL);
 		sB.append(alinea + "</table>" + NL);
 		return sB.toString();
-	}
-
-	private static String round(double nb) {
-		return df.format(nb).toString();
 	}
 
 }

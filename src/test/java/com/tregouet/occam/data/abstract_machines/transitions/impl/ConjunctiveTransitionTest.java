@@ -80,6 +80,32 @@ public class ConjunctiveTransitionTest {
 	}
 
 	@Test
+	public void whenOperatorAdditionRequestedThenReturnsFalseOnlyIfDifferentStateTransition() {
+		boolean ifFalseThenDifferentStateTransition = true;
+		int nbOfChecks = 0;
+		for (ITransitionFunction tF : transitionFunctions) {
+			List<ICostedTransition> operators = tF.getTransitions();
+			List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
+			for (ITransition op : operators) {
+				boolean noMatch = true;
+				for (IConjunctiveTransition conOp : conjunctiveTransitions) {
+					if (!conOp.addTransition(op)) {
+						if (conOp.getOperatingState().equals(op.getOperatingState())
+								&& conOp.getNextState().equals(op.getNextState())) {
+							ifFalseThenDifferentStateTransition = false;
+						}
+						nbOfChecks++;
+					}
+					else noMatch = false;
+				}
+				if (noMatch)
+					conjunctiveTransitions.add(new ConjunctiveTransition(op));
+			}
+		}
+		assertTrue(nbOfChecks > 0 && ifFalseThenDifferentStateTransition);
+	}
+	
+	@Test
 	public void whenOperatorAdditionRequestedThenReturnsTrueOnlyIfSameStateTransition() {
 		boolean ifTrueThenSameStateTransition = true;
 		int nbOfChecks = 0;
@@ -104,32 +130,6 @@ public class ConjunctiveTransitionTest {
 			}
 		}
 		assertTrue(nbOfChecks > 0 && ifTrueThenSameStateTransition);
-	}
-	
-	@Test
-	public void whenOperatorAdditionRequestedThenReturnsFalseOnlyIfDifferentStateTransition() {
-		boolean ifFalseThenDifferentStateTransition = true;
-		int nbOfChecks = 0;
-		for (ITransitionFunction tF : transitionFunctions) {
-			List<ICostedTransition> operators = tF.getTransitions();
-			List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
-			for (ITransition op : operators) {
-				boolean noMatch = true;
-				for (IConjunctiveTransition conOp : conjunctiveTransitions) {
-					if (!conOp.addTransition(op)) {
-						if (conOp.getOperatingState().equals(op.getOperatingState())
-								&& conOp.getNextState().equals(op.getNextState())) {
-							ifFalseThenDifferentStateTransition = false;
-						}
-						nbOfChecks++;
-					}
-					else noMatch = false;
-				}
-				if (noMatch)
-					conjunctiveTransitions.add(new ConjunctiveTransition(op));
-			}
-		}
-		assertTrue(nbOfChecks > 0 && ifFalseThenDifferentStateTransition);
 	}
 
 }

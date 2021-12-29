@@ -29,7 +29,6 @@ import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.StructureInspector;
 
@@ -62,6 +61,29 @@ public class TransitionFunctionSupplierTest {
 	}
 
 	@Test
+	public void whenConstructGraphFilteredByCategoryTreeThenOrderedSetOfConstructsIsARootedInvertedDAG() throws IOException {
+		boolean filteredGraphsAreRootedInvertedDAGs = true;
+		int checkCount = 0;
+		while (conceptTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
+			Tree<IConcept, IIsA> catTree = conceptTreeSupplier.next();
+			/*
+			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
+			*/
+			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
+			/*
+			Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");
+			System.out.println(checkCount);
+			*/
+			if (!StructureInspector.isARootedInvertedDirectedAcyclicGraph(filteredConstructs)) {
+				filteredGraphsAreRootedInvertedDAGs = false;
+			}
+			checkCount++;
+		}
+		assertTrue(filteredGraphsAreRootedInvertedDAGs && checkCount > 0);
+	}
+	
+	@Test
 	public void whenConstructGraphFilteredByConceptTreeThenSetOfProdSourcesOrTargetsIsConceptTreeMinusFramingConcepts() 
 			throws IOException {
 		boolean expectedSetOfCategories = true;
@@ -86,6 +108,25 @@ public class TransitionFunctionSupplierTest {
 				
 		}
 		assertTrue(expectedSetOfCategories);
+	}	
+	
+	@Test
+	public void whenConstructGraphIsFilteredByCategoryTreeThenProductionsSourceAndTargetCatsAreRelatedInCatTree() {
+		boolean sourceAndTargetCatsAreRelated = true;
+		int checkCount = 0;
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> catTree = conceptTreeSupplier.next();
+			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
+					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
+			for (IProduction production : filteredConstructs.edgeSet()) {
+				checkCount++;
+				IConcept sourceCat = production.getSourceCategory();
+				IConcept targetCat = production.getTargetConcept();
+				if (!catTree.getDescendants(sourceCat).contains(targetCat))
+					sourceAndTargetCatsAreRelated = false;
+			}
+		}
+		assertTrue(sourceAndTargetCatsAreRelated && checkCount > 0);
 	}
 	
 	@Test
@@ -110,48 +151,6 @@ public class TransitionFunctionSupplierTest {
 			}
 		}
 		assertTrue(expectedSetOfCategories);
-	}	
-	
-	@Test
-	public void whenConstructGraphIsFilteredByCategoryTreeThenProductionsSourceAndTargetCatsAreRelatedInCatTree() {
-		boolean sourceAndTargetCatsAreRelated = true;
-		int checkCount = 0;
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> catTree = conceptTreeSupplier.next();
-			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
-			for (IProduction production : filteredConstructs.edgeSet()) {
-				checkCount++;
-				IConcept sourceCat = production.getSourceCategory();
-				IConcept targetCat = production.getTargetConcept();
-				if (!catTree.getDescendants(sourceCat).contains(targetCat))
-					sourceAndTargetCatsAreRelated = false;
-			}
-		}
-		assertTrue(sourceAndTargetCatsAreRelated && checkCount > 0);
-	}
-	
-	@Test
-	public void whenConstructGraphFilteredByCategoryTreeThenOrderedSetOfConstructsIsARootedInvertedDAG() throws IOException {
-		boolean filteredGraphsAreRootedInvertedDAGs = true;
-		int checkCount = 0;
-		while (conceptTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			Tree<IConcept, IIsA> catTree = conceptTreeSupplier.next();
-			/*
-			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
-			*/
-			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
-			/*
-			Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");
-			System.out.println(checkCount);
-			*/
-			if (!StructureInspector.isARootedInvertedDirectedAcyclicGraph(filteredConstructs)) {
-				filteredGraphsAreRootedInvertedDAGs = false;
-			}
-			checkCount++;
-		}
-		assertTrue(filteredGraphsAreRootedInvertedDAGs && checkCount > 0);
 	}
 	
 }

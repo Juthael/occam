@@ -1,19 +1,18 @@
 package com.tregouet.occam.data.abstract_machines.functions.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
-import org.jgrapht.traverse.TopologicalOrderIterator;
+import org.jgrapht.graph.SimpleDirectedGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -21,15 +20,14 @@ import org.junit.Test;
 import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
-import com.tregouet.occam.alg.scoring.scores.similarity.SimilarityScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
-import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
-import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
+import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
+import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
+import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
@@ -41,16 +39,10 @@ import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.IContextObject;
-import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
-
-import guru.nidi.graphviz.engine.Graphviz;
-import guru.nidi.graphviz.model.MutableGraph;
-import guru.nidi.graphviz.parse.Parser;
 
 @SuppressWarnings("unused")
 public class TransitionFunctionTest {
@@ -74,7 +66,7 @@ public class TransitionFunctionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		transitionFunctions = new TreeSet<>();
+		transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 		concepts = new Concepts(objects);
 		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
 		productions.stream().forEach(p -> {
@@ -99,52 +91,20 @@ public class TransitionFunctionTest {
 	}
 	
 	@Test
-	public void whenCategoryStructureDOTFileRequestedThenReturned() throws IOException {
-		boolean dotFileReturnedIsValid = true;
+	public void whenTransitionFunctionGraphRequestedThenReturned() throws IOException {
+		boolean graphReturned = true;;
 		for (ITransitionFunction tF : transitionFunctions) {
-			String stringDOT = tF.getTreeOfConceptsAsGraph();
-			if (stringDOT == null || stringDOT.isEmpty())
-				dotFileReturnedIsValid = false;
-			/*
-			 System.out.println(writer.toString());
-			 */
-			MutableGraph dotGraph = null;
+			SimpleDirectedGraph<IState, IConjunctiveTransition> graph = null;
 			try {
-				dotGraph = new Parser().read(stringDOT);
+				graph = tF.getFiniteAutomatonGraph();
 			}
 			catch (Exception e) {
-				dotFileReturnedIsValid = false;
+				graphReturned = false;
 			}
+			if (graph == null)
+				graphReturned = false;
 		}
-		assertTrue(dotFileReturnedIsValid);
-	}
-	
-	@Test
-	public void whenTransitionFunctionDOTFileRequestedThenReturned() throws IOException {
-		boolean dotFileReturnedIsValid = true;
-		for (ITransitionFunction tF : transitionFunctions) {
-			String stringDOT = tF.getTransitionFunctionAsGraph(TransitionFunctionGraphType.FINITE_AUTOMATON);
-			if (stringDOT == null || stringDOT.isEmpty())
-				dotFileReturnedIsValid = false;
-			/*
-			 System.out.println(writer.toString());
-			 */
-			MutableGraph dotGraph = null;
-			try {
-				dotGraph = new Parser().read(stringDOT);
-			}
-			catch (Exception e) {
-				dotFileReturnedIsValid = false;
-			}
-			/*
-			//see operator definitions
-			for (IOperator operator : transitionFunction.getTransitions()) {
-				System.out.println("Operator " + operator.getName() + " : ");
-				System.out.println(operator.toString());
-			}
-			*/
-		}
-		assertTrue(dotFileReturnedIsValid);
+		assertTrue(graphReturned);
 	}
 	
 	@Test

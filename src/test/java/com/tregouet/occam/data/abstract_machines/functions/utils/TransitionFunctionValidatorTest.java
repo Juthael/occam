@@ -23,7 +23,6 @@ import com.tregouet.occam.alg.scoring.scores.similarity.SimilarityScoringStrateg
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
@@ -61,7 +60,7 @@ public class TransitionFunctionValidatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		transitionFunctions = new TreeSet<>();
+		transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 		concepts = new Concepts(shapes1Obj);
 		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
 		productions.stream().forEach(p -> {

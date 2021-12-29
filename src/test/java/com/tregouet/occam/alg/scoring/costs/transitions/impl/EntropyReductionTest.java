@@ -19,8 +19,8 @@ import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
+import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcept;
@@ -35,6 +35,7 @@ import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestr
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
+@SuppressWarnings("unused")
 public class EntropyReductionTest {
 	
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
@@ -47,7 +48,7 @@ public class EntropyReductionTest {
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered_constructs;
 	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
 	private Tree<IIntentConstruct, IProduction> constrTree;
-	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
+	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -83,7 +84,9 @@ public class EntropyReductionTest {
 	public void whenTransitionCostRequestedThenReturned() throws IOException {
 		boolean asExpected = true;
 		for (ITransitionFunction transitionFunction : transitionFunctions) {
-			Visualizer.visualizeTransitionFunction(transitionFunction, "211229_entropyRedTest", TransitionFunctionGraphType.FINITE_AUTOMATON);
+			/*
+			Visualizer.visualizeTransitionFunction(transitionFunction, "211229_entropyRedTest");
+			*/
 			for (IConjunctiveTransition conjunctivetransition : transitionFunction.getConjunctiveTransitions()) {
 				Double transitionCost = null;
 				try {
@@ -96,6 +99,7 @@ public class EntropyReductionTest {
 					asExpected = false;
 			}
 		}
+		assertTrue(asExpected);
 	}
 
 }

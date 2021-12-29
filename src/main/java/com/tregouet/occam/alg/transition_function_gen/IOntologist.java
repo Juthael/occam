@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
@@ -24,6 +25,7 @@ public interface IOntologist {
 			ITransitionFunction transitionFunction){
 		DirectedAcyclicGraph<IState, IGenusDifferentiaDefinition> porphyrianTree = 
 				new DirectedAcyclicGraph<>(null, null, false);
+		Graphs.addAllVertices(porphyrianTree, transitionFunction.getStates());
 		Tree<IConcept, IIsA> conceptTree = transitionFunction.getTreeOfConcepts();
 		Map<IState, List<IConjunctiveTransition>> sourceToTransitions = new HashMap<>();
 		for (IConjunctiveTransition transition : transitionFunction.getConjunctiveTransitions()) {

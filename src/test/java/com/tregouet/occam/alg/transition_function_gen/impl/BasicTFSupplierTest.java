@@ -19,7 +19,6 @@ import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.BasicTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.TransitionFunctionGraphType;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IIntentConstruct;

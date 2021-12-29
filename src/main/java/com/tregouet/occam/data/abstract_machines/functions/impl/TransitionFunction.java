@@ -1,22 +1,15 @@
 package com.tregouet.occam.data.abstract_machines.functions.impl;
 
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
-import org.jgrapht.nio.Attribute;
-import org.jgrapht.nio.DefaultAttribute;
-import org.jgrapht.nio.dot.DOTExporter;
 
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
@@ -33,7 +26,6 @@ import com.tregouet.occam.data.abstract_machines.states.impl.State;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;

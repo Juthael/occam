@@ -45,7 +45,8 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	@Override
 	public List<ICostedTransition> getComponents() {
 		List<ICostedTransition> components = new ArrayList<>(operators);
-		components.add(reframer);
+		if (reframer != null)
+			components.add(reframer);
 		return components;
 	}
 

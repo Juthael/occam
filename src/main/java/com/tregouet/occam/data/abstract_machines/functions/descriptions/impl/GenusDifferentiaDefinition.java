@@ -53,17 +53,4 @@ public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 		return false;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder sB = new StringBuilder();
-		String nL = System.lineSeparator();
-		int nbOfDiff = differentiae.size();
-		for (int i = 0 ; i < nbOfDiff ; i++) {
-			sB.append(differentiae.get(i).toString());
-			if (i < nbOfDiff - 1)
-				sB.append(nL);
-		}
-		return sB.toString();
-	}		
-
 }

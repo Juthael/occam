@@ -67,7 +67,7 @@ public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements
 				sB.append(nL);
 		}
 		for (int i = 0 ; i < operators.size() ; i++) {
-			sB.append(operators.get(i));
+			sB.append(operators.get(i).toString());
 			if (i < operators.size() - 1)
 				sB.append(nL);
 		}

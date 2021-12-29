@@ -37,7 +37,7 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 			for (int j = 0 ; j < nbOfObjects ; j++) {
 				if (i == j)
 					asymmetricalSimMatrix[i][j] = 1;
-				else asymmetricalSimMatrix[i][j] = howSimilarTo(i, j);
+				else asymmetricalSimMatrix[i][j] = howSimilarTo(singletonIDs[i], singletonIDs[j]);
 			}
 		}
 		return asymmetricalSimMatrix;
@@ -97,7 +97,7 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 				if (i == j)
 					similarityMatrix[i][j] = 1;
 				else {
-					double ijSimilarity = howSimilar(i, j);
+					double ijSimilarity = howSimilar(singletonIDs[i], singletonIDs[j]);
 					similarityMatrix[i][j] = ijSimilarity;
 					similarityMatrix[j][i] = ijSimilarity;
 				}

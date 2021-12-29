@@ -221,76 +221,6 @@ public class TransitionFunctionTest {
 	}
 	
 	@Test
-	public void whenAsymmetricalSimilarityMatrixRequestedThenReturned() throws IOException {
-		int tfIdx = 0;
-		int returned = 0;
-		/*
-		StringBuilder sB = new StringBuilder();
-		int objIdx = 0;
-		for (IContextObject obj : categories.getContextObjects()) {
-			sB.append("Object_" + Integer.toString(objIdx++) + " : " + System.lineSeparator() 
-				+ obj.getConstructs().toString());
-			sB.append(System.lineSeparator());
-		}
-		*/
-		for (ITransitionFunction tF : transitionFunctions) {
-			/*
-			Visualizer.visualizeTransitionFunction(tF, "TransFunc" + Integer.toString(tfIdx), 
-					TransitionFunctionGraphType.FINITE_AUTOMATON);
-			*/
-			double[][] matrix = tF.getSimilarityCalculator().getAsymmetricalSimilarityMatrix();
-			if (matrix != null)
-				returned++;
-			/*
-			sB.append("TRANS_FUNC_" + Integer.toString(tfIdx) + " : " + System.lineSeparator());
-			for (double[] line : matrix)
-				sB.append(Arrays.toString(line) + System.lineSeparator());
-			sB.append(System.lineSeparator());
-			*/
-			tfIdx++;
-		}
-		/*
-		System.out.println(sB.toString());
-		*/
-		assertTrue(tfIdx == returned);
-	}
-	
-	@Test
-	public void whenCategoricalCoherenceArrayRequestedThenReturned() throws IOException {
-		boolean returned = true;
-		int nbOfChecks = 0;
-		/*
-		StringBuilder sB = new StringBuilder();
-		int tFIdx = 0;
-		*/
-		for (ITransitionFunction tF : transitionFunctions) {
-			/*
-			sB.append("***Transition Function " + Integer.toString(tFIdx) + System.lineSeparator());
-			Visualizer.visualizeTransitionFunction(tF, "TFunc_" + Integer.toString(tFIdx++), 
-					TransitionFunctionGraphType.FINITE_AUTOMATON);
-			*/
-			Map<Integer, Double> coherenceMap = tF.getSimilarityCalculator().getConceptualCoherenceMap();
-			if (coherenceMap == null || coherenceMap.isEmpty())
-				returned = false;
-			/*
-			List<ICategory> topoOrder = new ArrayList<>();
-			new TopologicalOrderIterator<>(tF.getCategoryTree()).forEachRemaining(topoOrder::add);
-			for (ICategory cat : topoOrder) {
-				sB.append("Category_" + Integer.toString(cat.getID()) + " : " + System.lineSeparator() 
-					+ cat.getIntent().toString() + System.lineSeparator());
-				sB.append("Coherence : " + coherenceMap.get(cat.getID()).toString());
-				sB.append(System.lineSeparator() + System.lineSeparator());
-			}
-			*/	
-			nbOfChecks++;
-		}
-		/*
-		System.out.println(sB.toString());
-		*/
-		assertTrue(returned && nbOfChecks > 0);
-	}
-	
-	@Test
 	public void whenProductionsHandledBySameOperatorThenConsistentWithRequirements() {
 		boolean consistent = true;
 		for (ITransitionFunction tF : transitionFunctions) {
@@ -312,41 +242,6 @@ public class TransitionFunctionTest {
 	}
 	
 	@Test
-	public void whenSimilarityMatrixRequestedThenReturned() throws IOException {
-		int tfIdx = 0;
-		int returned = 0;
-		/*
-		StringBuilder sB = new StringBuilder();
-		int objIdx = 0;
-		for (IContextObject obj : categories.getContextObjects()) {
-			sB.append("Object_" + Integer.toString(objIdx++) + " : " + System.lineSeparator() 
-				+ obj.getConstructs().toString());
-			sB.append(System.lineSeparator());
-		}
-		*/
-		for (ITransitionFunction tF : transitionFunctions) {
-			/*
-			Visualizer.visualizeTransitionFunction(tF, "TransFunc" + Integer.toString(tfIdx), 
-					TransitionFunctionGraphType.FINITE_AUTOMATON);
-			*/
-			double[][] matrix = tF.getSimilarityCalculator().getSimilarityMatrix();
-			if (matrix != null)
-				returned++;
-			/*
-			sB.append("TRANS_FUNC_" + Integer.toString(tfIdx) + " : " + System.lineSeparator());
-			for (double[] line : matrix)
-				sB.append(Arrays.toString(line) + System.lineSeparator());
-			sB.append(System.lineSeparator());
-			*/
-			tfIdx++;
-		}
-		/*
-		System.out.println(sB.toString());
-		*/
-		assertTrue(tfIdx == returned);
-	}
-	
-	@Test
 	public void whenTransitionFunctionGraphRequestedThenReturned() throws IOException {
 		boolean graphReturned = true;;
 		for (ITransitionFunction tF : transitionFunctions) {
@@ -362,18 +257,5 @@ public class TransitionFunctionTest {
 		}
 		assertTrue(graphReturned);
 	}
-	
-	@Test
-	public void whenTypicalityArrayRequestedThenReturned() {
-		boolean returned = true;
-		int nbOfChecks = 0;
-		for (ITransitionFunction tF : transitionFunctions) {
-			double[] typicalityArray = tF.getSimilarityCalculator().getTypicalityArray();
-			if (typicalityArray == null || typicalityArray.length != objects.size())
-				returned = false;
-			nbOfChecks++;
-		}
-		assertTrue(returned && nbOfChecks > 0);
-	}	
 
 }

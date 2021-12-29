@@ -30,6 +30,14 @@ public class DynamicFraming extends AbstractSimCalculator implements ISimilarity
 			return 1.0;
 		IState concept1 = stateIDToState.get(conceptID1);
 		IState concept2 = stateIDToState.get(conceptID2);
+		//HERE
+		try {
+			Functions.supremum(porphyrianTree, concept1, concept2);
+		}
+		catch (Exception e) {
+			System.out.println("here");
+		}
+		//HERE
 		IState genus = Functions.supremum(porphyrianTree, concept1, concept2);
 		genusDefinitionCost = getDefinitionCostOf(genus);
 		if (genusDefinitionCost == 0.0)
@@ -85,6 +93,7 @@ public class DynamicFraming extends AbstractSimCalculator implements ISimilarity
 		stateIDToState = new HashMap<>();
 		for (IState state : transitionFunction.getStates())
 			stateIDToState.put(state.getStateID(), state);
+		transitionFunction.setSimilarityScorer(this);
 		return this;
 	}	
 	

@@ -20,6 +20,7 @@ import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
+import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
@@ -47,7 +48,7 @@ public class ConjunctiveTransitionTest {
 	private DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered_constructs;
 	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
 	private Tree<IIntentConstruct, IProduction> constrTree;
-	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>();
+	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

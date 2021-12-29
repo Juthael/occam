@@ -290,10 +290,16 @@ public class TransitionFunction implements ITransitionFunction {
 		for (IGenusDifferentiaDefinition definition : prophyrianTree.edgeSet())
 			definitionCoster.input(definition).setCost();
 		//concepts similarity scores
-		similarityScorer = factory.getSimilarityRater().input(this);
+		ISimilarityScorer similarityScorer = factory.getSimilarityScorer();
+		similarityScorer.input(this).setScore();
 		//function score
 		IFunctionScorer functionScorer = factory.getTransitionFunctionScorer();
 		functionScorer.input(this).setScore();
+	}
+
+	@Override
+	public void setSimilarityScorer(ISimilarityScorer similarityScorer) {
+		this.similarityScorer = similarityScorer;
 	}
 
 }

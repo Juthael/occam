@@ -84,11 +84,10 @@ public class AbstractSimCalculatorTest {
 	public void whenAsymmetricalSimilarityMatrixRequestedThenReturned() {
 		boolean returned = true;
 		int nbOfTests = 0;
-		ISimilarityScorer scorer;
 		for (SimilarityScoringStrategy strategy : SimilarityScoringStrategy.values()) {
-			scorer = SimilarityScorerFactory.INSTANCE.apply(strategy);
 			for (ITransitionFunction tF : transitionFunctions) {
-				scorer.input(tF);
+				ISimilarityScorer scorer = SimilarityScorerFactory.INSTANCE.apply(strategy);
+				scorer.input(tF).setScore();
 				double[][] matrix = null;
 				try {
 					matrix = scorer.getAsymmetricalSimilarityMatrix();
@@ -110,11 +109,10 @@ public class AbstractSimCalculatorTest {
 	public void whenCoherenceScoreRequestedThenReturned() {
 		boolean returned = true;
 		int nbOfTests = 0;
-		ISimilarityScorer scorer;
 		for (SimilarityScoringStrategy strategy : SimilarityScoringStrategy.values()) {
-			scorer = SimilarityScorerFactory.INSTANCE.apply(strategy);
 			for (ITransitionFunction tF : transitionFunctions) {
-				scorer.input(tF);
+				ISimilarityScorer scorer = SimilarityScorerFactory.INSTANCE.apply(strategy);
+				scorer.input(tF).setScore();;
 				Double coherenceScore = null;
 				try {
 					coherenceScore = scorer.getCoherenceScore();
@@ -136,11 +134,10 @@ public class AbstractSimCalculatorTest {
 	public void whenConceptualCoherenceMapRequestedThenReturned() {
 		boolean returned = true;
 		int nbOfTests = 0;
-		ISimilarityScorer scorer;
 		for (SimilarityScoringStrategy strategy : SimilarityScoringStrategy.values()) {
-			scorer = SimilarityScorerFactory.INSTANCE.apply(strategy);
 			for (ITransitionFunction tF : transitionFunctions) {
-				scorer.input(tF);
+				ISimilarityScorer scorer = SimilarityScorerFactory.INSTANCE.apply(strategy);
+				scorer.input(tF).setScore();
 				Map<Integer, Double> coherenceMap = null;
 				try {
 					coherenceMap = scorer.getConceptualCoherenceMap();
@@ -162,17 +159,17 @@ public class AbstractSimCalculatorTest {
 	public void whenSimilarityMatrixRequestedThenReturned() {
 		boolean returned = true;
 		int nbOfTests = 0;
-		ISimilarityScorer scorer;
 		for (SimilarityScoringStrategy strategy : SimilarityScoringStrategy.values()) {
-			scorer = SimilarityScorerFactory.INSTANCE.apply(strategy);
 			for (ITransitionFunction tF : transitionFunctions) {
-				scorer.input(tF);
+				ISimilarityScorer scorer = SimilarityScorerFactory.INSTANCE.apply(strategy);
+				scorer.input(tF).setScore();
 				double[][] matrix = null;
 				try {
 					matrix = scorer.getSimilarityMatrix();
 				}
 				catch (Exception e) {
 					returned = false;
+					e.printStackTrace();
 				}
 				if (matrix == null)
 					returned = false;
@@ -188,11 +185,10 @@ public class AbstractSimCalculatorTest {
 	public void whenTypicalityArrayRequestedThenReturned() {
 		boolean returned = true;
 		int nbOfTests = 0;
-		ISimilarityScorer scorer;
 		for (SimilarityScoringStrategy strategy : SimilarityScoringStrategy.values()) {
-			scorer = SimilarityScorerFactory.INSTANCE.apply(strategy);
 			for (ITransitionFunction tF : transitionFunctions) {
-				scorer.input(tF);
+				ISimilarityScorer scorer = SimilarityScorerFactory.INSTANCE.apply(strategy);
+				scorer.input(tF).setScore();
 				double[] typicalityArray = null;
 				try {
 					typicalityArray = scorer.getTypicalityArray();

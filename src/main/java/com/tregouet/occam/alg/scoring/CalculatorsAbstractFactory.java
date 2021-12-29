@@ -32,7 +32,7 @@ public class CalculatorsAbstractFactory {
 		return DefinitionCosterFactory.INSTANCE.apply(definitionCostingStrategy);
 	}
 	
-	public ISimilarityScorer getSimilarityRater() {
+	public ISimilarityScorer getSimilarityScorer() {
 		return SimilarityScorerFactory.INSTANCE.apply(similarityScoringStrategy);
 	}
 	

@@ -52,4 +52,6 @@ public interface ITransitionFunction extends ICosted, IScored {
 	
 	boolean validate(Predicate<ITransitionFunction> validator);
 	
+	void setSimilarityScorer(ISimilarityScorer similarityScorer);
+	
 }

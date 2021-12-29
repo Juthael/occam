@@ -56,6 +56,14 @@ public class CalculatorsAbstractFactory {
 				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATIONS;
 				similarityScoringStrategy = SimilarityScoringStrategy.DYNAMIC_FRAMING;
 				functionScoringStrategy = FunctionScoringStrategy.CONCEPTUAL_COHERENCE;
+				break;
+			case SCORING_STRATEGY_2 : 
+				transitionCostingStrategy = TransitionCostingStrategy.COSTLESS;
+				definitionCostingStrategy = DefinitionCostingStrategy.ENTROPY_REDUCTIONS;
+				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATIONS;
+				similarityScoringStrategy = SimilarityScoringStrategy.DYNAMIC_FRAMING;
+				functionScoringStrategy = FunctionScoringStrategy.CONCEPTUAL_COHERENCE;
+				break;
 			default : 
 				break;
 		}

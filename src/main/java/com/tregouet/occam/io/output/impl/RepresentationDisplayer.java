@@ -55,7 +55,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	public RepresentationDisplayer(String folderPath) {
 		this.folderPath = folderPath;
 		Visualizer.setLocation(folderPath);
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_2);
 	}
 
 	private static String round(double nb) {

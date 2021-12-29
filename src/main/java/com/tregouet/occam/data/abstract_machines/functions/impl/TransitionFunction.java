@@ -287,6 +287,7 @@ public class TransitionFunction implements ITransitionFunction {
 		transitionFunctionCoster.input(this).setCost();
 		//concept definition costs
 		IDefinitionCoster definitionCoster = factory.getDefinitionCoster();
+		definitionCoster.setCosterParameters(this);
 		for (IGenusDifferentiaDefinition definition : prophyrianTree.edgeSet())
 			definitionCoster.input(definition).setCost();
 		//concepts similarity scores

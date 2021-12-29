@@ -104,7 +104,7 @@ public class Visualizer {
 	public static void visualizePorphyrianTree(ITransitionFunction transitionFunction, 
 			String fileName) throws IOException {
 		Tree<IState, IGenusDifferentiaDefinition> prophyrianTree = 
-				IOntologist.getPorphyrianTree(transitionFunction);
+				transitionFunction.getPorphyrianTree();
 		//convert in DOT format
 		DOTExporter<IState,IGenusDifferentiaDefinition> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {

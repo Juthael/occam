@@ -30,10 +30,24 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	}	
 
 	@Override
+	public double[][] getAsymmetricalSimilarityMatrix() {
+		int nbOfObjects = singletonIDs.length;
+		double[][] asymmetricalSimMatrix = new double[nbOfObjects][nbOfObjects];
+		for (int i = 0 ; i < nbOfObjects ; i++) {
+			for (int j = 0 ; j < nbOfObjects ; j++) {
+				if (i == j)
+					asymmetricalSimMatrix[i][j] = 1;
+				else asymmetricalSimMatrix[i][j] = howSimilarTo(i, j);
+			}
+		}
+		return asymmetricalSimMatrix;
+	}
+
+	@Override
 	public double getCoherenceScore() {
 		return getCoherenceScore(singletonIDs);
 	}
-
+	
 	@Override
 	public double getCoherenceScore(int[] conceptIDs) {
 		if (conceptIDs.length == 1)
@@ -47,78 +61,7 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 		}
 		return similaritySum / ((n*(n-1))/2);
 	}
-	
-	@Override
-	public double howPrototypicalAmong(int conceptID, int[] otherConceptsIDs) {
-		double similarityToParameterSum = 0.0;
-		int nbOfComparisons = 0;
-		for (int otherConceptID : otherConceptsIDs) {
-			if (conceptID != otherConceptID) {
-				similarityToParameterSum += howSimilarTo(otherConceptID, conceptID);
-				nbOfComparisons++;
-			}
-		}
-		return similarityToParameterSum / nbOfComparisons;
-	}
 
-	@Override
-	abstract public double howSimilar(int conceptID1, int conceptID2);
-
-	@Override
-	abstract public double howSimilarTo(int conceptID1, int conceptID2);
-	
-	public double[][] getAsymmetricalSimilarityMatrix() {
-		int nbOfObjects = singletonIDs.length;
-		double[][] asymmetricalSimMatrix = new double[nbOfObjects][nbOfObjects];
-		for (int i = 0 ; i < nbOfObjects ; i++) {
-			for (int j = 0 ; j < nbOfObjects ; j++) {
-				if (i == j)
-					asymmetricalSimMatrix[i][j] = 1;
-				else asymmetricalSimMatrix[i][j] = howSimilarTo(i, j);
-			}
-		}
-		return asymmetricalSimMatrix;
-	}
-	
-	@Override
-	public double[][] getSimilarityMatrix() {
-		int nbOfObjects = singletonIDs.length;
-		double[][] similarityMatrix = new double[nbOfObjects][nbOfObjects];
-		for (int i = 0 ; i < nbOfObjects ; i++) {
-			for (int j = i ; j < nbOfObjects ; j++) {
-				if (i == j)
-					similarityMatrix[i][j] = 1;
-				else {
-					double ijSimilarity = howSimilar(i, j);
-					similarityMatrix[i][j] = ijSimilarity;
-					similarityMatrix[j][i] = ijSimilarity;
-				}
-			}
-		}
-		return similarityMatrix;
-	}	
-	
-	public double[] getTypicalityArray() {
-		int nbOfObjects = singletonIDs.length;
-		double[] typicalityArray = new double[nbOfObjects];
-		for (int i = 0 ; i < nbOfObjects ; i++) {
-			typicalityArray[i] = howProtoypical(singletonIDs[i]);
-		}
-		return typicalityArray;
-	}
-	
-	@Override
-	public ISimilarityScorer input(ITransitionFunction transitionFunction) {
-		this.transitionFunction = transitionFunction;
-		singletons = new ArrayList<>(transitionFunction.getTreeOfConcepts().getLeaves());
-		singletonIDs = new int[singletons.size()];
-		int singletonIdx = 0;
-		for (IConcept singleton : singletons) {
-			singletonIDs[singletonIdx++] = singleton.getID(); 
-		}
-		return this;
-	}		
-	
 	@Override
 	public Map<Integer, Double> getConceptualCoherenceMap() {
 		Map<Integer, Double> conceptIDToCoherenceScore = new HashMap<>();
@@ -138,12 +81,53 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 			conceptIDToCoherenceScore.put(nextCat.getID(), getCoherenceScore(extentIDs));
 		}
 		return conceptIDToCoherenceScore;
-	}	
-	
+	}
+
 	@Override
 	public List<IConcept> getListOfSingletons() {
 		return new ArrayList<>(singletons);
+	}
+	
+	@Override
+	public double[][] getSimilarityMatrix() {
+		int nbOfObjects = singletonIDs.length;
+		double[][] similarityMatrix = new double[nbOfObjects][nbOfObjects];
+		for (int i = 0 ; i < nbOfObjects ; i++) {
+			for (int j = i ; j < nbOfObjects ; j++) {
+				if (i == j)
+					similarityMatrix[i][j] = 1;
+				else {
+					double ijSimilarity = howSimilar(i, j);
+					similarityMatrix[i][j] = ijSimilarity;
+					similarityMatrix[j][i] = ijSimilarity;
+				}
+			}
+		}
+		return similarityMatrix;
+	}
+	
+	@Override
+	public double[] getTypicalityArray() {
+		int nbOfObjects = singletonIDs.length;
+		double[] typicalityArray = new double[nbOfObjects];
+		for (int i = 0 ; i < nbOfObjects ; i++) {
+			typicalityArray[i] = howProtoypical(singletonIDs[i]);
+		}
+		return typicalityArray;
 	}	
+	
+	@Override
+	public double howPrototypicalAmong(int conceptID, int[] otherConceptsIDs) {
+		double similarityToParameterSum = 0.0;
+		int nbOfComparisons = 0;
+		for (int otherConceptID : otherConceptsIDs) {
+			if (conceptID != otherConceptID) {
+				similarityToParameterSum += howSimilarTo(otherConceptID, conceptID);
+				nbOfComparisons++;
+			}
+		}
+		return similarityToParameterSum / nbOfComparisons;
+	}
 	
 	@Override
 	public double howProtoypical(int conceptID) {
@@ -155,7 +139,25 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 				n++;
 			}
 		}
-		return similaritySum / (double) n;
+		return similaritySum / n;
+	}		
+	
+	@Override
+	abstract public double howSimilar(int conceptID1, int conceptID2);	
+	
+	@Override
+	abstract public double howSimilarTo(int conceptID1, int conceptID2);	
+	
+	@Override
+	public ISimilarityScorer input(ITransitionFunction transitionFunction) {
+		this.transitionFunction = transitionFunction;
+		singletons = new ArrayList<>(transitionFunction.getTreeOfConcepts().getLeaves());
+		singletonIDs = new int[singletons.size()];
+		int singletonIdx = 0;
+		for (IConcept singleton : singletons) {
+			singletonIDs[singletonIdx++] = singleton.getID(); 
+		}
+		return this;
 	}	
 	
 	@Override

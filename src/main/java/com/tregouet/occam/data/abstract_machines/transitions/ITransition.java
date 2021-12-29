@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.tregouet.occam.alg.scoring.costs.ICosted;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 
 public interface ITransition {

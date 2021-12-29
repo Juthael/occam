@@ -17,14 +17,38 @@ public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements
 	
 	private Double cost = null;
 
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof IGenusDifferentiaDefinition))
+			return false;
+		IGenusDifferentiaDefinition other = (IGenusDifferentiaDefinition) o;
+		return (getSource().equals(other.getSource()) && getTarget().equals(other.getTarget()));
+	}
+	
+	@Override
+	public Double getCost() {
+		return cost;
+	}
+	
 	abstract public List<IConjunctiveTransition> getDifferentiae();
 	
 	abstract public IState getGenus();
 	
 	abstract public IState getSpecies();
 	
+	@Override
+	public int hashCode() {
+		return getSource().hashCode() + getTarget().hashCode();
+	}
+	
 	abstract public boolean isReframer();
 	
+	@Override
+	public void setCost(double cost) {
+		this.cost = cost;
+	}	
+	
+	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		String nL = System.lineSeparator();
@@ -48,29 +72,6 @@ public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements
 				sB.append(nL);
 		}
 		return sB.toString();
-	}
-	
-	@Override
-	public void setCost(double cost) {
-		this.cost = cost;
-	}
-	
-	@Override
-	public Double getCost() {
-		return cost;
-	}
-	
-	@Override
-	public int hashCode() {
-		return getSource().hashCode() + getTarget().hashCode();
-	}	
-	
-	@Override
-	public boolean equals(Object o) {
-		if (!(o instanceof IGenusDifferentiaDefinition))
-			return false;
-		IGenusDifferentiaDefinition other = (IGenusDifferentiaDefinition) o;
-		return (getSource().equals(other.getSource()) && getTarget().equals(other.getTarget()));
 	}	
 
 }

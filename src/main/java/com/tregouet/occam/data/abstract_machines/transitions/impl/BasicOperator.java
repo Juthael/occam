@@ -49,6 +49,11 @@ public class BasicOperator extends Transition implements IBasicOperator {
 	}
 
 	@Override
+	public Double getCost() {
+		return cost;
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
@@ -56,7 +61,7 @@ public class BasicOperator extends Transition implements IBasicOperator {
 		result = prime * result + ((operation == null) ? 0 : operation.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean isBlank() {
 		boolean isBlank = true;
@@ -67,7 +72,12 @@ public class BasicOperator extends Transition implements IBasicOperator {
 		}
 		return isBlank;
 	}
-	
+
+	@Override
+	public boolean isReframer() {
+		return false;
+	}
+
 	@Override
 	public IIntentConstruct operateOn(IIntentConstruct input) {
 		return inputToOutput.get(input);
@@ -94,7 +104,12 @@ public class BasicOperator extends Transition implements IBasicOperator {
 		}
 		return expressions;
 	}
-
+	
+	@Override
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+	
 	@Override 
 	public String toString() {
 		if (this.isBlank())
@@ -106,19 +121,6 @@ public class BasicOperator extends Transition implements IBasicOperator {
 		}
 		sB.deleteCharAt(sB.length() - 1);
 		return sB.toString();
-	}
-
-	@Override
-	public boolean isReframer() {
-		return false;
-	}
-	
-	public void setCost(double cost) {
-		this.cost = cost;
-	}
-	
-	public Double getCost() {
-		return cost;
 	}
 
 }

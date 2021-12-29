@@ -9,8 +9,6 @@ public interface IRepresentationDisplayer {
 	
 	void generateConceptLatticeGraph() throws IOException;
 	
-	void generateTreeOfConcepts() throws IOException;
-	
 	String generateConceptualCoherenceArray(String alinea);
 	
 	void generateHTML() throws IOException;
@@ -22,6 +20,8 @@ public interface IRepresentationDisplayer {
 	String generateSimilarityMatrix(String alinea);
 	
 	void generateTransitionFunctionGraph() throws IOException;
+	
+	void generateTreeOfConcepts() throws IOException;
 	
 	double getCoherenceScore();
 	

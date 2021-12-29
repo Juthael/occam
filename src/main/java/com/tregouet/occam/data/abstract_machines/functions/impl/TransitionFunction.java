@@ -180,6 +180,11 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
+	public IState getAssociatedStateOf(IConcept concept) {
+		return conceptToState.get(concept);
+	}
+
+	@Override
 	public IFiniteAutomaton getCompiler() {
 		//NOT IMPLEMENTED YET
 		return null;
@@ -190,6 +195,11 @@ public class TransitionFunction implements ITransitionFunction {
 		return conjunctiveTransitions;
 	}
 
+	@Override
+	public Double getCost() {
+		return cost;
+	}
+	
 	@Override
 	public IDomainSpecificLanguage getDomainSpecificLanguage() {
 		//NOT IMPLEMENTED YET
@@ -207,7 +217,7 @@ public class TransitionFunction implements ITransitionFunction {
 		}
 		return finiteAutomatonGraph;
 	}
-	
+
 	@Override
 	public DirectedMultigraph<IState, ITransition> getFiniteAutomatonMultigraph() {
 		if (finiteAutomatonMultigraph == null) {
@@ -221,6 +231,16 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
+	public Tree<IState, IGenusDifferentiaDefinition> getPorphyrianTree() {
+		return prophyrianTree;
+	}
+
+	@Override
+	public Double getScore() {
+		return score;
+	}
+
+	@Override
 	public ISimilarityScorer getSimilarityCalculator() {
 		return similarityScorer;
 	}
@@ -229,7 +249,7 @@ public class TransitionFunction implements ITransitionFunction {
 	public List<IState> getStates() {
 		return new ArrayList<>(conceptToState.values());
 	}
-
+	
 	@Override
 	public String getTransitionFunctionAsDOTFile(TransitionFunctionGraphType graphType) {
 		String dOTFile = null;
@@ -290,7 +310,7 @@ public class TransitionFunction implements ITransitionFunction {
 		}
 		return dOTFile;
 	}
-
+	
 	@Override
 	public List<ICostedTransition> getTransitions() {
 		return transitions;
@@ -313,14 +333,24 @@ public class TransitionFunction implements ITransitionFunction {
 		exporter.exportGraph(concepts, writer);
 		return writer.toString();
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = prime + ((transitions == null) ? 0 : transitions.hashCode());
 		return result;
 	}
-	
+
+	@Override
+	public void setCost(double cost) {
+		this.cost = cost;		
+	}
+
+	@Override
+	public void setScore(double score) {
+		this.score = score;		
+	}
+
 	@Override
 	public boolean validate(Predicate<ITransitionFunction> validator) {
 		return validator.test(this);
@@ -356,36 +386,6 @@ public class TransitionFunction implements ITransitionFunction {
 			reframers.addAll(buildReframers(nextRelation, nextComplementedStatesIDs));
 		}
 		return reframers;
-	}
-
-	@Override
-	public Tree<IState, IGenusDifferentiaDefinition> getPorphyrianTree() {
-		return prophyrianTree;
-	}
-
-	@Override
-	public void setCost(double cost) {
-		this.cost = cost;		
-	}
-
-	@Override
-	public Double getCost() {
-		return cost;
-	}
-
-	@Override
-	public void setScore(double score) {
-		this.score = score;		
-	}
-
-	@Override
-	public Double getScore() {
-		return score;
-	}
-
-	@Override
-	public IState getAssociatedStateOf(IConcept concept) {
-		return conceptToState.get(concept);
 	}
 	
 	private void setUpCostsAndScores() {

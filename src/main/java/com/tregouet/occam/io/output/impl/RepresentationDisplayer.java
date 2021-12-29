@@ -77,11 +77,6 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	}
 
 	@Override
-	public void generateTreeOfConcepts() throws IOException {
-		Visualizer.visualizeConceptGraph(isomorphicTransFunctions.getTreeOfConcepts(), "concept_tree.png");;
-	}
-
-	@Override
 	public String generateConceptualCoherenceArray(String alinea) {
 		Map<Integer, Double> catIDToCoherence = 
 				currentTransFunc.getSimilarityCalculator().getConceptualCoherenceMap();
@@ -108,7 +103,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alinea + "</table><br>" + NL);
 		return sB.toString();
 	}
-	
+
 	@Override
 	public void generateHTML() throws IOException {
 		String htmlPage;
@@ -171,7 +166,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		writer.write(htmlPage);
 		writer.close();
 	}
-
+	
 	@Override
 	public String generateInputHTMLTranslation(String alinea) {
 		String alineaa = alinea + "   ";
@@ -203,6 +198,11 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	}
 
 	@Override
+	public void generatePorphyrianTree() throws IOException {
+		Visualizer.visualizePorphyrianTree(currentTransFunc, "porphyrian_tree.png");
+	}
+
+	@Override
 	public String generateSimilarityMatrix(String alinea) {
 		double[][] similarityMatrix = currentTransFunc.getSimilarityCalculator().getSimilarityMatrix();
 		StringBuilder sB = new StringBuilder();
@@ -215,6 +215,11 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	public void generateTransitionFunctionGraph() throws IOException {
 		Visualizer.visualizeTransitionFunction(currentTransFunc, "transition_function.png", 
 				TransitionFunctionGraphType.FINITE_AUTOMATON);
+	}
+
+	@Override
+	public void generateTreeOfConcepts() throws IOException {
+		Visualizer.visualizeConceptGraph(isomorphicTransFunctions.getTreeOfConcepts(), "concept_tree.png");;
 	}
 
 	@Override
@@ -259,7 +264,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		generateTransitionFunctionGraph();
 		generatePorphyrianTree();
 	}
-
+	
 	@Override
 	public boolean represent(Path contextPath) throws IOException {
 		try {
@@ -301,7 +306,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alinea + "</figure>" + NL);
 		return sB.toString();
 	}
-	
+
 	private String displayTable(double[][] table, String caption, String alinea) {
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
@@ -337,11 +342,6 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	private String round(double nb) {
 		return df.format(nb).toString();
-	}
-
-	@Override
-	public void generatePorphyrianTree() throws IOException {
-		Visualizer.visualizePorphyrianTree(currentTransFunc, "porphyrian_tree.png");
 	}
 
 }

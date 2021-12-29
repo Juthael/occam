@@ -2,7 +2,6 @@ package com.tregouet.occam.data.abstract_machines.transitions;
 
 import java.util.List;
 
-import com.tregouet.occam.alg.scoring.costs.ICosted;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 

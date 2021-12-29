@@ -43,6 +43,10 @@ public abstract class Production extends DefaultEdge implements IProduction {
 		return true;
 	}
 
+	public Double getCost() {
+		return cost;
+	}
+
 	@Override
 	public IConcept getGenus() {
 		return operatorOutput.getConcept();
@@ -77,7 +81,7 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	public IConcept getTargetConcept() {
 		return operatorOutput.getConcept();
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -92,10 +96,6 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	
 	public void setCost(double cost) {
 		this.cost = cost;
-	}
-	
-	public Double getCost() {
-		return cost;
 	}	
 
 }

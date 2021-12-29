@@ -31,12 +31,12 @@ public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 	}
 
 	@Override
-	public IState getSpecies() {
+	public IState getSource() {
 		return species;
 	}
 	
 	@Override
-	public IState getSource() {
+	public IState getSpecies() {
 		return species;
 	}
 	
@@ -45,6 +45,14 @@ public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 		return genus;
 	}
 	
+	@Override
+	public boolean isReframer() {
+		for (ITransition differentia : differentiae)
+			if (differentia.isReframer())
+				return true;
+		return false;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
@@ -56,14 +64,6 @@ public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 				sB.append(nL);
 		}
 		return sB.toString();
-	}
-
-	@Override
-	public boolean isReframer() {
-		for (ITransition differentia : differentiae)
-			if (differentia.isReframer())
-				return true;
-		return false;
 	}		
 
 }

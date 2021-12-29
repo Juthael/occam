@@ -96,6 +96,38 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}
 	
+	public static void visualizePorphyrianTree(ITransitionFunction transitionFunction, 
+			String fileName) throws IOException {
+		Tree<IState, IGenusDifferentiaDefinition> prophyrianTree = 
+				IOntologist.getPorphyrianTree(transitionFunction);
+		//convert in DOT format
+		DOTExporter<IState,IGenusDifferentiaDefinition> exporter = new DOTExporter<>();
+		exporter.setGraphAttributeProvider(() -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
+			return map;
+		});
+		exporter.setVertexAttributeProvider((v) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(Integer.toString(v.getStateID())));
+			return map;
+		});
+		exporter.setEdgeAttributeProvider((e) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(buildGenDiffStringDesc(e)));
+			return map;
+		}); 		
+		Writer writer = new StringWriter();
+		exporter.exportGraph(prophyrianTree, writer);
+		String stringDOT = writer.toString();
+		/*
+		 System.out.println(writer.toString());
+		 */
+		//display graph
+		MutableGraph dotGraph = new Parser().read(stringDOT);
+		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
+	}
+	
 	public static void visualizeTransitionFunction(ITransitionFunction tF, String fileName, 
 			TransitionFunctionGraphType graphType) throws IOException {
 		MutableGraph dotGraph = new Parser().read(tF.getTransitionFunctionAsDOTFile(graphType));
@@ -132,38 +164,6 @@ public class Visualizer {
 		MutableGraph dotGraph = new Parser().read(stringDOT);
 		Graphviz.fromGraph(dotGraph)
 			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
-	}
-	
-	public static void visualizePorphyrianTree(ITransitionFunction transitionFunction, 
-			String fileName) throws IOException {
-		Tree<IState, IGenusDifferentiaDefinition> prophyrianTree = 
-				IOntologist.getPorphyrianTree(transitionFunction);
-		//convert in DOT format
-		DOTExporter<IState,IGenusDifferentiaDefinition> exporter = new DOTExporter<>();
-		exporter.setGraphAttributeProvider(() -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
-			return map;
-		});
-		exporter.setVertexAttributeProvider((v) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(Integer.toString(v.getStateID())));
-			return map;
-		});
-		exporter.setEdgeAttributeProvider((e) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(buildGenDiffStringDesc(e)));
-			return map;
-		}); 		
-		Writer writer = new StringWriter();
-		exporter.exportGraph(prophyrianTree, writer);
-		String stringDOT = writer.toString();
-		/*
-		 System.out.println(writer.toString());
-		 */
-		//display graph
-		MutableGraph dotGraph = new Parser().read(stringDOT);
-		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}
 	
 	private static  String buildGenDiffStringDesc(IGenusDifferentiaDefinition def) {

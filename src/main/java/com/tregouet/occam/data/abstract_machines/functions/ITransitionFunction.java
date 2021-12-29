@@ -25,6 +25,8 @@ public interface ITransitionFunction extends ICosted, IScored {
 	@Override
 	boolean equals(Object o);
 	
+	IState getAssociatedStateOf(IConcept concept);
+	
 	IFiniteAutomaton getCompiler();
 	
 	List<IConjunctiveTransition> getConjunctiveTransitions();
@@ -34,6 +36,8 @@ public interface ITransitionFunction extends ICosted, IScored {
 	SimpleDirectedGraph<IState, IConjunctiveTransition> getFiniteAutomatonGraph();
 	
 	DirectedMultigraph<IState, ITransition> getFiniteAutomatonMultigraph();
+	
+	Tree<IState, IGenusDifferentiaDefinition> getPorphyrianTree();
 	
 	ISimilarityScorer getSimilarityCalculator();
 	
@@ -51,9 +55,5 @@ public interface ITransitionFunction extends ICosted, IScored {
 	int hashCode();
 	
 	boolean validate(Predicate<ITransitionFunction> validator);
-	
-	Tree<IState, IGenusDifferentiaDefinition> getPorphyrianTree();
-	
-	IState getAssociatedStateOf(IConcept concept);
 	
 }

@@ -28,20 +28,20 @@ public class CalculatorsAbstractFactory {
 	private CalculatorsAbstractFactory() {
 	}
 	
-	public ITransitionCoster getTransitionCoster() {
-		return TransitionCosterFactory.INSTANCE.apply(transitionCostingStrategy);
-	}
-	
 	public IDefinitionCoster getDefinitionCoster() {
 		return DefinitionCosterFactory.INSTANCE.apply(definitionCostingStrategy);
 	}
 	
-	public IFunctionCoster getTransitionFunctionCoster() {
-		return FunctionCosterFactory.INSTANCE.apply(functionCostingStrategy);
-	}
-	
 	public ISimilarityScorer getSimilarityRater() {
 		return SimilarityScorerFactory.INSTANCE.apply(similarityScoringStrategy);
+	}
+	
+	public ITransitionCoster getTransitionCoster() {
+		return TransitionCosterFactory.INSTANCE.apply(transitionCostingStrategy);
+	}
+	
+	public IFunctionCoster getTransitionFunctionCoster() {
+		return FunctionCosterFactory.INSTANCE.apply(functionCostingStrategy);
 	}	
 	
 	public IFunctionScorer getTransitionFunctionScorer() {

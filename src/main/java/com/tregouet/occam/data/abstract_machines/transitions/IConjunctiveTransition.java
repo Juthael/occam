@@ -35,10 +35,10 @@ public interface IConjunctiveTransition extends IOperator {
 	
 	List<ICostedTransition> getComponents();
 	
+	double getCostOfComponents();
+	
 	List<IBasicOperator> getOperators();
 	
 	IReframer getReframer();
-	
-	double getCostOfComponents();
 
 }

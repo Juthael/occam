@@ -32,21 +32,21 @@ public class Reframer extends Transition implements IReframer {
 	}
 
 	@Override
+	public Double getCost() {
+		return cost;
+	}
+
+	@Override
 	public String getReframer() {
 		if (!blankReframer) {
 			return "¬" + Integer.toString(complementedStateIDs.get(complementedStateIDs.size() - 1));
 		}
 		return new String();		
 	}
-
+	
 	@Override
 	public boolean isBlank() {
 		return blankReframer;
-	}
-	
-	@Override
-	public String toString() {
-		return getReframer();
 	}
 
 	@Override
@@ -54,12 +54,14 @@ public class Reframer extends Transition implements IReframer {
 		return true;
 	}
 	
+	@Override
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
 	
-	public Double getCost() {
-		return cost;
+	@Override
+	public String toString() {
+		return getReframer();
 	}	
 
 }

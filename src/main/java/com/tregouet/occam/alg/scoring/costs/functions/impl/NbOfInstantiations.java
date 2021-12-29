@@ -47,7 +47,7 @@ public class NbOfInstantiations implements IFunctionCoster {
 				}
 			}
 		}
-		transitionFunction.setCost((double) nbOfInstantiations);
+		transitionFunction.setCost(nbOfInstantiations);
 	}
 
 }

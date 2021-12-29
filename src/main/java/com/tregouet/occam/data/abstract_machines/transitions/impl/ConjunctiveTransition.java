@@ -50,6 +50,14 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	}
 
 	@Override
+	public double getCostOfComponents() {
+		double cost = 0.0;
+		for (ICostedTransition component : getComponents())
+			cost += component.getCost();
+		return cost;
+	}
+
+	@Override
 	public String getName() {
 		return name;
 	}
@@ -84,6 +92,11 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	}
 
 	@Override
+	public boolean isReframer() {
+		return reframer != null;
+	}
+
+	@Override
 	public IIntentConstruct operateOn(IIntentConstruct input) {
 		IIntentConstruct output = null;
 		int opIdx = 0;
@@ -100,25 +113,13 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 		}
 		return operations;
 	}
-
+	
 	@Override
 	public List<ILambdaExpression> semantics() {
 		List<ILambdaExpression> semantics = new ArrayList<>();
 		for (IBasicOperator operator : operators)
 			semantics.addAll(operator.semantics());
 		return semantics;
-	}
-
-	@Override
-	public boolean isReframer() {
-		return reframer != null;
-	}
-	
-	public double getCostOfComponents() {
-		double cost = 0.0;
-		for (ICostedTransition component : getComponents())
-			cost += component.getCost();
-		return cost;
 	}	
 
 }

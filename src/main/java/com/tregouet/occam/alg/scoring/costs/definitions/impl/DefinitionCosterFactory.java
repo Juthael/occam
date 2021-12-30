@@ -16,8 +16,12 @@ public class DefinitionCosterFactory implements Function<DefinitionCostingStrate
 		switch (strategy) {
 			case TRANSITION_COSTS : 
 				return TransitionCosts.INSTANCE;
-			case ENTROPY_REDUCTIONS : 
-				return EntropyReductions.INSTANCE;
+			case TRANSITIONS_ENTROPY_REDUCTION : 
+				return TransitionsEntropyReduction.INSTANCE;
+			case PRODUCTIONS_ENTROPY_REDUCTION : 
+				return ProductionsEntropyReduction.INSTANCE;
+			case INSTANTIATIONS_ENTROPY_REDUCTION : 
+				return InstantiationsEntropyReduction.INSTANCE;
 			default : 
 				return null;
 		}

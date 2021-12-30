@@ -1,16 +1,21 @@
 package com.tregouet.occam.data.abstract_machines.transitions.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
+import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
+import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
 public class ConjunctiveTransition implements IConjunctiveTransition {
@@ -82,15 +87,48 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	public IReframer getReframer() {
 		return reframer;
 	}
+	
+	@Override
+	public int howManyInstantiatedVariables() {
+		Set<AVariable> instantiatedVariables = new HashSet<>();
+		for (IBasicOperator operator : operators) {
+			for (IProduction production : operator.operation()) {
+				if (production instanceof ICompositeProduction) {
+					for (IBasicProduction componentProd : ((ICompositeProduction)production).getComponents()) {
+						if (!componentProd.isBlank() && !componentProd.isVariableSwitcher())
+							instantiatedVariables.add(componentProd.getVariable());
+					}
+				}
+				else {
+					IBasicProduction basicProd = (IBasicProduction) production;
+					if (!basicProd.isBlank() && !basicProd.isVariableSwitcher())
+						instantiatedVariables.add(basicProd.getVariable());
+				}
+			}
+		}
+		return instantiatedVariables.size();
+	}
 
 	@Override
-	public int howManyProperties() {
-		int nbOfProperties = 0;
+	public int howManyOperators() {
+		int nbOfOperators = 0;
 		for (IBasicOperator operator : operators) {
 			if (!operator.isBlank())
-				nbOfProperties++;
+				nbOfOperators++;
 		}
-		return nbOfProperties;
+		return nbOfOperators;
+	}
+	
+	@Override
+	public int howManyProductions() {
+		int nbOfProductions = 0;
+		for (IBasicOperator operator : operators) {
+			for (IProduction production : operator.operation()) {
+				if (!production.isBlank() && !production.isVariableSwitcher())
+					nbOfProductions++;
+			}
+		}
+		return nbOfProductions;
 	}
 
 	@Override

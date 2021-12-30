@@ -35,7 +35,7 @@ import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestr
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
-public class EntropyReductionsTest {
+public class TransitionsEntropyReductionTest {
 	
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> shapes1Obj;
@@ -84,7 +84,7 @@ public class EntropyReductionsTest {
 		boolean asExpected = true;
 		int nbOfTests = 0;
 		IDefinitionCoster coster = 
-				DefinitionCosterFactory.INSTANCE.apply(DefinitionCostingStrategy.ENTROPY_REDUCTIONS);
+				DefinitionCosterFactory.INSTANCE.apply(DefinitionCostingStrategy.TRANSITIONS_ENTROPY_REDUCTION);
 		for (ITransitionFunction transitionFunction : transitionFunctions) {
 			coster.setCosterParameters(transitionFunction);
 			for (IGenusDifferentiaDefinition definition : transitionFunction.getPorphyrianTree().edgeSet()) {

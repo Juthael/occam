@@ -59,11 +59,23 @@ public class CalculatorsAbstractFactory {
 				break;
 			case SCORING_STRATEGY_2 : 
 				transitionCostingStrategy = TransitionCostingStrategy.COSTLESS;
-				definitionCostingStrategy = DefinitionCostingStrategy.ENTROPY_REDUCTIONS;
+				definitionCostingStrategy = DefinitionCostingStrategy.TRANSITIONS_ENTROPY_REDUCTION;
 				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATIONS;
 				similarityScoringStrategy = SimilarityScoringStrategy.DYNAMIC_FRAMING;
 				functionScoringStrategy = FunctionScoringStrategy.CONCEPTUAL_COHERENCE;
 				break;
+			case SCORING_STRATEGY_3 : 
+				transitionCostingStrategy = TransitionCostingStrategy.COSTLESS;
+				definitionCostingStrategy = DefinitionCostingStrategy.PRODUCTIONS_ENTROPY_REDUCTION;
+				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATIONS;
+				similarityScoringStrategy = SimilarityScoringStrategy.DYNAMIC_FRAMING;
+				functionScoringStrategy = FunctionScoringStrategy.CONCEPTUAL_COHERENCE;
+			case SCORING_STRATEGY_4 : 
+				transitionCostingStrategy = TransitionCostingStrategy.COSTLESS;
+				definitionCostingStrategy = DefinitionCostingStrategy.INSTANTIATIONS_ENTROPY_REDUCTION;
+				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATIONS;
+				similarityScoringStrategy = SimilarityScoringStrategy.DYNAMIC_FRAMING;
+				functionScoringStrategy = FunctionScoringStrategy.CONCEPTUAL_COHERENCE;
 			default : 
 				break;
 		}

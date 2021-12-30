@@ -41,6 +41,10 @@ public interface IConjunctiveTransition extends IOperator {
 	
 	IReframer getReframer();
 	
-	int howManyProperties();
+	int howManyInstantiatedVariables();
+	
+	int howManyOperators();
+	
+	int howManyProductions();
 
 }

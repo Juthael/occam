@@ -12,14 +12,14 @@ import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
-public class EntropyReductions implements IDefinitionCoster {
+public class InstantiationsEntropyReduction implements IDefinitionCoster {
 
-	public static final EntropyReductions INSTANCE = new EntropyReductions();
+	public static final InstantiationsEntropyReduction INSTANCE = new InstantiationsEntropyReduction();
 	private int[] topoOrderedStateIDs = null;
 	private Double[][] entropyReductionMatrix = null;
 	private IGenusDifferentiaDefinition costed = null;
 	
-	private EntropyReductions() {
+	private InstantiationsEntropyReduction() {
 	}
 
 	@Override
@@ -35,8 +35,8 @@ public class EntropyReductions implements IDefinitionCoster {
 		double entropyReduction = entropyReductionMatrix[speciesIdx][genusIdx];
 		int nbOfProperties = 0;
 		for (IConjunctiveTransition conjTransition : costed.getDifferentiae())
-			nbOfProperties += conjTransition.howManyProperties();
-		costed.setCost((nbOfProperties) * entropyReduction); 
+			nbOfProperties += conjTransition.howManyInstantiatedVariables();
+		costed.setCost(((double) nbOfProperties) * entropyReduction); 
 	}
 	
 	@Override
@@ -49,6 +49,6 @@ public class EntropyReductions implements IDefinitionCoster {
 			topoOrderedStateIDs[i] = topoOrderedConcepts.get(i).getID();
 		}
 		entropyReductionMatrix = treeOfConcepts.getEntropyReductionMatrix();
-	}	
+	}		
 
 }

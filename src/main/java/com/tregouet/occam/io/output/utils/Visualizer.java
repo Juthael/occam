@@ -186,7 +186,7 @@ public class Visualizer {
 	private static  String buildGenDiffStringDesc(IGenusDifferentiaDefinition def) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("Cost : ");
-		sB.append(Double.toString(def.getCost()) + System.lineSeparator());
+		sB.append(round(def.getCost()) + System.lineSeparator());
 		for (IConjunctiveTransition conjTrans : def.getDifferentiae()) {
 			sB.append(operatorAsString(conjTrans));
 		}

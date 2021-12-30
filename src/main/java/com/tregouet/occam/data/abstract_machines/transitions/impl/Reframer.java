@@ -29,30 +29,30 @@ public class Reframer extends Transition implements IReframer {
 	}
 
 	@Override
+	public boolean isBlank() {
+		return (complementedStateID == null);
+	}
+	
+	@Override
+	public boolean isConnector() {
+		return (complementedStateID == null);
+	}
+	
+	@Override
 	public boolean isReframer() {
 		return true;
 	}
-	
+
 	@Override
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
-	
+
 	@Override
 	public String toString() {
 		if (isBlank())
 			return new String();
 		return "¬" + Integer.toString(complementedStateID);
-	}
-
-	@Override
-	public boolean isBlank() {
-		return (complementedStateID == null);
-	}
-
-	@Override
-	public boolean isConnector() {
-		return (complementedStateID == null);
 	}	
 
 }

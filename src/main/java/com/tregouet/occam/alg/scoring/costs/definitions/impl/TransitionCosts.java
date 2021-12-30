@@ -24,10 +24,6 @@ public class TransitionCosts implements IDefinitionCoster {
 	public void setCost() {
 		double cost = 0.0;
 		List<IConjunctiveTransition> transitions = definition.getDifferentiae();
-		//HERE
-		if (transitions == null)
-			System.out.println("here");
-		//HERE
 		for (IConjunctiveTransition transition : transitions)
 			cost += transition.getCostOfComponents();
 		definition.setCost(cost);

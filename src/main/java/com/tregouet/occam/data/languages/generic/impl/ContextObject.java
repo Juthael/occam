@@ -31,6 +31,11 @@ public class ContextObject implements IContextObject {
 	}	
 
 	@Override
+	public int compareTo(IContextObject o) {
+		return this.iD - o.getID();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -48,17 +53,17 @@ public class ContextObject implements IContextObject {
 	public List<IConstruct> getConstructs() {
 		return constructs;
 	}
-	
+
 	@Override
 	public int getID() {
 		return iD;
 	}
-
+	
 	@Override
 	public Iterator<IConstruct> getIteratorOverConstructs() {
 		return constructs.iterator();
 	}
-	
+
 	@Override
 	public String getName() {
 		if (name == null)
@@ -88,11 +93,6 @@ public class ContextObject implements IContextObject {
 		for (IConstruct construct : constructs)
 			symbolSeqs.add(new SymbolSeq(construct.toListOfStringsWithPlaceholders()));
 		return symbolSeqs;
-	}
-
-	@Override
-	public int compareTo(IContextObject o) {
-		return this.iD - o.getID();
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.tregouet.occam.alg.transition_function_gen;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,7 +17,6 @@ import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IOntologist {

@@ -241,8 +241,34 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 
 	@Override
+	public void setSimilarityScorer(ISimilarityScorer similarityScorer) {
+		this.similarityScorer = similarityScorer;
+	}
+	
+	@Override
 	public boolean validate(Predicate<ITransitionFunction> validator) {
 		return validator.test(this);
+	}
+
+	private void connectEmptyComplementaryConcepts() {
+		for (IConcept concept : concepts.vertexSet()) {
+			if (concept.isComplementary()) {
+				IComplementaryConcept complementaryConcept = (IComplementaryConcept) concept;
+				IState complementaryState = conceptToState.get(complementaryConcept);
+				int complementedStateID = complementaryConcept.getComplemented().getID();
+				IState successorState = 
+						conceptToState.get(Graphs.successorListOf(concepts, complementaryConcept).get(0));
+				IReframer reframer = new Reframer(complementaryState, complementedStateID, successorState);
+				transitions.add(reframer);
+				if (!complementaryConcept.hasAnIntent()) {
+					for (IConcept predecessor : Graphs.predecessorListOf(concepts, concept)) {
+						IState connectedState = conceptToState.get(predecessor);
+						IReframer connector = new Reframer(connectedState, complementaryState);
+						transitions.add(connector);
+					}
+				}
+			}
+		}
 	}
 	
 	private void setUpCostsAndScores() {
@@ -266,32 +292,6 @@ public class TransitionFunction implements ITransitionFunction {
 		//function score
 		IFunctionScorer functionScorer = factory.getTransitionFunctionScorer();
 		functionScorer.input(this).setScore();
-	}
-
-	@Override
-	public void setSimilarityScorer(ISimilarityScorer similarityScorer) {
-		this.similarityScorer = similarityScorer;
-	}
-	
-	private void connectEmptyComplementaryConcepts() {
-		for (IConcept concept : concepts.vertexSet()) {
-			if (concept.isComplementary()) {
-				IComplementaryConcept complementaryConcept = (IComplementaryConcept) concept;
-				IState complementaryState = conceptToState.get(complementaryConcept);
-				int complementedStateID = complementaryConcept.getComplemented().getID();
-				IState successorState = 
-						conceptToState.get(Graphs.successorListOf(concepts, complementaryConcept).get(0));
-				IReframer reframer = new Reframer(complementaryState, complementedStateID, successorState);
-				transitions.add(reframer);
-				if (!complementaryConcept.hasAnIntent()) {
-					for (IConcept predecessor : Graphs.predecessorListOf(concepts, concept)) {
-						IState connectedState = conceptToState.get(predecessor);
-						IReframer connector = new Reframer(connectedState, complementaryState);
-						transitions.add(connector);
-					}
-				}
-			}
-		}
 	}
 
 }

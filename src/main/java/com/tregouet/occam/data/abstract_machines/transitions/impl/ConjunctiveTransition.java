@@ -84,6 +84,16 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	}
 
 	@Override
+	public int howManyProperties() {
+		int nbOfProperties = 0;
+		for (IBasicOperator operator : operators) {
+			if (!operator.isBlank())
+				nbOfProperties++;
+		}
+		return nbOfProperties;
+	}
+
+	@Override
 	public boolean isBlank() {
 		for (ITransition transition : getComponents()) {
 			if (!transition.isBlank())
@@ -105,7 +115,7 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 			output = operators.get(opIdx++).operateOn(input);
 		return output;
 	}
-
+	
 	@Override
 	public List<IProduction> operation() {
 		List<IProduction> operations = new ArrayList<>();
@@ -114,23 +124,13 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 		}
 		return operations;
 	}
-	
+
 	@Override
 	public List<ILambdaExpression> semantics() {
 		List<ILambdaExpression> semantics = new ArrayList<>();
 		for (IBasicOperator operator : operators)
 			semantics.addAll(operator.semantics());
 		return semantics;
-	}
-
-	@Override
-	public int howManyProperties() {
-		int nbOfProperties = 0;
-		for (IBasicOperator operator : operators) {
-			if (!operator.isBlank())
-				nbOfProperties++;
-		}
-		return nbOfProperties;
 	}	
 
 }

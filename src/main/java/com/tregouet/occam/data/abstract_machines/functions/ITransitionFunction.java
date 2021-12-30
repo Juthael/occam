@@ -50,8 +50,8 @@ public interface ITransitionFunction extends ICosted, IScored {
 	@Override
 	int hashCode();
 	
-	boolean validate(Predicate<ITransitionFunction> validator);
-	
 	void setSimilarityScorer(ISimilarityScorer similarityScorer);
+	
+	boolean validate(Predicate<ITransitionFunction> validator);
 	
 }

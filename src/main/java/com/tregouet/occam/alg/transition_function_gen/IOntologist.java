@@ -1,5 +1,6 @@
 package com.tregouet.occam.alg.transition_function_gen;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.io.output.utils.Visualizer;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IOntologist {
@@ -41,8 +43,12 @@ public interface IOntologist {
 		for (IIsA isA : conceptTree.edgeSet()) {
 			IState species = transitionFunction.getAssociatedStateOf(conceptTree.getEdgeSource(isA));
 			IState genus = transitionFunction.getAssociatedStateOf(conceptTree.getEdgeTarget(isA));
+			List<IConjunctiveTransition> conjTransitions = sourceToTransitions.get(species);
+			if (conjTransitions == null)
+				//then the species is bypassed by all transitions.
+				conjTransitions = new ArrayList<>();
 			IGenusDifferentiaDefinition genusDiff = 
-					new GenusDifferentiaDefinition(species, genus, sourceToTransitions.get(species));
+					new GenusDifferentiaDefinition(species, genus, conjTransitions);
 			porphyrianTree.addEdge(species, genus, genusDiff);
 		}
 		IState startState = transitionFunction.getAssociatedStateOf(conceptTree.getRoot());

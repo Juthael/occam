@@ -200,8 +200,15 @@ public class Visualizer {
 			if (transition instanceof IConjunctiveTransition) {
 				IConjunctiveTransition conjTrans = (IConjunctiveTransition) transition;
 				IReframer reframer = conjTrans.getReframer();
+				//HERE
+				if (reframer != null)
+					sB.append("FRAME " + reframer.toString() + " : " + round(reframer.getCost()) +  nL);
+				//HERE
+				//HERE OK
+				/*
 				if (reframer != null && !reframer.isBlank())
 					sB.append("FRAME " + reframer.getReframer() + " : " + round(reframer.getCost()) +  nL);
+				*/
 				for (IBasicOperator operator : conjTrans.getOperators()) {
 					sB.append(operatorAsString(operator) + nL);
 				}

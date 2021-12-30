@@ -1,52 +1,31 @@
 package com.tregouet.occam.data.abstract_machines.transitions.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
 
 public class Reframer extends Transition implements IReframer {
 
-	private final List<Integer> complementedStateIDs = new ArrayList<>();
-	private final boolean blankReframer;
+	private final Integer complementedStateID;
 	private Double cost = null;
 	
-	public Reframer(IState complementaryState, IState complementedState, IState successorState, 
-			List<Integer> previousComplementedStatesID) {
+	public Reframer(IState complementaryState, int complementedStateID, IState successorState) {
 		super(complementaryState, successorState);
-		complementedStateIDs.addAll(previousComplementedStatesID);
-		complementedStateIDs.add(complementedState.getStateID());
-		blankReframer = false;
+		this.complementedStateID = complementedStateID;
 	}
 	
-	public Reframer(IState predecessorState, IState successorState, List<Integer> previousComplementedStatesID) {
-		super(predecessorState, successorState);
-		complementedStateIDs.addAll(previousComplementedStatesID);
-		blankReframer = true;
-	}
+	public Reframer(IState connectedState, IState complementaryState) {
+		super(connectedState, complementaryState);
+		complementedStateID = null;
+	}	
 	
 	@Override
-	public List<Integer> getComplementedConceptsIDs() {
-		return new ArrayList<>(complementedStateIDs);
+	public Integer getComplementedConceptsID() {
+		return complementedStateID;
 	}
-
+	
 	@Override
 	public Double getCost() {
 		return cost;
-	}
-
-	@Override
-	public String getReframer() {
-		if (!blankReframer) {
-			return "¬" + Integer.toString(complementedStateIDs.get(complementedStateIDs.size() - 1));
-		}
-		return new String();		
-	}
-	
-	@Override
-	public boolean isBlank() {
-		return blankReframer;
 	}
 
 	@Override
@@ -61,7 +40,19 @@ public class Reframer extends Transition implements IReframer {
 	
 	@Override
 	public String toString() {
-		return getReframer();
+		if (isBlank())
+			return new String();
+		return "¬" + Integer.toString(complementedStateID);
+	}
+
+	@Override
+	public boolean isBlank() {
+		return (complementedStateID == null);
+	}
+
+	@Override
+	public boolean isConnector() {
+		return (complementedStateID == null);
 	}	
 
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
@@ -32,6 +33,7 @@ import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.BasicOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.ConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.Reframer;
+import com.tregouet.occam.data.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.IIsA;
@@ -58,7 +60,7 @@ public class TransitionFunction implements ITransitionFunction {
 		for (IConcept concept : concepts.vertexSet())
 			conceptToState.put(concept, new State(concept));
 		transitions.addAll(buildOperators(new ArrayList<>(constructs.edgeSet())));
-		transitions.addAll(buildReframers());
+		connectEmptyComplementaryConcepts();
 		for (ITransition transition : transitions) {
 			if (!conjunctiveTransitions.stream().anyMatch(t -> t.addTransition(transition)))
 				conjunctiveTransitions.add(new ConjunctiveTransition(transition));
@@ -242,38 +244,6 @@ public class TransitionFunction implements ITransitionFunction {
 	public boolean validate(Predicate<ITransitionFunction> validator) {
 		return validator.test(this);
 	}
-
-	private List<IReframer> buildReframers() {
-		List<IReframer> reframers = new ArrayList<>();
-		//there can only be one such relation, actually
-		for (IIsA relation : concepts.incomingEdgesOf(concepts.getRoot())) {
-			reframers.addAll(buildReframers(relation, new ArrayList<Integer>()));
-		}
-		return reframers;
-	}
-
-	private List<IReframer> buildReframers(IIsA relation, List<Integer> previousComplementedStatesIDs) {
-		List<IReframer> reframers = new ArrayList<>();
-		List<Integer> nextComplementedStatesIDs;
-		IConcept sourceConcept = concepts.getEdgeSource(relation);
-		IState sourceState = conceptToState.get(sourceConcept);
-		IState targetState = conceptToState.get(concepts.getEdgeTarget(relation));
-		IReframer reframer;
-		if (sourceConcept.isComplementary()) {
-			IState complementedState = conceptToState.get(sourceConcept.getComplemented());
-			reframer = new Reframer(sourceState, complementedState, targetState, previousComplementedStatesIDs);
-			nextComplementedStatesIDs = reframer.getComplementedConceptsIDs();
-		}
-		else {
-			reframer = new Reframer(sourceState, targetState, previousComplementedStatesIDs);
-			nextComplementedStatesIDs = previousComplementedStatesIDs;
-		}
-		reframers.add(reframer);
-		for (IIsA nextRelation : concepts.incomingEdgesOf(sourceConcept)) {
-			reframers.addAll(buildReframers(nextRelation, nextComplementedStatesIDs));
-		}
-		return reframers;
-	}
 	
 	private void setUpCostsAndScores() {
 		CalculatorsAbstractFactory factory = CalculatorsAbstractFactory.INSTANCE;
@@ -301,6 +271,27 @@ public class TransitionFunction implements ITransitionFunction {
 	@Override
 	public void setSimilarityScorer(ISimilarityScorer similarityScorer) {
 		this.similarityScorer = similarityScorer;
+	}
+	
+	private void connectEmptyComplementaryConcepts() {
+		for (IConcept concept : concepts.vertexSet()) {
+			if (concept.isComplementary()) {
+				IComplementaryConcept complementaryConcept = (IComplementaryConcept) concept;
+				IState complementaryState = conceptToState.get(complementaryConcept);
+				int complementedStateID = complementaryConcept.getComplemented().getID();
+				IState successorState = 
+						conceptToState.get(Graphs.successorListOf(concepts, complementaryConcept).get(0));
+				IReframer reframer = new Reframer(complementaryState, complementedStateID, successorState);
+				transitions.add(reframer);
+				if (!complementaryConcept.hasAnIntent()) {
+					for (IConcept predecessor : Graphs.predecessorListOf(concepts, concept)) {
+						IState connectedState = conceptToState.get(predecessor);
+						IReframer connector = new Reframer(connectedState, complementaryState);
+						transitions.add(connector);
+					}
+				}
+			}
+		}
 	}
 
 }

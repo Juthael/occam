@@ -15,7 +15,7 @@ public class TransitionFunctionValidator implements Predicate<ITransitionFunctio
 	private TransitionFunctionValidator() {
 	}
 
-	private static boolean noBlankState(ITransitionFunction tF) {
+	private static boolean everyStateIsTheSourceOfAnInformativeTransition(ITransitionFunction tF) {
 		Set<IState> states = new HashSet<>(tF.getStates());
 		states.removeIf(s -> s.getStateType() == IState.OC_STATE);
 		for (IConjunctiveTransition operator : tF.getConjunctiveTransitions()) {
@@ -27,7 +27,7 @@ public class TransitionFunctionValidator implements Predicate<ITransitionFunctio
 	
 	@Override
 	public boolean test(ITransitionFunction tF) {
-		return noBlankState(tF);
+		return everyStateIsTheSourceOfAnInformativeTransition(tF);
 	}
 
 }

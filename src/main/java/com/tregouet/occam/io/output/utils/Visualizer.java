@@ -185,7 +185,7 @@ public class Visualizer {
 	
 	private static  String buildGenDiffStringDesc(IGenusDifferentiaDefinition def) {
 		StringBuilder sB = new StringBuilder();
-		sB.append("Informativity : ");
+		sB.append("Cost : ");
 		sB.append(Double.toString(def.getCost()) + System.lineSeparator());
 		for (IConjunctiveTransition conjTrans : def.getDifferentiae()) {
 			sB.append(operatorAsString(conjTrans));
@@ -200,23 +200,18 @@ public class Visualizer {
 			if (transition instanceof IConjunctiveTransition) {
 				IConjunctiveTransition conjTrans = (IConjunctiveTransition) transition;
 				IReframer reframer = conjTrans.getReframer();
-				//HERE
 				if (reframer != null)
-					sB.append("FRAME " + reframer.toString() + " : " + round(reframer.getCost()) +  nL);
-				//HERE
-				//HERE OK
-				/*
-				if (reframer != null && !reframer.isBlank())
-					sB.append("FRAME " + reframer.getReframer() + " : " + round(reframer.getCost()) +  nL);
-				*/
+					sB.append("FRAME " + reframer.toString() +  nL);
 				for (IBasicOperator operator : conjTrans.getOperators()) {
 					sB.append(operatorAsString(operator) + nL);
 				}
 			}
 			else if (transition instanceof IBasicOperator) {
 				IBasicOperator operator = (IBasicOperator) transition;
-				sB.append(operator.getName() + " : " + round(operator.getCost()) + nL);
+				sB.append(operator.getName() + " : ");
 				List<IProduction> productions = operator.operation();
+				if (productions.size() > 1)
+					sB.append(nL);
 				for (int i = 0 ; i < productions.size() ; i++) {
 					sB.append(productions.get(i).toString());
 					if (i < productions.size() - 1)
@@ -225,7 +220,7 @@ public class Visualizer {
 			}
 			else if (transition instanceof IReframer) {
 				IReframer reframer = (IReframer) transition;
-				sB.append(reframer.getName() + " : " + round(reframer.getCost()) +  nL);
+				sB.append(reframer.getName());
 			}
 		}
 		return sB.toString();

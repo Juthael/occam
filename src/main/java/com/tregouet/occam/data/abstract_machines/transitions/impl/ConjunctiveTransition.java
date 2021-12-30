@@ -125,7 +125,7 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 
 	@Override
 	public int howManyProperties() {
-		int nbOfProperties = (reframer == null ? 0 : 1);
+		int nbOfProperties = 0;
 		for (IBasicOperator operator : operators) {
 			if (!operator.isBlank())
 				nbOfProperties++;

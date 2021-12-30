@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -43,7 +44,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 			"output", "html", "head.txt");
 	private static final DecimalFormat df = new DecimalFormat("#.####");
 	private final String folderPath;
-	private List<IContextObject> context = null;
+	private TreeSet<IContextObject> context = null;
 	private IConcepts concepts = null;
 	private IConceptStructureBasedTFSupplier conceptStructureBasedTFSupplier = null;
 	private IIsomorphicTransFunctions isomorphicTransFunctions = null;
@@ -270,7 +271,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	@Override
 	public boolean represent(Path contextPath) throws IOException {
 		try {
-			context = GenericFileReader.getContextObjects(contextPath);
+			context = new TreeSet<>(GenericFileReader.getContextObjects(contextPath));
 		} catch (IOException e) {
 			return false;
 		}

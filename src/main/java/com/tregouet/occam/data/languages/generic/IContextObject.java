@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.tregouet.subseq_finder.ISymbolSeq;
 
-public interface IContextObject {
+public interface IContextObject extends Comparable<IContextObject> {
 	
 	@Override
 	public int hashCode();

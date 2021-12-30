@@ -39,11 +39,6 @@ public class ContextObject implements IContextObject {
 		if (getClass() != obj.getClass())
 			return false;
 		ContextObject other = (ContextObject) obj;
-		if (constructs == null) {
-			if (other.constructs != null)
-				return false;
-		} else if (!constructs.equals(other.constructs))
-			return false;
 		if (iD != other.iD)
 			return false;
 		return true;
@@ -75,7 +70,6 @@ public class ContextObject implements IContextObject {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((constructs == null) ? 0 : constructs.hashCode());
 		result = prime * result + iD;
 		return result;
 	}
@@ -94,6 +88,11 @@ public class ContextObject implements IContextObject {
 		for (IConstruct construct : constructs)
 			symbolSeqs.add(new SymbolSeq(construct.toListOfStringsWithPlaceholders()));
 		return symbolSeqs;
+	}
+
+	@Override
+	public int compareTo(IContextObject o) {
+		return this.iD - o.getID();
 	}
 
 }

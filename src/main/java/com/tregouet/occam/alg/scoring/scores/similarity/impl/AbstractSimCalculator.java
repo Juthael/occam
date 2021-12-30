@@ -1,6 +1,7 @@
 package com.tregouet.occam.alg.scoring.scores.similarity.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -152,6 +153,7 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	public ISimilarityScorer input(ITransitionFunction transitionFunction) {
 		this.transitionFunction = transitionFunction;
 		singletons = new ArrayList<>(transitionFunction.getTreeOfConcepts().getLeaves());
+		Collections.sort(singletons, (c1, c2) -> c1.getID() - c2.getID());
 		singletonIDs = new int[singletons.size()];
 		int singletonIdx = 0;
 		for (IConcept singleton : singletons) {

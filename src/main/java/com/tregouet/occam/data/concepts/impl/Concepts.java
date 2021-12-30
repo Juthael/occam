@@ -3,6 +3,7 @@ package com.tregouet.occam.data.concepts.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -45,8 +46,8 @@ public class Concepts implements IConcepts {
 	private final IConcept absurdity;
 	
 	@SuppressWarnings("unchecked")
-	public Concepts(List<IContextObject> objects) {
-		this.objects = objects;
+	public Concepts(Collection<IContextObject> objects) {
+		this.objects = new ArrayList<>(objects);
 		singletons = new ArrayList<>(Arrays.asList(new IConcept[objects.size()]));
 		lattice = new DirectedAcyclicGraph<>(null, IsA::new, false);
 		buildLattice();
@@ -61,7 +62,7 @@ public class Concepts implements IConcepts {
 					absurdity = concept;
 					break;
 				case IConcept.SINGLETON :
-					singletons.set(objects.indexOf(concept.getExtent().iterator().next()), concept);
+					singletons.set(this.objects.indexOf(concept.getExtent().iterator().next()), concept);
 					break;
 			}
 		}

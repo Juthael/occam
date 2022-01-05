@@ -22,6 +22,8 @@ public class DefinitionCosterFactory implements Function<DefinitionCostingStrate
 				return ProductionsEntropyReduction.INSTANCE;
 			case INSTANTIATIONS_ENTROPY_REDUCTION : 
 				return InstantiationsEntropyReduction.INSTANCE;
+			case INSTANTIATIONS_ENTROPY_REDUCTION_OC : 
+				return InstantiationsEntropyReductionOC.INSTANCE;
 			default : 
 				return null;
 		}

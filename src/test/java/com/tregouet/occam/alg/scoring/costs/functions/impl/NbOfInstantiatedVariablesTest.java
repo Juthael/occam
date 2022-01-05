@@ -34,7 +34,7 @@ import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestr
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
 
-public class NbOfInstantiationsTest {
+public class NbOfInstantiatedVariablesTest {
 	
 	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> objects;
@@ -83,7 +83,7 @@ public class NbOfInstantiationsTest {
 	public void whenTransitionFunctionCostRequestedThenReturned() {
 		boolean costReturned = true;
 		int nbOfTests = 0;
-		IFunctionCoster coster = FunctionCosterFactory.INSTANCE.apply(FunctionCostingStrategy.NB_OF_INSTANTIATIONS);
+		IFunctionCoster coster = FunctionCosterFactory.INSTANCE.apply(FunctionCostingStrategy.NB_OF_INSTANTIATED_VARIABLES);
 		for (ITransitionFunction tF : transitionFunctions) {
 			Double tFCost = null;
 			try {

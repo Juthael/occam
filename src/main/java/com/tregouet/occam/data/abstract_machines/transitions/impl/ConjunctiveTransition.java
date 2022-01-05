@@ -120,15 +120,23 @@ public class ConjunctiveTransition implements IConjunctiveTransition {
 	}
 	
 	@Override
-	public int howManyProductions() {
-		int nbOfProductions = 0;
+	public int howManyBasicProductions() {
+		int nbOfBasicProductions = 0;
 		for (IBasicOperator operator : operators) {
 			for (IProduction production : operator.operation()) {
-				if (!production.isBlank() && !production.isVariableSwitcher())
-					nbOfProductions++;
+				if (production instanceof IBasicProduction) {
+					if (!production.isBlank() && !production.isVariableSwitcher())
+						nbOfBasicProductions++;
+				}
+				else {
+					for (IBasicProduction basicProd : ((ICompositeProduction) production).getComponents()) {
+						if (!basicProd.isBlank() && !basicProd.isVariableSwitcher())
+							nbOfBasicProductions++;
+					}
+				}
 			}
 		}
-		return nbOfProductions;
+		return nbOfBasicProductions;
 	}
 
 	@Override

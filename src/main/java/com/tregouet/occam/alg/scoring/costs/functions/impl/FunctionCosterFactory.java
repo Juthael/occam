@@ -17,8 +17,10 @@ public class FunctionCosterFactory implements
 		switch (strategy) {
 			case TRANSITION_COSTS : 
 				return TransitionCosts.INSTANCE;
-			case NB_OF_INSTANTIATIONS : 
-				return NbOfInstantiations.INSTANCE;
+			case NB_OF_INSTANTIATED_VARIABLES : 
+				return NbOfInstantiatedVariables.INSTANCE;
+			case NB_OF_BASIC_PRODUCTIONS : 
+				return NbOfBasicProductions.INSTANCE;
 			default : 
 				return null;
 		}

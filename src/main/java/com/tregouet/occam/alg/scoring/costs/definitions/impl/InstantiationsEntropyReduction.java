@@ -33,10 +33,10 @@ public class InstantiationsEntropyReduction implements IDefinitionCoster {
 		int speciesIdx = ArrayUtils.indexOf(topoOrderedStateIDs, costed.getSpecies().getStateID());
 		int genusIdx = ArrayUtils.indexOf(topoOrderedStateIDs, costed.getGenus().getStateID());
 		double entropyReduction = entropyReductionMatrix[speciesIdx][genusIdx];
-		int nbOfProperties = 0;
+		int nbOfInstantiatedVariables = 0;
 		for (IConjunctiveTransition conjTransition : costed.getDifferentiae())
-			nbOfProperties += conjTransition.howManyInstantiatedVariables();
-		costed.setCost(((double) nbOfProperties) * entropyReduction); 
+			nbOfInstantiatedVariables += conjTransition.howManyInstantiatedVariables();
+		costed.setCost(((double) nbOfInstantiatedVariables) * entropyReduction); 
 	}
 	
 	@Override

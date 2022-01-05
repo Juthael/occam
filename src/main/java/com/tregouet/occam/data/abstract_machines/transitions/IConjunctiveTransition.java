@@ -45,6 +45,6 @@ public interface IConjunctiveTransition extends IOperator {
 	
 	int howManyOperators();
 	
-	int howManyProductions();
+	int howManyBasicProductions();
 
 }

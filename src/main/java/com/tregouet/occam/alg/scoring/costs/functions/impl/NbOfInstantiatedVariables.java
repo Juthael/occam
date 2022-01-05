@@ -1,5 +1,8 @@
 package com.tregouet.occam.alg.scoring.costs.functions.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.tregouet.occam.alg.scoring.costs.functions.IFunctionCoster;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
@@ -8,13 +11,14 @@ import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProductio
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
+import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class NbOfInstantiations implements IFunctionCoster {
+public class NbOfInstantiatedVariables implements IFunctionCoster {
 
-	public static final NbOfInstantiations INSTANCE = new NbOfInstantiations();
+	public static final NbOfInstantiatedVariables INSTANCE = new NbOfInstantiatedVariables();
 	private ITransitionFunction transitionFunction = null;
 	
-	private NbOfInstantiations() {
+	private NbOfInstantiatedVariables() {
 	}
 
 	@Override
@@ -25,7 +29,7 @@ public class NbOfInstantiations implements IFunctionCoster {
 
 	@Override
 	public void setCost() {
-		int nbOfInstantiations = 0;
+		Set<AVariable> instantiatedVariables = new HashSet<>();
 		for (IConjunctiveTransition conjTransition : transitionFunction.getConjunctiveTransitions()) {
 			for (ITransition transition : conjTransition.getComponents()) {
 				if (!transition.isReframer()) {
@@ -33,13 +37,13 @@ public class NbOfInstantiations implements IFunctionCoster {
 					for (IProduction production : basicOperator.operation()) {
 						if (production instanceof IBasicProduction) {
 							if (!production.isBlank() && !production.isVariableSwitcher())
-								nbOfInstantiations++;
+								instantiatedVariables.add(((IBasicProduction) production).getVariable());
 						}
 						else {
 							ICompositeProduction compositeProd = (ICompositeProduction) production;
 							for (IBasicProduction basicProd : compositeProd.getComponents()) {
 								if (!basicProd.isBlank() && !basicProd.isVariableSwitcher()) {
-									nbOfInstantiations++;
+									instantiatedVariables.add(basicProd.getVariable());
 								}
 							}
 						}
@@ -47,7 +51,7 @@ public class NbOfInstantiations implements IFunctionCoster {
 				}
 			}
 		}
-		transitionFunction.setCost(nbOfInstantiations);
+		transitionFunction.setCost((double) instantiatedVariables.size());
 	}
 
 }

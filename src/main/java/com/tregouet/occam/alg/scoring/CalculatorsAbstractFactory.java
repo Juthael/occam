@@ -53,27 +53,39 @@ public class CalculatorsAbstractFactory {
 			case SCORING_STRATEGY_1 : 
 				transitionCostingStrategy = TransitionCostingStrategy.ENTROPY_REDUCTION;
 				definitionCostingStrategy = DefinitionCostingStrategy.TRANSITION_COSTS;
-				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATIONS;
+				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATED_VARIABLES;
 				similarityScoringStrategy = SimilarityScoringStrategy.DYNAMIC_FRAMING;
 				functionScoringStrategy = FunctionScoringStrategy.CONCEPTUAL_COHERENCE;
 				break;
 			case SCORING_STRATEGY_2 : 
 				transitionCostingStrategy = TransitionCostingStrategy.COSTLESS;
 				definitionCostingStrategy = DefinitionCostingStrategy.TRANSITIONS_ENTROPY_REDUCTION;
-				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATIONS;
+				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATED_VARIABLES;
 				similarityScoringStrategy = SimilarityScoringStrategy.DYNAMIC_FRAMING;
 				functionScoringStrategy = FunctionScoringStrategy.CONCEPTUAL_COHERENCE;
 				break;
 			case SCORING_STRATEGY_3 : 
 				transitionCostingStrategy = TransitionCostingStrategy.COSTLESS;
 				definitionCostingStrategy = DefinitionCostingStrategy.PRODUCTIONS_ENTROPY_REDUCTION;
-				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATIONS;
+				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATED_VARIABLES;
 				similarityScoringStrategy = SimilarityScoringStrategy.DYNAMIC_FRAMING;
 				functionScoringStrategy = FunctionScoringStrategy.CONCEPTUAL_COHERENCE;
 			case SCORING_STRATEGY_4 : 
 				transitionCostingStrategy = TransitionCostingStrategy.COSTLESS;
 				definitionCostingStrategy = DefinitionCostingStrategy.INSTANTIATIONS_ENTROPY_REDUCTION;
-				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATIONS;
+				functionCostingStrategy = FunctionCostingStrategy.NB_OF_INSTANTIATED_VARIABLES;
+				similarityScoringStrategy = SimilarityScoringStrategy.DYNAMIC_FRAMING;
+				functionScoringStrategy = FunctionScoringStrategy.CONCEPTUAL_COHERENCE;
+			case SCORING_STRATEGY_5 : 
+				transitionCostingStrategy = TransitionCostingStrategy.COSTLESS;
+				definitionCostingStrategy = DefinitionCostingStrategy.INSTANTIATIONS_ENTROPY_REDUCTION;
+				functionCostingStrategy = FunctionCostingStrategy.NB_OF_BASIC_PRODUCTIONS;
+				similarityScoringStrategy = SimilarityScoringStrategy.DYNAMIC_FRAMING;
+				functionScoringStrategy = FunctionScoringStrategy.CONCEPTUAL_COHERENCE;
+			case SCORING_STRATEGY_6 : 
+				transitionCostingStrategy = TransitionCostingStrategy.COSTLESS;
+				definitionCostingStrategy = DefinitionCostingStrategy.INSTANTIATIONS_ENTROPY_REDUCTION_OC;
+				functionCostingStrategy = FunctionCostingStrategy.NB_OF_BASIC_PRODUCTIONS;
 				similarityScoringStrategy = SimilarityScoringStrategy.DYNAMIC_FRAMING;
 				functionScoringStrategy = FunctionScoringStrategy.CONCEPTUAL_COHERENCE;
 			default : 

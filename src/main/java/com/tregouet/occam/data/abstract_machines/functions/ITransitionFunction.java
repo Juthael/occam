@@ -14,8 +14,10 @@ import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDi
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
+import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIntentConstruct;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
 import com.tregouet.tree_finder.data.Tree;
@@ -46,6 +48,8 @@ public interface ITransitionFunction extends ICosted, IScored {
 	List<ICostedTransition> getTransitions();
 	
 	Tree<IConcept, IIsA> getTreeOfConcepts();
+	
+	Tree<IIntentConstruct, IProduction> getTreeOfConstructs();
 	
 	@Override
 	int hashCode();

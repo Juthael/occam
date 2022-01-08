@@ -43,6 +43,7 @@ import com.tregouet.tree_finder.data.Tree;
 public class TransitionFunction implements ITransitionFunction {
 
 	private final Tree<IConcept, IIsA> concepts;
+	private final Tree<IIntentConstruct, IProduction> constructs;
 	private final Map<IConcept, IState> conceptToState = new HashMap<>();
 	private final List<ICostedTransition> transitions = new ArrayList<>();
 	private final List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
@@ -57,6 +58,7 @@ public class TransitionFunction implements ITransitionFunction {
 		ITransition.initializeNameProvider();
 		IConjunctiveTransition.initializeNameProvider();
 		this.concepts = concepts;
+		this.constructs = constructs;
 		for (IConcept concept : concepts.vertexSet())
 			conceptToState.put(concept, new State(concept));
 		transitions.addAll(buildOperators(new ArrayList<>(constructs.edgeSet())));
@@ -221,6 +223,11 @@ public class TransitionFunction implements ITransitionFunction {
 	@Override
 	public Tree<IConcept, IIsA> getTreeOfConcepts() {
 		return concepts;
+	}
+	
+	@Override
+	public Tree<IIntentConstruct, IProduction> getTreeOfConstructs(){
+		return constructs;
 	}
 
 	@Override

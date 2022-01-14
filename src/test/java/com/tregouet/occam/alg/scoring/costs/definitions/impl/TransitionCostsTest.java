@@ -19,10 +19,10 @@ import com.tregouet.occam.alg.scoring.costs.definitions.DefinitionCostingStrateg
 import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
+import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
@@ -47,7 +47,7 @@ public class TransitionCostsTest {
 	private DirectedAcyclicGraph<IDenotation, IProduction> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IDenotation, IProduction> denotationTreeSupplier;
 	private Tree<IDenotation, IProduction> denotationTree;
-	private TreeSet<ITransitionFunction> transitionFunctions;
+	private TreeSet<IAutomaton> automatons;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -57,7 +57,7 @@ public class TransitionCostsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
+		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 		denotationSets = new DenotationSets(objects);
 		List<IProduction> productions = new ProductionBuilder(denotationSets).getProductions();
 		productions.stream().forEach(p -> {
@@ -74,9 +74,9 @@ public class TransitionCostsTest {
 			denotationTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
 			while (denotationTreeSupplier.hasNext()) {
 				denotationTree = denotationTreeSupplier.nextTransitiveReduction();
-				ITransitionFunction transitionFunction = 
-						new TransitionFunction(currDenotationSetTree, denotationTree);
-				transitionFunctions.add(transitionFunction);
+				IAutomaton automaton = 
+						new Automaton(currDenotationSetTree, denotationTree);
+				automatons.add(automaton);
 			}
 		}
 	}
@@ -87,7 +87,7 @@ public class TransitionCostsTest {
 		int nbOfTests = 0;
 		IDefinitionCoster coster = 
 				DefinitionCosterFactory.INSTANCE.apply(DefinitionCostingStrategy.TRANSITION_COSTS);
-		for (ITransitionFunction tF : transitionFunctions) {
+		for (IAutomaton tF : automatons) {
 			Tree<IState, IGenusDifferentiaDefinition> porphyrianTree = tF.getPorphyrianTree();
 			for (IGenusDifferentiaDefinition def : porphyrianTree.edgeSet()) {
 				Double defCost = null;

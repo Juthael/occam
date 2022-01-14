@@ -18,8 +18,8 @@ import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.StructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
-import com.tregouet.occam.data.abstract_machines.functions.IIsomorphicTransFunctions;
 import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
@@ -62,10 +62,10 @@ public class ConceptStructureBasedTFSupplierTest {
 		int idx = 0;
 		IStructureBasedTFSupplier transFuncSupplier = new StructureBasedTFSupplier(denotationSets, denotations);
 		List<Double> coherenceScores = new ArrayList<>();
-		IIsomorphicTransFunctions isomorphicTransFunctions;
+		IIsomorphicAutomatons isomorphicAutomatons;
 		while (transFuncSupplier.hasNext()) {
-			isomorphicTransFunctions = transFuncSupplier.next();
-			coherenceScores.add(isomorphicTransFunctions.getCoherenceScore());
+			isomorphicAutomatons = transFuncSupplier.next();
+			coherenceScores.add(isomorphicAutomatons.getCoherenceScore());
 			/*
 			System.out.println("***Transition Function N° " + Integer.toString(idx) + " : " 
 					+ Double.toString(representedCatTree.getCoherenceScore()));			

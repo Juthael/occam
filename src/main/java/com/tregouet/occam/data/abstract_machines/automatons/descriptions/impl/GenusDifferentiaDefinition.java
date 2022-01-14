@@ -1,8 +1,8 @@
-package com.tregouet.occam.data.abstract_machines.functions.descriptions.impl;
+package com.tregouet.occam.data.abstract_machines.automatons.descriptions.impl;
 
 import java.util.List;
 
-import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;

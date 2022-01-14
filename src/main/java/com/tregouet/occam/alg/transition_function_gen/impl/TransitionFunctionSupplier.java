@@ -8,10 +8,10 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.specific.IProduction;
@@ -24,7 +24,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	protected final IDenotationSets denotationSets;
 	protected final IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
 	protected final DirectedAcyclicGraph<IDenotation, IProduction> denotations;
-	protected final Comparator<ITransitionFunction> functionComparator;
+	protected final Comparator<IAutomaton> functionComparator;
 	
 	public TransitionFunctionSupplier(IDenotationSets denotationSets, 
 			DirectedAcyclicGraph<IDenotation, IProduction> constructs) throws IOException {

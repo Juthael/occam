@@ -8,9 +8,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.ISymbol;
 import com.tregouet.occam.data.languages.generic.ITerminal;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Terminal;

@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.ISymbol;
 import com.tregouet.occam.data.languages.generic.ITerminal;
 import com.tregouet.subseq_finder.ISymbolSeq;
 

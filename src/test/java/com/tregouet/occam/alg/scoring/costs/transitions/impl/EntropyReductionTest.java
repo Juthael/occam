@@ -20,9 +20,9 @@ import com.tregouet.occam.alg.scoring.costs.transitions.ITransitionCoster;
 import com.tregouet.occam.alg.scoring.costs.transitions.TransitionCostingStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
+import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ICostedTransition;
 import com.tregouet.occam.data.denotations.IDenotationSet;
@@ -50,7 +50,7 @@ public class EntropyReductionTest {
 	private DirectedAcyclicGraph<IDenotation, IProduction> filtered_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IProduction> denotationTreeSupplier;
 	private Tree<IDenotation, IProduction> treeOfDenotationSets;
-	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
+	private TreeSet<IAutomaton> automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -75,9 +75,9 @@ public class EntropyReductionTest {
 			denotationTreeSupplier = new RestrictorOpt<>(filtered_denotations, true);
 			while (denotationTreeSupplier.hasNext()) {
 				treeOfDenotationSets = denotationTreeSupplier.next();
-				ITransitionFunction transitionFunction = 
-						new TransitionFunction(denotationTree, treeOfDenotationSets);
-				transitionFunctions.add(transitionFunction);
+				IAutomaton automaton = 
+						new Automaton(denotationTree, treeOfDenotationSets);
+				automatons.add(automaton);
 			}
 		}
 	}
@@ -88,12 +88,12 @@ public class EntropyReductionTest {
 		int nbOfTests = 0;
 		ITransitionCoster coster = 
 				TransitionCosterFactory.INSTANCE.apply(TransitionCostingStrategy.ENTROPY_REDUCTION);
-		for (ITransitionFunction transitionFunction : transitionFunctions) {
+		for (IAutomaton automaton : automatons) {
 			/*
 			Visualizer.visualizeTransitionFunction(transitionFunction, "211229_entropyRedTest");
 			*/
-			coster.setCosterParameters(transitionFunction);
-			for (IConjunctiveTransition conjunctivetransition : transitionFunction.getConjunctiveTransitions()) {
+			coster.setCosterParameters(automaton);
+			for (IConjunctiveTransition conjunctivetransition : automaton.getConjunctiveTransitions()) {
 				Double transitionCost = null;
 				for (ICostedTransition costedComponent : conjunctivetransition.getComponents()) {
 					try {

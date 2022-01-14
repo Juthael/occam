@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.alg.scoring.scores.IScorer;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 
-public interface ISimilarityScorer extends IScorer<ISimilarityScorer, ITransitionFunction> {
+public interface ISimilarityScorer extends IScorer<ISimilarityScorer, IAutomaton> {
 	
 	double[][] getAsymmetricalSimilarityMatrix();
 	
@@ -32,6 +32,6 @@ public interface ISimilarityScorer extends IScorer<ISimilarityScorer, ITransitio
 	double howSimilarTo(int cncptID1, int cncptID2);
 	
 	@Override
-	ISimilarityScorer input(ITransitionFunction transitionFunction);
+	ISimilarityScorer input(IAutomaton automaton);
 
 }

@@ -14,8 +14,8 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IBasicOperator;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
@@ -100,10 +100,10 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}
 	
-	public static void visualizePorphyrianTree(ITransitionFunction transitionFunction, 
+	public static void visualizePorphyrianTree(IAutomaton automaton, 
 			String fileName) throws IOException {
 		Tree<IState, IGenusDifferentiaDefinition> prophyrianTree = 
-				transitionFunction.getPorphyrianTree();
+				automaton.getPorphyrianTree();
 		//convert in DOT format
 		DOTExporter<IState,IGenusDifferentiaDefinition> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
@@ -132,7 +132,7 @@ public class Visualizer {
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}
 	
-	public static void visualizeTransitionFunction(ITransitionFunction tF, String fileName) throws IOException {
+	public static void visualizeTransitionFunction(IAutomaton tF, String fileName) throws IOException {
 		DOTExporter<IState,IConjunctiveTransition> simpleGraphExporter = new DOTExporter<>();
 		simpleGraphExporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
@@ -157,7 +157,7 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}
 	
-	public static void visualizeTransitionFunctionMultiGraph(ITransitionFunction tF, String fileName) 
+	public static void visualizeTransitionFunctionMultiGraph(IAutomaton tF, String fileName) 
 			throws IOException {
 		DOTExporter<IState,ITransitionRule> simpleGraphExporter = new DOTExporter<>();
 		simpleGraphExporter.setGraphAttributeProvider(() -> {

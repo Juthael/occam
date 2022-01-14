@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.abstract_machines.functions.impl;
+package com.tregouet.occam.data.abstract_machines.automatons.impl;
 
 import static org.junit.Assert.assertTrue;
 
@@ -22,8 +22,9 @@ import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
+import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IOperator;
@@ -56,7 +57,7 @@ public class TransitionFunctionTest {
 	private DirectedAcyclicGraph<IDenotation, IProduction> filtered_reduced_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IProduction> denotationTreeSupplier;
 	private Tree<IDenotation, IProduction> denotationTree;
-	private TreeSet<ITransitionFunction> transitionFunctions;
+	private TreeSet<IAutomaton> automatons;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -115,7 +116,7 @@ public class TransitionFunctionTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
+		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 		denotationSets = new DenotationSets(objects);
 		List<IProduction> productions = new ProductionBuilder(denotationSets).getProductions();
 		productions.stream().forEach(p -> {
@@ -132,9 +133,9 @@ public class TransitionFunctionTest {
 			denotationTreeSupplier = new RestrictorOpt<>(filtered_reduced_denotations, true);
 			while (denotationTreeSupplier.hasNext()) {
 				denotationTree = denotationTreeSupplier.nextTransitiveReduction();
-				ITransitionFunction transitionFunction = 
-						new TransitionFunction(currTreeOfDenotationSets, denotationTree);
-				transitionFunctions.add(transitionFunction);
+				IAutomaton automaton = 
+						new Automaton(currTreeOfDenotationSets, denotationTree);
+				automatons.add(automaton);
 			}
 		}
 	}
@@ -144,7 +145,7 @@ public class TransitionFunctionTest {
 			throws IOException {
 		boolean sameOperator = true;
 		int checkCount = 0;
-		for (ITransitionFunction tF : transitionFunctions) {
+		for (IAutomaton tF : automatons) {
 			/*
 			System.out.println(tF.getDomainSpecificLanguage().toString());
 			Visualizer.visualizeTransitionFunction(tF, "2108251050_tf", TransitionFunctionGraphType.FINITE_AUTOMATON);
@@ -193,7 +194,7 @@ public class TransitionFunctionTest {
 	public void when2ProductionsHaveSameSourceDenotSetAndSameTargetAttributeThenHandledBySameOperator() {
 		boolean sameOperator = true;
 		int checkCount = 0;
-		for (ITransitionFunction tF : transitionFunctions) {
+		for (IAutomaton tF : automatons) {
 			Map<IProduction, IOperator> prodToOpe = new HashMap<>();
 			for (ITransitionRule transitionRule : tF.getTransitions()) {
 				if (transitionRule instanceof IOperator) {
@@ -223,7 +224,7 @@ public class TransitionFunctionTest {
 	@Test
 	public void whenProductionsHandledBySameOperatorThenConsistentWithRequirements() {
 		boolean consistent = true;
-		for (ITransitionFunction tF : transitionFunctions) {
+		for (IAutomaton tF : automatons) {
 			for (ITransitionRule transitionRule : tF.getTransitions()) {
 				if (transitionRule instanceof IOperator) {
 					IOperator operator = (IOperator) transitionRule;
@@ -244,7 +245,7 @@ public class TransitionFunctionTest {
 	@Test
 	public void whenTransitionFunctionGraphRequestedThenReturned() throws IOException {
 		boolean graphReturned = true;;
-		for (ITransitionFunction tF : transitionFunctions) {
+		for (IAutomaton tF : automatons) {
 			SimpleDirectedGraph<IState, IConjunctiveTransition> graph = null;
 			try {
 				graph = tF.getFiniteAutomatonGraph();

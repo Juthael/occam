@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.languages.ISymbol;
 
 /**
  * <p>

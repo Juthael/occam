@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.abstract_machines.functions;
+package com.tregouet.occam.data.abstract_machines.automatons;
 
 import java.util.Iterator;
 
@@ -7,7 +7,7 @@ import com.tregouet.occam.data.denotations.IExtentStructureConstraint;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
-public interface IIsomorphicTransFunctions extends Comparable<IIsomorphicTransFunctions> {
+public interface IIsomorphicAutomatons extends Comparable<IIsomorphicAutomatons> {
 	
 	double getCoherenceScore();
 	
@@ -15,9 +15,9 @@ public interface IIsomorphicTransFunctions extends Comparable<IIsomorphicTransFu
 	
 	String getExtentStructureAsString();
 	
-	Iterator<ITransitionFunction> getIteratorOverTransitionFunctions();
+	Iterator<IAutomaton> getIteratorOverTransitionFunctions();
 	
-	ITransitionFunction getOptimalTransitionFunction();
+	IAutomaton getOptimalTransitionFunction();
 	
 	Tree<IDenotationSet, IIsA> getTreeOfDenotationSets();
 	
@@ -26,7 +26,7 @@ public interface IIsomorphicTransFunctions extends Comparable<IIsomorphicTransFu
 	
 	boolean meetsConstraint(IExtentStructureConstraint constraint);
 	
-	boolean testAlternativeRepresentation(ITransitionFunction altRepresentation);
+	boolean testAlternativeRepresentation(IAutomaton altRepresentation);
 	
 	@Override
 	String toString();

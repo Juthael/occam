@@ -1,21 +1,20 @@
-package com.tregouet.occam.data.abstract_machines.functions.utils;
+package com.tregouet.occam.data.abstract_machines.automatons.utils;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
 
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.abstract_machines.states.IState;
-import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 
-public class TransitionFunctionValidator implements Predicate<ITransitionFunction> {
+public class TransitionFunctionValidator implements Predicate<IAutomaton> {
 
 	public final static TransitionFunctionValidator INSTANCE = new TransitionFunctionValidator();
 	
 	private TransitionFunctionValidator() {
 	}
 
-	private static boolean everyStateIsTheSourceOfAnInformativeTransition(ITransitionFunction tF) {
+	private static boolean everyStateIsTheSourceOfAnInformativeTransition(IAutomaton tF) {
 		Set<IState> states = new HashSet<>(tF.getStates());
 		states.removeIf(s -> s.getStateType() == IState.OC_STATE);
 		for (IConjunctiveTransition operator : tF.getConjunctiveTransitions()) {
@@ -26,7 +25,7 @@ public class TransitionFunctionValidator implements Predicate<ITransitionFunctio
 	}
 	
 	@Override
-	public boolean test(ITransitionFunction tF) {
+	public boolean test(IAutomaton tF) {
 		return everyStateIsTheSourceOfAnInformativeTransition(tF);
 	}
 

@@ -7,11 +7,11 @@ import java.util.TreeSet;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
+import com.tregouet.occam.data.abstract_machines.automatons.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.specific.IProduction;
@@ -21,19 +21,19 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasicTFSupplier {
 
-	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(functionComparator);
-	private Iterator<ITransitionFunction> ite;
+	private final TreeSet<IAutomaton> automatons = new TreeSet<>(functionComparator);
+	private Iterator<IAutomaton> ite;
 	
 	public BasicTFSupplier(IDenotationSets denotationSets, DirectedAcyclicGraph<IDenotation, IProduction> constructs) 
 			throws IOException {
 		super(denotationSets, constructs);
 		populateTransitionFunctions();
-		ite = transitionFunctions.iterator();
+		ite = automatons.iterator();
 	}
 	
 	@Override
-	public ITransitionFunction getOptimalTransitionFunction() {
-		return transitionFunctions.first();
+	public IAutomaton getOptimalTransitionFunction() {
+		return automatons.first();
 	}
 	
 	@Override
@@ -42,13 +42,13 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	}
 
 	@Override
-	public ITransitionFunction next() {
+	public IAutomaton next() {
 		return ite.next();
 	}
 
 	@Override
 	public void reset() {
-		ite = transitionFunctions.iterator();
+		ite = automatons.iterator();
 	}
 
 	private void populateTransitionFunctions() {
@@ -60,11 +60,11 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 					new RestrictorOpt<IDenotation, IProduction>(filteredDenotationGraph, true);
 			while (denotationTreeSupplier.hasNext()) {
 				Tree<IDenotation, IProduction> denotationTree = denotationTreeSupplier.nextTransitiveReduction();
-				ITransitionFunction transitionFunction = new TransitionFunction(currTreeOfDenotationSets, denotationTree);
-				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE)) {
-					transitionFunctions.add(transitionFunction);
-					if (transitionFunctions.size() > MAX_CAPACITY)
-						transitionFunctions.remove(transitionFunctions.first());
+				IAutomaton automaton = new Automaton(currTreeOfDenotationSets, denotationTree);
+				if (automaton.validate(TransitionFunctionValidator.INSTANCE)) {
+					automatons.add(automaton);
+					if (automatons.size() > MAX_CAPACITY)
+						automatons.remove(automatons.first());
 				}
 			}
 		}

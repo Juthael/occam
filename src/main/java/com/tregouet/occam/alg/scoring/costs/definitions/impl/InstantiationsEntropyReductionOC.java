@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.denotations.IDenotationSet;
@@ -49,8 +49,8 @@ public class InstantiationsEntropyReductionOC implements IDefinitionCoster {
 	}
 	
 	@Override
-	public void setCosterParameters(ITransitionFunction transitionFunction) {
-		Tree<IDenotationSet, IIsA> treeOfDenotationSets = transitionFunction.getTreeOfDenotationSets();
+	public void setCosterParameters(IAutomaton automaton) {
+		Tree<IDenotationSet, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
 		List<IDenotationSet> topoOrderedDenotationSets = treeOfDenotationSets.getTopologicalOrder();
 		int cardinal = topoOrderedDenotationSets.size();
 		topoOrderedStateIDs = new int[cardinal];

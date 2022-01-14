@@ -11,8 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.transition_function_gen.utils.ProductionGenerator;
+import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
-import com.tregouet.occam.data.languages.generic.ISymbol;
 import com.tregouet.occam.data.languages.generic.impl.Terminal;
 import com.tregouet.occam.data.languages.generic.impl.Variable;
 

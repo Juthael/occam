@@ -17,8 +17,8 @@ import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.BasicTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
@@ -57,7 +57,7 @@ public class BasicTFSupplierTest {
 		boolean increasingOrder = true;
 		int checkCount = 1;
 		IBasicTFSupplier transFuncSupplier = new BasicTFSupplier(denotationSets, denotations);
-		ITransitionFunction tF = transFuncSupplier.next();
+		IAutomaton tF = transFuncSupplier.next();
 		double prevScore = tF.getScore();
 		/*
 		Visualizer.visualizeCategoryGraph(concepts.getOntologicalUpperSemilattice(), "2111051132_catUSL");

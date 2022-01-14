@@ -19,12 +19,12 @@ import com.tregouet.occam.alg.scoring.costs.definitions.DefinitionCostingStrateg
 import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
+import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
@@ -47,7 +47,7 @@ public class TransitionsEntropyReductionTest {
 	private DirectedAcyclicGraph<IDenotation, IProduction> filtered_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IProduction> denotationTreeSupplier;
 	private Tree<IDenotation, IProduction> denotationTree;
-	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
+	private TreeSet<IAutomaton> automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -72,9 +72,9 @@ public class TransitionsEntropyReductionTest {
 			denotationTreeSupplier = new RestrictorOpt<>(filtered_denotations, true);
 			while (denotationTreeSupplier.hasNext()) {
 				denotationTree = denotationTreeSupplier.next();
-				ITransitionFunction transitionFunction = 
-						new TransitionFunction(treeOfDenotationSets, denotationTree);
-				transitionFunctions.add(transitionFunction);
+				IAutomaton automaton = 
+						new Automaton(treeOfDenotationSets, denotationTree);
+				automatons.add(automaton);
 			}
 		}
 	}
@@ -85,9 +85,9 @@ public class TransitionsEntropyReductionTest {
 		int nbOfTests = 0;
 		IDefinitionCoster coster = 
 				DefinitionCosterFactory.INSTANCE.apply(DefinitionCostingStrategy.TRANSITIONS_ENTROPY_REDUCTION);
-		for (ITransitionFunction transitionFunction : transitionFunctions) {
-			coster.setCosterParameters(transitionFunction);
-			for (IGenusDifferentiaDefinition definition : transitionFunction.getPorphyrianTree().edgeSet()) {
+		for (IAutomaton automaton : automatons) {
+			coster.setCosterParameters(automaton);
+			for (IGenusDifferentiaDefinition definition : automaton.getPorphyrianTree().edgeSet()) {
 				Double definitionCost = null;
 				try {
 					coster.input(definition).setCost();

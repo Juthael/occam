@@ -10,9 +10,9 @@ import java.util.Set;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.abstract_machines.functions.descriptions.impl.GenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.automatons.descriptions.impl.GenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.denotations.IDenotationSet;
@@ -22,13 +22,13 @@ import com.tregouet.tree_finder.data.Tree;
 public interface IOntologist {
 	
 	public static Tree<IState, IGenusDifferentiaDefinition> getPorphyrianTree(
-			ITransitionFunction transitionFunction){
+			IAutomaton automaton){
 		DirectedAcyclicGraph<IState, IGenusDifferentiaDefinition> porphyrianTree = 
 				new DirectedAcyclicGraph<>(null, null, false);
-		Graphs.addAllVertices(porphyrianTree, transitionFunction.getStates());
-		Tree<IDenotationSet, IIsA> treeOfDenotationSets = transitionFunction.getTreeOfDenotationSets();
+		Graphs.addAllVertices(porphyrianTree, automaton.getStates());
+		Tree<IDenotationSet, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
 		Map<IState, List<IConjunctiveTransition>> sourceToTransitions = new HashMap<>();
-		for (IConjunctiveTransition transition : transitionFunction.getConjunctiveTransitions()) {
+		for (IConjunctiveTransition transition : automaton.getConjunctiveTransitions()) {
 			IState sourceState = transition.getInputState();
 			if (sourceToTransitions.containsKey(sourceState))
 				sourceToTransitions.get(sourceState).add(transition);
@@ -39,8 +39,8 @@ public interface IOntologist {
 			}
 		}
 		for (IIsA isA : treeOfDenotationSets.edgeSet()) {
-			IState speciesState = transitionFunction.getAssociatedStateOf(treeOfDenotationSets.getEdgeSource(isA));
-			IState genusState = transitionFunction.getAssociatedStateOf(treeOfDenotationSets.getEdgeTarget(isA));
+			IState speciesState = automaton.getAssociatedStateOf(treeOfDenotationSets.getEdgeSource(isA));
+			IState genusState = automaton.getAssociatedStateOf(treeOfDenotationSets.getEdgeTarget(isA));
 			List<IConjunctiveTransition> conjTransitions = sourceToTransitions.get(speciesState);
 			if (conjTransitions == null)
 				//then the species is bypassed by all transitions.
@@ -49,11 +49,11 @@ public interface IOntologist {
 					new GenusDifferentiaDefinition(speciesState, genusState, conjTransitions);
 			porphyrianTree.addEdge(speciesState, genusState, genusDiff);
 		}
-		IState startState = transitionFunction.getAssociatedStateOf(treeOfDenotationSets.getRoot());
+		IState startState = automaton.getAssociatedStateOf(treeOfDenotationSets.getRoot());
 		Set<IState> finalStates = new HashSet<>();
 		List<IState> topoOrderedStates = new ArrayList<>();
 		for (IDenotationSet denotationSet : treeOfDenotationSets.getTopologicalOrder()) {
-			IState associatedState = transitionFunction.getAssociatedStateOf(denotationSet);
+			IState associatedState = automaton.getAssociatedStateOf(denotationSet);
 			topoOrderedStates.add(associatedState);
 			if (denotationSet.type() == IDenotationSet.OBJECT)
 				finalStates.add(associatedState);

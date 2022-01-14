@@ -7,8 +7,8 @@ import java.util.Map;
 import org.jgrapht.Graphs;
 
 import com.tregouet.occam.alg.scoring.scores.similarity.ISimilarityScorer;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
@@ -79,13 +79,13 @@ public class DynamicFraming extends AbstractSimCalculator implements ISimilarity
 	}
 	
 	@Override
-	public ISimilarityScorer input(ITransitionFunction transitionFunction) {
-		super.input(transitionFunction);
-		porphyrianTree = transitionFunction.getPorphyrianTree();
+	public ISimilarityScorer input(IAutomaton automaton) {
+		super.input(automaton);
+		porphyrianTree = automaton.getPorphyrianTree();
 		stateIDToState = new HashMap<>();
-		for (IState state : transitionFunction.getStates())
+		for (IState state : automaton.getStates())
 			stateIDToState.put(state.getStateID(), state);
-		transitionFunction.setSimilarityScorer(this);
+		automaton.setSimilarityScorer(this);
 		return this;
 	}	
 	

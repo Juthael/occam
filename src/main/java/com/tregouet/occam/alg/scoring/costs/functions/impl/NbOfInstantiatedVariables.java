@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.alg.scoring.costs.functions.IFunctionCoster;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IBasicOperator;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
@@ -16,21 +16,21 @@ import com.tregouet.occam.data.languages.specific.IProduction;
 public class NbOfInstantiatedVariables implements IFunctionCoster {
 
 	public static final NbOfInstantiatedVariables INSTANCE = new NbOfInstantiatedVariables();
-	private ITransitionFunction transitionFunction = null;
+	private IAutomaton automaton = null;
 	
 	private NbOfInstantiatedVariables() {
 	}
 
 	@Override
-	public IFunctionCoster input(ITransitionFunction transitionFunction) {
-		this.transitionFunction = transitionFunction;
+	public IFunctionCoster input(IAutomaton automaton) {
+		this.automaton = automaton;
 		return this;
 	}
 
 	@Override
 	public void setCost() {
 		Set<AVariable> instantiatedVariables = new HashSet<>();
-		for (IConjunctiveTransition conjTransition : transitionFunction.getConjunctiveTransitions()) {
+		for (IConjunctiveTransition conjTransition : automaton.getConjunctiveTransitions()) {
 			for (ITransitionRule transitionRule : conjTransition.getComponents()) {
 				if (!transitionRule.isReframer()) {
 					IBasicOperator basicOperator = (IBasicOperator) transitionRule;
@@ -51,7 +51,7 @@ public class NbOfInstantiatedVariables implements IFunctionCoster {
 				}
 			}
 		}
-		transitionFunction.setCost((double) instantiatedVariables.size());
+		automaton.setCost((double) instantiatedVariables.size());
 	}
 
 }

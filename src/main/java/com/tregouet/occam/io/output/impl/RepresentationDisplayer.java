@@ -23,10 +23,10 @@ import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.StructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
-import com.tregouet.occam.data.abstract_machines.functions.IIsomorphicTransFunctions;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
@@ -47,10 +47,10 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	private TreeSet<IContextObject> context = null;
 	private IDenotationSets denotationSets = null;
 	private IStructureBasedTFSupplier structureBasedTFSupplier = null;
-	private IIsomorphicTransFunctions isomorphicTransFunctions = null;
+	private IIsomorphicAutomatons isomorphicAutomatons = null;
 	private int denotSetTreeIdx = 0;
-	private Iterator<ITransitionFunction> iteOverTF = null;
-	private ITransitionFunction currentTransFunc = null;
+	private Iterator<IAutomaton> iteOverTF = null;
+	private IAutomaton currentTransFunc = null;
 	private int transFuncIdx = 0;
 	
 	public RepresentationDisplayer(String folderPath) {
@@ -133,7 +133,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alineaaa + "Transition function cost : " + round(currentTransFunc.getCost()) + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<p>" + NL);
-		sB.append(alineaaa + "<b>Extent structure : </b>" + isomorphicTransFunctions.getExtentStructureAsString() + NL);
+		sB.append(alineaaa + "<b>Extent structure : </b>" + isomorphicAutomatons.getExtentStructureAsString() + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<h3>Prophyrian tree : </h3>" + NL);
 		sB.append(alineaaa + "<p>" + NL);
@@ -226,7 +226,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void generateTreeOfDenotationSets() throws IOException {
-		Visualizer.visualizeDenotationSetGraph(isomorphicTransFunctions.getTreeOfDenotationSets(), "denot_set_tree.png");;
+		Visualizer.visualizeDenotationSetGraph(isomorphicAutomatons.getTreeOfDenotationSets(), "denot_set_tree.png");;
 	}
 	
 	@Override
@@ -261,10 +261,10 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void nextTreeOfDenotationSets() throws IOException {
-		isomorphicTransFunctions = structureBasedTFSupplier.next();
+		isomorphicAutomatons = structureBasedTFSupplier.next();
 		denotSetTreeIdx++;
 		generateTreeOfDenotationSets();
-		iteOverTF = isomorphicTransFunctions.getIteratorOverTransitionFunctions();
+		iteOverTF = isomorphicAutomatons.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateTreeOfDenotations();
 		generateTransitionFunctionGraph();
@@ -300,8 +300,8 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		} catch (IOException e) {
 			return false;
 		}
-		isomorphicTransFunctions = structureBasedTFSupplier.next();
-		iteOverTF = isomorphicTransFunctions.getIteratorOverTransitionFunctions();
+		isomorphicAutomatons = structureBasedTFSupplier.next();
+		iteOverTF = isomorphicAutomatons.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
 		generateDenotationSetLatticeGraph();
 		generateTreeOfDenotationSets();

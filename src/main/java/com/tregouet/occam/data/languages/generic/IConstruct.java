@@ -3,7 +3,10 @@ package com.tregouet.occam.data.languages.generic;
 import java.util.Iterator;
 import java.util.List;
 
-public interface IConstruct {
+import com.tregouet.occam.data.languages.ISymbol;
+import com.tregouet.occam.data.languages.IWord;
+
+public interface IConstruct extends IWord<ISymbol> {
 	
 	@Override
 	public int hashCode();
@@ -12,8 +15,6 @@ public interface IConstruct {
 	boolean equals(Object o);
 	
 	Iterator<ISymbol> getIteratorOverSymbols();
-	
-	List<ISymbol> getListOfSymbols();
 	
 	List<ITerminal> getListOfTerminals();
 	

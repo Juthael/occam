@@ -9,13 +9,13 @@ import java.util.TreeSet;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.IIsomorphicTransFunctions;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.impl.IsomorphicTransFunctions;
-import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.impl.IsomorphicAutomatons;
+import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
+import com.tregouet.occam.data.abstract_machines.automatons.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.specific.IProduction;
@@ -26,9 +26,9 @@ import com.tregouet.tree_finder.data.Tree;
 public class StructureBasedTFSupplier extends TransitionFunctionSupplier 
 	implements IStructureBasedTFSupplier {
 
-	private final TreeSet<IIsomorphicTransFunctions> transFunctionSets = new TreeSet<>();
+	private final TreeSet<IIsomorphicAutomatons> transFunctionSets = new TreeSet<>();
 	private final Map<IDenotationSet, String> objectDenotationSetToName = new HashMap<>();
-	private Iterator<IIsomorphicTransFunctions> ite;
+	private Iterator<IIsomorphicAutomatons> ite;
 	
 	public StructureBasedTFSupplier(IDenotationSets denotationSets, 
 			DirectedAcyclicGraph<IDenotation, IProduction> denotations) throws IOException {
@@ -45,7 +45,7 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	}
 
 	@Override
-	public ITransitionFunction getOptimalTransitionFunction() {
+	public IAutomaton getOptimalTransitionFunction() {
 		return transFunctionSets.first().getOptimalTransitionFunction();
 	}
 
@@ -55,7 +55,7 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	}
 	
 	@Override
-	public IIsomorphicTransFunctions next() {
+	public IIsomorphicAutomatons next() {
 		return ite.next();
 	}
 	
@@ -67,7 +67,7 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	private void populateSetsOfRelatedTransFunctions() {
 		while (denotationSetsTreeSupplier.hasNext()) {
 			Tree<IDenotationSet, IIsA> currTreeOfDenotationSets = denotationSetsTreeSupplier.next();
-			IIsomorphicTransFunctions currSetOfIsomorphicTransFunctions = new IsomorphicTransFunctions(
+			IIsomorphicAutomatons currSetOfIsomorphicTransFunctions = new IsomorphicAutomatons(
 					currTreeOfDenotationSets, objectDenotationSetToName);
 			DirectedAcyclicGraph<IDenotation, IProduction> filteredDenotationGraph = 
 					getDenotationGraphFilteredByTreeOfDenotationSets(currTreeOfDenotationSets, denotations);
@@ -75,10 +75,10 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 					new RestrictorOpt<>(filteredDenotationGraph, true);
 			while (denotationTreeSupplier.hasNext()) {
 				Tree<IDenotation, IProduction> denotationTree = denotationTreeSupplier.nextTransitiveReduction();
-				ITransitionFunction transitionFunction = new TransitionFunction(
+				IAutomaton automaton = new Automaton(
 						currTreeOfDenotationSets, denotationTree);
-				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE))
-					currSetOfIsomorphicTransFunctions.testAlternativeRepresentation(transitionFunction);
+				if (automaton.validate(TransitionFunctionValidator.INSTANCE))
+					currSetOfIsomorphicTransFunctions.testAlternativeRepresentation(automaton);
 			}
 			if (currSetOfIsomorphicTransFunctions.isValid()) {
 				if (transFunctionSets.size() <= MAX_CAPACITY)

@@ -1,5 +1,7 @@
 package com.tregouet.occam.data.languages.generic;
 
+import com.tregouet.occam.data.languages.ISymbol;
+
 /**
  * <p>
  * A terminal symbol in an alphabet used by a context-free grammar.  

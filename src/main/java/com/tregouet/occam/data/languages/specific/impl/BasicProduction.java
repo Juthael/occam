@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.ISymbol;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 import com.tregouet.occam.data.languages.lambda.impl.LambdaExpression;

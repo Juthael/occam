@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.abstract_machines.functions.IIsomorphicTransFunctions;
+import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 
-public interface IStructureBasedTFSupplier extends ITransitionFunctionSupplier, Iterator<IIsomorphicTransFunctions> {
+public interface IStructureBasedTFSupplier extends ITransitionFunctionSupplier, Iterator<IIsomorphicAutomatons> {
 	
 	public static String getObjectsDenotationsAsString(Map<IDenotationSet, String> objDenotationSetToName) {
 		StringBuilder sB = new StringBuilder();

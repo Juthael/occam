@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.abstract_machines.functions.descriptions;
+package com.tregouet.occam.data.abstract_machines.automatons.descriptions;
 
 import java.util.ArrayList;
 import java.util.List;

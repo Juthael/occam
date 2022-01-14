@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.abstract_machines.functions.impl;
+package com.tregouet.occam.data.abstract_machines.automatons.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,15 +23,17 @@ import com.tregouet.occam.alg.scoring.scores.functions.IFunctionScorer;
 import com.tregouet.occam.alg.scoring.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.alg.transition_function_gen.IOntologist;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.states.impl.State;
+import com.tregouet.occam.data.abstract_machines.transition_functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IBasicOperator;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ICostedTransition;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IReframerRule;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRules;
 import com.tregouet.occam.data.abstract_machines.transition_rules.impl.Operator;
 import com.tregouet.occam.data.abstract_machines.transition_rules.impl.ConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transition_rules.impl.ReframerRule;
@@ -39,25 +41,25 @@ import com.tregouet.occam.data.denotations.IComplementaryDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;
 import com.tregouet.occam.data.languages.specific.IProduction;
 import com.tregouet.tree_finder.data.Tree;
 
-public class TransitionFunction implements ITransitionFunction {
+public class Automaton implements IAutomaton {
 
-	private final Tree<IDenotationSet, IIsA> denotationSets;
-	private final Tree<IDenotation, IProduction> denotations;
-	private final Map<IDenotationSet, IState> denotationSetToState = new HashMap<>();
-	private final List<ICostedTransition> transitions = new ArrayList<>();
-	private final List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
-	private final Tree<IState, IGenusDifferentiaDefinition> prophyrianTree;
+	private final List<IState> states;
+	private final Set<IProduction> inputAlphabet;
+	private final Set<AVariable> stackAlphabet;
+	private final ITransitionFunction transitionFunction;
+	private final IState startState;
+	private final AVariable initialStackSymbol = null;
+	private final List<IState> acceptStates;
+	private final List<IState> objectStates;
 	private DirectedMultigraph<IState, ITransitionRule> finiteAutomatonMultigraph = null;
-	private SimpleDirectedGraph<IState, IConjunctiveTransition> finiteAutomatonGraph = null;
-	private ISimilarityScorer similarityScorer;
-	private Double cost = null;
-	private Double score = null;
+	private SimpleDirectedGraph<IState, ITransitionRules> finiteAutomatonGraph = null;
 	
-	public TransitionFunction(Tree<IDenotationSet, IIsA> denotationSets, Tree<IDenotation, IProduction> denotations) {
+	public Automaton(Tree<IDenotationSet, IIsA> denotationSets, Tree<IDenotation, IProduction> denotations) {
 		ITransitionRule.initializeNameProvider();
 		IConjunctiveTransition.initializeNameProvider();
 		this.denotationSets = denotationSets;
@@ -138,7 +140,7 @@ public class TransitionFunction implements ITransitionFunction {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TransitionFunction other = (TransitionFunction) obj;
+		Automaton other = (Automaton) obj;
 		if (transitions == null) {
 			if (other.transitions != null)
 				return false;
@@ -282,7 +284,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 	
 	@Override
-	public boolean validate(Predicate<ITransitionFunction> validator) {
+	public boolean validate(Predicate<IAutomaton> validator) {
 		return validator.test(this);
 	}
 

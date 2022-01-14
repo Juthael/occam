@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.abstract_machines.functions.utils;
+package com.tregouet.occam.data.abstract_machines.automatons.utils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,10 +15,11 @@ import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
+import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
+import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
@@ -42,7 +43,7 @@ public class TransitionFunctionValidatorTest {
 	private DirectedAcyclicGraph<IDenotation, IProduction> filtered_reduced_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IProduction> constrTreeSupplier;
 	private Tree<IDenotation, IProduction> constrTree;
-	private TreeSet<ITransitionFunction> transitionFunctions;	
+	private TreeSet<IAutomaton> automatons;	
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -52,7 +53,7 @@ public class TransitionFunctionValidatorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
+		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 		denotationSets = new DenotationSets(shapes1Obj);
 		List<IProduction> productions = new ProductionBuilder(denotationSets).getProductions();
 		productions.stream().forEach(p -> {
@@ -68,14 +69,14 @@ public class TransitionFunctionValidatorTest {
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_denotations, true);
 			while (constrTreeSupplier.hasNext()) {
 				constrTree = constrTreeSupplier.nextTransitiveReduction();
-				ITransitionFunction transitionFunction = 
-						new TransitionFunction(treeOfDenotationSets, constrTree);
-				transitionFunctions.add(transitionFunction);
+				IAutomaton automaton = 
+						new Automaton(treeOfDenotationSets, constrTree);
+				automatons.add(automaton);
 			}
 		}
 	}
 	
-	private boolean containsSomeUnreacheableState(ITransitionFunction tF) {
+	private boolean containsSomeUnreacheableState(IAutomaton tF) {
 		return !new ConnectivityInspector<>(tF.getFiniteAutomatonGraph()).isConnected();
 	}
 

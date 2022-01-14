@@ -11,7 +11,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.scoring.scores.similarity.ISimilarityScorer;
-import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
+import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
@@ -19,15 +19,15 @@ import com.tregouet.tree_finder.utils.Functions;
 
 public abstract class AbstractSimCalculator implements ISimilarityScorer {
 
-	protected ITransitionFunction transitionFunction;
+	protected IAutomaton automaton;
 	protected List<IDenotationSet> singletons;
 	protected int[] singletonIDs;
 	
 	public AbstractSimCalculator() {
 	}
 	
-	public AbstractSimCalculator(ITransitionFunction transitionFunction) {
-		input(transitionFunction);
+	public AbstractSimCalculator(IAutomaton automaton) {
+		input(automaton);
 	}	
 
 	@Override
@@ -66,7 +66,7 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	@Override
 	public Map<Integer, Double> getConceptualCoherenceMap() {
 		Map<Integer, Double> cncptIDToCoherenceScore = new HashMap<>();
-		Tree<IDenotationSet, IIsA> treeOfDenotationSets = transitionFunction.getTreeOfDenotationSets();
+		Tree<IDenotationSet, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
 		Iterator<IDenotationSet> iterator = treeOfDenotationSets.getTopologicalOrder().iterator();
 		Set<IDenotationSet> singletonSet = new HashSet<>(treeOfDenotationSets.getLeaves());
 		while (iterator.hasNext()) {
@@ -150,9 +150,9 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	abstract public double howSimilarTo(int denotationID1, int denotationID2);	
 	
 	@Override
-	public ISimilarityScorer input(ITransitionFunction transitionFunction) {
-		this.transitionFunction = transitionFunction;
-		singletons = new ArrayList<>(transitionFunction.getTreeOfDenotationSets().getLeaves());
+	public ISimilarityScorer input(IAutomaton automaton) {
+		this.automaton = automaton;
+		singletons = new ArrayList<>(automaton.getTreeOfDenotationSets().getLeaves());
 		Collections.sort(singletons, (c1, c2) -> c1.getID() - c2.getID());
 		singletonIDs = new int[singletons.size()];
 		int singletonIdx = 0;
@@ -164,7 +164,7 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	
 	@Override
 	public void setScore() {
-		transitionFunction.setScore(getCoherenceScore(singletonIDs));
+		automaton.setScore(getCoherenceScore(singletonIDs));
 	}
 
 }

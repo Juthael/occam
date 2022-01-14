@@ -7,8 +7,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.tregouet.occam.alg.scoring.costs.transitions.ITransitionCoster;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public class EntropyReduction implements ITransitionCoster {
@@ -37,14 +37,14 @@ public class EntropyReduction implements ITransitionCoster {
 
 	@Override
 	public void setCosterParameters(ITransitionFunction transitionFunction) {
-		Tree<IConcept, IIsA> treeOfConcepts = transitionFunction.getTreeOfConcepts();
-		List<IConcept> topoOrderedConcepts = treeOfConcepts.getTopologicalOrder();
-		int cardinal = topoOrderedConcepts.size();
+		Tree<IDenotationSet, IIsA> treeOfDenotations = transitionFunction.getTreeOfDenotationSets();
+		List<IDenotationSet> topoOrderedDenotations = treeOfDenotations.getTopologicalOrder();
+		int cardinal = topoOrderedDenotations.size();
 		topoOrderedStateIDs = new int[cardinal];
 		for (int i = 0 ; i < cardinal ; i++) {
-			topoOrderedStateIDs[i] = topoOrderedConcepts.get(i).getID();
+			topoOrderedStateIDs[i] = topoOrderedDenotations.get(i).getID();
 		}
-		entropyReductionMatrix = treeOfConcepts.getEntropyReductionMatrix();
+		entropyReductionMatrix = treeOfDenotations.getEntropyReductionMatrix();
 	}
 
 }

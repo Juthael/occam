@@ -4,16 +4,16 @@ import java.util.Set;
 
 import com.tregouet.occam.data.abstract_machines.tapes.ITapeSet;
 import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotation;
 
 public interface IState {
 	
-	static final int ABS_STATE = IConcept.ABSURDITY;
-	static final int OBJ_STATE = IConcept.SINGLETON;
-	static final int CAT_STATE = IConcept.SUBSET_CONCEPT;
-	static final int TRUISM_STATE = IConcept.TRUISM;
-	static final int OC_STATE = IConcept.ONTOLOGICAL_COMMITMENT;
+	static final int ABS_STATE = IDenotationSet.ABSURDITY;
+	static final int OBJ_STATE = IDenotationSet.OBJECT;
+	static final int CAT_STATE = IDenotationSet.CONTEXT_SUBSET;
+	static final int TRUISM_STATE = IDenotationSet.TRUISM;
+	static final int OC_STATE = IDenotationSet.ONTOLOGICAL_COMMITMENT;
 	
 	boolean acceptInput(ITapeSet tapeSet);
 	
@@ -24,9 +24,9 @@ public interface IState {
 	
 	void generateOutputLanguage();
 	
-	IConcept getAssociatedConcept();
+	IDenotationSet getAssociatedDenotationSet();
 	
-	Set<IIntentConstruct> getInputLanguage();
+	Set<IDenotation> getInputLanguage();
 	
 	int getRank();
 	

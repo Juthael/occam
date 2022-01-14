@@ -32,9 +32,9 @@ public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements
 	
 	abstract public List<IConjunctiveTransition> getDifferentiae();
 	
-	abstract public IState getGenus();
+	abstract public IState getGenusState();
 	
-	abstract public IState getSpecies();
+	abstract public IState getSpeciesState();
 	
 	@Override
 	public int hashCode() {

@@ -1,0 +1,96 @@
+package com.tregouet.occam.data.denotations.utils;
+
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.scoring.ScoringStrategy;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.denotations.impl.DenotationSets;
+import com.tregouet.occam.data.denotations.utils.TreeOfDenotationSetsToStringConvertor;
+import com.tregouet.occam.data.languages.generic.IContextObject;
+import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.tree_finder.data.Tree;
+
+@SuppressWarnings("unused")
+public class TreeOfDenotationsToStringConvertorTest {
+
+	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
+	private static List<IContextObject> shapes2Obj;	
+	private IDenotationSets denotationSets;
+	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
+	private Map<IDenotationSet, String> objDenotationSetToName = new HashMap<>();
+	
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
+	}
+
+	@Before
+	public void setUp() throws Exception {
+		denotationSets = new DenotationSets(shapes2Obj);
+		char name = 'A';
+		for (IDenotationSet objectCategory : denotationSets.getObjectDenotationSets()) {
+			objDenotationSetToName.put(objectCategory, new String(Character.toString(name++)));
+		}
+		denotationSetsTreeSupplier = denotationSets.getDenotationSetsTreeSupplier();
+	}
+
+	@Test
+	public void whenDenotSetTreeDescriptionReturnedThenContainsEveryLeaf() throws IOException {
+		boolean containsEveryLeaf = true;
+		int countCheck = 0;
+		Set<String> leaves = new HashSet<>(objDenotationSetToName.values());
+		/*
+		System.out.println(getObjDefinitions());
+		Categories cats = (Categories) categories;
+		Visualizer.visualizeCategoryGraph(cats.getCategoryLattice(), "CatTreeToStringConvertorTest");
+		int treeIdx = 0;
+		*/
+		while (denotationSetsTreeSupplier.hasNext()) {
+			Tree<IDenotationSet, IIsA> currTree = denotationSetsTreeSupplier.next();
+			/*
+			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
+			*/
+			String currTreeDesc = new TreeOfDenotationSetsToStringConvertor(currTree, objDenotationSetToName).toString();
+			/*
+			System.out.println(currTreeDesc);
+			*/
+			for (String leafString : leaves) {
+				if (!currTreeDesc.contains(leafString))
+					containsEveryLeaf = false;
+			}
+			countCheck++;
+		}
+		assertTrue(containsEveryLeaf && countCheck > 0);
+	}
+	
+	private String getObjDefinitions() {
+		StringBuilder sB = new StringBuilder();
+		String newLine = System.lineSeparator();
+		sB.append("*** DEFINITION OF OBJECTS ***" + newLine + newLine);
+		for (IDenotationSet objectCat : objDenotationSetToName.keySet()) {
+			sB.append("**Object " + objDenotationSetToName.get(objectCat) + " :" + newLine);
+			sB.append(objectCat.toString());
+			sB.append(newLine + newLine);
+		}
+		return sB.toString();
+	}
+
+}

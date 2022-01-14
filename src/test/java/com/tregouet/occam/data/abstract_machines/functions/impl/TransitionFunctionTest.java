@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
@@ -32,11 +32,11 @@ import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 import com.tregouet.occam.data.abstract_machines.transitions.impl.BlankProduction;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -49,13 +49,13 @@ public class TransitionFunctionTest {
 
 	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> objects;
-	private IConcepts concepts;
-	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
+	private IDenotationSets denotationSets;
+	private DirectedAcyclicGraph<IDenotation, IProduction> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IConceptTreeSupplier conceptTreeSupplier;
-	private DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered_reduced_constructs;
-	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
-	private Tree<IIntentConstruct, IProduction> constrTree;
+	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
+	private DirectedAcyclicGraph<IDenotation, IProduction> filtered_reduced_denotations;
+	private IHierarchicalRestrictionFinder<IDenotation, IProduction> denotationTreeSupplier;
+	private Tree<IDenotation, IProduction> denotationTree;
 	private TreeSet<ITransitionFunction> transitionFunctions;
 	
 	@BeforeClass
@@ -69,21 +69,21 @@ public class TransitionFunctionTest {
 	}
 	
 	private static boolean sameSourceAndTargetCategoryForAll(List<IProduction> productions) {
-		boolean sameSourceAndTargetCategory = true;
-		IConcept sourceCategory = null;
-		IConcept targetCategory = null;
+		boolean sameSourceAndTargetDenotationSet = true;
+		IDenotationSet sourceDS = null;
+		IDenotationSet targetDS = null;
 		for (int i = 0 ; i < productions.size() ; i++) {
 			if (i == 0) {
-				sourceCategory = productions.get(i).getSourceConcept();
-				targetCategory = productions.get(i).getTargetConcept();
+				sourceDS = productions.get(i).getSourceDenotationSet();
+				targetDS = productions.get(i).getTargetDenotationSet();
 			}
 			else {
-				if (!productions.get(i).getSourceConcept().equals(sourceCategory)
-						|| !productions.get(i).getTargetConcept().equals(targetCategory))
-					sameSourceAndTargetCategory = false;
+				if (!productions.get(i).getSourceDenotationSet().equals(sourceDS)
+						|| !productions.get(i).getTargetDenotationSet().equals(targetDS))
+					sameSourceAndTargetDenotationSet = false;
 			}
 		}
-		return sameSourceAndTargetCategory;
+		return sameSourceAndTargetDenotationSet;
 	}
 	
 	private static boolean sameTargetAttributeAsOneOtherProduction(IProduction production, List<IProduction> productions) {
@@ -116,31 +116,31 @@ public class TransitionFunctionTest {
 	@Before
 	public void setUp() throws Exception {
 		transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
-		concepts = new Concepts(objects);
-		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
+		denotationSets = new DenotationSets(objects);
+		List<IProduction> productions = new ProductionBuilder(denotationSets).getProductions();
 		productions.stream().forEach(p -> {
-			constructs.addVertex(p.getSource());
-			constructs.addVertex(p.getTarget());
-			constructs.addEdge(p.getSource(), p.getTarget(), p);
+			denotations.addVertex(p.getSource());
+			denotations.addVertex(p.getTarget());
+			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		conceptTreeSupplier = concepts.getClassificationSupplier();
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currConceptTree  = conceptTreeSupplier.next();
-			filtered_reduced_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(
-							currConceptTree, constructs);
-			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_constructs, true);
-			while (constrTreeSupplier.hasNext()) {
-				constrTree = constrTreeSupplier.nextTransitiveReduction();
+		denotationSetsTreeSupplier = denotationSets.getDenotationSetsTreeSupplier();
+		while (denotationSetsTreeSupplier.hasNext()) {
+			Tree<IDenotationSet, IIsA> currTreeOfDenotationSets  = denotationSetsTreeSupplier.next();
+			filtered_reduced_denotations = 
+					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(
+							currTreeOfDenotationSets, denotations);
+			denotationTreeSupplier = new RestrictorOpt<>(filtered_reduced_denotations, true);
+			while (denotationTreeSupplier.hasNext()) {
+				denotationTree = denotationTreeSupplier.nextTransitiveReduction();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(currConceptTree, constrTree);
+						new TransitionFunction(currTreeOfDenotationSets, denotationTree);
 				transitionFunctions.add(transitionFunction);
 			}
 		}
 	}
 	
 	@Test
-	public void when2NonBlankProductionsHaveSameSourceAndTargetCategoriesAndSameValueThenHandledBySameOperator() 
+	public void when2NonBlankProductionsHaveSameSourceAndTargetDenotSetsAndSameValueThenHandledBySameOperator() 
 			throws IOException {
 		boolean sameOperator = true;
 		int checkCount = 0;
@@ -175,8 +175,8 @@ public class TransitionFunctionTest {
 				for (int j = i + 1 ; j < basicProds.size() ; j++) {
 					IBasicProduction iProd = basicProds.get(i);
 					IBasicProduction jProd = basicProds.get(j);
-					if (iProd.getSourceConcept().equals(jProd.getSourceConcept())
-							&& iProd.getTargetConcept().equals(jProd.getTargetConcept())
+					if (iProd.getSourceDenotationSet().equals(jProd.getSourceDenotationSet())
+							&& iProd.getTargetDenotationSet().equals(jProd.getTargetDenotationSet())
 							&& iProd.getValue().equals(jProd.getValue())) {
 						checkCount++;
 						if (!basicProdsOperators.get(basicProds.indexOf(iProd)).equals(
@@ -190,7 +190,7 @@ public class TransitionFunctionTest {
 	}
 
 	@Test 
-	public void when2ProductionsHaveSameSourceCategoryAndSameTargetAttributeThenHandledBySameOperator() {
+	public void when2ProductionsHaveSameSourceDenotSetAndSameTargetAttributeThenHandledBySameOperator() {
 		boolean sameOperator = true;
 		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
@@ -208,7 +208,7 @@ public class TransitionFunctionTest {
 				for (int j = i + 1 ; j < productions.size() ; j++) {
 					IProduction iProd = productions.get(i);
 					IProduction jProd = productions.get(j);
-					if (iProd.getSourceConcept().equals(jProd.getSourceConcept())
+					if (iProd.getSourceDenotationSet().equals(jProd.getSourceDenotationSet())
 							&& iProd.getTarget().equals(jProd.getTarget())) {
 						checkCount++;
 						if (!prodToOpe.get(iProd).equals(prodToOpe.get(jProd)))

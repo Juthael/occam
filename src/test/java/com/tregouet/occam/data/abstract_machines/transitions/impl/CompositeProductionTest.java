@@ -15,9 +15,9 @@ import org.junit.Test;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
@@ -25,8 +25,8 @@ public class CompositeProductionTest {
 	
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private IConcepts concepts;
-	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
+	private IDenotationSets denotationSets;
+	private DirectedAcyclicGraph<IDenotation, IProduction> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 
 	@BeforeClass
@@ -36,12 +36,12 @@ public class CompositeProductionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		concepts = new Concepts(shapes2Obj);
-		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
+		denotationSets = new DenotationSets(shapes2Obj);
+		List<IProduction> productions = new ProductionBuilder(denotationSets).getProductions();
 		productions.stream().forEach(p -> {
-			constructs.addVertex(p.getSource());
-			constructs.addVertex(p.getTarget());
-			constructs.addEdge(p.getSource(), p.getTarget(), p);
+			denotations.addVertex(p.getSource());
+			denotations.addVertex(p.getTarget());
+			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
 	}
 
@@ -51,7 +51,7 @@ public class CompositeProductionTest {
 		List<ICompositeProduction> compositeSwitchers = new ArrayList<>();
 		List<ICompositeProduction> compositeProdsAfterSwitch = new ArrayList<>();
 		int switchCount = 0;
-		for (IProduction prod : constructs.edgeSet()) {
+		for (IProduction prod : denotations.edgeSet()) {
 			if (prod instanceof ICompositeProduction) {
 				ICompositeProduction compositeProd = (ICompositeProduction) prod;
 				if (compositeProd.isVariableSwitcher())

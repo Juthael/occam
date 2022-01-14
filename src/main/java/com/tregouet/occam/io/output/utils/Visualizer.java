@@ -22,9 +22,9 @@ import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransit
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 import guru.nidi.graphviz.engine.Format;
@@ -44,10 +44,10 @@ public class Visualizer {
 		location = newLocation;
 	}
 	
-	public static void visualizeConceptGraph(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName) 
+	public static void visualizeDenotationSetGraph(DirectedAcyclicGraph<IDenotationSet, IIsA> graph, String fileName) 
 			throws IOException {
 		//convert in DOT format
-		DOTExporter<IConcept,IIsA> exporter = new DOTExporter<>();
+		DOTExporter<IDenotationSet,IIsA> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
@@ -69,10 +69,10 @@ public class Visualizer {
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}	
 	
-	public static void visualizeConstructGraph(DirectedAcyclicGraph<IIntentConstruct, IProduction> graph, 
+	public static void visualizeDenotationGraph(DirectedAcyclicGraph<IDenotation, IProduction> graph, 
 			String fileName) throws IOException {
 		//convert in DOT format
-		DOTExporter<IIntentConstruct,IProduction> exporter = new DOTExporter<>();
+		DOTExporter<IDenotation,IProduction> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));

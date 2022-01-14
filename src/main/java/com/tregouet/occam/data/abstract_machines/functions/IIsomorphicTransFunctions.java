@@ -2,16 +2,16 @@ package com.tregouet.occam.data.abstract_machines.functions;
 
 import java.util.Iterator;
 
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IExtentStructureConstraint;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IIsomorphicTransFunctions extends Comparable<IIsomorphicTransFunctions> {
 	
 	double getCoherenceScore();
 	
-	String getDefinitionOfObjects();
+	String getObjectsDenotationsAsString();
 	
 	String getExtentStructureAsString();
 	
@@ -19,7 +19,7 @@ public interface IIsomorphicTransFunctions extends Comparable<IIsomorphicTransFu
 	
 	ITransitionFunction getOptimalTransitionFunction();
 	
-	Tree<IConcept, IIsA> getTreeOfConcepts();
+	Tree<IDenotationSet, IIsA> getTreeOfDenotationSets();
 	
 	//has a transition function
 	boolean isValid();

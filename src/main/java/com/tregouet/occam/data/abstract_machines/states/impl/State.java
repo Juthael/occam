@@ -8,12 +8,12 @@ import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.tapes.ITapeSet;
 import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotation;
 
 public class State implements IState {
 
-	private final IConcept concept;
+	private final IDenotationSet denotationSet;
 	private List<IOperator> transitions = null;
 	@SuppressWarnings("unused")
 	//used by unimplemented methods
@@ -21,8 +21,8 @@ public class State implements IState {
 	private int rank = 0;
 	
 	
-	public State(IConcept concept) {
-		this.concept = concept;
+	public State(IDenotationSet denotationSet) {
+		this.denotationSet = denotationSet;
 	}
 
 	@Override
@@ -57,10 +57,10 @@ public class State implements IState {
 		if (getClass() != obj.getClass())
 			return false;
 		State other = (State) obj;
-		if (concept == null) {
-			if (other.concept != null)
+		if (denotationSet == null) {
+			if (other.denotationSet != null)
 				return false;
-		} else if (!concept.equals(other.concept))
+		} else if (!denotationSet.equals(other.denotationSet))
 			return false;
 		return true;
 	}
@@ -72,14 +72,14 @@ public class State implements IState {
 	}
 
 	@Override
-	public IConcept getAssociatedConcept() {
-		return concept;
+	public IDenotationSet getAssociatedDenotationSet() {
+		return denotationSet;
 	}
 
 	@Override
-	public Set<IIntentConstruct> getInputLanguage() {
+	public Set<IDenotation> getInputLanguage() {
 		if (this.isActive()) {
-			Set<IIntentConstruct> inputlanguage = new HashSet<>();
+			Set<IDenotation> inputlanguage = new HashSet<>();
 			for (IOperator operator : transitions) {
 				for (IProduction prod : operator.operation())
 					inputlanguage.add(prod.getSource());
@@ -88,7 +88,7 @@ public class State implements IState {
 		}
 		else {
 			//not proper input language. For tests use. 
-			return concept.getIntent();
+			return denotationSet.getDenotations();
 		}
 	}
 
@@ -99,12 +99,12 @@ public class State implements IState {
 
 	@Override
 	public int getStateID() {
-		return concept.getID();
+		return denotationSet.getID();
 	}
 
 	@Override
 	public int getStateType() {
-		return concept.type();
+		return denotationSet.type();
 	}
 
 	/* (non-Javadoc)
@@ -114,7 +114,7 @@ public class State implements IState {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((concept == null) ? 0 : concept.hashCode());
+		result = prime * result + ((denotationSet == null) ? 0 : denotationSet.hashCode());
 		return result;
 	}
 

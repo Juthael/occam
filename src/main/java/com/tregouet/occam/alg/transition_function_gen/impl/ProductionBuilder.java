@@ -7,27 +7,27 @@ import com.tregouet.occam.alg.transition_function_gen.IProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.utils.ProductionGenerator;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IDenotation;
 
 public class ProductionBuilder implements IProductionBuilder {
 
-	private final List<IConcept> topologicalOrderOnConcepts;
+	private final List<IDenotationSet> topologicalOrderOnDenotationSets;
 	private final List<IBasicProduction> basicProductions = new ArrayList<>();
 	private final List<IProduction> productions = new ArrayList<>();
 	
-	public ProductionBuilder(IConcepts concepts) {
-		topologicalOrderOnConcepts = concepts.getTopologicalSorting();
+	public ProductionBuilder(IDenotationSets denotationSets) {
+		topologicalOrderOnDenotationSets = denotationSets.getTopologicalSorting();
 		//build basics
-		for (int i = 0 ; i < topologicalOrderOnConcepts.size() - 1 ; i++) {
-			for (int j = i+1 ; j < topologicalOrderOnConcepts.size() ; j++) {
-				for (IIntentConstruct iConceptConstr : topologicalOrderOnConcepts.get(i).getIntent()) {
-					for (IIntentConstruct jConceptConstr : topologicalOrderOnConcepts.get(j).getIntent()) {
-						List<IBasicProduction> ijConstructsProds = 
-								new ProductionGenerator(concepts, iConceptConstr, jConceptConstr).getProduction();
-						if (ijConstructsProds != null)
-							basicProductions.addAll(ijConstructsProds);
+		for (int i = 0 ; i < topologicalOrderOnDenotationSets.size() - 1 ; i++) {
+			for (int j = i+1 ; j < topologicalOrderOnDenotationSets.size() ; j++) {
+				for (IDenotation iDenotation : topologicalOrderOnDenotationSets.get(i).getDenotations()) {
+					for (IDenotation jDenotation : topologicalOrderOnDenotationSets.get(j).getDenotations()) {
+						List<IBasicProduction> ijDenotationsProds = 
+								new ProductionGenerator(denotationSets, iDenotation, jDenotation).getProduction();
+						if (ijDenotationsProds != null)
+							basicProductions.addAll(ijDenotationsProds);
 					}
 				}
 			}

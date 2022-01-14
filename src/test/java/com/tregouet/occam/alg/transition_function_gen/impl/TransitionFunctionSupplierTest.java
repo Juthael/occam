@@ -15,18 +15,18 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IComplementaryConcept;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.denotations.IComplementaryDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.Tree;
@@ -37,9 +37,9 @@ public class TransitionFunctionSupplierTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private IConcepts concepts;
-	private IConceptTreeSupplier conceptTreeSupplier;
-	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
+	private IDenotationSets denotationSets;
+	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
+	private DirectedAcyclicGraph<IDenotation, IProduction> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
 	@BeforeClass
@@ -50,32 +50,32 @@ public class TransitionFunctionSupplierTest {
 
 	@Before
 	public void setUp() throws Exception {
-		concepts = new Concepts(shapes2Obj);
-		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
+		denotationSets = new DenotationSets(shapes2Obj);
+		List<IProduction> productions = new ProductionBuilder(denotationSets).getProductions();
 		productions.stream().forEach(p -> {
-			constructs.addVertex(p.getSource());
-			constructs.addVertex(p.getTarget());
-			constructs.addEdge(p.getSource(), p.getTarget(), p);
+			denotations.addVertex(p.getSource());
+			denotations.addVertex(p.getTarget());
+			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		conceptTreeSupplier = concepts.getClassificationSupplier();
+		denotationSetsTreeSupplier = denotationSets.getDenotationSetsTreeSupplier();
 	}
 
 	@Test
-	public void whenConstructGraphFilteredByCategoryTreeThenOrderedSetOfConstructsIsARootedInvertedDAG() throws IOException {
+	public void whenDenotationGraphFilteredByTreeOfDenotSetsThenOrderedSetOfDenotationsIsARootedInvertedDAG() throws IOException {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
-		while (conceptTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			Tree<IConcept, IIsA> catTree = conceptTreeSupplier.next();
+		while (denotationSetsTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
+			Tree<IDenotationSet, IIsA> catTree = denotationSetsTreeSupplier.next();
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			*/
-			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
+			DirectedAcyclicGraph<IDenotation, IProduction> filteredDenotations = 
+					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(catTree, denotations);
 			/*
 			Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");
 			System.out.println(checkCount);
 			*/
-			if (!StructureInspector.isARootedInvertedDirectedAcyclicGraph(filteredConstructs)) {
+			if (!StructureInspector.isARootedInvertedDirectedAcyclicGraph(filteredDenotations)) {
 				filteredGraphsAreRootedInvertedDAGs = false;
 			}
 			checkCount++;
@@ -84,73 +84,73 @@ public class TransitionFunctionSupplierTest {
 	}
 	
 	@Test
-	public void whenConstructGraphFilteredByConceptTreeThenSetOfProdSourcesOrTargetsIsConceptTreeMinusFramingConcepts() 
+	public void whenDenotationGraphFilteredByTreeOfDenotSetsThenSetOfProdSourcesOrTargetsIsDenotSetTreeMinusFramingDenotSet() 
 			throws IOException {
-		boolean expectedSetOfCategories = true;
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> catTree = conceptTreeSupplier.next();
-			Set<IConcept> expectedCats = catTree.vertexSet();
-			Set<IConcept> returnedCats = new HashSet<>();
-			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
-			for (IProduction production : filteredConstructs.edgeSet()) {
-				returnedCats.add(production.getSourceConcept());
-				returnedCats.add(production.getTargetConcept());
+		boolean expectedSetOfDenotationSets = true;
+		while (denotationSetsTreeSupplier.hasNext()) {
+			Tree<IDenotationSet, IIsA> treeOfDenotationSets = denotationSetsTreeSupplier.next();
+			Set<IDenotationSet> expectedDenotationSets = treeOfDenotationSets.vertexSet();
+			Set<IDenotationSet> returnedDenotationSets = new HashSet<>();
+			DirectedAcyclicGraph<IDenotation, IProduction> filteredDenotations = 
+					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
+			for (IProduction production : filteredDenotations.edgeSet()) {
+				returnedDenotationSets.add(production.getSourceDenotationSet());
+				returnedDenotationSets.add(production.getTargetDenotationSet());
 			}
-			if (!expectedCats.equals(returnedCats)) {
-				Set<IConcept> conceptsNotFound = Sets.difference(expectedCats, returnedCats);
-				for (IConcept notFound : conceptsNotFound) {
+			if (!expectedDenotationSets.equals(returnedDenotationSets)) {
+				Set<IDenotationSet> unfoundDenotationSets = Sets.difference(expectedDenotationSets, returnedDenotationSets);
+				for (IDenotationSet notFound : unfoundDenotationSets) {
 					if (!notFound.isComplementary() && 
-							((IComplementaryConcept) notFound).getEmbeddedConcept() != null)
-						expectedSetOfCategories = false;
+							((IComplementaryDenotationSet) notFound).getEmbeddedDenotationSet() != null)
+						expectedSetOfDenotationSets = false;
 				}
 			}
 				
 		}
-		assertTrue(expectedSetOfCategories);
+		assertTrue(expectedSetOfDenotationSets);
 	}	
 	
 	@Test
-	public void whenConstructGraphIsFilteredByCategoryTreeThenProductionsSourceAndTargetCatsAreRelatedInCatTree() {
-		boolean sourceAndTargetCatsAreRelated = true;
+	public void whenDenotationGraphIsFilteredByTreeOfDenotSetThenProductionsSourceAndTargetDenotSetsAreRelatedInDenotSetTree() {
+		boolean sourceAndTargetDenotSetsAreRelated = true;
 		int checkCount = 0;
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> catTree = conceptTreeSupplier.next();
-			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
-			for (IProduction production : filteredConstructs.edgeSet()) {
+		while (denotationSetsTreeSupplier.hasNext()) {
+			Tree<IDenotationSet, IIsA> treeOfDenotationSets = denotationSetsTreeSupplier.next();
+			DirectedAcyclicGraph<IDenotation, IProduction> filteredDenotations = 
+					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
+			for (IProduction production : filteredDenotations.edgeSet()) {
 				checkCount++;
-				IConcept sourceCat = production.getSourceConcept();
-				IConcept targetCat = production.getTargetConcept();
-				if (!catTree.getDescendants(sourceCat).contains(targetCat))
-					sourceAndTargetCatsAreRelated = false;
+				IDenotationSet sourceDenotSet = production.getSourceDenotationSet();
+				IDenotationSet targetDenotSet = production.getTargetDenotationSet();
+				if (!treeOfDenotationSets.getDescendants(sourceDenotSet).contains(targetDenotSet))
+					sourceAndTargetDenotSetsAreRelated = false;
 			}
 		}
-		assertTrue(sourceAndTargetCatsAreRelated && checkCount > 0);
+		assertTrue(sourceAndTargetDenotSetsAreRelated && checkCount > 0);
 	}
 	
 	@Test
-	public void whenConstructGraphIsFilteredByConceptTreeThenSetOfContainingConceptsIsConceptTreeMinusFramingConcepts() {
-		boolean expectedSetOfCategories = true;
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> catTree = conceptTreeSupplier.next();
-			Set<IConcept> expectedCats = catTree.vertexSet();
-			Set<IConcept> returnedCats = new HashSet<>();
-			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
-			for (IIntentConstruct intentAtt : filteredConstructs.vertexSet()) {
-				returnedCats.add(intentAtt.getConcept());
+	public void whenDenotationGraphIsFilteredByTreeOfDenotSetThenSetOfContainingDenotSetsIsDenotSetTreeMinusFramingConcepts() {
+		boolean expectedSetOfDenotationSets = true;
+		while (denotationSetsTreeSupplier.hasNext()) {
+			Tree<IDenotationSet, IIsA> treeOfDenotationSets = denotationSetsTreeSupplier.next();
+			Set<IDenotationSet> expectedDenotationSets = treeOfDenotationSets.vertexSet();
+			Set<IDenotationSet> returnedDenotationSets = new HashSet<>();
+			DirectedAcyclicGraph<IDenotation, IProduction> filteredDenotations = 
+					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
+			for (IDenotation denotation : filteredDenotations.vertexSet()) {
+				returnedDenotationSets.add(denotation.getDenotationSet());
 			}
-			if (!expectedCats.equals(returnedCats)) {
-				Set<IConcept> conceptsNotFound = Sets.difference(expectedCats, returnedCats);
-				for (IConcept notFound : conceptsNotFound) {
+			if (!expectedDenotationSets.equals(returnedDenotationSets)) {
+				Set<IDenotationSet> unfoundDenotationSets = Sets.difference(expectedDenotationSets, returnedDenotationSets);
+				for (IDenotationSet notFound : unfoundDenotationSets) {
 					if (!notFound.isComplementary() 
-							&& ((IComplementaryConcept) notFound).getEmbeddedConcept() != null)
-						expectedSetOfCategories = false;
+							&& ((IComplementaryDenotationSet) notFound).getEmbeddedDenotationSet() != null)
+						expectedSetOfDenotationSets = false;
 				}
 			}
 		}
-		assertTrue(expectedSetOfCategories);
+		assertTrue(expectedSetOfDenotationSets);
 	}
 	
 }

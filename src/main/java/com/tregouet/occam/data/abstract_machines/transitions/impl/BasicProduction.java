@@ -8,7 +8,7 @@ import java.util.List;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.ISymbol;
@@ -23,15 +23,15 @@ public class BasicProduction extends Production implements IBasicProduction {
 	private final IConstruct value;
 	private boolean variableSwitcher;
 	
-	public BasicProduction(AVariable variable, IConstruct value, IIntentConstruct operatorInput, 
-			IIntentConstruct operatorOutput) {
+	public BasicProduction(AVariable variable, IConstruct value, IDenotation operatorInput, 
+			IDenotation operatorOutput) {
 		super(operatorInput, operatorOutput);
 		this.variable = variable;
 		this.value = value;
 		variableSwitcher = value.getNbOfTerminals() == 0;
 	}
 	
-	protected BasicProduction(IIntentConstruct operatorInput, IIntentConstruct operatorOutput) {
+	protected BasicProduction(IDenotation operatorInput, IDenotation operatorOutput) {
 		super(operatorInput, operatorOutput);
 		variable = null;
 		value = null;
@@ -174,7 +174,7 @@ public class BasicProduction extends Production implements IBasicProduction {
 
 	@Override
 	public IProduction switchVariableOrReturnNull(IProduction varSwitcher) {
-		if (this.getTargetConcept().equals(varSwitcher.getSourceConcept()) 
+		if (this.getTargetDenotationSet().equals(varSwitcher.getSourceDenotationSet()) 
 				&& this.getTarget().equals(varSwitcher.getSource()) && varSwitcher instanceof IBasicProduction) {
 			IBasicProduction basicSwitcher = (IBasicProduction) varSwitcher;
 			if (this.variable.equals(basicSwitcher.getValue().getListOfSymbols().get(0))) {

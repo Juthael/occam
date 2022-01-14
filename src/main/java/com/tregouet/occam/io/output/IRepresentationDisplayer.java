@@ -7,7 +7,7 @@ public interface IRepresentationDisplayer {
 	
 	String generateAsymmetricalSimilarityMatrix(String alinea);
 	
-	void generateConceptLatticeGraph() throws IOException;
+	void generateDenotationSetLatticeGraph() throws IOException;
 	
 	String generateConceptualCoherenceArray(String alinea);
 	
@@ -21,13 +21,13 @@ public interface IRepresentationDisplayer {
 	
 	void generateTransitionFunctionGraph() throws IOException;
 	
-	void generateTreeOfConcepts() throws IOException;
+	void generateTreeOfDenotationSets() throws IOException;
 	
-	void generateTreeOfConstructs() throws IOException;
+	void generateTreeOfDenotations() throws IOException;
 	
 	double getCoherenceScore();
 	
-	int getConceptTreeIndex();
+	int getDenotationSetTreeIndex();
 	
 	int getTransitionFunctionIndex();
 	
@@ -35,9 +35,9 @@ public interface IRepresentationDisplayer {
 	
 	boolean hasNextTransitionFunctionOverCurrentConceptualStructure();
 	
-	void nextConceptTree() throws IOException;
+	void nextTreeOfDenotationSets() throws IOException;
 	
-	void nextTransitionFunctionOverCurrentCategoricalStructure() throws IOException;
+	void nextTransitionFunctionOverCurrentConceptualStructure() throws IOException;
 	
 	boolean represent(Path contextPath) throws IOException;
 

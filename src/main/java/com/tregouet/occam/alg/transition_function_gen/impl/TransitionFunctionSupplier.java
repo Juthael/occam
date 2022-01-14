@@ -6,48 +6,48 @@ import java.util.Comparator;
 import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public abstract class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 
 	protected static final int MAX_CAPACITY = 50;
 	
-	protected final IConcepts concepts;
-	protected final IConceptTreeSupplier conceptTreeSupplier;
-	protected final DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs;
+	protected final IDenotationSets denotationSets;
+	protected final IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
+	protected final DirectedAcyclicGraph<IDenotation, IProduction> denotations;
 	protected final Comparator<ITransitionFunction> functionComparator;
 	
-	public TransitionFunctionSupplier(IConcepts concepts, 
-			DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs) throws IOException {
-		this.concepts = concepts;
-		conceptTreeSupplier = concepts.getClassificationSupplier();
-		this.constructs = constructs;
+	public TransitionFunctionSupplier(IDenotationSets denotationSets, 
+			DirectedAcyclicGraph<IDenotation, IProduction> constructs) throws IOException {
+		this.denotationSets = denotationSets;
+		denotationSetsTreeSupplier = denotationSets.getDenotationSetsTreeSupplier();
+		this.denotations = constructs;
 		functionComparator = ScoreThenCostTFComparator.INSTANCE;
 	}
 
-	public static DirectedAcyclicGraph<IIntentConstruct, IProduction> getConstructGraphFilteredByConceptTree(
-			Tree<IConcept, IIsA> treeOfConcepts, 
-			DirectedAcyclicGraph<IIntentConstruct, IProduction> unfilteredUnreduced) {
-		DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered =	
+	public static DirectedAcyclicGraph<IDenotation, IProduction> getDenotationGraphFilteredByTreeOfDenotationSets(
+			Tree<IDenotationSet, IIsA> treeOfDenotationSets, 
+			DirectedAcyclicGraph<IDenotation, IProduction> unfilteredUnreduced) {
+		DirectedAcyclicGraph<IDenotation, IProduction> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);
 		List<IProduction> edges = new ArrayList<>();
 		List<IProduction> varSwitchers = new ArrayList<>();
-		List<IIntentConstruct> varSwitcherSources = new ArrayList<>();
+		List<IDenotation> varSwitcherSources = new ArrayList<>();
 		for (IProduction production : unfilteredUnreduced.edgeSet()) {
-			IConcept sourceConcept = production.getSourceConcept();
-			IConcept targetConcept = production.getTargetConcept();
-			if (treeOfConcepts.containsVertex(sourceConcept) 
-					&& treeOfConcepts.containsVertex(targetConcept) 
-					&& isA(sourceConcept, targetConcept, treeOfConcepts)) {
+			IDenotationSet sourceDenotationSet = production.getSourceDenotationSet();
+			IDenotationSet targetDenotationSet = production.getTargetDenotationSet();
+			if (treeOfDenotationSets.containsVertex(sourceDenotationSet) 
+					&& treeOfDenotationSets.containsVertex(targetDenotationSet) 
+					&& isA(sourceDenotationSet, targetDenotationSet, treeOfDenotationSets)) {
 				if (production.isVariableSwitcher()) {
 					varSwitchers.add(production);
 					varSwitcherSources.add(production.getSource());
@@ -88,8 +88,8 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return edgesReturned;
 	}
 	
-	private static boolean isA(IConcept concept1, IConcept concept2, Tree<IConcept, IIsA> treeOfConcepts) {
-		return treeOfConcepts.getDescendants(concept1).contains(concept2);
+	private static boolean isA(IDenotationSet denotationSet1, IDenotationSet denotationSet2, Tree<IDenotationSet, IIsA> treeOfDenotationSets) {
+		return treeOfDenotationSets.getDescendants(denotationSet1).contains(denotationSet2);
 	}
 
 }

@@ -19,7 +19,7 @@ public class Reframer extends Transition implements IReframer {
 	}	
 	
 	@Override
-	public Integer getComplementedConceptsID() {
+	public Integer getComplementedStateID() {
 		return complementedStateID;
 	}
 	

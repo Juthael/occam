@@ -8,8 +8,8 @@ import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public class InstantiationsEntropyReduction implements IDefinitionCoster {
@@ -30,8 +30,8 @@ public class InstantiationsEntropyReduction implements IDefinitionCoster {
 
 	@Override
 	public void setCost() {
-		int speciesIdx = ArrayUtils.indexOf(topoOrderedStateIDs, costed.getSpecies().getStateID());
-		int genusIdx = ArrayUtils.indexOf(topoOrderedStateIDs, costed.getGenus().getStateID());
+		int speciesIdx = ArrayUtils.indexOf(topoOrderedStateIDs, costed.getSpeciesState().getStateID());
+		int genusIdx = ArrayUtils.indexOf(topoOrderedStateIDs, costed.getGenusState().getStateID());
 		double entropyReduction = entropyReductionMatrix[speciesIdx][genusIdx];
 		int nbOfInstantiatedVariables = 0;
 		for (IConjunctiveTransition conjTransition : costed.getDifferentiae())
@@ -41,14 +41,14 @@ public class InstantiationsEntropyReduction implements IDefinitionCoster {
 	
 	@Override
 	public void setCosterParameters(ITransitionFunction transitionFunction) {
-		Tree<IConcept, IIsA> treeOfConcepts = transitionFunction.getTreeOfConcepts();
-		List<IConcept> topoOrderedConcepts = treeOfConcepts.getTopologicalOrder();
-		int cardinal = topoOrderedConcepts.size();
+		Tree<IDenotationSet, IIsA> treeOfDenotationSets = transitionFunction.getTreeOfDenotationSets();
+		List<IDenotationSet> topoOrderedDenotationSets = treeOfDenotationSets.getTopologicalOrder();
+		int cardinal = topoOrderedDenotationSets.size();
 		topoOrderedStateIDs = new int[cardinal];
 		for (int i = 0 ; i < cardinal ; i++) {
-			topoOrderedStateIDs[i] = topoOrderedConcepts.get(i).getID();
+			topoOrderedStateIDs[i] = topoOrderedDenotationSets.get(i).getID();
 		}
-		entropyReductionMatrix = treeOfConcepts.getEntropyReductionMatrix();
+		entropyReductionMatrix = treeOfDenotationSets.getEntropyReductionMatrix();
 	}		
 
 }

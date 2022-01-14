@@ -16,9 +16,9 @@ import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransit
 import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -27,7 +27,7 @@ public interface ITransitionFunction extends ICosted, IScored {
 	@Override
 	boolean equals(Object o);
 	
-	IState getAssociatedStateOf(IConcept concept);
+	IState getAssociatedStateOf(IDenotationSet denotationSet);
 	
 	IFiniteAutomaton getCompiler();
 	
@@ -47,11 +47,11 @@ public interface ITransitionFunction extends ICosted, IScored {
 	
 	List<ICostedTransition> getTransitions();
 	
-	Tree<IConcept, IIsA> getTreeOfConcepts();
+	Tree<IDenotationSet, IIsA> getTreeOfDenotationSets();
 	
-	Tree<IIntentConstruct, IProduction> getTreeOfConstructs();
+	Tree<IDenotation, IProduction> getTreeOfDenotations();
 	
-	Tree<IIntentConstruct, IProduction> getTreeOfConstructsWithNoBlankProduction();
+	Tree<IDenotation, IProduction> getTreeOfDenotationsWithNoBlankProduction();
 	
 	@Override
 	int hashCode();

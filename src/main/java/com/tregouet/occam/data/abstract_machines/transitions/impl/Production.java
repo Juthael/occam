@@ -3,17 +3,17 @@ package com.tregouet.occam.data.abstract_machines.transitions.impl;
 import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotation;
 
 public abstract class Production extends DefaultEdge implements IProduction {
 
 	private static final long serialVersionUID = 1701074226278101143L;
-	private final IIntentConstruct operatorInput;
-	private final IIntentConstruct operatorOutput;
+	private final IDenotation operatorInput;
+	private final IDenotation operatorOutput;
 	private Double cost = null;
 	
-	public Production(IIntentConstruct operatorInput, IIntentConstruct operatorOutput) {
+	public Production(IDenotation operatorInput, IDenotation operatorOutput) {
 		this.operatorInput = operatorInput;
 		this.operatorOutput = operatorOutput;
 	}
@@ -48,8 +48,8 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	}
 
 	@Override
-	public IConcept getGenus() {
-		return operatorOutput.getConcept();
+	public IDenotationSet getGenusDenotationSet() {
+		return operatorOutput.getDenotationSet();
 	}
 
 	@Override
@@ -58,28 +58,28 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	}
 
 	@Override
-	public IIntentConstruct getSource() {
+	public IDenotation getSource() {
 		return operatorInput;
 	}
 
 	@Override
-	public IConcept getSourceConcept() {
-		return operatorInput.getConcept();
+	public IDenotationSet getSourceDenotationSet() {
+		return operatorInput.getDenotationSet();
 	}
 
 	@Override
-	public IConcept getSpecies() {
-		return operatorInput.getConcept();
+	public IDenotationSet getSpeciesDenotationSet() {
+		return operatorInput.getDenotationSet();
 	}
 
 	@Override
-	public IIntentConstruct getTarget() {
+	public IDenotation getTarget() {
 		return operatorOutput;
 	}
 
 	@Override
-	public IConcept getTargetConcept() {
-		return operatorOutput.getConcept();
+	public IDenotationSet getTargetDenotationSet() {
+		return operatorOutput.getDenotationSet();
 	}
 	
 	/* (non-Javadoc)

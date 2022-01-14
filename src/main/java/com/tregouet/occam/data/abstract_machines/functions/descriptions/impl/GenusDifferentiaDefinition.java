@@ -10,13 +10,13 @@ import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
 public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 
 	private static final long serialVersionUID = -2693542568124185602L;
-	private final IState species;
-	private final IState genus;
+	private final IState speciesState;
+	private final IState genusState;
 	private final List<IConjunctiveTransition> differentiae;
 	
 	public GenusDifferentiaDefinition(IState species, IState genus, List<IConjunctiveTransition> differentiae) {
-		this.species = species;
-		this.genus = genus;
+		this.speciesState = species;
+		this.genusState = genus;
 		this.differentiae = differentiae;
 	}
 
@@ -26,23 +26,23 @@ public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 	}
 
 	@Override
-	public IState getGenus() {
-		return genus;
+	public IState getGenusState() {
+		return genusState;
 	}
 
 	@Override
 	public IState getSource() {
-		return species;
+		return speciesState;
 	}
 	
 	@Override
-	public IState getSpecies() {
-		return species;
+	public IState getSpeciesState() {
+		return speciesState;
 	}
 	
 	@Override
 	public IState getTarget() {
-		return genus;
+		return genusState;
 	}
 	
 	@Override

@@ -10,12 +10,12 @@ import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
 public class BasicOperator extends Transition implements IBasicOperator {
 
-	private final Map<IIntentConstruct, IIntentConstruct> inputToOutput = new HashMap<>();
+	private final Map<IDenotation, IDenotation> inputToOutput = new HashMap<>();
 	private final List<IProduction> operation;
 	private Double cost = null;
 	
@@ -79,7 +79,7 @@ public class BasicOperator extends Transition implements IBasicOperator {
 	}
 
 	@Override
-	public IIntentConstruct operateOn(IIntentConstruct input) {
+	public IDenotation operateOn(IDenotation input) {
 		return inputToOutput.get(input);
 	}
 

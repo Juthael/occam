@@ -11,10 +11,10 @@ import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
@@ -24,9 +24,9 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(functionComparator);
 	private Iterator<ITransitionFunction> ite;
 	
-	public BasicTFSupplier(IConcepts concepts, DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs) 
+	public BasicTFSupplier(IDenotationSets denotationSets, DirectedAcyclicGraph<IDenotation, IProduction> constructs) 
 			throws IOException {
-		super(concepts, constructs);
+		super(denotationSets, constructs);
 		populateTransitionFunctions();
 		ite = transitionFunctions.iterator();
 	}
@@ -52,15 +52,15 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	}
 
 	private void populateTransitionFunctions() {
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currClassification = conceptTreeSupplier.next();
-			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructGraph = 
-					getConstructGraphFilteredByConceptTree(currClassification, constructs);
-			IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constructTreeSupplier = 
-					new RestrictorOpt<IIntentConstruct, IProduction>(filteredConstructGraph, true);
-			while (constructTreeSupplier.hasNext()) {
-				Tree<IIntentConstruct, IProduction> constructTree = constructTreeSupplier.nextTransitiveReduction();
-				ITransitionFunction transitionFunction = new TransitionFunction(currClassification, constructTree);
+		while (denotationSetsTreeSupplier.hasNext()) {
+			Tree<IDenotationSet, IIsA> currTreeOfDenotationSets = denotationSetsTreeSupplier.next();
+			DirectedAcyclicGraph<IDenotation, IProduction> filteredDenotationGraph = 
+					getDenotationGraphFilteredByTreeOfDenotationSets(currTreeOfDenotationSets, denotations);
+			IHierarchicalRestrictionFinder<IDenotation, IProduction> denotationTreeSupplier = 
+					new RestrictorOpt<IDenotation, IProduction>(filteredDenotationGraph, true);
+			while (denotationTreeSupplier.hasNext()) {
+				Tree<IDenotation, IProduction> denotationTree = denotationTreeSupplier.nextTransitiveReduction();
+				ITransitionFunction transitionFunction = new TransitionFunction(currTreeOfDenotationSets, denotationTree);
 				if (transitionFunction.validate(TransitionFunctionValidator.INSTANCE)) {
 					transitionFunctions.add(transitionFunction);
 					if (transitionFunctions.size() > MAX_CAPACITY)

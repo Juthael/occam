@@ -5,27 +5,27 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
-import com.tregouet.occam.alg.transition_function_gen.IConceptStructureBasedTFSupplier;
+import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
 import com.tregouet.occam.data.abstract_machines.functions.IIsomorphicTransFunctions;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.utils.TreeOfConceptsToStringConvertor;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IExtentStructureConstraint;
+import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.denotations.utils.TreeOfDenotationSetsToStringConvertor;
 import com.tregouet.tree_finder.data.Tree;
 
 public class IsomorphicTransFunctions implements IIsomorphicTransFunctions {
 
-	private final Tree<IConcept,IIsA> treeOfConcepts;
-	private final Map<IConcept, String> singletonConceptToName;
+	private final Tree<IDenotationSet,IIsA> treeOfDenotationSets;
+	private final Map<IDenotationSet, String> objDenotationSetToName;
 	private final Comparator<ITransitionFunction> functionComparator = ScoreThenCostTFComparator.INSTANCE;
 	private final TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(functionComparator);
 	
-	public IsomorphicTransFunctions(Tree<IConcept, IIsA> treeOfConcepts, 
-			Map<IConcept, String> singletonConceptToName) {
-		this.treeOfConcepts = treeOfConcepts;
-		this.singletonConceptToName = singletonConceptToName;
+	public IsomorphicTransFunctions(Tree<IDenotationSet, IIsA> treeOfDenotationSets, 
+			Map<IDenotationSet, String> objDenotationSetToName) {
+		this.treeOfDenotationSets = treeOfDenotationSets;
+		this.objDenotationSetToName = objDenotationSetToName;
 	}
 
 	@Override
@@ -47,10 +47,10 @@ public class IsomorphicTransFunctions implements IIsomorphicTransFunctions {
 		if (getClass() != obj.getClass())
 			return false;
 		IsomorphicTransFunctions other = (IsomorphicTransFunctions) obj;
-		if (treeOfConcepts == null) {
-			if (other.treeOfConcepts != null)
+		if (treeOfDenotationSets == null) {
+			if (other.treeOfDenotationSets != null)
 				return false;
-		} else if (!treeOfConcepts.equals(other.treeOfConcepts))
+		} else if (!treeOfDenotationSets.equals(other.treeOfDenotationSets))
 			return false;
 		ITransitionFunction optimalTF = getOptimalTransitionFunction();
 		if (optimalTF == null) {
@@ -67,13 +67,13 @@ public class IsomorphicTransFunctions implements IIsomorphicTransFunctions {
 	}
 
 	@Override
-	public String getDefinitionOfObjects() {
-		return IConceptStructureBasedTFSupplier.getDefinitionOfObjects(singletonConceptToName);
+	public String getObjectsDenotationsAsString() {
+		return IStructureBasedTFSupplier.getObjectsDenotationsAsString(objDenotationSetToName);
 	}
 
 	@Override
 	public String getExtentStructureAsString() {
-		return new TreeOfConceptsToStringConvertor(treeOfConcepts, singletonConceptToName).toString();
+		return new TreeOfDenotationSetsToStringConvertor(treeOfDenotationSets, objDenotationSetToName).toString();
 	}
 
 	@Override
@@ -89,15 +89,15 @@ public class IsomorphicTransFunctions implements IIsomorphicTransFunctions {
 	}
 
 	@Override
-	public Tree<IConcept, IIsA> getTreeOfConcepts() {
-		return treeOfConcepts;
+	public Tree<IDenotationSet, IIsA> getTreeOfDenotationSets() {
+		return treeOfDenotationSets;
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((treeOfConcepts == null) ? 0 : treeOfConcepts.hashCode());
+		result = prime * result + ((treeOfDenotationSets == null) ? 0 : treeOfDenotationSets.hashCode());
 		return result;
 	}
 
@@ -123,7 +123,7 @@ public class IsomorphicTransFunctions implements IIsomorphicTransFunctions {
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
-		sB.append(getDefinitionOfObjects());
+		sB.append(getObjectsDenotationsAsString());
 		sB.append(newLine + newLine);
 		sB.append("*** CATEGORY STRUCTURE : ");
 		sB.append(getExtentStructureAsString());

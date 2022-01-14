@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.conceptual_structure_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.scoring.costs.definitions.DefinitionCostingStrategy;
@@ -24,11 +24,11 @@ import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDi
 import com.tregouet.occam.data.abstract_machines.functions.impl.TransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
@@ -39,14 +39,14 @@ public class TransitionsEntropyReductionTest {
 	
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> shapes1Obj;
-	private IConcepts concepts;
-	private DirectedAcyclicGraph<IIntentConstruct, IProduction> constructs = 
+	private IDenotationSets denotationSets;
+	private DirectedAcyclicGraph<IDenotation, IProduction> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IConceptTreeSupplier conceptTreeSupplier;
-	private Tree<IConcept, IIsA> conceptTree;
-	private DirectedAcyclicGraph<IIntentConstruct, IProduction> filtered_constructs;
-	private IHierarchicalRestrictionFinder<IIntentConstruct, IProduction> constrTreeSupplier;
-	private Tree<IIntentConstruct, IProduction> constrTree;
+	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
+	private Tree<IDenotationSet, IIsA> treeOfDenotationSets;
+	private DirectedAcyclicGraph<IDenotation, IProduction> filtered_denotations;
+	private IHierarchicalRestrictionFinder<IDenotation, IProduction> denotationTreeSupplier;
+	private Tree<IDenotation, IProduction> denotationTree;
 	private TreeSet<ITransitionFunction> transitionFunctions = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 
 	@BeforeClass
@@ -57,23 +57,23 @@ public class TransitionsEntropyReductionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		concepts = new Concepts(shapes1Obj);
-		List<IProduction> productions = new ProductionBuilder(concepts).getProductions();
+		denotationSets = new DenotationSets(shapes1Obj);
+		List<IProduction> productions = new ProductionBuilder(denotationSets).getProductions();
 		productions.stream().forEach(p -> {
-			constructs.addVertex(p.getSource());
-			constructs.addVertex(p.getTarget());
-			constructs.addEdge(p.getSource(), p.getTarget(), p);
+			denotations.addVertex(p.getSource());
+			denotations.addVertex(p.getTarget());
+			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		conceptTreeSupplier = concepts.getClassificationSupplier();
-		while (conceptTreeSupplier.hasNext()) {
-			conceptTree = conceptTreeSupplier.next();
-			filtered_constructs = 
-					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(conceptTree, constructs);
-			constrTreeSupplier = new RestrictorOpt<>(filtered_constructs, true);
-			while (constrTreeSupplier.hasNext()) {
-				constrTree = constrTreeSupplier.next();
+		denotationSetsTreeSupplier = denotationSets.getDenotationSetsTreeSupplier();
+		while (denotationSetsTreeSupplier.hasNext()) {
+			treeOfDenotationSets = denotationSetsTreeSupplier.next();
+			filtered_denotations = 
+					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
+			denotationTreeSupplier = new RestrictorOpt<>(filtered_denotations, true);
+			while (denotationTreeSupplier.hasNext()) {
+				denotationTree = denotationTreeSupplier.next();
 				ITransitionFunction transitionFunction = 
-						new TransitionFunction(conceptTree, constrTree);
+						new TransitionFunction(treeOfDenotationSets, denotationTree);
 				transitionFunctions.add(transitionFunction);
 			}
 		}

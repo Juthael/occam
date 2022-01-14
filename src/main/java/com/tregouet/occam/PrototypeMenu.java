@@ -100,7 +100,7 @@ public class PrototypeMenu {
 	private void nextCategoricalStructure() {
 		System.out.println(NL);
 		try {
-			representationDisplayer.nextConceptTree();
+			representationDisplayer.nextTreeOfDenotationSets();
 			representationDisplayer.generateHTML();
 		} catch (IOException e) {
 			System.out.println("An error has occurred." + NL);
@@ -114,7 +114,7 @@ public class PrototypeMenu {
 	private void nextTransitionFunction() {
 		System.out.println(NL);
 		try {
-			representationDisplayer.nextTransitionFunctionOverCurrentCategoricalStructure();
+			representationDisplayer.nextTransitionFunctionOverCurrentConceptualStructure();
 			representationDisplayer.generateHTML();
 		} catch (IOException e) {
 			System.out.println("An error has occurred." + NL);

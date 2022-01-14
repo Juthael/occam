@@ -21,10 +21,10 @@ import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
-import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
@@ -33,7 +33,7 @@ public class ProductionBuilderTest {
 
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1.txt");
 	private static List<IContextObject> shapes1Obj;
-	private IConcepts concepts;
+	private IDenotationSets denotationSets;
 	private ProductionBuilder builder;
 	
 	@BeforeClass
@@ -48,19 +48,19 @@ public class ProductionBuilderTest {
 				.filter(p -> p instanceof IBasicProduction)
 				.map(p -> (IBasicProduction) p)
 				.collect(Collectors.toList());
-		Set<List<IIntentConstruct>> sourceTargetPairs = new HashSet<>();
+		Set<List<IDenotation>> sourceTargetPairs = new HashSet<>();
 		for (IBasicProduction basicProd : basicProductions) {
 			sourceTargetPairs.add(
 					new ArrayList<>(
-							Arrays.asList(new IIntentConstruct[] {basicProd.getSource(), basicProd.getTarget()})));
+							Arrays.asList(new IDenotation[] {basicProd.getSource(), basicProd.getTarget()})));
 		}
 		assertTrue(basicProductions.size() == sourceTargetPairs.size());
 	}
 	
 	@Before
 	public void setUp() {
-		concepts = new Concepts(shapes1Obj);
-		builder = new ProductionBuilder(concepts);
+		denotationSets = new DenotationSets(shapes1Obj);
+		builder = new ProductionBuilder(denotationSets);
 		/*
 		Categories catImpl = (Categories) categories;
 		try {
@@ -81,8 +81,8 @@ public class ProductionBuilderTest {
 				.map(p -> (ICompositeProduction) p)
 				.collect(Collectors.toList());
 		for (ICompositeProduction prod : compositeProds) {
-			IIntentConstruct prodSource = null;
-			IIntentConstruct prodTarget = null;
+			IDenotation prodSource = null;
+			IDenotation prodTarget = null;
 			for (int i = 0 ; i < prod.getComponents().size() ; i++) {
 				if (i == 0) {
 					prodSource = prod.getComponents().get(i).getSource();
@@ -104,16 +104,16 @@ public class ProductionBuilderTest {
 		boolean aVertexOrEdgeAdditionHasFailed = false;
 		List<IProduction> productions = builder.getProductions()
 				.stream()
-				.filter(p -> p.getSource().getConcept().type() != IConcept.ABSURDITY)
+				.filter(p -> p.getSource().getDenotationSet().type() != IDenotationSet.ABSURDITY)
 				.collect(Collectors.toList());
-		List<IIntentConstruct> attributes = new ArrayList<>();
-		for (IConcept concept : concepts.getTopologicalSorting()) {
-			if (concept.type() != IConcept.ABSURDITY)
-				attributes.addAll(concept.getIntent());
+		List<IDenotation> denotations = new ArrayList<>();
+		for (IDenotationSet denotationSet : denotationSets.getTopologicalSorting()) {
+			if (denotationSet.type() != IDenotationSet.ABSURDITY)
+				denotations.addAll(denotationSet.getDenotations());
 		}
-		DirectedAcyclicGraph<IIntentConstruct, IProduction> graph = new DirectedAcyclicGraph<>(IProduction.class);
-		for (IIntentConstruct attribute : attributes) {
-			if (!graph.addVertex(attribute))
+		DirectedAcyclicGraph<IDenotation, IProduction> graph = new DirectedAcyclicGraph<>(IProduction.class);
+		for (IDenotation denotation : denotations) {
+			if (!graph.addVertex(denotation))
 				aVertexOrEdgeAdditionHasFailed = true;
 		}
 		/*

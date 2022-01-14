@@ -12,15 +12,15 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.scoring.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public abstract class AbstractSimCalculator implements ISimilarityScorer {
 
 	protected ITransitionFunction transitionFunction;
-	protected List<IConcept> singletons;
+	protected List<IDenotationSet> singletons;
 	protected int[] singletonIDs;
 	
 	public AbstractSimCalculator() {
@@ -50,14 +50,14 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	}
 	
 	@Override
-	public double getCoherenceScore(int[] conceptIDs) {
-		if (conceptIDs.length == 1)
+	public double getCoherenceScore(int[] cncptIDs) {
+		if (cncptIDs.length == 1)
 			return 1.0;
 		double similaritySum = 0.0;
-		double n = conceptIDs.length;
-		for (int i = 0 ; i < conceptIDs.length - 1 ; i++) {
-			for (int j = i + 1 ; j < conceptIDs.length ; j++) {
-				similaritySum += howSimilar(conceptIDs[i], conceptIDs[j]);
+		double n = cncptIDs.length;
+		for (int i = 0 ; i < cncptIDs.length - 1 ; i++) {
+			for (int j = i + 1 ; j < cncptIDs.length ; j++) {
+				similaritySum += howSimilar(cncptIDs[i], cncptIDs[j]);
 			}
 		}
 		return similaritySum / ((n*(n-1))/2);
@@ -65,27 +65,27 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 
 	@Override
 	public Map<Integer, Double> getConceptualCoherenceMap() {
-		Map<Integer, Double> conceptIDToCoherenceScore = new HashMap<>();
-		Tree<IConcept, IIsA> treeOfConcepts = transitionFunction.getTreeOfConcepts();
-		Iterator<IConcept> iterator = treeOfConcepts.getTopologicalOrder().iterator();
-		Set<IConcept> singletonSet = new HashSet<>(treeOfConcepts.getLeaves());
+		Map<Integer, Double> cncptIDToCoherenceScore = new HashMap<>();
+		Tree<IDenotationSet, IIsA> treeOfDenotationSets = transitionFunction.getTreeOfDenotationSets();
+		Iterator<IDenotationSet> iterator = treeOfDenotationSets.getTopologicalOrder().iterator();
+		Set<IDenotationSet> singletonSet = new HashSet<>(treeOfDenotationSets.getLeaves());
 		while (iterator.hasNext()) {
-			IConcept nextCat = iterator.next();
-			Set<IConcept> lowerBoundSingletons = 
-					Sets.intersection(Functions.lowerSet(treeOfConcepts, nextCat), singletonSet);
+			IDenotationSet nextCat = iterator.next();
+			Set<IDenotationSet> lowerBoundSingletons = 
+					Sets.intersection(Functions.lowerSet(treeOfDenotationSets, nextCat), singletonSet);
 			int[] extentIDs = new int[lowerBoundSingletons.size()];
 			int singletonIdx = 0;
-			Iterator<IConcept> lowerBoundSingletonIte = lowerBoundSingletons.iterator();
+			Iterator<IDenotationSet> lowerBoundSingletonIte = lowerBoundSingletons.iterator();
 			while (lowerBoundSingletonIte.hasNext()) {
 				extentIDs[singletonIdx++] = lowerBoundSingletonIte.next().getID();
 			}
-			conceptIDToCoherenceScore.put(nextCat.getID(), getCoherenceScore(extentIDs));
+			cncptIDToCoherenceScore.put(nextCat.getID(), getCoherenceScore(extentIDs));
 		}
-		return conceptIDToCoherenceScore;
+		return cncptIDToCoherenceScore;
 	}
 
 	@Override
-	public List<IConcept> getListOfSingletons() {
+	public List<IDenotationSet> getListOfSingletons() {
 		return new ArrayList<>(singletons);
 	}
 	
@@ -118,12 +118,12 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	}	
 	
 	@Override
-	public double howPrototypicalAmong(int conceptID, int[] otherConceptsIDs) {
+	public double howPrototypicalAmong(int denotationID, int[] otherDenotationsIDs) {
 		double similarityToParameterSum = 0.0;
 		int nbOfComparisons = 0;
-		for (int otherConceptID : otherConceptsIDs) {
-			if (conceptID != otherConceptID) {
-				similarityToParameterSum += howSimilarTo(otherConceptID, conceptID);
+		for (int otherDenotationID : otherDenotationsIDs) {
+			if (denotationID != otherDenotationID) {
+				similarityToParameterSum += howSimilarTo(otherDenotationID, denotationID);
 				nbOfComparisons++;
 			}
 		}
@@ -131,12 +131,12 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	}
 	
 	@Override
-	public double howProtoypical(int conceptID) {
+	public double howProtoypical(int denotationID) {
 		int n = 0;
 		double similaritySum = 0.0;
 		for (int singletonID : singletonIDs) {
-			if (conceptID != singletonID) {
-				similaritySum += howSimilarTo(singletonID, conceptID);
+			if (denotationID != singletonID) {
+				similaritySum += howSimilarTo(singletonID, denotationID);
 				n++;
 			}
 		}
@@ -144,19 +144,19 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	}		
 	
 	@Override
-	abstract public double howSimilar(int conceptID1, int conceptID2);	
+	abstract public double howSimilar(int denotationID1, int denotationID2);	
 	
 	@Override
-	abstract public double howSimilarTo(int conceptID1, int conceptID2);	
+	abstract public double howSimilarTo(int denotationID1, int denotationID2);	
 	
 	@Override
 	public ISimilarityScorer input(ITransitionFunction transitionFunction) {
 		this.transitionFunction = transitionFunction;
-		singletons = new ArrayList<>(transitionFunction.getTreeOfConcepts().getLeaves());
+		singletons = new ArrayList<>(transitionFunction.getTreeOfDenotationSets().getLeaves());
 		Collections.sort(singletons, (c1, c2) -> c1.getID() - c2.getID());
 		singletonIDs = new int[singletons.size()];
 		int singletonIdx = 0;
-		for (IConcept singleton : singletons) {
+		for (IDenotationSet singleton : singletons) {
 			singletonIDs[singletonIdx++] = singleton.getID(); 
 		}
 		return this;

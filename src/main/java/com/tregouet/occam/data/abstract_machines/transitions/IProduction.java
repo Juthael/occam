@@ -2,8 +2,8 @@ package com.tregouet.occam.data.abstract_machines.transitions;
 
 import java.util.List;
 
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 
@@ -16,19 +16,19 @@ public interface IProduction {
 	@Override
 	boolean equals(Object o);
 	
-	IConcept getGenus();
+	IDenotationSet getGenusDenotationSet();
 	
 	String getLabel();
 	
-	IIntentConstruct getSource();
+	IDenotation getSource();
 	
-	IConcept getSourceConcept();
+	IDenotationSet getSourceDenotationSet();
 	
-	IConcept getSpecies();
+	IDenotationSet getSpeciesDenotationSet();
 	
-	IIntentConstruct getTarget();
+	IDenotation getTarget();
 	
-	IConcept getTargetConcept();
+	IDenotationSet getTargetDenotationSet();
 	
 	List<IConstruct> getValues();
 	

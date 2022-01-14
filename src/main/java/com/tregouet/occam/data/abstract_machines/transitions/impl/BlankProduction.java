@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
 import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.concepts.IIntentConstruct;
+import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
 public class BlankProduction extends BasicProduction implements IBasicProduction {
 
 	private static final long serialVersionUID = -1489727700831533797L;
 
-	public BlankProduction(IIntentConstruct operatorInput, IIntentConstruct operatorOutput) {
+	public BlankProduction(IDenotation operatorInput, IDenotation operatorOutput) {
 		super(operatorInput, operatorOutput);
 	}
 	

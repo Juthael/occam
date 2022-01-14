@@ -18,14 +18,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
-import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
-import com.tregouet.occam.data.languages.generic.IContextObject;
+import com.tregouet.occam.data.languages.specific.IBasicProduction;
+import com.tregouet.occam.data.languages.specific.ICompositeProduction;
+import com.tregouet.occam.data.languages.specific.IProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")

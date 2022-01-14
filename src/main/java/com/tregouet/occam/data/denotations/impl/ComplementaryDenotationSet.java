@@ -5,9 +5,9 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.data.denotations.IComplementaryDenotationSet;
+import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.languages.generic.IContextObject;
 
 public class ComplementaryDenotationSet extends AbstractDenotationSet implements IComplementaryDenotationSet {
 

@@ -12,14 +12,14 @@ import com.tregouet.occam.alg.scoring.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.data.abstract_machines.IFiniteAutomaton;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
-import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ICostedTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
-import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
+import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;
+import com.tregouet.occam.data.languages.specific.IProduction;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface ITransitionFunction extends ICosted, IScored {
@@ -33,11 +33,11 @@ public interface ITransitionFunction extends ICosted, IScored {
 	
 	List<IConjunctiveTransition> getConjunctiveTransitions();
 	
-	IDomainSpecificLanguage getDomainSpecificLanguage();
+	IDomainSpecificLanguageDisplayer getDomainSpecificLanguage();
 	
 	SimpleDirectedGraph<IState, IConjunctiveTransition> getFiniteAutomatonGraph();
 	
-	DirectedMultigraph<IState, ITransition> getFiniteAutomatonMultigraph();
+	DirectedMultigraph<IState, ITransitionRule> getFiniteAutomatonMultigraph();
 	
 	Tree<IState, IGenusDifferentiaDefinition> getPorphyrianTree();
 	

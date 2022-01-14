@@ -1,13 +1,10 @@
-package com.tregouet.occam.data.abstract_machines.transitions.impl;
+package com.tregouet.occam.data.languages.specific.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
@@ -15,6 +12,9 @@ import com.tregouet.occam.data.languages.generic.ISymbol;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 import com.tregouet.occam.data.languages.lambda.impl.LambdaExpression;
+import com.tregouet.occam.data.languages.specific.IBasicProduction;
+import com.tregouet.occam.data.languages.specific.ICompositeProduction;
+import com.tregouet.occam.data.languages.specific.IProduction;
 
 public class BasicProduction extends Production implements IBasicProduction {
 

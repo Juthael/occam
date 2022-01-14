@@ -1,9 +1,9 @@
-package com.tregouet.occam.data.abstract_machines.transitions.impl;
+package com.tregouet.occam.data.languages.specific.impl;
 
 import org.jgrapht.graph.DefaultEdge;
 
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
 import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.languages.specific.IProduction;
 import com.tregouet.occam.data.denotations.IDenotation;
 
 public abstract class Production extends DefaultEdge implements IProduction {

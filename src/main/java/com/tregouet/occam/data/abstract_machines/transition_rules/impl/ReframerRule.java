@@ -1,31 +1,25 @@
-package com.tregouet.occam.data.abstract_machines.transitions.impl;
+package com.tregouet.occam.data.abstract_machines.transition_rules.impl;
 
 import com.tregouet.occam.data.abstract_machines.states.IState;
-import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IReframerRule;
 
-public class Reframer extends Transition implements IReframer {
+public class ReframerRule extends TransitionRule implements IReframerRule {
 
 	private final Integer complementedStateID;
-	private Double cost = null;
 	
-	public Reframer(IState complementaryState, int complementedStateID, IState successorState) {
-		super(complementaryState, successorState);
+	public ReframerRule(IState predecessorState, IState complementaryState, int complementedStateID) {
+		super(new InputConfiguration(predecessorState, null, null), new OutputInternConfiguration(complementaryState, null));
 		this.complementedStateID = complementedStateID;
 	}
 	
-	public Reframer(IState connectedState, IState complementaryState) {
-		super(connectedState, complementaryState);
+	public ReframerRule(IState complementaryState, IState connectedState) {
+		super(new InputConfiguration(complementaryState, null, null), new OutputInternConfiguration(connectedState, null));
 		complementedStateID = null;
 	}	
 	
 	@Override
 	public Integer getComplementedStateID() {
 		return complementedStateID;
-	}
-	
-	@Override
-	public Double getCost() {
-		return cost;
 	}
 
 	@Override
@@ -41,11 +35,6 @@ public class Reframer extends Transition implements IReframer {
 	@Override
 	public boolean isReframer() {
 		return true;
-	}
-
-	@Override
-	public void setCost(double cost) {
-		this.cost = cost;
 	}
 
 	@Override

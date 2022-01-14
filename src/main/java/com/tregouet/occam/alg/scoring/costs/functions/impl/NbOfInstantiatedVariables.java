@@ -5,13 +5,13 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.scoring.costs.functions.IFunctionCoster;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
-import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IBasicOperator;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
 import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.languages.specific.IBasicProduction;
+import com.tregouet.occam.data.languages.specific.ICompositeProduction;
+import com.tregouet.occam.data.languages.specific.IProduction;
 
 public class NbOfInstantiatedVariables implements IFunctionCoster {
 
@@ -31,9 +31,9 @@ public class NbOfInstantiatedVariables implements IFunctionCoster {
 	public void setCost() {
 		Set<AVariable> instantiatedVariables = new HashSet<>();
 		for (IConjunctiveTransition conjTransition : transitionFunction.getConjunctiveTransitions()) {
-			for (ITransition transition : conjTransition.getComponents()) {
-				if (!transition.isReframer()) {
-					IBasicOperator basicOperator = (IBasicOperator) transition;
+			for (ITransitionRule transitionRule : conjTransition.getComponents()) {
+				if (!transitionRule.isReframer()) {
+					IBasicOperator basicOperator = (IBasicOperator) transitionRule;
 					for (IProduction production : basicOperator.operation()) {
 						if (production instanceof IBasicProduction) {
 							if (!production.isBlank() && !production.isVariableSwitcher())

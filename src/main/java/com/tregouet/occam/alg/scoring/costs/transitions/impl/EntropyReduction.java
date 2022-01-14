@@ -6,7 +6,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import com.tregouet.occam.alg.scoring.costs.transitions.ITransitionCoster;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
-import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ICostedTransition;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
@@ -29,8 +29,8 @@ public class EntropyReduction implements ITransitionCoster {
 
 	@Override
 	public void setCost() {
-		int speciesIdx = ArrayUtils.indexOf(topoOrderedStateIDs, transition.getOperatingState().getStateID());
-		int genusIdx = ArrayUtils.indexOf(topoOrderedStateIDs, transition.getNextState().getStateID());
+		int speciesIdx = ArrayUtils.indexOf(topoOrderedStateIDs, transition.getInputState().getStateID());
+		int genusIdx = ArrayUtils.indexOf(topoOrderedStateIDs, transition.getOutputState().getStateID());
 		double entropyReduction = entropyReductionMatrix[speciesIdx][genusIdx];
 		transition.setCost(entropyReduction);
 	}

@@ -2,7 +2,7 @@ package com.tregouet.occam.alg.transition_function_gen;
 
 import java.util.List;
 
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.languages.specific.IProduction;
 
 public interface IProductionBuilder {
 	

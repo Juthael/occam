@@ -1,11 +1,8 @@
 package com.tregouet.occam.data.abstract_machines.states;
 
-import java.util.Set;
-
 import com.tregouet.occam.data.abstract_machines.tapes.ITapeSet;
-import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
 import com.tregouet.occam.data.denotations.IDenotationSet;
-import com.tregouet.occam.data.denotations.IDenotation;
 
 public interface IState {
 	
@@ -17,7 +14,7 @@ public interface IState {
 	
 	boolean acceptInput(ITapeSet tapeSet);
 	
-	void addTransition(IOperator operator);
+	void loadTransitionRule(ITransitionRule transitionRule);
 	
 	@Override
 	boolean equals(Object o);
@@ -25,8 +22,6 @@ public interface IState {
 	void generateOutputLanguage();
 	
 	IDenotationSet getAssociatedDenotationSet();
-	
-	Set<IDenotation> getInputLanguage();
 	
 	int getRank();
 	

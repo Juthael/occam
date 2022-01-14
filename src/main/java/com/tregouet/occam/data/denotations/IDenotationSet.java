@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
 public interface IDenotationSet extends IDichotomizable<IDenotationSet> {

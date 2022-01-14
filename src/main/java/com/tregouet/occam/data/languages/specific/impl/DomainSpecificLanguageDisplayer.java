@@ -14,12 +14,12 @@ import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.data.abstract_machines.states.IState;
-import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IOperator;
 import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
+import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;
+import com.tregouet.occam.data.languages.specific.IProduction;
 
-public class DomainSpecificLanguage implements IDomainSpecificLanguage {
+public class DomainSpecificLanguageDisplayer implements IDomainSpecificLanguageDisplayer {
 
 	List<IOperator> topologicalSorting = new ArrayList<>();
 	IOperator startVariable;
@@ -27,10 +27,10 @@ public class DomainSpecificLanguage implements IDomainSpecificLanguage {
 	List<IOperator> terminals = new ArrayList<>(); 
 	Map<IOperator, Set<IOperator>> productions = new LinkedHashMap<>();
 	
-	public DomainSpecificLanguage(List<IState> states, List<IOperator> operators) {
+	public DomainSpecificLanguageDisplayer(List<IState> states, List<IOperator> operators) {
 		DirectedMultigraph<IState, IOperator> dag = new DirectedMultigraph<>(null, null, false);
 		states.stream().forEach(s -> dag.addVertex(s));
-		operators.stream().forEach(o -> dag.addEdge(o.getOperatingState(), o.getNextState(), o));
+		operators.stream().forEach(o -> dag.addEdge(o.getInputState(), o.getOutputState(), o));
 		TopologicalOrderIterator<IState, IOperator> topoStateIte = new TopologicalOrderIterator<>(dag);
 		while (topoStateIte.hasNext()) {
 			IState currState = topoStateIte.next();

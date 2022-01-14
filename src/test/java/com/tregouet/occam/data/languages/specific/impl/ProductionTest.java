@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.abstract_machines.transitions.impl;
+package com.tregouet.occam.data.languages.specific.impl;
 
 import static org.junit.Assert.*;
 
@@ -12,21 +12,21 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.impl.BasicProduction;
+import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.impl.DenotationSet;
 import com.tregouet.occam.data.denotations.impl.Denotation;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.data.languages.generic.ISymbol;
 import com.tregouet.occam.data.languages.generic.ITerminal;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Terminal;
 import com.tregouet.occam.data.languages.generic.impl.Variable;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
+import com.tregouet.occam.data.languages.specific.IBasicProduction;
+import com.tregouet.occam.data.languages.specific.IProduction;
+import com.tregouet.occam.data.languages.specific.impl.BasicProduction;
 
 public class ProductionTest {
 

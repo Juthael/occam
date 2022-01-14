@@ -17,14 +17,14 @@ import org.jgrapht.nio.dot.DOTExporter;
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
-import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
-import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
-import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IBasicOperator;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IReframerRule;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.languages.specific.IProduction;
 import com.tregouet.tree_finder.data.Tree;
 
 import guru.nidi.graphviz.engine.Format;
@@ -159,7 +159,7 @@ public class Visualizer {
 	
 	public static void visualizeTransitionFunctionMultiGraph(ITransitionFunction tF, String fileName) 
 			throws IOException {
-		DOTExporter<IState,ITransition> simpleGraphExporter = new DOTExporter<>();
+		DOTExporter<IState,ITransitionRule> simpleGraphExporter = new DOTExporter<>();
 		simpleGraphExporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
@@ -193,21 +193,21 @@ public class Visualizer {
 		return sB.toString();
 	}
 	
-	private static String operatorAsString(ITransition transition) {
+	private static String operatorAsString(ITransitionRule transitionRule) {
 		StringBuilder sB = new StringBuilder();
 		String nL = System.lineSeparator();
-		if (!transition.isBlank()) {
-			if (transition instanceof IConjunctiveTransition) {
-				IConjunctiveTransition conjTrans = (IConjunctiveTransition) transition;
-				IReframer reframer = conjTrans.getReframer();
-				if (reframer != null)
-					sB.append("FRAME " + reframer.toString() +  nL);
+		if (!transitionRule.isBlank()) {
+			if (transitionRule instanceof IConjunctiveTransition) {
+				IConjunctiveTransition conjTrans = (IConjunctiveTransition) transitionRule;
+				IReframerRule reframerRule = conjTrans.getReframer();
+				if (reframerRule != null)
+					sB.append("FRAME " + reframerRule.toString() +  nL);
 				for (IBasicOperator operator : conjTrans.getOperators()) {
 					sB.append(operatorAsString(operator) + nL);
 				}
 			}
-			else if (transition instanceof IBasicOperator) {
-				IBasicOperator operator = (IBasicOperator) transition;
+			else if (transitionRule instanceof IBasicOperator) {
+				IBasicOperator operator = (IBasicOperator) transitionRule;
 				sB.append(operator.getName() + " : ");
 				List<IProduction> productions = operator.operation();
 				if (productions.size() > 1)
@@ -218,9 +218,9 @@ public class Visualizer {
 						sB.append(nL);
 				}
 			}
-			else if (transition instanceof IReframer) {
-				IReframer reframer = (IReframer) transition;
-				sB.append(reframer.getName());
+			else if (transitionRule instanceof IReframerRule) {
+				IReframerRule reframerRule = (IReframerRule) transitionRule;
+				sB.append(reframerRule.getName());
 			}
 		}
 		return sB.toString();

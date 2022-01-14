@@ -6,9 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.impl.BasicProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.impl.BlankProduction;
 import com.tregouet.occam.data.denotations.IDenotationSets;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.AVariable;
@@ -16,6 +13,9 @@ import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.ISymbol;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Terminal;
+import com.tregouet.occam.data.languages.specific.IBasicProduction;
+import com.tregouet.occam.data.languages.specific.impl.BasicProduction;
+import com.tregouet.occam.data.languages.specific.impl.BlankProduction;
 
 public class ProductionGenerator {
 

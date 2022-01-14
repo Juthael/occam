@@ -1,20 +1,18 @@
 package com.tregouet.occam.data.abstract_machines.states.impl;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.tapes.ITapeSet;
-import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
 import com.tregouet.occam.data.denotations.IDenotationSet;
-import com.tregouet.occam.data.denotations.IDenotation;
 
 public class State implements IState {
 
 	private final IDenotationSet denotationSet;
-	private List<IOperator> transitions = null;
+	@SuppressWarnings("unused")
+	//used by unimplemented methods
+	private List<ITransitionRule> transitionRules = null;
 	@SuppressWarnings("unused")
 	//used by unimplemented methods
 	private List<ITapeSet> evaluationQueue = null;
@@ -27,27 +25,15 @@ public class State implements IState {
 
 	@Override
 	public boolean acceptInput(ITapeSet tapeSet) {
-		//Not implemented yet
-		/*
-		if (!isActive())
-			return false;
-		for (IOperator operator : transitions) {
-			if (operator.operateOn(tapeSet.))
-				
-		}
-		*/
+		//NOT IMPLEMENTED YET
 		return false;
 	}
 
 	@Override
-	public void addTransition(IOperator operator) {
-		// TODO Auto-generated method stub
-
+	public void loadTransitionRule(ITransitionRule transitionRule) {
+		//NOT IMPLEMENTED YET
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -67,29 +53,12 @@ public class State implements IState {
 
 	@Override
 	public void generateOutputLanguage() {
-		// TODO Auto-generated method stub
-
+		//NOT IMPLEMENTED YET
 	}
 
 	@Override
 	public IDenotationSet getAssociatedDenotationSet() {
 		return denotationSet;
-	}
-
-	@Override
-	public Set<IDenotation> getInputLanguage() {
-		if (this.isActive()) {
-			Set<IDenotation> inputlanguage = new HashSet<>();
-			for (IOperator operator : transitions) {
-				for (IProduction prod : operator.operation())
-					inputlanguage.add(prod.getSource());
-			}
-			return inputlanguage;
-		}
-		else {
-			//not proper input language. For tests use. 
-			return denotationSet.getDenotations();
-		}
 	}
 
 	@Override
@@ -120,29 +89,29 @@ public class State implements IState {
 
 	@Override
 	public boolean isActive() {
-		// TODO Auto-generated method stub
+		//NOT IMPLEMENTED YET
 		return false;
 	}
 
 	@Override
 	public boolean isOperative() {
-		// TODO Auto-generated method stub
+		//NOT IMPLEMENTED YET
 		return false;
 	}
 
 	@Override
 	public void mergeTapeSetsWithSameInput() {
-		// TODO Auto-generated method stub
+		//NOT IMPLEMENTED YET
 	}
 
 	@Override
 	public void proceedTransitions() {
-		// TODO Auto-generated method stub
+		//NOT IMPLEMENTED YET
 	}
 
 	@Override
 	public void setRank(int rank) {
-		// TODO Auto-generated method stub
+		//NOT IMPLEMENTED YET
 	}
 
 }

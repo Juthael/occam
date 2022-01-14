@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
-import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
 
 public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 
@@ -47,7 +47,7 @@ public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 	
 	@Override
 	public boolean isReframer() {
-		for (ITransition differentia : differentiae)
+		for (ITransitionRule differentia : differentiae)
 			if (differentia.isReframer())
 				return true;
 		return false;

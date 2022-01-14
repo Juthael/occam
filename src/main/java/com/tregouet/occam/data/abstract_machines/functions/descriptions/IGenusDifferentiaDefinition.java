@@ -7,9 +7,9 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.alg.scoring.costs.ICosted;
 import com.tregouet.occam.data.abstract_machines.states.IState;
-import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
-import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IReframerRule;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
 
 public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements ICosted {
 	
@@ -52,17 +52,17 @@ public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		String nL = System.lineSeparator();
-		List<ITransition> operators = new ArrayList<>();
-		IReframer reframer = null;
-		for (ITransition differentia : getDifferentiae()) {
+		List<ITransitionRule> operators = new ArrayList<>();
+		IReframerRule reframerRule = null;
+		for (ITransitionRule differentia : getDifferentiae()) {
 			if (!differentia.isBlank()) {
-				if (reframer == null && differentia instanceof IReframer)
-					reframer = (IReframer) differentia;
+				if (reframerRule == null && differentia instanceof IReframerRule)
+					reframerRule = (IReframerRule) differentia;
 				else operators.add(differentia);
 			}
 		}
-		if (reframer != null) {
-			sB.append(reframer.toString());
+		if (reframerRule != null) {
+			sB.append(reframerRule.toString());
 			if (!operators.isEmpty())
 				sB.append(nL);
 		}

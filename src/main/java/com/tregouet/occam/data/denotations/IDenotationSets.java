@@ -8,7 +8,6 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.denotation_sets_gen.IConstrainedDenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
-import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public interface IDenotationSets {

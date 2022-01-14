@@ -27,20 +27,20 @@ import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.states.impl.State;
-import com.tregouet.occam.data.abstract_machines.transitions.IBasicOperator;
-import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.IReframer;
-import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
-import com.tregouet.occam.data.abstract_machines.transitions.impl.BasicOperator;
-import com.tregouet.occam.data.abstract_machines.transitions.impl.ConjunctiveTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.impl.Reframer;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IBasicOperator;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ICostedTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IReframerRule;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
+import com.tregouet.occam.data.abstract_machines.transition_rules.impl.Operator;
+import com.tregouet.occam.data.abstract_machines.transition_rules.impl.ConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.impl.ReframerRule;
 import com.tregouet.occam.data.denotations.IComplementaryDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
-import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguage;
+import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;
+import com.tregouet.occam.data.languages.specific.IProduction;
 import com.tregouet.tree_finder.data.Tree;
 
 public class TransitionFunction implements ITransitionFunction {
@@ -51,14 +51,14 @@ public class TransitionFunction implements ITransitionFunction {
 	private final List<ICostedTransition> transitions = new ArrayList<>();
 	private final List<IConjunctiveTransition> conjunctiveTransitions = new ArrayList<>();
 	private final Tree<IState, IGenusDifferentiaDefinition> prophyrianTree;
-	private DirectedMultigraph<IState, ITransition> finiteAutomatonMultigraph = null;
+	private DirectedMultigraph<IState, ITransitionRule> finiteAutomatonMultigraph = null;
 	private SimpleDirectedGraph<IState, IConjunctiveTransition> finiteAutomatonGraph = null;
 	private ISimilarityScorer similarityScorer;
 	private Double cost = null;
 	private Double score = null;
 	
 	public TransitionFunction(Tree<IDenotationSet, IIsA> denotationSets, Tree<IDenotation, IProduction> denotations) {
-		ITransition.initializeNameProvider();
+		ITransitionRule.initializeNameProvider();
 		IConjunctiveTransition.initializeNameProvider();
 		this.denotationSets = denotationSets;
 		this.denotations = denotations;
@@ -66,9 +66,9 @@ public class TransitionFunction implements ITransitionFunction {
 			denotationSetToState.put(denotationSet, new State(denotationSet));
 		transitions.addAll(buildOperators(new ArrayList<>(denotations.edgeSet())));
 		connectEmptyComplementaryDenotationSets();
-		for (ITransition transition : transitions) {
-			if (!conjunctiveTransitions.stream().anyMatch(t -> t.addTransition(transition)))
-				conjunctiveTransitions.add(new ConjunctiveTransition(transition));
+		for (ITransitionRule transitionRule : transitions) {
+			if (!conjunctiveTransitions.stream().anyMatch(t -> t.loadTransitionRule(transition)))
+				conjunctiveTransitions.add(new ConjunctiveTransition(transitionRule));
 		}
 		prophyrianTree = IOntologist.getPorphyrianTree(this);
 		setUpCostsAndScores();
@@ -125,7 +125,7 @@ public class TransitionFunction implements ITransitionFunction {
 				}
 				else operation.add(productions.get(idxes.get(k)));
 			}
-			operators.add(new BasicOperator(activeState, operation, nextState));	
+			operators.add(new Operator(activeState, operation, nextState));	
 		}
 		return operators;
 	}
@@ -169,7 +169,7 @@ public class TransitionFunction implements ITransitionFunction {
 	}
 	
 	@Override
-	public IDomainSpecificLanguage getDomainSpecificLanguage() {
+	public IDomainSpecificLanguageDisplayer getDomainSpecificLanguage() {
 		//NOT IMPLEMENTED YET
 		return null;
 	}
@@ -181,19 +181,19 @@ public class TransitionFunction implements ITransitionFunction {
 			for (IState state : getStates())
 				finiteAutomatonGraph.addVertex(state);
 			for (IConjunctiveTransition operator : conjunctiveTransitions)
-				finiteAutomatonGraph.addEdge(operator.getOperatingState(), operator.getNextState(), operator);
+				finiteAutomatonGraph.addEdge(operator.getInputState(), operator.getOutputState(), operator);
 		}
 		return finiteAutomatonGraph;
 	}
 
 	@Override
-	public DirectedMultigraph<IState, ITransition> getFiniteAutomatonMultigraph() {
+	public DirectedMultigraph<IState, ITransitionRule> getFiniteAutomatonMultigraph() {
 		if (finiteAutomatonMultigraph == null) {
 			finiteAutomatonMultigraph = new DirectedMultigraph<>(null, null, false);
 			for (IState state : getStates())
 				finiteAutomatonMultigraph.addVertex(state);
-			for (ITransition operator : transitions)
-				finiteAutomatonMultigraph.addEdge(operator.getOperatingState(), operator.getNextState(), operator);			
+			for (ITransitionRule operator : transitions)
+				finiteAutomatonMultigraph.addEdge(operator.getInputState(), operator.getOutputState(), operator);			
 		}
 		return finiteAutomatonMultigraph;
 	}
@@ -294,12 +294,12 @@ public class TransitionFunction implements ITransitionFunction {
 				int complementedStateID = complementaryDenotationSet.getComplemented().getID();
 				IState successorState = 
 						denotationSetToState.get(Graphs.successorListOf(denotationSets, complementaryDenotationSet).get(0));
-				IReframer reframer = new Reframer(complementaryState, complementedStateID, successorState);
-				transitions.add(reframer);
+				IReframerRule reframerRule = new ReframerRule(complementaryState, complementedStateID, successorState);
+				transitions.add(reframerRule);
 				if (!complementaryDenotationSet.containsDenotations()) {
 					for (IDenotationSet predecessor : Graphs.predecessorListOf(denotationSets, denotationSet)) {
 						IState connectedState = denotationSetToState.get(predecessor);
-						IReframer connector = new Reframer(connectedState, complementaryState);
+						IReframerRule connector = new ReframerRule(connectedState, complementaryState);
 						transitions.add(connector);
 					}
 				}

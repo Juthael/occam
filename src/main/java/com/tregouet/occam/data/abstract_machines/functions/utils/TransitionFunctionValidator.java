@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.states.IState;
-import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 
 public class TransitionFunctionValidator implements Predicate<ITransitionFunction> {
 
@@ -20,7 +20,7 @@ public class TransitionFunctionValidator implements Predicate<ITransitionFunctio
 		states.removeIf(s -> s.getStateType() == IState.OC_STATE);
 		for (IConjunctiveTransition operator : tF.getConjunctiveTransitions()) {
 			if (!operator.isBlank()) 
-				states.remove(operator.getOperatingState());
+				states.remove(operator.getInputState());
 		}
 		return (states.isEmpty());
 	}

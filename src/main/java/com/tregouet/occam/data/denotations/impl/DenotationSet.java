@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.IContextObject;
 
 public class DenotationSet extends AbstractDenotationSet implements IDenotationSet {
 

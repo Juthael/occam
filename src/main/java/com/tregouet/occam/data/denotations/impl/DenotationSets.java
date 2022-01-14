@@ -22,13 +22,13 @@ import com.tregouet.occam.alg.denotation_sets_gen.IConstrainedDenotationSetsTree
 import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.denotation_sets_gen.impl.DenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.denotation_sets_gen.utils.DenotatingConstructBldr;
+import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
 import com.tregouet.occam.data.denotations.IExtentStructureConstraint;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.IContextObject;
 import com.tregouet.occam.data.languages.generic.ISymbol;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Variable;

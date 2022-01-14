@@ -25,20 +25,20 @@ import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSup
 import com.tregouet.occam.data.abstract_machines.functions.ITransitionFunction;
 import com.tregouet.occam.data.abstract_machines.functions.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.abstract_machines.states.IState;
-import com.tregouet.occam.data.abstract_machines.transitions.IBasicProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.ICompositeProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.abstract_machines.transitions.IOperator;
-import com.tregouet.occam.data.abstract_machines.transitions.IProduction;
-import com.tregouet.occam.data.abstract_machines.transitions.ITransition;
-import com.tregouet.occam.data.abstract_machines.transitions.impl.BlankProduction;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.IOperator;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.IContextObject;
+import com.tregouet.occam.data.languages.specific.IBasicProduction;
+import com.tregouet.occam.data.languages.specific.ICompositeProduction;
+import com.tregouet.occam.data.languages.specific.IProduction;
+import com.tregouet.occam.data.languages.specific.impl.BlankProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
@@ -151,9 +151,9 @@ public class TransitionFunctionTest {
 			*/
 			List<IBasicProduction> basicProds = new ArrayList<>();
 			List<IOperator> basicProdsOperators = new ArrayList<>();
-			for (ITransition transition : tF.getTransitions()) {
-				if (transition instanceof IOperator) {
-					IOperator operator = (IOperator) transition;
+			for (ITransitionRule transitionRule : tF.getTransitions()) {
+				if (transitionRule instanceof IOperator) {
+					IOperator operator = (IOperator) transitionRule;
 					for (IProduction production : operator.operation()) {
 						if (production instanceof BlankProduction) {
 						}
@@ -195,9 +195,9 @@ public class TransitionFunctionTest {
 		int checkCount = 0;
 		for (ITransitionFunction tF : transitionFunctions) {
 			Map<IProduction, IOperator> prodToOpe = new HashMap<>();
-			for (ITransition transition : tF.getTransitions()) {
-				if (transition instanceof IOperator) {
-					IOperator operator = (IOperator) transition;
+			for (ITransitionRule transitionRule : tF.getTransitions()) {
+				if (transitionRule instanceof IOperator) {
+					IOperator operator = (IOperator) transitionRule;
 					for (IProduction production : operator.operation()) {
 						prodToOpe.put(production, operator);
 					}
@@ -224,9 +224,9 @@ public class TransitionFunctionTest {
 	public void whenProductionsHandledBySameOperatorThenConsistentWithRequirements() {
 		boolean consistent = true;
 		for (ITransitionFunction tF : transitionFunctions) {
-			for (ITransition transition : tF.getTransitions()) {
-				if (transition instanceof IOperator) {
-					IOperator operator = (IOperator) transition;
+			for (ITransitionRule transitionRule : tF.getTransitions()) {
+				if (transitionRule instanceof IOperator) {
+					IOperator operator = (IOperator) transitionRule;
 					List<IProduction> productions = operator.operation();
 					if (!sameSourceAndTargetCategoryForAll(productions))
 						consistent = false;

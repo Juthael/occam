@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.scoring.costs.transitions.impl;
 
 import com.tregouet.occam.alg.scoring.costs.transitions.ITransitionCoster;
-import com.tregouet.occam.data.abstract_machines.transitions.ICostedTransition;
+import com.tregouet.occam.data.abstract_machines.transition_rules.ICostedTransition;
 
 public class Costless implements ITransitionCoster {
 

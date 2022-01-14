@@ -22,7 +22,7 @@ public interface IProduction {
 	
 	IIntentConstruct getSource();
 	
-	IConcept getSourceCategory();
+	IConcept getSourceConcept();
 	
 	IConcept getSpecies();
 	

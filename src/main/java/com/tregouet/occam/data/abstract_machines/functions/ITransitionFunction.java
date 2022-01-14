@@ -51,6 +51,8 @@ public interface ITransitionFunction extends ICosted, IScored {
 	
 	Tree<IIntentConstruct, IProduction> getTreeOfConstructs();
 	
+	Tree<IIntentConstruct, IProduction> getTreeOfConstructsWithNoBlankProduction();
+	
 	@Override
 	int hashCode();
 	

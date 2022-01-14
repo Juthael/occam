@@ -23,6 +23,8 @@ public interface IRepresentationDisplayer {
 	
 	void generateTreeOfConcepts() throws IOException;
 	
+	void generateTreeOfConstructs() throws IOException;
+	
 	double getCoherenceScore();
 	
 	int getConceptTreeIndex();

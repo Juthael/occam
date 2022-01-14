@@ -63,7 +63,7 @@ public abstract class Production extends DefaultEdge implements IProduction {
 	}
 
 	@Override
-	public IConcept getSourceCategory() {
+	public IConcept getSourceConcept() {
 		return operatorInput.getConcept();
 	}
 

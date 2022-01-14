@@ -147,6 +147,10 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alineaaa + "<p>" + NL);
 		sB.append(displayFigure("transition_function.png", alineaaaa, "Transition function"));
 		sB.append(alineaaa + "</p>" + NL);
+		sB.append(alineaa + "<h3>Tree of constructs : </h3>" + NL);
+		sB.append(alineaaa + "<p>" + NL);
+		sB.append(displayFigure("construct_tree.png", alineaaaa, "Tree of constructs"));
+		sB.append(alineaaa + "</p>" + NL);
 		sB.append(alineaa + "<h3>Similarity matrices : </h3>" + NL);
 		sB.append(alineaaa + "<p>" + NL);
 		sB.append(generateSimilarityMatrix(alineaaaa) + NL);
@@ -224,6 +228,11 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	public void generateTreeOfConcepts() throws IOException {
 		Visualizer.visualizeConceptGraph(isomorphicTransFunctions.getTreeOfConcepts(), "concept_tree.png");;
 	}
+	
+	@Override
+	public void generateTreeOfConstructs() throws IOException {
+		Visualizer.visualizeConstructGraph(currentTransFunc.getTreeOfConstructsWithNoBlankProduction(), "construct_tree.png");
+	}
 
 	@Override
 	public double getCoherenceScore() {
@@ -257,6 +266,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		generateTreeOfConcepts();
 		iteOverTF = isomorphicTransFunctions.getIteratorOverTransitionFunctions();
 		currentTransFunc = iteOverTF.next();
+		generateTreeOfConstructs();
 		generateTransitionFunctionGraph();
 		generatePorphyrianTree();
 	}
@@ -264,6 +274,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	@Override
 	public void nextTransitionFunctionOverCurrentCategoricalStructure() throws IOException {
 		currentTransFunc = iteOverTF.next();
+		generateTreeOfConstructs();
 		generateTransitionFunctionGraph();
 		generatePorphyrianTree();
 	}
@@ -294,6 +305,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		currentTransFunc = iteOverTF.next();
 		generateConceptLatticeGraph();
 		generateTreeOfConcepts();
+		generateTreeOfConstructs();
 		generateTransitionFunctionGraph();
 		generatePorphyrianTree();
 		return true;

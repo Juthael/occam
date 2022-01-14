@@ -94,7 +94,7 @@ public class TransitionFunctionSupplierTest {
 			DirectedAcyclicGraph<IIntentConstruct, IProduction> filteredConstructs = 
 					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
-				returnedCats.add(production.getSourceCategory());
+				returnedCats.add(production.getSourceConcept());
 				returnedCats.add(production.getTargetConcept());
 			}
 			if (!expectedCats.equals(returnedCats)) {
@@ -120,7 +120,7 @@ public class TransitionFunctionSupplierTest {
 					TransitionFunctionSupplier.getConstructGraphFilteredByConceptTree(catTree, constructs);
 			for (IProduction production : filteredConstructs.edgeSet()) {
 				checkCount++;
-				IConcept sourceCat = production.getSourceCategory();
+				IConcept sourceCat = production.getSourceConcept();
 				IConcept targetCat = production.getTargetConcept();
 				if (!catTree.getDescendants(sourceCat).contains(targetCat))
 					sourceAndTargetCatsAreRelated = false;

@@ -74,11 +74,11 @@ public class TransitionFunctionTest {
 		IConcept targetCategory = null;
 		for (int i = 0 ; i < productions.size() ; i++) {
 			if (i == 0) {
-				sourceCategory = productions.get(i).getSourceCategory();
+				sourceCategory = productions.get(i).getSourceConcept();
 				targetCategory = productions.get(i).getTargetConcept();
 			}
 			else {
-				if (!productions.get(i).getSourceCategory().equals(sourceCategory)
+				if (!productions.get(i).getSourceConcept().equals(sourceCategory)
 						|| !productions.get(i).getTargetConcept().equals(targetCategory))
 					sameSourceAndTargetCategory = false;
 			}
@@ -175,7 +175,7 @@ public class TransitionFunctionTest {
 				for (int j = i + 1 ; j < basicProds.size() ; j++) {
 					IBasicProduction iProd = basicProds.get(i);
 					IBasicProduction jProd = basicProds.get(j);
-					if (iProd.getSourceCategory().equals(jProd.getSourceCategory())
+					if (iProd.getSourceConcept().equals(jProd.getSourceConcept())
 							&& iProd.getTargetConcept().equals(jProd.getTargetConcept())
 							&& iProd.getValue().equals(jProd.getValue())) {
 						checkCount++;
@@ -208,7 +208,7 @@ public class TransitionFunctionTest {
 				for (int j = i + 1 ; j < productions.size() ; j++) {
 					IProduction iProd = productions.get(i);
 					IProduction jProd = productions.get(j);
-					if (iProd.getSourceCategory().equals(jProd.getSourceCategory())
+					if (iProd.getSourceConcept().equals(jProd.getSourceConcept())
 							&& iProd.getTarget().equals(jProd.getTarget())) {
 						checkCount++;
 						if (!prodToOpe.get(iProd).equals(prodToOpe.get(jProd)))

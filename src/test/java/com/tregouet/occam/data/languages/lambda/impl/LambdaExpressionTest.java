@@ -16,7 +16,6 @@ import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Terminal;
 import com.tregouet.occam.data.languages.generic.impl.Variable;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
-import com.tregouet.occam.data.languages.lambda.impl.LambdaExpression;
 
 public class LambdaExpressionTest {
 
@@ -45,12 +44,12 @@ public class LambdaExpressionTest {
 	public void whenToStringThenAsExpected() {		
 		String expectedConcreteExp = "pluralitas non est ponenda sine necessitate";
 		String expectedAbstExp = setExpectedAbstExp();
-		/*
+		
 		System.out.println("expected concrete : " + expectedConcreteExp);
 		System.out.println("returned concrete : " + concreteExp.toString());
 		System.out.println("expected abstract : " + expectedAbstExp);
 		System.out.println("returned abstract : " + abstractExp.toString());
-		*/
+		
 		assertTrue(concreteExp.toString().equals(expectedConcreteExp) 
 				&& abstractExp.toString().equals(expectedAbstExp));
 	}

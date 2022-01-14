@@ -43,7 +43,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		List<IProduction> varSwitchers = new ArrayList<>();
 		List<IIntentConstruct> varSwitcherSources = new ArrayList<>();
 		for (IProduction production : unfilteredUnreduced.edgeSet()) {
-			IConcept sourceConcept = production.getSourceCategory();
+			IConcept sourceConcept = production.getSourceConcept();
 			IConcept targetConcept = production.getTargetConcept();
 			if (treeOfConcepts.containsVertex(sourceConcept) 
 					&& treeOfConcepts.containsVertex(targetConcept) 

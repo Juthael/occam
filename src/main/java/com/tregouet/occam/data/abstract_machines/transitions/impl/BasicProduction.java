@@ -174,7 +174,7 @@ public class BasicProduction extends Production implements IBasicProduction {
 
 	@Override
 	public IProduction switchVariableOrReturnNull(IProduction varSwitcher) {
-		if (this.getTargetConcept().equals(varSwitcher.getSourceCategory()) 
+		if (this.getTargetConcept().equals(varSwitcher.getSourceConcept()) 
 				&& this.getTarget().equals(varSwitcher.getSource()) && varSwitcher instanceof IBasicProduction) {
 			IBasicProduction basicSwitcher = (IBasicProduction) varSwitcher;
 			if (this.variable.equals(basicSwitcher.getValue().getListOfSymbols().get(0))) {

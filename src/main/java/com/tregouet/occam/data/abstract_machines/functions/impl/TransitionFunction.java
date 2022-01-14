@@ -3,14 +3,17 @@ package com.tregouet.occam.data.abstract_machines.functions.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
 import org.jgrapht.Graphs;
+import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
+import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
@@ -91,7 +94,7 @@ public class TransitionFunction implements ITransitionFunction {
 				for (int j = i+1 ; j < productions.size() ; j++) {
 					if (!skipIdx.contains(j)) {
 						IProduction jProduction = productions.get(j);
-						if (iProduction.getSourceCategory().equals(jProduction.getSourceCategory())
+						if (iProduction.getSourceConcept().equals(jProduction.getSourceConcept())
 								&& iProduction.getTargetConcept().equals(jProduction.getTargetConcept())
 								&& (iProduction.getTarget().equals(jProduction.getTarget())
 									|| new ArrayList<>(iProduction.getValues()).removeAll(jProduction.getValues()))) {
@@ -116,7 +119,7 @@ public class TransitionFunction implements ITransitionFunction {
 			for (int k = 0 ; k < idxes.size() ; k++) {
 				if (k == 0) {
 					IProduction kProduction = productions.get(idxes.get(k));
-					activeState = conceptToState.get(kProduction.getSourceCategory());
+					activeState = conceptToState.get(kProduction.getSourceConcept());
 					nextState = conceptToState.get(kProduction.getTargetConcept());
 					operation.add(kProduction);
 				}
@@ -228,6 +231,32 @@ public class TransitionFunction implements ITransitionFunction {
 	@Override
 	public Tree<IIntentConstruct, IProduction> getTreeOfConstructs(){
 		return constructs;
+	}
+	
+	@Override
+	public Tree<IIntentConstruct, IProduction> getTreeOfConstructsWithNoBlankProduction(){
+		DirectedAcyclicGraph<IIntentConstruct, IProduction> restrictedConstructTree = new DirectedAcyclicGraph<>(null, null, false);
+		IIntentConstruct root = constructs.getRoot();
+		Set<IIntentConstruct> leaves = new HashSet<>();
+		List<IIntentConstruct> topoOrderedSet = new ArrayList<>();
+		Graphs.addAllVertices(restrictedConstructTree, constructs.vertexSet());
+		for (IProduction production : constructs.edgeSet()) {
+			if (!production.isBlank() || production.isVariableSwitcher()) {
+				restrictedConstructTree.addEdge(production.getSource(), production.getTarget(), production);
+			}
+		}
+		Set<IIntentConstruct> unconnectedVertices = new HashSet<>();
+		for (IIntentConstruct vertex : restrictedConstructTree.vertexSet()) {
+			if (restrictedConstructTree.inDegreeOf(vertex) == 0) {
+				if (restrictedConstructTree.outDegreeOf(vertex) == 0)
+					unconnectedVertices.add(vertex);
+				else leaves.add(vertex);
+			}
+		}
+		TopologicalOrderIterator<IIntentConstruct, IProduction> topoIte = new TopologicalOrderIterator<>(restrictedConstructTree);
+		topoIte.forEachRemaining(v -> topoOrderedSet.add(v));
+		restrictedConstructTree.removeAllVertices(unconnectedVertices);
+		return new Tree<IIntentConstruct, IProduction>(restrictedConstructTree, root, leaves, topoOrderedSet);
 	}
 
 	@Override

@@ -67,7 +67,7 @@ public class State implements IState {
 	}
 
 	@Override
-	public int getStateID() {
+	public int iD() {
 		return denotationSet.getID();
 	}
 

@@ -23,9 +23,9 @@ import com.tregouet.occam.data.denotations.IDenotationSets;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
-import com.tregouet.occam.data.languages.specific.IBasicProduction;
-import com.tregouet.occam.data.languages.specific.ICompositeProduction;
-import com.tregouet.occam.data.languages.specific.IProduction;
+import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
+import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
+import com.tregouet.occam.data.languages.specific.IEdgeProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")
@@ -43,18 +43,18 @@ public class ProductionBuilderTest {
 	
 	@Test
 	public void noTwoBasicProductionsHaveSameSourceAndTarget() {
-		List<IBasicProduction> basicProductions = builder.getProductions()
+		List<ISimpleEdgeProduction> simpleEdgeProductions = builder.getProductions()
 				.stream()
-				.filter(p -> p instanceof IBasicProduction)
-				.map(p -> (IBasicProduction) p)
+				.filter(p -> p instanceof ISimpleEdgeProduction)
+				.map(p -> (ISimpleEdgeProduction) p)
 				.collect(Collectors.toList());
 		Set<List<IDenotation>> sourceTargetPairs = new HashSet<>();
-		for (IBasicProduction basicProd : basicProductions) {
+		for (ISimpleEdgeProduction basicProd : simpleEdgeProductions) {
 			sourceTargetPairs.add(
 					new ArrayList<>(
 							Arrays.asList(new IDenotation[] {basicProd.getSource(), basicProd.getTarget()})));
 		}
-		assertTrue(basicProductions.size() == sourceTargetPairs.size());
+		assertTrue(simpleEdgeProductions.size() == sourceTargetPairs.size());
 	}
 	
 	@Before
@@ -75,12 +75,12 @@ public class ProductionBuilderTest {
 	@Test
 	public void whenProductionIsCompositeThenAllComponentsHaveSameSourceAndTarget() {
 		boolean componentsHaveSameSourceAndTarget = true;
-		List<ICompositeProduction> compositeProds = builder.getProductions()
+		List<ICompositeEdgeProduction> compositeProds = builder.getProductions()
 				.stream()
-				.filter(p -> p instanceof ICompositeProduction)
-				.map(p -> (ICompositeProduction) p)
+				.filter(p -> p instanceof ICompositeEdgeProduction)
+				.map(p -> (ICompositeEdgeProduction) p)
 				.collect(Collectors.toList());
-		for (ICompositeProduction prod : compositeProds) {
+		for (ICompositeEdgeProduction prod : compositeProds) {
 			IDenotation prodSource = null;
 			IDenotation prodTarget = null;
 			for (int i = 0 ; i < prod.getComponents().size() ; i++) {
@@ -102,7 +102,7 @@ public class ProductionBuilderTest {
 	@Test
 	public void whenProductionsRequestedThenAllowGraphBuildingAsExpected() throws IOException {
 		boolean aVertexOrEdgeAdditionHasFailed = false;
-		List<IProduction> productions = builder.getProductions()
+		List<IEdgeProduction> edgeProductions = builder.getProductions()
 				.stream()
 				.filter(p -> p.getSource().getDenotationSet().type() != IDenotationSet.ABSURDITY)
 				.collect(Collectors.toList());
@@ -111,7 +111,7 @@ public class ProductionBuilderTest {
 			if (denotationSet.type() != IDenotationSet.ABSURDITY)
 				denotations.addAll(denotationSet.getDenotations());
 		}
-		DirectedAcyclicGraph<IDenotation, IProduction> graph = new DirectedAcyclicGraph<>(IProduction.class);
+		DirectedAcyclicGraph<IDenotation, IEdgeProduction> graph = new DirectedAcyclicGraph<>(IEdgeProduction.class);
 		for (IDenotation denotation : denotations) {
 			if (!graph.addVertex(denotation))
 				aVertexOrEdgeAdditionHasFailed = true;

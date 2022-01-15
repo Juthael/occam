@@ -11,24 +11,16 @@ public interface IIsomorphicAutomatons extends Comparable<IIsomorphicAutomatons>
 	
 	double getCoherenceScore();
 	
-	String getObjectsDenotationsAsString();
-	
 	String getExtentStructureAsString();
 	
-	Iterator<IAutomaton> getIteratorOverTransitionFunctions();
+	Iterator<IAutomaton> getIteratorOverAutomatons();
 	
-	IAutomaton getOptimalTransitionFunction();
+	IAutomaton getOptimalAutomaton();
 	
 	Tree<IDenotationSet, IIsA> getTreeOfDenotationSets();
 	
-	//has a transition function
-	boolean isValid();
-	
 	boolean meetsConstraint(IExtentStructureConstraint constraint);
 	
-	boolean testAlternativeRepresentation(IAutomaton altRepresentation);
-	
-	@Override
-	String toString();
+	boolean addIsomorphicAutomaton(IAutomaton altRepresentation);
 	
 }

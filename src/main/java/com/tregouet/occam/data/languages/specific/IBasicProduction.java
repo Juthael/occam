@@ -1,21 +1,25 @@
 package com.tregouet.occam.data.languages.specific;
 
-import java.util.List;
-
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
-public interface IBasicProduction extends IProduction {
+public interface IBasicProduction extends IProduction{
 	
-	ILambdaExpression asLambda(List<IProduction> nextProductions);
+	boolean derives(AVariable var);
 	
-	ILambdaExpression asLambdaFromBasicProd(List<IBasicProduction> nextProductions);
+	@Override
+	boolean equals(Object o);
 	
 	IConstruct getValue();
 	
-	AVariable getVariable();
+	@Override
+	int hashCode();
 	
-	ILambdaExpression semanticRule();
+	boolean isVariableSwitcher();
+	
+	@Override
+	String toString();
+	
+	ICompositeProduction compose(IBasicProduction basicComponent);
 
 }

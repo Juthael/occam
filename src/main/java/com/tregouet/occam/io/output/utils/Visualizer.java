@@ -24,7 +24,7 @@ import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRul
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
-import com.tregouet.occam.data.languages.specific.IProduction;
+import com.tregouet.occam.data.languages.specific.IEdgeProduction;
 import com.tregouet.tree_finder.data.Tree;
 
 import guru.nidi.graphviz.engine.Format;
@@ -69,10 +69,10 @@ public class Visualizer {
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}	
 	
-	public static void visualizeDenotationGraph(DirectedAcyclicGraph<IDenotation, IProduction> graph, 
+	public static void visualizeDenotationGraph(DirectedAcyclicGraph<IDenotation, IEdgeProduction> graph, 
 			String fileName) throws IOException {
 		//convert in DOT format
-		DOTExporter<IDenotation,IProduction> exporter = new DOTExporter<>();
+		DOTExporter<IDenotation,IEdgeProduction> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
@@ -113,7 +113,7 @@ public class Visualizer {
 		});
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(Integer.toString(v.getStateID())));
+			map.put("label", DefaultAttribute.createAttribute(Integer.toString(v.iD())));
 			return map;
 		});
 		exporter.setEdgeAttributeProvider((e) -> {
@@ -141,7 +141,7 @@ public class Visualizer {
 		});
 		simpleGraphExporter.setVertexAttributeProvider((s) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(Integer.toString(s.getStateID())));
+			map.put("label", DefaultAttribute.createAttribute(Integer.toString(s.iD())));
 			return map;
 		});
 		simpleGraphExporter.setEdgeAttributeProvider((o) -> {
@@ -167,7 +167,7 @@ public class Visualizer {
 		});
 		simpleGraphExporter.setVertexAttributeProvider((s) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(Integer.toString(s.getStateID())));
+			map.put("label", DefaultAttribute.createAttribute(Integer.toString(s.iD())));
 			return map;
 		});
 		simpleGraphExporter.setEdgeAttributeProvider((o) -> {
@@ -209,12 +209,12 @@ public class Visualizer {
 			else if (transitionRule instanceof IBasicOperator) {
 				IBasicOperator operator = (IBasicOperator) transitionRule;
 				sB.append(operator.getName() + " : ");
-				List<IProduction> productions = operator.operation();
-				if (productions.size() > 1)
+				List<IEdgeProduction> edgeProductions = operator.operation();
+				if (edgeProductions.size() > 1)
 					sB.append(nL);
-				for (int i = 0 ; i < productions.size() ; i++) {
-					sB.append(productions.get(i).toString());
-					if (i < productions.size() - 1)
+				for (int i = 0 ; i < edgeProductions.size() ; i++) {
+					sB.append(edgeProductions.get(i).toString());
+					if (i < edgeProductions.size() - 1)
 						sB.append(nL);
 				}
 			}

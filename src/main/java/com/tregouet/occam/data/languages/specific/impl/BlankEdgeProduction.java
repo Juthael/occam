@@ -4,19 +4,19 @@ import java.util.List;
 
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
-import com.tregouet.occam.data.languages.specific.IBasicProduction;
-import com.tregouet.occam.data.languages.specific.IProduction;
+import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
+import com.tregouet.occam.data.languages.specific.IEdgeProduction;
 
-public class BlankProduction extends BasicProduction implements IBasicProduction {
+public class BlankEdgeProduction extends SimpleEdgeProduction implements ISimpleEdgeProduction {
 
 	private static final long serialVersionUID = -1489727700831533797L;
 
-	public BlankProduction(IDenotation operatorInput, IDenotation operatorOutput) {
+	public BlankEdgeProduction(IDenotation operatorInput, IDenotation operatorOutput) {
 		super(operatorInput, operatorOutput);
 	}
 	
 	@Override
-	public ILambdaExpression asLambda(List<IProduction> nextProductions) {
+	public ILambdaExpression asLambda(List<IEdgeProduction> nextProductions) {
 		return null;
 	}
 

@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.abstract_machines.automatons.utils;
+package com.tregouet.occam.data.abstract_machines.transition_functions.utils;
 
 import java.util.HashSet;
 import java.util.Set;

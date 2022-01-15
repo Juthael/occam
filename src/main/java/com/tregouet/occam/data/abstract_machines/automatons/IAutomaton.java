@@ -15,7 +15,7 @@ import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRul
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;
-import com.tregouet.occam.data.languages.specific.IProduction;
+import com.tregouet.occam.data.languages.specific.IEdgeProduction;
 
 public interface IAutomaton extends ICosted, IScored {
 	
@@ -24,7 +24,7 @@ public interface IAutomaton extends ICosted, IScored {
 	
 	List<IState> getStates();
 	
-	Set<IProduction> getInputAlphabet();
+	Set<IEdgeProduction> getInputAlphabet();
 	
 	Set<AVariable> getStackAlphabet();
 	
@@ -38,13 +38,9 @@ public interface IAutomaton extends ICosted, IScored {
 	
 	List<IState> getObjectStates();
 	
-	IState getAssociatedStateOf(IDenotationSet denotationSet);
+	IState getStateWithID(int iD);
 	
 	IDomainSpecificLanguageDisplayer getDomainSpecificLanguageDisplayer();
-	
-	SimpleDirectedGraph<IState, ITransitionRules> getFiniteAutomatonGraph();
-	
-	DirectedMultigraph<IState, ITransitionRule> getFiniteAutomatonMultigraph();
 	
 	@Override
 	int hashCode();

@@ -24,11 +24,11 @@ import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Terminal;
 import com.tregouet.occam.data.languages.generic.impl.Variable;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
-import com.tregouet.occam.data.languages.specific.IBasicProduction;
-import com.tregouet.occam.data.languages.specific.IProduction;
-import com.tregouet.occam.data.languages.specific.impl.BasicProduction;
+import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
+import com.tregouet.occam.data.languages.specific.IEdgeProduction;
+import com.tregouet.occam.data.languages.specific.impl.SimpleEdgeProduction;
 
-public class ProductionTest {
+public class EdgeProductionTest {
 
 	private ITerminal pluralitas = new Terminal("pluralitas");
 	private ITerminal non = new Terminal("non");
@@ -76,13 +76,13 @@ public class ProductionTest {
 	private IConstruct var3Value = new Construct(var3ValueProg);
 	private IConstruct var4Value = new Construct(var4ValueProg);
 	private IConstruct var5Value = new Construct(var5ValueProg);
-	private IBasicProduction prodVar1 = new BasicProduction(var1, var1Value, constr1, constr2);
-	private IBasicProduction prodVar2 = new BasicProduction(var2, var2Value, constr1, constr2);
-	private IBasicProduction prodVar3 = new BasicProduction(var3, var3Value, constr1, constr2);
-	private IBasicProduction prodVar4 = new BasicProduction(var4, var4Value, constr2, constr3);
-	private IBasicProduction prodVar5 = new BasicProduction(var5, var5Value, constr3, constr4);
-	private List<IBasicProduction> productions = 
-			new ArrayList<>(Arrays.asList(new IBasicProduction[] {prodVar1, prodVar2, prodVar3, prodVar4, prodVar5}));
+	private ISimpleEdgeProduction prodVar1 = new SimpleEdgeProduction(var1, var1Value, constr1, constr2);
+	private ISimpleEdgeProduction prodVar2 = new SimpleEdgeProduction(var2, var2Value, constr1, constr2);
+	private ISimpleEdgeProduction prodVar3 = new SimpleEdgeProduction(var3, var3Value, constr1, constr2);
+	private ISimpleEdgeProduction prodVar4 = new SimpleEdgeProduction(var4, var4Value, constr2, constr3);
+	private ISimpleEdgeProduction prodVar5 = new SimpleEdgeProduction(var5, var5Value, constr3, constr4);
+	private List<ISimpleEdgeProduction> productions = 
+			new ArrayList<>(Arrays.asList(new ISimpleEdgeProduction[] {prodVar1, prodVar2, prodVar3, prodVar4, prodVar5}));
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -111,7 +111,7 @@ public class ProductionTest {
 		sB.append(var3.toString());
 		sB.append(") non ponenda necessitate)");
 		ILambdaExpression prod5Lambda;
-		List<IProduction> remainingProds = new ArrayList<>(productions);
+		List<IEdgeProduction> remainingProds = new ArrayList<>(productions);
 		remainingProds.remove(prodVar5);
 		prod5Lambda = prodVar5.asLambda(remainingProds);
 		String prod5LambdaString = prod5Lambda.toString();

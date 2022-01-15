@@ -17,16 +17,16 @@ import com.tregouet.occam.data.denotations.IDenotationSets;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
-import com.tregouet.occam.data.languages.specific.IBasicProduction;
-import com.tregouet.occam.data.languages.specific.IProduction;
+import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
+import com.tregouet.occam.data.languages.specific.IEdgeProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
-public class BasicProductionTest {
+public class BasicEdgeProductionTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IDenotationSets denotationSets;
-	private final DirectedAcyclicGraph<IDenotation, IProduction> denotations = 
+	private final DirectedAcyclicGraph<IDenotation, IEdgeProduction> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
 	
@@ -38,8 +38,8 @@ public class BasicProductionTest {
 	@Before
 	public void setUp() throws Exception {
 		denotationSets = new DenotationSets(shapes2Obj);
-		List<IProduction> productions = new ProductionBuilder(denotationSets).getProductions();
-		productions.stream().forEach(p -> {
+		List<IEdgeProduction> edgeProductions = new ProductionBuilder(denotationSets).getProductions();
+		edgeProductions.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
@@ -48,19 +48,19 @@ public class BasicProductionTest {
 
 	@Test
 	public void whenSwitchVariableMethodCalledThenProceeds() throws Exception {
-		List<IProduction> basicProds = new ArrayList<>();
-		List<IBasicProduction> basicSwitchers = new ArrayList<>();
-		List<IBasicProduction> basicProdsAfterSwitch = new ArrayList<>();
+		List<IEdgeProduction> basicProds = new ArrayList<>();
+		List<ISimpleEdgeProduction> basicSwitchers = new ArrayList<>();
+		List<ISimpleEdgeProduction> basicProdsAfterSwitch = new ArrayList<>();
 		int switchCount = 0;
-		for (IProduction prod : denotations.edgeSet()) {
-			if (prod instanceof IBasicProduction) {
-				IBasicProduction basicProd = (IBasicProduction) prod;
+		for (IEdgeProduction prod : denotations.edgeSet()) {
+			if (prod instanceof ISimpleEdgeProduction) {
+				ISimpleEdgeProduction basicProd = (ISimpleEdgeProduction) prod;
 				if (basicProd.isVariableSwitcher())
 					basicSwitchers.add(basicProd);
 				else basicProds.add(basicProd);
 			}
 		}
-		for (IProduction basicProduction : basicProds) {
+		for (IEdgeProduction basicProduction : basicProds) {
 			/*
 			System.out.println("Basic production at test : " + basicProduction.toString());
 			System.out.println("Source category hashCode : " + basicProduction.getSourceCategory().hashCode());
@@ -69,13 +69,13 @@ public class BasicProductionTest {
 			System.out.println("Target attribute : " + basicProduction.getTarget().toString());
 			System.out.println(System.lineSeparator());
 			*/
-			IProduction basicProdAfterSwitch = null;
-			for (IBasicProduction varSwitcher : basicSwitchers) {
+			IEdgeProduction basicProdAfterSwitch = null;
+			for (ISimpleEdgeProduction varSwitcher : basicSwitchers) {
 				if (basicProdAfterSwitch == null) {
 					/*
 					System.out.println("Variable switcher at test : " + varSwitcher.toString());
 					*/
-					IProduction switched = basicProduction.switchVariableOrReturnNull(varSwitcher);
+					IEdgeProduction switched = basicProduction.switchVariableOrReturnNull(varSwitcher);
 					if (switched != null) {
 						basicProdAfterSwitch = switched;
 						switchCount++;
@@ -106,7 +106,7 @@ public class BasicProductionTest {
 				System.out.println("NO SWITCH" + System.lineSeparator());
 				*/
 			}
-			basicProdsAfterSwitch.add((IBasicProduction) basicProdAfterSwitch);
+			basicProdsAfterSwitch.add((ISimpleEdgeProduction) basicProdAfterSwitch);
 		}
 		assertTrue(switchCount > 0 && !basicProds.equals(basicProdsAfterSwitch));
 	}

@@ -1,11 +1,9 @@
 package com.tregouet.occam.data.languages.specific.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
@@ -18,51 +16,57 @@ import com.tregouet.occam.data.languages.specific.IProduction;
 
 public class BasicProduction extends Production implements IBasicProduction {
 
-	private static final long serialVersionUID = 1701074226278101143L;
-	private final AVariable variable;
+	private AVariable variable;
 	private final IConstruct value;
-	private boolean variableSwitcher;
+	boolean variableSwitcher;
 	
-	public BasicProduction(AVariable variable, IConstruct value, IDenotation operatorInput, 
-			IDenotation operatorOutput) {
-		super(operatorInput, operatorOutput);
+	public BasicProduction(AVariable variable, IConstruct value) {
 		this.variable = variable;
 		this.value = value;
 		variableSwitcher = value.getNbOfTerminals() == 0;
 	}
 	
-	protected BasicProduction(IDenotation operatorInput, IDenotation operatorOutput) {
-		super(operatorInput, operatorOutput);
-		variable = null;
-		value = null;
-		variableSwitcher = false;
+	@Override
+	public boolean derives(AVariable var) {
+		return var.equals(variable);
+	}
+
+	@Override
+	public IConstruct getValue() {
+		return value;
+	}
+
+	@Override
+	public boolean isVariableSwitcher() {
+		return variableSwitcher;
 	}
 
 	@Override
 	public ILambdaExpression asLambda(List<IProduction> nextProductions) {
-		List<IBasicProduction> basicProds = new ArrayList<>();
-		for (IProduction prod : nextProductions) {
-			if (prod instanceof ICompositeProduction)
-				basicProds.addAll(((ICompositeProduction) prod).getComponents());
-			else basicProds.add((IBasicProduction) prod);
-		}
-		return asLambdaFromBasicProd(basicProds);
-	}
-
-	@Override
-	public ILambdaExpression asLambdaFromBasicProd(List<IBasicProduction> nextProductions) {
 		ILambdaExpression lambda = semanticRule();
 		if (value.isAbstract()) {
 			int nbOfRemainingValueVars = value.getVariables().size();
-			List<IBasicProduction> remainingProd = new ArrayList<>(nextProductions);
-			Iterator<IBasicProduction> prodIte = nextProductions.iterator();
+			List<IProduction> remainingProd = new ArrayList<>(nextProductions);
+			Iterator<IProduction> prodIte = nextProductions.iterator();
 			while (nbOfRemainingValueVars > 0 && prodIte.hasNext()) {
-				IBasicProduction nextProd = prodIte.next();
+				IProduction nextProd = prodIte.next();
 				AVariable prodVar = nextProd.getVariable();
-				if (value.getVariables().contains(prodVar)) {
-					remainingProd.remove(nextProd);
-					lambda.setArgument(prodVar, nextProd.asLambdaFromBasicProd(remainingProd));
-					nbOfRemainingValueVars--;
+				if (nextProd instanceof IBasicProduction) {
+					IBasicProduction nextBasicProd = (IBasicProduction) nextProd;
+					if (value.getVariables().contains(prodVar)) {
+						remainingProd.remove(nextBasicProd);
+						lambda.setArgument(prodVar, nextBasicProd.asLambda(remainingProd));
+						nbOfRemainingValueVars--;
+					}
+				}
+				else {
+					//CAUTION : a composite production must be the last element of a property
+					ICompositeProduction nextCompositeProd = (ICompositeProduction) nextProd;
+					if (value.getVariables().contains(prodVar)) {
+						remainingProd.remove(nextCompositeProd);
+						lambda.setArgument(prodVar, nextCompositeProd.asLambda());
+						nbOfRemainingValueVars--;
+					}
 				}
 			}
 		}
@@ -70,13 +74,21 @@ public class BasicProduction extends Production implements IBasicProduction {
 	}
 
 	@Override
-	public ICompositeProduction compose(IBasicProduction other) {
-		if (other.getSource().equals(this.getSource())
-				&& other.getTarget().equals(this.getTarget()))
-			return new CompositeProduction(this, other);
+	public ICompositeProduction compose(IBasicProduction basicComponent) {
+		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	@Override
+	public String toString() {
+		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
+	}
+	
+	@Override
+	public ILambdaExpression semanticRule() {
+		return new LambdaExpression(value);
+	}	
+	
 	/**
 	 * Given as an example to show what a Production is meant to be. No real utility. 
 	 * @param construct
@@ -90,11 +102,6 @@ public class BasicProduction extends Production implements IBasicProduction {
 			else returned.add(symbol);
 		}
 		return new Construct(returned);
-	}
-	
-	@Override
-	public boolean derives(AVariable var) {
-		return var.equals(variable);
 	}
 	
 	/**
@@ -130,65 +137,6 @@ public class BasicProduction extends Production implements IBasicProduction {
 			}
 		}
 		return new Construct(returned);
-	}
-	
-	@Override
-	public String getLabel() {
-		return toString();
-	}
-
-	@Override
-	public IConstruct getValue() {
-		return value;
-	}
-
-	@Override
-	public List<IConstruct> getValues() {
-		return new ArrayList<>(Arrays.asList(new IConstruct[] {value}));
-	}
-
-	@Override
-	public AVariable getVariable() {
-		return variable;
-	}
-	
-	@Override
-	public List<AVariable> getVariables() {
-		return new ArrayList<>(Arrays.asList(new AVariable[] {variable}));
-	}
-
-	@Override
-	public boolean isBlank() {
-		return false;
-	}
-
-	@Override
-	public boolean isVariableSwitcher() {
-		return variableSwitcher;
-	}
-
-	@Override
-	public ILambdaExpression semanticRule() {
-		return new LambdaExpression(value);
-	}
-
-	@Override
-	public IProduction switchVariableOrReturnNull(IProduction varSwitcher) {
-		if (this.getTargetDenotationSet().equals(varSwitcher.getSourceDenotationSet()) 
-				&& this.getTarget().equals(varSwitcher.getSource()) && varSwitcher instanceof IBasicProduction) {
-			IBasicProduction basicSwitcher = (IBasicProduction) varSwitcher;
-			if (this.variable.equals(basicSwitcher.getValue().getListOfSymbols().get(0))) {
-				return new BasicProduction(
-						basicSwitcher.getVariable(), this.value, this.getSource(), varSwitcher.getTarget());
-			}
-			return null;
-		}
-		return null;
-	}
-
-	@Override
-	public String toString() {
-		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
-	}
+	}	
 
 }

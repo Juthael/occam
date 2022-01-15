@@ -9,9 +9,9 @@ import com.tregouet.occam.data.abstract_machines.transition_rules.IBasicOperator
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
 import com.tregouet.occam.data.languages.generic.AVariable;
-import com.tregouet.occam.data.languages.specific.IBasicProduction;
-import com.tregouet.occam.data.languages.specific.ICompositeProduction;
-import com.tregouet.occam.data.languages.specific.IProduction;
+import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
+import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
+import com.tregouet.occam.data.languages.specific.IEdgeProduction;
 
 public class NbOfInstantiatedVariables implements IFunctionCoster {
 
@@ -34,14 +34,14 @@ public class NbOfInstantiatedVariables implements IFunctionCoster {
 			for (ITransitionRule transitionRule : conjTransition.getComponents()) {
 				if (!transitionRule.isReframer()) {
 					IBasicOperator basicOperator = (IBasicOperator) transitionRule;
-					for (IProduction production : basicOperator.operation()) {
-						if (production instanceof IBasicProduction) {
-							if (!production.isBlank() && !production.isVariableSwitcher())
-								instantiatedVariables.add(((IBasicProduction) production).getVariable());
+					for (IEdgeProduction edgeProduction : basicOperator.operation()) {
+						if (edgeProduction instanceof ISimpleEdgeProduction) {
+							if (!edgeProduction.isBlank() && !edgeProduction.isVariableSwitcher())
+								instantiatedVariables.add(((ISimpleEdgeProduction) edgeProduction).getVariable());
 						}
 						else {
-							ICompositeProduction compositeProd = (ICompositeProduction) production;
-							for (IBasicProduction basicProd : compositeProd.getComponents()) {
+							ICompositeEdgeProduction compositeProd = (ICompositeEdgeProduction) edgeProduction;
+							for (ISimpleEdgeProduction basicProd : compositeProd.getComponents()) {
 								if (!basicProd.isBlank() && !basicProd.isVariableSwitcher()) {
 									instantiatedVariables.add(basicProd.getVariable());
 								}

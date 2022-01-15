@@ -84,7 +84,7 @@ public class DynamicFraming extends AbstractSimCalculator implements ISimilarity
 		porphyrianTree = automaton.getPorphyrianTree();
 		stateIDToState = new HashMap<>();
 		for (IState state : automaton.getStates())
-			stateIDToState.put(state.getStateID(), state);
+			stateIDToState.put(state.iD(), state);
 		automaton.setSimilarityScorer(this);
 		return this;
 	}	

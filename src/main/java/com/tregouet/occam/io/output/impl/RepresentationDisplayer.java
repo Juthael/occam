@@ -32,7 +32,7 @@ import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.specific.IProduction;
+import com.tregouet.occam.data.languages.specific.IEdgeProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.IRepresentationDisplayer;
 import com.tregouet.occam.io.output.utils.Visualizer;
@@ -264,7 +264,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		isomorphicAutomatons = structureBasedTFSupplier.next();
 		denotSetTreeIdx++;
 		generateTreeOfDenotationSets();
-		iteOverTF = isomorphicAutomatons.getIteratorOverTransitionFunctions();
+		iteOverTF = isomorphicAutomatons.getIteratorOverAutomatons();
 		currentTransFunc = iteOverTF.next();
 		generateTreeOfDenotations();
 		generateTransitionFunctionGraph();
@@ -287,10 +287,10 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 			return false;
 		}
 		denotationSets = new DenotationSets(context);
-		List<IProduction> productions = new ProductionBuilder(denotationSets).getProductions();
-		DirectedAcyclicGraph<IDenotation, IProduction> constructs = 
+		List<IEdgeProduction> edgeProductions = new ProductionBuilder(denotationSets).getProductions();
+		DirectedAcyclicGraph<IDenotation, IEdgeProduction> constructs = 
 				new DirectedAcyclicGraph<>(null, null, false);
-		productions.stream().forEach(p -> {
+		edgeProductions.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
@@ -301,7 +301,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 			return false;
 		}
 		isomorphicAutomatons = structureBasedTFSupplier.next();
-		iteOverTF = isomorphicAutomatons.getIteratorOverTransitionFunctions();
+		iteOverTF = isomorphicAutomatons.getIteratorOverAutomatons();
 		currentTransFunc = iteOverTF.next();
 		generateDenotationSetLatticeGraph();
 		generateTreeOfDenotationSets();

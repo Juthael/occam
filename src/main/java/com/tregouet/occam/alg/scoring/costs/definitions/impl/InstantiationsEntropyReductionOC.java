@@ -32,8 +32,8 @@ public class InstantiationsEntropyReductionOC implements IDefinitionCoster {
 			entropyReduction = 1.0;
 		}
 		else {
-			int speciesIdx = ArrayUtils.indexOf(topoOrderedStateIDs, speciesState.getStateID());
-			int genusIdx = ArrayUtils.indexOf(topoOrderedStateIDs, genusState.getStateID());
+			int speciesIdx = ArrayUtils.indexOf(topoOrderedStateIDs, speciesState.iD());
+			int genusIdx = ArrayUtils.indexOf(topoOrderedStateIDs, genusState.iD());
 			entropyReduction = entropyReductionMatrix[speciesIdx][genusIdx];
 		}
 		int nbOfInstantiatedVariables = 0;

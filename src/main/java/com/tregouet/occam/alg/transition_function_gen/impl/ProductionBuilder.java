@@ -7,15 +7,15 @@ import com.tregouet.occam.alg.transition_function_gen.IProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.utils.ProductionGenerator;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
-import com.tregouet.occam.data.languages.specific.IBasicProduction;
-import com.tregouet.occam.data.languages.specific.IProduction;
+import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
+import com.tregouet.occam.data.languages.specific.IEdgeProduction;
 import com.tregouet.occam.data.denotations.IDenotation;
 
 public class ProductionBuilder implements IProductionBuilder {
 
 	private final List<IDenotationSet> topologicalOrderOnDenotationSets;
-	private final List<IBasicProduction> basicProductions = new ArrayList<>();
-	private final List<IProduction> productions = new ArrayList<>();
+	private final List<ISimpleEdgeProduction> simpleEdgeProductions = new ArrayList<>();
+	private final List<IEdgeProduction> edgeProductions = new ArrayList<>();
 	
 	public ProductionBuilder(IDenotationSets denotationSets) {
 		topologicalOrderOnDenotationSets = denotationSets.getTopologicalSorting();
@@ -24,37 +24,37 @@ public class ProductionBuilder implements IProductionBuilder {
 			for (int j = i+1 ; j < topologicalOrderOnDenotationSets.size() ; j++) {
 				for (IDenotation iDenotation : topologicalOrderOnDenotationSets.get(i).getDenotations()) {
 					for (IDenotation jDenotation : topologicalOrderOnDenotationSets.get(j).getDenotations()) {
-						List<IBasicProduction> ijDenotationsProds = 
+						List<ISimpleEdgeProduction> ijDenotationsProds = 
 								new ProductionGenerator(denotationSets, iDenotation, jDenotation).getProduction();
 						if (ijDenotationsProds != null)
-							basicProductions.addAll(ijDenotationsProds);
+							simpleEdgeProductions.addAll(ijDenotationsProds);
 					}
 				}
 			}
 		}
 		//build composite if possible, otherwise add basic 
-		for (IBasicProduction basicProduction : basicProductions) {
-			IProduction compositeComponent = null;
+		for (ISimpleEdgeProduction simpleEdgeProduction : simpleEdgeProductions) {
+			IEdgeProduction compositeComponent = null;
 			int prodIdx = 0;
-			while (compositeComponent == null && prodIdx < productions.size()) {
-				IProduction currentProd = productions.get(prodIdx); 
-				compositeComponent = currentProd.compose(basicProduction);
+			while (compositeComponent == null && prodIdx < edgeProductions.size()) {
+				IEdgeProduction currentProd = edgeProductions.get(prodIdx); 
+				compositeComponent = currentProd.compose(simpleEdgeProduction);
 				if (compositeComponent != null) {
-					if (currentProd instanceof IBasicProduction) {
-						productions.remove(prodIdx);
-						productions.add(compositeComponent);
+					if (currentProd instanceof ISimpleEdgeProduction) {
+						edgeProductions.remove(prodIdx);
+						edgeProductions.add(compositeComponent);
 					}
 				}
 				prodIdx++;
 			}
 			if (compositeComponent == null)
-				productions.add(basicProduction);
+				edgeProductions.add(simpleEdgeProduction);
 		}
 	}
 
 	@Override
-	public List<IProduction> getProductions() {
-		return productions;
+	public List<IEdgeProduction> getProductions() {
+		return edgeProductions;
 	}
 
 }

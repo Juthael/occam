@@ -25,7 +25,7 @@ public interface IState {
 	
 	int getRank();
 	
-	int getStateID();
+	int iD();
 	
 	int getStateType();
 	

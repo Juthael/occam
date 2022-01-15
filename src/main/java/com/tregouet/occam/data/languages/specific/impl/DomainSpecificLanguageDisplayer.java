@@ -17,7 +17,7 @@ import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IOperator;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;
-import com.tregouet.occam.data.languages.specific.IProduction;
+import com.tregouet.occam.data.languages.specific.IEdgeProduction;
 
 public class DomainSpecificLanguageDisplayer implements IDomainSpecificLanguageDisplayer {
 
@@ -92,7 +92,7 @@ public class DomainSpecificLanguageDisplayer implements IDomainSpecificLanguageD
 		for (IOperator operator : topologicalSorting) {
 			sB.append("-operator " + operator.getName() + System.lineSeparator());
 			sB.append("   operation : ");
-			List<IProduction> prods = operator.operation();
+			List<IEdgeProduction> prods = operator.operation();
 			for (int i = 0 ; i < prods.size() ; i++) {
 				sB.append(prods.get(i).toString());
 				if (i < prods.size() - 1)

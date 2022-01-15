@@ -29,8 +29,8 @@ public class EntropyReduction implements ITransitionCoster {
 
 	@Override
 	public void setCost() {
-		int speciesIdx = ArrayUtils.indexOf(topoOrderedStateIDs, transition.getInputState().getStateID());
-		int genusIdx = ArrayUtils.indexOf(topoOrderedStateIDs, transition.getOutputState().getStateID());
+		int speciesIdx = ArrayUtils.indexOf(topoOrderedStateIDs, transition.getInputState().iD());
+		int genusIdx = ArrayUtils.indexOf(topoOrderedStateIDs, transition.getOutputState().iD());
 		double entropyReduction = entropyReductionMatrix[speciesIdx][genusIdx];
 		transition.setCost(entropyReduction);
 	}

@@ -38,7 +38,7 @@ public class ProductionBuilder implements IProductionBuilder {
 			int prodIdx = 0;
 			while (compositeComponent == null && prodIdx < edgeProductions.size()) {
 				IEdgeProduction currentProd = edgeProductions.get(prodIdx); 
-				compositeComponent = currentProd.compose(simpleEdgeProduction);
+				compositeComponent = currentProd.combine(simpleEdgeProduction);
 				if (compositeComponent != null) {
 					if (currentProd instanceof ISimpleEdgeProduction) {
 						edgeProductions.remove(prodIdx);

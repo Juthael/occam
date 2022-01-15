@@ -21,16 +21,11 @@ public class BasicProduction extends Production implements IBasicProduction {
 	boolean variableSwitcher;
 	
 	public BasicProduction(AVariable variable, IConstruct value) {
-		this.variable = variable;
+		super(variable);
 		this.value = value;
 		variableSwitcher = value.getNbOfTerminals() == 0;
 	}
 	
-	@Override
-	public boolean derives(AVariable var) {
-		return var.equals(variable);
-	}
-
 	@Override
 	public IConstruct getValue() {
 		return value;
@@ -74,7 +69,7 @@ public class BasicProduction extends Production implements IBasicProduction {
 	}
 
 	@Override
-	public ICompositeProduction compose(IBasicProduction basicComponent) {
+	public ICompositeProduction combine(IBasicProduction basicComponent) {
 		// TODO Auto-generated method stub
 		return null;
 	}

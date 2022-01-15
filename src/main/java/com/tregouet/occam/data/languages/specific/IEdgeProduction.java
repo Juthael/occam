@@ -33,5 +33,7 @@ public interface IEdgeProduction extends IBasicProduction {
 	 * @return
 	 */
 	IEdgeProduction switchVariableOrReturnNull(IEdgeProduction varSwitcher);
+	
+	String toString();
 
 }

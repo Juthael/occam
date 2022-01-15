@@ -10,6 +10,8 @@ public interface IProduction extends ISymbol {
 	
 	AVariable getVariable();
 	
+	boolean derives(AVariable var);
+	
 	@Override
 	boolean equals(Object o);
 	
@@ -22,5 +24,7 @@ public interface IProduction extends ISymbol {
 	ILambdaExpression semanticRule();
 	
 	ILambdaExpression asLambda(List<IProduction> nextProductions);
+	
+	ICompositeProduction combine(IBasicProduction component);
 
 }

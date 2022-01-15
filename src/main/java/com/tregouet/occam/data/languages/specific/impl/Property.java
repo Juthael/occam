@@ -7,25 +7,27 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.languages.specific.ICompositeProduction;
 import com.tregouet.occam.data.languages.specific.IEdgeProduction;
+import com.tregouet.occam.data.languages.specific.IProduction;
 import com.tregouet.occam.data.languages.specific.IProperty;
 
 public class Property implements IProperty {
 
-	private List<IEdgeProduction> edgeProductions;
-	private Iterator<IEdgeProduction> prodIte = null;
+	private List<IProduction> productions;
+	private Iterator<IProduction> prodIte = null;
 	
 	public Property() {
-		edgeProductions = new ArrayList<>();
+		productions = new ArrayList<>();
 	}
 	
-	public Property(List<IEdgeProduction> edgeProductions) {
-		this.edgeProductions = edgeProductions;
+	public Property(List<IProduction> edgeProductions) {
+		this.productions = edgeProductions;
 	}
 	
 	@Override
-	public List<IEdgeProduction> getListOfSymbols() {
-		return edgeProductions;
+	public List<IProduction> getListOfSymbols() {
+		return productions;
 	}
 
 	@Override
@@ -36,21 +38,29 @@ public class Property implements IProperty {
 	}
 
 	@Override
-	public IEdgeProduction next() {
+	public IProduction next() {
 		return prodIte.next();
 	}
 
 	@Override
 	public void initializeSymbolIterator() {
-		prodIte = edgeProductions.iterator();
+		prodIte = productions.iterator();
 	}
 
 	@Override
-	public boolean appendSymbol(IEdgeProduction symbol) {
+	public boolean appendSymbol(IProduction symbol) {
+		if (lastProductionIsConjunctive())
+			//A conjunctive production is always the last
+			return false;
 		Set<AVariable> freeVariables = new HashSet<>();
-		for (IEdgeProduction edgeProduction : edgeProductions) {
-			freeVariables.addAll(edgeProduction.getVariables());
+		for (IProduction edgeProduction : productions) {
+			
 		}
+		return false;
+	}
+	
+	private boolean lastProductionIsConjunctive() {
+		return (productions.get(productions.size() - 1) instanceof ICompositeProduction);
 	}
 
 }

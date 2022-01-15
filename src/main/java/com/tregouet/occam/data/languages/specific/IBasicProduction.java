@@ -3,9 +3,7 @@ package com.tregouet.occam.data.languages.specific;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 
-public interface IBasicProduction extends IProduction{
-	
-	boolean derives(AVariable var);
+public interface IBasicProduction extends IProduction {
 	
 	@Override
 	boolean equals(Object o);
@@ -19,7 +17,5 @@ public interface IBasicProduction extends IProduction{
 	
 	@Override
 	String toString();
-	
-	ICompositeProduction compose(IBasicProduction basicComponent);
 
 }

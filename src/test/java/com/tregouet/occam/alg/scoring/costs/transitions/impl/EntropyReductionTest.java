@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.scoring.costs.transitions.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -23,12 +23,10 @@ import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSup
 import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
 import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
-import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
-import com.tregouet.occam.data.abstract_machines.transition_rules.ICostedTransition;
-import com.tregouet.occam.data.denotations.IDenotationSet;
-import com.tregouet.occam.data.denotations.IDenotationSets;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IDenotationSets;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.specific.IEdgeProduction;

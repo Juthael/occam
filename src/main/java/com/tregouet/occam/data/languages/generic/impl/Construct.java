@@ -13,28 +13,29 @@ import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class Construct implements IConstruct {
 
-	protected final List<ISymbol> prog;
+	protected final List<ISymbol> symbols;
 	private int nbOfTerminals;
+	private Iterator<ISymbol> symbolIte = null;
 	
 	public Construct(IConstruct construct) {
-		prog = new ArrayList<>(construct.getListOfSymbols());
+		symbols = new ArrayList<>(construct.getListOfSymbols());
 		nbOfTerminals = construct.getNbOfTerminals();
 	}
 	
 	public Construct(List<ISymbol> prog) {
-		this.prog = prog;
+		this.symbols = prog;
 		nbOfTerminals = setNbOfTerminals();
 	}
 	
 	public Construct(String[] progStrings) {
-		prog = new ArrayList<ISymbol>();
+		symbols = new ArrayList<ISymbol>();
 		for (String symString : progStrings) {
 			if (symString.equals(ISymbolSeq.PLACEHOLDER))
-				prog.add(new Variable(AVariable.DEFERRED_NAMING));
-			else prog.add(new Terminal(symString));
+				symbols.add(new Variable(AVariable.DEFERRED_NAMING));
+			else symbols.add(new Terminal(symString));
 		}
 		int nbOfTerminals = 0;
-		for (ISymbol symbol : prog) {
+		for (ISymbol symbol : symbols) {
 			if (symbol instanceof ITerminal)
 				nbOfTerminals++;
 		}
@@ -50,27 +51,27 @@ public class Construct implements IConstruct {
 		if (getClass() != obj.getClass())
 			return false;
 		Construct other = (Construct) obj;
-		if (prog == null) {
-			if (other.prog != null)
+		if (symbols == null) {
+			if (other.symbols != null)
 				return false;
-		} else if (!prog.equals(other.prog))
+		} else if (!symbols.equals(other.symbols))
 			return false;
 		return true;
 	}
 
 	@Override
 	public Iterator<ISymbol> getIteratorOverSymbols(){
-		return prog.iterator();
+		return symbols.iterator();
 	}
 	
 	@Override
 	public List<ISymbol> getListOfSymbols(){
-		return prog;
+		return symbols;
 	}
 
 	@Override
 	public List<ITerminal> getListOfTerminals() {
-		return prog.stream()
+		return symbols.stream()
 				.filter(d -> d instanceof ITerminal)
 				.map(s -> (ITerminal) s)
 				.collect(Collectors.toList()); 
@@ -84,7 +85,7 @@ public class Construct implements IConstruct {
 	@Override
 	public List<AVariable> getVariables() {
 		List<AVariable> variables = new ArrayList<>();
-		for (ISymbol symbol : prog) {
+		for (ISymbol symbol : symbols) {
 			if (symbol instanceof AVariable)
 				variables.add((AVariable) symbol);
 		}
@@ -95,14 +96,14 @@ public class Construct implements IConstruct {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((prog == null) ? 0 : prog.hashCode());
+		result = prime * result + ((symbols == null) ? 0 : symbols.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean isAbstract() {
 		boolean isAbstract = false;
-		Iterator<ISymbol> ite = prog.iterator();
+		Iterator<ISymbol> ite = symbols.iterator();
 		while (!isAbstract && ite.hasNext())
 			isAbstract = (ite.next() instanceof AVariable);
 		return isAbstract;
@@ -113,9 +114,9 @@ public class Construct implements IConstruct {
 		List<ISymbol> constraintSymbols = constraint.getListOfSymbols();
 		if (this.nbOfTerminals >= constraintSymbols.size()) {
 			int constraintIdx = 0;
-			for (int constructIdx = 0 ; constructIdx < prog.size() 
+			for (int constructIdx = 0 ; constructIdx < symbols.size() 
 					&& constraintIdx < constraintSymbols.size() ; constructIdx++) {
-				if (prog.get(constructIdx).equals(constraintSymbols.get(constraintIdx)))
+				if (symbols.get(constructIdx).equals(constraintSymbols.get(constraintIdx)))
 					constraintIdx++;
 			}
 			if (constraintIdx == constraintSymbols.size())
@@ -126,7 +127,7 @@ public class Construct implements IConstruct {
 	
 	@Override
 	public void nameVariables() {
-		for (ISymbol symbol : prog) {
+		for (ISymbol symbol : symbols) {
 			if (symbol instanceof AVariable)
 				((AVariable) symbol).setName();
 		}
@@ -135,7 +136,7 @@ public class Construct implements IConstruct {
 	@Override
 	public List<String> toListOfStringsWithPlaceholders(){
 		List<String> list = new ArrayList<String>();
-		for (ISymbol sym : prog) {
+		for (ISymbol sym : symbols) {
 			if (sym instanceof AVariable)
 				list.add(ISymbolSeq.PLACEHOLDER);
 			else list.add(sym.toString());
@@ -146,9 +147,9 @@ public class Construct implements IConstruct {
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
-		for (int i = 0 ; i < prog.size() ; i++) {
-			sB.append(prog.get(i));
-			if (i < prog.size() - 1)
+		for (int i = 0 ; i < symbols.size() ; i++) {
+			sB.append(symbols.get(i));
+			if (i < symbols.size() - 1)
 				sB.append(" ");
 		}
 		return sB.toString();
@@ -156,11 +157,34 @@ public class Construct implements IConstruct {
 	
 	protected int setNbOfTerminals() {
 		int nbOfTerminals = 0;
-		for (ISymbol symbol : prog) {
+		for (ISymbol symbol : symbols) {
 			if (symbol instanceof ITerminal)
 				nbOfTerminals++;
 		}
 		return nbOfTerminals;
+	}
+
+	@Override
+	public boolean hasNext() {
+		if (symbolIte == null)
+			initializeSymbolIterator();
+		return symbolIte.hasNext();
+	}
+
+	@Override
+	public ISymbol next() {
+		return symbolIte.next();
+	}
+
+	@Override
+	public void initializeSymbolIterator() {
+		symbolIte = symbols.iterator();
+	}
+
+	@Override
+	public boolean appendSymbol(ISymbol symbol) {
+		symbols.add(symbol);
+		return true;
 	}
 
 }

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.languages.specific.IBasicProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeProduction;
-import com.tregouet.occam.data.languages.specific.IEdgeProduction;
 import com.tregouet.occam.data.languages.specific.IProduction;
 import com.tregouet.occam.data.languages.specific.IProperty;
 
@@ -53,8 +53,13 @@ public class Property implements IProperty {
 			//A conjunctive production is always the last
 			return false;
 		Set<AVariable> freeVariables = new HashSet<>();
-		for (IProduction edgeProduction : productions) {
-			
+		for (IProduction production : productions) {
+			freeVariables.addAll(((IBasicProduction) production).getValue().getVariables());
+			freeVariables.remove(production.getVariable());
+		}
+		if (freeVariables.contains(symbol.getVariable())) {
+			productions.add(symbol);
+			return true;
 		}
 		return false;
 	}

@@ -1,6 +1,5 @@
 package com.tregouet.occam.data.languages.specific;
 
-import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 
 public interface IBasicProduction extends IProduction {

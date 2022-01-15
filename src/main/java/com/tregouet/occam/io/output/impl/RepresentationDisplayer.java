@@ -32,7 +32,7 @@ import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.specific.IEdgeProduction;
+import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.IRepresentationDisplayer;
 import com.tregouet.occam.io.output.utils.Visualizer;
@@ -287,10 +287,10 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 			return false;
 		}
 		denotationSets = new DenotationSets(context);
-		List<IEdgeProduction> edgeProductions = new ProductionBuilder(denotationSets).getProductions();
-		DirectedAcyclicGraph<IDenotation, IEdgeProduction> constructs = 
+		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(denotationSets).getProductions();
+		DirectedAcyclicGraph<IDenotation, IProductionAsEdge> constructs = 
 				new DirectedAcyclicGraph<>(null, null, false);
-		edgeProductions.stream().forEach(p -> {
+		productionAsEdges.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);

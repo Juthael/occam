@@ -3,9 +3,9 @@ package com.tregouet.occam.alg.transition_function_gen;
 import java.util.Iterator;
 
 import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.languages.specific.impl.EdgeProduction;
+import com.tregouet.occam.data.languages.specific.impl.ProductionAsEdge;
 import com.tregouet.tree_finder.data.Tree;
 
-public interface IIntentAttTreeSupplier extends Iterator<Tree<IDenotation, EdgeProduction>> {
+public interface IIntentAttTreeSupplier extends Iterator<Tree<IDenotation, ProductionAsEdge>> {
 
 }

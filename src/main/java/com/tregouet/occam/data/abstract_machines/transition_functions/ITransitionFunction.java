@@ -10,12 +10,12 @@ import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRul
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRules;
 import com.tregouet.occam.data.concepts.IDifferentiae;
 import com.tregouet.occam.data.languages.generic.AVariable;
-import com.tregouet.occam.data.languages.specific.IEdgeProduction;
+import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
 import com.tregouet.occam.data.languages.specific.IProperty;
 
 public interface ITransitionFunction {
 	
-	Set<IEdgeProduction> getInputAlphabet();
+	Set<IProductionAsEdge> getInputAlphabet();
 	
 	Set<AVariable> getStackAlphabet();
 	

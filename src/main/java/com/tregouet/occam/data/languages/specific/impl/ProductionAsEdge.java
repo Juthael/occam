@@ -12,17 +12,17 @@ import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 import com.tregouet.occam.data.languages.specific.IBasicProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeProduction;
-import com.tregouet.occam.data.languages.specific.IEdgeProduction;
+import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
 import com.tregouet.occam.data.languages.specific.IProduction;
 
-public class EdgeProduction extends DefaultEdge implements IEdgeProduction {
+public class ProductionAsEdge extends DefaultEdge implements IProductionAsEdge {
 
 	private static final long serialVersionUID = 1701074226278101143L;
 	private final IDenotation input;
 	private final IDenotation output;
 	private final IBasicProduction production;
 	
-	public EdgeProduction(IDenotation input, IDenotation output, IBasicProduction production) {
+	public ProductionAsEdge(IDenotation input, IDenotation output, IBasicProduction production) {
 		this.input = input;
 		this.output = output;
 		this.production = production;
@@ -105,11 +105,11 @@ public class EdgeProduction extends DefaultEdge implements IEdgeProduction {
 	}
 
 	@Override
-	public IEdgeProduction switchVariableOrReturnNull(IEdgeProduction varSwitcher) {
+	public IProductionAsEdge switchVariableOrReturnNull(IProductionAsEdge varSwitcher) {
 		if (this.getTargetDenotationSet().equals(varSwitcher.getSourceDenotationSet()) 
 				&& this.getTarget().equals(varSwitcher.getSource())) {
 			if (this.getVariable().equals(varSwitcher.getValue().getListOfSymbols().get(0))) {
-				return new EdgeProduction(
+				return new ProductionAsEdge(
 						this.getSource(), varSwitcher.getTarget(), new BasicProduction(varSwitcher.getVariable(), this.getValue()));
 			}
 			return null;
@@ -139,7 +139,7 @@ public class EdgeProduction extends DefaultEdge implements IEdgeProduction {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EdgeProduction other = (EdgeProduction) obj;
+		ProductionAsEdge other = (ProductionAsEdge) obj;
 		if (this.isBlank())
 			return Objects.equals(input, other.input) && Objects.equals(output, other.output)
 					&& other.isBlank();

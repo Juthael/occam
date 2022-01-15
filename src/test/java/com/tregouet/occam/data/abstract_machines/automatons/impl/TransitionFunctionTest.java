@@ -38,7 +38,7 @@ import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
-import com.tregouet.occam.data.languages.specific.IEdgeProduction;
+import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
 import com.tregouet.occam.data.languages.specific.impl.BlankEdgeProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
@@ -51,12 +51,12 @@ public class TransitionFunctionTest {
 	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> objects;
 	private IDenotationSets denotationSets;
-	private DirectedAcyclicGraph<IDenotation, IEdgeProduction> denotations = 
+	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
-	private DirectedAcyclicGraph<IDenotation, IEdgeProduction> filtered_reduced_denotations;
-	private IHierarchicalRestrictionFinder<IDenotation, IEdgeProduction> denotationTreeSupplier;
-	private Tree<IDenotation, IEdgeProduction> denotationTree;
+	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> filtered_reduced_denotations;
+	private IHierarchicalRestrictionFinder<IDenotation, IProductionAsEdge> denotationTreeSupplier;
+	private Tree<IDenotation, IProductionAsEdge> denotationTree;
 	private TreeSet<IAutomaton> automatons;
 	
 	@BeforeClass
@@ -69,46 +69,46 @@ public class TransitionFunctionTest {
 		return Math.log10(arg)/Math.log10(2);
 	}
 	
-	private static boolean sameSourceAndTargetCategoryForAll(List<IEdgeProduction> edgeProductions) {
+	private static boolean sameSourceAndTargetCategoryForAll(List<IProductionAsEdge> productionAsEdges) {
 		boolean sameSourceAndTargetDenotationSet = true;
 		IDenotationSet sourceDS = null;
 		IDenotationSet targetDS = null;
-		for (int i = 0 ; i < edgeProductions.size() ; i++) {
+		for (int i = 0 ; i < productionAsEdges.size() ; i++) {
 			if (i == 0) {
-				sourceDS = edgeProductions.get(i).getSourceDenotationSet();
-				targetDS = edgeProductions.get(i).getTargetDenotationSet();
+				sourceDS = productionAsEdges.get(i).getSourceDenotationSet();
+				targetDS = productionAsEdges.get(i).getTargetDenotationSet();
 			}
 			else {
-				if (!edgeProductions.get(i).getSourceDenotationSet().equals(sourceDS)
-						|| !edgeProductions.get(i).getTargetDenotationSet().equals(targetDS))
+				if (!productionAsEdges.get(i).getSourceDenotationSet().equals(sourceDS)
+						|| !productionAsEdges.get(i).getTargetDenotationSet().equals(targetDS))
 					sameSourceAndTargetDenotationSet = false;
 			}
 		}
 		return sameSourceAndTargetDenotationSet;
 	}
 	
-	private static boolean sameTargetAttributeAsOneOtherProduction(IEdgeProduction edgeProduction, List<IEdgeProduction> edgeProductions) {
-		if (edgeProductions.size() == 1)
+	private static boolean sameTargetAttributeAsOneOtherProduction(IProductionAsEdge productionAsEdge, List<IProductionAsEdge> productionAsEdges) {
+		if (productionAsEdges.size() == 1)
 			return true;
 		boolean sameTargetAttributeAsOneOther = false;
-		List<IEdgeProduction> others = new ArrayList<>(edgeProductions);
-		others.remove(edgeProduction);
-		for (IEdgeProduction other : others) {
-			if (edgeProduction.getTarget().equals(other.getTarget()))
+		List<IProductionAsEdge> others = new ArrayList<>(productionAsEdges);
+		others.remove(productionAsEdge);
+		for (IProductionAsEdge other : others) {
+			if (productionAsEdge.getTarget().equals(other.getTarget()))
 				sameTargetAttributeAsOneOther = true;
 		}
 		return sameTargetAttributeAsOneOther;
 	}
 	
-	private static boolean sameValueAsOneOtherProduction(IEdgeProduction edgeProduction, List<IEdgeProduction> edgeProductions) {
-		if (edgeProductions.size() == 1)
+	private static boolean sameValueAsOneOtherProduction(IProductionAsEdge productionAsEdge, List<IProductionAsEdge> productionAsEdges) {
+		if (productionAsEdges.size() == 1)
 			return true;
 		boolean sameValue = false;
-		List<IEdgeProduction> others = new ArrayList<>(edgeProductions);
-		others.remove(edgeProduction);
-		for (IEdgeProduction other : others) {
+		List<IProductionAsEdge> others = new ArrayList<>(productionAsEdges);
+		others.remove(productionAsEdge);
+		for (IProductionAsEdge other : others) {
 			List<IConstruct> valuesOfOther = new ArrayList<>(other.getValues());
-			if (valuesOfOther.removeAll(edgeProduction.getValues()))
+			if (valuesOfOther.removeAll(productionAsEdge.getValues()))
 				sameValue = true;
 		}
 		return sameValue;
@@ -118,8 +118,8 @@ public class TransitionFunctionTest {
 	public void setUp() throws Exception {
 		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 		denotationSets = new DenotationSets(objects);
-		List<IEdgeProduction> edgeProductions = new ProductionBuilder(denotationSets).getProductions();
-		edgeProductions.stream().forEach(p -> {
+		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(denotationSets).getProductions();
+		productionAsEdges.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
@@ -155,15 +155,15 @@ public class TransitionFunctionTest {
 			for (ITransitionRule transitionRule : tF.getTransitions()) {
 				if (transitionRule instanceof IOperator) {
 					IOperator operator = (IOperator) transitionRule;
-					for (IEdgeProduction edgeProduction : operator.operation()) {
-						if (edgeProduction instanceof BlankEdgeProduction) {
+					for (IProductionAsEdge productionAsEdge : operator.operation()) {
+						if (productionAsEdge instanceof BlankEdgeProduction) {
 						}
-						else if (edgeProduction instanceof ISimpleEdgeProduction) {
-							basicProds.add((ISimpleEdgeProduction) edgeProduction);
+						else if (productionAsEdge instanceof ISimpleEdgeProduction) {
+							basicProds.add((ISimpleEdgeProduction) productionAsEdge);
 							basicProdsOperators.add(operator);
 						}
 						else {
-							ICompositeEdgeProduction compoProd = (ICompositeEdgeProduction) edgeProduction;
+							ICompositeEdgeProduction compoProd = (ICompositeEdgeProduction) productionAsEdge;
 							for (ISimpleEdgeProduction basicProd : compoProd.getComponents()) {
 								basicProds.add(basicProd);
 								basicProdsOperators.add(operator);
@@ -195,20 +195,20 @@ public class TransitionFunctionTest {
 		boolean sameOperator = true;
 		int checkCount = 0;
 		for (IAutomaton tF : automatons) {
-			Map<IEdgeProduction, IOperator> prodToOpe = new HashMap<>();
+			Map<IProductionAsEdge, IOperator> prodToOpe = new HashMap<>();
 			for (ITransitionRule transitionRule : tF.getTransitions()) {
 				if (transitionRule instanceof IOperator) {
 					IOperator operator = (IOperator) transitionRule;
-					for (IEdgeProduction edgeProduction : operator.operation()) {
-						prodToOpe.put(edgeProduction, operator);
+					for (IProductionAsEdge productionAsEdge : operator.operation()) {
+						prodToOpe.put(productionAsEdge, operator);
 					}
 				}
 			}
-			List<IEdgeProduction> edgeProductions = new ArrayList<>(prodToOpe.keySet());
-			for (int i = 0 ; i < edgeProductions.size() - 1 ; i++) {
-				for (int j = i + 1 ; j < edgeProductions.size() ; j++) {
-					IEdgeProduction iProd = edgeProductions.get(i);
-					IEdgeProduction jProd = edgeProductions.get(j);
+			List<IProductionAsEdge> productionAsEdges = new ArrayList<>(prodToOpe.keySet());
+			for (int i = 0 ; i < productionAsEdges.size() - 1 ; i++) {
+				for (int j = i + 1 ; j < productionAsEdges.size() ; j++) {
+					IProductionAsEdge iProd = productionAsEdges.get(i);
+					IProductionAsEdge jProd = productionAsEdges.get(j);
 					if (iProd.getSourceDenotationSet().equals(jProd.getSourceDenotationSet())
 							&& iProd.getTarget().equals(jProd.getTarget())) {
 						checkCount++;
@@ -228,12 +228,12 @@ public class TransitionFunctionTest {
 			for (ITransitionRule transitionRule : tF.getTransitions()) {
 				if (transitionRule instanceof IOperator) {
 					IOperator operator = (IOperator) transitionRule;
-					List<IEdgeProduction> edgeProductions = operator.operation();
-					if (!sameSourceAndTargetCategoryForAll(edgeProductions))
+					List<IProductionAsEdge> productionAsEdges = operator.operation();
+					if (!sameSourceAndTargetCategoryForAll(productionAsEdges))
 						consistent = false;
-					for (IEdgeProduction edgeProduction : edgeProductions) {
-						if (!sameTargetAttributeAsOneOtherProduction(edgeProduction, edgeProductions) 
-								&& !sameValueAsOneOtherProduction(edgeProduction, edgeProductions))
+					for (IProductionAsEdge productionAsEdge : productionAsEdges) {
+						if (!sameTargetAttributeAsOneOtherProduction(productionAsEdge, productionAsEdges) 
+								&& !sameValueAsOneOtherProduction(productionAsEdge, productionAsEdges))
 							consistent = false;
 					}
 				}

@@ -18,22 +18,15 @@ public class BasicProduction extends Production implements IBasicProduction {
 
 	private AVariable variable;
 	private final IConstruct value;
-	boolean variableSwitcher;
 	
 	public BasicProduction(AVariable variable, IConstruct value) {
 		super(variable);
 		this.value = value;
-		variableSwitcher = value.getNbOfTerminals() == 0;
 	}
 	
 	@Override
 	public IConstruct getValue() {
 		return value;
-	}
-
-	@Override
-	public boolean isVariableSwitcher() {
-		return variableSwitcher;
 	}
 
 	@Override

@@ -27,13 +27,6 @@ public interface IProductionAsEdge extends IBasicProduction {
 	
 	boolean isBlank();
 	
-	/**
-	 * 
-	 * @param varSwitcher a production such as varSwitcher.isVariableSwitcher() == true
-	 * @return
-	 */
-	IProductionAsEdge switchVariableOrReturnNull(IProductionAsEdge varSwitcher);
-	
 	String toString();
 
 }

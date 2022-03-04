@@ -12,8 +12,6 @@ public interface IBasicProduction extends IProduction {
 	@Override
 	int hashCode();
 	
-	boolean isVariableSwitcher();
-	
 	@Override
 	String toString();
 

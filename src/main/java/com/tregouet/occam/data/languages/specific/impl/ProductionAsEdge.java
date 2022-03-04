@@ -61,16 +61,6 @@ public class ProductionAsEdge extends DefaultEdge implements IProductionAsEdge {
 	@Override
 	public IDenotationSet getTargetDenotationSet() {
 		return output.getDenotationSet();
-	}	
-	
-	@Override
-	public boolean isBlank() {
-		return production == null;
-	}
-
-	@Override
-	public boolean isVariableSwitcher() {
-		return production.isVariableSwitcher();
 	}
 
 	@Override
@@ -102,19 +92,6 @@ public class ProductionAsEdge extends DefaultEdge implements IProductionAsEdge {
 	@Override
 	public ILambdaExpression asLambda(List<IProduction> nextProductions) {
 		return production.asLambda(nextProductions);
-	}
-
-	@Override
-	public IProductionAsEdge switchVariableOrReturnNull(IProductionAsEdge varSwitcher) {
-		if (this.getTargetDenotationSet().equals(varSwitcher.getSourceDenotationSet()) 
-				&& this.getTarget().equals(varSwitcher.getSource())) {
-			if (this.getVariable().equals(varSwitcher.getValue().getListOfSymbols().get(0))) {
-				return new ProductionAsEdge(
-						this.getSource(), varSwitcher.getTarget(), new BasicProduction(varSwitcher.getVariable(), this.getValue()));
-			}
-			return null;
-		}
-		return null;
 	}
 	
 	@Override

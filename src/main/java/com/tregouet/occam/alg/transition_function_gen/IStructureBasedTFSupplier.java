@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
-import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.concepts.IConcept;
 
 public interface IStructureBasedTFSupplier extends ITransitionFunctionSupplier, Iterator<IIsomorphicAutomatons> {
 	

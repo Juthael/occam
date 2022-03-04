@@ -16,12 +16,12 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.concepts_gen.IConceptsConstructionManager;
-import com.tregouet.occam.alg.concepts_gen.utils.DenotatingConstructBldr;
-import com.tregouet.occam.data.denotations.IConcept;
-import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IIsA;
-import com.tregouet.occam.data.denotations.impl.Concept;
-import com.tregouet.occam.data.denotations.impl.IsA;
+import com.tregouet.occam.alg.concepts_gen.utils.ConceptIntentBldr;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IContextObject;
+import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.concepts.impl.Concept;
+import com.tregouet.occam.data.concepts.impl.IsA;
 import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
@@ -121,7 +121,7 @@ public class ConceptsConstructionManager implements IConceptsConstructionManager
 		for (Set<IContextObject> subset : objectsPowerSet) {
 			Set<IConstruct> denotatingConstructs;
 			if (subset.size() > 1)
-				denotatingConstructs = DenotatingConstructBldr.getDenotatingConstructs(subset);
+				denotatingConstructs = ConceptIntentBldr.getDenotations(subset);
 			else if (subset.size() == 1)
 				denotatingConstructs = new HashSet<IConstruct>(subset.iterator().next().getConstructs());
 			else {
@@ -194,17 +194,18 @@ public class ConceptsConstructionManager implements IConceptsConstructionManager
 		return ontologicalCommitment;
 	}
 	
-	private void updateDenotationSetRank(IConcept concept, int rank) {
+	private void updateConceptRank(IConcept concept, int rank) {
 		if (concept.rank() < rank || concept.type() == IConcept.ABSURDITY) {
 			concept.setRank(rank);
 			for (IConcept successor : Graphs.successorListOf(upperSemilattice, concept)) {
-				updateDenotationSetRank(successor, rank + 1);
+				updateConceptRank(successor, rank + 1);
 			}
 		}
 	}
 
 	@Override
-	public void input(Collection<IContextObject> objects) {
+	public IConceptsConstructionManager input(Collection<IContextObject> objects) {
+		AVariable.resetVarNaming();
 		this.objects = new ArrayList<>(objects);
 		objectConcepts = new ArrayList<>(Arrays.asList(new IConcept[objects.size()]));
 		lattice = new DirectedAcyclicGraph<>(null, IsA::new, false);
@@ -238,7 +239,8 @@ public class ConceptsConstructionManager implements IConceptsConstructionManager
 				new UpperSemilattice<>(upperSemilattice, truism, new HashSet<>(objectConcepts), topologicalOrder);
 		this.upperSemilattice.addAsNewRoot(ontologicalCommitment, true);
 		for (IConcept objectDenotationSet : objectConcepts)
-			updateDenotationSetRank(objectDenotationSet, 1);
+			updateConceptRank(objectDenotationSet, 1);
+		return this;
 	}
 
 }

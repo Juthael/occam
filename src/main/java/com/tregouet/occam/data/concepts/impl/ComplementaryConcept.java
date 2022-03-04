@@ -1,13 +1,13 @@
-package com.tregouet.occam.data.denotations.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.data.denotations.IComplementaryConcept;
-import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IConcept;
-import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.concepts.IComplementaryConcept;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IContextObject;
+import com.tregouet.occam.data.concepts.IDenotation;
 
 public class ComplementaryConcept extends AbstractConcept implements IComplementaryConcept {
 

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.tregouet.occam.alg.scoring.scores.IScorer;
 import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
-import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.concepts.IConcept;
 
 public interface ISimilarityScorer extends IScorer<ISimilarityScorer, IAutomaton> {
 	

@@ -8,10 +8,10 @@ import java.util.TreeSet;
 import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
 import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
-import com.tregouet.occam.data.denotations.IConcept;
-import com.tregouet.occam.data.denotations.IExtentStructureConstraint;
-import com.tregouet.occam.data.denotations.IIsA;
-import com.tregouet.occam.data.denotations.utils.TreeOfDenotationSetsToStringConvertor;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
+import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.concepts.utils.TreeOfDenotationSetsToStringConvertor;
 import com.tregouet.tree_finder.data.Tree;
 
 public class IsomorphicAutomatons implements IIsomorphicAutomatons {

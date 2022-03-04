@@ -1,7 +1,7 @@
 package com.tregouet.occam.data.languages.specific;
 
-import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IDenotation;
 
 public interface IBasicProductionAsEdge extends IBasicProduction {
 	

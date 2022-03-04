@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.concepts;
+package com.tregouet.occam.data.concepts_temp;
 
 import java.util.List;
 

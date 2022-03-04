@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.denotations.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,12 +13,12 @@ import org.jgrapht.traverse.BreadthFirstIterator;
 import com.tregouet.occam.alg.concepts_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.concepts_gen.IConceptsConstructionManager;
 import com.tregouet.occam.alg.concepts_gen.IConstrainedConceptTreeSupplier;
-import com.tregouet.occam.alg.concepts_gen.impl.DenotationSetsTreeSupplier;
-import com.tregouet.occam.data.denotations.IConcept;
-import com.tregouet.occam.data.denotations.IConcepts;
-import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IExtentStructureConstraint;
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.alg.concepts_gen.impl.ConceptTreeSupplier;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IContextObject;
+import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public class Concepts implements IConcepts {
@@ -33,7 +33,7 @@ public class Concepts implements IConcepts {
 	private final IConcept absurdity;
 	
 	public Concepts(Collection<IContextObject> objects) {
-		IConceptsConstructionManager manager = IConceptsConstructionManager.getInstance();
+		IConceptsConstructionManager manager = IConceptsConstructionManager.getInstance().input(objects);
 		this.objects = manager.getObjects();
 		lattice = manager.getLattice();
 		upperSemilattice = manager.getUpperSemilattice();
@@ -62,7 +62,7 @@ public class Concepts implements IConcepts {
 
 	@Override
 	public IConceptTreeSupplier getConceptTreeSupplier() throws IOException {
-		return new DenotationSetsTreeSupplier(upperSemilattice, ontologicalCommitment);
+		return new ConceptTreeSupplier(upperSemilattice, ontologicalCommitment);
 	}
 
 	@Override

@@ -15,8 +15,8 @@ import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusD
 import com.tregouet.occam.data.abstract_machines.automatons.descriptions.impl.GenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
-import com.tregouet.occam.data.denotations.IConcept;
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IOntologist {

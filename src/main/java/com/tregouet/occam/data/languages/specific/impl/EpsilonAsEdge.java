@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.languages.specific.impl;
 
-import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 
 public class EpsilonAsEdge extends BasicProductionAsEdge implements IBasicProductionAsEdge {

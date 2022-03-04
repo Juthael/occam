@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.denotations.IConcepts;
-import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;

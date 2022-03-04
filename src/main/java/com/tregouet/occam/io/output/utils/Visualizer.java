@@ -21,9 +21,9 @@ import com.tregouet.occam.data.abstract_machines.transition_rules.IBasicOperator
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IReframerRule;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
-import com.tregouet.occam.data.denotations.IConcept;
-import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.tree_finder.data.Tree;
 

@@ -1,11 +1,11 @@
-package com.tregouet.occam.data.denotations.impl;
+package com.tregouet.occam.data.concepts.impl;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.denotations.IConcept;
-import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 

@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.tregouet.occam.data.denotations.IContextObject;
+import com.tregouet.occam.data.concepts.IContextObject;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.subseq_finder.ISymbolSeq;
 import com.tregouet.subseq_finder.impl.SubseqFinder;
 
-public class DenotatingConstructBldr {
+public class ConceptIntentBldr {
 
 	private static List<List<ISymbolSeq>> objSymbolSeqs;
 	private static Set<IConstruct> intent;
@@ -22,7 +22,7 @@ public class DenotatingConstructBldr {
 	private static Map<ISymbolSeq, Set<ISymbolSeq>> subsqToMaxSubsq;
 	private static Map<ISymbolSeq, IConstruct> symbolSeqToConstruct = new HashMap<>();
 	
-	private DenotatingConstructBldr() {
+	private ConceptIntentBldr() {
 	}
 	
 	public static Set<IConstruct> getDenotations(List<IContextObject> extent) {
@@ -49,7 +49,7 @@ public class DenotatingConstructBldr {
 		return intent;
 	}
 
-	public static Set<IConstruct> getDenotatingConstructs(Set<IContextObject> extent){
+	public static Set<IConstruct> getDenotations(Set<IContextObject> extent){
 		return getDenotations(new ArrayList<IContextObject>(extent));
 	}
 	

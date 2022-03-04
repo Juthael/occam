@@ -5,30 +5,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tregouet.occam.alg.concepts_gen.IConceptTreeSupplier;
-import com.tregouet.occam.data.denotations.IConcept;
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
-public class DenotationSetsTreeSupplier implements IConceptTreeSupplier {
+public class ConceptTreeSupplier implements IConceptTreeSupplier {
 
-	private final IUnidimensionalSorter<IConcept, IIsA> denotationSetsSorter;
+	private final IUnidimensionalSorter<IConcept, IIsA> conceptSorter;
 	private final IConcept ontologicalCommitment;
 	
-	public DenotationSetsTreeSupplier(UpperSemilattice<IConcept, IIsA> denotationSetUSL,
+	public ConceptTreeSupplier(UpperSemilattice<IConcept, IIsA> conceptUSL,
 			IConcept ontologicalCommitment) throws IOException {
 		try {
-			this.denotationSetsSorter = new UnidimensionalSorter<>(denotationSetUSL);
+			this.conceptSorter = new UnidimensionalSorter<>(conceptUSL);
 		} catch (IOException e) {
-			throw new IOException("DenotationSetsTreeSupplier() : error." + System.lineSeparator() + e.getMessage());
+			throw new IOException("ConceptTreeSupplier() : error." + System.lineSeparator() + e.getMessage());
 		}
 		this.ontologicalCommitment = ontologicalCommitment;
 	}
 
 	@Override
-	public List<Tree<IConcept, IIsA>> getRemainingTreesOfDenotationSets() {
+	public List<Tree<IConcept, IIsA>> getRemainingTreesOfConcepts() {
 		List<Tree<IConcept, IIsA>> remainingClassifications = new ArrayList<>();
 		while (hasNext())
 			remainingClassifications.add(next());
@@ -37,12 +37,12 @@ public class DenotationSetsTreeSupplier implements IConceptTreeSupplier {
 
 	@Override
 	public boolean hasNext() {
-		return denotationSetsSorter.hasNext();
+		return conceptSorter.hasNext();
 	}
 
 	@Override
 	public Tree<IConcept, IIsA> next() {
-		return IConceptTreeSupplier.commit(denotationSetsSorter.next(), ontologicalCommitment);
+		return IConceptTreeSupplier.commit(conceptSorter.next(), ontologicalCommitment);
 	}
 
 }

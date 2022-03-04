@@ -5,11 +5,11 @@ import java.util.List;
 
 import com.tregouet.occam.alg.transition_function_gen.IProductionBuilder;
 import com.tregouet.occam.alg.transition_function_gen.utils.ProductionGenerator;
-import com.tregouet.occam.data.denotations.IConcept;
-import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConcepts;
+import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
-import com.tregouet.occam.data.denotations.IDenotation;
 
 public class ProductionBuilder implements IProductionBuilder {
 

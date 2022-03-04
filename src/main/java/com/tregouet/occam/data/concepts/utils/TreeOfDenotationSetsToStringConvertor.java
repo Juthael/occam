@@ -1,12 +1,12 @@
-package com.tregouet.occam.data.denotations.utils;
+package com.tregouet.occam.data.concepts.utils;
 
 import java.util.List;
 import java.util.Map;
 
 import org.jgrapht.Graphs;
 
-import com.tregouet.occam.data.denotations.IConcept;
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public class TreeOfDenotationSetsToStringConvertor {

@@ -2,19 +2,18 @@ package com.tregouet.occam.alg.concepts_gen;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Supplier;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.concepts_gen.impl.ConceptsConstructionManager;
-import com.tregouet.occam.data.denotations.IConcept;
-import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IContextObject;
+import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public interface IConceptsConstructionManager {
 	
-	void input(Collection<IContextObject> objects);
+	IConceptsConstructionManager input(Collection<IContextObject> objects);
 	
 	List<IContextObject> getObjects();
 	

@@ -2,7 +2,7 @@ package com.tregouet.occam.data.abstract_machines.states;
 
 import com.tregouet.occam.data.abstract_machines.tapes.ITapeSet;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
-import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.concepts.IConcept;
 
 public interface IState {
 	

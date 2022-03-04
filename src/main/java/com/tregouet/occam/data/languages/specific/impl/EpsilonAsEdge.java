@@ -9,7 +9,6 @@ public class EpsilonAsEdge extends BasicProductionAsEdge implements IBasicProduc
 	
 	public EpsilonAsEdge(IDenotation input, IDenotation output) {
 		super(input, output, Epsilon.INSTANCE);
-		// TODO Auto-generated constructor stub
 	}
 
 }

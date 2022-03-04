@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.concepts_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
 import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IConcepts;

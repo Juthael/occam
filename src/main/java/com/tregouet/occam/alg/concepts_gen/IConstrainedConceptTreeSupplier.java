@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.denotation_sets_gen;
+package com.tregouet.occam.alg.concepts_gen;
 
 public interface IConstrainedConceptTreeSupplier extends IConceptTreeSupplier {
 

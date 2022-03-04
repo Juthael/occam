@@ -14,7 +14,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.denotation_sets_gen.utils.DenotatingConstructBldr;
+import com.tregouet.occam.alg.concepts_gen.utils.DenotatingConstructBldr;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;

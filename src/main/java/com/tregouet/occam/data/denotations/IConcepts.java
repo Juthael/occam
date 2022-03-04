@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IConstrainedConceptTreeSupplier;
-import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.concepts_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.concepts_gen.IConstrainedConceptTreeSupplier;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public interface IConcepts {

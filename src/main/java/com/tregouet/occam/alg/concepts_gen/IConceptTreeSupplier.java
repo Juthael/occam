@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.denotation_sets_gen;
+package com.tregouet.occam.alg.concepts_gen;
 
 import java.util.Iterator;
 import java.util.List;

@@ -1,10 +1,10 @@
-package com.tregouet.occam.alg.denotation_sets_gen.impl;
+package com.tregouet.occam.alg.concepts_gen.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.concepts_gen.IConceptTreeSupplier;
 import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;

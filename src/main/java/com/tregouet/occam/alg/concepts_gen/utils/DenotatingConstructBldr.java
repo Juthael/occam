@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.denotation_sets_gen.utils;
+package com.tregouet.occam.alg.concepts_gen.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -18,11 +18,11 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IConstrainedConceptTreeSupplier;
-import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
-import com.tregouet.occam.alg.denotation_sets_gen.impl.DenotationSetsTreeSupplier;
-import com.tregouet.occam.alg.denotation_sets_gen.utils.DenotatingConstructBldr;
 import com.tregouet.occam.data.denotations.IContextObject;
+import com.tregouet.occam.alg.concepts_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.concepts_gen.IConstrainedConceptTreeSupplier;
+import com.tregouet.occam.alg.concepts_gen.impl.DenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.concepts_gen.utils.DenotatingConstructBldr;
 import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.denotations.IExtentStructureConstraint;

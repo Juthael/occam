@@ -23,7 +23,7 @@ import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IContextObject;
 import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.concepts.impl.Concepts;
-import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")
@@ -32,7 +32,7 @@ public class ConceptStructureBasedTFSupplierTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
-	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
+	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 
 	@BeforeClass
@@ -44,8 +44,8 @@ public class ConceptStructureBasedTFSupplierTest {
 	@Before
 	public void setUp() throws Exception {
 		concepts = new Concepts(shapes2Obj);
-		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(concepts).getProductions();
-		basicProductionAsEdges.stream().forEach(p -> {
+		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(concepts).getProductions();
+		productionAsEdges.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);

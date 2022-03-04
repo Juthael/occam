@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
@@ -27,31 +26,28 @@ public class ProductionGenerator {
 	 * @param operatorInput
 	 * @param operatorOutput
 	 */
-	public ProductionGenerator(
-			IConcepts concepts, IDenotation operatorInput, IDenotation operatorOutput) {
-		if (concepts.isA(operatorInput.getConcept(), operatorOutput.getConcept())) {
-			if (operatorInput.getListOfSymbols().equals(operatorOutput.getListOfSymbols()))
-				productions = new ArrayList<>(
-						Arrays.asList(new IBasicProduction[] {new EpsilonAsEdge(operatorInput, operatorOutput)}));
-			else if (operatorInput.getListOfTerminals().containsAll(operatorOutput.getListOfTerminals())) {
-				//then input is an instance of output
-				List<ISymbol> source = operatorInput.getListOfSymbols();
-				List<ISymbol> target = operatorOutput.getListOfSymbols();
-				Map<AVariable, List<ISymbol>> varToValue = mapVariablesToValues(source, target);
-				if (varToValue != null) {
-					productions = new ArrayList<>();
-					for (AVariable variable : varToValue.keySet()) {
-						IConstruct value;
-						List<ISymbol> listOfSymbols = varToValue.get(variable);
-						if (listOfSymbols.isEmpty()) {
-							List<ISymbol> emptyString = 
-									new ArrayList<>(Arrays.asList(new ISymbol[] {new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL)}));
-							value = new Construct(emptyString);
-						}
-						else value = new Construct(listOfSymbols);
-						IBasicProduction basicProd = new BasicProduction(variable, value);
-						productions.add(new BasicProductionAsEdge(operatorInput, operatorOutput, basicProd));
+	public ProductionGenerator(IDenotation operatorInput, IDenotation operatorOutput) {
+		if (operatorInput.getListOfSymbols().equals(operatorOutput.getListOfSymbols()))
+			productions = new ArrayList<>(
+					Arrays.asList(new IBasicProduction[] {new EpsilonAsEdge(operatorInput, operatorOutput)}));
+		else if (operatorInput.getListOfTerminals().containsAll(operatorOutput.getListOfTerminals())) {
+			//then input is an instance of output
+			List<ISymbol> source = operatorInput.getListOfSymbols();
+			List<ISymbol> target = operatorOutput.getListOfSymbols();
+			Map<AVariable, List<ISymbol>> varToValue = mapVariablesToValues(source, target);
+			if (varToValue != null) {
+				productions = new ArrayList<>();
+				for (AVariable variable : varToValue.keySet()) {
+					IConstruct value;
+					List<ISymbol> listOfSymbols = varToValue.get(variable);
+					if (listOfSymbols.isEmpty()) {
+						List<ISymbol> emptyString = 
+								new ArrayList<>(Arrays.asList(new ISymbol[] {new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL)}));
+						value = new Construct(emptyString);
 					}
+					else value = new Construct(listOfSymbols);
+					IBasicProduction basicProd = new BasicProduction(variable, value);
+					productions.add(new BasicProductionAsEdge(operatorInput, operatorOutput, basicProd));
 				}
 			}
 		}

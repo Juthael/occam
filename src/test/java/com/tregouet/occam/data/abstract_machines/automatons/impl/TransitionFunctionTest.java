@@ -38,7 +38,7 @@ import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
-import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
 import com.tregouet.occam.data.languages.specific.impl.BlankEdgeProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
@@ -51,12 +51,12 @@ public class TransitionFunctionTest {
 	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> objects;
 	private IConcepts concepts;
-	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
+	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IConceptTreeSupplier conceptTreeSupplier;
-	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filtered_reduced_denotations;
-	private IHierarchicalRestrictionFinder<IDenotation, IBasicProductionAsEdge> denotationTreeSupplier;
-	private Tree<IDenotation, IBasicProductionAsEdge> denotationTree;
+	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> filtered_reduced_denotations;
+	private IHierarchicalRestrictionFinder<IDenotation, IProductionAsEdge> denotationTreeSupplier;
+	private Tree<IDenotation, IProductionAsEdge> denotationTree;
 	private TreeSet<IAutomaton> automatons;
 	
 	@BeforeClass
@@ -69,46 +69,46 @@ public class TransitionFunctionTest {
 		return Math.log10(arg)/Math.log10(2);
 	}
 	
-	private static boolean sameSourceAndTargetCategoryForAll(List<IBasicProductionAsEdge> basicProductionAsEdges) {
+	private static boolean sameSourceAndTargetCategoryForAll(List<IProductionAsEdge> productionAsEdges) {
 		boolean sameSourceAndTargetDenotationSet = true;
 		IConcept sourceDS = null;
 		IConcept targetDS = null;
-		for (int i = 0 ; i < basicProductionAsEdges.size() ; i++) {
+		for (int i = 0 ; i < productionAsEdges.size() ; i++) {
 			if (i == 0) {
-				sourceDS = basicProductionAsEdges.get(i).getSourceDenotationSet();
-				targetDS = basicProductionAsEdges.get(i).getTargetDenotationSet();
+				sourceDS = productionAsEdges.get(i).getSourceConcept();
+				targetDS = productionAsEdges.get(i).getTargetConcept();
 			}
 			else {
-				if (!basicProductionAsEdges.get(i).getSourceDenotationSet().equals(sourceDS)
-						|| !basicProductionAsEdges.get(i).getTargetDenotationSet().equals(targetDS))
+				if (!productionAsEdges.get(i).getSourceConcept().equals(sourceDS)
+						|| !productionAsEdges.get(i).getTargetConcept().equals(targetDS))
 					sameSourceAndTargetDenotationSet = false;
 			}
 		}
 		return sameSourceAndTargetDenotationSet;
 	}
 	
-	private static boolean sameTargetAttributeAsOneOtherProduction(IBasicProductionAsEdge basicProductionAsEdge, List<IBasicProductionAsEdge> basicProductionAsEdges) {
-		if (basicProductionAsEdges.size() == 1)
+	private static boolean sameTargetAttributeAsOneOtherProduction(IProductionAsEdge productionAsEdge, List<IProductionAsEdge> productionAsEdges) {
+		if (productionAsEdges.size() == 1)
 			return true;
 		boolean sameTargetAttributeAsOneOther = false;
-		List<IBasicProductionAsEdge> others = new ArrayList<>(basicProductionAsEdges);
-		others.remove(basicProductionAsEdge);
-		for (IBasicProductionAsEdge other : others) {
-			if (basicProductionAsEdge.getTarget().equals(other.getTarget()))
+		List<IProductionAsEdge> others = new ArrayList<>(productionAsEdges);
+		others.remove(productionAsEdge);
+		for (IProductionAsEdge other : others) {
+			if (productionAsEdge.getTarget().equals(other.getTarget()))
 				sameTargetAttributeAsOneOther = true;
 		}
 		return sameTargetAttributeAsOneOther;
 	}
 	
-	private static boolean sameValueAsOneOtherProduction(IBasicProductionAsEdge basicProductionAsEdge, List<IBasicProductionAsEdge> basicProductionAsEdges) {
-		if (basicProductionAsEdges.size() == 1)
+	private static boolean sameValueAsOneOtherProduction(IProductionAsEdge productionAsEdge, List<IProductionAsEdge> productionAsEdges) {
+		if (productionAsEdges.size() == 1)
 			return true;
 		boolean sameValue = false;
-		List<IBasicProductionAsEdge> others = new ArrayList<>(basicProductionAsEdges);
-		others.remove(basicProductionAsEdge);
-		for (IBasicProductionAsEdge other : others) {
+		List<IProductionAsEdge> others = new ArrayList<>(productionAsEdges);
+		others.remove(productionAsEdge);
+		for (IProductionAsEdge other : others) {
 			List<IConstruct> valuesOfOther = new ArrayList<>(other.getValues());
-			if (valuesOfOther.removeAll(basicProductionAsEdge.getValues()))
+			if (valuesOfOther.removeAll(productionAsEdge.getValues()))
 				sameValue = true;
 		}
 		return sameValue;
@@ -118,8 +118,8 @@ public class TransitionFunctionTest {
 	public void setUp() throws Exception {
 		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 		concepts = new Concepts(objects);
-		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(concepts).getProductions();
-		basicProductionAsEdges.stream().forEach(p -> {
+		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(concepts).getProductions();
+		productionAsEdges.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
@@ -155,15 +155,15 @@ public class TransitionFunctionTest {
 			for (ITransitionRule transitionRule : tF.getTransitions()) {
 				if (transitionRule instanceof IOperator) {
 					IOperator operator = (IOperator) transitionRule;
-					for (IBasicProductionAsEdge basicProductionAsEdge : operator.operation()) {
-						if (basicProductionAsEdge instanceof BlankEdgeProduction) {
+					for (IProductionAsEdge productionAsEdge : operator.operation()) {
+						if (productionAsEdge instanceof BlankEdgeProduction) {
 						}
-						else if (basicProductionAsEdge instanceof ISimpleEdgeProduction) {
-							basicProds.add((ISimpleEdgeProduction) basicProductionAsEdge);
+						else if (productionAsEdge instanceof ISimpleEdgeProduction) {
+							basicProds.add((ISimpleEdgeProduction) productionAsEdge);
 							basicProdsOperators.add(operator);
 						}
 						else {
-							ICompositeEdgeProduction compoProd = (ICompositeEdgeProduction) basicProductionAsEdge;
+							ICompositeEdgeProduction compoProd = (ICompositeEdgeProduction) productionAsEdge;
 							for (ISimpleEdgeProduction basicProd : compoProd.getComponents()) {
 								basicProds.add(basicProd);
 								basicProdsOperators.add(operator);
@@ -176,8 +176,8 @@ public class TransitionFunctionTest {
 				for (int j = i + 1 ; j < basicProds.size() ; j++) {
 					ISimpleEdgeProduction iProd = basicProds.get(i);
 					ISimpleEdgeProduction jProd = basicProds.get(j);
-					if (iProd.getSourceDenotationSet().equals(jProd.getSourceDenotationSet())
-							&& iProd.getTargetDenotationSet().equals(jProd.getTargetDenotationSet())
+					if (iProd.getSourceConcept().equals(jProd.getSourceConcept())
+							&& iProd.getTargetConcept().equals(jProd.getTargetConcept())
 							&& iProd.getValue().equals(jProd.getValue())) {
 						checkCount++;
 						if (!basicProdsOperators.get(basicProds.indexOf(iProd)).equals(
@@ -195,21 +195,21 @@ public class TransitionFunctionTest {
 		boolean sameOperator = true;
 		int checkCount = 0;
 		for (IAutomaton tF : automatons) {
-			Map<IBasicProductionAsEdge, IOperator> prodToOpe = new HashMap<>();
+			Map<IProductionAsEdge, IOperator> prodToOpe = new HashMap<>();
 			for (ITransitionRule transitionRule : tF.getTransitions()) {
 				if (transitionRule instanceof IOperator) {
 					IOperator operator = (IOperator) transitionRule;
-					for (IBasicProductionAsEdge basicProductionAsEdge : operator.operation()) {
-						prodToOpe.put(basicProductionAsEdge, operator);
+					for (IProductionAsEdge productionAsEdge : operator.operation()) {
+						prodToOpe.put(productionAsEdge, operator);
 					}
 				}
 			}
-			List<IBasicProductionAsEdge> basicProductionAsEdges = new ArrayList<>(prodToOpe.keySet());
-			for (int i = 0 ; i < basicProductionAsEdges.size() - 1 ; i++) {
-				for (int j = i + 1 ; j < basicProductionAsEdges.size() ; j++) {
-					IBasicProductionAsEdge iProd = basicProductionAsEdges.get(i);
-					IBasicProductionAsEdge jProd = basicProductionAsEdges.get(j);
-					if (iProd.getSourceDenotationSet().equals(jProd.getSourceDenotationSet())
+			List<IProductionAsEdge> productionAsEdges = new ArrayList<>(prodToOpe.keySet());
+			for (int i = 0 ; i < productionAsEdges.size() - 1 ; i++) {
+				for (int j = i + 1 ; j < productionAsEdges.size() ; j++) {
+					IProductionAsEdge iProd = productionAsEdges.get(i);
+					IProductionAsEdge jProd = productionAsEdges.get(j);
+					if (iProd.getSourceConcept().equals(jProd.getSourceConcept())
 							&& iProd.getTarget().equals(jProd.getTarget())) {
 						checkCount++;
 						if (!prodToOpe.get(iProd).equals(prodToOpe.get(jProd)))
@@ -228,12 +228,12 @@ public class TransitionFunctionTest {
 			for (ITransitionRule transitionRule : tF.getTransitions()) {
 				if (transitionRule instanceof IOperator) {
 					IOperator operator = (IOperator) transitionRule;
-					List<IBasicProductionAsEdge> basicProductionAsEdges = operator.operation();
-					if (!sameSourceAndTargetCategoryForAll(basicProductionAsEdges))
+					List<IProductionAsEdge> productionAsEdges = operator.operation();
+					if (!sameSourceAndTargetCategoryForAll(productionAsEdges))
 						consistent = false;
-					for (IBasicProductionAsEdge basicProductionAsEdge : basicProductionAsEdges) {
-						if (!sameTargetAttributeAsOneOtherProduction(basicProductionAsEdge, basicProductionAsEdges) 
-								&& !sameValueAsOneOtherProduction(basicProductionAsEdge, basicProductionAsEdges))
+					for (IProductionAsEdge productionAsEdge : productionAsEdges) {
+						if (!sameTargetAttributeAsOneOtherProduction(productionAsEdge, productionAsEdges) 
+								&& !sameValueAsOneOtherProduction(productionAsEdge, productionAsEdges))
 							consistent = false;
 					}
 				}

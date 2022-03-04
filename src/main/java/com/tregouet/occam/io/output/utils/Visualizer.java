@@ -24,7 +24,7 @@ import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRul
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
 import com.tregouet.tree_finder.data.Tree;
 
 import guru.nidi.graphviz.engine.Format;
@@ -69,10 +69,10 @@ public class Visualizer {
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}	
 	
-	public static void visualizeDenotationGraph(DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> graph, 
+	public static void visualizeDenotationGraph(DirectedAcyclicGraph<IDenotation, IProductionAsEdge> graph, 
 			String fileName) throws IOException {
 		//convert in DOT format
-		DOTExporter<IDenotation,IBasicProductionAsEdge> exporter = new DOTExporter<>();
+		DOTExporter<IDenotation,IProductionAsEdge> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
@@ -209,12 +209,12 @@ public class Visualizer {
 			else if (transitionRule instanceof IBasicOperator) {
 				IBasicOperator operator = (IBasicOperator) transitionRule;
 				sB.append(operator.getName() + " : ");
-				List<IBasicProductionAsEdge> basicProductionAsEdges = operator.operation();
-				if (basicProductionAsEdges.size() > 1)
+				List<IProductionAsEdge> productionAsEdges = operator.operation();
+				if (productionAsEdges.size() > 1)
 					sB.append(nL);
-				for (int i = 0 ; i < basicProductionAsEdges.size() ; i++) {
-					sB.append(basicProductionAsEdges.get(i).toString());
-					if (i < basicProductionAsEdges.size() - 1)
+				for (int i = 0 ; i < productionAsEdges.size() ; i++) {
+					sB.append(productionAsEdges.get(i).toString());
+					if (i < productionAsEdges.size() - 1)
 						sB.append(nL);
 				}
 			}

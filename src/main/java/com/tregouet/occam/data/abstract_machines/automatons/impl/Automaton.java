@@ -10,12 +10,12 @@ import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transition_functions.ITransitionFunction;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;
-import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
 
 public class Automaton implements IAutomaton {
 
 	private final List<IState> states;
-	private final Set<IBasicProductionAsEdge> inputAlphabet;
+	private final Set<IProductionAsEdge> inputAlphabet;
 	private final Set<AVariable> stackAlphabet;
 	private final ITransitionFunction transitionFunction;
 	private final IState startState;
@@ -76,7 +76,7 @@ public class Automaton implements IAutomaton {
 	}
 
 	@Override
-	public Set<IBasicProductionAsEdge> getInputAlphabet() {
+	public Set<IProductionAsEdge> getInputAlphabet() {
 		return inputAlphabet;
 	}
 

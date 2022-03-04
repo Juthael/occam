@@ -12,25 +12,25 @@ import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 import com.tregouet.occam.data.languages.specific.IBasicProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeProduction;
-import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
 import com.tregouet.occam.data.languages.specific.IProduction;
 
-public class BasicProductionAsEdge extends DefaultEdge implements IBasicProductionAsEdge {
+public class BasicProductionAsEdge extends DefaultEdge implements IBasicProduction, IProductionAsEdge {
 
 	private static final long serialVersionUID = 1701074226278101143L;
-	private final IDenotation input;
-	private final IDenotation output;
+	private final IDenotation speciesDenotation;
+	private final IDenotation genusDenotation;
 	private final IBasicProduction production;
 	
-	public BasicProductionAsEdge(IDenotation input, IDenotation output, IBasicProduction production) {
-		this.input = input;
-		this.output = output;
+	public BasicProductionAsEdge(IDenotation speciesDenotation, IDenotation genusDenotation, IBasicProduction production) {
+		this.speciesDenotation = speciesDenotation;
+		this.genusDenotation = genusDenotation;
 		this.production = production;
 	}
 
 	@Override
 	public IConcept getGenusDenotationSet() {
-		return output.getConcept();
+		return genusDenotation.getConcept();
 	}
 
 	@Override
@@ -40,27 +40,27 @@ public class BasicProductionAsEdge extends DefaultEdge implements IBasicProducti
 
 	@Override
 	public IDenotation getSource() {
-		return input;
+		return speciesDenotation;
 	}
 
 	@Override
-	public IConcept getSourceDenotationSet() {
-		return input.getConcept();
+	public IConcept getSourceConcept() {
+		return speciesDenotation.getConcept();
 	}
 
 	@Override
 	public IConcept getSpeciesDenotationSet() {
-		return input.getConcept();
+		return speciesDenotation.getConcept();
 	}
 
 	@Override
 	public IDenotation getTarget() {
-		return output;
+		return genusDenotation;
 	}
 
 	@Override
-	public IConcept getTargetDenotationSet() {
-		return output.getConcept();
+	public IConcept getTargetConcept() {
+		return genusDenotation.getConcept();
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class BasicProductionAsEdge extends DefaultEdge implements IBasicProducti
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(input, output, production);
+		return Objects.hash(speciesDenotation, genusDenotation, production);
 	}
 
 	@Override
@@ -120,7 +120,7 @@ public class BasicProductionAsEdge extends DefaultEdge implements IBasicProducti
 		if (getClass() != obj.getClass())
 			return false;
 		BasicProductionAsEdge other = (BasicProductionAsEdge) obj;
-		return Objects.equals(input, other.input) && Objects.equals(output, other.output)
+		return Objects.equals(speciesDenotation, other.speciesDenotation) && Objects.equals(genusDenotation, other.genusDenotation)
 				&& Objects.equals(production, other.production);
 	}
 

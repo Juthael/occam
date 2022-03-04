@@ -25,7 +25,7 @@ import com.tregouet.occam.data.languages.generic.impl.Terminal;
 import com.tregouet.occam.data.languages.generic.impl.Variable;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
-import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
 import com.tregouet.occam.data.languages.specific.impl.SimpleEdgeProduction;
 
 public class EdgeProductionTest {
@@ -111,7 +111,7 @@ public class EdgeProductionTest {
 		sB.append(var3.toString());
 		sB.append(") non ponenda necessitate)");
 		ILambdaExpression prod5Lambda;
-		List<IBasicProductionAsEdge> remainingProds = new ArrayList<>(productions);
+		List<IProductionAsEdge> remainingProds = new ArrayList<>(productions);
 		remainingProds.remove(prodVar5);
 		prod5Lambda = prodVar5.asLambda(remainingProds);
 		String prod5LambdaString = prod5Lambda.toString();

@@ -3,10 +3,7 @@ package com.tregouet.occam.data.languages.specific;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IDenotation;
 
-public interface IBasicProductionAsEdge extends IBasicProduction {
-	
-	@Override
-	boolean equals(Object o);
+public interface IProductionAsEdge {
 	
 	IConcept getGenusDenotationSet();
 	
@@ -14,17 +11,12 @@ public interface IBasicProductionAsEdge extends IBasicProduction {
 	
 	IDenotation getSource();
 	
-	IConcept getSourceDenotationSet();
+	IConcept getSourceConcept();
 	
 	IConcept getSpeciesDenotationSet();
 	
 	IDenotation getTarget();
 	
-	IConcept getTargetDenotationSet();
-	
-	@Override
-	int hashCode();
-	
-	String toString();
+	IConcept getTargetConcept();
 
 }

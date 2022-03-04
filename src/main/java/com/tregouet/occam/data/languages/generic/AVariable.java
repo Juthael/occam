@@ -27,7 +27,7 @@ import com.tregouet.occam.data.languages.ISymbol;
 public abstract class AVariable implements ISymbol {
 	
 	public static boolean DEFERRED_NAMING = true;
-	
+	protected static String INITIAL_VAR_NAME = "∃";
 	private static int iterationsOverAlphabet = 0;
 	private static List<Character> charList = populateCharList();
 	private static Iterator<Character> charIte = charList.iterator();

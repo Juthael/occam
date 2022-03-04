@@ -20,6 +20,7 @@ public class DenotatingConstructBldr {
 	private static int[] arrayDimensions;
 	private static int[] coords;
 	private static Map<ISymbolSeq, Set<ISymbolSeq>> subsqToMaxSubsq;
+	private static Map<ISymbolSeq, IConstruct> symbolSeqToConstruct = new HashMap<>();
 	
 	private DenotatingConstructBldr() {
 	}
@@ -36,14 +37,14 @@ public class DenotatingConstructBldr {
 		for (List<ISymbolSeq> obj : objSymbolSeqs) {
 			for (ISymbolSeq objSymSeq : obj) {
 				if (!subsqToMaxSubsq.containsKey(objSymSeq)) {
-					subsqToMaxSubsq.put(objSymSeq, new HashSet<ISymbolSeq>());
+					subsqToMaxSubsq.put(objSymSeq, new HashSet<>());
 				}
 			}
 		}
 		setSubsqToMaxSubsq();
 		for (Set<ISymbolSeq> maxSubseqs : subsqToMaxSubsq.values()) {
 			for (ISymbolSeq maxSubseq : maxSubseqs)
-				intent.add(new Construct(maxSubseq.getStringArray()));
+				intent.add(getConstruct(maxSubseq));
 		}
 		return intent;
 	}
@@ -65,7 +66,7 @@ public class DenotatingConstructBldr {
 		for (List<ISymbolSeq> obj : objSymbolSeqs) {
 			for (ISymbolSeq objSymSeq : obj) {
 				if (!subsqToMaxSubsq.containsKey(objSymSeq)) {
-					subsqToMaxSubsq.put(objSymSeq, new HashSet<ISymbolSeq>());
+					subsqToMaxSubsq.put(objSymSeq, new HashSet<>());
 				}
 			}
 		}
@@ -74,15 +75,15 @@ public class DenotatingConstructBldr {
 	}
 	
 	private static void init() {
-		objSymbolSeqs = new ArrayList<List<ISymbolSeq>>();
-		intent = new HashSet<IConstruct>();
+		objSymbolSeqs = new ArrayList<>();
+		intent = new HashSet<>();
 		arrayDimensions = null;
 		coords = null;
-		subsqToMaxSubsq = new HashMap<ISymbolSeq, Set<ISymbolSeq>>();
+		subsqToMaxSubsq = new HashMap<>();
 	}
 	
 	private static boolean nextCoord(){
-		for(int i=0;i<coords.length;++i) {
+		for(int i=0; i<coords.length ; ++i) {
 			if (++coords[i] < arrayDimensions[i])
 				return true;
 			else coords[i] = 0;
@@ -91,7 +92,7 @@ public class DenotatingConstructBldr {
     }
 	
 	private static Set<ISymbolSeq> removeNonMaxSeqs(Set<ISymbolSeq> seqs){
-		List<ISymbolSeq> seqList = new ArrayList<ISymbolSeq>(seqs);
+		List<ISymbolSeq> seqList = new ArrayList<>(seqs);
 		int idx1 = 0;
 		boolean idx1SeqRemoved = false;
 		int idx2;
@@ -119,7 +120,7 @@ public class DenotatingConstructBldr {
 	private static void setSubsqToMaxSubsq() {
 		coords[0] = -1;
 		while (nextCoord()) {
-			List<ISymbolSeq> tuple = new ArrayList<ISymbolSeq>();
+			List<ISymbolSeq> tuple = new ArrayList<>();
 			for (int i = 0 ; i < coords.length ; i++) {
 				tuple.add(objSymbolSeqs.get(i).get(coords[i]));
 			}
@@ -132,6 +133,16 @@ public class DenotatingConstructBldr {
 		}
 		for (ISymbolSeq seq : subsqToMaxSubsq.keySet())
 			subsqToMaxSubsq.put(seq, removeNonMaxSeqs(subsqToMaxSubsq.get(seq)));
+	}
+	
+	private static IConstruct getConstruct(ISymbolSeq symbolSeq) {
+		IConstruct construct = symbolSeqToConstruct.get(symbolSeq);
+		if (construct == null) {
+			construct = new Construct(symbolSeq.getStringArray());
+			construct.nameVariables();
+			symbolSeqToConstruct.put(symbolSeq, construct);
+		}
+		return construct;
 	}
 
 }

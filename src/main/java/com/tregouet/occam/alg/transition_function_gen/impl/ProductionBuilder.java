@@ -8,14 +8,14 @@ import com.tregouet.occam.alg.transition_function_gen.utils.ProductionGenerator;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.denotations.IDenotationSets;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.occam.data.denotations.IDenotation;
 
 public class ProductionBuilder implements IProductionBuilder {
 
 	private final List<IDenotationSet> topologicalOrderOnDenotationSets;
 	private final List<ISimpleEdgeProduction> simpleEdgeProductions = new ArrayList<>();
-	private final List<IProductionAsEdge> productionAsEdges = new ArrayList<>();
+	private final List<IBasicProductionAsEdge> basicProductionAsEdges = new ArrayList<>();
 	
 	public ProductionBuilder(IDenotationSets denotationSets) {
 		topologicalOrderOnDenotationSets = denotationSets.getTopologicalSorting();
@@ -34,27 +34,27 @@ public class ProductionBuilder implements IProductionBuilder {
 		}
 		//build composite if possible, otherwise add basic 
 		for (ISimpleEdgeProduction simpleEdgeProduction : simpleEdgeProductions) {
-			IProductionAsEdge compositeComponent = null;
+			IBasicProductionAsEdge compositeComponent = null;
 			int prodIdx = 0;
-			while (compositeComponent == null && prodIdx < productionAsEdges.size()) {
-				IProductionAsEdge currentProd = productionAsEdges.get(prodIdx); 
+			while (compositeComponent == null && prodIdx < basicProductionAsEdges.size()) {
+				IBasicProductionAsEdge currentProd = basicProductionAsEdges.get(prodIdx); 
 				compositeComponent = currentProd.combine(simpleEdgeProduction);
 				if (compositeComponent != null) {
 					if (currentProd instanceof ISimpleEdgeProduction) {
-						productionAsEdges.remove(prodIdx);
-						productionAsEdges.add(compositeComponent);
+						basicProductionAsEdges.remove(prodIdx);
+						basicProductionAsEdges.add(compositeComponent);
 					}
 				}
 				prodIdx++;
 			}
 			if (compositeComponent == null)
-				productionAsEdges.add(simpleEdgeProduction);
+				basicProductionAsEdges.add(simpleEdgeProduction);
 		}
 	}
 
 	@Override
-	public List<IProductionAsEdge> getProductions() {
-		return productionAsEdges;
+	public List<IBasicProductionAsEdge> getProductions() {
+		return basicProductionAsEdges;
 	}
 
 }

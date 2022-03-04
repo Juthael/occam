@@ -3,6 +3,7 @@ package com.tregouet.occam.data.languages.specific.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
@@ -125,6 +126,31 @@ public class BasicProduction extends Production implements IBasicProduction {
 			}
 		}
 		return new Construct(returned);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(value, variable);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BasicProduction other = (BasicProduction) obj;
+		return Objects.equals(value, other.value) && Objects.equals(variable, other.variable);
+	}
+
+	@Override
+	public boolean isEpsilon() {
+		return false;
 	}	
 
 }

@@ -4,10 +4,15 @@ import com.tregouet.occam.data.languages.specific.IBasicProduction;
 
 public class Epsilon extends BasicProduction implements IBasicProduction {
 
-	public Epsilon INSTANCE = new Epsilon();
+	public static final Epsilon INSTANCE = new Epsilon();
 	
 	private Epsilon() {
 		super(null, null);
+	}
+	
+	@Override
+	public boolean isEpsilon() {
+		return true;
 	}
 
 }

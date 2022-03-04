@@ -14,7 +14,7 @@ import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.tree_finder.data.Tree;
 
 public abstract class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
@@ -23,36 +23,36 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	
 	protected final IDenotationSets denotationSets;
 	protected final IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
-	protected final DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations;
+	protected final DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations;
 	protected final Comparator<IAutomaton> functionComparator;
 	
 	public TransitionFunctionSupplier(IDenotationSets denotationSets, 
-			DirectedAcyclicGraph<IDenotation, IProductionAsEdge> constructs) throws IOException {
+			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> constructs) throws IOException {
 		this.denotationSets = denotationSets;
 		denotationSetsTreeSupplier = denotationSets.getDenotationSetsTreeSupplier();
 		this.denotations = constructs;
 		functionComparator = ScoreThenCostTFComparator.INSTANCE;
 	}
 
-	public static DirectedAcyclicGraph<IDenotation, IProductionAsEdge> getDenotationGraphFilteredByTreeOfDenotationSets(
+	public static DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> getDenotationGraphFilteredByTreeOfDenotationSets(
 			Tree<IDenotationSet, IIsA> treeOfDenotationSets, 
-			DirectedAcyclicGraph<IDenotation, IProductionAsEdge> unfilteredUnreduced) {
-		DirectedAcyclicGraph<IDenotation, IProductionAsEdge> filtered =	
+			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> unfilteredUnreduced) {
+		DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);
-		List<IProductionAsEdge> edges = new ArrayList<>();
-		List<IProductionAsEdge> varSwitchers = new ArrayList<>();
+		List<IBasicProductionAsEdge> edges = new ArrayList<>();
+		List<IBasicProductionAsEdge> varSwitchers = new ArrayList<>();
 		List<IDenotation> varSwitcherSources = new ArrayList<>();
-		for (IProductionAsEdge productionAsEdge : unfilteredUnreduced.edgeSet()) {
-			IDenotationSet sourceDenotationSet = productionAsEdge.getSourceDenotationSet();
-			IDenotationSet targetDenotationSet = productionAsEdge.getTargetDenotationSet();
+		for (IBasicProductionAsEdge basicProductionAsEdge : unfilteredUnreduced.edgeSet()) {
+			IDenotationSet sourceDenotationSet = basicProductionAsEdge.getSourceDenotationSet();
+			IDenotationSet targetDenotationSet = basicProductionAsEdge.getTargetDenotationSet();
 			if (treeOfDenotationSets.containsVertex(sourceDenotationSet) 
 					&& treeOfDenotationSets.containsVertex(targetDenotationSet) 
 					&& isA(sourceDenotationSet, targetDenotationSet, treeOfDenotationSets)) {
-				if (productionAsEdge.isVariableSwitcher()) {
-					varSwitchers.add(productionAsEdge);
-					varSwitcherSources.add(productionAsEdge.getSource());
+				if (basicProductionAsEdge.isVariableSwitcher()) {
+					varSwitchers.add(basicProductionAsEdge);
+					varSwitcherSources.add(basicProductionAsEdge.getSource());
 				}
-				else edges.add(productionAsEdge);
+				else edges.add(basicProductionAsEdge);
 			}
 		}
 		edges = switchVariables(edges, varSwitchers);
@@ -66,12 +66,12 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return filtered;
 	}
 	
-	public static List<IProductionAsEdge> switchVariables(List<IProductionAsEdge> edges, List<IProductionAsEdge> varSwitchers){
-		List<IProductionAsEdge> edgesReturned = new ArrayList<>(edges);
-		List<IProductionAsEdge> edgesToRemove = new ArrayList<>();
-		List<IProductionAsEdge> edgesToAdd = new ArrayList<>();
-		IProductionAsEdge newProduction;
-		for (IProductionAsEdge edge : edges) {
+	public static List<IBasicProductionAsEdge> switchVariables(List<IBasicProductionAsEdge> edges, List<IBasicProductionAsEdge> varSwitchers){
+		List<IBasicProductionAsEdge> edgesReturned = new ArrayList<>(edges);
+		List<IBasicProductionAsEdge> edgesToRemove = new ArrayList<>();
+		List<IBasicProductionAsEdge> edgesToAdd = new ArrayList<>();
+		IBasicProductionAsEdge newProduction;
+		for (IBasicProductionAsEdge edge : edges) {
 			int varSwitcherIdx = 0;
 			newProduction = null;
 			while (newProduction == null && varSwitcherIdx < varSwitchers.size()) {

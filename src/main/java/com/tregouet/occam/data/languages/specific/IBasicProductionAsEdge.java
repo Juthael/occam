@@ -3,7 +3,7 @@ package com.tregouet.occam.data.languages.specific;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IDenotationSet;
 
-public interface IProductionAsEdge extends IBasicProduction {
+public interface IBasicProductionAsEdge extends IBasicProduction {
 	
 	@Override
 	boolean equals(Object o);
@@ -24,8 +24,6 @@ public interface IProductionAsEdge extends IBasicProduction {
 	
 	@Override
 	int hashCode();
-	
-	boolean isBlank();
 	
 	String toString();
 

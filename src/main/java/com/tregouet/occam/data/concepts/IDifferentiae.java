@@ -2,10 +2,10 @@ package com.tregouet.occam.data.concepts;
 
 import java.util.List;
 
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 
 public interface IDifferentiae {
 	
-	List<IProductionAsEdge> getDifferentiae();
+	List<IBasicProductionAsEdge> getDifferentiae();
 
 }

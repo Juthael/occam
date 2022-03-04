@@ -29,7 +29,7 @@ import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
@@ -40,13 +40,13 @@ public class TransitionsEntropyReductionTest {
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> shapes1Obj;
 	private IDenotationSets denotationSets;
-	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations = 
+	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
 	private Tree<IDenotationSet, IIsA> treeOfDenotationSets;
-	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> filtered_denotations;
-	private IHierarchicalRestrictionFinder<IDenotation, IProductionAsEdge> denotationTreeSupplier;
-	private Tree<IDenotation, IProductionAsEdge> denotationTree;
+	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filtered_denotations;
+	private IHierarchicalRestrictionFinder<IDenotation, IBasicProductionAsEdge> denotationTreeSupplier;
+	private Tree<IDenotation, IBasicProductionAsEdge> denotationTree;
 	private TreeSet<IAutomaton> automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 
 	@BeforeClass
@@ -58,8 +58,8 @@ public class TransitionsEntropyReductionTest {
 	@Before
 	public void setUp() throws Exception {
 		denotationSets = new DenotationSets(shapes1Obj);
-		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(denotationSets).getProductions();
-		productionAsEdges.stream().forEach(p -> {
+		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(denotationSets).getProductions();
+		basicProductionAsEdges.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);

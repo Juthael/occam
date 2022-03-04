@@ -18,7 +18,7 @@ import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class BasicEdgeProductionTest {
@@ -26,7 +26,7 @@ public class BasicEdgeProductionTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IDenotationSets denotationSets;
-	private final DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations = 
+	private final DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
 	
@@ -38,8 +38,8 @@ public class BasicEdgeProductionTest {
 	@Before
 	public void setUp() throws Exception {
 		denotationSets = new DenotationSets(shapes2Obj);
-		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(denotationSets).getProductions();
-		productionAsEdges.stream().forEach(p -> {
+		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(denotationSets).getProductions();
+		basicProductionAsEdges.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
@@ -48,11 +48,11 @@ public class BasicEdgeProductionTest {
 
 	@Test
 	public void whenSwitchVariableMethodCalledThenProceeds() throws Exception {
-		List<IProductionAsEdge> basicProds = new ArrayList<>();
+		List<IBasicProductionAsEdge> basicProds = new ArrayList<>();
 		List<ISimpleEdgeProduction> basicSwitchers = new ArrayList<>();
 		List<ISimpleEdgeProduction> basicProdsAfterSwitch = new ArrayList<>();
 		int switchCount = 0;
-		for (IProductionAsEdge prod : denotations.edgeSet()) {
+		for (IBasicProductionAsEdge prod : denotations.edgeSet()) {
 			if (prod instanceof ISimpleEdgeProduction) {
 				ISimpleEdgeProduction basicProd = (ISimpleEdgeProduction) prod;
 				if (basicProd.isVariableSwitcher())
@@ -60,7 +60,7 @@ public class BasicEdgeProductionTest {
 				else basicProds.add(basicProd);
 			}
 		}
-		for (IProductionAsEdge basicProduction : basicProds) {
+		for (IBasicProductionAsEdge basicProduction : basicProds) {
 			/*
 			System.out.println("Basic production at test : " + basicProduction.toString());
 			System.out.println("Source category hashCode : " + basicProduction.getSourceCategory().hashCode());
@@ -69,13 +69,13 @@ public class BasicEdgeProductionTest {
 			System.out.println("Target attribute : " + basicProduction.getTarget().toString());
 			System.out.println(System.lineSeparator());
 			*/
-			IProductionAsEdge basicProdAfterSwitch = null;
+			IBasicProductionAsEdge basicProdAfterSwitch = null;
 			for (ISimpleEdgeProduction varSwitcher : basicSwitchers) {
 				if (basicProdAfterSwitch == null) {
 					/*
 					System.out.println("Variable switcher at test : " + varSwitcher.toString());
 					*/
-					IProductionAsEdge switched = basicProduction.switchVariableOrReturnNull(varSwitcher);
+					IBasicProductionAsEdge switched = basicProduction.switchVariableOrReturnNull(varSwitcher);
 					if (switched != null) {
 						basicProdAfterSwitch = switched;
 						switchCount++;

@@ -22,7 +22,7 @@ import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")
@@ -31,7 +31,7 @@ public class BasicTFSupplierTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IDenotationSets denotationSets;
-	private final DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations = 
+	private final DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
 	@BeforeClass
@@ -43,8 +43,8 @@ public class BasicTFSupplierTest {
 	@Before
 	public void setUp() throws Exception {
 		denotationSets = new DenotationSets(shapes2Obj);
-		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(denotationSets).getProductions();
-		productionAsEdges.stream().forEach(p -> {
+		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(denotationSets).getProductions();
+		basicProductionAsEdges.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);

@@ -5,15 +5,15 @@ import java.util.Objects;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IInputConfiguration;
 import com.tregouet.occam.data.languages.generic.AVariable;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 
 public class InputConfiguration implements IInputConfiguration {
 
 	private final IState inputState;
-	private final IProductionAsEdge inputSymbol;
+	private final IBasicProductionAsEdge inputSymbol;
 	private final AVariable stackSymbol;
 	
-	public InputConfiguration(IState inputState, IProductionAsEdge inputSymbol, AVariable stackSymbol) {
+	public InputConfiguration(IState inputState, IBasicProductionAsEdge inputSymbol, AVariable stackSymbol) {
 		this.inputState = inputState;
 		this.inputSymbol = inputSymbol;
 		this.stackSymbol = stackSymbol;
@@ -25,7 +25,7 @@ public class InputConfiguration implements IInputConfiguration {
 	}
 
 	@Override
-	public IProductionAsEdge getInputSymbol() {
+	public IBasicProductionAsEdge getInputSymbol() {
 		return inputSymbol;
 	}
 

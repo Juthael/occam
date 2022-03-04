@@ -15,7 +15,7 @@ import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRul
 import com.tregouet.occam.data.denotations.IDenotationSet;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 
 public interface IAutomaton extends ICosted, IScored {
 	
@@ -24,7 +24,7 @@ public interface IAutomaton extends ICosted, IScored {
 	
 	List<IState> getStates();
 	
-	Set<IProductionAsEdge> getInputAlphabet();
+	Set<IBasicProductionAsEdge> getInputAlphabet();
 	
 	Set<AVariable> getStackAlphabet();
 	

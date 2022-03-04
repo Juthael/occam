@@ -27,7 +27,7 @@ import com.tregouet.occam.data.denotations.IDenotationSets;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.StructureInspector;
@@ -39,7 +39,7 @@ public class TransitionFunctionSupplierTest {
 	private static List<IContextObject> shapes2Obj;	
 	private IDenotationSets denotationSets;
 	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
-	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations = 
+	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
 	@BeforeClass
@@ -51,8 +51,8 @@ public class TransitionFunctionSupplierTest {
 	@Before
 	public void setUp() throws Exception {
 		denotationSets = new DenotationSets(shapes2Obj);
-		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(denotationSets).getProductions();
-		productionAsEdges.stream().forEach(p -> {
+		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(denotationSets).getProductions();
+		basicProductionAsEdges.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
@@ -69,7 +69,7 @@ public class TransitionFunctionSupplierTest {
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			*/
-			DirectedAcyclicGraph<IDenotation, IProductionAsEdge> filteredDenotations = 
+			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filteredDenotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(catTree, denotations);
 			/*
 			Visualizer.visualizeAttributeGraph(filteredConstructs, "2108141517_atts");
@@ -91,11 +91,11 @@ public class TransitionFunctionSupplierTest {
 			Tree<IDenotationSet, IIsA> treeOfDenotationSets = denotationSetsTreeSupplier.next();
 			Set<IDenotationSet> expectedDenotationSets = treeOfDenotationSets.vertexSet();
 			Set<IDenotationSet> returnedDenotationSets = new HashSet<>();
-			DirectedAcyclicGraph<IDenotation, IProductionAsEdge> filteredDenotations = 
+			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filteredDenotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
-			for (IProductionAsEdge productionAsEdge : filteredDenotations.edgeSet()) {
-				returnedDenotationSets.add(productionAsEdge.getSourceDenotationSet());
-				returnedDenotationSets.add(productionAsEdge.getTargetDenotationSet());
+			for (IBasicProductionAsEdge basicProductionAsEdge : filteredDenotations.edgeSet()) {
+				returnedDenotationSets.add(basicProductionAsEdge.getSourceDenotationSet());
+				returnedDenotationSets.add(basicProductionAsEdge.getTargetDenotationSet());
 			}
 			if (!expectedDenotationSets.equals(returnedDenotationSets)) {
 				Set<IDenotationSet> unfoundDenotationSets = Sets.difference(expectedDenotationSets, returnedDenotationSets);
@@ -116,12 +116,12 @@ public class TransitionFunctionSupplierTest {
 		int checkCount = 0;
 		while (denotationSetsTreeSupplier.hasNext()) {
 			Tree<IDenotationSet, IIsA> treeOfDenotationSets = denotationSetsTreeSupplier.next();
-			DirectedAcyclicGraph<IDenotation, IProductionAsEdge> filteredDenotations = 
+			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filteredDenotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
-			for (IProductionAsEdge productionAsEdge : filteredDenotations.edgeSet()) {
+			for (IBasicProductionAsEdge basicProductionAsEdge : filteredDenotations.edgeSet()) {
 				checkCount++;
-				IDenotationSet sourceDenotSet = productionAsEdge.getSourceDenotationSet();
-				IDenotationSet targetDenotSet = productionAsEdge.getTargetDenotationSet();
+				IDenotationSet sourceDenotSet = basicProductionAsEdge.getSourceDenotationSet();
+				IDenotationSet targetDenotSet = basicProductionAsEdge.getTargetDenotationSet();
 				if (!treeOfDenotationSets.getDescendants(sourceDenotSet).contains(targetDenotSet))
 					sourceAndTargetDenotSetsAreRelated = false;
 			}
@@ -136,7 +136,7 @@ public class TransitionFunctionSupplierTest {
 			Tree<IDenotationSet, IIsA> treeOfDenotationSets = denotationSetsTreeSupplier.next();
 			Set<IDenotationSet> expectedDenotationSets = treeOfDenotationSets.vertexSet();
 			Set<IDenotationSet> returnedDenotationSets = new HashSet<>();
-			DirectedAcyclicGraph<IDenotation, IProductionAsEdge> filteredDenotations = 
+			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filteredDenotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
 			for (IDenotation denotation : filteredDenotations.vertexSet()) {
 				returnedDenotationSets.add(denotation.getDenotationSet());

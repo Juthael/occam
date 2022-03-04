@@ -25,7 +25,7 @@ import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.impl.DenotationSets;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")
@@ -102,7 +102,7 @@ public class ProductionBuilderTest {
 	@Test
 	public void whenProductionsRequestedThenAllowGraphBuildingAsExpected() throws IOException {
 		boolean aVertexOrEdgeAdditionHasFailed = false;
-		List<IProductionAsEdge> productionAsEdges = builder.getProductions()
+		List<IBasicProductionAsEdge> basicProductionAsEdges = builder.getProductions()
 				.stream()
 				.filter(p -> p.getSource().getDenotationSet().type() != IDenotationSet.ABSURDITY)
 				.collect(Collectors.toList());
@@ -111,7 +111,7 @@ public class ProductionBuilderTest {
 			if (denotationSet.type() != IDenotationSet.ABSURDITY)
 				denotations.addAll(denotationSet.getDenotations());
 		}
-		DirectedAcyclicGraph<IDenotation, IProductionAsEdge> graph = new DirectedAcyclicGraph<>(IProductionAsEdge.class);
+		DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> graph = new DirectedAcyclicGraph<>(IBasicProductionAsEdge.class);
 		for (IDenotation denotation : denotations) {
 			if (!graph.addVertex(denotation))
 				aVertexOrEdgeAdditionHasFailed = true;

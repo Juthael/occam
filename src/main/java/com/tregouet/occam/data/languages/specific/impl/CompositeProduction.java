@@ -55,4 +55,10 @@ public class CompositeProduction extends Production implements ICompositeProduct
 		return semanticRule();
 	}
 
+	@Override
+	public boolean isEpsilon() {
+		//otherwise, wouldn't be composite
+		return false;
+	}
+
 }

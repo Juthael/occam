@@ -6,7 +6,7 @@ import java.util.ListIterator;
 
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.languages.generic.AVariable;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 
 public interface ITransitionRule {
 	
@@ -52,7 +52,7 @@ public interface ITransitionRule {
 	
 	IState getInputState();
 	
-	IProductionAsEdge getInputSymbol();
+	IBasicProductionAsEdge getInputSymbol();
 	
 	AVariable getInputStackSymbol();
 	

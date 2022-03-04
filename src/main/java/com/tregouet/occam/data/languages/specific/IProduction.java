@@ -26,5 +26,8 @@ public interface IProduction extends ISymbol {
 	ILambdaExpression asLambda(List<IProduction> nextProductions);
 	
 	ICompositeProduction combine(IBasicProduction component);
+	
+	//Denotes an empty string of symbols. A symbols are productions, also denotes that no variable is derived. 
+	boolean isEpsilon();
 
 }

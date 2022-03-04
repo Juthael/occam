@@ -12,17 +12,17 @@ import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 import com.tregouet.occam.data.languages.specific.IBasicProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeProduction;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.occam.data.languages.specific.IProduction;
 
-public class ProductionAsEdge extends DefaultEdge implements IProductionAsEdge {
+public class BasicProductionAsEdge extends DefaultEdge implements IBasicProductionAsEdge {
 
 	private static final long serialVersionUID = 1701074226278101143L;
 	private final IDenotation input;
 	private final IDenotation output;
 	private final IBasicProduction production;
 	
-	public ProductionAsEdge(IDenotation input, IDenotation output, IBasicProduction production) {
+	public BasicProductionAsEdge(IDenotation input, IDenotation output, IBasicProduction production) {
 		this.input = input;
 		this.output = output;
 		this.production = production;
@@ -96,15 +96,18 @@ public class ProductionAsEdge extends DefaultEdge implements IProductionAsEdge {
 	
 	@Override
 	public String toString() {
-		if (isBlank())
+		if (isEpsilon())
 			return "inheritance";
 		else return production.toString();
 	}
 
 	@Override
+	public boolean isEpsilon() {
+		return production.isEpsilon();
+	}
+
+	@Override
 	public int hashCode() {
-		if (isBlank())
-			return Objects.hash(input, output);
 		return Objects.hash(input, output, production);
 	}
 
@@ -116,10 +119,7 @@ public class ProductionAsEdge extends DefaultEdge implements IProductionAsEdge {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ProductionAsEdge other = (ProductionAsEdge) obj;
-		if (this.isBlank())
-			return Objects.equals(input, other.input) && Objects.equals(output, other.output)
-					&& other.isBlank();
+		BasicProductionAsEdge other = (BasicProductionAsEdge) obj;
 		return Objects.equals(input, other.input) && Objects.equals(output, other.output)
 				&& Objects.equals(production, other.production);
 	}

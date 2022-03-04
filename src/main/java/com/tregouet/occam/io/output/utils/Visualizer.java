@@ -21,7 +21,7 @@ import com.tregouet.occam.data.abstract_machines.transition_rules.IBasicOperator
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IReframerRule;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
@@ -44,10 +44,10 @@ public class Visualizer {
 		location = newLocation;
 	}
 	
-	public static void visualizeDenotationSetGraph(DirectedAcyclicGraph<IDenotationSet, IIsA> graph, String fileName) 
+	public static void visualizeDenotationSetGraph(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName) 
 			throws IOException {
 		//convert in DOT format
-		DOTExporter<IDenotationSet,IIsA> exporter = new DOTExporter<>();
+		DOTExporter<IConcept,IIsA> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));

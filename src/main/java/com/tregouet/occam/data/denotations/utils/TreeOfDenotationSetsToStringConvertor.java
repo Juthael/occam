@@ -5,16 +5,16 @@ import java.util.Map;
 
 import org.jgrapht.Graphs;
 
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public class TreeOfDenotationSetsToStringConvertor {
 
-	private final Tree<IDenotationSet, IIsA> treeOfDenotationSets;
-	private final Map<IDenotationSet, String> leafToLeafName;
+	private final Tree<IConcept, IIsA> treeOfDenotationSets;
+	private final Map<IConcept, String> leafToLeafName;
 	
-	public TreeOfDenotationSetsToStringConvertor(Tree<IDenotationSet, IIsA> treeOfDenotationSets, Map<IDenotationSet, String> leafToLeafName) {
+	public TreeOfDenotationSetsToStringConvertor(Tree<IConcept, IIsA> treeOfDenotationSets, Map<IConcept, String> leafToLeafName) {
 		this.treeOfDenotationSets = treeOfDenotationSets;
 		this.leafToLeafName = leafToLeafName;
 	}
@@ -24,12 +24,12 @@ public class TreeOfDenotationSetsToStringConvertor {
 		return getExtentStructure(treeOfDenotationSets.getRoot());
 	}
 	
-	private String getExtentStructure(IDenotationSet denotationSet) {
+	private String getExtentStructure(IConcept concept) {
 		String extentStructure;
-		if (denotationSet.type() == IDenotationSet.OBJECT)
-			extentStructure = leafToLeafName.get(denotationSet);
+		if (concept.type() == IConcept.OBJECT)
+			extentStructure = leafToLeafName.get(concept);
 		else {
-			List<IDenotationSet> predecessors = Graphs.predecessorListOf(treeOfDenotationSets, denotationSet);
+			List<IConcept> predecessors = Graphs.predecessorListOf(treeOfDenotationSets, concept);
 			if (predecessors.size() == 1)
 				extentStructure = getExtentStructure(predecessors.get(0));
 			else {

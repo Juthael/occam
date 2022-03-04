@@ -9,8 +9,8 @@ import java.util.TreeSet;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
-import com.tregouet.occam.data.denotations.IDenotationSet;
-import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
 import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.abstract_machines.automatons.impl.IsomorphicAutomatons;
@@ -27,14 +27,14 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	implements IStructureBasedTFSupplier {
 
 	private final TreeSet<IIsomorphicAutomatons> transFunctionSets = new TreeSet<>();
-	private final Map<IDenotationSet, String> objectDenotationSetToName = new HashMap<>();
+	private final Map<IConcept, String> objectDenotationSetToName = new HashMap<>();
 	private Iterator<IIsomorphicAutomatons> ite;
 	
-	public StructureBasedTFSupplier(IDenotationSets denotationSets, 
+	public StructureBasedTFSupplier(IConcepts concepts, 
 			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations) throws IOException {
-		super(denotationSets, denotations);
+		super(concepts, denotations);
 		populateSetsOfRelatedTransFunctions();
-		for (IDenotationSet objDenotationSet : denotationSets.getObjectDenotationSets())
+		for (IConcept objDenotationSet : concepts.getObjectDenotationSets())
 			objectDenotationSetToName.put(objDenotationSet, objDenotationSet.getExtent().iterator().next().getName());
 		ite = transFunctionSets.iterator();
 	}
@@ -66,7 +66,7 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	
 	private void populateSetsOfRelatedTransFunctions() {
 		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IDenotationSet, IIsA> currTreeOfDenotationSets = denotationSetsTreeSupplier.next();
+			Tree<IConcept, IIsA> currTreeOfDenotationSets = denotationSetsTreeSupplier.next();
 			IIsomorphicAutomatons currSetOfIsomorphicTransFunctions = new IsomorphicAutomatons(
 					currTreeOfDenotationSets, objectDenotationSetToName);
 			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filteredDenotationGraph = 

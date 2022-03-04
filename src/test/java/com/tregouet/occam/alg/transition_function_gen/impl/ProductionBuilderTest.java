@@ -18,11 +18,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
-import com.tregouet.occam.data.denotations.IDenotationSet;
-import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.impl.DenotationSets;
+import com.tregouet.occam.data.denotations.impl.Concepts;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
 import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
@@ -33,7 +33,7 @@ public class ProductionBuilderTest {
 
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1.txt");
 	private static List<IContextObject> shapes1Obj;
-	private IDenotationSets denotationSets;
+	private IConcepts concepts;
 	private ProductionBuilder builder;
 	
 	@BeforeClass
@@ -59,8 +59,8 @@ public class ProductionBuilderTest {
 	
 	@Before
 	public void setUp() {
-		denotationSets = new DenotationSets(shapes1Obj);
-		builder = new ProductionBuilder(denotationSets);
+		concepts = new Concepts(shapes1Obj);
+		builder = new ProductionBuilder(concepts);
 		/*
 		Categories catImpl = (Categories) categories;
 		try {
@@ -104,12 +104,12 @@ public class ProductionBuilderTest {
 		boolean aVertexOrEdgeAdditionHasFailed = false;
 		List<IBasicProductionAsEdge> basicProductionAsEdges = builder.getProductions()
 				.stream()
-				.filter(p -> p.getSource().getDenotationSet().type() != IDenotationSet.ABSURDITY)
+				.filter(p -> p.getSource().getDenotationSet().type() != IConcept.ABSURDITY)
 				.collect(Collectors.toList());
 		List<IDenotation> denotations = new ArrayList<>();
-		for (IDenotationSet denotationSet : denotationSets.getTopologicalSorting()) {
-			if (denotationSet.type() != IDenotationSet.ABSURDITY)
-				denotations.addAll(denotationSet.getDenotations());
+		for (IConcept concept : concepts.getTopologicalSorting()) {
+			if (concept.type() != IConcept.ABSURDITY)
+				denotations.addAll(concept.getDenotations());
 		}
 		DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> graph = new DirectedAcyclicGraph<>(IBasicProductionAsEdge.class);
 		for (IDenotation denotation : denotations) {

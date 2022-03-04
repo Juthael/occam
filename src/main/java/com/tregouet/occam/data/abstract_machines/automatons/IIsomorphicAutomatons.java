@@ -2,7 +2,7 @@ package com.tregouet.occam.data.abstract_machines.automatons;
 
 import java.util.Iterator;
 
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IExtentStructureConstraint;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
@@ -17,7 +17,7 @@ public interface IIsomorphicAutomatons extends Comparable<IIsomorphicAutomatons>
 	
 	IAutomaton getOptimalAutomaton();
 	
-	Tree<IDenotationSet, IIsA> getTreeOfDenotationSets();
+	Tree<IConcept, IIsA> getTreeOfDenotationSets();
 	
 	boolean meetsConstraint(IExtentStructureConstraint constraint);
 	

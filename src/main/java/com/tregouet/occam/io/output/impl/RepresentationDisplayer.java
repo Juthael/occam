@@ -23,14 +23,14 @@ import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.StructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
-import com.tregouet.occam.data.denotations.IDenotationSet;
-import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
 import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
-import com.tregouet.occam.data.denotations.impl.DenotationSets;
+import com.tregouet.occam.data.denotations.impl.Concepts;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -45,7 +45,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	private static final DecimalFormat df = new DecimalFormat("#.####");
 	private final String folderPath;
 	private TreeSet<IContextObject> context = null;
-	private IDenotationSets denotationSets = null;
+	private IConcepts concepts = null;
 	private IStructureBasedTFSupplier structureBasedTFSupplier = null;
 	private IIsomorphicAutomatons isomorphicAutomatons = null;
 	private int denotSetTreeIdx = 0;
@@ -75,7 +75,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void generateDenotationSetLatticeGraph() throws IOException {
-		DirectedAcyclicGraph<IDenotationSet, IIsA> lattice = denotationSets.getLatticeOfDenotationSets();
+		DirectedAcyclicGraph<IConcept, IIsA> lattice = concepts.getLatticeOfDenotationSets();
 		TransitiveReduction.INSTANCE.reduce(lattice); 
 		Visualizer.visualizeDenotationSetGraph(lattice, "denotation_lattice.png");
 	}
@@ -84,7 +84,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	public String generateConceptualCoherenceArray(String alinea) {
 		Map<Integer, Double> catIDToCoherence = 
 				currentTransFunc.getSimilarityCalculator().getConceptualCoherenceMap();
-		List<IDenotationSet> topologicalOrder = new ArrayList<>();
+		List<IConcept> topologicalOrder = new ArrayList<>();
 		new TopologicalOrderIterator<>(currentTransFunc.getTreeOfDenotationSets()).forEachRemaining(topologicalOrder::add);
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
@@ -94,13 +94,13 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alinea + "<caption> " + "Conceptual coherence" + "</caption>" + NL);
 		sB.append(alineaa + "<thead>" + NL);
 		sB.append(alineaaa + "<tr>" + NL);
-		for (IDenotationSet cat : topologicalOrder)
+		for (IConcept cat : topologicalOrder)
 			sB.append(alineaaaa + "<th>" + Integer.toString(cat.getID()) + "</th>");
 		sB.append(alineaaa + "</tr>" + NL);
 		sB.append(alineaa + "</thead>" + NL);
 		sB.append(alineaa + "<tbody>" + NL);
 		sB.append(alineaaa + "<tr>" + NL);
-		for (IDenotationSet cat : topologicalOrder)
+		for (IConcept cat : topologicalOrder)
 			sB.append(alineaaaa + "<td>" + round(catIDToCoherence.get(cat.getID())) + "</td>");
 		sB.append(alineaaa + "</tr>" + NL);
 		sB.append(alineaa + "</tbody>" + NL);
@@ -286,8 +286,8 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		} catch (IOException e) {
 			return false;
 		}
-		denotationSets = new DenotationSets(context);
-		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(denotationSets).getProductions();
+		concepts = new Concepts(context);
+		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(concepts).getProductions();
 		DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> constructs = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		basicProductionAsEdges.stream().forEach(p -> {
@@ -296,7 +296,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
 		try {
-			structureBasedTFSupplier = new StructureBasedTFSupplier(denotationSets, constructs);
+			structureBasedTFSupplier = new StructureBasedTFSupplier(concepts, constructs);
 		} catch (IOException e) {
 			return false;
 		}

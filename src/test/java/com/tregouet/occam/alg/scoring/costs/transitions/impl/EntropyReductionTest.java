@@ -25,10 +25,10 @@ import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
 import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.IDenotationSet;
-import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.denotations.IIsA;
-import com.tregouet.occam.data.denotations.impl.DenotationSets;
+import com.tregouet.occam.data.denotations.impl.Concepts;
 import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
@@ -40,11 +40,11 @@ public class EntropyReductionTest {
 	
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> shapes1Obj;
-	private IDenotationSets denotationSets;
+	private IConcepts concepts;
 	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
-	private Tree<IDenotationSet, IIsA> denotationTree;
+	private Tree<IConcept, IIsA> denotationTree;
 	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filtered_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IBasicProductionAsEdge> denotationTreeSupplier;
 	private Tree<IDenotation, IBasicProductionAsEdge> treeOfDenotationSets;
@@ -58,14 +58,14 @@ public class EntropyReductionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		denotationSets = new DenotationSets(shapes1Obj);
-		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(denotationSets).getProductions();
+		concepts = new Concepts(shapes1Obj);
+		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(concepts).getProductions();
 		basicProductionAsEdges.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		denotationSetsTreeSupplier = denotationSets.getDenotationSetsTreeSupplier();
+		denotationSetsTreeSupplier = concepts.getDenotationSetsTreeSupplier();
 		while (denotationSetsTreeSupplier.hasNext()) {
 			denotationTree = denotationSetsTreeSupplier.next();
 			filtered_denotations = 

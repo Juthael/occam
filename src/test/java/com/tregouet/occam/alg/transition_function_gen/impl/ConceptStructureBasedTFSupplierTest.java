@@ -18,11 +18,11 @@ import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.StructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
-import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.impl.DenotationSets;
+import com.tregouet.occam.data.denotations.impl.Concepts;
 import com.tregouet.occam.data.languages.specific.IBasicProductionAsEdge;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
@@ -31,7 +31,7 @@ public class ConceptStructureBasedTFSupplierTest {
 	
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private IDenotationSets denotationSets;
+	private IConcepts concepts;
 	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 
@@ -43,8 +43,8 @@ public class ConceptStructureBasedTFSupplierTest {
 
 	@Before
 	public void setUp() throws Exception {
-		denotationSets = new DenotationSets(shapes2Obj);
-		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(denotationSets).getProductions();
+		concepts = new Concepts(shapes2Obj);
+		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(concepts).getProductions();
 		basicProductionAsEdges.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
@@ -60,7 +60,7 @@ public class ConceptStructureBasedTFSupplierTest {
 		*/
 		boolean increasingOrder = true;
 		int idx = 0;
-		IStructureBasedTFSupplier transFuncSupplier = new StructureBasedTFSupplier(denotationSets, denotations);
+		IStructureBasedTFSupplier transFuncSupplier = new StructureBasedTFSupplier(concepts, denotations);
 		List<Double> coherenceScores = new ArrayList<>();
 		IIsomorphicAutomatons isomorphicAutomatons;
 		while (transFuncSupplier.hasNext()) {

@@ -6,7 +6,7 @@ import java.util.Objects;
 import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
@@ -29,7 +29,7 @@ public class BasicProductionAsEdge extends DefaultEdge implements IBasicProducti
 	}
 
 	@Override
-	public IDenotationSet getGenusDenotationSet() {
+	public IConcept getGenusDenotationSet() {
 		return output.getDenotationSet();
 	}
 
@@ -44,12 +44,12 @@ public class BasicProductionAsEdge extends DefaultEdge implements IBasicProducti
 	}
 
 	@Override
-	public IDenotationSet getSourceDenotationSet() {
+	public IConcept getSourceDenotationSet() {
 		return input.getDenotationSet();
 	}
 
 	@Override
-	public IDenotationSet getSpeciesDenotationSet() {
+	public IConcept getSpeciesDenotationSet() {
 		return input.getDenotationSet();
 	}
 
@@ -59,7 +59,7 @@ public class BasicProductionAsEdge extends DefaultEdge implements IBasicProducti
 	}
 
 	@Override
-	public IDenotationSet getTargetDenotationSet() {
+	public IConcept getTargetDenotationSet() {
 		return output.getDenotationSet();
 	}
 

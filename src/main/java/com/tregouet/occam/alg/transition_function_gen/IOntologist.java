@@ -15,7 +15,7 @@ import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusD
 import com.tregouet.occam.data.abstract_machines.automatons.descriptions.impl.GenusDifferentiaDefinition;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -26,7 +26,7 @@ public interface IOntologist {
 		DirectedAcyclicGraph<IState, IGenusDifferentiaDefinition> porphyrianTree = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		Graphs.addAllVertices(porphyrianTree, automaton.getStates());
-		Tree<IDenotationSet, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
+		Tree<IConcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
 		Map<IState, List<IConjunctiveTransition>> sourceToTransitions = new HashMap<>();
 		for (IConjunctiveTransition transition : automaton.getConjunctiveTransitions()) {
 			IState sourceState = transition.getInputState();
@@ -52,10 +52,10 @@ public interface IOntologist {
 		IState startState = automaton.getAssociatedStateOf(treeOfDenotationSets.getRoot());
 		Set<IState> finalStates = new HashSet<>();
 		List<IState> topoOrderedStates = new ArrayList<>();
-		for (IDenotationSet denotationSet : treeOfDenotationSets.getTopologicalOrder()) {
-			IState associatedState = automaton.getAssociatedStateOf(denotationSet);
+		for (IConcept concept : treeOfDenotationSets.getTopologicalOrder()) {
+			IState associatedState = automaton.getAssociatedStateOf(concept);
 			topoOrderedStates.add(associatedState);
-			if (denotationSet.type() == IDenotationSet.OBJECT)
+			if (concept.type() == IConcept.OBJECT)
 				finalStates.add(associatedState);
 		}
 		return new Tree<IState, IGenusDifferentiaDefinition>(porphyrianTree, startState, 

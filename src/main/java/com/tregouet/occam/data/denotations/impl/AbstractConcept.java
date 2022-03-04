@@ -4,18 +4,18 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 
-public abstract class AbstractDenotationSet implements IDenotationSet {
+public abstract class AbstractConcept implements IConcept {
 
 	protected static int nextID = 100;
 	
 	protected int type;
 	
-	public AbstractDenotationSet() {
+	public AbstractConcept() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -25,9 +25,9 @@ public abstract class AbstractDenotationSet implements IDenotationSet {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof AbstractDenotationSet))
+		if (!(obj instanceof AbstractConcept))
 			return false;
-		AbstractDenotationSet other = (AbstractDenotationSet) obj;
+		AbstractConcept other = (AbstractConcept) obj;
 		if (getID() != other.getID())
 			return false;
 		return true;

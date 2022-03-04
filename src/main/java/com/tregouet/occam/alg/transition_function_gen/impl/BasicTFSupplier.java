@@ -7,8 +7,8 @@ import java.util.TreeSet;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
-import com.tregouet.occam.data.denotations.IDenotationSet;
-import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
 import com.tregouet.occam.data.abstract_machines.transition_functions.utils.TransitionFunctionValidator;
@@ -24,9 +24,9 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private final TreeSet<IAutomaton> automatons = new TreeSet<>(functionComparator);
 	private Iterator<IAutomaton> ite;
 	
-	public BasicTFSupplier(IDenotationSets denotationSets, DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> constructs) 
+	public BasicTFSupplier(IConcepts concepts, DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> constructs) 
 			throws IOException {
-		super(denotationSets, constructs);
+		super(concepts, constructs);
 		populateTransitionFunctions();
 		ite = automatons.iterator();
 	}
@@ -53,7 +53,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 
 	private void populateTransitionFunctions() {
 		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IDenotationSet, IIsA> currTreeOfDenotationSets = denotationSetsTreeSupplier.next();
+			Tree<IConcept, IIsA> currTreeOfDenotationSets = denotationSetsTreeSupplier.next();
 			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filteredDenotationGraph = 
 					getDenotationGraphFilteredByTreeOfDenotationSets(currTreeOfDenotationSets, denotations);
 			IHierarchicalRestrictionFinder<IDenotation, IBasicProductionAsEdge> denotationTreeSupplier = 

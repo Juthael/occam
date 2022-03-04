@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.impl.DenotationSet;
+import com.tregouet.occam.data.denotations.impl.Concept;
 import com.tregouet.occam.data.denotations.impl.Denotation;
 import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
@@ -67,10 +67,10 @@ public class EdgeProductionTest {
 	private Set<IContextObject> mockExtent2 = new HashSet<>();
 	private Set<IContextObject> mockExtent3 = new HashSet<>();
 	private Set<IContextObject> mockExtent4 = new HashSet<>();
-	private IDenotation constr1 = new Denotation(new Construct(prog1), new DenotationSet(mockIntent1, mockExtent1));
-	private IDenotation constr2 = new Denotation(new Construct(prog2), new DenotationSet(mockIntent2, mockExtent2));
-	private IDenotation constr3 = new Denotation(new Construct(prog3), new DenotationSet(mockIntent3, mockExtent3));
-	private IDenotation constr4 = new Denotation(new Construct(prog4), new DenotationSet(mockIntent4, mockExtent4));
+	private IDenotation constr1 = new Denotation(new Construct(prog1), new Concept(mockIntent1, mockExtent1));
+	private IDenotation constr2 = new Denotation(new Construct(prog2), new Concept(mockIntent2, mockExtent2));
+	private IDenotation constr3 = new Denotation(new Construct(prog3), new Concept(mockIntent3, mockExtent3));
+	private IDenotation constr4 = new Denotation(new Construct(prog4), new Concept(mockIntent4, mockExtent4));
 	private IConstruct var1Value = new Construct(var1ValueProg);
 	private IConstruct var2Value = new Construct(var2ValueProg);
 	private IConstruct var3Value = new Construct(var3ValueProg);

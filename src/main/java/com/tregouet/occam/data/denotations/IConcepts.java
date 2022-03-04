@@ -10,47 +10,47 @@ import com.tregouet.occam.alg.denotation_sets_gen.IConstrainedDenotationSetsTree
 import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
-public interface IDenotationSets {
+public interface IConcepts {
 	
 	@Override
 	public int hashCode();
 	
-	boolean areA(List<IDenotationSet> cats, IDenotationSet cat);
+	boolean areA(List<IConcept> cats, IConcept cat);
 	
 	@Override
 	boolean equals(Object o);
 	
-	IDenotationSet getAbsurdity();
+	IConcept getAbsurdity();
 	
 	IDenotationSetsTreeSupplier getDenotationSetsTreeSupplier() throws IOException;
 	
-	DirectedAcyclicGraph<IDenotationSet, IIsA> getLatticeOfDenotationSets();
+	DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfDenotationSets();
 	
 	/**
 	 * If param contains every object in the context, then return truism
 	 * @param extent
 	 * @return
 	 */
-	IDenotationSet getDenotationSetWithExtent(Set<IContextObject> extent);
+	IConcept getDenotationSetWithExtent(Set<IContextObject> extent);
 	
 	IConstrainedDenotationSetsTreeSupplier getConstrainedDenotationSetsTreeSupplier(IExtentStructureConstraint constraint);
 	
 	List<IContextObject> getContextObjects();
 	
-	IDenotationSet getLeastCommonSuperordinate(Set<IDenotationSet> denotationSets);
+	IConcept getLeastCommonSuperordinate(Set<IConcept> concepts);
 	
-	IDenotationSet getOntologicalCommitment();
+	IConcept getOntologicalCommitment();
 	
-	UpperSemilattice<IDenotationSet, IIsA> getOntologicalUpperSemilattice();
+	UpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice();
 	
 	//it is guaranteed that the order is the same as getContextObjects();
-	List<IDenotationSet> getObjectDenotationSets();
+	List<IConcept> getObjectDenotationSets();
 	
-	List<IDenotationSet> getTopologicalSorting();
+	List<IConcept> getTopologicalSorting();
 	
-	DirectedAcyclicGraph<IDenotationSet, IIsA> getTransitiveReduction();
+	DirectedAcyclicGraph<IConcept, IIsA> getTransitiveReduction();
 	
-	IDenotationSet getTruism();
+	IConcept getTruism();
 	
 	/**
 	 * Not a reflexive relation
@@ -58,8 +58,8 @@ public interface IDenotationSets {
 	 * @param cat2
 	 * @return
 	 */
-	boolean isA(IDenotationSet cat1, IDenotationSet cat2);
+	boolean isA(IConcept cat1, IConcept cat2);
 
-	boolean isADirectSubordinateOf(IDenotationSet cat1, IDenotationSet cat2);
+	boolean isADirectSubordinateOf(IConcept cat1, IConcept cat2);
 
 }

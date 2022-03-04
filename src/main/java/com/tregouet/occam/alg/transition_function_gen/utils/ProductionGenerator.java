@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
@@ -27,8 +27,8 @@ public class ProductionGenerator {
 	 * @param operatorOutput
 	 */
 	public ProductionGenerator(
-			IDenotationSets denotationSets, IDenotation operatorInput, IDenotation operatorOutput) {
-		if (denotationSets.isA(operatorInput.getDenotationSet(), operatorOutput.getDenotationSet())) {
+			IConcepts concepts, IDenotation operatorInput, IDenotation operatorOutput) {
+		if (concepts.isA(operatorInput.getDenotationSet(), operatorOutput.getDenotationSet())) {
 			if (operatorInput.getListOfSymbols().equals(operatorOutput.getListOfSymbols()))
 				//then equal strings of terminals
 				productions = new ArrayList<>(

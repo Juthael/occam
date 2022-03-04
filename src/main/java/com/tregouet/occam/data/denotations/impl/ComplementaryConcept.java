@@ -4,52 +4,52 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.data.denotations.IComplementaryDenotationSet;
+import com.tregouet.occam.data.denotations.IComplementaryConcept;
 import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IDenotation;
 
-public class ComplementaryDenotationSet extends AbstractDenotationSet implements IComplementaryDenotationSet {
+public class ComplementaryConcept extends AbstractConcept implements IComplementaryConcept {
 
-	private final IDenotationSet complementedByThis;
-	private IDenotationSet wrappedComplementing = null;
+	private final IConcept complementedByThis;
+	private IConcept wrappedComplementing = null;
 	private final Set<IContextObject> extent;
 	private final int iD;
 	
-	public ComplementaryDenotationSet(IDenotationSet toBeComplemented, IDenotationSet complementing) {
+	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
 		super();
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
 		this.extent = new HashSet<>(Sets.difference(complementing.getExtent(), toBeComplemented.getExtent()));
-		setType(IDenotationSet.CONTEXT_SUBSET);
+		setType(IConcept.CONTEXT_SUBSET);
 		iD = wrappedComplementing.getID();
 	}
 	
-	public ComplementaryDenotationSet(IDenotationSet toBeComplemented, Set<IContextObject> extent) {
+	public ComplementaryConcept(IConcept toBeComplemented, Set<IContextObject> extent) {
 		super();
 		complementedByThis = toBeComplemented;
 		this.extent = extent;
-		setType(IDenotationSet.CONTEXT_SUBSET);
+		setType(IConcept.CONTEXT_SUBSET);
 		iD = nextID++;
 	}	
 	
 	@Override
-	public IDenotationSet buildComplementOfThis(Set<IDenotationSet> rebutterMinimalLowerBounds) {
+	public IConcept buildComplementOfThis(Set<IConcept> rebutterMinimalLowerBounds) {
 		return null;
 	}	
 	
 	@Override
-	public IDenotationSet complementThisWith(IDenotationSet complementing) {
+	public IConcept complementThisWith(IConcept complementing) {
 		return null;
 	}	
 	
 	@Override
-	public IDenotationSet getComplemented() {
+	public IConcept getComplemented() {
 		return complementedByThis;
 	}
 
 	@Override
-	public IDenotationSet getEmbeddedDenotationSet() {
+	public IConcept getEmbeddedDenotationSet() {
 		return wrappedComplementing;
 	}
 

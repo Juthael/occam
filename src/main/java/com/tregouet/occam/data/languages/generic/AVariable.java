@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.languages.ISymbol;
 
 /**
@@ -16,7 +16,7 @@ import com.tregouet.occam.data.languages.ISymbol;
  * 
  * <p>
  * A given variable should never be found in distinct constructs, nor in similar constructs belonging to the intent of 
- * distinct categories ({@link IDenotationSet}). This way, a variable can be referred to as a <i>dimension</i> :  
+ * distinct categories ({@link IConcept}). This way, a variable can be referred to as a <i>dimension</i> :  
  * its biding by a domain-specific operator yields a function that expresses what is common to all constructs obtained by 
  * this variable's assignment of a <i>value</i>, and the set of accepted values are the attributes accessible in this dimension.
  * </p>

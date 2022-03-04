@@ -10,6 +10,6 @@ public interface IExtentStructureConstraint {
 	@Override
 	boolean equals(Object o);
 	
-	boolean metBy(Tree<IDenotationSet, IIsA> catTree);
+	boolean metBy(Tree<IConcept, IIsA> catTree);
 
 }

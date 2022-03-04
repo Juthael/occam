@@ -19,10 +19,10 @@ import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IDenotationSet;
-import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.denotations.IIsA;
-import com.tregouet.occam.data.denotations.impl.DenotationSets;
+import com.tregouet.occam.data.denotations.impl.Concepts;
 import com.tregouet.occam.data.denotations.utils.TreeOfDenotationSetsToStringConvertor;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.Tree;
@@ -32,9 +32,9 @@ public class TreeOfDenotationsToStringConvertorTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private IDenotationSets denotationSets;
+	private IConcepts concepts;
 	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
-	private Map<IDenotationSet, String> objDenotationSetToName = new HashMap<>();
+	private Map<IConcept, String> objDenotationSetToName = new HashMap<>();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -44,12 +44,12 @@ public class TreeOfDenotationsToStringConvertorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		denotationSets = new DenotationSets(shapes2Obj);
+		concepts = new Concepts(shapes2Obj);
 		char name = 'A';
-		for (IDenotationSet objectCategory : denotationSets.getObjectDenotationSets()) {
+		for (IConcept objectCategory : concepts.getObjectDenotationSets()) {
 			objDenotationSetToName.put(objectCategory, new String(Character.toString(name++)));
 		}
-		denotationSetsTreeSupplier = denotationSets.getDenotationSetsTreeSupplier();
+		denotationSetsTreeSupplier = concepts.getDenotationSetsTreeSupplier();
 	}
 
 	@Test
@@ -64,7 +64,7 @@ public class TreeOfDenotationsToStringConvertorTest {
 		int treeIdx = 0;
 		*/
 		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IDenotationSet, IIsA> currTree = denotationSetsTreeSupplier.next();
+			Tree<IConcept, IIsA> currTree = denotationSetsTreeSupplier.next();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/
@@ -85,7 +85,7 @@ public class TreeOfDenotationsToStringConvertorTest {
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
 		sB.append("*** DEFINITION OF OBJECTS ***" + newLine + newLine);
-		for (IDenotationSet objectCat : objDenotationSetToName.keySet()) {
+		for (IConcept objectCat : objDenotationSetToName.keySet()) {
 			sB.append("**Object " + objDenotationSetToName.get(objectCat) + " :" + newLine);
 			sB.append(objectCat.toString());
 			sB.append(newLine + newLine);

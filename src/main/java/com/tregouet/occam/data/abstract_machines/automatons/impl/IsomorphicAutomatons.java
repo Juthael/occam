@@ -8,7 +8,7 @@ import java.util.TreeSet;
 import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
 import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IExtentStructureConstraint;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.denotations.utils.TreeOfDenotationSetsToStringConvertor;
@@ -16,13 +16,13 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class IsomorphicAutomatons implements IIsomorphicAutomatons {
 
-	private final Tree<IDenotationSet,IIsA> treeOfDenotationSets;
-	private final Map<IDenotationSet, String> objDenotationSetToName;
+	private final Tree<IConcept,IIsA> treeOfDenotationSets;
+	private final Map<IConcept, String> objDenotationSetToName;
 	private final Comparator<IAutomaton> automatonComparator = ScoreThenCostTFComparator.INSTANCE;
 	private final TreeSet<IAutomaton> automatons = new TreeSet<>(automatonComparator);
 	
-	public IsomorphicAutomatons(Tree<IDenotationSet, IIsA> treeOfDenotationSets, 
-			Map<IDenotationSet, String> objDenotationSetToName) {
+	public IsomorphicAutomatons(Tree<IConcept, IIsA> treeOfDenotationSets, 
+			Map<IConcept, String> objDenotationSetToName) {
 		this.treeOfDenotationSets = treeOfDenotationSets;
 		this.objDenotationSetToName = objDenotationSetToName;
 	}
@@ -84,7 +84,7 @@ public class IsomorphicAutomatons implements IIsomorphicAutomatons {
 	}
 
 	@Override
-	public Tree<IDenotationSet, IIsA> getTreeOfDenotationSets() {
+	public Tree<IConcept, IIsA> getTreeOfDenotationSets() {
 		return treeOfDenotationSets;
 	}
 

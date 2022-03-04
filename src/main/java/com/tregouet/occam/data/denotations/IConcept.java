@@ -7,7 +7,7 @@ import java.util.Set;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
-public interface IDenotationSet extends IDichotomizable<IDenotationSet> {
+public interface IConcept extends IDichotomizable<IConcept> {
 	
 	public static final int ABSURDITY = 0;
 	public static final int OBJECT = 1;

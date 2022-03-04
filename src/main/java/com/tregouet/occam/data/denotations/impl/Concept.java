@@ -5,19 +5,19 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 
-public class DenotationSet extends AbstractDenotationSet implements IDenotationSet {
+public class Concept extends AbstractConcept implements IConcept {
 
 	private final Set<IDenotation> denotations = new HashSet<>();
 	private final Set<IContextObject> extent;
 	protected int rank = 0;
 	private final int iD;
 	
-	public DenotationSet(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent) {
+	public Concept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent) {
 		for (IConstruct construct : denotatingConstructs)
 			this.denotations.add(new Denotation(construct, this));
 		this.extent = Collections.unmodifiableSet(extent);
@@ -26,7 +26,7 @@ public class DenotationSet extends AbstractDenotationSet implements IDenotationS
 		else iD = nextID++;
 	}
 	
-	protected DenotationSet(Set<IContextObject> extent) {
+	protected Concept(Set<IContextObject> extent) {
 		this.extent = Collections.unmodifiableSet(extent);
 		if (extent.size() == 1)
 			iD = extent.iterator().next().getID();
@@ -34,20 +34,20 @@ public class DenotationSet extends AbstractDenotationSet implements IDenotationS
 	}	
 
 	@Override
-	public IDenotationSet buildComplementOfThis(Set<IDenotationSet> complementMinimalLowerBounds) {
+	public IConcept buildComplementOfThis(Set<IConcept> complementMinimalLowerBounds) {
 		Set<IContextObject> complementExtent = new HashSet<>();
-		for (IDenotationSet rebutterMinLowerBound : complementMinimalLowerBounds)
+		for (IConcept rebutterMinLowerBound : complementMinimalLowerBounds)
 			complementExtent.addAll(rebutterMinLowerBound.getExtent());
-		return new ComplementaryDenotationSet(this, complementExtent);
+		return new ComplementaryConcept(this, complementExtent);
 	}
 
 	@Override
-	public IDenotationSet complementThisWith(IDenotationSet complementing) {
-		return new ComplementaryDenotationSet(this, complementing);
+	public IConcept complementThisWith(IConcept complementing) {
+		return new ComplementaryConcept(this, complementing);
 	}
 	
 	@Override
-	public IDenotationSet getComplemented() {
+	public IConcept getComplemented() {
 		return null;
 	}	
 
@@ -83,7 +83,7 @@ public class DenotationSet extends AbstractDenotationSet implements IDenotationS
 
 	@Override
 	public String toString() {
-		if (type == IDenotationSet.ABSURDITY)
+		if (type == IConcept.ABSURDITY)
 			return "ABSURDITY";
 		StringBuilder sB = new StringBuilder();
 		sB.append(Integer.toString(iD));

@@ -5,11 +5,11 @@ import java.util.List;
 import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.tapes.ITapeSet;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 
 public class State implements IState {
 
-	private final IDenotationSet denotationSet;
+	private final IConcept concept;
 	@SuppressWarnings("unused")
 	//used by unimplemented methods
 	private List<ITransitionRule> transitionRules = null;
@@ -19,8 +19,8 @@ public class State implements IState {
 	private int rank = 0;
 	
 	
-	public State(IDenotationSet denotationSet) {
-		this.denotationSet = denotationSet;
+	public State(IConcept concept) {
+		this.concept = concept;
 	}
 
 	@Override
@@ -43,10 +43,10 @@ public class State implements IState {
 		if (getClass() != obj.getClass())
 			return false;
 		State other = (State) obj;
-		if (denotationSet == null) {
-			if (other.denotationSet != null)
+		if (concept == null) {
+			if (other.concept != null)
 				return false;
-		} else if (!denotationSet.equals(other.denotationSet))
+		} else if (!concept.equals(other.concept))
 			return false;
 		return true;
 	}
@@ -57,8 +57,8 @@ public class State implements IState {
 	}
 
 	@Override
-	public IDenotationSet getAssociatedDenotationSet() {
-		return denotationSet;
+	public IConcept getAssociatedDenotationSet() {
+		return concept;
 	}
 
 	@Override
@@ -68,12 +68,12 @@ public class State implements IState {
 
 	@Override
 	public int iD() {
-		return denotationSet.getID();
+		return concept.getID();
 	}
 
 	@Override
 	public int getStateType() {
-		return denotationSet.type();
+		return concept.type();
 	}
 
 	/* (non-Javadoc)
@@ -83,7 +83,7 @@ public class State implements IState {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((denotationSet == null) ? 0 : denotationSet.hashCode());
+		result = prime * result + ((concept == null) ? 0 : concept.hashCode());
 		return result;
 	}
 

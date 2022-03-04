@@ -2,15 +2,15 @@ package com.tregouet.occam.data.abstract_machines.states;
 
 import com.tregouet.occam.data.abstract_machines.tapes.ITapeSet;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 
 public interface IState {
 	
-	static final int ABS_STATE = IDenotationSet.ABSURDITY;
-	static final int OBJ_STATE = IDenotationSet.OBJECT;
-	static final int CAT_STATE = IDenotationSet.CONTEXT_SUBSET;
-	static final int TRUISM_STATE = IDenotationSet.TRUISM;
-	static final int OC_STATE = IDenotationSet.ONTOLOGICAL_COMMITMENT;
+	static final int ABS_STATE = IConcept.ABSURDITY;
+	static final int OBJ_STATE = IConcept.OBJECT;
+	static final int CAT_STATE = IConcept.CONTEXT_SUBSET;
+	static final int TRUISM_STATE = IConcept.TRUISM;
+	static final int OC_STATE = IConcept.ONTOLOGICAL_COMMITMENT;
 	
 	boolean acceptInput(ITapeSet tapeSet);
 	
@@ -21,7 +21,7 @@ public interface IState {
 	
 	void generateOutputLanguage();
 	
-	IDenotationSet getAssociatedDenotationSet();
+	IConcept getAssociatedDenotationSet();
 	
 	int getRank();
 	

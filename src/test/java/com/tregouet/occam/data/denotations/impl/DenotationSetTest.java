@@ -13,10 +13,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.denotations.IDenotationSet;
+import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.impl.DenotationSet;
+import com.tregouet.occam.data.denotations.impl.Concept;
 import com.tregouet.occam.data.denotations.impl.Denotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
@@ -27,7 +27,7 @@ public class DenotationSetTest {
 	private String[] prog2 = new String[] {"D", "E", "F"};
 	private String[] prog3 = new String[] {"G", "H", "C"};
 	private IContextObject obj1;
-	private IDenotationSet cat;
+	private IConcept cat;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -47,7 +47,7 @@ public class DenotationSetTest {
 		catIntent.addAll(obj1.getConstructs());
 		Set<IContextObject> cat1Extent = new HashSet<>();
 		cat1Extent.add(obj1);
-		cat = new DenotationSet(catIntent, cat1Extent);
+		cat = new Concept(catIntent, cat1Extent);
 	}
 
 	@Test

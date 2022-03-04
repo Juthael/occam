@@ -23,8 +23,8 @@ import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.denotation_sets_gen.impl.DenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.denotation_sets_gen.utils.DenotatingConstructBldr;
 import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IDenotationSet;
-import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.denotations.IExtentStructureConstraint;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.ISymbol;
@@ -34,43 +34,43 @@ import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Variable;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
-public class DenotationSets implements IDenotationSets {
+public class Concepts implements IConcepts {
 	
 	private final List<IContextObject> objects;
-	private final DirectedAcyclicGraph<IDenotationSet, IIsA> lattice;
-	private final UpperSemilattice<IDenotationSet, IIsA> upperSemilattice;
-	private final IDenotationSet ontologicalCommitment;
-	private final List<IDenotationSet> topologicalOrder;
-	private final IDenotationSet truism;
-	private final List<IDenotationSet> objectDenotationSets;
-	private final IDenotationSet absurdity;
+	private final DirectedAcyclicGraph<IConcept, IIsA> lattice;
+	private final UpperSemilattice<IConcept, IIsA> upperSemilattice;
+	private final IConcept ontologicalCommitment;
+	private final List<IConcept> topologicalOrder;
+	private final IConcept truism;
+	private final List<IConcept> objectDenotationSets;
+	private final IConcept absurdity;
 	
 	@SuppressWarnings("unchecked")
-	public DenotationSets(Collection<IContextObject> objects) {
+	public Concepts(Collection<IContextObject> objects) {
 		this.objects = new ArrayList<>(objects);
-		objectDenotationSets = new ArrayList<>(Arrays.asList(new IDenotationSet[objects.size()]));
+		objectDenotationSets = new ArrayList<>(Arrays.asList(new IConcept[objects.size()]));
 		lattice = new DirectedAcyclicGraph<>(null, IsA::new, false);
 		buildLattice();
-		IDenotationSet truism = null;
-		IDenotationSet absurdity = null;
-		for (IDenotationSet denotationSet : lattice.vertexSet()) {
-			switch(denotationSet.type()) {
-				case IDenotationSet.TRUISM :
-					truism = denotationSet;
+		IConcept truism = null;
+		IConcept absurdity = null;
+		for (IConcept concept : lattice.vertexSet()) {
+			switch(concept.type()) {
+				case IConcept.TRUISM :
+					truism = concept;
 					break;
-				case IDenotationSet.ABSURDITY :
-					absurdity = denotationSet;
+				case IConcept.ABSURDITY :
+					absurdity = concept;
 					break;
-				case IDenotationSet.OBJECT :
-					objectDenotationSets.set(this.objects.indexOf(denotationSet.getExtent().iterator().next()), denotationSet);
+				case IConcept.OBJECT :
+					objectDenotationSets.set(this.objects.indexOf(concept.getExtent().iterator().next()), concept);
 					break;
 			}
 		}
 		this.truism = truism;
 		this.absurdity = absurdity;
 		ontologicalCommitment = instantiateOntologicalCommitment();
-		DirectedAcyclicGraph<IDenotationSet, IIsA> upperSemilattice = 
-				(DirectedAcyclicGraph<IDenotationSet, IIsA>) lattice.clone();
+		DirectedAcyclicGraph<IConcept, IIsA> upperSemilattice = 
+				(DirectedAcyclicGraph<IConcept, IIsA>) lattice.clone();
 		upperSemilattice.removeVertex(absurdity);
 		TransitiveReduction.INSTANCE.reduce(upperSemilattice);
 		topologicalOrder = new ArrayList<>();
@@ -78,23 +78,23 @@ public class DenotationSets implements IDenotationSets {
 		this.upperSemilattice = 
 				new UpperSemilattice<>(upperSemilattice, truism, new HashSet<>(objectDenotationSets), topologicalOrder);
 		this.upperSemilattice.addAsNewRoot(ontologicalCommitment, true);
-		for (IDenotationSet objectDenotationSet : objectDenotationSets)
+		for (IConcept objectDenotationSet : objectDenotationSets)
 			updateDenotationSetRank(objectDenotationSet, 1);
 	}
 
 	@Override
-	public boolean areA(List<IDenotationSet> denotationSets, IDenotationSet denotationSet) {
+	public boolean areA(List<IConcept> concepts, IConcept concept) {
 		boolean areA = true;
 		int dSIndex = 0;
-		while (areA && dSIndex < denotationSets.size()) {
-			areA = isA(denotationSets.get(dSIndex), denotationSet);
+		while (areA && dSIndex < concepts.size()) {
+			areA = isA(concepts.get(dSIndex), concept);
 			dSIndex++;
 		}
 		return areA;
 	}
 
 	@Override
-	public IDenotationSet getAbsurdity() {
+	public IConcept getAbsurdity() {
 		return absurdity;
 	}
 
@@ -104,17 +104,17 @@ public class DenotationSets implements IDenotationSets {
 	}
 
 	@Override
-	public DirectedAcyclicGraph<IDenotationSet, IIsA> getLatticeOfDenotationSets() {
+	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfDenotationSets() {
 		return lattice;
 	}
 
 	@Override
-	public IDenotationSet getDenotationSetWithExtent(Set<IContextObject> extent) {
+	public IConcept getDenotationSetWithExtent(Set<IContextObject> extent) {
 		if (extent.containsAll(objects))
 			return truism;
-		for (IDenotationSet denotationSet : topologicalOrder) {
-			if (denotationSet.getExtent().equals(extent))
-				return denotationSet;
+		for (IConcept concept : topologicalOrder) {
+			if (concept.getExtent().equals(extent))
+				return concept;
 		}
 		return null;
 	}
@@ -132,60 +132,60 @@ public class DenotationSets implements IDenotationSets {
 	}
 
 	@Override
-	public IDenotationSet getLeastCommonSuperordinate(Set<IDenotationSet> denotationSets) {
-		if (denotationSets.isEmpty())
+	public IConcept getLeastCommonSuperordinate(Set<IConcept> concepts) {
+		if (concepts.isEmpty())
 			return null;
-		List<IDenotationSet> denotSetList = removeSubCategories(denotationSets);
+		List<IConcept> denotSetList = removeSubCategories(concepts);
 		if (denotSetList.size() == 1)
 			return denotSetList.get(0);
-		IDenotationSet leastCommonSuperordinate = null;
-		ListIterator<IDenotationSet> denotSetIterator = topologicalOrder.listIterator(topologicalOrder.size());
+		IConcept leastCommonSuperordinate = null;
+		ListIterator<IConcept> denotSetIterator = topologicalOrder.listIterator(topologicalOrder.size());
 		boolean abortSearch = false;
 		while (denotSetIterator.hasPrevious() && !abortSearch) {
-			IDenotationSet current = denotSetIterator.previous();
+			IConcept current = denotSetIterator.previous();
 			if (areA(denotSetList, current))
 				leastCommonSuperordinate = current;
-			else if (denotationSets.contains(current))
+			else if (concepts.contains(current))
 				abortSearch = true;
 		}
 		return leastCommonSuperordinate;		
 	}
 
 	@Override
-	public IDenotationSet getOntologicalCommitment() {
+	public IConcept getOntologicalCommitment() {
 		return ontologicalCommitment;
 	}
 	
 	@Override
-	public UpperSemilattice<IDenotationSet, IIsA> getOntologicalUpperSemilattice() {
+	public UpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice() {
 		return upperSemilattice;
 	}
 	
 	@Override
-	public List<IDenotationSet> getObjectDenotationSets() {
+	public List<IConcept> getObjectDenotationSets() {
 		return objectDenotationSets;
 	}	
 	
 	@Override
-	public List<IDenotationSet> getTopologicalSorting() {
+	public List<IConcept> getTopologicalSorting() {
 		return topologicalOrder;
 	}
 	
 	@Override
-	public DirectedAcyclicGraph<IDenotationSet, IIsA> getTransitiveReduction() {
+	public DirectedAcyclicGraph<IConcept, IIsA> getTransitiveReduction() {
 		return upperSemilattice;
 	}
 	
 	@Override
-	public IDenotationSet getTruism() {
+	public IConcept getTruism() {
 		return truism;
 	}
 
 	@Override
-	public boolean isA(IDenotationSet denotationSet1, IDenotationSet denotationSet2) {
+	public boolean isA(IConcept denotationSet1, IConcept denotationSet2) {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(denotationSet1) < topologicalOrder.indexOf(denotationSet2)) {
-			BreadthFirstIterator<IDenotationSet, IIsA> iterator = 
+			BreadthFirstIterator<IConcept, IIsA> iterator = 
 					new BreadthFirstIterator<>(upperSemilattice, denotationSet1);
 			iterator.next();
 			while (!isA && iterator.hasNext())
@@ -195,7 +195,7 @@ public class DenotationSets implements IDenotationSets {
 	}
 
 	@Override
-	public boolean isADirectSubordinateOf(IDenotationSet denotationSet1, IDenotationSet denotationSet2) {
+	public boolean isADirectSubordinateOf(IConcept denotationSet1, IConcept denotationSet2) {
 		return (upperSemilattice.getEdge(denotationSet1, denotationSet2) != null);
 	}
 	
@@ -224,27 +224,27 @@ public class DenotationSets implements IDenotationSets {
 	private void buildLattice() {
 		Map<Set<IConstruct>, Set<IContextObject>> denotatingConstructsToExtents = buildIntentToExtentRel();
 		for (Entry<Set<IConstruct>, Set<IContextObject>> entry : denotatingConstructsToExtents.entrySet()) {
-			IDenotationSet denotationSet = new DenotationSet(entry.getKey(), entry.getValue());
-			if (!denotationSet.getExtent().isEmpty()) {
-				if (denotationSet.getExtent().size() == 1)
-					denotationSet.setType(IDenotationSet.OBJECT);
-				else if (denotationSet.getExtent().size() == objects.size()) {
-					denotationSet.setType(IDenotationSet.TRUISM);
+			IConcept concept = new Concept(entry.getKey(), entry.getValue());
+			if (!concept.getExtent().isEmpty()) {
+				if (concept.getExtent().size() == 1)
+					concept.setType(IConcept.OBJECT);
+				else if (concept.getExtent().size() == objects.size()) {
+					concept.setType(IConcept.TRUISM);
 				}
 				else {
-					denotationSet.setType(IDenotationSet.CONTEXT_SUBSET);
+					concept.setType(IConcept.CONTEXT_SUBSET);
 				}
 			}
 			else {
-				denotationSet.setType(IDenotationSet.ABSURDITY);
+				concept.setType(IConcept.ABSURDITY);
 			}
-			lattice.addVertex(denotationSet);
+			lattice.addVertex(concept);
 		}
-		List<IDenotationSet> denotSetList = new ArrayList<>(lattice.vertexSet());
+		List<IConcept> denotSetList = new ArrayList<>(lattice.vertexSet());
 		for (int i = 0 ; i < denotSetList.size() - 1 ; i++) {
-			IDenotationSet iDenotSet = denotSetList.get(i);
+			IConcept iDenotSet = denotSetList.get(i);
 			for (int j = i+1 ; j < denotSetList.size() ; j++) {
-				IDenotationSet jDenotSet = denotSetList.get(j);
+				IConcept jDenotSet = denotSetList.get(j);
 				if (iDenotSet.getExtent().containsAll(jDenotSet.getExtent()))
 					lattice.addEdge(jDenotSet, iDenotSet);
 				else if (jDenotSet.getExtent().containsAll(iDenotSet.getExtent()))
@@ -266,32 +266,32 @@ public class DenotationSets implements IDenotationSets {
 	    return powerSet;
 	}
 
-	private IDenotationSet instantiateOntologicalCommitment() {
-		IDenotationSet ontologicalCommitment;
+	private IConcept instantiateOntologicalCommitment() {
+		IConcept ontologicalCommitment;
 		ISymbol variable = new Variable(!AVariable.DEFERRED_NAMING);
 		List<ISymbol> word = new ArrayList<ISymbol>();
 		word.add(variable);
 		IConstruct denotatingConstruct = new Construct(word);
 		Set<IConstruct> denotatingConstructs =  new HashSet<IConstruct>();
 		denotatingConstructs.add(denotatingConstruct);
-		ontologicalCommitment = new DenotationSet(denotatingConstructs, new HashSet<IContextObject>(objects));
-		ontologicalCommitment.setType(IDenotationSet.ONTOLOGICAL_COMMITMENT);
+		ontologicalCommitment = new Concept(denotatingConstructs, new HashSet<IContextObject>(objects));
+		ontologicalCommitment.setType(IConcept.ONTOLOGICAL_COMMITMENT);
 		return ontologicalCommitment;
 	}
 
-	private List<IDenotationSet> removeSubCategories(Set<IDenotationSet> denotationSets) {
-		List<IDenotationSet> denotSetList = new ArrayList<>(denotationSets);
+	private List<IConcept> removeSubCategories(Set<IConcept> concepts) {
+		List<IConcept> denotSetList = new ArrayList<>(concepts);
 		for (int i = 0 ; i < denotSetList.size() - 1 ; i++) {
-			IDenotationSet iDenotSet = denotSetList.get(i);
+			IConcept iDenotSet = denotSetList.get(i);
 			for (int j = i+1 ; j < denotSetList.size() ; j++) {
-				IDenotationSet jDenotSet = denotSetList.get(j);
+				IConcept jDenotSet = denotSetList.get(j);
 				if (isA(iDenotSet, jDenotSet))
-					denotationSets.remove(iDenotSet);
+					concepts.remove(iDenotSet);
 				else if (isA(jDenotSet, iDenotSet))
-					denotationSets.remove(jDenotSet);
+					concepts.remove(jDenotSet);
 			}
 		}
-		return new ArrayList<>(denotationSets);
+		return new ArrayList<>(concepts);
 	}
 
 	private Map<Set<IConstruct>, Set<IContextObject>> singularizeConstructs(
@@ -324,10 +324,10 @@ public class DenotationSets implements IDenotationSets {
 		return mapWithSingularizedIntents;
 	}
 
-	private void updateDenotationSetRank(IDenotationSet denotationSet, int rank) {
-		if (denotationSet.rank() < rank || denotationSet.type() == IDenotationSet.ABSURDITY) {
-			denotationSet.setRank(rank);
-			for (IDenotationSet successor : Graphs.successorListOf(upperSemilattice, denotationSet)) {
+	private void updateDenotationSetRank(IConcept concept, int rank) {
+		if (concept.rank() < rank || concept.type() == IConcept.ABSURDITY) {
+			concept.setRank(rank);
+			for (IConcept successor : Graphs.successorListOf(upperSemilattice, concept)) {
 				updateDenotationSetRank(successor, rank + 1);
 			}
 		}

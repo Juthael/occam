@@ -29,12 +29,12 @@ import com.tregouet.occam.data.abstract_machines.states.IState;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.abstract_machines.transition_rules.IOperator;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
-import com.tregouet.occam.data.denotations.IDenotationSet;
-import com.tregouet.occam.data.denotations.IDenotationSets;
+import com.tregouet.occam.data.denotations.IConcept;
+import com.tregouet.occam.data.denotations.IConcepts;
 import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.denotations.IIsA;
-import com.tregouet.occam.data.denotations.impl.DenotationSets;
+import com.tregouet.occam.data.denotations.impl.Concepts;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
@@ -50,7 +50,7 @@ public class TransitionFunctionTest {
 
 	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> objects;
-	private IDenotationSets denotationSets;
+	private IConcepts concepts;
 	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
@@ -71,8 +71,8 @@ public class TransitionFunctionTest {
 	
 	private static boolean sameSourceAndTargetCategoryForAll(List<IBasicProductionAsEdge> basicProductionAsEdges) {
 		boolean sameSourceAndTargetDenotationSet = true;
-		IDenotationSet sourceDS = null;
-		IDenotationSet targetDS = null;
+		IConcept sourceDS = null;
+		IConcept targetDS = null;
 		for (int i = 0 ; i < basicProductionAsEdges.size() ; i++) {
 			if (i == 0) {
 				sourceDS = basicProductionAsEdges.get(i).getSourceDenotationSet();
@@ -117,16 +117,16 @@ public class TransitionFunctionTest {
 	@Before
 	public void setUp() throws Exception {
 		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
-		denotationSets = new DenotationSets(objects);
-		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(denotationSets).getProductions();
+		concepts = new Concepts(objects);
+		List<IBasicProductionAsEdge> basicProductionAsEdges = new ProductionBuilder(concepts).getProductions();
 		basicProductionAsEdges.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		denotationSetsTreeSupplier = denotationSets.getDenotationSetsTreeSupplier();
+		denotationSetsTreeSupplier = concepts.getDenotationSetsTreeSupplier();
 		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IDenotationSet, IIsA> currTreeOfDenotationSets  = denotationSetsTreeSupplier.next();
+			Tree<IConcept, IIsA> currTreeOfDenotationSets  = denotationSetsTreeSupplier.next();
 			filtered_reduced_denotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(
 							currTreeOfDenotationSets, denotations);

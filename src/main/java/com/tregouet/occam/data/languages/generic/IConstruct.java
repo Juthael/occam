@@ -8,6 +8,8 @@ import com.tregouet.occam.data.languages.IWord;
 
 public interface IConstruct extends IWord<ISymbol> {
 	
+	public static final String EMPTY_CONSTRUCT_SYMBOL = "ε";
+	
 	@Override
 	public int hashCode();
 	

@@ -5,11 +5,17 @@ import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class Variable extends AVariable {
 	
+	private static final Variable INITIAL = new Variable();
+	
 	private String name = ISymbolSeq.PLACEHOLDER;
 
 	public Variable(boolean deferredNaming) {
 		if (!deferredNaming)
 			setName();
+	}
+	
+	private Variable() {
+		this.name = AVariable.INITIAL_VAR_NAME;
 	}
 	
 	@Override
@@ -50,6 +56,10 @@ public class Variable extends AVariable {
 	@Override
 	public String toString() {
 		return name;
+	}
+	
+	public static AVariable getInitialVariable() {
+		return INITIAL;
 	}
 
 }

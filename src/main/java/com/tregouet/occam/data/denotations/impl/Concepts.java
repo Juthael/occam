@@ -42,13 +42,13 @@ public class Concepts implements IConcepts {
 	private final IConcept ontologicalCommitment;
 	private final List<IConcept> topologicalOrder;
 	private final IConcept truism;
-	private final List<IConcept> objectDenotationSets;
+	private final List<IConcept> objectConcepts;
 	private final IConcept absurdity;
 	
 	@SuppressWarnings("unchecked")
 	public Concepts(Collection<IContextObject> objects) {
 		this.objects = new ArrayList<>(objects);
-		objectDenotationSets = new ArrayList<>(Arrays.asList(new IConcept[objects.size()]));
+		objectConcepts = new ArrayList<>(Arrays.asList(new IConcept[objects.size()]));
 		lattice = new DirectedAcyclicGraph<>(null, IsA::new, false);
 		buildLattice();
 		IConcept truism = null;
@@ -62,7 +62,7 @@ public class Concepts implements IConcepts {
 					absurdity = concept;
 					break;
 				case IConcept.OBJECT :
-					objectDenotationSets.set(this.objects.indexOf(concept.getExtent().iterator().next()), concept);
+					objectConcepts.set(this.objects.indexOf(concept.getExtent().iterator().next()), concept);
 					break;
 			}
 		}
@@ -76,9 +76,9 @@ public class Concepts implements IConcepts {
 		topologicalOrder = new ArrayList<>();
 		new TopologicalOrderIterator<>(upperSemilattice).forEachRemaining(topologicalOrder::add);
 		this.upperSemilattice = 
-				new UpperSemilattice<>(upperSemilattice, truism, new HashSet<>(objectDenotationSets), topologicalOrder);
+				new UpperSemilattice<>(upperSemilattice, truism, new HashSet<>(objectConcepts), topologicalOrder);
 		this.upperSemilattice.addAsNewRoot(ontologicalCommitment, true);
-		for (IConcept objectDenotationSet : objectDenotationSets)
+		for (IConcept objectDenotationSet : objectConcepts)
 			updateDenotationSetRank(objectDenotationSet, 1);
 	}
 
@@ -163,7 +163,7 @@ public class Concepts implements IConcepts {
 	
 	@Override
 	public List<IConcept> getObjectConcepts() {
-		return objectDenotationSets;
+		return objectConcepts;
 	}	
 	
 	@Override

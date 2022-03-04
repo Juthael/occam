@@ -104,7 +104,7 @@ public class ProductionBuilderTest {
 		boolean aVertexOrEdgeAdditionHasFailed = false;
 		List<IBasicProductionAsEdge> basicProductionAsEdges = builder.getProductions()
 				.stream()
-				.filter(p -> p.getSource().getDenotationSet().type() != IConcept.ABSURDITY)
+				.filter(p -> p.getSource().getConcept().type() != IConcept.ABSURDITY)
 				.collect(Collectors.toList());
 		List<IDenotation> denotations = new ArrayList<>();
 		for (IConcept concept : concepts.getTopologicalSorting()) {

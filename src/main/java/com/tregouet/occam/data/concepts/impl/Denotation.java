@@ -32,7 +32,7 @@ public class Denotation extends Construct implements IDenotation {
 	}
 	
 	@Override
-	public IConcept getDenotationSet() {
+	public IConcept getConcept() {
 		return concept;
 	}
 

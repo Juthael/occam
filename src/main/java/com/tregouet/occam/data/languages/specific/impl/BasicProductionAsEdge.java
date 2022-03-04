@@ -30,7 +30,7 @@ public class BasicProductionAsEdge extends DefaultEdge implements IBasicProducti
 
 	@Override
 	public IConcept getGenusDenotationSet() {
-		return output.getDenotationSet();
+		return output.getConcept();
 	}
 
 	@Override
@@ -45,12 +45,12 @@ public class BasicProductionAsEdge extends DefaultEdge implements IBasicProducti
 
 	@Override
 	public IConcept getSourceDenotationSet() {
-		return input.getDenotationSet();
+		return input.getConcept();
 	}
 
 	@Override
 	public IConcept getSpeciesDenotationSet() {
-		return input.getDenotationSet();
+		return input.getConcept();
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class BasicProductionAsEdge extends DefaultEdge implements IBasicProducti
 
 	@Override
 	public IConcept getTargetDenotationSet() {
-		return output.getDenotationSet();
+		return output.getConcept();
 	}
 
 	@Override

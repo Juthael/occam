@@ -10,6 +10,6 @@ public interface IDenotation extends IConstruct {
 	@Override
 	boolean equals(Object o);
 	
-	IConcept getDenotationSet();
+	IConcept getConcept();
 
 }

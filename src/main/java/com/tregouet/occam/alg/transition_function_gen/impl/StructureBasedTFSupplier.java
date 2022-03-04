@@ -34,7 +34,7 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations) throws IOException {
 		super(concepts, denotations);
 		populateSetsOfRelatedTransFunctions();
-		for (IConcept objDenotationSet : concepts.getObjectDenotationSets())
+		for (IConcept objDenotationSet : concepts.getObjectConcepts())
 			objectDenotationSetToName.put(objDenotationSet, objDenotationSet.getExtent().iterator().next().getName());
 		ite = transFunctionSets.iterator();
 	}
@@ -65,8 +65,8 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	}	
 	
 	private void populateSetsOfRelatedTransFunctions() {
-		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currTreeOfDenotationSets = denotationSetsTreeSupplier.next();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> currTreeOfDenotationSets = conceptTreeSupplier.next();
 			IIsomorphicAutomatons currSetOfIsomorphicTransFunctions = new IsomorphicAutomatons(
 					currTreeOfDenotationSets, objectDenotationSetToName);
 			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filteredDenotationGraph = 

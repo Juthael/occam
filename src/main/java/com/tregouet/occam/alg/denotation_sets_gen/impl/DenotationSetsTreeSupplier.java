@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
 import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
@@ -12,7 +12,7 @@ import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalS
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
-public class DenotationSetsTreeSupplier implements IDenotationSetsTreeSupplier {
+public class DenotationSetsTreeSupplier implements IConceptTreeSupplier {
 
 	private final IUnidimensionalSorter<IConcept, IIsA> denotationSetsSorter;
 	private final IConcept ontologicalCommitment;
@@ -42,7 +42,7 @@ public class DenotationSetsTreeSupplier implements IDenotationSetsTreeSupplier {
 
 	@Override
 	public Tree<IConcept, IIsA> next() {
-		return IDenotationSetsTreeSupplier.commit(denotationSetsSorter.next(), ontologicalCommitment);
+		return IConceptTreeSupplier.commit(denotationSetsSorter.next(), ontologicalCommitment);
 	}
 
 }

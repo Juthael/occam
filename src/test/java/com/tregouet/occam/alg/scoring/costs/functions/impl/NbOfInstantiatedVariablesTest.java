@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.scoring.costs.functions.FunctionCostingStrategy;
@@ -41,7 +41,7 @@ public class NbOfInstantiatedVariablesTest {
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
+	private IConceptTreeSupplier conceptTreeSupplier;
 	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filtered_reduced_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IBasicProductionAsEdge> denotationTreeSupplier;
 	private Tree<IDenotation, IBasicProductionAsEdge> denotationTree;
@@ -63,9 +63,9 @@ public class NbOfInstantiatedVariablesTest {
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		denotationSetsTreeSupplier = concepts.getDenotationSetsTreeSupplier();
-		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currDSTree  = denotationSetsTreeSupplier.next();
+		conceptTreeSupplier = concepts.getConceptTreeSupplier();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> currDSTree  = conceptTreeSupplier.next();
 			filtered_reduced_denotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(
 							currDSTree, denotations);

@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.data.denotations.IConcept;
@@ -51,7 +51,7 @@ public class DenotationSetsTest {
 
 	@Test
 	public void whenDenotationSetLatticeReturnedThenReallyIsALattice() {
-		DirectedAcyclicGraph<IConcept, IIsA> lattice = concepts.getLatticeOfDenotationSets();
+		DirectedAcyclicGraph<IConcept, IIsA> lattice = concepts.getLatticeOfConcepts();
 		assertTrue(StructureInspector.isAnUpperSemilattice(lattice) 
 				&& StructureInspector.isALowerSemilattice(lattice)
 				&& !lattice.vertexSet().isEmpty());
@@ -102,13 +102,13 @@ public class DenotationSetsTest {
 		Set<IContextObject> extent01 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(1)}));
 		Set<IContextObject> extent123 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(1), shapes2Obj.get(2), shapes2Obj.get(3)}));
 		IConcept absurdity = concepts.getAbsurdity();
-		IConcept dS0 = concepts.getDenotationSetWithExtent(extent0);
-		IConcept dS1 = concepts.getDenotationSetWithExtent(extent1);
-		IConcept dS2 = concepts.getDenotationSetWithExtent(extent2);
-		IConcept dS3 = concepts.getDenotationSetWithExtent(extent3);
-		IConcept dS02 = concepts.getDenotationSetWithExtent(extent02);
-		IConcept dS01 = concepts.getDenotationSetWithExtent(extent01);
-		IConcept dS123 = concepts.getDenotationSetWithExtent(extent123);
+		IConcept dS0 = concepts.getConceptWithExtent(extent0);
+		IConcept dS1 = concepts.getConceptWithExtent(extent1);
+		IConcept dS2 = concepts.getConceptWithExtent(extent2);
+		IConcept dS3 = concepts.getConceptWithExtent(extent3);
+		IConcept dS02 = concepts.getConceptWithExtent(extent02);
+		IConcept dS01 = concepts.getConceptWithExtent(extent01);
+		IConcept dS123 = concepts.getConceptWithExtent(extent123);
 		IConcept truism = concepts.getTruism();
 		IConcept commitment = concepts.getOntologicalCommitment();
 		assertTrue(absurdity.rank() == 0
@@ -125,14 +125,14 @@ public class DenotationSetsTest {
 	
 	@Test
 	public void whenDenotationSetTreeSupplierRequestedThenReturned() {
-		IDenotationSetsTreeSupplier denotationSetsTreeSupplier = null;
+		IConceptTreeSupplier conceptTreeSupplier = null;
 		try {
-			denotationSetsTreeSupplier = concepts.getDenotationSetsTreeSupplier();
+			conceptTreeSupplier = concepts.getConceptTreeSupplier();
 		}
 		catch (Exception e) {
 			assertTrue(false);
 		}
-		assertNotNull(denotationSetsTreeSupplier);
+		assertNotNull(conceptTreeSupplier);
 	}
 	
 	@Test
@@ -144,13 +144,13 @@ public class DenotationSetsTest {
 		Set<IContextObject> extent02 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(2)}));
 		Set<IContextObject> extent01 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(1)}));
 		Set<IContextObject> extent123 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(1), shapes2Obj.get(2), shapes2Obj.get(3)}));
-		IConcept dS0 = concepts.getDenotationSetWithExtent(extent0);
-		IConcept dS1 = concepts.getDenotationSetWithExtent(extent1);
-		IConcept dS2 = concepts.getDenotationSetWithExtent(extent2);
-		IConcept dS3 = concepts.getDenotationSetWithExtent(extent3);
-		IConcept dS02 = concepts.getDenotationSetWithExtent(extent02);
-		IConcept dS01 = concepts.getDenotationSetWithExtent(extent01);
-		IConcept dS123 = concepts.getDenotationSetWithExtent(extent123);
+		IConcept dS0 = concepts.getConceptWithExtent(extent0);
+		IConcept dS1 = concepts.getConceptWithExtent(extent1);
+		IConcept dS2 = concepts.getConceptWithExtent(extent2);
+		IConcept dS3 = concepts.getConceptWithExtent(extent3);
+		IConcept dS02 = concepts.getConceptWithExtent(extent02);
+		IConcept dS01 = concepts.getConceptWithExtent(extent01);
+		IConcept dS123 = concepts.getConceptWithExtent(extent123);
 		IConcept truism = concepts.getTruism();
 		IConcept commitment = concepts.getOntologicalCommitment();
 		assertTrue(
@@ -207,7 +207,7 @@ public class DenotationSetsTest {
 	
 	@Test
 	public void whenObjectDenotationSetsRequestedThenReturned() throws Exception {
-		Set<IConcept> objectDenotationSets = new HashSet<>(concepts.getObjectDenotationSets());
+		Set<IConcept> objectDenotationSets = new HashSet<>(concepts.getObjectConcepts());
 		Set<Set<IConstruct>> expectedSetsOfConstructs = new HashSet<>();
 		Set<Set<IConstruct>> objSetsOfDenotatingConstructs = new HashSet<>();
 		for (IContextObject obj : shapes2Obj)
@@ -237,10 +237,10 @@ public class DenotationSetsTest {
 	
 	@Test
 	public void whenTreeSuppliedThenReallyIsATree() throws IOException {
-		IDenotationSetsTreeSupplier denotationSetsTreeSupplier = concepts.getDenotationSetsTreeSupplier();
+		IConceptTreeSupplier conceptTreeSupplier = concepts.getConceptTreeSupplier();
 		int nbOfChecks = 0;
-		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> nextTree = denotationSetsTreeSupplier.next();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> nextTree = conceptTreeSupplier.next();
 			/*
 			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
 			*/

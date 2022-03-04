@@ -18,8 +18,8 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IConstrainedDenotationSetsTreeSupplier;
-import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConstrainedConceptTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.denotation_sets_gen.impl.DenotationSetsTreeSupplier;
 import com.tregouet.occam.alg.denotation_sets_gen.utils.DenotatingConstructBldr;
 import com.tregouet.occam.data.denotations.IContextObject;
@@ -99,17 +99,17 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public IDenotationSetsTreeSupplier getDenotationSetsTreeSupplier() throws IOException {
+	public IConceptTreeSupplier getConceptTreeSupplier() throws IOException {
 		return new DenotationSetsTreeSupplier(upperSemilattice, ontologicalCommitment);
 	}
 
 	@Override
-	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfDenotationSets() {
+	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
 		return lattice;
 	}
 
 	@Override
-	public IConcept getDenotationSetWithExtent(Set<IContextObject> extent) {
+	public IConcept getConceptWithExtent(Set<IContextObject> extent) {
 		if (extent.containsAll(objects))
 			return truism;
 		for (IConcept concept : topologicalOrder) {
@@ -120,7 +120,7 @@ public class Concepts implements IConcepts {
 	}
 
 	@Override
-	public IConstrainedDenotationSetsTreeSupplier getConstrainedDenotationSetsTreeSupplier(
+	public IConstrainedConceptTreeSupplier getConstrainedConceptTreeSupplier(
 			IExtentStructureConstraint constraint) {
 		// TODO Auto-generated method stub
 		return null;
@@ -162,7 +162,7 @@ public class Concepts implements IConcepts {
 	}
 	
 	@Override
-	public List<IConcept> getObjectDenotationSets() {
+	public List<IConcept> getObjectConcepts() {
 		return objectDenotationSets;
 	}	
 	

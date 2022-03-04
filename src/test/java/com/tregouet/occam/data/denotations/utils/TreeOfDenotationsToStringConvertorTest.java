@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.data.denotations.IContextObject;
@@ -33,7 +33,7 @@ public class TreeOfDenotationsToStringConvertorTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
-	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
+	private IConceptTreeSupplier conceptTreeSupplier;
 	private Map<IConcept, String> objDenotationSetToName = new HashMap<>();
 	
 	@BeforeClass
@@ -46,10 +46,10 @@ public class TreeOfDenotationsToStringConvertorTest {
 	public void setUp() throws Exception {
 		concepts = new Concepts(shapes2Obj);
 		char name = 'A';
-		for (IConcept objectCategory : concepts.getObjectDenotationSets()) {
+		for (IConcept objectCategory : concepts.getObjectConcepts()) {
 			objDenotationSetToName.put(objectCategory, new String(Character.toString(name++)));
 		}
-		denotationSetsTreeSupplier = concepts.getDenotationSetsTreeSupplier();
+		conceptTreeSupplier = concepts.getConceptTreeSupplier();
 	}
 
 	@Test
@@ -63,8 +63,8 @@ public class TreeOfDenotationsToStringConvertorTest {
 		Visualizer.visualizeCategoryGraph(cats.getCategoryLattice(), "CatTreeToStringConvertorTest");
 		int treeIdx = 0;
 		*/
-		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currTree = denotationSetsTreeSupplier.next();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> currTree = conceptTreeSupplier.next();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/

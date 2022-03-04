@@ -10,7 +10,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
@@ -38,7 +38,7 @@ public class TransitionFunctionValidatorTest {
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
+	private IConceptTreeSupplier conceptTreeSupplier;
 	private Tree<IConcept, IIsA> treeOfDenotationSets;
 	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filtered_reduced_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IBasicProductionAsEdge> constrTreeSupplier;
@@ -61,9 +61,9 @@ public class TransitionFunctionValidatorTest {
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		denotationSetsTreeSupplier = concepts.getDenotationSetsTreeSupplier();
-		while (denotationSetsTreeSupplier.hasNext()) {
-			treeOfDenotationSets = denotationSetsTreeSupplier.next();
+		conceptTreeSupplier = concepts.getConceptTreeSupplier();
+		while (conceptTreeSupplier.hasNext()) {
+			treeOfDenotationSets = conceptTreeSupplier.next();
 			filtered_reduced_denotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
 			constrTreeSupplier = new RestrictorOpt<>(filtered_reduced_denotations, true);

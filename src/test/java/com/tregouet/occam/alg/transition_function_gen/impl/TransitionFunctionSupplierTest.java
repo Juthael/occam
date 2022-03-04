@@ -15,7 +15,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
@@ -38,7 +38,7 @@ public class TransitionFunctionSupplierTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
-	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
+	private IConceptTreeSupplier conceptTreeSupplier;
 	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
@@ -57,15 +57,15 @@ public class TransitionFunctionSupplierTest {
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		denotationSetsTreeSupplier = concepts.getDenotationSetsTreeSupplier();
+		conceptTreeSupplier = concepts.getConceptTreeSupplier();
 	}
 
 	@Test
 	public void whenDenotationGraphFilteredByTreeOfDenotSetsThenOrderedSetOfDenotationsIsARootedInvertedDAG() throws IOException {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
-		while (denotationSetsTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			Tree<IConcept, IIsA> catTree = denotationSetsTreeSupplier.next();
+		while (conceptTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
+			Tree<IConcept, IIsA> catTree = conceptTreeSupplier.next();
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			*/
@@ -87,8 +87,8 @@ public class TransitionFunctionSupplierTest {
 	public void whenDenotationGraphFilteredByTreeOfDenotSetsThenSetOfProdSourcesOrTargetsIsDenotSetTreeMinusFramingDenotSet() 
 			throws IOException {
 		boolean expectedSetOfDenotationSets = true;
-		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> treeOfDenotationSets = denotationSetsTreeSupplier.next();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> treeOfDenotationSets = conceptTreeSupplier.next();
 			Set<IConcept> expectedDenotationSets = treeOfDenotationSets.vertexSet();
 			Set<IConcept> returnedDenotationSets = new HashSet<>();
 			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filteredDenotations = 
@@ -114,8 +114,8 @@ public class TransitionFunctionSupplierTest {
 	public void whenDenotationGraphIsFilteredByTreeOfDenotSetThenProductionsSourceAndTargetDenotSetsAreRelatedInDenotSetTree() {
 		boolean sourceAndTargetDenotSetsAreRelated = true;
 		int checkCount = 0;
-		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> treeOfDenotationSets = denotationSetsTreeSupplier.next();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> treeOfDenotationSets = conceptTreeSupplier.next();
 			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filteredDenotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
 			for (IBasicProductionAsEdge basicProductionAsEdge : filteredDenotations.edgeSet()) {
@@ -132,8 +132,8 @@ public class TransitionFunctionSupplierTest {
 	@Test
 	public void whenDenotationGraphIsFilteredByTreeOfDenotSetThenSetOfContainingDenotSetsIsDenotSetTreeMinusFramingConcepts() {
 		boolean expectedSetOfDenotationSets = true;
-		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> treeOfDenotationSets = denotationSetsTreeSupplier.next();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> treeOfDenotationSets = conceptTreeSupplier.next();
 			Set<IConcept> expectedDenotationSets = treeOfDenotationSets.vertexSet();
 			Set<IConcept> returnedDenotationSets = new HashSet<>();
 			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filteredDenotations = 

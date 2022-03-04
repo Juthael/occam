@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IConstrainedDenotationSetsTreeSupplier;
-import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConstrainedConceptTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public interface IConcepts {
@@ -22,18 +22,18 @@ public interface IConcepts {
 	
 	IConcept getAbsurdity();
 	
-	IDenotationSetsTreeSupplier getDenotationSetsTreeSupplier() throws IOException;
+	IConceptTreeSupplier getConceptTreeSupplier() throws IOException;
 	
-	DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfDenotationSets();
+	DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts();
 	
 	/**
 	 * If param contains every object in the context, then return truism
 	 * @param extent
 	 * @return
 	 */
-	IConcept getDenotationSetWithExtent(Set<IContextObject> extent);
+	IConcept getConceptWithExtent(Set<IContextObject> extent);
 	
-	IConstrainedDenotationSetsTreeSupplier getConstrainedDenotationSetsTreeSupplier(IExtentStructureConstraint constraint);
+	IConstrainedConceptTreeSupplier getConstrainedConceptTreeSupplier(IExtentStructureConstraint constraint);
 	
 	List<IContextObject> getContextObjects();
 	
@@ -44,7 +44,7 @@ public interface IConcepts {
 	UpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice();
 	
 	//it is guaranteed that the order is the same as getContextObjects();
-	List<IConcept> getObjectDenotationSets();
+	List<IConcept> getObjectConcepts();
 	
 	List<IConcept> getTopologicalSorting();
 	

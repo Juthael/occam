@@ -75,7 +75,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void generateDenotationSetLatticeGraph() throws IOException {
-		DirectedAcyclicGraph<IConcept, IIsA> lattice = concepts.getLatticeOfDenotationSets();
+		DirectedAcyclicGraph<IConcept, IIsA> lattice = concepts.getLatticeOfConcepts();
 		TransitiveReduction.INSTANCE.reduce(lattice); 
 		Visualizer.visualizeDenotationSetGraph(lattice, "denotation_lattice.png");
 	}

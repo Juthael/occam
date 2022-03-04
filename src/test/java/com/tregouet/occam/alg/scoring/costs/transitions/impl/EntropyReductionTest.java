@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.scoring.costs.transitions.ITransitionCoster;
@@ -43,7 +43,7 @@ public class EntropyReductionTest {
 	private IConcepts concepts;
 	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
+	private IConceptTreeSupplier conceptTreeSupplier;
 	private Tree<IConcept, IIsA> denotationTree;
 	private DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filtered_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IBasicProductionAsEdge> denotationTreeSupplier;
@@ -65,9 +65,9 @@ public class EntropyReductionTest {
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		denotationSetsTreeSupplier = concepts.getDenotationSetsTreeSupplier();
-		while (denotationSetsTreeSupplier.hasNext()) {
-			denotationTree = denotationSetsTreeSupplier.next();
+		conceptTreeSupplier = concepts.getConceptTreeSupplier();
+		while (conceptTreeSupplier.hasNext()) {
+			denotationTree = conceptTreeSupplier.next();
 			filtered_denotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(denotationTree, denotations);
 			denotationTreeSupplier = new RestrictorOpt<>(filtered_denotations, true);

@@ -7,7 +7,7 @@ import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
-public interface IDenotationSetsTreeSupplier extends Iterator<Tree<IConcept, IIsA>> {
+public interface IConceptTreeSupplier extends Iterator<Tree<IConcept, IIsA>> {
 	
 	public static Tree<IConcept, IIsA> commit(
 			Tree<IConcept, IIsA> classificationTree, IConcept ontologicalCommitment) {

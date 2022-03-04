@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.denotation_sets_gen.IDenotationSetsTreeSupplier;
+import com.tregouet.occam.alg.denotation_sets_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
 import com.tregouet.occam.data.denotations.IConcept;
 import com.tregouet.occam.data.denotations.IConcepts;
@@ -22,14 +22,14 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	protected static final int MAX_CAPACITY = 50;
 	
 	protected final IConcepts concepts;
-	protected final IDenotationSetsTreeSupplier denotationSetsTreeSupplier;
+	protected final IConceptTreeSupplier conceptTreeSupplier;
 	protected final DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> denotations;
 	protected final Comparator<IAutomaton> functionComparator;
 	
 	public TransitionFunctionSupplier(IConcepts concepts, 
 			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> constructs) throws IOException {
 		this.concepts = concepts;
-		denotationSetsTreeSupplier = concepts.getDenotationSetsTreeSupplier();
+		conceptTreeSupplier = concepts.getConceptTreeSupplier();
 		this.denotations = constructs;
 		functionComparator = ScoreThenCostTFComparator.INSTANCE;
 	}

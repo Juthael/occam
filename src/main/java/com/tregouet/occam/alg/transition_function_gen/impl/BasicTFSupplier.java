@@ -52,8 +52,8 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	}
 
 	private void populateTransitionFunctions() {
-		while (denotationSetsTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currTreeOfDenotationSets = denotationSetsTreeSupplier.next();
+		while (conceptTreeSupplier.hasNext()) {
+			Tree<IConcept, IIsA> currTreeOfDenotationSets = conceptTreeSupplier.next();
 			DirectedAcyclicGraph<IDenotation, IBasicProductionAsEdge> filteredDenotationGraph = 
 					getDenotationGraphFilteredByTreeOfDenotationSets(currTreeOfDenotationSets, denotations);
 			IHierarchicalRestrictionFinder<IDenotation, IBasicProductionAsEdge> denotationTreeSupplier = 

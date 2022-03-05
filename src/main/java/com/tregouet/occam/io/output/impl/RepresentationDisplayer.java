@@ -22,7 +22,7 @@ import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.StructureBasedTFSupplier;
-import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
+import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
@@ -287,7 +287,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 			return false;
 		}
 		concepts = new Concepts(context);
-		List<IStronglyContextualized> stronglyContextualizeds = new ProductionBuilder(concepts).getProductions();
+		List<IStronglyContextualized> stronglyContextualizeds = new ProductionSetBuilder(concepts).getProductions();
 		DirectedAcyclicGraph<IDenotation, IStronglyContextualized> constructs = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		stronglyContextualizeds.stream().forEach(p -> {

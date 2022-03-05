@@ -20,7 +20,7 @@ import org.junit.Test;
 import com.tregouet.occam.alg.concepts_gen.IConceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
-import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
+import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
@@ -118,7 +118,7 @@ public class TransitionFunctionTest {
 	public void setUp() throws Exception {
 		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 		concepts = new Concepts(objects);
-		List<IStronglyContextualized> stronglyContextualizeds = new ProductionBuilder(concepts).getProductions();
+		List<IStronglyContextualized> stronglyContextualizeds = new ProductionSetBuilder(concepts).getProductions();
 		stronglyContextualizeds.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());

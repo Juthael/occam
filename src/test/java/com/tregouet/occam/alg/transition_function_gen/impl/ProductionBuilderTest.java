@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
+import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
 import com.tregouet.occam.data.concepts.IConcept;
@@ -34,7 +34,7 @@ public class ProductionBuilderTest {
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1.txt");
 	private static List<IContextObject> shapes1Obj;
 	private IConcepts concepts;
-	private ProductionBuilder builder;
+	private ProductionSetBuilder builder;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -60,7 +60,7 @@ public class ProductionBuilderTest {
 	@Before
 	public void setUp() {
 		concepts = new Concepts(shapes1Obj);
-		builder = new ProductionBuilder(concepts);
+		builder = new ProductionSetBuilder(concepts);
 		/*
 		Categories catImpl = (Categories) categories;
 		try {

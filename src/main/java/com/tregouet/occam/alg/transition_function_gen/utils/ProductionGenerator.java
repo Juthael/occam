@@ -13,27 +13,28 @@ import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Terminal;
 import com.tregouet.occam.data.languages.specific.IBasicProduction;
+import com.tregouet.occam.data.languages.specific.IProduction;
 import com.tregouet.occam.data.languages.specific.impl.BasicProduction;
 import com.tregouet.occam.data.languages.specific.impl.ContextualizedProduction;
 import com.tregouet.occam.data.languages.specific.impl.ContextualizedEpsilon;
 
 public class ProductionGenerator {
 
-	private List<IBasicProduction> productions = null;
+	private List<IProduction> productions = null;
 	
 	/**
 	 * Meaningless if Concepts.isA(operatorInput.cat, operatorOutput.cat) == false
-	 * @param operatorInput
-	 * @param operatorOutput
+	 * @param sourceDenotation
+	 * @param targetDenotation
 	 */
-	public ProductionGenerator(IDenotation operatorInput, IDenotation operatorOutput) {
-		if (operatorInput.getListOfSymbols().equals(operatorOutput.getListOfSymbols()))
+	public ProductionGenerator(IDenotation sourceDenotation, IDenotation targetDenotation) {
+		if (sourceDenotation.getListOfSymbols().equals(targetDenotation.getListOfSymbols()))
 			productions = new ArrayList<>(
-					Arrays.asList(new IBasicProduction[] {new ContextualizedEpsilon(operatorInput, operatorOutput)}));
-		else if (operatorInput.getListOfTerminals().containsAll(operatorOutput.getListOfTerminals())) {
+					Arrays.asList(new IProduction[] {new ContextualizedEpsilon(sourceDenotation, targetDenotation)}));
+		else if (sourceDenotation.getListOfTerminals().containsAll(targetDenotation.getListOfTerminals())) {
 			//then input is an instance of output
-			List<ISymbol> source = operatorInput.getListOfSymbols();
-			List<ISymbol> target = operatorOutput.getListOfSymbols();
+			List<ISymbol> source = sourceDenotation.getListOfSymbols();
+			List<ISymbol> target = targetDenotation.getListOfSymbols();
 			Map<AVariable, List<ISymbol>> varToValue = mapVariablesToValues(source, target);
 			if (varToValue != null) {
 				productions = new ArrayList<>();
@@ -47,7 +48,7 @@ public class ProductionGenerator {
 					}
 					else value = new Construct(listOfSymbols);
 					IBasicProduction basicProd = new BasicProduction(variable, value);
-					productions.add(new ContextualizedProduction(operatorInput, operatorOutput, basicProd));
+					productions.add(new ContextualizedProduction(sourceDenotation, targetDenotation, basicProd));
 				}
 			}
 		}

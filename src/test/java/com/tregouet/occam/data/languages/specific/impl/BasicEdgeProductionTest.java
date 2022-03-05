@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
+import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IContextObject;
@@ -38,7 +38,7 @@ public class BasicEdgeProductionTest {
 	@Before
 	public void setUp() throws Exception {
 		concepts = new Concepts(shapes2Obj);
-		List<IStronglyContextualized> stronglyContextualizeds = new ProductionBuilder(concepts).getProductions();
+		List<IStronglyContextualized> stronglyContextualizeds = new ProductionSetBuilder(concepts).getProductions();
 		stronglyContextualizeds.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());

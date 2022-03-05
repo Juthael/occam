@@ -17,7 +17,7 @@ import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.scoring.costs.definitions.DefinitionCostingStrategy;
 import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
-import com.tregouet.occam.alg.transition_function_gen.impl.ProductionBuilder;
+import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
@@ -58,7 +58,7 @@ public class TransitionsEntropyReductionTest {
 	@Before
 	public void setUp() throws Exception {
 		concepts = new Concepts(shapes1Obj);
-		List<IStronglyContextualized> stronglyContextualizeds = new ProductionBuilder(concepts).getProductions();
+		List<IStronglyContextualized> stronglyContextualizeds = new ProductionSetBuilder(concepts).getProductions();
 		stronglyContextualizeds.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());

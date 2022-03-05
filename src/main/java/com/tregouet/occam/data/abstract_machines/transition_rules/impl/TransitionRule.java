@@ -7,7 +7,7 @@ import com.tregouet.occam.data.abstract_machines.transition_rules.IInputConfigur
 import com.tregouet.occam.data.abstract_machines.transition_rules.IOutputInternConfiguration;
 import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
 import com.tregouet.occam.data.languages.generic.AVariable;
-import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
+import com.tregouet.occam.data.languages.specific.IProduction;
 
 public class TransitionRule implements ITransitionRule {
 
@@ -37,7 +37,7 @@ public class TransitionRule implements ITransitionRule {
 	}
 
 	@Override
-	public IStronglyContextualized getInputSymbol() {
+	public IProduction getInputSymbol() {
 		return input.getInputSymbol();
 	}
 
@@ -63,7 +63,7 @@ public class TransitionRule implements ITransitionRule {
 
 	@Override
 	public boolean isBlank() {
-		return input.getInputSymbol().isBlank();
+		return input.getInputSymbol().isEpsilon();
 	}
 
 	@Override

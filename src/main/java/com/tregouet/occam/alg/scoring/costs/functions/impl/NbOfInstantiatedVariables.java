@@ -11,7 +11,7 @@ import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRul
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 
 public class NbOfInstantiatedVariables implements IFunctionCoster {
 
@@ -34,13 +34,13 @@ public class NbOfInstantiatedVariables implements IFunctionCoster {
 			for (ITransitionRule transitionRule : conjTransition.getComponents()) {
 				if (!transitionRule.isReframer()) {
 					IBasicOperator basicOperator = (IBasicOperator) transitionRule;
-					for (IProductionAsEdge productionAsEdge : basicOperator.operation()) {
-						if (productionAsEdge instanceof ISimpleEdgeProduction) {
-							if (!productionAsEdge.isBlank() && !productionAsEdge.isVariableSwitcher())
-								instantiatedVariables.add(((ISimpleEdgeProduction) productionAsEdge).getVariable());
+					for (IStronglyContextualized stronglyContextualized : basicOperator.operation()) {
+						if (stronglyContextualized instanceof ISimpleEdgeProduction) {
+							if (!stronglyContextualized.isBlank() && !stronglyContextualized.isVariableSwitcher())
+								instantiatedVariables.add(((ISimpleEdgeProduction) stronglyContextualized).getVariable());
 						}
 						else {
-							ICompositeEdgeProduction compositeProd = (ICompositeEdgeProduction) productionAsEdge;
+							ICompositeEdgeProduction compositeProd = (ICompositeEdgeProduction) stronglyContextualized;
 							for (ISimpleEdgeProduction basicProd : compositeProd.getComponents()) {
 								if (!basicProd.isBlank() && !basicProd.isVariableSwitcher()) {
 									instantiatedVariables.add(basicProd.getVariable());

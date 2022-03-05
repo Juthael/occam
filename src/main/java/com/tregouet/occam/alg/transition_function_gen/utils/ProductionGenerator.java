@@ -14,8 +14,8 @@ import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Terminal;
 import com.tregouet.occam.data.languages.specific.IBasicProduction;
 import com.tregouet.occam.data.languages.specific.impl.BasicProduction;
-import com.tregouet.occam.data.languages.specific.impl.BasicProductionAsEdge;
-import com.tregouet.occam.data.languages.specific.impl.EpsilonAsEdge;
+import com.tregouet.occam.data.languages.specific.impl.ContextualizedProduction;
+import com.tregouet.occam.data.languages.specific.impl.ContextualizedEpsilon;
 
 public class ProductionGenerator {
 
@@ -29,7 +29,7 @@ public class ProductionGenerator {
 	public ProductionGenerator(IDenotation operatorInput, IDenotation operatorOutput) {
 		if (operatorInput.getListOfSymbols().equals(operatorOutput.getListOfSymbols()))
 			productions = new ArrayList<>(
-					Arrays.asList(new IBasicProduction[] {new EpsilonAsEdge(operatorInput, operatorOutput)}));
+					Arrays.asList(new IBasicProduction[] {new ContextualizedEpsilon(operatorInput, operatorOutput)}));
 		else if (operatorInput.getListOfTerminals().containsAll(operatorOutput.getListOfTerminals())) {
 			//then input is an instance of output
 			List<ISymbol> source = operatorInput.getListOfSymbols();
@@ -47,7 +47,7 @@ public class ProductionGenerator {
 					}
 					else value = new Construct(listOfSymbols);
 					IBasicProduction basicProd = new BasicProduction(variable, value);
-					productions.add(new BasicProductionAsEdge(operatorInput, operatorOutput, basicProd));
+					productions.add(new ContextualizedProduction(operatorInput, operatorOutput, basicProd));
 				}
 			}
 		}

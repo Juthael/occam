@@ -18,7 +18,7 @@ import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IContextObject;
 import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.concepts.impl.Concepts;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class CompositeEdgeProductionTest {
@@ -26,7 +26,7 @@ public class CompositeEdgeProductionTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IConcepts concepts;
-	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations = 
+	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 
 	@BeforeClass
@@ -37,8 +37,8 @@ public class CompositeEdgeProductionTest {
 	@Before
 	public void setUp() throws Exception {
 		concepts = new Concepts(shapes2Obj);
-		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(concepts).getProductions();
-		productionAsEdges.stream().forEach(p -> {
+		List<IStronglyContextualized> stronglyContextualizeds = new ProductionBuilder(concepts).getProductions();
+		stronglyContextualizeds.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
@@ -47,11 +47,11 @@ public class CompositeEdgeProductionTest {
 
 	@Test
 	public void whenSwitchVariableCalledThenProceeds() {
-		List<IProductionAsEdge> compositeProds = new ArrayList<>();
+		List<IStronglyContextualized> compositeProds = new ArrayList<>();
 		List<ICompositeEdgeProduction> compositeSwitchers = new ArrayList<>();
 		List<ICompositeEdgeProduction> compositeProdsAfterSwitch = new ArrayList<>();
 		int switchCount = 0;
-		for (IProductionAsEdge prod : denotations.edgeSet()) {
+		for (IStronglyContextualized prod : denotations.edgeSet()) {
 			if (prod instanceof ICompositeEdgeProduction) {
 				ICompositeEdgeProduction compositeProd = (ICompositeEdgeProduction) prod;
 				if (compositeProd.isVariableSwitcher())
@@ -59,7 +59,7 @@ public class CompositeEdgeProductionTest {
 				else compositeProds.add(compositeProd);
 			}
 		}
-		for (IProductionAsEdge compositeProduction : compositeProds) {
+		for (IStronglyContextualized compositeProduction : compositeProds) {
 			/*
 			System.out.println("Composite production at test : " + compositeProduction.toString());
 			System.out.println("Source category hashCode : " + compositeProduction.getSourceCategory().hashCode());
@@ -68,13 +68,13 @@ public class CompositeEdgeProductionTest {
 			System.out.println("Target attribute : " + compositeProduction.getTarget().toString());
 			System.out.println(System.lineSeparator());
 			*/
-			IProductionAsEdge compositeProdAfterSwitch = null;
+			IStronglyContextualized compositeProdAfterSwitch = null;
 			for (ICompositeEdgeProduction varSwitcher : compositeSwitchers) {
 				if (compositeProdAfterSwitch == null) {
 					/*
 					System.out.println("Variable switcher at test : " + varSwitcher.toString());
 					*/
-					IProductionAsEdge switched = compositeProduction.switchVariableOrReturnNull(varSwitcher);
+					IStronglyContextualized switched = compositeProduction.switchVariableOrReturnNull(varSwitcher);
 					if (switched != null) {
 						compositeProdAfterSwitch = switched;
 						switchCount++;

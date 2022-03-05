@@ -3,20 +3,18 @@ package com.tregouet.occam.data.languages.specific;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IDenotation;
 
-public interface IProductionAsEdge {
+public interface IContextualizedProduction extends IProduction {
 	
-	IConcept getGenusDenotationSet();
+	IConcept getGenus();
 	
 	String getLabel();
 	
 	IDenotation getSource();
 	
-	IConcept getSourceConcept();
-	
-	IConcept getSpeciesDenotationSet();
+	IConcept getSpecies();
 	
 	IDenotation getTarget();
 	
-	IConcept getTargetConcept();
+	IProduction getUncontextualizedProduction();
 
 }

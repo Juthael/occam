@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
 public interface IProduction extends ISymbol {
@@ -25,9 +26,9 @@ public interface IProduction extends ISymbol {
 	
 	ILambdaExpression asLambda(List<IProduction> nextProductions);
 	
-	ICompositeProduction combine(IBasicProduction component);
-	
 	//Denotes an empty string of symbols. A symbols are productions, also denotes that no variable is derived. 
 	boolean isEpsilon();
+	
+	IConstruct getValue();
 
 }

@@ -11,7 +11,7 @@ import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.languages.specific.IBasicProduction;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 
 import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
@@ -20,7 +20,7 @@ public class ProductionBuilder implements IProductionBuilder {
 
 	private final List<IConcept> topologicalOrderOnConcepts;
 	private final Map<Pair<Integer, Integer>, List<IBasicProduction>> conceptIndexesToProds = new HashMap<>();
-	private final List<IProductionAsEdge> productionAsEdges = new ArrayList<>();
+	private final List<IStronglyContextualized> stronglyContextualizeds = new ArrayList<>();
 	
 	public ProductionBuilder(IConcepts concepts) {
 		topologicalOrderOnConcepts = concepts.getTopologicalSorting();
@@ -45,27 +45,27 @@ public class ProductionBuilder implements IProductionBuilder {
 		}
 		//build composite if possible, otherwise add basic 
 		for (IBasicProduction basicProduction : basicProductions) {
-			IProductionAsEdge compositeComponent = null;
+			IStronglyContextualized compositeComponent = null;
 			int prodIdx = 0;
-			while (compositeComponent == null && prodIdx < productionAsEdges.size()) {
-				IProductionAsEdge currentProd = productionAsEdges.get(prodIdx); 
+			while (compositeComponent == null && prodIdx < stronglyContextualizeds.size()) {
+				IStronglyContextualized currentProd = stronglyContextualizeds.get(prodIdx); 
 				compositeComponent = null ;//currentProd.combine(simpleEdgeProduction);
 				if (compositeComponent != null) {
 					if (currentProd instanceof IBasicProduction) {
-						productionAsEdges.remove(prodIdx);
-						productionAsEdges.add(compositeComponent);
+						stronglyContextualizeds.remove(prodIdx);
+						stronglyContextualizeds.add(compositeComponent);
 					}
 				}
 				prodIdx++;
 			}
 			if (compositeComponent == null)
-				productionAsEdges.add(basicProduction);
+				stronglyContextualizeds.add(basicProduction);
 		}
 	}
 
 	@Override
-	public List<IProductionAsEdge> getProductions() {
-		return productionAsEdges;
+	public List<IStronglyContextualized> getProductions() {
+		return stronglyContextualizeds;
 	}
 
 }

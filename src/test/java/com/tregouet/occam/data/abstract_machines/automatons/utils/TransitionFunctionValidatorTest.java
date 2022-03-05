@@ -24,7 +24,7 @@ import com.tregouet.occam.data.concepts.IContextObject;
 import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.Concepts;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
@@ -36,13 +36,13 @@ public class TransitionFunctionValidatorTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes1Obj;
 	private IConcepts concepts;
-	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations = 
+	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IConceptTreeSupplier conceptTreeSupplier;
 	private Tree<IConcept, IIsA> treeOfDenotationSets;
-	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> filtered_reduced_denotations;
-	private IHierarchicalRestrictionFinder<IDenotation, IProductionAsEdge> constrTreeSupplier;
-	private Tree<IDenotation, IProductionAsEdge> constrTree;
+	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered_reduced_denotations;
+	private IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> constrTreeSupplier;
+	private Tree<IDenotation, IStronglyContextualized> constrTree;
 	private TreeSet<IAutomaton> automatons;	
 	
 	@BeforeClass
@@ -55,8 +55,8 @@ public class TransitionFunctionValidatorTest {
 	public void setUp() throws Exception {
 		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 		concepts = new Concepts(shapes1Obj);
-		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(concepts).getProductions();
-		productionAsEdges.stream().forEach(p -> {
+		List<IStronglyContextualized> stronglyContextualizeds = new ProductionBuilder(concepts).getProductions();
+		stronglyContextualizeds.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);

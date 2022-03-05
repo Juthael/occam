@@ -32,7 +32,7 @@ import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.IRepresentationDisplayer;
 import com.tregouet.occam.io.output.utils.Visualizer;
@@ -287,10 +287,10 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 			return false;
 		}
 		concepts = new Concepts(context);
-		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(concepts).getProductions();
-		DirectedAcyclicGraph<IDenotation, IProductionAsEdge> constructs = 
+		List<IStronglyContextualized> stronglyContextualizeds = new ProductionBuilder(concepts).getProductions();
+		DirectedAcyclicGraph<IDenotation, IStronglyContextualized> constructs = 
 				new DirectedAcyclicGraph<>(null, null, false);
-		productionAsEdges.stream().forEach(p -> {
+		stronglyContextualizeds.stream().forEach(p -> {
 			constructs.addVertex(p.getSource());
 			constructs.addVertex(p.getTarget());
 			constructs.addEdge(p.getSource(), p.getTarget(), p);

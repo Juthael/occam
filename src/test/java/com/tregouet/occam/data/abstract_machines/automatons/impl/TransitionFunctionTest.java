@@ -38,7 +38,7 @@ import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.languages.specific.impl.BlankEdgeProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
@@ -51,12 +51,12 @@ public class TransitionFunctionTest {
 	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> objects;
 	private IConcepts concepts;
-	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations = 
+	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private IConceptTreeSupplier conceptTreeSupplier;
-	private DirectedAcyclicGraph<IDenotation, IProductionAsEdge> filtered_reduced_denotations;
-	private IHierarchicalRestrictionFinder<IDenotation, IProductionAsEdge> denotationTreeSupplier;
-	private Tree<IDenotation, IProductionAsEdge> denotationTree;
+	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered_reduced_denotations;
+	private IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier;
+	private Tree<IDenotation, IStronglyContextualized> denotationTree;
 	private TreeSet<IAutomaton> automatons;
 	
 	@BeforeClass
@@ -69,46 +69,46 @@ public class TransitionFunctionTest {
 		return Math.log10(arg)/Math.log10(2);
 	}
 	
-	private static boolean sameSourceAndTargetCategoryForAll(List<IProductionAsEdge> productionAsEdges) {
+	private static boolean sameSourceAndTargetCategoryForAll(List<IStronglyContextualized> stronglyContextualizeds) {
 		boolean sameSourceAndTargetDenotationSet = true;
 		IConcept sourceDS = null;
 		IConcept targetDS = null;
-		for (int i = 0 ; i < productionAsEdges.size() ; i++) {
+		for (int i = 0 ; i < stronglyContextualizeds.size() ; i++) {
 			if (i == 0) {
-				sourceDS = productionAsEdges.get(i).getSourceConcept();
-				targetDS = productionAsEdges.get(i).getTargetConcept();
+				sourceDS = stronglyContextualizeds.get(i).getSourceConcept();
+				targetDS = stronglyContextualizeds.get(i).getTargetConcept();
 			}
 			else {
-				if (!productionAsEdges.get(i).getSourceConcept().equals(sourceDS)
-						|| !productionAsEdges.get(i).getTargetConcept().equals(targetDS))
+				if (!stronglyContextualizeds.get(i).getSourceConcept().equals(sourceDS)
+						|| !stronglyContextualizeds.get(i).getTargetConcept().equals(targetDS))
 					sameSourceAndTargetDenotationSet = false;
 			}
 		}
 		return sameSourceAndTargetDenotationSet;
 	}
 	
-	private static boolean sameTargetAttributeAsOneOtherProduction(IProductionAsEdge productionAsEdge, List<IProductionAsEdge> productionAsEdges) {
-		if (productionAsEdges.size() == 1)
+	private static boolean sameTargetAttributeAsOneOtherProduction(IStronglyContextualized stronglyContextualized, List<IStronglyContextualized> stronglyContextualizeds) {
+		if (stronglyContextualizeds.size() == 1)
 			return true;
 		boolean sameTargetAttributeAsOneOther = false;
-		List<IProductionAsEdge> others = new ArrayList<>(productionAsEdges);
-		others.remove(productionAsEdge);
-		for (IProductionAsEdge other : others) {
-			if (productionAsEdge.getTarget().equals(other.getTarget()))
+		List<IStronglyContextualized> others = new ArrayList<>(stronglyContextualizeds);
+		others.remove(stronglyContextualized);
+		for (IStronglyContextualized other : others) {
+			if (stronglyContextualized.getTarget().equals(other.getTarget()))
 				sameTargetAttributeAsOneOther = true;
 		}
 		return sameTargetAttributeAsOneOther;
 	}
 	
-	private static boolean sameValueAsOneOtherProduction(IProductionAsEdge productionAsEdge, List<IProductionAsEdge> productionAsEdges) {
-		if (productionAsEdges.size() == 1)
+	private static boolean sameValueAsOneOtherProduction(IStronglyContextualized stronglyContextualized, List<IStronglyContextualized> stronglyContextualizeds) {
+		if (stronglyContextualizeds.size() == 1)
 			return true;
 		boolean sameValue = false;
-		List<IProductionAsEdge> others = new ArrayList<>(productionAsEdges);
-		others.remove(productionAsEdge);
-		for (IProductionAsEdge other : others) {
+		List<IStronglyContextualized> others = new ArrayList<>(stronglyContextualizeds);
+		others.remove(stronglyContextualized);
+		for (IStronglyContextualized other : others) {
 			List<IConstruct> valuesOfOther = new ArrayList<>(other.getValues());
-			if (valuesOfOther.removeAll(productionAsEdge.getValues()))
+			if (valuesOfOther.removeAll(stronglyContextualized.getValues()))
 				sameValue = true;
 		}
 		return sameValue;
@@ -118,8 +118,8 @@ public class TransitionFunctionTest {
 	public void setUp() throws Exception {
 		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 		concepts = new Concepts(objects);
-		List<IProductionAsEdge> productionAsEdges = new ProductionBuilder(concepts).getProductions();
-		productionAsEdges.stream().forEach(p -> {
+		List<IStronglyContextualized> stronglyContextualizeds = new ProductionBuilder(concepts).getProductions();
+		stronglyContextualizeds.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
@@ -155,15 +155,15 @@ public class TransitionFunctionTest {
 			for (ITransitionRule transitionRule : tF.getTransitions()) {
 				if (transitionRule instanceof IOperator) {
 					IOperator operator = (IOperator) transitionRule;
-					for (IProductionAsEdge productionAsEdge : operator.operation()) {
-						if (productionAsEdge instanceof BlankEdgeProduction) {
+					for (IStronglyContextualized stronglyContextualized : operator.operation()) {
+						if (stronglyContextualized instanceof BlankEdgeProduction) {
 						}
-						else if (productionAsEdge instanceof ISimpleEdgeProduction) {
-							basicProds.add((ISimpleEdgeProduction) productionAsEdge);
+						else if (stronglyContextualized instanceof ISimpleEdgeProduction) {
+							basicProds.add((ISimpleEdgeProduction) stronglyContextualized);
 							basicProdsOperators.add(operator);
 						}
 						else {
-							ICompositeEdgeProduction compoProd = (ICompositeEdgeProduction) productionAsEdge;
+							ICompositeEdgeProduction compoProd = (ICompositeEdgeProduction) stronglyContextualized;
 							for (ISimpleEdgeProduction basicProd : compoProd.getComponents()) {
 								basicProds.add(basicProd);
 								basicProdsOperators.add(operator);
@@ -195,20 +195,20 @@ public class TransitionFunctionTest {
 		boolean sameOperator = true;
 		int checkCount = 0;
 		for (IAutomaton tF : automatons) {
-			Map<IProductionAsEdge, IOperator> prodToOpe = new HashMap<>();
+			Map<IStronglyContextualized, IOperator> prodToOpe = new HashMap<>();
 			for (ITransitionRule transitionRule : tF.getTransitions()) {
 				if (transitionRule instanceof IOperator) {
 					IOperator operator = (IOperator) transitionRule;
-					for (IProductionAsEdge productionAsEdge : operator.operation()) {
-						prodToOpe.put(productionAsEdge, operator);
+					for (IStronglyContextualized stronglyContextualized : operator.operation()) {
+						prodToOpe.put(stronglyContextualized, operator);
 					}
 				}
 			}
-			List<IProductionAsEdge> productionAsEdges = new ArrayList<>(prodToOpe.keySet());
-			for (int i = 0 ; i < productionAsEdges.size() - 1 ; i++) {
-				for (int j = i + 1 ; j < productionAsEdges.size() ; j++) {
-					IProductionAsEdge iProd = productionAsEdges.get(i);
-					IProductionAsEdge jProd = productionAsEdges.get(j);
+			List<IStronglyContextualized> stronglyContextualizeds = new ArrayList<>(prodToOpe.keySet());
+			for (int i = 0 ; i < stronglyContextualizeds.size() - 1 ; i++) {
+				for (int j = i + 1 ; j < stronglyContextualizeds.size() ; j++) {
+					IStronglyContextualized iProd = stronglyContextualizeds.get(i);
+					IStronglyContextualized jProd = stronglyContextualizeds.get(j);
 					if (iProd.getSourceConcept().equals(jProd.getSourceConcept())
 							&& iProd.getTarget().equals(jProd.getTarget())) {
 						checkCount++;
@@ -228,12 +228,12 @@ public class TransitionFunctionTest {
 			for (ITransitionRule transitionRule : tF.getTransitions()) {
 				if (transitionRule instanceof IOperator) {
 					IOperator operator = (IOperator) transitionRule;
-					List<IProductionAsEdge> productionAsEdges = operator.operation();
-					if (!sameSourceAndTargetCategoryForAll(productionAsEdges))
+					List<IStronglyContextualized> stronglyContextualizeds = operator.operation();
+					if (!sameSourceAndTargetCategoryForAll(stronglyContextualizeds))
 						consistent = false;
-					for (IProductionAsEdge productionAsEdge : productionAsEdges) {
-						if (!sameTargetAttributeAsOneOtherProduction(productionAsEdge, productionAsEdges) 
-								&& !sameValueAsOneOtherProduction(productionAsEdge, productionAsEdges))
+					for (IStronglyContextualized stronglyContextualized : stronglyContextualizeds) {
+						if (!sameTargetAttributeAsOneOtherProduction(stronglyContextualized, stronglyContextualizeds) 
+								&& !sameValueAsOneOtherProduction(stronglyContextualized, stronglyContextualizeds))
 							consistent = false;
 					}
 				}

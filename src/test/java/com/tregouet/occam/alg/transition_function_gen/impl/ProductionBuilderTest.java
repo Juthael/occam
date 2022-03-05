@@ -25,7 +25,7 @@ import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IContextObject;
 import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.concepts.impl.Concepts;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")
@@ -102,7 +102,7 @@ public class ProductionBuilderTest {
 	@Test
 	public void whenProductionsRequestedThenAllowGraphBuildingAsExpected() throws IOException {
 		boolean aVertexOrEdgeAdditionHasFailed = false;
-		List<IProductionAsEdge> productionAsEdges = builder.getProductions()
+		List<IStronglyContextualized> stronglyContextualizeds = builder.getProductions()
 				.stream()
 				.filter(p -> p.getSource().getConcept().type() != IConcept.ABSURDITY)
 				.collect(Collectors.toList());
@@ -111,7 +111,7 @@ public class ProductionBuilderTest {
 			if (concept.type() != IConcept.ABSURDITY)
 				denotations.addAll(concept.getDenotations());
 		}
-		DirectedAcyclicGraph<IDenotation, IProductionAsEdge> graph = new DirectedAcyclicGraph<>(IProductionAsEdge.class);
+		DirectedAcyclicGraph<IDenotation, IStronglyContextualized> graph = new DirectedAcyclicGraph<>(IStronglyContextualized.class);
 		for (IDenotation denotation : denotations) {
 			if (!graph.addVertex(denotation))
 				aVertexOrEdgeAdditionHasFailed = true;

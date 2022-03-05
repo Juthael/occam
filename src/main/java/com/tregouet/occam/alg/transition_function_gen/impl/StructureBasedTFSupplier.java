@@ -18,7 +18,7 @@ import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
-import com.tregouet.occam.data.languages.specific.IProductionAsEdge;
+import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
@@ -31,7 +31,7 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	private Iterator<IIsomorphicAutomatons> ite;
 	
 	public StructureBasedTFSupplier(IConcepts concepts, 
-			DirectedAcyclicGraph<IDenotation, IProductionAsEdge> denotations) throws IOException {
+			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations) throws IOException {
 		super(concepts, denotations);
 		populateSetsOfRelatedTransFunctions();
 		for (IConcept objDenotationSet : concepts.getObjectConcepts())
@@ -69,12 +69,12 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 			Tree<IConcept, IIsA> currTreeOfDenotationSets = conceptTreeSupplier.next();
 			IIsomorphicAutomatons currSetOfIsomorphicTransFunctions = new IsomorphicAutomatons(
 					currTreeOfDenotationSets, objectDenotationSetToName);
-			DirectedAcyclicGraph<IDenotation, IProductionAsEdge> filteredDenotationGraph = 
+			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotationGraph = 
 					getDenotationGraphFilteredByTreeOfDenotationSets(currTreeOfDenotationSets, denotations);
-			IHierarchicalRestrictionFinder<IDenotation, IProductionAsEdge> denotationTreeSupplier = 
+			IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier = 
 					new RestrictorOpt<>(filteredDenotationGraph, true);
 			while (denotationTreeSupplier.hasNext()) {
-				Tree<IDenotation, IProductionAsEdge> denotationTree = denotationTreeSupplier.nextTransitiveReduction();
+				Tree<IDenotation, IStronglyContextualized> denotationTree = denotationTreeSupplier.nextTransitiveReduction();
 				IAutomaton automaton = new Automaton(
 						currTreeOfDenotationSets, denotationTree);
 				if (automaton.validate(TransitionFunctionValidator.INSTANCE))

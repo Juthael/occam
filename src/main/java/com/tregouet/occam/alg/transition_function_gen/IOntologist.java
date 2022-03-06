@@ -10,11 +10,11 @@ import java.util.Set;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
-import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.abstract_machines.automatons.descriptions.impl.GenusDifferentiaDefinition;
-import com.tregouet.occam.data.abstract_machines.states.IState;
-import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
+import com.tregouet.occam.data.automata.machines.IAutomaton;
+import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.automata.machines.descriptions.impl.GenusDifferentiaDefinition;
+import com.tregouet.occam.data.automata.states.IState;
+import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;

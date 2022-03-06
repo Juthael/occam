@@ -19,10 +19,10 @@ import com.tregouet.occam.alg.scoring.costs.definitions.DefinitionCostingStrateg
 import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
-import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
-import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
-import com.tregouet.occam.data.abstract_machines.automatons.utils.ScoreThenCostTFComparator;
+import com.tregouet.occam.data.automata.machines.IAutomaton;
+import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.automata.machines.impl.Automaton;
+import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IContextObject;

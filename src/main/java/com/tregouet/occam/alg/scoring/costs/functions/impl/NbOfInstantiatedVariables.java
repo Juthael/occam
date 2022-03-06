@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.alg.scoring.costs.functions.IFunctionCoster;
-import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
-import com.tregouet.occam.data.abstract_machines.transition_rules.IBasicOperator;
-import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
-import com.tregouet.occam.data.abstract_machines.transition_rules.ITransitionRule;
+import com.tregouet.occam.data.automata.machines.IAutomaton;
+import com.tregouet.occam.data.automata.transition_rules.IBasicOperator;
+import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
+import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;

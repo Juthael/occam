@@ -17,12 +17,12 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.concepts_gen.IConceptsConstructionManager;
 import com.tregouet.occam.alg.concepts_gen.utils.ConceptIntentBldr;
+import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IContextObject;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.data.concepts.impl.Concept;
 import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;

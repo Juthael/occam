@@ -5,9 +5,9 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
-import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
-import com.tregouet.occam.data.abstract_machines.automatons.descriptions.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.abstract_machines.transition_rules.IConjunctiveTransition;
+import com.tregouet.occam.data.automata.machines.IAutomaton;
+import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;

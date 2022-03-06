@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tregouet.occam.alg.transition_function_gen.IProductionSetBuilder;
+import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.languages.specific.IContextualizedProduction;
 
 public class ProductionSetBuilder implements IProductionSetBuilder<IContextualizedProduction> {
 

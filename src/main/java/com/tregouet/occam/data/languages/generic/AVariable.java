@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.languages.ISymbol;
 
 /**
  * <p>

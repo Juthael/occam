@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.tregouet.occam.alg.scoring.costs.transitions.ITransitionCoster;
-import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
-import com.tregouet.occam.data.abstract_machines.transition_rules.ICostedTransition;
+import com.tregouet.occam.data.automata.machines.IAutomaton;
+import com.tregouet.occam.data.automata.transition_rules.ICostedTransition;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;

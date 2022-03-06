@@ -18,7 +18,7 @@ import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.StructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
-import com.tregouet.occam.data.abstract_machines.automatons.IIsomorphicAutomatons;
+import com.tregouet.occam.data.automata.machines.IIsomorphicAutomatons;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IContextObject;
 import com.tregouet.occam.data.concepts.IDenotation;

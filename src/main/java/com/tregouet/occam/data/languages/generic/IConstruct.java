@@ -3,7 +3,7 @@ package com.tregouet.occam.data.languages.generic;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.languages.ISymbol;
+import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.languages.IWord;
 
 public interface IConstruct extends IWord<ISymbol> {

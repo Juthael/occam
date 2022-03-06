@@ -8,18 +8,18 @@ import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.alg.transition_function_gen.IProductionBuilder;
+import com.tregouet.occam.data.alphabets.ISymbol;
+import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
+import com.tregouet.occam.data.alphabets.productions.IProduction;
+import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedEpsilon;
+import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedProduction;
+import com.tregouet.occam.data.alphabets.productions.impl.Production;
 import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.languages.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.ITerminal;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Terminal;
-import com.tregouet.occam.data.languages.specific.IContextualizedProduction;
-import com.tregouet.occam.data.languages.specific.IProduction;
-import com.tregouet.occam.data.languages.specific.impl.ContextualizedEpsilon;
-import com.tregouet.occam.data.languages.specific.impl.ContextualizedProduction;
-import com.tregouet.occam.data.languages.specific.impl.Production;
 
 public class ContextualizedProductionBuilder implements IProductionBuilder<IContextualizedProduction> {
 	
@@ -32,16 +32,14 @@ public class ContextualizedProductionBuilder implements IProductionBuilder<ICont
 
 	@Override
 	public IProductionBuilder<IContextualizedProduction> input(IDenotation source, IDenotation target) {
-		productions = null;
+		productions = new ArrayList<>();
 		if (source.getListOfSymbols().equals(target.getListOfSymbols()))
-			productions = new ArrayList<>(
-					Arrays.asList(new IContextualizedProduction[] {new ContextualizedEpsilon(source, target)}));
+			productions.add(new ContextualizedEpsilon(source, target));
 		else if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals())) {
 			//then source is an instance of target
 			List<ISymbol> sourceSymbolSeq = source.getListOfSymbols();
 			List<ISymbol> targetSymbolSeq = target.getListOfSymbols();
 			Map<AVariable, List<ISymbol>> varToValue = mapVariablesToValues(sourceSymbolSeq, targetSymbolSeq);
-			productions = new ArrayList<>();
 			for (AVariable variable : varToValue.keySet()) {
 				IConstruct value;
 				List<ISymbol> listOfSymbols = varToValue.get(variable);

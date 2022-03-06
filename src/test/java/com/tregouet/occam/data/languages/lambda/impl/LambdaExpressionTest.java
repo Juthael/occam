@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.tregouet.occam.data.languages.ISymbol;
+import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.ITerminal;

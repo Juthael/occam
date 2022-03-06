@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.languages.generic;
 
-import com.tregouet.occam.data.languages.ISymbol;
+import com.tregouet.occam.data.alphabets.ISymbol;
 
 /**
  * <p>

@@ -7,9 +7,9 @@ import java.util.TreeSet;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
-import com.tregouet.occam.data.abstract_machines.automatons.IAutomaton;
-import com.tregouet.occam.data.abstract_machines.automatons.impl.Automaton;
-import com.tregouet.occam.data.abstract_machines.transition_functions.utils.TransitionFunctionValidator;
+import com.tregouet.occam.data.automata.machines.IAutomaton;
+import com.tregouet.occam.data.automata.machines.impl.Automaton;
+import com.tregouet.occam.data.automata.transition_functions.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.IConcepts;
 import com.tregouet.occam.data.concepts.IDenotation;

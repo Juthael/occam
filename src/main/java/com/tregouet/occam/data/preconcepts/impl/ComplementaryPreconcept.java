@@ -58,16 +58,6 @@ public class ComplementaryPreconcept extends Preconcept implements IComplementar
 	}
 
 	@Override
-	public int rank() {
-		return -1;
-	}
-
-	@Override
-	public void setRank(int maxPathLengthFromMin) {
-		// do nothing	
-	}
-
-	@Override
 	public String toString() {
 		return Integer.toString(-complementedByThis.getID());
 	}

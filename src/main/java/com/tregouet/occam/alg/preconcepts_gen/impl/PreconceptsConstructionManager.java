@@ -7,10 +7,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
-import org.jgrapht.Graphs;
 import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
@@ -193,15 +192,6 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 		ontologicalCommitment.setType(IPreconcept.ONTOLOGICAL_COMMITMENT);
 		return ontologicalCommitment;
 	}
-	
-	private void updateConceptRank(IPreconcept preconcept, int rank) {
-		if (preconcept.rank() < rank || preconcept.type() == IPreconcept.ABSURDITY) {
-			preconcept.setRank(rank);
-			for (IPreconcept successor : Graphs.successorListOf(upperSemilattice, preconcept)) {
-				updateConceptRank(successor, rank + 1);
-			}
-		}
-	}
 
 	@Override
 	public IPreconceptsConstructionManager input(Collection<IContextObject> objects) {
@@ -238,8 +228,6 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 		this.upperSemilattice = 
 				new UpperSemilattice<>(upperSemilattice, truism, new HashSet<>(objectPreconcepts), topologicalOrder);
 		this.upperSemilattice.addAsNewRoot(ontologicalCommitment, true);
-		for (IPreconcept objectDenotationSet : objectPreconcepts)
-			updateConceptRank(objectDenotationSet, 1);
 		return this;
 	}
 

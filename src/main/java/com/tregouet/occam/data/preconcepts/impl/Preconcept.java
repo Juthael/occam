@@ -19,7 +19,6 @@ public class Preconcept implements IPreconcept {
 	
 	private final Set<IDenotation> denotations = new HashSet<>();
 	private final Set<IContextObject> extent;
-	protected int rank = 0;
 	private final int iD;
 	private int type;
 	
@@ -67,16 +66,6 @@ public class Preconcept implements IPreconcept {
 	@Override
 	public boolean isComplementary() {
 		return false;
-	}
-
-	@Override
-	public int rank() {
-		return rank;
-	}	
-	
-	@Override
-	public void setRank(int maxPathLengthFromMin) {
-		rank = maxPathLengthFromMin;
 	}
 
 	@Override

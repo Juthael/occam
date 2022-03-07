@@ -33,10 +33,6 @@ public interface IPreconcept extends IDichotomizable<IPreconcept> {
 	
 	boolean meets(List<String> constraintAsStrings);
 	
-	int rank();
-	
-	void setRank(int maxPathLengthFromMin);
-	
 	void setType(int type);
 	
 	@Override

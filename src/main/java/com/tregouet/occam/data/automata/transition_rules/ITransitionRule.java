@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.tregouet.occam.data.alphabets.productions.IProduction;
-import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transition_rules.input_config.IPushdownAutomatonIC;
+import com.tregouet.occam.data.alphabets.ISymbol;
+import com.tregouet.occam.data.automata.transition_rules.input_config.IInputConfiguration;
 import com.tregouet.occam.data.automata.transition_rules.output_config.IOutputInternConfiguration;
-import com.tregouet.occam.data.languages.generic.AVariable;
 
-public interface ITransitionRule {
+public interface ITransitionRule<Input extends IInputConfiguration<Tape>, Output extends IOutputInternConfiguration, 
+					Tape extends ISymbol> {
 	
 	StringBuilder prime = new StringBuilder();
 	ListIterator<Character> charIte = populateCharList().listIterator();
@@ -50,22 +49,8 @@ public interface ITransitionRule {
 	
 	String getName();
 	
-	IState getOutputState();
+	Input getInputConfiguration();
 	
-	IState getInputState();
-	
-	IProduction getInputSymbol();
-	
-	AVariable getInputStackSymbol();
-	
-	AVariable getOutputStackSymbol();
-	
-	IPushdownAutomatonIC getInputConfiguration();
-	
-	IOutputInternConfiguration getOutputInternConfiguration();
-	
-	boolean isBlank();
-	
-	boolean isReframer();
+	Output getOutputInternConfiguration();
 
 }

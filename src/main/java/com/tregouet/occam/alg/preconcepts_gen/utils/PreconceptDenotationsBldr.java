@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.concepts_gen.utils;
+package com.tregouet.occam.alg.preconcepts_gen.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,22 +7,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.tregouet.occam.data.concepts.IContextObject;
+import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.subseq_finder.ISymbolSeq;
 import com.tregouet.subseq_finder.impl.SubseqFinder;
 
-public class ConceptIntentBldr {
+public class PreconceptDenotationsBldr {
 
 	private static List<List<ISymbolSeq>> objSymbolSeqs;
-	private static Set<IConstruct> intent;
+	private static Set<IConstruct> denotations;
 	private static int[] arrayDimensions;
 	private static int[] coords;
 	private static Map<ISymbolSeq, Set<ISymbolSeq>> subsqToMaxSubsq;
 	private static Map<ISymbolSeq, IConstruct> symbolSeqToConstruct = new HashMap<>();
 	
-	private ConceptIntentBldr() {
+	private PreconceptDenotationsBldr() {
 	}
 	
 	public static Set<IConstruct> getDenotations(List<IContextObject> extent) {
@@ -44,9 +44,9 @@ public class ConceptIntentBldr {
 		setSubsqToMaxSubsq();
 		for (Set<ISymbolSeq> maxSubseqs : subsqToMaxSubsq.values()) {
 			for (ISymbolSeq maxSubseq : maxSubseqs)
-				intent.add(getConstruct(maxSubseq));
+				denotations.add(getConstruct(maxSubseq));
 		}
-		return intent;
+		return denotations;
 	}
 
 	public static Set<IConstruct> getDenotations(Set<IContextObject> extent){
@@ -76,7 +76,7 @@ public class ConceptIntentBldr {
 	
 	private static void init() {
 		objSymbolSeqs = new ArrayList<>();
-		intent = new HashSet<>();
+		denotations = new HashSet<>();
 		arrayDimensions = null;
 		coords = null;
 		subsqToMaxSubsq = new HashMap<>();

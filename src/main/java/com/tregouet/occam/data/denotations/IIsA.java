@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.concepts;
+package com.tregouet.occam.data.denotations;
 
 import org.jgrapht.graph.DefaultEdge;
 

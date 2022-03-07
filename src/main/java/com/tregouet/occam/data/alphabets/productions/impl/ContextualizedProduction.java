@@ -7,8 +7,8 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.alphabets.productions.IProduction;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
@@ -27,7 +27,7 @@ public class ContextualizedProduction extends DefaultEdge implements IContextual
 	}
 
 	@Override
-	public IConcept getGenus() {
+	public IPreconcept getGenus() {
 		return genusDenotation.getConcept();
 	}
 
@@ -42,7 +42,7 @@ public class ContextualizedProduction extends DefaultEdge implements IContextual
 	}
 
 	@Override
-	public IConcept getSpecies() {
+	public IPreconcept getSpecies() {
 		return speciesDenotation.getConcept();
 	}
 

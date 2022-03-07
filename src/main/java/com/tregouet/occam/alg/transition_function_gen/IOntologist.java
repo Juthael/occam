@@ -15,8 +15,8 @@ import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaD
 import com.tregouet.occam.data.automata.machines.descriptions.impl.GenusDifferentiaDefinition;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IOntologist {
@@ -26,7 +26,7 @@ public interface IOntologist {
 		DirectedAcyclicGraph<IState, IGenusDifferentiaDefinition> porphyrianTree = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		Graphs.addAllVertices(porphyrianTree, automaton.getStates());
-		Tree<IConcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
+		Tree<IPreconcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
 		Map<IState, List<IConjunctiveTransition>> sourceToTransitions = new HashMap<>();
 		for (IConjunctiveTransition transition : automaton.getConjunctiveTransitions()) {
 			IState sourceState = transition.getInputState();
@@ -52,10 +52,10 @@ public interface IOntologist {
 		IState startState = automaton.getAssociatedStateOf(treeOfDenotationSets.getRoot());
 		Set<IState> finalStates = new HashSet<>();
 		List<IState> topoOrderedStates = new ArrayList<>();
-		for (IConcept concept : treeOfDenotationSets.getTopologicalOrder()) {
-			IState associatedState = automaton.getAssociatedStateOf(concept);
+		for (IPreconcept preconcept : treeOfDenotationSets.getTopologicalOrder()) {
+			IState associatedState = automaton.getAssociatedStateOf(preconcept);
 			topoOrderedStates.add(associatedState);
-			if (concept.type() == IConcept.OBJECT)
+			if (preconcept.type() == IPreconcept.OBJECT)
 				finalStates.add(associatedState);
 		}
 		return new Tree<IState, IGenusDifferentiaDefinition>(porphyrianTree, startState, 

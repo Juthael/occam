@@ -12,7 +12,7 @@ import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_functions.ITransitionFunction;
 import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
 import com.tregouet.occam.data.automata.transition_rules.ITransitionRules;
-import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.denotations.IPreconcept;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;

@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.concepts;
+package com.tregouet.occam.data.denotations;
 
 import com.tregouet.occam.data.languages.generic.IConstruct;
 
@@ -10,6 +10,6 @@ public interface IDenotation extends IConstruct {
 	@Override
 	boolean equals(Object o);
 	
-	IConcept getConcept();
+	IPreconcept getConcept();
 
 }

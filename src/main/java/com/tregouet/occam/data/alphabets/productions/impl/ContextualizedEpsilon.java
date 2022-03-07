@@ -1,7 +1,7 @@
 package com.tregouet.occam.data.alphabets.productions.impl;
 
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.denotations.IDenotation;
 
 public class ContextualizedEpsilon extends ContextualizedProduction implements IContextualizedProduction {
 

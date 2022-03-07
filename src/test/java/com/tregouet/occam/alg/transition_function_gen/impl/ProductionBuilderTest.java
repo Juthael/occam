@@ -19,12 +19,12 @@ import org.junit.Test;
 
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IPreconcepts;
+import com.tregouet.occam.data.denotations.IContextObject;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.impl.Preconcepts;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.impl.Concepts;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
@@ -33,7 +33,7 @@ public class ProductionBuilderTest {
 
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1.txt");
 	private static List<IContextObject> shapes1Obj;
-	private IConcepts concepts;
+	private IPreconcepts preconcepts;
 	private ProductionSetBuilder builder;
 	
 	@BeforeClass
@@ -59,8 +59,8 @@ public class ProductionBuilderTest {
 	
 	@Before
 	public void setUp() {
-		concepts = new Concepts(shapes1Obj);
-		builder = new ProductionSetBuilder(concepts);
+		preconcepts = new Preconcepts(shapes1Obj);
+		builder = new ProductionSetBuilder(preconcepts);
 		/*
 		Categories catImpl = (Categories) categories;
 		try {
@@ -104,12 +104,12 @@ public class ProductionBuilderTest {
 		boolean aVertexOrEdgeAdditionHasFailed = false;
 		List<IStronglyContextualized> stronglyContextualizeds = builder.getProductions()
 				.stream()
-				.filter(p -> p.getSource().getConcept().type() != IConcept.ABSURDITY)
+				.filter(p -> p.getSource().getConcept().type() != IPreconcept.ABSURDITY)
 				.collect(Collectors.toList());
 		List<IDenotation> denotations = new ArrayList<>();
-		for (IConcept concept : concepts.getTopologicalSorting()) {
-			if (concept.type() != IConcept.ABSURDITY)
-				denotations.addAll(concept.getDenotations());
+		for (IPreconcept preconcept : preconcepts.getTopologicalSorting()) {
+			if (preconcept.type() != IPreconcept.ABSURDITY)
+				denotations.addAll(preconcept.getDenotations());
 		}
 		DirectedAcyclicGraph<IDenotation, IStronglyContextualized> graph = new DirectedAcyclicGraph<>(IStronglyContextualized.class);
 		for (IDenotation denotation : denotations) {

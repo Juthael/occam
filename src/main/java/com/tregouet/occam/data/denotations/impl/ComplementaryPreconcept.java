@@ -1,55 +1,55 @@
-package com.tregouet.occam.data.concepts.impl;
+package com.tregouet.occam.data.denotations.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.data.concepts.IComplementaryConcept;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.denotations.IComplementaryPreconcept;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IContextObject;
+import com.tregouet.occam.data.denotations.IDenotation;
 
-public class ComplementaryConcept extends AbstractConcept implements IComplementaryConcept {
+public class ComplementaryPreconcept extends AbstractPreconcept implements IComplementaryPreconcept {
 
-	private final IConcept complementedByThis;
-	private IConcept wrappedComplementing = null;
+	private final IPreconcept complementedByThis;
+	private IPreconcept wrappedComplementing = null;
 	private final Set<IContextObject> extent;
 	private final int iD;
 	
-	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
+	public ComplementaryPreconcept(IPreconcept toBeComplemented, IPreconcept complementing) {
 		super();
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
 		this.extent = new HashSet<>(Sets.difference(complementing.getExtent(), toBeComplemented.getExtent()));
-		setType(IConcept.CONTEXT_SUBSET);
+		setType(IPreconcept.CONTEXT_SUBSET);
 		iD = wrappedComplementing.getID();
 	}
 	
-	public ComplementaryConcept(IConcept toBeComplemented, Set<IContextObject> extent) {
+	public ComplementaryPreconcept(IPreconcept toBeComplemented, Set<IContextObject> extent) {
 		super();
 		complementedByThis = toBeComplemented;
 		this.extent = extent;
-		setType(IConcept.CONTEXT_SUBSET);
+		setType(IPreconcept.CONTEXT_SUBSET);
 		iD = nextID++;
 	}	
 	
 	@Override
-	public IConcept buildComplementOfThis(Set<IConcept> rebutterMinimalLowerBounds) {
+	public IPreconcept buildComplementOfThis(Set<IPreconcept> rebutterMinimalLowerBounds) {
 		return null;
 	}	
 	
 	@Override
-	public IConcept complementThisWith(IConcept complementing) {
+	public IPreconcept complementThisWith(IPreconcept complementing) {
 		return null;
 	}	
 	
 	@Override
-	public IConcept getComplemented() {
+	public IPreconcept getComplemented() {
 		return complementedByThis;
 	}
 
 	@Override
-	public IConcept getEmbeddedDenotationSet() {
+	public IPreconcept getEmbeddedDenotationSet() {
 		return wrappedComplementing;
 	}
 

@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.concepts;
+package com.tregouet.occam.data.denotations;
 
 import java.util.Iterator;
 import java.util.List;

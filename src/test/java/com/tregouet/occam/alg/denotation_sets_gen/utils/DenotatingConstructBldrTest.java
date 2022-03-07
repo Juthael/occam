@@ -14,8 +14,8 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.concepts_gen.utils.ConceptIntentBldr;
-import com.tregouet.occam.data.concepts.IContextObject;
+import com.tregouet.occam.alg.preconcepts_gen.utils.PreconceptDenotationsBldr;
+import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -56,16 +56,16 @@ public class DenotatingConstructBldrTest {
 
 	@Test
 	public void whenIntentRequestedThenExpectedReturned() {
-		Set<IConstruct> alphaBetaGammaIntent = ConceptIntentBldr.getDenotations(alphaBetaGamma);
+		Set<IConstruct> alphaBetaGammaIntent = PreconceptDenotationsBldr.getDenotations(alphaBetaGamma);
 		Set<IConstruct> alphaBetaGammaExpected = setAlphaBetaGammaExpected();
 		boolean alphaBetaGammaIntentAsExpected = alphaBetaGammaIntent.equals(alphaBetaGammaExpected);
-		Set<IConstruct> alphaBetaIntent = ConceptIntentBldr.getDenotations(alphaBeta);
+		Set<IConstruct> alphaBetaIntent = PreconceptDenotationsBldr.getDenotations(alphaBeta);
 		Set<IConstruct> alphaBetaExpected = setAlphaBetaExpected();
 		boolean alphaBetaIntentAsExpected = alphaBetaIntent.equals(alphaBetaExpected);
-		Set<IConstruct> alphaGammaIntent = ConceptIntentBldr.getDenotations(alphaGamma);
+		Set<IConstruct> alphaGammaIntent = PreconceptDenotationsBldr.getDenotations(alphaGamma);
 		Set<IConstruct> alphaGammaExpected = setAlphaGammaExpected();
 		boolean alphaGammaIntentAsExpected = alphaGammaIntent.equals(alphaGammaExpected);
-		Set<IConstruct> betaGammaIntent = ConceptIntentBldr.getDenotations(betaGamma);
+		Set<IConstruct> betaGammaIntent = PreconceptDenotationsBldr.getDenotations(betaGamma);
 		Set<IConstruct> betaGammaExpected = setBetaGammaExpected();
 		boolean betaGammaIntentAsExpected = betaGammaIntent.equals(betaGammaExpected);
 		/*
@@ -80,7 +80,7 @@ public class DenotatingConstructBldrTest {
 	
 	@Test
 	public void whenSqToMaxSubsqRequestedThenExpectedReturned() {
-		Map<ISymbolSeq, Set<ISymbolSeq>> sqToMaxSubsq = ConceptIntentBldr.getSubsqToMaxSubsq(alphaBetaGamma);
+		Map<ISymbolSeq, Set<ISymbolSeq>> sqToMaxSubsq = PreconceptDenotationsBldr.getSubsqToMaxSubsq(alphaBetaGamma);
 		/*
 		for (ISymbolSeq symbolSeq : sqToMaxSubsq.keySet()) {
 			System.out.println("SYMBOL_SEQ : " + symbolSeq.toString());

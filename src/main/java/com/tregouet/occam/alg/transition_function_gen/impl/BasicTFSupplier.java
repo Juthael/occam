@@ -10,10 +10,10 @@ import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
 import com.tregouet.occam.data.automata.machines.impl.Automaton;
 import com.tregouet.occam.data.automata.transition_functions.utils.TransitionFunctionValidator;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IPreconcepts;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
@@ -24,9 +24,9 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private final TreeSet<IAutomaton> automatons = new TreeSet<>(functionComparator);
 	private Iterator<IAutomaton> ite;
 	
-	public BasicTFSupplier(IConcepts concepts, DirectedAcyclicGraph<IDenotation, IStronglyContextualized> constructs) 
+	public BasicTFSupplier(IPreconcepts preconcepts, DirectedAcyclicGraph<IDenotation, IStronglyContextualized> constructs) 
 			throws IOException {
-		super(concepts, constructs);
+		super(preconcepts, constructs);
 		populateTransitionFunctions();
 		ite = automatons.iterator();
 	}
@@ -52,8 +52,8 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	}
 
 	private void populateTransitionFunctions() {
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currTreeOfDenotationSets = conceptTreeSupplier.next();
+		while (preconceptTreeSupplier.hasNext()) {
+			Tree<IPreconcept, IIsA> currTreeOfDenotationSets = preconceptTreeSupplier.next();
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotationGraph = 
 					getDenotationGraphFilteredByTreeOfDenotationSets(currTreeOfDenotationSets, denotations);
 			IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier = 

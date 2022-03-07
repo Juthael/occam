@@ -5,11 +5,11 @@ import java.util.List;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.tapes.ITapeSet;
 import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
-import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.denotations.IPreconcept;
 
 public class State implements IState {
 
-	private final IConcept concept;
+	private final IPreconcept preconcept;
 	@SuppressWarnings("unused")
 	//used by unimplemented methods
 	private List<ITransitionRule> transitionRules = null;
@@ -19,8 +19,8 @@ public class State implements IState {
 	private int rank = 0;
 	
 	
-	public State(IConcept concept) {
-		this.concept = concept;
+	public State(IPreconcept preconcept) {
+		this.preconcept = preconcept;
 	}
 
 	@Override
@@ -43,10 +43,10 @@ public class State implements IState {
 		if (getClass() != obj.getClass())
 			return false;
 		State other = (State) obj;
-		if (concept == null) {
-			if (other.concept != null)
+		if (preconcept == null) {
+			if (other.preconcept != null)
 				return false;
-		} else if (!concept.equals(other.concept))
+		} else if (!preconcept.equals(other.preconcept))
 			return false;
 		return true;
 	}
@@ -57,8 +57,8 @@ public class State implements IState {
 	}
 
 	@Override
-	public IConcept getAssociatedDenotationSet() {
-		return concept;
+	public IPreconcept getAssociatedDenotationSet() {
+		return preconcept;
 	}
 
 	@Override
@@ -68,12 +68,12 @@ public class State implements IState {
 
 	@Override
 	public int iD() {
-		return concept.getID();
+		return preconcept.getID();
 	}
 
 	@Override
 	public int getStateType() {
-		return concept.type();
+		return preconcept.type();
 	}
 
 	/* (non-Javadoc)
@@ -83,7 +83,7 @@ public class State implements IState {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((concept == null) ? 0 : concept.hashCode());
+		result = prime * result + ((preconcept == null) ? 0 : preconcept.hashCode());
 		return result;
 	}
 

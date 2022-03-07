@@ -14,7 +14,7 @@ import com.tregouet.occam.data.alphabets.productions.IProduction;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedEpsilon;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedProduction;
 import com.tregouet.occam.data.alphabets.productions.impl.Production;
-import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.ITerminal;

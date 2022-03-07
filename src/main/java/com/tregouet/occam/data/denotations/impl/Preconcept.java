@@ -1,23 +1,23 @@
-package com.tregouet.occam.data.concepts.impl;
+package com.tregouet.occam.data.denotations.impl;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IContextObject;
+import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 
-public class Concept extends AbstractConcept implements IConcept {
+public class Preconcept extends AbstractPreconcept implements IPreconcept {
 
 	private final Set<IDenotation> denotations = new HashSet<>();
 	private final Set<IContextObject> extent;
 	protected int rank = 0;
 	private final int iD;
 	
-	public Concept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent) {
+	public Preconcept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent) {
 		for (IConstruct construct : denotatingConstructs)
 			this.denotations.add(new Denotation(construct, this));
 		this.extent = Collections.unmodifiableSet(extent);
@@ -26,7 +26,7 @@ public class Concept extends AbstractConcept implements IConcept {
 		else iD = nextID++;
 	}
 	
-	protected Concept(Set<IContextObject> extent) {
+	protected Preconcept(Set<IContextObject> extent) {
 		this.extent = Collections.unmodifiableSet(extent);
 		if (extent.size() == 1)
 			iD = extent.iterator().next().getID();
@@ -34,20 +34,20 @@ public class Concept extends AbstractConcept implements IConcept {
 	}	
 
 	@Override
-	public IConcept buildComplementOfThis(Set<IConcept> complementMinimalLowerBounds) {
+	public IPreconcept buildComplementOfThis(Set<IPreconcept> complementMinimalLowerBounds) {
 		Set<IContextObject> complementExtent = new HashSet<>();
-		for (IConcept rebutterMinLowerBound : complementMinimalLowerBounds)
+		for (IPreconcept rebutterMinLowerBound : complementMinimalLowerBounds)
 			complementExtent.addAll(rebutterMinLowerBound.getExtent());
-		return new ComplementaryConcept(this, complementExtent);
+		return new ComplementaryPreconcept(this, complementExtent);
 	}
 
 	@Override
-	public IConcept complementThisWith(IConcept complementing) {
-		return new ComplementaryConcept(this, complementing);
+	public IPreconcept complementThisWith(IPreconcept complementing) {
+		return new ComplementaryPreconcept(this, complementing);
 	}
 	
 	@Override
-	public IConcept getComplemented() {
+	public IPreconcept getComplemented() {
 		return null;
 	}	
 
@@ -83,7 +83,7 @@ public class Concept extends AbstractConcept implements IConcept {
 
 	@Override
 	public String toString() {
-		if (type == IConcept.ABSURDITY)
+		if (type == IPreconcept.ABSURDITY)
 			return "ABSURDITY";
 		StringBuilder sB = new StringBuilder();
 		sB.append(Integer.toString(iD));

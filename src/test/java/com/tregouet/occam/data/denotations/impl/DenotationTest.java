@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.impl.Concept;
-import com.tregouet.occam.data.concepts.impl.ContextObject;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IContextObject;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.impl.Preconcept;
+import com.tregouet.occam.data.denotations.impl.ContextObject;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 
@@ -29,9 +29,9 @@ public class DenotationTest {
 	private IContextObject obj1;
 	private IContextObject obj2;
 	private IContextObject obj3;
-	private IConcept dS1;
-	private IConcept dS2;
-	private IConcept dS3;
+	private IPreconcept dS1;
+	private IPreconcept dS2;
+	private IPreconcept dS3;
 	
 	
 	@Before
@@ -60,19 +60,19 @@ public class DenotationTest {
 		dS1Constructs.addAll(obj1.getConstructs());
 		Set<IContextObject> cat1Extent = new HashSet<>();
 		cat1Extent.add(obj1);
-		dS1 = new Concept(dS1Constructs, cat1Extent);
+		dS1 = new Preconcept(dS1Constructs, cat1Extent);
 		
 		Set<IConstruct> dS2Constructs = new HashSet<>();
 		dS2Constructs.addAll(obj2.getConstructs());
 		Set<IContextObject> cat2Extent = new HashSet<>();
 		cat2Extent.add(obj2);
-		dS2 = new Concept(dS2Constructs, cat2Extent);
+		dS2 = new Preconcept(dS2Constructs, cat2Extent);
 		
 		Set<IConstruct> dS3Constructs = new HashSet<>();
 		dS3Constructs.addAll(obj3.getConstructs());
 		Set<IContextObject> cat3Extent = new HashSet<>();
 		cat3Extent.add(obj3);
-		dS3 = new Concept(dS3Constructs, cat3Extent);
+		dS3 = new Preconcept(dS3Constructs, cat3Extent);
 	}
 
 	@Test

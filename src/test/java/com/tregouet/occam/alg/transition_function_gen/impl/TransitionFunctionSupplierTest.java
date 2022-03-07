@@ -15,18 +15,18 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.concepts_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
-import com.tregouet.occam.data.concepts.IComplementaryConcept;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.denotations.IComplementaryPreconcept;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IPreconcepts;
+import com.tregouet.occam.data.denotations.IContextObject;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.denotations.impl.Preconcepts;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.Tree;
@@ -37,8 +37,8 @@ public class TransitionFunctionSupplierTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private IConcepts concepts;
-	private IConceptTreeSupplier conceptTreeSupplier;
+	private IPreconcepts preconcepts;
+	private IPreconceptTreeSupplier preconceptTreeSupplier;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	
@@ -50,22 +50,22 @@ public class TransitionFunctionSupplierTest {
 
 	@Before
 	public void setUp() throws Exception {
-		concepts = new Concepts(shapes2Obj);
-		List<IStronglyContextualized> stronglyContextualizeds = new ProductionSetBuilder(concepts).getProductions();
+		preconcepts = new Preconcepts(shapes2Obj);
+		List<IStronglyContextualized> stronglyContextualizeds = new ProductionSetBuilder(preconcepts).getProductions();
 		stronglyContextualizeds.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		conceptTreeSupplier = concepts.getConceptTreeSupplier();
+		preconceptTreeSupplier = preconcepts.getConceptTreeSupplier();
 	}
 
 	@Test
 	public void whenDenotationGraphFilteredByTreeOfDenotSetsThenOrderedSetOfDenotationsIsARootedInvertedDAG() throws IOException {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
-		while (conceptTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			Tree<IConcept, IIsA> catTree = conceptTreeSupplier.next();
+		while (preconceptTreeSupplier.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
+			Tree<IPreconcept, IIsA> catTree = preconceptTreeSupplier.next();
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			*/
@@ -87,10 +87,10 @@ public class TransitionFunctionSupplierTest {
 	public void whenDenotationGraphFilteredByTreeOfDenotSetsThenSetOfProdSourcesOrTargetsIsDenotSetTreeMinusFramingDenotSet() 
 			throws IOException {
 		boolean expectedSetOfDenotationSets = true;
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> treeOfDenotationSets = conceptTreeSupplier.next();
-			Set<IConcept> expectedDenotationSets = treeOfDenotationSets.vertexSet();
-			Set<IConcept> returnedDenotationSets = new HashSet<>();
+		while (preconceptTreeSupplier.hasNext()) {
+			Tree<IPreconcept, IIsA> treeOfDenotationSets = preconceptTreeSupplier.next();
+			Set<IPreconcept> expectedDenotationSets = treeOfDenotationSets.vertexSet();
+			Set<IPreconcept> returnedDenotationSets = new HashSet<>();
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
 			for (IStronglyContextualized stronglyContextualized : filteredDenotations.edgeSet()) {
@@ -98,10 +98,10 @@ public class TransitionFunctionSupplierTest {
 				returnedDenotationSets.add(stronglyContextualized.getTargetConcept());
 			}
 			if (!expectedDenotationSets.equals(returnedDenotationSets)) {
-				Set<IConcept> unfoundDenotationSets = Sets.difference(expectedDenotationSets, returnedDenotationSets);
-				for (IConcept notFound : unfoundDenotationSets) {
+				Set<IPreconcept> unfoundDenotationSets = Sets.difference(expectedDenotationSets, returnedDenotationSets);
+				for (IPreconcept notFound : unfoundDenotationSets) {
 					if (!notFound.isComplementary() && 
-							((IComplementaryConcept) notFound).getEmbeddedDenotationSet() != null)
+							((IComplementaryPreconcept) notFound).getEmbeddedDenotationSet() != null)
 						expectedSetOfDenotationSets = false;
 				}
 			}
@@ -114,14 +114,14 @@ public class TransitionFunctionSupplierTest {
 	public void whenDenotationGraphIsFilteredByTreeOfDenotSetThenProductionsSourceAndTargetDenotSetsAreRelatedInDenotSetTree() {
 		boolean sourceAndTargetDenotSetsAreRelated = true;
 		int checkCount = 0;
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> treeOfDenotationSets = conceptTreeSupplier.next();
+		while (preconceptTreeSupplier.hasNext()) {
+			Tree<IPreconcept, IIsA> treeOfDenotationSets = preconceptTreeSupplier.next();
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
 			for (IStronglyContextualized stronglyContextualized : filteredDenotations.edgeSet()) {
 				checkCount++;
-				IConcept sourceDenotSet = stronglyContextualized.getSourceConcept();
-				IConcept targetDenotSet = stronglyContextualized.getTargetConcept();
+				IPreconcept sourceDenotSet = stronglyContextualized.getSourceConcept();
+				IPreconcept targetDenotSet = stronglyContextualized.getTargetConcept();
 				if (!treeOfDenotationSets.getDescendants(sourceDenotSet).contains(targetDenotSet))
 					sourceAndTargetDenotSetsAreRelated = false;
 			}
@@ -132,20 +132,20 @@ public class TransitionFunctionSupplierTest {
 	@Test
 	public void whenDenotationGraphIsFilteredByTreeOfDenotSetThenSetOfContainingDenotSetsIsDenotSetTreeMinusFramingConcepts() {
 		boolean expectedSetOfDenotationSets = true;
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> treeOfDenotationSets = conceptTreeSupplier.next();
-			Set<IConcept> expectedDenotationSets = treeOfDenotationSets.vertexSet();
-			Set<IConcept> returnedDenotationSets = new HashSet<>();
+		while (preconceptTreeSupplier.hasNext()) {
+			Tree<IPreconcept, IIsA> treeOfDenotationSets = preconceptTreeSupplier.next();
+			Set<IPreconcept> expectedDenotationSets = treeOfDenotationSets.vertexSet();
+			Set<IPreconcept> returnedDenotationSets = new HashSet<>();
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
 			for (IDenotation denotation : filteredDenotations.vertexSet()) {
 				returnedDenotationSets.add(denotation.getConcept());
 			}
 			if (!expectedDenotationSets.equals(returnedDenotationSets)) {
-				Set<IConcept> unfoundDenotationSets = Sets.difference(expectedDenotationSets, returnedDenotationSets);
-				for (IConcept notFound : unfoundDenotationSets) {
+				Set<IPreconcept> unfoundDenotationSets = Sets.difference(expectedDenotationSets, returnedDenotationSets);
+				for (IPreconcept notFound : unfoundDenotationSets) {
 					if (!notFound.isComplementary() 
-							&& ((IComplementaryConcept) notFound).getEmbeddedDenotationSet() != null)
+							&& ((IComplementaryPreconcept) notFound).getEmbeddedDenotationSet() != null)
 						expectedSetOfDenotationSets = false;
 				}
 			}

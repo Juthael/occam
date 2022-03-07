@@ -12,15 +12,15 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.scoring.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public abstract class AbstractSimCalculator implements ISimilarityScorer {
 
 	protected IAutomaton automaton;
-	protected List<IConcept> singletons;
+	protected List<IPreconcept> singletons;
 	protected int[] singletonIDs;
 	
 	public AbstractSimCalculator() {
@@ -66,16 +66,16 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	@Override
 	public Map<Integer, Double> getConceptualCoherenceMap() {
 		Map<Integer, Double> cncptIDToCoherenceScore = new HashMap<>();
-		Tree<IConcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
-		Iterator<IConcept> iterator = treeOfDenotationSets.getTopologicalOrder().iterator();
-		Set<IConcept> singletonSet = new HashSet<>(treeOfDenotationSets.getLeaves());
+		Tree<IPreconcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
+		Iterator<IPreconcept> iterator = treeOfDenotationSets.getTopologicalOrder().iterator();
+		Set<IPreconcept> singletonSet = new HashSet<>(treeOfDenotationSets.getLeaves());
 		while (iterator.hasNext()) {
-			IConcept nextCat = iterator.next();
-			Set<IConcept> lowerBoundSingletons = 
+			IPreconcept nextCat = iterator.next();
+			Set<IPreconcept> lowerBoundSingletons = 
 					Sets.intersection(Functions.lowerSet(treeOfDenotationSets, nextCat), singletonSet);
 			int[] extentIDs = new int[lowerBoundSingletons.size()];
 			int singletonIdx = 0;
-			Iterator<IConcept> lowerBoundSingletonIte = lowerBoundSingletons.iterator();
+			Iterator<IPreconcept> lowerBoundSingletonIte = lowerBoundSingletons.iterator();
 			while (lowerBoundSingletonIte.hasNext()) {
 				extentIDs[singletonIdx++] = lowerBoundSingletonIte.next().getID();
 			}
@@ -85,7 +85,7 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	}
 
 	@Override
-	public List<IConcept> getListOfSingletons() {
+	public List<IPreconcept> getListOfSingletons() {
 		return new ArrayList<>(singletons);
 	}
 	
@@ -156,7 +156,7 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 		Collections.sort(singletons, (c1, c2) -> c1.getID() - c2.getID());
 		singletonIDs = new int[singletons.size()];
 		int singletonIdx = 0;
-		for (IConcept singleton : singletons) {
+		for (IPreconcept singleton : singletons) {
 			singletonIDs[singletonIdx++] = singleton.getID(); 
 		}
 		return this;

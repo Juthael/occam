@@ -6,14 +6,14 @@ import java.util.Comparator;
 import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.concepts_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
 import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IPreconcepts;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -21,21 +21,21 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 
 	protected static final int MAX_CAPACITY = 50;
 	
-	protected final IConcepts concepts;
-	protected final IConceptTreeSupplier conceptTreeSupplier;
+	protected final IPreconcepts preconcepts;
+	protected final IPreconceptTreeSupplier preconceptTreeSupplier;
 	protected final DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations;
 	protected final Comparator<IAutomaton> functionComparator;
 	
-	public TransitionFunctionSupplier(IConcepts concepts, 
+	public TransitionFunctionSupplier(IPreconcepts preconcepts, 
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> constructs) throws IOException {
-		this.concepts = concepts;
-		conceptTreeSupplier = concepts.getConceptTreeSupplier();
+		this.preconcepts = preconcepts;
+		preconceptTreeSupplier = preconcepts.getConceptTreeSupplier();
 		this.denotations = constructs;
 		functionComparator = ScoreThenCostTFComparator.INSTANCE;
 	}
 
 	public static DirectedAcyclicGraph<IDenotation, IStronglyContextualized> getDenotationGraphFilteredByTreeOfDenotationSets(
-			Tree<IConcept, IIsA> treeOfDenotationSets, 
+			Tree<IPreconcept, IIsA> treeOfDenotationSets, 
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> unfilteredUnreduced) {
 		DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);
@@ -43,8 +43,8 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		List<IStronglyContextualized> varSwitchers = new ArrayList<>();
 		List<IDenotation> varSwitcherSources = new ArrayList<>();
 		for (IStronglyContextualized stronglyContextualized : unfilteredUnreduced.edgeSet()) {
-			IConcept sourceDenotationSet = stronglyContextualized.getSourceConcept();
-			IConcept targetDenotationSet = stronglyContextualized.getTargetConcept();
+			IPreconcept sourceDenotationSet = stronglyContextualized.getSourceConcept();
+			IPreconcept targetDenotationSet = stronglyContextualized.getTargetConcept();
 			if (treeOfDenotationSets.containsVertex(sourceDenotationSet) 
 					&& treeOfDenotationSets.containsVertex(targetDenotationSet) 
 					&& isA(sourceDenotationSet, targetDenotationSet, treeOfDenotationSets)) {
@@ -88,7 +88,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return edgesReturned;
 	}
 	
-	private static boolean isA(IConcept denotationSet1, IConcept denotationSet2, Tree<IConcept, IIsA> treeOfDenotationSets) {
+	private static boolean isA(IPreconcept denotationSet1, IPreconcept denotationSet2, Tree<IPreconcept, IIsA> treeOfDenotationSets) {
 		return treeOfDenotationSets.getDescendants(denotationSet1).contains(denotationSet2);
 	}
 

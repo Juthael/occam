@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.concepts_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
@@ -29,12 +29,12 @@ import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.automata.transition_rules.IOperator;
 import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IPreconcepts;
+import com.tregouet.occam.data.denotations.IContextObject;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.denotations.impl.Preconcepts;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
@@ -50,10 +50,10 @@ public class TransitionFunctionTest {
 
 	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> objects;
-	private IConcepts concepts;
+	private IPreconcepts preconcepts;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IConceptTreeSupplier conceptTreeSupplier;
+	private IPreconceptTreeSupplier preconceptTreeSupplier;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered_reduced_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier;
 	private Tree<IDenotation, IStronglyContextualized> denotationTree;
@@ -71,8 +71,8 @@ public class TransitionFunctionTest {
 	
 	private static boolean sameSourceAndTargetCategoryForAll(List<IStronglyContextualized> stronglyContextualizeds) {
 		boolean sameSourceAndTargetDenotationSet = true;
-		IConcept sourceDS = null;
-		IConcept targetDS = null;
+		IPreconcept sourceDS = null;
+		IPreconcept targetDS = null;
 		for (int i = 0 ; i < stronglyContextualizeds.size() ; i++) {
 			if (i == 0) {
 				sourceDS = stronglyContextualizeds.get(i).getSourceConcept();
@@ -117,16 +117,16 @@ public class TransitionFunctionTest {
 	@Before
 	public void setUp() throws Exception {
 		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
-		concepts = new Concepts(objects);
-		List<IStronglyContextualized> stronglyContextualizeds = new ProductionSetBuilder(concepts).getProductions();
+		preconcepts = new Preconcepts(objects);
+		List<IStronglyContextualized> stronglyContextualizeds = new ProductionSetBuilder(preconcepts).getProductions();
 		stronglyContextualizeds.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		conceptTreeSupplier = concepts.getConceptTreeSupplier();
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currTreeOfDenotationSets  = conceptTreeSupplier.next();
+		preconceptTreeSupplier = preconcepts.getConceptTreeSupplier();
+		while (preconceptTreeSupplier.hasNext()) {
+			Tree<IPreconcept, IIsA> currTreeOfDenotationSets  = preconceptTreeSupplier.next();
 			filtered_reduced_denotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(
 							currTreeOfDenotationSets, denotations);

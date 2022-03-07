@@ -1,21 +1,21 @@
-package com.tregouet.occam.data.concepts.impl;
+package com.tregouet.occam.data.denotations.impl;
 
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 
-public abstract class AbstractConcept implements IConcept {
+public abstract class AbstractPreconcept implements IPreconcept {
 
 	protected static int nextID = 100;
 	
 	protected int type;
 	
-	public AbstractConcept() {
+	public AbstractPreconcept() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -25,9 +25,9 @@ public abstract class AbstractConcept implements IConcept {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof AbstractConcept))
+		if (!(obj instanceof AbstractPreconcept))
 			return false;
-		AbstractConcept other = (AbstractConcept) obj;
+		AbstractPreconcept other = (AbstractPreconcept) obj;
 		if (getID() != other.getID())
 			return false;
 		return true;

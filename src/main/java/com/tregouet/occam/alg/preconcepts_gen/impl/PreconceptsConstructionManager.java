@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.concepts_gen.impl;
+package com.tregouet.occam.alg.preconcepts_gen.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,32 +15,32 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.concepts_gen.IConceptsConstructionManager;
-import com.tregouet.occam.alg.concepts_gen.utils.ConceptIntentBldr;
+import com.tregouet.occam.alg.preconcepts_gen.IPreconceptsConstructionManager;
+import com.tregouet.occam.alg.preconcepts_gen.utils.PreconceptDenotationsBldr;
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.impl.Concept;
-import com.tregouet.occam.data.concepts.impl.IsA;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IContextObject;
+import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.denotations.impl.Preconcept;
+import com.tregouet.occam.data.denotations.impl.IsA;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Variable;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
-public class ConceptsConstructionManager implements IConceptsConstructionManager {
+public class PreconceptsConstructionManager implements IPreconceptsConstructionManager {
 
 	private List<IContextObject> objects = null;
-	private DirectedAcyclicGraph<IConcept, IIsA> lattice = null;
-	private UpperSemilattice<IConcept, IIsA> upperSemilattice = null;
-	private IConcept ontologicalCommitment = null;
-	private List<IConcept> topologicalOrder = null;
-	private IConcept truism = null;
-	private List<IConcept> objectConcepts = null;
-	private IConcept absurdity = null;
+	private DirectedAcyclicGraph<IPreconcept, IIsA> lattice = null;
+	private UpperSemilattice<IPreconcept, IIsA> upperSemilattice = null;
+	private IPreconcept ontologicalCommitment = null;
+	private List<IPreconcept> topologicalOrder = null;
+	private IPreconcept truism = null;
+	private List<IPreconcept> objectPreconcepts = null;
+	private IPreconcept absurdity = null;
 	
-	public ConceptsConstructionManager() {
+	public PreconceptsConstructionManager() {
 	}
 	
 	@Override
@@ -49,64 +49,64 @@ public class ConceptsConstructionManager implements IConceptsConstructionManager
 	}
 
 	@Override
-	public DirectedAcyclicGraph<IConcept, IIsA> getLattice() {
+	public DirectedAcyclicGraph<IPreconcept, IIsA> getLattice() {
 		return lattice;
 	}
 
 	@Override
-	public UpperSemilattice<IConcept, IIsA> getUpperSemilattice() {
+	public UpperSemilattice<IPreconcept, IIsA> getUpperSemilattice() {
 		return upperSemilattice;
 	}
 
 	@Override
-	public IConcept getOntologicalCommitment() {
+	public IPreconcept getOntologicalCommitment() {
 		return ontologicalCommitment;
 	}
 
 	@Override
-	public List<IConcept> getTopologicalOrder() {
+	public List<IPreconcept> getTopologicalOrder() {
 		return topologicalOrder;
 	}
 
 	@Override
-	public IConcept getTruism() {
+	public IPreconcept getTruism() {
 		return truism;
 	}
 
 	@Override
-	public List<IConcept> getObjectConcepts() {
-		return objectConcepts;
+	public List<IPreconcept> getObjectPreconcepts() {
+		return objectPreconcepts;
 	}
 
 	@Override
-	public IConcept getAbsurdity() {
+	public IPreconcept getAbsurdity() {
 		return absurdity;
 	}
 	
 	private void buildLattice() {
 		Map<Set<IConstruct>, Set<IContextObject>> denotatingConstructsToExtents = buildIntentToExtentRel();
 		for (Entry<Set<IConstruct>, Set<IContextObject>> entry : denotatingConstructsToExtents.entrySet()) {
-			IConcept concept = new Concept(entry.getKey(), entry.getValue());
-			if (!concept.getExtent().isEmpty()) {
-				if (concept.getExtent().size() == 1)
-					concept.setType(IConcept.OBJECT);
-				else if (concept.getExtent().size() == objects.size()) {
-					concept.setType(IConcept.TRUISM);
+			IPreconcept preconcept = new Preconcept(entry.getKey(), entry.getValue());
+			if (!preconcept.getExtent().isEmpty()) {
+				if (preconcept.getExtent().size() == 1)
+					preconcept.setType(IPreconcept.OBJECT);
+				else if (preconcept.getExtent().size() == objects.size()) {
+					preconcept.setType(IPreconcept.TRUISM);
 				}
 				else {
-					concept.setType(IConcept.CONTEXT_SUBSET);
+					preconcept.setType(IPreconcept.CONTEXT_SUBSET);
 				}
 			}
 			else {
-				concept.setType(IConcept.ABSURDITY);
+				preconcept.setType(IPreconcept.ABSURDITY);
 			}
-			lattice.addVertex(concept);
+			lattice.addVertex(preconcept);
 		}
-		List<IConcept> denotSetList = new ArrayList<>(lattice.vertexSet());
+		List<IPreconcept> denotSetList = new ArrayList<>(lattice.vertexSet());
 		for (int i = 0 ; i < denotSetList.size() - 1 ; i++) {
-			IConcept iDenotSet = denotSetList.get(i);
+			IPreconcept iDenotSet = denotSetList.get(i);
 			for (int j = i+1 ; j < denotSetList.size() ; j++) {
-				IConcept jDenotSet = denotSetList.get(j);
+				IPreconcept jDenotSet = denotSetList.get(j);
 				if (iDenotSet.getExtent().containsAll(jDenotSet.getExtent()))
 					lattice.addEdge(jDenotSet, iDenotSet);
 				else if (jDenotSet.getExtent().containsAll(iDenotSet.getExtent()))
@@ -121,7 +121,7 @@ public class ConceptsConstructionManager implements IConceptsConstructionManager
 		for (Set<IContextObject> subset : objectsPowerSet) {
 			Set<IConstruct> denotatingConstructs;
 			if (subset.size() > 1)
-				denotatingConstructs = ConceptIntentBldr.getDenotations(subset);
+				denotatingConstructs = PreconceptDenotationsBldr.getDenotations(subset);
 			else if (subset.size() == 1)
 				denotatingConstructs = new HashSet<IConstruct>(subset.iterator().next().getConstructs());
 			else {
@@ -181,47 +181,47 @@ public class ConceptsConstructionManager implements IConceptsConstructionManager
 		return mapWithSingularizedIntents;
 	}	
 	
-	private IConcept instantiateOntologicalCommitment() {
-		IConcept ontologicalCommitment;
+	private IPreconcept instantiateOntologicalCommitment() {
+		IPreconcept ontologicalCommitment;
 		ISymbol variable = Variable.getInitialVariable();
 		List<ISymbol> word = new ArrayList<ISymbol>();
 		word.add(variable);
 		IConstruct denotatingConstruct = new Construct(word);
 		Set<IConstruct> denotatingConstructs =  new HashSet<IConstruct>();
 		denotatingConstructs.add(denotatingConstruct);
-		ontologicalCommitment = new Concept(denotatingConstructs, new HashSet<IContextObject>(objects));
-		ontologicalCommitment.setType(IConcept.ONTOLOGICAL_COMMITMENT);
+		ontologicalCommitment = new Preconcept(denotatingConstructs, new HashSet<IContextObject>(objects));
+		ontologicalCommitment.setType(IPreconcept.ONTOLOGICAL_COMMITMENT);
 		return ontologicalCommitment;
 	}
 	
-	private void updateConceptRank(IConcept concept, int rank) {
-		if (concept.rank() < rank || concept.type() == IConcept.ABSURDITY) {
-			concept.setRank(rank);
-			for (IConcept successor : Graphs.successorListOf(upperSemilattice, concept)) {
+	private void updateConceptRank(IPreconcept preconcept, int rank) {
+		if (preconcept.rank() < rank || preconcept.type() == IPreconcept.ABSURDITY) {
+			preconcept.setRank(rank);
+			for (IPreconcept successor : Graphs.successorListOf(upperSemilattice, preconcept)) {
 				updateConceptRank(successor, rank + 1);
 			}
 		}
 	}
 
 	@Override
-	public IConceptsConstructionManager input(Collection<IContextObject> objects) {
+	public IPreconceptsConstructionManager input(Collection<IContextObject> objects) {
 		AVariable.resetVarNaming();
 		this.objects = new ArrayList<>(objects);
-		objectConcepts = new ArrayList<>(Arrays.asList(new IConcept[objects.size()]));
+		objectPreconcepts = new ArrayList<>(Arrays.asList(new IPreconcept[objects.size()]));
 		lattice = new DirectedAcyclicGraph<>(null, IsA::new, false);
 		buildLattice();
-		IConcept truism = null;
-		IConcept absurdity = null;
-		for (IConcept concept : lattice.vertexSet()) {
-			switch(concept.type()) {
-				case IConcept.TRUISM :
-					truism = concept;
+		IPreconcept truism = null;
+		IPreconcept absurdity = null;
+		for (IPreconcept preconcept : lattice.vertexSet()) {
+			switch(preconcept.type()) {
+				case IPreconcept.TRUISM :
+					truism = preconcept;
 					break;
-				case IConcept.ABSURDITY :
-					absurdity = concept;
+				case IPreconcept.ABSURDITY :
+					absurdity = preconcept;
 					break;
-				case IConcept.OBJECT :
-					objectConcepts.set(this.objects.indexOf(concept.getExtent().iterator().next()), concept);
+				case IPreconcept.OBJECT :
+					objectPreconcepts.set(this.objects.indexOf(preconcept.getExtent().iterator().next()), preconcept);
 					break;
 			}
 		}
@@ -229,16 +229,16 @@ public class ConceptsConstructionManager implements IConceptsConstructionManager
 		this.absurdity = absurdity;
 		ontologicalCommitment = instantiateOntologicalCommitment();
 		@SuppressWarnings("unchecked")
-		DirectedAcyclicGraph<IConcept, IIsA> upperSemilattice = 
-				(DirectedAcyclicGraph<IConcept, IIsA>) lattice.clone();
+		DirectedAcyclicGraph<IPreconcept, IIsA> upperSemilattice = 
+				(DirectedAcyclicGraph<IPreconcept, IIsA>) lattice.clone();
 		upperSemilattice.removeVertex(absurdity);
 		TransitiveReduction.INSTANCE.reduce(upperSemilattice);
 		topologicalOrder = new ArrayList<>();
 		new TopologicalOrderIterator<>(upperSemilattice).forEachRemaining(topologicalOrder::add);
 		this.upperSemilattice = 
-				new UpperSemilattice<>(upperSemilattice, truism, new HashSet<>(objectConcepts), topologicalOrder);
+				new UpperSemilattice<>(upperSemilattice, truism, new HashSet<>(objectPreconcepts), topologicalOrder);
 		this.upperSemilattice.addAsNewRoot(ontologicalCommitment, true);
-		for (IConcept objectDenotationSet : objectConcepts)
+		for (IPreconcept objectDenotationSet : objectPreconcepts)
 			updateConceptRank(objectDenotationSet, 1);
 		return this;
 	}

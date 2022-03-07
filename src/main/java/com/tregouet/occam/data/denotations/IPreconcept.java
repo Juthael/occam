@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.concepts;
+package com.tregouet.occam.data.denotations;
 
 import java.io.IOException;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Set;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
-public interface IConcept extends IDichotomizable<IConcept> {
+public interface IPreconcept extends IDichotomizable<IPreconcept> {
 	
 	public static final int ABSURDITY = 0;
 	public static final int OBJECT = 1;

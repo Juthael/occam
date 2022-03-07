@@ -1,17 +1,17 @@
-package com.tregouet.occam.data.concepts.impl;
+package com.tregouet.occam.data.denotations.impl;
 
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 
 public class Denotation extends Construct implements IDenotation {
 
-	private final IConcept concept;
+	private final IPreconcept preconcept;
 	
-	public Denotation(IConstruct construct, IConcept concept) {
+	public Denotation(IConstruct construct, IPreconcept preconcept) {
 		super(construct);
-		this.concept = concept;
+		this.preconcept = preconcept;
 	}
 
 	@Override
@@ -23,17 +23,17 @@ public class Denotation extends Construct implements IDenotation {
 		if (getClass() != obj.getClass())
 			return false;
 		Denotation other = (Denotation) obj;
-		if (concept == null) {
-			if (other.concept != null)
+		if (preconcept == null) {
+			if (other.preconcept != null)
 				return false;
-		} else if (!concept.equals(other.concept))
+		} else if (!preconcept.equals(other.preconcept))
 			return false;
 		return true;
 	}
 	
 	@Override
-	public IConcept getConcept() {
-		return concept;
+	public IPreconcept getConcept() {
+		return preconcept;
 	}
 
 	@Override

@@ -14,10 +14,10 @@ import com.tregouet.occam.data.automata.machines.IIsomorphicAutomatons;
 import com.tregouet.occam.data.automata.machines.impl.Automaton;
 import com.tregouet.occam.data.automata.machines.impl.IsomorphicAutomatons;
 import com.tregouet.occam.data.automata.transition_functions.utils.TransitionFunctionValidator;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IPreconcepts;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
@@ -27,14 +27,14 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	implements IStructureBasedTFSupplier {
 
 	private final TreeSet<IIsomorphicAutomatons> transFunctionSets = new TreeSet<>();
-	private final Map<IConcept, String> objectDenotationSetToName = new HashMap<>();
+	private final Map<IPreconcept, String> objectDenotationSetToName = new HashMap<>();
 	private Iterator<IIsomorphicAutomatons> ite;
 	
-	public StructureBasedTFSupplier(IConcepts concepts, 
+	public StructureBasedTFSupplier(IPreconcepts preconcepts, 
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations) throws IOException {
-		super(concepts, denotations);
+		super(preconcepts, denotations);
 		populateSetsOfRelatedTransFunctions();
-		for (IConcept objDenotationSet : concepts.getObjectConcepts())
+		for (IPreconcept objDenotationSet : preconcepts.getObjectConcepts())
 			objectDenotationSetToName.put(objDenotationSet, objDenotationSet.getExtent().iterator().next().getName());
 		ite = transFunctionSets.iterator();
 	}
@@ -65,8 +65,8 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	}	
 	
 	private void populateSetsOfRelatedTransFunctions() {
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> currTreeOfDenotationSets = conceptTreeSupplier.next();
+		while (preconceptTreeSupplier.hasNext()) {
+			Tree<IPreconcept, IIsA> currTreeOfDenotationSets = preconceptTreeSupplier.next();
 			IIsomorphicAutomatons currSetOfIsomorphicTransFunctions = new IsomorphicAutomatons(
 					currTreeOfDenotationSets, objectDenotationSetToName);
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotationGraph = 

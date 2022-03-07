@@ -7,8 +7,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import com.tregouet.occam.alg.scoring.costs.transitions.ITransitionCoster;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
 import com.tregouet.occam.data.automata.transition_rules.ICostedTransition;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public class EntropyReduction implements ITransitionCoster {
@@ -37,8 +37,8 @@ public class EntropyReduction implements ITransitionCoster {
 
 	@Override
 	public void setCosterParameters(IAutomaton automaton) {
-		Tree<IConcept, IIsA> treeOfDenotations = automaton.getTreeOfDenotationSets();
-		List<IConcept> topoOrderedDenotations = treeOfDenotations.getTopologicalOrder();
+		Tree<IPreconcept, IIsA> treeOfDenotations = automaton.getTreeOfDenotationSets();
+		List<IPreconcept> topoOrderedDenotations = treeOfDenotations.getTopologicalOrder();
 		int cardinal = topoOrderedDenotations.size();
 		topoOrderedStateIDs = new int[cardinal];
 		for (int i = 0 ; i < cardinal ; i++) {

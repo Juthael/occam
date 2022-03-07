@@ -8,21 +8,21 @@ import java.util.TreeSet;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
 import com.tregouet.occam.data.automata.machines.IIsomorphicAutomatons;
 import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IExtentStructureConstraint;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.utils.TreeOfDenotationSetsToStringConvertor;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IExtentStructureConstraint;
+import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.denotations.utils.TreeOfPreconceptsToStringConvertor;
 import com.tregouet.tree_finder.data.Tree;
 
 public class IsomorphicAutomatons implements IIsomorphicAutomatons {
 
-	private final Tree<IConcept,IIsA> treeOfDenotationSets;
-	private final Map<IConcept, String> objDenotationSetToName;
+	private final Tree<IPreconcept,IIsA> treeOfDenotationSets;
+	private final Map<IPreconcept, String> objDenotationSetToName;
 	private final Comparator<IAutomaton> automatonComparator = ScoreThenCostTFComparator.INSTANCE;
 	private final TreeSet<IAutomaton> automatons = new TreeSet<>(automatonComparator);
 	
-	public IsomorphicAutomatons(Tree<IConcept, IIsA> treeOfDenotationSets, 
-			Map<IConcept, String> objDenotationSetToName) {
+	public IsomorphicAutomatons(Tree<IPreconcept, IIsA> treeOfDenotationSets, 
+			Map<IPreconcept, String> objDenotationSetToName) {
 		this.treeOfDenotationSets = treeOfDenotationSets;
 		this.objDenotationSetToName = objDenotationSetToName;
 	}
@@ -68,7 +68,7 @@ public class IsomorphicAutomatons implements IIsomorphicAutomatons {
 
 	@Override
 	public String getExtentStructureAsString() {
-		return new TreeOfDenotationSetsToStringConvertor(treeOfDenotationSets, objDenotationSetToName).toString();
+		return new TreeOfPreconceptsToStringConvertor(treeOfDenotationSets, objDenotationSetToName).toString();
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class IsomorphicAutomatons implements IIsomorphicAutomatons {
 	}
 
 	@Override
-	public Tree<IConcept, IIsA> getTreeOfDenotationSets() {
+	public Tree<IPreconcept, IIsA> getTreeOfDenotationSets() {
 		return treeOfDenotationSets;
 	}
 

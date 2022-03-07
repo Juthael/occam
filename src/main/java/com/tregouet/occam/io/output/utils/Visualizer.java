@@ -21,9 +21,9 @@ import com.tregouet.occam.data.automata.transition_rules.IBasicOperator;
 import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.automata.transition_rules.IReframerRule;
 import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -44,10 +44,10 @@ public class Visualizer {
 		location = newLocation;
 	}
 	
-	public static void visualizeDenotationSetGraph(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName) 
+	public static void visualizeDenotationSetGraph(DirectedAcyclicGraph<IPreconcept, IIsA> graph, String fileName) 
 			throws IOException {
 		//convert in DOT format
-		DOTExporter<IConcept,IIsA> exporter = new DOTExporter<>();
+		DOTExporter<IPreconcept,IIsA> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));

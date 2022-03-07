@@ -21,15 +21,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.concepts_gen.IConceptTreeSupplier;
+import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConcepts;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.impl.Concepts;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IPreconcepts;
+import com.tregouet.occam.data.denotations.IContextObject;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.denotations.impl.Preconcepts;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -41,7 +41,7 @@ public class DenotationSetsTest {
 
 	private static Path shapes2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;
-	private static IConcepts concepts;
+	private static IPreconcepts preconcepts;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -51,7 +51,7 @@ public class DenotationSetsTest {
 
 	@Test
 	public void whenDenotationSetLatticeReturnedThenReallyIsALattice() {
-		DirectedAcyclicGraph<IConcept, IIsA> lattice = concepts.getLatticeOfConcepts();
+		DirectedAcyclicGraph<IPreconcept, IIsA> lattice = preconcepts.getLatticeOfConcepts();
 		assertTrue(StructureInspector.isAnUpperSemilattice(lattice) 
 				&& StructureInspector.isALowerSemilattice(lattice)
 				&& !lattice.vertexSet().isEmpty());
@@ -59,17 +59,17 @@ public class DenotationSetsTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		concepts = new Concepts(shapes2Obj);
+		preconcepts = new Preconcepts(shapes2Obj);
 	}	
 
 	@Test
 	public void whenDenotationSetsReturnedThenContains1Absurdity1Truism1Commitment() {
 		int nbOfTruism = 0;
 		int nbOfCommitments = 0;
-		for (IConcept cat : concepts.getTopologicalSorting()) {
-			if (cat.type() == IConcept.TRUISM)
+		for (IPreconcept cat : preconcepts.getTopologicalSorting()) {
+			if (cat.type() == IPreconcept.TRUISM)
 				nbOfTruism++;
-			else if (cat.type() == IConcept.ONTOLOGICAL_COMMITMENT)
+			else if (cat.type() == IPreconcept.ONTOLOGICAL_COMMITMENT)
 				nbOfCommitments++;
 		}
 		assertTrue(nbOfTruism == 1 && nbOfCommitments == 1);
@@ -79,16 +79,16 @@ public class DenotationSetsTest {
 	@Test
 	public void whenDenotationSetsReturnedThenEachHasADistinctIntent() {
 		Set<Set<IDenotation>> setsOfDenotations = new HashSet<>();
-		for (IConcept cat : concepts.getTopologicalSorting())
+		for (IPreconcept cat : preconcepts.getTopologicalSorting())
 			setsOfDenotations.add(cat.getDenotations());
-		assertTrue(setsOfDenotations.size() == concepts.getTopologicalSorting().size());
+		assertTrue(setsOfDenotations.size() == preconcepts.getTopologicalSorting().size());
 	}	
 	
 	@Test
 	public void whenDenotationSetsReturnedThenTruismAndCommitmentHaveSameExtent() {
 		Set<Set<IContextObject>> extents = new HashSet<>();
-		extents.add(concepts.getTruism().getExtent());
-		extents.add(concepts.getOntologicalCommitment().getExtent());
+		extents.add(preconcepts.getTruism().getExtent());
+		extents.add(preconcepts.getOntologicalCommitment().getExtent());
 		assertTrue(extents.size() == 1);
 	}	
 	
@@ -101,16 +101,16 @@ public class DenotationSetsTest {
 		Set<IContextObject> extent02 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(2)}));
 		Set<IContextObject> extent01 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(1)}));
 		Set<IContextObject> extent123 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(1), shapes2Obj.get(2), shapes2Obj.get(3)}));
-		IConcept absurdity = concepts.getAbsurdity();
-		IConcept dS0 = concepts.getConceptWithExtent(extent0);
-		IConcept dS1 = concepts.getConceptWithExtent(extent1);
-		IConcept dS2 = concepts.getConceptWithExtent(extent2);
-		IConcept dS3 = concepts.getConceptWithExtent(extent3);
-		IConcept dS02 = concepts.getConceptWithExtent(extent02);
-		IConcept dS01 = concepts.getConceptWithExtent(extent01);
-		IConcept dS123 = concepts.getConceptWithExtent(extent123);
-		IConcept truism = concepts.getTruism();
-		IConcept commitment = concepts.getOntologicalCommitment();
+		IPreconcept absurdity = preconcepts.getAbsurdity();
+		IPreconcept dS0 = preconcepts.getConceptWithExtent(extent0);
+		IPreconcept dS1 = preconcepts.getConceptWithExtent(extent1);
+		IPreconcept dS2 = preconcepts.getConceptWithExtent(extent2);
+		IPreconcept dS3 = preconcepts.getConceptWithExtent(extent3);
+		IPreconcept dS02 = preconcepts.getConceptWithExtent(extent02);
+		IPreconcept dS01 = preconcepts.getConceptWithExtent(extent01);
+		IPreconcept dS123 = preconcepts.getConceptWithExtent(extent123);
+		IPreconcept truism = preconcepts.getTruism();
+		IPreconcept commitment = preconcepts.getOntologicalCommitment();
 		assertTrue(absurdity.rank() == 0
 				&& dS0.rank() == 1
 				&& dS1.rank() == 1
@@ -125,14 +125,14 @@ public class DenotationSetsTest {
 	
 	@Test
 	public void whenDenotationSetTreeSupplierRequestedThenReturned() {
-		IConceptTreeSupplier conceptTreeSupplier = null;
+		IPreconceptTreeSupplier preconceptTreeSupplier = null;
 		try {
-			conceptTreeSupplier = concepts.getConceptTreeSupplier();
+			preconceptTreeSupplier = preconcepts.getConceptTreeSupplier();
 		}
 		catch (Exception e) {
 			assertTrue(false);
 		}
-		assertNotNull(conceptTreeSupplier);
+		assertNotNull(preconceptTreeSupplier);
 	}
 	
 	@Test
@@ -144,42 +144,42 @@ public class DenotationSetsTest {
 		Set<IContextObject> extent02 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(2)}));
 		Set<IContextObject> extent01 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(0), shapes2Obj.get(1)}));
 		Set<IContextObject> extent123 = new HashSet<>(Arrays.asList(new IContextObject[] {shapes2Obj.get(1), shapes2Obj.get(2), shapes2Obj.get(3)}));
-		IConcept dS0 = concepts.getConceptWithExtent(extent0);
-		IConcept dS1 = concepts.getConceptWithExtent(extent1);
-		IConcept dS2 = concepts.getConceptWithExtent(extent2);
-		IConcept dS3 = concepts.getConceptWithExtent(extent3);
-		IConcept dS02 = concepts.getConceptWithExtent(extent02);
-		IConcept dS01 = concepts.getConceptWithExtent(extent01);
-		IConcept dS123 = concepts.getConceptWithExtent(extent123);
-		IConcept truism = concepts.getTruism();
-		IConcept commitment = concepts.getOntologicalCommitment();
+		IPreconcept dS0 = preconcepts.getConceptWithExtent(extent0);
+		IPreconcept dS1 = preconcepts.getConceptWithExtent(extent1);
+		IPreconcept dS2 = preconcepts.getConceptWithExtent(extent2);
+		IPreconcept dS3 = preconcepts.getConceptWithExtent(extent3);
+		IPreconcept dS02 = preconcepts.getConceptWithExtent(extent02);
+		IPreconcept dS01 = preconcepts.getConceptWithExtent(extent01);
+		IPreconcept dS123 = preconcepts.getConceptWithExtent(extent123);
+		IPreconcept truism = preconcepts.getTruism();
+		IPreconcept commitment = preconcepts.getOntologicalCommitment();
 		assertTrue(
-				concepts.isADirectSubordinateOf(dS0, dS01)
-				&& concepts.isADirectSubordinateOf(dS0, dS02)
-				&& concepts.isADirectSubordinateOf(dS1, dS01)
-				&& concepts.isADirectSubordinateOf(dS1, dS123)
-				&& concepts.isADirectSubordinateOf(dS2, dS02)
-				&& concepts.isADirectSubordinateOf(dS2, dS123)
-				&& concepts.isADirectSubordinateOf(dS3, dS123)
-				&& concepts.isADirectSubordinateOf(dS02, truism)
-				&& concepts.isADirectSubordinateOf(dS01, truism)
-				&& concepts.isADirectSubordinateOf(dS123, truism)
-				&& concepts.isADirectSubordinateOf(truism, commitment)
-				&& !concepts.isADirectSubordinateOf(dS0, truism)
-				&& !concepts.isADirectSubordinateOf(dS02, dS0));
+				preconcepts.isADirectSubordinateOf(dS0, dS01)
+				&& preconcepts.isADirectSubordinateOf(dS0, dS02)
+				&& preconcepts.isADirectSubordinateOf(dS1, dS01)
+				&& preconcepts.isADirectSubordinateOf(dS1, dS123)
+				&& preconcepts.isADirectSubordinateOf(dS2, dS02)
+				&& preconcepts.isADirectSubordinateOf(dS2, dS123)
+				&& preconcepts.isADirectSubordinateOf(dS3, dS123)
+				&& preconcepts.isADirectSubordinateOf(dS02, truism)
+				&& preconcepts.isADirectSubordinateOf(dS01, truism)
+				&& preconcepts.isADirectSubordinateOf(dS123, truism)
+				&& preconcepts.isADirectSubordinateOf(truism, commitment)
+				&& !preconcepts.isADirectSubordinateOf(dS0, truism)
+				&& !preconcepts.isADirectSubordinateOf(dS02, dS0));
 	}
 	
 	@Test
 	public void whenIsAMethodCalledThenConsistentReturn() {
-		List<IConcept> catList = concepts.getTopologicalSorting();
+		List<IPreconcept> catList = preconcepts.getTopologicalSorting();
 		for (int i = 0 ; i < catList.size() ; i++) {
-			IConcept catI = catList.get(i);
+			IPreconcept catI = catList.get(i);
 			for (int j = 0 ; j < catList.size() ; j++) {
-				IConcept catJ = catList.get(j);
-				if (concepts.isA(catI, catJ)) {
+				IPreconcept catJ = catList.get(j);
+				if (preconcepts.isA(catI, catJ)) {
 					if (!catJ.getExtent().containsAll(catI.getExtent())
-							&& catI.type() != IConcept.TRUISM
-							&& catJ.type() != IConcept.ONTOLOGICAL_COMMITMENT)
+							&& catI.type() != IPreconcept.TRUISM
+							&& catJ.type() != IPreconcept.ONTOLOGICAL_COMMITMENT)
 							assertTrue(false);
 				}
 			}
@@ -190,13 +190,13 @@ public class DenotationSetsTest {
 	@Test
 	public void whenLeastCommonSuperordinateRequiredThenExpectedReturned() {
 		boolean unexpected = false;
-		Set<Set<IConcept>> objPowerSet = buildCatsPowerSet(concepts.getTopologicalSorting()); 
-		for (Set<IConcept> subset : objPowerSet) {
+		Set<Set<IPreconcept>> objPowerSet = buildCatsPowerSet(preconcepts.getTopologicalSorting()); 
+		for (Set<IPreconcept> subset : objPowerSet) {
 			if (!subset.isEmpty()) {
-				IConcept lcs = concepts.getLeastCommonSuperordinate(subset);
-				for (IConcept current : concepts.getTopologicalSorting()) {
-					if (concepts.areA(new ArrayList<>(subset), current)) {
-						if (!concepts.isA(lcs, current) && !lcs.equals(current))
+				IPreconcept lcs = preconcepts.getLeastCommonSuperordinate(subset);
+				for (IPreconcept current : preconcepts.getTopologicalSorting()) {
+					if (preconcepts.areA(new ArrayList<>(subset), current)) {
+						if (!preconcepts.isA(lcs, current) && !lcs.equals(current))
 							unexpected = true;
 					}
 				}
@@ -207,12 +207,12 @@ public class DenotationSetsTest {
 	
 	@Test
 	public void whenObjectDenotationSetsRequestedThenReturned() throws Exception {
-		Set<IConcept> objectDenotationSets = new HashSet<>(concepts.getObjectConcepts());
+		Set<IPreconcept> objectDenotationSets = new HashSet<>(preconcepts.getObjectConcepts());
 		Set<Set<IConstruct>> expectedSetsOfConstructs = new HashSet<>();
 		Set<Set<IConstruct>> objSetsOfDenotatingConstructs = new HashSet<>();
 		for (IContextObject obj : shapes2Obj)
 			expectedSetsOfConstructs.add(new HashSet<>(obj.getConstructs()));
-		for (IConcept objDenotationSet : objectDenotationSets) {
+		for (IPreconcept objDenotationSet : objectDenotationSets) {
 			Set<IConstruct> objDenotatingConstructs = objDenotationSet.getDenotations()
 					.stream()
 					.map(a -> new Construct(a))
@@ -227,7 +227,7 @@ public class DenotationSetsTest {
 	public void whenOntologicalUSLReturnedThenReallyIsAnUpperSemilattice() {
 		boolean isAnUpperSemilattice = true;
 		try {
-			concepts.getOntologicalUpperSemilattice().validate();
+			preconcepts.getOntologicalUpperSemilattice().validate();
 		}
 		catch (DataFormatException e) {
 			isAnUpperSemilattice = false;
@@ -237,10 +237,10 @@ public class DenotationSetsTest {
 	
 	@Test
 	public void whenTreeSuppliedThenReallyIsATree() throws IOException {
-		IConceptTreeSupplier conceptTreeSupplier = concepts.getConceptTreeSupplier();
+		IPreconceptTreeSupplier preconceptTreeSupplier = preconcepts.getConceptTreeSupplier();
 		int nbOfChecks = 0;
-		while (conceptTreeSupplier.hasNext()) {
-			Tree<IConcept, IIsA> nextTree = conceptTreeSupplier.next();
+		while (preconceptTreeSupplier.hasNext()) {
+			Tree<IPreconcept, IIsA> nextTree = preconceptTreeSupplier.next();
 			/*
 			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
 			*/
@@ -266,7 +266,7 @@ public class DenotationSetsTest {
 		expectedIntentString.add(new ArrayList<>(Arrays.asList(new String[] {"figure", "fond", "_"})));
 		expectedIntentString.add(new ArrayList<>(Arrays.asList(new String[] {"figure", "fond", "_", "couleur", "_"})));
 		expectedIntentString.add(new ArrayList<>(Arrays.asList(new String[] {"figure", "_", "couleur", "bleu"})));
-		returnedIntentString = concepts.getTruism().getDenotations()
+		returnedIntentString = preconcepts.getTruism().getDenotations()
 				.stream()
 				.map(c -> c.toListOfStringsWithPlaceholders())
 				.collect(Collectors.toSet());
@@ -276,10 +276,10 @@ public class DenotationSetsTest {
 				&& unexpectedReturnedIntentString.isEmpty());
 	}
 	
-	private Set<Set<IConcept>> buildCatsPowerSet(List<IConcept> objects) {
-	    Set<Set<IConcept>> powerSet = new HashSet<Set<IConcept>>();
+	private Set<Set<IPreconcept>> buildCatsPowerSet(List<IPreconcept> objects) {
+	    Set<Set<IPreconcept>> powerSet = new HashSet<Set<IPreconcept>>();
 	    for (int i = 0; i < (1 << objects.size()); i++) {
-	    	Set<IConcept> subset = new HashSet<IConcept>();
+	    	Set<IPreconcept> subset = new HashSet<IPreconcept>();
 	        for (int j = 0; j < objects.size(); j++) {
 	            if(((1 << j) & i) > 0)
 	            	subset.add(objects.get(j));
@@ -289,17 +289,17 @@ public class DenotationSetsTest {
 	    return powerSet;
 	}
 	
-	private Set<IConcept> removeNonMaximalElements(Set<IConcept> denotSets){
-		List<IConcept> dSList = new ArrayList<>(denotSets);
+	private Set<IPreconcept> removeNonMaximalElements(Set<IPreconcept> denotSets){
+		List<IPreconcept> dSList = new ArrayList<>(denotSets);
 		for (int i = 0 ; i < dSList.size() - 1 ; i++) {
-			IConcept iDS = dSList.get(i);
+			IPreconcept iDS = dSList.get(i);
 			if (denotSets.contains(iDS)) {
 				for (int j = i+1 ; j < dSList.size() ; j++) {
-					IConcept jDS = dSList.get(j);
+					IPreconcept jDS = dSList.get(j);
 					if (denotSets.contains(jDS)) {
-						if (concepts.isA(iDS, jDS))
+						if (preconcepts.isA(iDS, jDS))
 							denotSets.remove(iDS);
-						else if (concepts.isA(jDS, iDS))
+						else if (preconcepts.isA(jDS, iDS))
 							denotSets.remove(jDS);
 					}
 				}
@@ -308,17 +308,17 @@ public class DenotationSetsTest {
 		return denotSets;
 	}	
 	
-	private Set<IConcept> removeNonMinimalElements(Set<IConcept> denotSets){
-		List<IConcept> dSList = new ArrayList<>(denotSets);
+	private Set<IPreconcept> removeNonMinimalElements(Set<IPreconcept> denotSets){
+		List<IPreconcept> dSList = new ArrayList<>(denotSets);
 		for (int i = 0 ; i < dSList.size() - 1 ; i++) {
-			IConcept iDS = dSList.get(i);
+			IPreconcept iDS = dSList.get(i);
 			if (denotSets.contains(iDS)) {
 				for (int j = i+1 ; j < dSList.size() ; j++) {
-					IConcept jDS = dSList.get(j);
+					IPreconcept jDS = dSList.get(j);
 					if (denotSets.contains(jDS)) {
-						if (concepts.isA(iDS, jDS))
+						if (preconcepts.isA(iDS, jDS))
 							denotSets.remove(jDS);
-						else if (concepts.isA(jDS, iDS))
+						else if (preconcepts.isA(jDS, iDS))
 							denotSets.remove(iDS);
 					}
 				}

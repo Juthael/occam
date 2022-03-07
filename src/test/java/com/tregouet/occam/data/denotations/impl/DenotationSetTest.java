@@ -13,12 +13,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.impl.Concept;
-import com.tregouet.occam.data.concepts.impl.ContextObject;
-import com.tregouet.occam.data.concepts.impl.Denotation;
+import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.denotations.IContextObject;
+import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.denotations.impl.Preconcept;
+import com.tregouet.occam.data.denotations.impl.ContextObject;
+import com.tregouet.occam.data.denotations.impl.Denotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 
@@ -28,7 +28,7 @@ public class DenotationSetTest {
 	private String[] prog2 = new String[] {"D", "E", "F"};
 	private String[] prog3 = new String[] {"G", "H", "C"};
 	private IContextObject obj1;
-	private IConcept cat;
+	private IPreconcept cat;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -48,7 +48,7 @@ public class DenotationSetTest {
 		catIntent.addAll(obj1.getConstructs());
 		Set<IContextObject> cat1Extent = new HashSet<>();
 		cat1Extent.add(obj1);
-		cat = new Concept(catIntent, cat1Extent);
+		cat = new Preconcept(catIntent, cat1Extent);
 	}
 
 	@Test

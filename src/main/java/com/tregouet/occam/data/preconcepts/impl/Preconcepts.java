@@ -12,10 +12,8 @@ import org.jgrapht.traverse.BreadthFirstIterator;
 
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptsConstructionManager;
-import com.tregouet.occam.alg.preconcepts_gen.IConstrainedConceptTreeSupplier;
 import com.tregouet.occam.alg.preconcepts_gen.impl.PreconceptTreeSupplier;
 import com.tregouet.occam.data.preconcepts.IContextObject;
-import com.tregouet.occam.data.preconcepts.IExtentStructureConstraint;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.occam.data.preconcepts.IPreconcepts;

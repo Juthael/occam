@@ -19,8 +19,6 @@ public interface IIsomorphicAutomatons extends Comparable<IIsomorphicAutomatons>
 	
 	Tree<IPreconcept, IIsA> getTreeOfDenotationSets();
 	
-	boolean meetsConstraint(IExtentStructureConstraint constraint);
-	
 	boolean addIsomorphicAutomaton(IAutomaton altRepresentation);
 	
 }

@@ -19,13 +19,13 @@ import org.junit.Test;
 
 import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IPreconcepts;
-import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.impl.Preconcepts;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
+import com.tregouet.occam.data.preconcepts.IContextObject;
+import com.tregouet.occam.data.preconcepts.IDenotation;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.preconcepts.IPreconcepts;
+import com.tregouet.occam.data.preconcepts.impl.Preconcepts;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")

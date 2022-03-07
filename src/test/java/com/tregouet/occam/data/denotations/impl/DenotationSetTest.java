@@ -13,14 +13,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.impl.Preconcept;
-import com.tregouet.occam.data.denotations.impl.ContextObject;
-import com.tregouet.occam.data.denotations.impl.Denotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
+import com.tregouet.occam.data.preconcepts.IContextObject;
+import com.tregouet.occam.data.preconcepts.IDenotation;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.preconcepts.impl.ContextObject;
+import com.tregouet.occam.data.preconcepts.impl.Denotation;
+import com.tregouet.occam.data.preconcepts.impl.Preconcept;
 
 public class DenotationSetTest {
 

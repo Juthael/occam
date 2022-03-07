@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tregouet.occam.data.denotations.IPreconcept;
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.preconcepts.IIsA;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
 import com.tregouet.tree_finder.data.Tree;

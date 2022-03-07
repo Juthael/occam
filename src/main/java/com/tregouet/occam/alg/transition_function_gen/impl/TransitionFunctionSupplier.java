@@ -10,11 +10,11 @@ import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
 import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IPreconcepts;
-import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
+import com.tregouet.occam.data.preconcepts.IDenotation;
+import com.tregouet.occam.data.preconcepts.IIsA;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.preconcepts.IPreconcepts;
 import com.tregouet.tree_finder.data.Tree;
 
 public abstract class TransitionFunctionSupplier implements ITransitionFunctionSupplier {

@@ -3,8 +3,8 @@ package com.tregouet.occam.alg.preconcepts_gen;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.preconcepts.IIsA;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IPreconceptTreeSupplier extends Iterator<Tree<IPreconcept, IIsA>> {

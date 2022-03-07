@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.denotations.impl;
+package com.tregouet.occam.data.preconcepts.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,15 +10,15 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IPreconcepts;
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptsConstructionManager;
 import com.tregouet.occam.alg.preconcepts_gen.IConstrainedConceptTreeSupplier;
 import com.tregouet.occam.alg.preconcepts_gen.impl.PreconceptTreeSupplier;
-import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IExtentStructureConstraint;
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.preconcepts.IContextObject;
+import com.tregouet.occam.data.preconcepts.IExtentStructureConstraint;
+import com.tregouet.occam.data.preconcepts.IIsA;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.preconcepts.IPreconcepts;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public class Preconcepts implements IPreconcepts {

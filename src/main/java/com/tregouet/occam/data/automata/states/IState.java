@@ -2,7 +2,7 @@ package com.tregouet.occam.data.automata.states;
 
 import com.tregouet.occam.data.automata.tapes.ITapeSet;
 import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
-import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
 
 public interface IState {
 	

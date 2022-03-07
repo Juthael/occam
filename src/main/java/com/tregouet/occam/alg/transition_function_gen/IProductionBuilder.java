@@ -3,7 +3,7 @@ package com.tregouet.occam.alg.transition_function_gen;
 import java.util.List;
 
 import com.tregouet.occam.data.alphabets.productions.IProduction;
-import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.preconcepts.IDenotation;
 
 public interface IProductionBuilder<T extends IProduction> {
 	

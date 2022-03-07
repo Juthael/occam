@@ -1,9 +1,9 @@
-package com.tregouet.occam.data.denotations.impl;
+package com.tregouet.occam.data.preconcepts.impl;
 
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
+import com.tregouet.occam.data.preconcepts.IDenotation;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
 
 public class Denotation extends Construct implements IDenotation {
 

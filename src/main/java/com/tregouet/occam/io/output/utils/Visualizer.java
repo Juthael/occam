@@ -21,10 +21,10 @@ import com.tregouet.occam.data.automata.transition_rules.IBasicOperator;
 import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.automata.transition_rules.IReframerRule;
 import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IDenotation;
-import com.tregouet.occam.data.denotations.IIsA;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
+import com.tregouet.occam.data.preconcepts.IDenotation;
+import com.tregouet.occam.data.preconcepts.IIsA;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.tree_finder.data.Tree;
 
 import guru.nidi.graphviz.engine.Format;

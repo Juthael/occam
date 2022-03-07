@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.denotations.IPreconcept;
 import com.tregouet.occam.alg.preconcepts_gen.impl.PreconceptsConstructionManager;
-import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.preconcepts.IContextObject;
+import com.tregouet.occam.data.preconcepts.IIsA;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public interface IPreconceptsConstructionManager {

@@ -1,12 +1,12 @@
-package com.tregouet.occam.data.denotations.utils;
+package com.tregouet.occam.data.preconcepts.utils;
 
 import java.util.List;
 import java.util.Map;
 
 import org.jgrapht.Graphs;
 
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.preconcepts.IIsA;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.tree_finder.data.Tree;
 
 public class TreeOfPreconceptsToStringConvertor {

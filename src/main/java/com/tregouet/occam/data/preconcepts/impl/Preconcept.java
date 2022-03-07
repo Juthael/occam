@@ -1,14 +1,14 @@
-package com.tregouet.occam.data.denotations.impl;
+package com.tregouet.occam.data.preconcepts.impl;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IDenotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
+import com.tregouet.occam.data.preconcepts.IContextObject;
+import com.tregouet.occam.data.preconcepts.IDenotation;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
 
 public class Preconcept extends AbstractPreconcept implements IPreconcept {
 

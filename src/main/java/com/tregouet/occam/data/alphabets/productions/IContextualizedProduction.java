@@ -1,7 +1,7 @@
 package com.tregouet.occam.data.alphabets.productions;
 
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.preconcepts.IDenotation;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
 
 public interface IContextualizedProduction extends IProduction {
 	

@@ -1,6 +1,6 @@
-package com.tregouet.occam.data.denotations.impl;
+package com.tregouet.occam.data.preconcepts.impl;
 
-import com.tregouet.occam.data.denotations.IIsA;
+import com.tregouet.occam.data.preconcepts.IIsA;
 
 public class IsA extends IIsA {
 	

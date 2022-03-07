@@ -1,12 +1,12 @@
-package com.tregouet.occam.data.denotations.impl;
+package com.tregouet.occam.data.preconcepts.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.denotations.IContextObject;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
+import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.subseq_finder.ISymbolSeq;
 import com.tregouet.subseq_finder.impl.SymbolSeq;
 

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.denotations.IPreconcept;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
 
 /**
  * <p>

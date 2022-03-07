@@ -18,12 +18,12 @@ import org.junit.Test;
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IPreconcepts;
-import com.tregouet.occam.data.denotations.IContextObject;
-import com.tregouet.occam.data.denotations.IIsA;
-import com.tregouet.occam.data.denotations.impl.Preconcepts;
-import com.tregouet.occam.data.denotations.utils.TreeOfPreconceptsToStringConvertor;
+import com.tregouet.occam.data.preconcepts.IContextObject;
+import com.tregouet.occam.data.preconcepts.IIsA;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.preconcepts.IPreconcepts;
+import com.tregouet.occam.data.preconcepts.impl.Preconcepts;
+import com.tregouet.occam.data.preconcepts.utils.TreeOfPreconceptsToStringConvertor;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.Tree;
 

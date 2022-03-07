@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.tregouet.occam.alg.transition_function_gen.IProductionSetBuilder;
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.denotations.IPreconcept;
-import com.tregouet.occam.data.denotations.IPreconcepts;
-import com.tregouet.occam.data.denotations.IDenotation;
+import com.tregouet.occam.data.preconcepts.IDenotation;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.preconcepts.IPreconcepts;
 
 public class ProductionSetBuilder implements IProductionSetBuilder<IContextualizedProduction> {
 

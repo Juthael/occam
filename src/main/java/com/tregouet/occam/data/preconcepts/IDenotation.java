@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.denotations;
+package com.tregouet.occam.data.preconcepts;
 
 import com.tregouet.occam.data.languages.generic.IConstruct;
 

@@ -7,7 +7,7 @@ import com.tregouet.occam.alg.scoring.costs.functions.IFunctionCoster;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
 import com.tregouet.occam.data.automata.transition_rules.IBasicOperator;
 import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
-import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
+import com.tregouet.occam.data.automata.transition_rules.ITransition;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
@@ -31,9 +31,9 @@ public class NbOfInstantiatedVariables implements IFunctionCoster {
 	public void setCost() {
 		Set<AVariable> instantiatedVariables = new HashSet<>();
 		for (IConjunctiveTransition conjTransition : automaton.getConjunctiveTransitions()) {
-			for (ITransitionRule transitionRule : conjTransition.getComponents()) {
-				if (!transitionRule.isReframer()) {
-					IBasicOperator basicOperator = (IBasicOperator) transitionRule;
+			for (ITransition transition : conjTransition.getComponents()) {
+				if (!transition.isReframer()) {
+					IBasicOperator basicOperator = (IBasicOperator) transition;
 					for (IStronglyContextualized stronglyContextualized : basicOperator.operation()) {
 						if (stronglyContextualized instanceof ISimpleEdgeProduction) {
 							if (!stronglyContextualized.isBlank() && !stronglyContextualized.isVariableSwitcher())

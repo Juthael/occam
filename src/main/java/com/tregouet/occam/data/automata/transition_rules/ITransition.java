@@ -8,8 +8,8 @@ import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.automata.transition_rules.input_config.IInputConfiguration;
 import com.tregouet.occam.data.automata.transition_rules.output_config.IOutputInternConfiguration;
 
-public interface ITransitionRule<Input extends IInputConfiguration<Tape>, Output extends IOutputInternConfiguration, 
-					Tape extends ISymbol> {
+public interface ITransition<Input extends IInputConfiguration<InputSymbol>, Output extends IOutputInternConfiguration, 
+					InputSymbol extends ISymbol> {
 	
 	StringBuilder prime = new StringBuilder();
 	ListIterator<Character> charIte = populateCharList().listIterator();

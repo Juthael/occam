@@ -28,7 +28,7 @@ import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.automata.transition_rules.IOperator;
-import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
+import com.tregouet.occam.data.automata.transition_rules.ITransition;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
@@ -152,9 +152,9 @@ public class TransitionFunctionTest {
 			*/
 			List<ISimpleEdgeProduction> basicProds = new ArrayList<>();
 			List<IOperator> basicProdsOperators = new ArrayList<>();
-			for (ITransitionRule transitionRule : tF.getTransitions()) {
-				if (transitionRule instanceof IOperator) {
-					IOperator operator = (IOperator) transitionRule;
+			for (ITransition transition : tF.getTransitions()) {
+				if (transition instanceof IOperator) {
+					IOperator operator = (IOperator) transition;
 					for (IStronglyContextualized stronglyContextualized : operator.operation()) {
 						if (stronglyContextualized instanceof BlankEdgeProduction) {
 						}
@@ -196,9 +196,9 @@ public class TransitionFunctionTest {
 		int checkCount = 0;
 		for (IAutomaton tF : automatons) {
 			Map<IStronglyContextualized, IOperator> prodToOpe = new HashMap<>();
-			for (ITransitionRule transitionRule : tF.getTransitions()) {
-				if (transitionRule instanceof IOperator) {
-					IOperator operator = (IOperator) transitionRule;
+			for (ITransition transition : tF.getTransitions()) {
+				if (transition instanceof IOperator) {
+					IOperator operator = (IOperator) transition;
 					for (IStronglyContextualized stronglyContextualized : operator.operation()) {
 						prodToOpe.put(stronglyContextualized, operator);
 					}
@@ -225,9 +225,9 @@ public class TransitionFunctionTest {
 	public void whenProductionsHandledBySameOperatorThenConsistentWithRequirements() {
 		boolean consistent = true;
 		for (IAutomaton tF : automatons) {
-			for (ITransitionRule transitionRule : tF.getTransitions()) {
-				if (transitionRule instanceof IOperator) {
-					IOperator operator = (IOperator) transitionRule;
+			for (ITransition transition : tF.getTransitions()) {
+				if (transition instanceof IOperator) {
+					IOperator operator = (IOperator) transition;
 					List<IStronglyContextualized> stronglyContextualizeds = operator.operation();
 					if (!sameSourceAndTargetCategoryForAll(stronglyContextualizeds))
 						consistent = false;

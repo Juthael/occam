@@ -5,7 +5,7 @@ import java.util.List;
 import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
-import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
+import com.tregouet.occam.data.automata.transition_rules.ITransition;
 
 public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 
@@ -47,7 +47,7 @@ public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 	
 	@Override
 	public boolean isReframer() {
-		for (ITransitionRule differentia : differentiae)
+		for (ITransition differentia : differentiae)
 			if (differentia.isReframer())
 				return true;
 		return false;

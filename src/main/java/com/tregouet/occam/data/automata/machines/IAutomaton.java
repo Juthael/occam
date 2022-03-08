@@ -10,7 +10,7 @@ import com.tregouet.occam.alg.scoring.costs.ICosted;
 import com.tregouet.occam.alg.scoring.scores.IScored;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_functions.ITransitionFunction;
-import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
+import com.tregouet.occam.data.automata.transition_rules.ITransition;
 import com.tregouet.occam.data.automata.transition_rules.ITransitionRules;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;

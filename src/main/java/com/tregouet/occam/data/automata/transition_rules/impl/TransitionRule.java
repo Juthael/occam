@@ -4,19 +4,19 @@ import java.util.Objects;
 
 import com.tregouet.occam.data.alphabets.productions.IProduction;
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
+import com.tregouet.occam.data.automata.transition_rules.ITransition;
 import com.tregouet.occam.data.automata.transition_rules.input_config.IPushdownAutomatonIC;
 import com.tregouet.occam.data.automata.transition_rules.output_config.IOutputInternConfiguration;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class TransitionRule implements ITransitionRule {
+public class TransitionRule implements ITransition {
 
 	private final String name;
 	private final IPushdownAutomatonIC input;
 	private final IOutputInternConfiguration output;
 	
 	public TransitionRule(IPushdownAutomatonIC input, IOutputInternConfiguration output) {
-		name = ITransitionRule.provideName();
+		name = ITransition.provideName();
 		this.input = input;
 		this.output = output;
 	}

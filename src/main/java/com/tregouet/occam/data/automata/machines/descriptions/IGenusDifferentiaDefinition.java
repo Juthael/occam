@@ -9,7 +9,7 @@ import com.tregouet.occam.alg.scoring.costs.ICosted;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.automata.transition_rules.IReframerRule;
-import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
+import com.tregouet.occam.data.automata.transition_rules.ITransition;
 
 public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements ICosted {
 	
@@ -52,9 +52,9 @@ public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		String nL = System.lineSeparator();
-		List<ITransitionRule> operators = new ArrayList<>();
+		List<ITransition> operators = new ArrayList<>();
 		IReframerRule reframerRule = null;
-		for (ITransitionRule differentia : getDifferentiae()) {
+		for (ITransition differentia : getDifferentiae()) {
 			if (!differentia.isBlank()) {
 				if (reframerRule == null && differentia instanceof IReframerRule)
 					reframerRule = (IReframerRule) differentia;

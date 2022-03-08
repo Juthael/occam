@@ -20,7 +20,7 @@ import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_rules.IBasicOperator;
 import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
 import com.tregouet.occam.data.automata.transition_rules.IReframerRule;
-import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
+import com.tregouet.occam.data.automata.transition_rules.ITransition;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IIsA;
@@ -159,7 +159,7 @@ public class Visualizer {
 	
 	public static void visualizeTransitionFunctionMultiGraph(IAutomaton tF, String fileName) 
 			throws IOException {
-		DOTExporter<IState,ITransitionRule> simpleGraphExporter = new DOTExporter<>();
+		DOTExporter<IState,ITransition> simpleGraphExporter = new DOTExporter<>();
 		simpleGraphExporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
@@ -193,12 +193,12 @@ public class Visualizer {
 		return sB.toString();
 	}
 	
-	private static String operatorAsString(ITransitionRule transitionRule) {
+	private static String operatorAsString(ITransition transition) {
 		StringBuilder sB = new StringBuilder();
 		String nL = System.lineSeparator();
-		if (!transitionRule.isBlank()) {
-			if (transitionRule instanceof IConjunctiveTransition) {
-				IConjunctiveTransition conjTrans = (IConjunctiveTransition) transitionRule;
+		if (!transition.isBlank()) {
+			if (transition instanceof IConjunctiveTransition) {
+				IConjunctiveTransition conjTrans = (IConjunctiveTransition) transition;
 				IReframerRule reframerRule = conjTrans.getReframer();
 				if (reframerRule != null)
 					sB.append("FRAME " + reframerRule.toString() +  nL);
@@ -206,8 +206,8 @@ public class Visualizer {
 					sB.append(operatorAsString(operator) + nL);
 				}
 			}
-			else if (transitionRule instanceof IBasicOperator) {
-				IBasicOperator operator = (IBasicOperator) transitionRule;
+			else if (transition instanceof IBasicOperator) {
+				IBasicOperator operator = (IBasicOperator) transition;
 				sB.append(operator.getName() + " : ");
 				List<IStronglyContextualized> stronglyContextualizeds = operator.operation();
 				if (stronglyContextualizeds.size() > 1)
@@ -218,8 +218,8 @@ public class Visualizer {
 						sB.append(nL);
 				}
 			}
-			else if (transitionRule instanceof IReframerRule) {
-				IReframerRule reframerRule = (IReframerRule) transitionRule;
+			else if (transition instanceof IReframerRule) {
+				IReframerRule reframerRule = (IReframerRule) transition;
 				sB.append(reframerRule.getName());
 			}
 		}

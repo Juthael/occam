@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.tapes.ITapeSet;
-import com.tregouet.occam.data.automata.transition_rules.ITransitionRule;
+import com.tregouet.occam.data.automata.transition_rules.ITransition;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
 public class State implements IState {
@@ -12,7 +12,7 @@ public class State implements IState {
 	private final IPreconcept preconcept;
 	@SuppressWarnings("unused")
 	//used by unimplemented methods
-	private List<ITransitionRule> transitionRules = null;
+	private List<ITransition> transitions = null;
 	@SuppressWarnings("unused")
 	//used by unimplemented methods
 	private List<ITapeSet> evaluationQueue = null;
@@ -30,7 +30,7 @@ public class State implements IState {
 	}
 
 	@Override
-	public void loadTransitionRule(ITransitionRule transitionRule) {
+	public void loadTransitionRule(ITransition transition) {
 		//NOT IMPLEMENTED YET
 	}
 
@@ -100,7 +100,7 @@ public class State implements IState {
 	}
 
 	@Override
-	public void mergeTapeSetsWithSameInput() {
+	public void mergeTapeSets() {
 		//NOT IMPLEMENTED YET
 	}
 

@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaDefinition;
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
-import com.tregouet.occam.data.automata.transition_rules.ITransition;
+import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.automata.transitions.ITransition;
 
 public class GenusDifferentiaDefinition extends IGenusDifferentiaDefinition {
 

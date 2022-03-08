@@ -1,17 +1,17 @@
-package com.tregouet.occam.data.automata.transition_rules.input_config.impl;
+package com.tregouet.occam.data.automata.transitions.input_config.impl;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.alphabets.productions.IProduction;
+import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transition_rules.input_config.IInputConfiguration;
+import com.tregouet.occam.data.automata.transitions.input_config.IInputConfiguration;
 
-public class InputConfiguration implements IInputConfiguration<IProduction> {
+public class InputConfiguration implements IInputConfiguration<IContextualizedProduction> {
 	
 	private final IState inputState;
-	private final IProduction inputSymbol;
+	private final IContextualizedProduction inputSymbol;
 	
-	public InputConfiguration(IState inputState, IProduction inputSymbol) {
+	public InputConfiguration(IState inputState, IContextualizedProduction inputSymbol) {
 		this.inputState = inputState;
 		this.inputSymbol = inputSymbol;
 	}
@@ -22,7 +22,7 @@ public class InputConfiguration implements IInputConfiguration<IProduction> {
 	}
 
 	@Override
-	public IProduction getInputSymbol() {
+	public IContextualizedProduction getInputSymbol() {
 		return inputSymbol;
 	}
 

@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.automata.transition_rules.output_config;
+package com.tregouet.occam.data.automata.transitions.output_config;
 
 import com.tregouet.occam.data.automata.states.IState;
 

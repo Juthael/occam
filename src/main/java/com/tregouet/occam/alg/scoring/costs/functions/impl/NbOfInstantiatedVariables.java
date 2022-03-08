@@ -5,9 +5,9 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.scoring.costs.functions.IFunctionCoster;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.automata.transition_rules.IBasicOperator;
-import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
-import com.tregouet.occam.data.automata.transition_rules.ITransition;
+import com.tregouet.occam.data.automata.transitions.IBasicOperator;
+import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.automata.transitions.ITransition;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;

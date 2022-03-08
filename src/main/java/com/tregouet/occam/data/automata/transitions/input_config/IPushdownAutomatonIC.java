@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.automata.transition_rules.input_config;
+package com.tregouet.occam.data.automata.transitions.input_config;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
 

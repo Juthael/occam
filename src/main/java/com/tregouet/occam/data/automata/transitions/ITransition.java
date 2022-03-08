@@ -1,12 +1,12 @@
-package com.tregouet.occam.data.automata.transition_rules;
+package com.tregouet.occam.data.automata.transitions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.automata.transition_rules.input_config.IInputConfiguration;
-import com.tregouet.occam.data.automata.transition_rules.output_config.IOutputInternConfiguration;
+import com.tregouet.occam.data.automata.transitions.input_config.IInputConfiguration;
+import com.tregouet.occam.data.automata.transitions.output_config.IOutputInternConfiguration;
 
 public interface ITransition<Input extends IInputConfiguration<InputSymbol>, Output extends IOutputInternConfiguration, 
 					InputSymbol extends ISymbol> {

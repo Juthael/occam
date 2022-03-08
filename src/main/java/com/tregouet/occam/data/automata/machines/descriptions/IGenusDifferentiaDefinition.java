@@ -7,9 +7,9 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.alg.scoring.costs.ICosted;
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
-import com.tregouet.occam.data.automata.transition_rules.IReframerRule;
-import com.tregouet.occam.data.automata.transition_rules.ITransition;
+import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.automata.transitions.IReframerRule;
+import com.tregouet.occam.data.automata.transitions.ITransition;
 
 public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements ICosted {
 	

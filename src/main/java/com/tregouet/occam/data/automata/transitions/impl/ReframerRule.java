@@ -1,11 +1,11 @@
-package com.tregouet.occam.data.automata.transition_rules.impl;
+package com.tregouet.occam.data.automata.transitions.impl;
 
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transition_rules.IReframerRule;
-import com.tregouet.occam.data.automata.transition_rules.input_config.impl.PushdownAutomatonIC;
-import com.tregouet.occam.data.automata.transition_rules.output_config.impl.PushdownAutomatonOIC;
+import com.tregouet.occam.data.automata.transitions.IReframerRule;
+import com.tregouet.occam.data.automata.transitions.input_config.impl.PushdownAutomatonIC;
+import com.tregouet.occam.data.automata.transitions.output_config.impl.PushdownAutomatonOIC;
 
-public class ReframerRule extends TransitionRule implements IReframerRule {
+public class ReframerRule extends PushdownAutomatonTransition implements IReframerRule {
 
 	private final Integer complementedStateID;
 	

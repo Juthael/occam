@@ -8,8 +8,8 @@ import org.jgrapht.graph.SimpleDirectedGraph;
 import com.tregouet.occam.data.alphabets.productions.IProduction;
 import com.tregouet.occam.data.alphabets.productions.IProperty;
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transition_rules.ITransition;
-import com.tregouet.occam.data.automata.transition_rules.ITransitionRules;
+import com.tregouet.occam.data.automata.transitions.ITransition;
+import com.tregouet.occam.data.automata.transitions.ITransitionRules;
 import com.tregouet.occam.data.concepts_temp.IDifferentiae;
 import com.tregouet.occam.data.languages.generic.AVariable;
 

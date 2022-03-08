@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.tregouet.occam.alg.scoring.costs.definitions.IDefinitionCoster;
 import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.automata.transition_rules.IConjunctiveTransition;
+import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
 
 public class TransitionCosts implements IDefinitionCoster {
 

@@ -1,9 +1,9 @@
-package com.tregouet.occam.data.automata.transition_rules.output_config.impl;
+package com.tregouet.occam.data.automata.transitions.output_config.impl;
 
 import java.util.Objects;
 
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transition_rules.output_config.IPushdownAutomatonOIC;
+import com.tregouet.occam.data.automata.transitions.output_config.IPushdownAutomatonOIC;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
 public class PushdownAutomatonOIC extends OutputInternConfiguration implements IPushdownAutomatonOIC<AVariable> {

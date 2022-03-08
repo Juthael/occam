@@ -1,17 +1,17 @@
-package com.tregouet.occam.data.automata.transition_rules.input_config.impl;
+package com.tregouet.occam.data.automata.transitions.input_config.impl;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.alphabets.productions.IProduction;
+import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transition_rules.input_config.IPushdownAutomatonIC;
+import com.tregouet.occam.data.automata.transitions.input_config.IPushdownAutomatonIC;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class PushdownAutomatonIC extends InputConfiguration implements IPushdownAutomatonIC<IProduction, AVariable> {
+public class PushdownAutomatonIC extends InputConfiguration implements IPushdownAutomatonIC<IContextualizedProduction, AVariable> {
 
 	private final AVariable stackSymbol;
 	
-	public PushdownAutomatonIC(IState inputState, IProduction inputSymbol, AVariable stackSymbol) {
+	public PushdownAutomatonIC(IState inputState, IContextualizedProduction inputSymbol, AVariable stackSymbol) {
 		super(inputState, inputSymbol);
 		this.stackSymbol = stackSymbol;
 	}

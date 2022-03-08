@@ -21,7 +21,7 @@ public interface IState {
 	
 	void generateOutputLanguage();
 	
-	IPreconcept getAssociatedDenotationSet();
+	IPreconcept getAssociatedPreconcept();
 	
 	int getRank();
 	

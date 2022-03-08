@@ -57,7 +57,7 @@ public class State implements IState {
 	}
 
 	@Override
-	public IPreconcept getAssociatedDenotationSet() {
+	public IPreconcept getAssociatedPreconcept() {
 		return preconcept;
 	}
 

@@ -9,7 +9,8 @@ public class OutputInternConfiguration implements IOutputInternConfiguration {
 
 	private final IState outputState;
 	
-	public OutputInternConfiguration(IState outputState) {
+	public OutputInternConfiguration(
+			IState outputState) {
 		this.outputState = outputState;
 	}
 	

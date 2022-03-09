@@ -14,8 +14,6 @@ public interface IState {
 	
 	boolean acceptInput(ITapeSet tapeSet);
 	
-	void loadTransitionRule(ITransition transition);
-	
 	@Override
 	boolean equals(Object o);
 	

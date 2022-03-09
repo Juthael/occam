@@ -9,7 +9,7 @@ import java.util.Map;
 
 import com.tregouet.occam.alg.transition_function_gen.IProductionBuilder;
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
+import com.tregouet.occam.data.alphabets.productions.Input;
 import com.tregouet.occam.data.alphabets.productions.IProduction;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedEpsilon;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedProduction;
@@ -21,43 +21,45 @@ import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Terminal;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 
-public class ContextualizedProductionBuilder implements IProductionBuilder<IContextualizedProduction> {
+public class ContextualizedProductionBuilder implements IProductionBuilder<Input> {
 	
 	public static final ContextualizedProductionBuilder INSTANCE = new ContextualizedProductionBuilder();
 	
-	private List<IContextualizedProduction> productions = null;
+	private List<Input> productions = null;
 	
 	private ContextualizedProductionBuilder() {
 	}
 
 	@Override
-	public IProductionBuilder<IContextualizedProduction> input(IDenotation source, IDenotation target) {
+	public IProductionBuilder<Input> input(IDenotation source, IDenotation target) {
 		productions = new ArrayList<>();
 		if (source.getListOfSymbols().equals(target.getListOfSymbols()))
 			productions.add(new ContextualizedEpsilon(source, target));
 		else if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals())) {
-			//then source is an instance of target
+			//then source may be an instance of target
 			List<ISymbol> sourceSymbolSeq = source.getListOfSymbols();
 			List<ISymbol> targetSymbolSeq = target.getListOfSymbols();
 			Map<AVariable, List<ISymbol>> varToValue = mapVariablesToValues(sourceSymbolSeq, targetSymbolSeq);
-			for (AVariable variable : varToValue.keySet()) {
-				IConstruct value;
-				List<ISymbol> listOfSymbols = varToValue.get(variable);
-				if (listOfSymbols.isEmpty()) {
-					List<ISymbol> emptyString = 
-							new ArrayList<>(Arrays.asList(new ISymbol[] {new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL)}));
-					value = new Construct(emptyString);
+			if (varToValue != null) {
+				for (AVariable variable : varToValue.keySet()) {
+					IConstruct value;
+					List<ISymbol> listOfSymbols = varToValue.get(variable);
+					if (listOfSymbols.isEmpty()) {
+						List<ISymbol> emptyString = 
+								new ArrayList<>(Arrays.asList(new ISymbol[] {new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL)}));
+						value = new Construct(emptyString);
+					}
+					else value = new Construct(listOfSymbols);
+					IProduction production = new Production(variable, value);
+					productions.add(new ContextualizedProduction(source, target, production));
 				}
-				else value = new Construct(listOfSymbols);
-				IProduction production = new Production(variable, value);
-				productions.add(new ContextualizedProduction(source, target, production));
 			}
 		}
 		return this;
 	}
 
 	@Override
-	public List<IContextualizedProduction> output() {
+	public List<Input> output() {
 		return productions;
 	}
 	
@@ -83,7 +85,7 @@ public class ContextualizedProductionBuilder implements IProductionBuilder<ICont
 	 * Public for test use
 	 * @param source
 	 * @param target
-	 * @return
+	 * @return null if source is not a target's instance
 	 */
 	public static Map<AVariable, List<ISymbol>> mapVariablesToValues(List<ISymbol> source, List<ISymbol> target) {
 		return continueMapping(source, target, new HashMap<AVariable, List<ISymbol>>(), 0, 0);

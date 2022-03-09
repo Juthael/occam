@@ -1,17 +1,19 @@
-package com.tregouet.occam.data.automata.transitions.input_config.impl;
+package com.tregouet.occam.data.concepts.transitions;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.automata.states.IState;
+import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedProduction;
 import com.tregouet.occam.data.automata.transitions.input_config.IPushdownAutomatonIC;
+import com.tregouet.occam.data.automata.transitions.input_config.impl.InputConfiguration;
+import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class PushdownAutomatonIC extends InputConfiguration implements IPushdownAutomatonIC<IContextualizedProduction, AVariable> {
+public class RepresentationTransitionIC extends InputConfiguration<ContextualizedProduction> 
+	implements IPushdownAutomatonIC<ContextualizedProduction, AVariable> {
 
 	private final AVariable stackSymbol;
 	
-	public PushdownAutomatonIC(IState inputState, IContextualizedProduction inputSymbol, AVariable stackSymbol) {
+	public RepresentationTransitionIC(IConcept inputState, ContextualizedProduction inputSymbol, AVariable stackSymbol) {
 		super(inputState, inputSymbol);
 		this.stackSymbol = stackSymbol;
 	}
@@ -37,10 +39,8 @@ public class PushdownAutomatonIC extends InputConfiguration implements IPushdown
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PushdownAutomatonIC other = (PushdownAutomatonIC) obj;
+		RepresentationTransitionIC other = (RepresentationTransitionIC) obj;
 		return Objects.equals(stackSymbol, other.stackSymbol);
 	}
-	
-	
 
 }

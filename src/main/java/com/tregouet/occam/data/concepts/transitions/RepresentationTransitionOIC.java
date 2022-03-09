@@ -1,16 +1,17 @@
-package com.tregouet.occam.data.automata.transitions.output_config.impl;
+package com.tregouet.occam.data.concepts.transitions;
 
 import java.util.Objects;
 
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transitions.output_config.IPushdownAutomatonOIC;
+import com.tregouet.occam.data.automata.transitions.output_config.impl.OutputInternConfiguration;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class PushdownAutomatonOIC extends OutputInternConfiguration implements IPushdownAutomatonOIC<AVariable> {
+public class RepresentationTransitionOIC extends OutputInternConfiguration implements IPushdownAutomatonOIC<AVariable> {
 
 	private final AVariable nextStackSymbol;
 	
-	public PushdownAutomatonOIC(IState outputState, AVariable nextStackSymbol) {
+	public RepresentationTransitionOIC(IState outputState, AVariable nextStackSymbol) {
 		super(outputState);
 		this.nextStackSymbol = nextStackSymbol;
 	}
@@ -36,7 +37,7 @@ public class PushdownAutomatonOIC extends OutputInternConfiguration implements I
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PushdownAutomatonOIC other = (PushdownAutomatonOIC) obj;
+		RepresentationTransitionOIC other = (RepresentationTransitionOIC) obj;
 		return Objects.equals(nextStackSymbol, other.nextStackSymbol);
 	}
 

@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import org.jgrapht.graph.DefaultEdge;
 
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
+import com.tregouet.occam.data.alphabets.productions.Input;
 import com.tregouet.occam.data.alphabets.productions.IProduction;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
@@ -13,7 +13,7 @@ import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
-public class ContextualizedProduction extends DefaultEdge implements IContextualizedProduction {
+public class ContextualizedProduction extends DefaultEdge implements Input {
 
 	private static final long serialVersionUID = 1701074226278101143L;
 	private final IDenotation speciesDenotation;

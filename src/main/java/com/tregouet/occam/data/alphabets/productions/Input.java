@@ -3,7 +3,7 @@ package com.tregouet.occam.data.alphabets.productions;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
-public interface IContextualizedProduction extends IProduction {
+public interface Input extends IProduction {
 	
 	IPreconcept getGenus();
 	

@@ -1,9 +1,9 @@
 package com.tregouet.occam.data.alphabets.productions.impl;
 
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
+import com.tregouet.occam.data.alphabets.productions.Input;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 
-public class ContextualizedEpsilon extends ContextualizedProduction implements IContextualizedProduction {
+public class ContextualizedEpsilon extends ContextualizedProduction implements Input {
 
 	private static final long serialVersionUID = -6093921194463496575L;
 	

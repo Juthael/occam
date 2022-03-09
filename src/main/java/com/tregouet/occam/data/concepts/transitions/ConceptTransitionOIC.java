@@ -7,11 +7,11 @@ import com.tregouet.occam.data.automata.transitions.output_config.IPushdownAutom
 import com.tregouet.occam.data.automata.transitions.output_config.impl.OutputInternConfiguration;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class RepresentationTransitionOIC extends OutputInternConfiguration implements IPushdownAutomatonOIC<AVariable> {
+public class ConceptTransitionOIC extends OutputInternConfiguration implements IPushdownAutomatonOIC<AVariable> {
 
 	private final AVariable nextStackSymbol;
 	
-	public RepresentationTransitionOIC(IState outputState, AVariable nextStackSymbol) {
+	public ConceptTransitionOIC(IState outputState, AVariable nextStackSymbol) {
 		super(outputState);
 		this.nextStackSymbol = nextStackSymbol;
 	}
@@ -37,7 +37,7 @@ public class RepresentationTransitionOIC extends OutputInternConfiguration imple
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RepresentationTransitionOIC other = (RepresentationTransitionOIC) obj;
+		ConceptTransitionOIC other = (ConceptTransitionOIC) obj;
 		return Objects.equals(nextStackSymbol, other.nextStackSymbol);
 	}
 

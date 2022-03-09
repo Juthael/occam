@@ -7,13 +7,13 @@ import com.tregouet.occam.data.automata.transitions.IPushdownAutomatonTransition
 import com.tregouet.occam.data.automata.transitions.ITransition;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class RepresentationTransition implements IPushdownAutomatonTransition<ContextualizedProduction, AVariable> {
+public class ConceptTransition implements IPushdownAutomatonTransition<ContextualizedProduction, AVariable> {
 
 	private final String name;
-	private final RepresentationTransitionIC inputConfig;
-	private final RepresentationTransitionOIC outputInternConfig;
+	private final ConceptTransitionIC inputConfig;
+	private final ConceptTransitionOIC outputInternConfig;
 	
-	public RepresentationTransition(RepresentationTransitionIC inputConfig, RepresentationTransitionOIC outputInternConfig) {
+	public ConceptTransition(ConceptTransitionIC inputConfig, ConceptTransitionOIC outputInternConfig) {
 		name = ITransition.provideName();
 		this.inputConfig = inputConfig;
 		this.outputInternConfig = outputInternConfig;
@@ -25,7 +25,7 @@ public class RepresentationTransition implements IPushdownAutomatonTransition<Co
 	}
 
 	@Override
-	public RepresentationTransitionIC getInputConfiguration() {
+	public ConceptTransitionIC getInputConfiguration() {
 		return inputConfig;
 	}
 
@@ -42,13 +42,13 @@ public class RepresentationTransition implements IPushdownAutomatonTransition<Co
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RepresentationTransition other = (RepresentationTransition) obj;
+		ConceptTransition other = (ConceptTransition) obj;
 		return Objects.equals(inputConfig, other.inputConfig) && Objects.equals(name, other.name)
 				&& Objects.equals(outputInternConfig, other.outputInternConfig);
 	}
 
 	@Override
-	public RepresentationTransitionOIC getOutputInternConfiguration() {
+	public ConceptTransitionOIC getOutputInternConfiguration() {
 		return outputInternConfig;
 	}
 

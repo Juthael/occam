@@ -2,21 +2,21 @@ package com.tregouet.occam.data.automata.transitions.impl;
 
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transitions.IReframerRule;
-import com.tregouet.occam.data.concepts.transitions.RepresentationTransition;
-import com.tregouet.occam.data.concepts.transitions.RepresentationTransitionIC;
-import com.tregouet.occam.data.concepts.transitions.RepresentationTransitionOIC;
+import com.tregouet.occam.data.concepts.transitions.ConceptTransition;
+import com.tregouet.occam.data.concepts.transitions.ConceptTransitionIC;
+import com.tregouet.occam.data.concepts.transitions.ConceptTransitionOIC;
 
-public class ReframerRule extends RepresentationTransition implements IReframerRule {
+public class ReframerRule extends ConceptTransition implements IReframerRule {
 
 	private final Integer complementedStateID;
 	
 	public ReframerRule(IState predecessorState, IState complementaryState, int complementedStateID) {
-		super(new RepresentationTransitionIC(predecessorState, null, null), new RepresentationTransitionOIC(complementaryState, null));
+		super(new ConceptTransitionIC(predecessorState, null, null), new ConceptTransitionOIC(complementaryState, null));
 		this.complementedStateID = complementedStateID;
 	}
 	
 	public ReframerRule(IState complementaryState, IState connectedState) {
-		super(new RepresentationTransitionIC(complementaryState, null, null), new RepresentationTransitionOIC(connectedState, null));
+		super(new ConceptTransitionIC(complementaryState, null, null), new ConceptTransitionOIC(connectedState, null));
 		complementedStateID = null;
 	}	
 	

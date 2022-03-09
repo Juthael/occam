@@ -8,12 +8,12 @@ import com.tregouet.occam.data.automata.transitions.input_config.impl.InputConfi
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class RepresentationTransitionIC extends InputConfiguration<ContextualizedProduction> 
+public class ConceptTransitionIC extends InputConfiguration<ContextualizedProduction> 
 	implements IPushdownAutomatonIC<ContextualizedProduction, AVariable> {
 
 	private final AVariable stackSymbol;
 	
-	public RepresentationTransitionIC(IConcept inputState, ContextualizedProduction inputSymbol, AVariable stackSymbol) {
+	public ConceptTransitionIC(IConcept inputState, ContextualizedProduction inputSymbol, AVariable stackSymbol) {
 		super(inputState, inputSymbol);
 		this.stackSymbol = stackSymbol;
 	}
@@ -39,7 +39,7 @@ public class RepresentationTransitionIC extends InputConfiguration<Contextualize
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RepresentationTransitionIC other = (RepresentationTransitionIC) obj;
+		ConceptTransitionIC other = (ConceptTransitionIC) obj;
 		return Objects.equals(stackSymbol, other.stackSymbol);
 	}
 

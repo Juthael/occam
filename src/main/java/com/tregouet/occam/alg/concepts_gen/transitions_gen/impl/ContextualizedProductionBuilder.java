@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.transition_function_gen.impl;
+package com.tregouet.occam.alg.concepts_gen.transitions_gen.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,9 +7,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.alg.transition_function_gen.IProductionBuilder;
+import com.tregouet.occam.alg.concepts_gen.transitions_gen.IProductionBuilder;
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.alphabets.productions.Input;
+import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.alphabets.productions.IProduction;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedEpsilon;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedProduction;
@@ -21,17 +21,17 @@ import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.generic.impl.Terminal;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 
-public class ContextualizedProductionBuilder implements IProductionBuilder<Input> {
+public class ContextualizedProductionBuilder implements IProductionBuilder<IContextualizedProduction> {
 	
 	public static final ContextualizedProductionBuilder INSTANCE = new ContextualizedProductionBuilder();
 	
-	private List<Input> productions = null;
+	private List<IContextualizedProduction> productions = null;
 	
 	private ContextualizedProductionBuilder() {
 	}
 
 	@Override
-	public IProductionBuilder<Input> input(IDenotation source, IDenotation target) {
+	public IProductionBuilder<IContextualizedProduction> input(IDenotation source, IDenotation target) {
 		productions = new ArrayList<>();
 		if (source.getListOfSymbols().equals(target.getListOfSymbols()))
 			productions.add(new ContextualizedEpsilon(source, target));
@@ -59,7 +59,7 @@ public class ContextualizedProductionBuilder implements IProductionBuilder<Input
 	}
 
 	@Override
-	public List<Input> output() {
+	public List<IContextualizedProduction> output() {
 		return productions;
 	}
 	

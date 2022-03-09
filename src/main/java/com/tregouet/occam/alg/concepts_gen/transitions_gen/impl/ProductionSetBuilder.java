@@ -1,25 +1,25 @@
-package com.tregouet.occam.alg.transition_function_gen.impl;
+package com.tregouet.occam.alg.concepts_gen.transitions_gen.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tregouet.occam.alg.transition_function_gen.IProductionSetBuilder;
-import com.tregouet.occam.data.alphabets.productions.Input;
+import com.tregouet.occam.alg.concepts_gen.transitions_gen.IProductionSetBuilder;
+import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.occam.data.preconcepts.IPreconcepts;
 
-public class ProductionSetBuilder implements IProductionSetBuilder<Input> {
+public class ProductionSetBuilder implements IProductionSetBuilder<IContextualizedProduction> {
 
 	public static final ProductionSetBuilder INSTANCE = new ProductionSetBuilder();
 	
-	private List<Input> productions = null;
+	private List<IContextualizedProduction> productions = null;
 	
 	private ProductionSetBuilder() {
 	}
 
 	@Override
-	public IProductionSetBuilder<Input> input(IPreconcepts preconcepts) {
+	public IProductionSetBuilder<IContextualizedProduction> input(IPreconcepts preconcepts) {
 		List<IPreconcept> topoOrderedConcepts = preconcepts.getTopologicalSorting();
 		productions = new ArrayList<>();
 		for (int i = 0 ; i < topoOrderedConcepts.size() - 1 ; i++) {
@@ -29,7 +29,7 @@ public class ProductionSetBuilder implements IProductionSetBuilder<Input> {
 				if (preconcepts.isA(iConcept, jConcept)) {
 					for (IDenotation source : iConcept.getDenotations()) {
 						for (IDenotation target : jConcept.getDenotations()) {
-							List<Input> ijDenotationsProds = 
+							List<IContextualizedProduction> ijDenotationsProds = 
 									ContextualizedProductionBuilder.INSTANCE.input(source, target).output();
 							productions.addAll(ijDenotationsProds);
 						}
@@ -41,7 +41,7 @@ public class ProductionSetBuilder implements IProductionSetBuilder<Input> {
 	}
 
 	@Override
-	public List<Input> output() {
+	public List<IContextualizedProduction> output() {
 		return productions;
 	}
 

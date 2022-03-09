@@ -1,7 +1,6 @@
 package com.tregouet.occam.data.automata.states;
 
 import com.tregouet.occam.data.automata.tapes.ITapeSet;
-import com.tregouet.occam.data.automata.transitions.ITransition;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
 public interface IState {

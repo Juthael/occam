@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.alphabets.operators;
+package com.tregouet.occam.data.alphabets.operators_deprecated;
 
 import java.util.List;
 

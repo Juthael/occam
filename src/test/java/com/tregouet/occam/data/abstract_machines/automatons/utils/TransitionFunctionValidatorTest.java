@@ -10,10 +10,10 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import com.tregouet.occam.alg.concepts_gen.transitions_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
-import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
 import com.tregouet.occam.data.automata.machines.impl.Automaton;

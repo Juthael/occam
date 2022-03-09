@@ -5,8 +5,6 @@ import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class Variable extends AVariable {
 	
-	private static final Variable INITIAL = new Variable();
-	
 	private String name = ISymbolSeq.PLACEHOLDER;
 
 	public Variable(boolean deferredNaming) {
@@ -14,8 +12,8 @@ public class Variable extends AVariable {
 			setName();
 	}
 	
-	private Variable() {
-		this.name = AVariable.INITIAL_VAR_NAME;
+	protected Variable(String name) {
+		this.name = name;
 	}
 	
 	@Override
@@ -56,10 +54,6 @@ public class Variable extends AVariable {
 	@Override
 	public String toString() {
 		return name;
-	}
-	
-	public static AVariable getInitialVariable() {
-		return INITIAL;
 	}
 
 }

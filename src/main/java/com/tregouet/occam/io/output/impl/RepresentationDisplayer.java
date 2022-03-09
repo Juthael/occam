@@ -18,11 +18,11 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
+import com.tregouet.occam.alg.concepts_gen.transitions_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring.ScoringStrategy;
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.StructureBasedTFSupplier;
-import com.tregouet.occam.alg.transition_function_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
 import com.tregouet.occam.data.automata.machines.IIsomorphicAutomatons;
 import com.tregouet.occam.data.languages.generic.IConstruct;

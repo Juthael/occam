@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.concepts.transitions;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.tregouet.occam.data.automata.states.IState;
@@ -9,23 +10,23 @@ import com.tregouet.occam.data.languages.generic.AVariable;
 
 public class ConceptTransitionOIC extends OutputInternConfiguration implements IPushdownAutomatonOIC<AVariable> {
 
-	private final AVariable nextStackSymbol;
+	private final List<AVariable> nextStackSymbols;
 	
-	public ConceptTransitionOIC(IState outputState, AVariable nextStackSymbol) {
+	public ConceptTransitionOIC(IState outputState, List<AVariable> nextStackSymbols) {
 		super(outputState);
-		this.nextStackSymbol = nextStackSymbol;
+		this.nextStackSymbols = nextStackSymbols;
 	}
 
 	@Override
-	public AVariable getOutputStackSymbol() {
-		return nextStackSymbol;
+	public List<AVariable> getOutputStackSymbols() {
+		return nextStackSymbols;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + Objects.hash(nextStackSymbol);
+		result = prime * result + Objects.hash(nextStackSymbols);
 		return result;
 	}
 
@@ -38,7 +39,7 @@ public class ConceptTransitionOIC extends OutputInternConfiguration implements I
 		if (getClass() != obj.getClass())
 			return false;
 		ConceptTransitionOIC other = (ConceptTransitionOIC) obj;
-		return Objects.equals(nextStackSymbol, other.nextStackSymbol);
+		return Objects.equals(nextStackSymbols, other.nextStackSymbols);
 	}
 
 }

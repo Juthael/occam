@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.transition_function_gen;
+package com.tregouet.occam.alg.concepts_gen.transitions_gen;
 
 import java.util.List;
 

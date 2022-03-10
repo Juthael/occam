@@ -2,12 +2,12 @@ package com.tregouet.occam.data.concepts.transitions;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedProduction;
+import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.automata.transitions.IPushdownAutomatonTransition;
 import com.tregouet.occam.data.automata.transitions.ITransition;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class ConceptTransition implements IPushdownAutomatonTransition<ContextualizedProduction, AVariable> {
+public class ConceptTransition implements IPushdownAutomatonTransition<IContextualizedProduction, AVariable> {
 
 	private final String name;
 	private final ConceptTransitionIC inputConfig;

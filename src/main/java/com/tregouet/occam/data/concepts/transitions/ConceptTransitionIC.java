@@ -2,18 +2,18 @@ package com.tregouet.occam.data.concepts.transitions;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedProduction;
+import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.automata.transitions.input_config.IPushdownAutomatonIC;
 import com.tregouet.occam.data.automata.transitions.input_config.impl.InputConfiguration;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class ConceptTransitionIC extends InputConfiguration<ContextualizedProduction> 
-	implements IPushdownAutomatonIC<ContextualizedProduction, AVariable> {
+public class ConceptTransitionIC extends InputConfiguration<IContextualizedProduction> 
+	implements IPushdownAutomatonIC<IContextualizedProduction, AVariable> {
 
 	private final AVariable stackSymbol;
 	
-	public ConceptTransitionIC(IConcept inputState, ContextualizedProduction inputSymbol, AVariable stackSymbol) {
+	public ConceptTransitionIC(IConcept inputState, IContextualizedProduction inputSymbol, AVariable stackSymbol) {
 		super(inputState, inputSymbol);
 		this.stackSymbol = stackSymbol;
 	}

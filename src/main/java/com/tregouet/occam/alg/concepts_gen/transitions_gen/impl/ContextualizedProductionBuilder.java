@@ -2,12 +2,12 @@ package com.tregouet.occam.alg.concepts_gen.transitions_gen.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.alg.concepts_gen.transitions_gen.IProductionBuilder;
+import com.tregouet.occam.alg.concepts_gen.transitions_gen.utils.MapVariablesToValues;
 import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.alphabets.productions.IProduction;
@@ -39,7 +39,7 @@ public class ContextualizedProductionBuilder implements IProductionBuilder<ICont
 			//then source may be an instance of target
 			List<ISymbol> sourceSymbolSeq = source.getListOfSymbols();
 			List<ISymbol> targetSymbolSeq = target.getListOfSymbols();
-			Map<AVariable, List<ISymbol>> varToValue = mapVariablesToValues(sourceSymbolSeq, targetSymbolSeq);
+			Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(sourceSymbolSeq, targetSymbolSeq);
 			if (varToValue != null) {
 				for (AVariable variable : varToValue.keySet()) {
 					IConstruct value;
@@ -79,55 +79,6 @@ public class ContextualizedProductionBuilder implements IProductionBuilder<ICont
 			}
 		}
 		return false;
-	}
-	
-	/**
-	 * Public for test use
-	 * @param source
-	 * @param target
-	 * @return null if source is not a target's instance
-	 */
-	public static Map<AVariable, List<ISymbol>> mapVariablesToValues(List<ISymbol> source, List<ISymbol> target) {
-		return continueMapping(source, target, new HashMap<AVariable, List<ISymbol>>(), 0, 0);
-	}
-	
-	private static Map<AVariable, List<ISymbol>> continueMapping(List<ISymbol> source, List<ISymbol> target, 
-			Map<AVariable, List<ISymbol>> varToValue, int srcIdx, int targetIdx) {
-		if (srcIdx == source.size() && targetIdx == target.size())
-			return varToValue;
-		if (srcIdx == source.size() || targetIdx == target.size())
-			return null;		
-		if (target.get(targetIdx) instanceof AVariable) {
-			AVariable variable = (AVariable) target.get(targetIdx);
-			int varSpan = 0;
-			Map<AVariable, List<ISymbol>> nextMap = null;
-			while (nextMap == null && (srcIdx + varSpan <= source.size())) {
-				nextMap = deepCopy(varToValue);
-				nextMap.put(variable, new ArrayList<ISymbol>());
-				int srcAdvance = 0;
-				while (srcAdvance < varSpan) {
-					nextMap.get(variable).add(source.get(srcIdx + srcAdvance));
-					srcAdvance++;
-				}					
-				nextMap = continueMapping(source, target, nextMap, srcIdx + srcAdvance, targetIdx + 1);
-				varSpan++;
-			}
-			return nextMap;
-		}
-		else {
-			if (source.get(srcIdx).equals(target.get(targetIdx))) {
-				return continueMapping(source, target, varToValue, srcIdx + 1, targetIdx + 1);
-			}
-			return null;
-		}
-	}	
-	
-	private static Map<AVariable, List<ISymbol>> deepCopy(Map<AVariable, List<ISymbol>> map){
-		Map<AVariable, List<ISymbol>> mapDeepCopy = new HashMap<>();
-		for (AVariable key : map.keySet()) {
-			mapDeepCopy.put(key, new ArrayList<ISymbol>(map.get(key)));
-		}
-		return mapDeepCopy;
 	}	
 
 }

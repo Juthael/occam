@@ -24,6 +24,8 @@ public interface IPreconcept extends IDichotomizable<IPreconcept> {
 	
 	Set<IDenotation> getDenotations();
 	
+	Set<IDenotation> getNonMaximalDenotation();
+	
 	IDenotation getMatchingDenotation(List<String> constraintAsStrings) throws IOException;
 	
 	@Override

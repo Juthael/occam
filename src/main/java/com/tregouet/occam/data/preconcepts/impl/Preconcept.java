@@ -135,6 +135,12 @@ public class Preconcept implements IPreconcept {
 		for (IPreconcept rebutterMinLowerBound : complementMinimalLowerBounds)
 			complementExtent.addAll(rebutterMinLowerBound.getExtent());
 		return new ComplementaryPreconcept(this, supremum, complementExtent);
+	}
+
+	@Override
+	public Set<IDenotation> getNonMaximalDenotation() {
+		// TODO Auto-generated method stub
+		return null;
 	}	
 
 }

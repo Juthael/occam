@@ -73,15 +73,15 @@ public class ProductionGeneratorTest {
 
 	@Test
 	public void whenVarToValueRequiredThenExpectedReturned() {
-		abXcd2acd = ProductionGenerator.mapVariablesToValues(abXcd, acd);
-		abijcd2abXcd = ProductionGenerator.mapVariablesToValues(abijcd, abXcd);
-		abcd2abXcd = ProductionGenerator.mapVariablesToValues(abcd, abXcd);
-		abcd2abx = ProductionGenerator.mapVariablesToValues(abcd, abX);
-		abcijcd2abXcd = ProductionGenerator.mapVariablesToValues(abcijcd, abXcd);
-		abicjd2abXcYd = ProductionGenerator.mapVariablesToValues(abicjd, abXcYd);
-		abiZcd2abXcd = ProductionGenerator.mapVariablesToValues(abiZcd, abXcd);
-		abcd2X = ProductionGenerator.mapVariablesToValues(abcd, Arrays.asList(new ISymbol[] {x}));
-		abcijcd2aXcYcZ = ProductionGenerator.mapVariablesToValues(abcijcd, aXcYcZ);
+		abXcd2acd = ProductionGenerator.of(abXcd, acd);
+		abijcd2abXcd = ProductionGenerator.of(abijcd, abXcd);
+		abcd2abXcd = ProductionGenerator.of(abcd, abXcd);
+		abcd2abx = ProductionGenerator.of(abcd, abX);
+		abcijcd2abXcd = ProductionGenerator.of(abcijcd, abXcd);
+		abicjd2abXcYd = ProductionGenerator.of(abicjd, abXcYd);
+		abiZcd2abXcd = ProductionGenerator.of(abiZcd, abXcd);
+		abcd2X = ProductionGenerator.of(abcd, Arrays.asList(new ISymbol[] {x}));
+		abcijcd2aXcYcZ = ProductionGenerator.of(abcijcd, aXcYcZ);
 		assertTrue(abXcd2acd == null
 				&& abijcd2abXcd.equals(abijcd2abXcdEXPECTED)
 				&& abcd2abXcd.equals(abcd2abXcdEXPECTED)

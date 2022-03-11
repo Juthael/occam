@@ -2,12 +2,12 @@ package com.tregouet.occam.data.concepts.transitions.dimensions;
 
 import com.tregouet.occam.data.languages.generic.impl.Variable;
 
-public class Nothing extends Variable {
+public class Something extends Variable {
 	
-	public static final Nothing INSTANCE = new Nothing();
+	public static final Something INSTANCE = new Something();
 	
-	private Nothing() {
-		super("nothing");
+	private Something() {
+		super("sth");
 	}
 
 }

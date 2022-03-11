@@ -1,13 +1,11 @@
-package com.tregouet.occam.data.concepts.transitions;
+package com.tregouet.occam.data.concepts.transitions.impl;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.automata.transitions.IPushdownAutomatonTransition;
 import com.tregouet.occam.data.automata.transitions.ITransition;
-import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.concepts.transitions.IConceptTransition;
 
-public class ConceptTransition implements IPushdownAutomatonTransition<IContextualizedProduction, AVariable> {
+public class ConceptTransition implements IConceptTransition {
 
 	private final String name;
 	private final ConceptTransitionIC inputConfig;

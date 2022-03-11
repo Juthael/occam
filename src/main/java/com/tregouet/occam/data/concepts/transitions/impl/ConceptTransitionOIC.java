@@ -1,14 +1,14 @@
-package com.tregouet.occam.data.concepts.transitions;
+package com.tregouet.occam.data.concepts.transitions.impl;
 
 import java.util.List;
 import java.util.Objects;
 
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transitions.output_config.IPushdownAutomatonOIC;
 import com.tregouet.occam.data.automata.transitions.output_config.impl.OutputInternConfiguration;
+import com.tregouet.occam.data.concepts.transitions.IConceptTransitionOIC;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class ConceptTransitionOIC extends OutputInternConfiguration implements IPushdownAutomatonOIC<AVariable> {
+public class ConceptTransitionOIC extends OutputInternConfiguration implements IConceptTransitionOIC {
 
 	private final List<AVariable> nextStackSymbols;
 	

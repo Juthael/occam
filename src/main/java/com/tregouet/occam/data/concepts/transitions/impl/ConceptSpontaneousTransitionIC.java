@@ -1,14 +1,14 @@
-package com.tregouet.occam.data.concepts;
+package com.tregouet.occam.data.concepts.transitions.impl;
 
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedEpsilon;
-import com.tregouet.occam.data.automata.transitions.input_config.IPushdownAutomatonIC;
-import com.tregouet.occam.data.concepts.transitions.ConceptTransitionIC;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.concepts.transitions.dimensions.OntologicalCommitment;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
 public class ConceptSpontaneousTransitionIC extends ConceptTransitionIC
-		implements IPushdownAutomatonIC<IContextualizedProduction, AVariable> {
+		implements IConceptTransitionIC {
 
 	public ConceptSpontaneousTransitionIC(IConcept inputState, IContextualizedProduction inputSymbol,
 			AVariable stackSymbol) {

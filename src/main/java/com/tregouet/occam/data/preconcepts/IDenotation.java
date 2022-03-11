@@ -12,5 +12,9 @@ public interface IDenotation extends IConstruct, PartiallyComparable<IDenotation
 	boolean equals(Object o);
 	
 	IPreconcept getConcept();
+	
+	void markAsRedundant();
+	
+	boolean isRedundant();
 
 }

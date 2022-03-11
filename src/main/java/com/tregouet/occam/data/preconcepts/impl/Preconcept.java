@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.tregouet.occam.alg.preconcepts_gen.impl.RedundantDenotMarker;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;
@@ -138,9 +139,18 @@ public class Preconcept implements IPreconcept {
 	}
 
 	@Override
-	public Set<IDenotation> getNonMaximalDenotation() {
-		// TODO Auto-generated method stub
-		return null;
-	}	
+	public void markRedundantDenotations() {
+		RedundantDenotMarker.of(this);
+	}
+
+	@Override
+	public Set<IDenotation> getRedundantDenotations() {
+		Set<IDenotation> redundantDenotations = new HashSet<>();
+		for (IDenotation denotation : denotations) {
+			if (denotation.isRedundant())
+				redundantDenotations.add(denotation);
+		}
+		return redundantDenotations;
+	}
 
 }

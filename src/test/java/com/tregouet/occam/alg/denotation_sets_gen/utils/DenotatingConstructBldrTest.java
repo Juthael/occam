@@ -14,7 +14,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.preconcepts_gen.utils.PreconceptDenotationsBldr;
+import com.tregouet.occam.alg.preconcepts_gen.impl.PreconceptDenotationsBldr;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;
@@ -56,16 +56,16 @@ public class DenotatingConstructBldrTest {
 
 	@Test
 	public void whenIntentRequestedThenExpectedReturned() {
-		Set<IConstruct> alphaBetaGammaIntent = PreconceptDenotationsBldr.getDenotations(alphaBetaGamma);
+		Set<IConstruct> alphaBetaGammaIntent = PreconceptDenotationsBldr.getCommonDenotationsOf(alphaBetaGamma);
 		Set<IConstruct> alphaBetaGammaExpected = setAlphaBetaGammaExpected();
 		boolean alphaBetaGammaIntentAsExpected = alphaBetaGammaIntent.equals(alphaBetaGammaExpected);
-		Set<IConstruct> alphaBetaIntent = PreconceptDenotationsBldr.getDenotations(alphaBeta);
+		Set<IConstruct> alphaBetaIntent = PreconceptDenotationsBldr.getCommonDenotationsOf(alphaBeta);
 		Set<IConstruct> alphaBetaExpected = setAlphaBetaExpected();
 		boolean alphaBetaIntentAsExpected = alphaBetaIntent.equals(alphaBetaExpected);
-		Set<IConstruct> alphaGammaIntent = PreconceptDenotationsBldr.getDenotations(alphaGamma);
+		Set<IConstruct> alphaGammaIntent = PreconceptDenotationsBldr.getCommonDenotationsOf(alphaGamma);
 		Set<IConstruct> alphaGammaExpected = setAlphaGammaExpected();
 		boolean alphaGammaIntentAsExpected = alphaGammaIntent.equals(alphaGammaExpected);
-		Set<IConstruct> betaGammaIntent = PreconceptDenotationsBldr.getDenotations(betaGamma);
+		Set<IConstruct> betaGammaIntent = PreconceptDenotationsBldr.getCommonDenotationsOf(betaGamma);
 		Set<IConstruct> betaGammaExpected = setBetaGammaExpected();
 		boolean betaGammaIntentAsExpected = betaGammaIntent.equals(betaGammaExpected);
 		/*

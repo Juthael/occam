@@ -15,6 +15,6 @@ public interface IPreconceptTreeSupplier extends Iterator<Tree<IPreconcept, IIsA
 		return classificationTree;
 	}
 	
-	List<Tree<IPreconcept, IIsA>> getRemainingTreesOfConcepts();
+	List<Tree<IPreconcept, IIsA>> getRemainingTreesOfPreconcepts();
 
 }

@@ -20,9 +20,9 @@ public class DenotationComparator implements IDenotationComparator {
 	
 	private static boolean strictLowerBoundOf(IDenotation d1, IDenotation d2) {
 		if (subSequenceOf(d2.getListOfTerminals(), d1.getListOfTerminals())) {
-			List<ISymbol> d1SymbolSeq = d1.getListOfSymbols();
-			List<ISymbol> d2SymbolSeq = d2.getListOfSymbols();
-			Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(d1SymbolSeq, d2SymbolSeq);
+			List<ISymbol> d1ValueProvider = d1.getListOfSymbols();
+			List<ISymbol> d2VarProvider = d2.getListOfSymbols();
+			Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(d1ValueProvider, d2VarProvider);
 			if (varToValue != null) {
 				return true;
 			}
@@ -30,13 +30,13 @@ public class DenotationComparator implements IDenotationComparator {
 		return false;
 	}
 	
-	private static boolean subSequenceOf(List<ITerminal> targetTerminals, List<ITerminal> sourceTerminals) {
-		if (targetTerminals.isEmpty())
+	private static boolean subSequenceOf(List<ITerminal> t1, List<ITerminal> t2) {
+		if (t1.isEmpty())
 			return true;
-		if (sourceTerminals.isEmpty())
+		if (t2.isEmpty())
 			return false;
-		Iterator<ITerminal> sourceIte = sourceTerminals.iterator();
-		Iterator<ITerminal> targetIte = targetTerminals.iterator();
+		Iterator<ITerminal> sourceIte = t2.iterator();
+		Iterator<ITerminal> targetIte = t1.iterator();
 		ITerminal targetCurr = targetIte.next();
 		while (sourceIte.hasNext()) {
 			if (targetCurr.equals(sourceIte.next())) {
@@ -50,7 +50,7 @@ public class DenotationComparator implements IDenotationComparator {
 
 	@Override
 	public Integer compare(IDenotation d1, IDenotation d2) {
-		/* supposes that alpha-conversion is either supported by equals(), or is useless because 
+		/* implies that alpha-conversion is either supported by equals(), or is useless because 
 		 * it is guaranteed that two denotations can never vary only by the name of their variables.  
 		 */
 		if (d1.equals(d2))

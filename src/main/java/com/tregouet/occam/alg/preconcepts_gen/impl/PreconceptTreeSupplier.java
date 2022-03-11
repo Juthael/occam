@@ -28,7 +28,7 @@ public class PreconceptTreeSupplier implements IPreconceptTreeSupplier {
 	}
 
 	@Override
-	public List<Tree<IPreconcept, IIsA>> getRemainingTreesOfConcepts() {
+	public List<Tree<IPreconcept, IIsA>> getRemainingTreesOfPreconcepts() {
 		List<Tree<IPreconcept, IIsA>> remainingClassifications = new ArrayList<>();
 		while (hasNext())
 			remainingClassifications.add(next());

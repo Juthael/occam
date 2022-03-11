@@ -8,11 +8,12 @@ import com.tregouet.occam.data.preconcepts.IPreconcept;
 public class Denotation extends Construct implements IDenotation {
 
 	private final IPreconcept preconcept;
+	private boolean isRedundant = false;
 	
 	public Denotation(IConstruct construct, IPreconcept preconcept) {
 		super(construct);
 		this.preconcept = preconcept;
-	}
+	}	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -45,6 +46,16 @@ public class Denotation extends Construct implements IDenotation {
 	@Override
 	public Integer compareTo(IDenotation other) {
 		return DenotationComparator.INSTANCE.compare(this, other);
+	}
+
+	@Override
+	public boolean isRedundant() {
+		return isRedundant;
+	}
+
+	@Override
+	public void markAsRedundant() {
+		isRedundant = true;
 	}
 
 }

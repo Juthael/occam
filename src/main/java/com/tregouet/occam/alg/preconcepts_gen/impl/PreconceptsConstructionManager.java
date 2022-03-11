@@ -15,7 +15,6 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptsConstructionManager;
-import com.tregouet.occam.alg.preconcepts_gen.utils.PreconceptDenotationsBldr;
 import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.concepts.transitions.dimensions.OntologicalCommitment;
 import com.tregouet.occam.data.languages.generic.AVariable;
@@ -120,7 +119,7 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 		for (Set<IContextObject> subset : objectsPowerSet) {
 			Set<IConstruct> denotatingConstructs;
 			if (subset.size() > 1)
-				denotatingConstructs = PreconceptDenotationsBldr.getDenotations(subset);
+				denotatingConstructs = PreconceptDenotationsBldr.INSTANCE.getCommonDenotationsOf(subset);
 			else if (subset.size() == 1)
 				denotatingConstructs = new HashSet<IConstruct>(subset.iterator().next().getConstructs());
 			else {

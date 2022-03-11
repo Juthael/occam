@@ -24,7 +24,7 @@ public interface IPreconcept extends IDichotomizable<IPreconcept> {
 	
 	Set<IDenotation> getDenotations();
 	
-	Set<IDenotation> getNonMaximalDenotation();
+	Set<IDenotation> getRedundantDenotations();
 	
 	IDenotation getMatchingDenotation(List<String> constraintAsStrings) throws IOException;
 	
@@ -41,4 +41,6 @@ public interface IPreconcept extends IDichotomizable<IPreconcept> {
 	String toString();
 	
 	int type();
+	
+	void markRedundantDenotations();
 }

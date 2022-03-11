@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.jgrapht.graph.DefaultEdge;
 
-import com.tregouet.occam.alg.scoring.costs.ICosted;
+import com.tregouet.occam.alg.scoring_dep.costs.ICosted;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.automata.transitions.IReframerRule;

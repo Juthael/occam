@@ -19,8 +19,8 @@ import org.junit.Test;
 
 import com.tregouet.occam.alg.concepts_gen.transitions_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
-import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
-import com.tregouet.occam.alg.scoring.ScoringStrategy;
+import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
 import com.tregouet.occam.data.automata.machines.impl.Automaton;
@@ -62,7 +62,7 @@ public class TransitionFunctionTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		objects = GenericFileReader.getContextObjects(SHAPES);	
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy_dep.SCORING_STRATEGY_1);
 	}
 
 	private static double binaryLogarithm(double arg) {

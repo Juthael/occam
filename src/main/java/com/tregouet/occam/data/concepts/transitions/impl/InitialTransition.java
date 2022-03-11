@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedEpsilon;
 import com.tregouet.occam.data.concepts.impl.OntologicalCommitment;
-import com.tregouet.occam.data.concepts.impl.StartState;
+import com.tregouet.occam.data.concepts.impl.WhatIsThere;
 import com.tregouet.occam.data.concepts.transitions.IConceptTransition;
 import com.tregouet.occam.data.concepts.transitions.dimensions.Nothing;
 import com.tregouet.occam.data.concepts.transitions.dimensions.This;
@@ -16,7 +16,7 @@ public class InitialTransition extends ConceptTransition implements IConceptTran
 	public InitialTransition(OntologicalCommitment commitment) {
 		super(
 				new ConceptTransitionIC(
-						StartState.INSTANCE, 
+						WhatIsThere.INSTANCE, 
 						new ContextualizedEpsilon(null, null), 
 						Nothing.INSTANCE),
 				new ConceptTransitionOIC(

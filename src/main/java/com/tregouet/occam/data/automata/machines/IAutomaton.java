@@ -6,8 +6,8 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.jgrapht.graph.SimpleDirectedGraph;
 
-import com.tregouet.occam.alg.scoring.costs.ICosted;
-import com.tregouet.occam.alg.scoring.scores.IScored;
+import com.tregouet.occam.alg.scoring_dep.costs.ICosted;
+import com.tregouet.occam.alg.scoring_dep.scores.IScored;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_functions.ITransitionFunction;
 import com.tregouet.occam.data.automata.transitions.ITransition;

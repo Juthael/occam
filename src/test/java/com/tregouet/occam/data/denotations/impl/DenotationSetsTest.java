@@ -22,8 +22,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
-import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
-import com.tregouet.occam.alg.scoring.ScoringStrategy;
+import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;
@@ -46,7 +46,7 @@ public class DenotationSetsTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(shapes2);
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy_dep.SCORING_STRATEGY_1);
 	}
 
 	@Test

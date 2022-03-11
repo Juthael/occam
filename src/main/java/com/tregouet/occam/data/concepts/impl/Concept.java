@@ -9,6 +9,8 @@ import com.tregouet.occam.data.partitions.IPartition;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
 public class Concept extends State implements IConcept {
+	
+	
 
 	public Concept(IPreconcept preconcept) {
 		super(preconcept);

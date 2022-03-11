@@ -17,8 +17,8 @@ import org.junit.Test;
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.concepts_gen.transitions_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
-import com.tregouet.occam.alg.scoring.CalculatorsAbstractFactory;
-import com.tregouet.occam.alg.scoring.ScoringStrategy;
+import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
+import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IComplementaryPreconcept;
@@ -45,7 +45,7 @@ public class TransitionFunctionSupplierTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		shapes2Obj = GenericFileReader.getContextObjects(SHAPES2);
-		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy.SCORING_STRATEGY_1);
+		CalculatorsAbstractFactory.INSTANCE.setUpStrategy(ScoringStrategy_dep.SCORING_STRATEGY_1);
 	}
 
 	@Before

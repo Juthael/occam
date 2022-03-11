@@ -16,5 +16,11 @@ public interface IContextualizedProduction extends IProduction {
 	IDenotation getTarget();
 	
 	IProduction getUncontextualizedProduction();
+	
+	/**
+	 * 
+	 * @return true if getSource().isRedundant(), false otherwise
+	 */
+	boolean isRedundant();
 
 }

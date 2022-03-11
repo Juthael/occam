@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.alg.preconcepts_gen.impl.RedundantDenotMarker;
+import com.tregouet.occam.alg.preconcepts_gen.MarkRedundantDenotations;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;
@@ -140,7 +140,7 @@ public class Preconcept implements IPreconcept {
 
 	@Override
 	public void markRedundantDenotations() {
-		RedundantDenotMarker.of(this);
+		MarkRedundantDenotations.of(this);
 	}
 
 	@Override

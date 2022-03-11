@@ -110,5 +110,9 @@ public class ContextualizedProduction extends DefaultEdge implements IContextual
 	public IProduction getUncontextualizedProduction() {
 		return production;
 	}
+	
+	public boolean isRedundant() {
+		return getSource().isRedundant();
+	}	
 
 }

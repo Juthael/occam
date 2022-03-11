@@ -11,7 +11,7 @@ public class Property implements IProperty {
 	private final IDenotation function;
 	private final List<IApplication> applications;
 	private final List<IDenotation> resultingValues;
-	private Double wheight = null; 
+	private Double weight = null; 
 	
 	public Property(IDenotation function, List<IApplication> applications, List<IDenotation> resultingValues) {
 		this.function = function;
@@ -35,13 +35,13 @@ public class Property implements IProperty {
 	}
 
 	@Override
-	public Double getWheight() {
-		return wheight;
+	public Double getWeight() {
+		return weight;
 	}
 
 	@Override
-	public void setWheight(double wheight) {
-		this.wheight = wheight;
+	public void setWeight(double wheight) {
+		this.weight = wheight;
 	}
 
 }

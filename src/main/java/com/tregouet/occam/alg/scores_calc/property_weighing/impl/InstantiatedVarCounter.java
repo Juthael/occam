@@ -3,12 +3,12 @@ package com.tregouet.occam.alg.scores_calc.property_weighing.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.alg.scores_calc.property_weighing.IPropertyWheigher;
+import com.tregouet.occam.alg.scores_calc.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.data.concepts.properties.IProperty;
 import com.tregouet.occam.data.concepts.transitions.IApplication;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class InstantiatedVarCounter implements IPropertyWheigher {
+public class InstantiatedVarCounter implements IPropertyWeigher {
 
 	public static final InstantiatedVarCounter INSTANCE = new InstantiatedVarCounter();
 	
@@ -23,7 +23,7 @@ public class InstantiatedVarCounter implements IPropertyWheigher {
 				varInstantiatedByNonRedundantApp.add(app.getInputConfiguration().getInputStackSymbol());
 			}
 		}
-		property.setWheight((double) varInstantiatedByNonRedundantApp.size());
+		property.setWeight((double) varInstantiatedByNonRedundantApp.size());
 	}
 
 }

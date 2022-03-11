@@ -16,7 +16,7 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptsConstructionManager;
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.concepts.transitions.dimensions.OntologicalCommitment;
+import com.tregouet.occam.data.concepts.transitions.dimensions.This;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
@@ -182,7 +182,7 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 	private IPreconcept instantiateOntologicalCommitment() {
 		IPreconcept ontologicalCommitment;
 		List<ISymbol> word = new ArrayList<ISymbol>();
-		word.add(OntologicalCommitment.INSTANCE);
+		word.add(This.INSTANCE);
 		IConstruct denotatingConstruct = new Construct(word);
 		Set<IConstruct> denotatingConstructs =  new HashSet<IConstruct>();
 		denotatingConstructs.add(denotatingConstruct);

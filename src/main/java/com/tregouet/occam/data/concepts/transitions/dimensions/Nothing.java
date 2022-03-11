@@ -2,11 +2,11 @@ package com.tregouet.occam.data.concepts.transitions.dimensions;
 
 import com.tregouet.occam.data.languages.generic.impl.Variable;
 
-public class NoDimension extends Variable {
+public class Nothing extends Variable {
 	
-	public static final NoDimension INSTANCE = new NoDimension();
+	public static final Nothing INSTANCE = new Nothing();
 	
-	private NoDimension() {
+	private Nothing() {
 		super("Ø");
 	}
 

@@ -11,9 +11,9 @@ import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
-public class EverythingPreconcept extends Preconcept implements IPreconcept {
+public class TruismPreconcept extends Preconcept implements IPreconcept {
 	
-	public EverythingPreconcept(Set<IContextObject> extent) {
+	public TruismPreconcept(Set<IContextObject> extent) {
 		super(new HashSet<IConstruct>(
 				Arrays.asList(
 						new IConstruct[] {new Construct(

@@ -17,7 +17,7 @@ import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplay
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
-public interface IAutomaton extends ICosted, IScored {
+public interface IAutomaton<S extends IState> {
 	
 	@Override
 	boolean equals(Object o);

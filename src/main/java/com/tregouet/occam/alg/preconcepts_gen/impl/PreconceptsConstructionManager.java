@@ -15,7 +15,9 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptsConstructionManager;
+import com.tregouet.occam.alg.preconcepts_gen.MarkRedundantDenotations;
 import com.tregouet.occam.data.alphabets.ISymbol;
+import com.tregouet.occam.data.concepts.ConceptualType;
 import com.tregouet.occam.data.concepts.transitions.dimensions.This;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
@@ -87,16 +89,16 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 			IPreconcept preconcept = new Preconcept(entry.getKey(), entry.getValue());
 			if (!preconcept.getExtent().isEmpty()) {
 				if (preconcept.getExtent().size() == 1)
-					preconcept.setType(IPreconcept.OBJECT);
+					preconcept.setType(ConceptualType.PARTICULAR);
 				else if (preconcept.getExtent().size() == objects.size()) {
-					preconcept.setType(IPreconcept.TRUISM);
+					preconcept.setType(ConceptualType.TRUISM);
 				}
 				else {
-					preconcept.setType(IPreconcept.CONTEXT_SUBSET);
+					preconcept.setType(ConceptualType.UNIVERSAL);
 				}
 			}
 			else {
-				preconcept.setType(IPreconcept.ABSURDITY);
+				preconcept.setType(ConceptualType.ABSURDITY);
 			}
 			lattice.addVertex(preconcept);
 		}
@@ -187,8 +189,14 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 		Set<IConstruct> denotatingConstructs =  new HashSet<IConstruct>();
 		denotatingConstructs.add(denotatingConstruct);
 		ontologicalCommitment = new Preconcept(denotatingConstructs, new HashSet<IContextObject>(objects));
-		ontologicalCommitment.setType(IPreconcept.ONTOLOGICAL_COMMITMENT);
+		ontologicalCommitment.setType(ConceptualType.ONTOLOGICAL_COMMITMENT);
 		return ontologicalCommitment;
+	}
+	
+	private void markRedundantDenotationsOfUSLPreconcepts() {
+		for (IPreconcept preconcept : upperSemilattice) {
+			MarkRedundantDenotations.of(preconcept);
+		}
 	}
 
 	@Override
@@ -202,14 +210,16 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 		IPreconcept absurdity = null;
 		for (IPreconcept preconcept : lattice.vertexSet()) {
 			switch(preconcept.type()) {
-				case IPreconcept.TRUISM :
+				case TRUISM :
 					truism = preconcept;
 					break;
-				case IPreconcept.ABSURDITY :
+				case ABSURDITY :
 					absurdity = preconcept;
 					break;
-				case IPreconcept.OBJECT :
+				case PARTICULAR :
 					objectPreconcepts.set(this.objects.indexOf(preconcept.getExtent().iterator().next()), preconcept);
+					break;
+				default : 
 					break;
 			}
 		}
@@ -226,6 +236,7 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 		this.upperSemilattice = 
 				new UpperSemilattice<>(upperSemilattice, truism, new HashSet<>(objectPreconcepts), topologicalOrder);
 		this.upperSemilattice.addAsNewRoot(ontologicalCommitment, true);
+		markRedundantDenotationsOfUSLPreconcepts();
 		return this;
 	}
 

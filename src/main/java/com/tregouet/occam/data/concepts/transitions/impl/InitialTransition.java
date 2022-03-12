@@ -24,7 +24,7 @@ public class InitialTransition extends ConceptTransition implements IConceptTran
 						new ArrayList<AVariable>(
 								Arrays.asList(
 										new AVariable[] {Nothing.INSTANCE, This.INSTANCE})))
-			);
+		);
 	}
 	
 }

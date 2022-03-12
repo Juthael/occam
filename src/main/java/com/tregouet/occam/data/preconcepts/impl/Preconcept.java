@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.alg.preconcepts_gen.MarkRedundantDenotations;
+import com.tregouet.occam.data.concepts.ConceptualType;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;
@@ -21,7 +21,7 @@ public class Preconcept implements IPreconcept {
 	private final Set<IDenotation> denotations = new HashSet<>();
 	private final Set<IContextObject> extent;
 	private final int iD;
-	private int type;
+	private ConceptualType type;
 	
 	public Preconcept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent) {
 		for (IConstruct construct : denotatingConstructs)
@@ -71,7 +71,7 @@ public class Preconcept implements IPreconcept {
 
 	@Override
 	public String toString() {
-		if (type == IPreconcept.ABSURDITY)
+		if (type == ConceptualType.ABSURDITY)
 			return "ABSURDITY";
 		StringBuilder sB = new StringBuilder();
 		sB.append(Integer.toString(iD));
@@ -83,7 +83,6 @@ public class Preconcept implements IPreconcept {
 			if (iterator.hasNext())
 				sB.append(newLine);
 		}
-		
 		return sB.toString();
 	}	
 	
@@ -121,12 +120,12 @@ public class Preconcept implements IPreconcept {
 	}	
 	
 	@Override
-	public int type() {
+	public ConceptualType type() {
 		return type;
 	}	
 	
 	@Override
-	public void setType(int type) {
+	public void setType(ConceptualType type) {
 		this.type = type;
 	}
 
@@ -136,11 +135,6 @@ public class Preconcept implements IPreconcept {
 		for (IPreconcept rebutterMinLowerBound : complementMinimalLowerBounds)
 			complementExtent.addAll(rebutterMinLowerBound.getExtent());
 		return new ComplementaryPreconcept(this, supremum, complementExtent);
-	}
-
-	@Override
-	public void markRedundantDenotations() {
-		MarkRedundantDenotations.of(this);
 	}
 
 	@Override

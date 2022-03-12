@@ -24,8 +24,8 @@ public class Preconcepts implements IPreconcepts {
 	private final List<IContextObject> objects;
 	private final DirectedAcyclicGraph<IPreconcept, IIsA> lattice;
 	private final UpperSemilattice<IPreconcept, IIsA> upperSemilattice;
-	private final IPreconcept ontologicalCommitment;
 	private final List<IPreconcept> topologicalOrder;
+	private final IPreconcept ontologicalCommitment;
 	private final IPreconcept truism;
 	private final List<IPreconcept> objectPreconcepts;
 	private final IPreconcept absurdity;

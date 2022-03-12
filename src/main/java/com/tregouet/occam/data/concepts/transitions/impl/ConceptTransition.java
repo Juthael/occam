@@ -4,12 +4,14 @@ import java.util.Objects;
 
 import com.tregouet.occam.data.automata.transitions.ITransition;
 import com.tregouet.occam.data.concepts.transitions.IConceptTransition;
+import com.tregouet.occam.data.concepts.transitions.Salience;
 
 public class ConceptTransition implements IConceptTransition {
 
 	private final String name;
 	private final ConceptTransitionIC inputConfig;
 	private final ConceptTransitionOIC outputInternConfig;
+	private Salience salience;
 	
 	public ConceptTransition(ConceptTransitionIC inputConfig, ConceptTransitionOIC outputInternConfig) {
 		name = ITransition.provideName();
@@ -48,6 +50,16 @@ public class ConceptTransition implements IConceptTransition {
 	@Override
 	public ConceptTransitionOIC getOutputInternConfiguration() {
 		return outputInternConfig;
+	}
+
+	@Override
+	public void setSalience(Salience salience) {
+		this.salience = salience;
+	}
+
+	@Override
+	public Salience getSalience() {
+		return salience;
 	}
 
 }

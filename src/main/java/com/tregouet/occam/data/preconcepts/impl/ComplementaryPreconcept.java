@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Sets;
+import com.tregouet.occam.data.concepts.ConceptualType;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IComplementaryPreconcept;
 import com.tregouet.occam.data.preconcepts.IContextObject;
@@ -23,7 +24,7 @@ public class ComplementaryPreconcept extends Preconcept implements IComplementar
 				complementing.getID());
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
-		setType(IPreconcept.CONTEXT_SUBSET);
+		setType(ConceptualType.UNIVERSAL);
 	}
 	
 	public ComplementaryPreconcept(IPreconcept toBeComplemented, IPreconcept supremum, Set<IContextObject> extent) {
@@ -32,7 +33,7 @@ public class ComplementaryPreconcept extends Preconcept implements IComplementar
 				.collect(Collectors.toSet()), 
 				extent);
 		complementedByThis = toBeComplemented;
-		setType(IPreconcept.CONTEXT_SUBSET);
+		setType(ConceptualType.UNIVERSAL);
 	}	
 	
 	@Override

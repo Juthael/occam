@@ -119,16 +119,25 @@ public class Production implements IProduction {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(value, variable);
-		return result;
+	public boolean isEpsilon() {
+		return false;
 	}
 
 	@Override
-	public boolean isEpsilon() {
-		return false;
+	public int hashCode() {
+		return Objects.hash(value, variable);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Production other = (Production) obj;
+		return Objects.equals(value, other.value) && Objects.equals(variable, other.variable);
 	}		
 
 }

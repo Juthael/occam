@@ -2,14 +2,13 @@ package com.tregouet.occam.data.concepts.impl;
 
 import java.util.Set;
 
-import com.tregouet.occam.data.automata.states.impl.State;
 import com.tregouet.occam.data.concepts.ConceptualType;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.transitions.IConceptTransition;
 import com.tregouet.occam.data.partitions.IPartition;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
-public abstract class Concept extends State implements IConcept {
+public abstract class Concept implements IConcept {
 	
 	IPreconcept preconcept;
 	

@@ -4,16 +4,17 @@ import java.util.List;
 import java.util.Objects;
 
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transitions.output_config.impl.OutputInternConfiguration;
+import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.transitions.IConceptTransitionOIC;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class ConceptTransitionOIC extends OutputInternConfiguration implements IConceptTransitionOIC {
+public class ConceptTransitionOIC implements IConceptTransitionOIC {
 
+	private final IConcept outputState;
 	private final List<AVariable> nextStackSymbols;
 	
-	public ConceptTransitionOIC(IState outputState, List<AVariable> nextStackSymbols) {
-		super(outputState);
+	public ConceptTransitionOIC(IConcept outputState, List<AVariable> nextStackSymbols) {
+		this.outputState = outputState;
 		this.nextStackSymbols = nextStackSymbols;
 	}
 
@@ -40,6 +41,11 @@ public class ConceptTransitionOIC extends OutputInternConfiguration implements I
 			return false;
 		ConceptTransitionOIC other = (ConceptTransitionOIC) obj;
 		return Objects.equals(nextStackSymbols, other.nextStackSymbols);
+	}
+
+	@Override
+	public IState getOutputState() {
+		return outputState;
 	}
 
 }

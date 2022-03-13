@@ -5,10 +5,7 @@ import com.tregouet.occam.data.automata.transitions.IPushdownAutomatonTransition
 import com.tregouet.occam.data.languages.generic.AVariable;
 
 public interface IConceptTransition extends IPushdownAutomatonTransition<
-	IContextualizedProduction, 
-	AVariable, 
-	IConceptTransitionIC, 
-	IConceptTransitionOIC> {
+	IContextualizedProduction, AVariable> {
 	
 	void setSalience(Salience salience);
 	

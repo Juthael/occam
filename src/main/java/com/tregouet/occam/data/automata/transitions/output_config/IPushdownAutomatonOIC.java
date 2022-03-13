@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
 
-public interface IPushdownAutomatonOIC<StackSymbol extends ISymbol> extends IOutputInternConfiguration {
+public interface IPushdownAutomatonOIC<
+	StackSymbol extends ISymbol> 
+	extends IOutputInternConfiguration {
 	
 	List<StackSymbol> getOutputStackSymbols();
 	

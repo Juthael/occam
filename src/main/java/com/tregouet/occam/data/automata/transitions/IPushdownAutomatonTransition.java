@@ -6,11 +6,9 @@ import com.tregouet.occam.data.automata.transitions.output_config.IPushdownAutom
 
 public interface IPushdownAutomatonTransition<
 	InputSymbol extends ISymbol, 
-	StackSymbol extends ISymbol,
-	InputConfig extends IPushdownAutomatonIC<InputSymbol, StackSymbol>,
-	OutputConfig extends IPushdownAutomatonOIC<StackSymbol>
+	StackSymbol extends ISymbol
 	>
-	extends ITransition<InputConfig, OutputConfig, InputSymbol>  {
+	extends ITransition<IPushdownAutomatonIC<InputSymbol, StackSymbol>, IPushdownAutomatonOIC<StackSymbol>, InputSymbol>  {
 	
 	@Override
 	boolean equals(Object o);

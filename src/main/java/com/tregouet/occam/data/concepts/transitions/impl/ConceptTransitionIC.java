@@ -3,18 +3,20 @@ package com.tregouet.occam.data.concepts.transitions.impl;
 import java.util.Objects;
 
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.automata.transitions.input_config.impl.InputConfiguration;
+import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.languages.generic.AVariable;
 
-public class ConceptTransitionIC extends InputConfiguration<IContextualizedProduction> 
-	implements IConceptTransitionIC {
+public class ConceptTransitionIC implements IConceptTransitionIC {
 
+	private final IConcept inputState;
+	private final IContextualizedProduction inputSymbol;
 	private final AVariable stackSymbol;
 	
 	public ConceptTransitionIC(IConcept inputState, IContextualizedProduction inputSymbol, AVariable stackSymbol) {
-		super(inputState, inputSymbol);
+		this.inputState = inputState;
+		this.inputSymbol = inputSymbol;
 		this.stackSymbol = stackSymbol;
 	}
 
@@ -24,23 +26,31 @@ public class ConceptTransitionIC extends InputConfiguration<IContextualizedProdu
 	}
 
 	@Override
+	public IState getInputState() {
+		return inputState;
+	}
+
+	@Override
+	public IContextualizedProduction getInputSymbol() {
+		return inputSymbol;
+	}
+
+	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(stackSymbol);
-		return result;
+		return Objects.hash(inputState, inputSymbol, stackSymbol);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		ConceptTransitionIC other = (ConceptTransitionIC) obj;
-		return Objects.equals(stackSymbol, other.stackSymbol);
+		return Objects.equals(inputState, other.inputState) && Objects.equals(inputSymbol, other.inputSymbol)
+				&& Objects.equals(stackSymbol, other.stackSymbol);
 	}
 
 }

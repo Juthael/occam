@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import com.tregouet.occam.data.concepts.ConceptualType;
@@ -145,6 +146,24 @@ public class Preconcept implements IPreconcept {
 				redundantDenotations.add(denotation);
 		}
 		return redundantDenotations;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(denotations, extent, iD, type);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Preconcept other = (Preconcept) obj;
+		return Objects.equals(denotations, other.denotations) && Objects.equals(extent, other.extent) && iD == other.iD
+				&& type == other.type;
 	}
 
 }

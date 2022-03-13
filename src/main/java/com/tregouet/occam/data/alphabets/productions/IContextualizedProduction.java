@@ -22,5 +22,11 @@ public interface IContextualizedProduction extends IProduction {
 	 * @return true if getSource().isRedundant(), false otherwise
 	 */
 	boolean isRedundant();
+	
+	@Override
+	boolean equals(Object o);
+	
+	@Override
+	int hashCode();
 
 }

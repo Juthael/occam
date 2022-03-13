@@ -5,18 +5,12 @@ import java.util.Set;
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.automata.states.IPushdownAutomatonState;
 import com.tregouet.occam.data.concepts.transitions.IConceptTransition;
-import com.tregouet.occam.data.concepts.transitions.IConceptTransitionIC;
-import com.tregouet.occam.data.concepts.transitions.IConceptTransitionOIC;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.partitions.IPartition;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
 public interface IConcept extends IPushdownAutomatonState<
-	IContextualizedProduction, 
-	AVariable, 
-	IConceptTransitionIC, 
-	IConceptTransitionOIC, 
-	IConceptTransition> {
+	IContextualizedProduction, AVariable, IConceptTransition> {
 	
 	IPartition getConceptPartition();
 	
@@ -33,5 +27,11 @@ public interface IConcept extends IPushdownAutomatonState<
 	ConceptualType type();
 	
 	IPreconcept getPreconcept();
+	
+	@Override
+	boolean equals(Object other);
+	
+	@Override
+	int hashCode();
 
 }

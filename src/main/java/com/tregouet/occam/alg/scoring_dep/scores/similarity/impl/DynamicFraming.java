@@ -8,14 +8,14 @@ import org.jgrapht.Graphs;
 
 import com.tregouet.occam.alg.scoring_dep.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public class DynamicFraming extends AbstractSimCalculator implements ISimilarityScorer {
 
-	private Tree<IState, IGenusDifferentiaDefinition> porphyrianTree = null;
+	private Tree<IState, IGenusDifferentiaDefinition_dep> porphyrianTree = null;
 	private Map<Integer, IState> stateIDToState = null;
 	
 	public DynamicFraming() {
@@ -35,9 +35,9 @@ public class DynamicFraming extends AbstractSimCalculator implements ISimilarity
 		if (genusDefinitionCost == 0.0)
 			return 0.0;
 		IState state1AsGenusSpecies = null;
-		IGenusDifferentiaDefinition cncpt1DefinitionAsGenusSpecies;
+		IGenusDifferentiaDefinition_dep cncpt1DefinitionAsGenusSpecies;
 		IState state2AsGenusSpecies = null;
-		IGenusDifferentiaDefinition cncpt2DefinitionAsGenusSpecies;
+		IGenusDifferentiaDefinition_dep cncpt2DefinitionAsGenusSpecies;
 		Iterator<IState> genusSpeciesStateIte = Graphs.predecessorListOf(porphyrianTree, genusState).iterator();
 		while (state1AsGenusSpecies == null || state2AsGenusSpecies == null) {
 			IState genusSpeciesState = genusSpeciesStateIte.next();
@@ -66,7 +66,7 @@ public class DynamicFraming extends AbstractSimCalculator implements ISimilarity
 		if (genusDefinitionCost == 0.0)
 			return 0.0;
 		IState cncpt1AsGenusSpecies = null;
-		IGenusDifferentiaDefinition cncpt1DefinitionAsGenusSpecies;
+		IGenusDifferentiaDefinition_dep cncpt1DefinitionAsGenusSpecies;
 		Iterator<IState> genusSpeciesStateIte = Graphs.predecessorListOf(porphyrianTree, genusState).iterator();
 		while (cncpt1AsGenusSpecies == null) {
 			IState genusSpeciesState = genusSpeciesStateIte.next();
@@ -94,7 +94,7 @@ public class DynamicFraming extends AbstractSimCalculator implements ISimilarity
 		IState currCncptState = cncptState;
 		IState ontologicalCommitment = porphyrianTree.getRoot();
 		while (!currCncptState.equals(ontologicalCommitment)) {
-			IGenusDifferentiaDefinition currCncptDefinition = 
+			IGenusDifferentiaDefinition_dep currCncptDefinition = 
 					porphyrianTree.outgoingEdgesOf(currCncptState).iterator().next();
 			transitionCost += currCncptDefinition.getCost();
 			currCncptState = porphyrianTree.getEdgeTarget(currCncptDefinition);

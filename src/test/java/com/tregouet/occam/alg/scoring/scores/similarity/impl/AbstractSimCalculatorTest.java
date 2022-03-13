@@ -22,7 +22,7 @@ import com.tregouet.occam.alg.scoring_dep.scores.similarity.SimilarityScoringStr
 import com.tregouet.occam.alg.scoring_dep.scores.similarity.impl.SimilarityScorerFactory;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.automata.machines.impl.Automaton;
+import com.tregouet.occam.data.automata.machines.deprec.Automaton_dep;
 import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IContextObject;
@@ -75,7 +75,7 @@ public class AbstractSimCalculatorTest {
 			while (denotationTreeSupplier.hasNext()) {
 				denotationTree = denotationTreeSupplier.nextTransitiveReduction();
 				IAutomaton automaton = 
-						new Automaton(currTreeOfDenotationSets, denotationTree);
+						new Automaton_dep(currTreeOfDenotationSets, denotationTree);
 				automatons.add(automaton);
 			}
 		}

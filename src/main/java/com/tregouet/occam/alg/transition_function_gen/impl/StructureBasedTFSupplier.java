@@ -11,7 +11,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
 import com.tregouet.occam.data.automata.machines.IIsomorphicAutomatons;
-import com.tregouet.occam.data.automata.machines.impl.Automaton;
+import com.tregouet.occam.data.automata.machines.deprec.Automaton_dep;
 import com.tregouet.occam.data.automata.machines.impl.IsomorphicAutomatons;
 import com.tregouet.occam.data.automata.transition_functions.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
@@ -75,7 +75,7 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 					new RestrictorOpt<>(filteredDenotationGraph, true);
 			while (denotationTreeSupplier.hasNext()) {
 				Tree<IDenotation, IStronglyContextualized> denotationTree = denotationTreeSupplier.nextTransitiveReduction();
-				IAutomaton automaton = new Automaton(
+				IAutomaton automaton = new Automaton_dep(
 						currTreeOfDenotationSets, denotationTree);
 				if (automaton.validate(TransitionFunctionValidator.INSTANCE))
 					currSetOfIsomorphicTransFunctions.addIsomorphicAutomaton(automaton);

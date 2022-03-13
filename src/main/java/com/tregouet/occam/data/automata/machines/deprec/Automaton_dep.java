@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.automata.machines.impl;
+package com.tregouet.occam.data.automata.machines.deprec;
 
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +12,7 @@ import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 
-public class Automaton implements IAutomaton {
+public class Automaton_dep implements IAutomaton {
 
 	private final List<IState> states;
 	private final Set<IStronglyContextualized> inputAlphabet;
@@ -23,7 +23,7 @@ public class Automaton implements IAutomaton {
 	private final List<IState> acceptStates;
 	private final List<IState> objectStates;
 	
-	public Automaton(List<IState> states, ITransitionFunction transitionFunction, IState startState, List<IState> acceptStates, 
+	public Automaton_dep(List<IState> states, ITransitionFunction transitionFunction, IState startState, List<IState> acceptStates, 
 			List<IState> objectStates) {
 		this.states = states;
 		inputAlphabet = transitionFunction.getInputAlphabet();
@@ -129,7 +129,7 @@ public class Automaton implements IAutomaton {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Automaton other = (Automaton) obj;
+		Automaton_dep other = (Automaton_dep) obj;
 		return Objects.equals(transitionFunction, other.transitionFunction);
 	}
 

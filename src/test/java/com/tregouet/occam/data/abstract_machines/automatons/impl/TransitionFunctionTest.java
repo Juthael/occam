@@ -23,7 +23,7 @@ import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.automata.machines.impl.Automaton;
+import com.tregouet.occam.data.automata.machines.deprec.Automaton_dep;
 import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
@@ -134,7 +134,7 @@ public class TransitionFunctionTest {
 			while (denotationTreeSupplier.hasNext()) {
 				denotationTree = denotationTreeSupplier.nextTransitiveReduction();
 				IAutomaton automaton = 
-						new Automaton(currTreeOfDenotationSets, denotationTree);
+						new Automaton_dep(currTreeOfDenotationSets, denotationTree);
 				automatons.add(automaton);
 			}
 		}

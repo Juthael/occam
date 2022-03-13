@@ -22,7 +22,7 @@ import com.tregouet.occam.alg.scoring_dep.costs.transitions.TransitionCostingStr
 import com.tregouet.occam.alg.scoring_dep.costs.transitions.impl.TransitionCosterFactory;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.automata.machines.impl.Automaton;
+import com.tregouet.occam.data.automata.machines.deprec.Automaton_dep;
 import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IContextObject;
@@ -75,7 +75,7 @@ public class EntropyReductionTest {
 			while (denotationTreeSupplier.hasNext()) {
 				treeOfDenotationSets = denotationTreeSupplier.next();
 				IAutomaton automaton = 
-						new Automaton(denotationTree, treeOfDenotationSets);
+						new Automaton_dep(denotationTree, treeOfDenotationSets);
 				automatons.add(automaton);
 			}
 		}

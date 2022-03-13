@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.automata.machines.descriptions;
+package com.tregouet.occam.data.automata.machines.deprec;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.automata.transitions.IReframerRule;
 import com.tregouet.occam.data.automata.transitions.ITransition;
 
-public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements ICosted {
+public abstract class IGenusDifferentiaDefinition_dep extends DefaultEdge implements ICosted {
 	
 	private static final long serialVersionUID = -1660518980107230824L;
 	
@@ -19,9 +19,9 @@ public abstract class IGenusDifferentiaDefinition extends DefaultEdge implements
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof IGenusDifferentiaDefinition))
+		if (!(o instanceof IGenusDifferentiaDefinition_dep))
 			return false;
-		IGenusDifferentiaDefinition other = (IGenusDifferentiaDefinition) o;
+		IGenusDifferentiaDefinition_dep other = (IGenusDifferentiaDefinition_dep) o;
 		return (getSource().equals(other.getSource()) && getTarget().equals(other.getTarget()));
 	}
 	

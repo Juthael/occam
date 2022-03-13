@@ -11,8 +11,8 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.automata.machines.descriptions.impl.GenusDifferentiaDefinition;
+import com.tregouet.occam.data.automata.machines.deprec.GenusDifferentiaDefinition_dep;
+import com.tregouet.occam.data.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.preconcepts.IIsA;
@@ -21,9 +21,9 @@ import com.tregouet.tree_finder.data.Tree;
 
 public interface IOntologist {
 	
-	public static Tree<IState, IGenusDifferentiaDefinition> getPorphyrianTree(
+	public static Tree<IState, IGenusDifferentiaDefinition_dep> getPorphyrianTree(
 			IAutomaton automaton){
-		DirectedAcyclicGraph<IState, IGenusDifferentiaDefinition> porphyrianTree = 
+		DirectedAcyclicGraph<IState, IGenusDifferentiaDefinition_dep> porphyrianTree = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		Graphs.addAllVertices(porphyrianTree, automaton.getStates());
 		Tree<IPreconcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
@@ -45,8 +45,8 @@ public interface IOntologist {
 			if (conjTransitions == null)
 				//then the species is bypassed by all transitions.
 				conjTransitions = new ArrayList<>();
-			IGenusDifferentiaDefinition genusDiff = 
-					new GenusDifferentiaDefinition(speciesState, genusState, conjTransitions);
+			IGenusDifferentiaDefinition_dep genusDiff = 
+					new GenusDifferentiaDefinition_dep(speciesState, genusState, conjTransitions);
 			porphyrianTree.addEdge(speciesState, genusState, genusDiff);
 		}
 		IState startState = automaton.getAssociatedStateOf(treeOfDenotationSets.getRoot());
@@ -58,7 +58,7 @@ public interface IOntologist {
 			if (preconcept.type() == IPreconcept.OBJECT)
 				finalStates.add(associatedState);
 		}
-		return new Tree<IState, IGenusDifferentiaDefinition>(porphyrianTree, startState, 
+		return new Tree<IState, IGenusDifferentiaDefinition_dep>(porphyrianTree, startState, 
 				finalStates, topoOrderedStates);
 	}
 

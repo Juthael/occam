@@ -21,8 +21,8 @@ import com.tregouet.occam.alg.scoring_dep.costs.definitions.IDefinitionCoster;
 import com.tregouet.occam.alg.scoring_dep.costs.definitions.impl.DefinitionCosterFactory;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaDefinition;
-import com.tregouet.occam.data.automata.machines.impl.Automaton;
+import com.tregouet.occam.data.automata.machines.deprec.Automaton_dep;
+import com.tregouet.occam.data.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
 import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
@@ -76,7 +76,7 @@ public class TransitionCostsTest {
 			while (denotationTreeSupplier.hasNext()) {
 				denotationTree = denotationTreeSupplier.nextTransitiveReduction();
 				IAutomaton automaton = 
-						new Automaton(currDenotationSetTree, denotationTree);
+						new Automaton_dep(currDenotationSetTree, denotationTree);
 				automatons.add(automaton);
 			}
 		}
@@ -89,8 +89,8 @@ public class TransitionCostsTest {
 		IDefinitionCoster coster = 
 				DefinitionCosterFactory.INSTANCE.apply(DefinitionCostingStrategy.TRANSITION_COSTS);
 		for (IAutomaton tF : automatons) {
-			Tree<IState, IGenusDifferentiaDefinition> porphyrianTree = tF.getPorphyrianTree();
-			for (IGenusDifferentiaDefinition def : porphyrianTree.edgeSet()) {
+			Tree<IState, IGenusDifferentiaDefinition_dep> porphyrianTree = tF.getPorphyrianTree();
+			for (IGenusDifferentiaDefinition_dep def : porphyrianTree.edgeSet()) {
 				Double defCost = null;
 				try {
 					coster.input(def).setCost();

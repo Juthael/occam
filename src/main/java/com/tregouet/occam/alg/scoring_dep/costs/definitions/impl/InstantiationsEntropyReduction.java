@@ -6,7 +6,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import com.tregouet.occam.alg.scoring_dep.costs.definitions.IDefinitionCoster;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
 import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
@@ -17,13 +17,13 @@ public class InstantiationsEntropyReduction implements IDefinitionCoster {
 	public static final InstantiationsEntropyReduction INSTANCE = new InstantiationsEntropyReduction();
 	private int[] topoOrderedStateIDs = null;
 	private Double[][] entropyReductionMatrix = null;
-	private IGenusDifferentiaDefinition costed = null;
+	private IGenusDifferentiaDefinition_dep costed = null;
 	
 	private InstantiationsEntropyReduction() {
 	}
 
 	@Override
-	public IDefinitionCoster input(IGenusDifferentiaDefinition costed) {
+	public IDefinitionCoster input(IGenusDifferentiaDefinition_dep costed) {
 		this.costed = costed;
 		return this;
 	}

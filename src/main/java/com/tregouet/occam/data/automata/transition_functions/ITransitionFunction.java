@@ -3,31 +3,31 @@ package com.tregouet.occam.data.automata.transition_functions;
 import java.util.Set;
 
 import org.jgrapht.graph.DirectedMultigraph;
-import org.jgrapht.graph.SimpleDirectedGraph;
 
-import com.tregouet.occam.data.alphabets.productions.IProduction;
-import com.tregouet.occam.data.alphabets.productions.IProperty;
+import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transitions.ITransition;
-import com.tregouet.occam.data.automata.transitions.ITransitionRules;
-import com.tregouet.occam.data.concepts_temp.IDifferentiae;
-import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.automata.transitions.input_config.IInputConfiguration;
+import com.tregouet.occam.data.automata.transitions.output_config.IOutputInternConfiguration;
+import com.tregouet.occam.data.languages.IWord;
 
-public interface ITransitionFunction {
+public interface ITransitionFunction<
+	S extends IState,
+	I extends ISymbol, 
+	K extends ISymbol, 
+	Input extends IInputConfiguration<I>, 
+	Output extends IOutputInternConfiguration,
+	T extends ITransition<Input, Output, I>> {
 	
-	Set<IProduction> getInputAlphabet();
+	Set<I> getInputAlphabet();
 	
-	Set<AVariable> getStackAlphabet();
+	Set<K> getStackAlphabet();
 	
-	Set<IProperty> getStateLanguage(int iD);
+	Set<IWord<I>> getStateLanguage(int iD);
 	
-	Set<IProperty> getMachineLanguage();
+	Set<IWord<I>> getMachineLanguage();
 	
-	Set<IDifferentiae> getDifferentiae(int iD);
-	
-	DirectedMultigraph<IState, ITransition> getTransitionFunctionMultiGraph();
-	
-	SimpleDirectedGraph<IState, ITransitionRules> getTransitionFunctionGraph();
+	DirectedMultigraph<S, T> getTransitionFunctionMultiGraph();
 	
 	@Override
 	int hashCode();

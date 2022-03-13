@@ -8,7 +8,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
 import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.automata.machines.impl.Automaton;
+import com.tregouet.occam.data.automata.machines.deprec.Automaton_dep;
 import com.tregouet.occam.data.automata.transition_functions.utils.TransitionFunctionValidator;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IDenotation;
@@ -60,7 +60,7 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 					new RestrictorOpt<IDenotation, IStronglyContextualized>(filteredDenotationGraph, true);
 			while (denotationTreeSupplier.hasNext()) {
 				Tree<IDenotation, IStronglyContextualized> denotationTree = denotationTreeSupplier.nextTransitiveReduction();
-				IAutomaton automaton = new Automaton(currTreeOfDenotationSets, denotationTree);
+				IAutomaton automaton = new Automaton_dep(currTreeOfDenotationSets, denotationTree);
 				if (automaton.validate(TransitionFunctionValidator.INSTANCE)) {
 					automatons.add(automaton);
 					if (automatons.size() > MAX_CAPACITY)

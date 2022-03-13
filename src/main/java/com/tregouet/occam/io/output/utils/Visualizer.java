@@ -15,7 +15,7 @@ import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
 import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.automata.machines.descriptions.IGenusDifferentiaDefinition;
+import com.tregouet.occam.data.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transitions.IBasicOperator;
 import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
@@ -102,10 +102,10 @@ public class Visualizer {
 	
 	public static void visualizePorphyrianTree(IAutomaton automaton, 
 			String fileName) throws IOException {
-		Tree<IState, IGenusDifferentiaDefinition> prophyrianTree = 
+		Tree<IState, IGenusDifferentiaDefinition_dep> prophyrianTree = 
 				automaton.getPorphyrianTree();
 		//convert in DOT format
-		DOTExporter<IState,IGenusDifferentiaDefinition> exporter = new DOTExporter<>();
+		DOTExporter<IState,IGenusDifferentiaDefinition_dep> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
@@ -183,7 +183,7 @@ public class Visualizer {
 			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}	
 	
-	private static  String buildGenDiffStringDesc(IGenusDifferentiaDefinition def) {
+	private static  String buildGenDiffStringDesc(IGenusDifferentiaDefinition_dep def) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("Cost : ");
 		sB.append(round(def.getCost()) + System.lineSeparator());

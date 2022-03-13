@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import com.tregouet.occam.data.concepts.ConceptualType;
+import com.tregouet.occam.data.concepts.ConceptType;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;
@@ -22,7 +22,7 @@ public class Preconcept implements IPreconcept {
 	private final Set<IDenotation> denotations = new HashSet<>();
 	private final Set<IContextObject> extent;
 	private final int iD;
-	private ConceptualType type;
+	private ConceptType type;
 	
 	public Preconcept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent) {
 		for (IConstruct construct : denotatingConstructs)
@@ -72,7 +72,7 @@ public class Preconcept implements IPreconcept {
 
 	@Override
 	public String toString() {
-		if (type == ConceptualType.ABSURDITY)
+		if (type == ConceptType.ABSURDITY)
 			return "ABSURDITY";
 		StringBuilder sB = new StringBuilder();
 		sB.append(Integer.toString(iD));
@@ -121,12 +121,12 @@ public class Preconcept implements IPreconcept {
 	}	
 	
 	@Override
-	public ConceptualType type() {
+	public ConceptType type() {
 		return type;
 	}	
 	
 	@Override
-	public void setType(ConceptualType type) {
+	public void setType(ConceptType type) {
 		this.type = type;
 	}
 

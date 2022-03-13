@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.concepts.ConceptualType;
+import com.tregouet.occam.data.concepts.ConceptType;
 import com.tregouet.occam.data.concepts.transitions.dimensions.Nothing;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
@@ -22,7 +22,7 @@ public class WhatIsTherePreconcept extends Preconcept implements IPreconcept {
 								Arrays.asList(
 										new ISymbol[] {Nothing.INSTANCE}))})), 
 			new HashSet<IContextObject>());
-		setType(ConceptualType.WHAT_IS_THERE);
+		setType(ConceptType.WHAT_IS_THERE);
 	}
 
 }

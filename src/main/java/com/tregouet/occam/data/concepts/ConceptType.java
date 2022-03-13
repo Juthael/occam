@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.concepts;
 
-public enum ConceptualType {
+public enum ConceptType {
 	
 	ABSURDITY, 
 	PARTICULAR, 

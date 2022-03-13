@@ -2,7 +2,7 @@ package com.tregouet.occam.data.concepts.impl;
 
 import java.util.Set;
 
-import com.tregouet.occam.data.concepts.ConceptualType;
+import com.tregouet.occam.data.concepts.ConceptType;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.transitions.IConceptTransition;
 import com.tregouet.occam.data.partitions.IPartition;
@@ -13,7 +13,6 @@ public abstract class Concept implements IConcept {
 	IPreconcept preconcept;
 	
 	public Concept(IPreconcept preconcept) {
-		super();
 		this.preconcept = preconcept;
 	}
 
@@ -41,10 +40,7 @@ public abstract class Concept implements IConcept {
 	abstract public int getLowestSubordinateID();
 
 	@Override
-	abstract public boolean isUniversal();
-
-	@Override
-	public ConceptualType type() {
+	public ConceptType type() {
 		return getPreconcept().type();
 	}
 

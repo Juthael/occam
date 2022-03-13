@@ -17,7 +17,7 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptsConstructionManager;
 import com.tregouet.occam.alg.preconcepts_gen.MarkRedundantDenotations;
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.concepts.ConceptualType;
+import com.tregouet.occam.data.concepts.ConceptType;
 import com.tregouet.occam.data.concepts.transitions.dimensions.This;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
@@ -89,16 +89,16 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 			IPreconcept preconcept = new Preconcept(entry.getKey(), entry.getValue());
 			if (!preconcept.getExtent().isEmpty()) {
 				if (preconcept.getExtent().size() == 1)
-					preconcept.setType(ConceptualType.PARTICULAR);
+					preconcept.setType(ConceptType.PARTICULAR);
 				else if (preconcept.getExtent().size() == objects.size()) {
-					preconcept.setType(ConceptualType.TRUISM);
+					preconcept.setType(ConceptType.TRUISM);
 				}
 				else {
-					preconcept.setType(ConceptualType.UNIVERSAL);
+					preconcept.setType(ConceptType.UNIVERSAL);
 				}
 			}
 			else {
-				preconcept.setType(ConceptualType.ABSURDITY);
+				preconcept.setType(ConceptType.ABSURDITY);
 			}
 			lattice.addVertex(preconcept);
 		}
@@ -189,7 +189,7 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 		Set<IConstruct> denotatingConstructs =  new HashSet<IConstruct>();
 		denotatingConstructs.add(denotatingConstruct);
 		ontologicalCommitment = new Preconcept(denotatingConstructs, new HashSet<IContextObject>(objects));
-		ontologicalCommitment.setType(ConceptualType.ONTOLOGICAL_COMMITMENT);
+		ontologicalCommitment.setType(ConceptType.ONTOLOGICAL_COMMITMENT);
 		return ontologicalCommitment;
 	}
 	

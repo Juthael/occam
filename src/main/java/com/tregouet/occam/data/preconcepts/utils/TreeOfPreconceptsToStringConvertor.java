@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.jgrapht.Graphs;
 
-import com.tregouet.occam.data.concepts.ConceptualType;
+import com.tregouet.occam.data.concepts.ConceptType;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.tree_finder.data.Tree;
@@ -27,7 +27,7 @@ public class TreeOfPreconceptsToStringConvertor {
 	
 	private String getExtentStructure(IPreconcept preconcept) {
 		String extentStructure;
-		if (preconcept.type() == ConceptualType.PARTICULAR)
+		if (preconcept.type() == ConceptType.PARTICULAR)
 			extentStructure = leafToLeafName.get(preconcept);
 		else {
 			List<IPreconcept> predecessors = Graphs.predecessorListOf(treeOfDenotationSets, preconcept);

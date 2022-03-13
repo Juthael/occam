@@ -6,37 +6,12 @@ import com.tregouet.occam.data.automata.tapes.ITapeSet;
 import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.occam.data.concepts.transitions.IConceptTransition;
 import com.tregouet.occam.data.partitions.IPartition;
-import com.tregouet.occam.data.preconcepts.IContextObject;
-import com.tregouet.occam.data.preconcepts.impl.TruismPreconcept;
+import com.tregouet.occam.data.preconcepts.IPreconcept;
 
-public class OntologicalCommitment extends Concept implements IConcept {
+public class Particular extends Concept implements IConcept {
 
-	public OntologicalCommitment(Set<IContextObject> extent) {
-		super(new TruismPreconcept(extent));
-	}
-
-	@Override
-	public void loadTransitionRules(IConceptTransition transitions) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public IPartition getConceptPartition() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<IPartition> getSubPartitions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getLowestSubordinateID() {
-		// TODO Auto-generated method stub
-		return 0;
+	public Particular(IPreconcept preconcept) {
+		super(preconcept);
 	}
 
 	@Override
@@ -48,7 +23,7 @@ public class OntologicalCommitment extends Concept implements IConcept {
 	@Override
 	public void generateOutputLanguage() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -72,19 +47,42 @@ public class OntologicalCommitment extends Concept implements IConcept {
 	@Override
 	public void mergeTapeSets() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void proceedTransitions() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setRank(int rank) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void loadTransitionRules(IConceptTransition transitions) {
+		//No transition from a particular
+	}
+
+	@Override
+	public IPartition getConceptPartition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<IPartition> getSubPartitions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getLowestSubordinateID() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

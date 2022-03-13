@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.data.concepts.ConceptualType;
+import com.tregouet.occam.data.concepts.ConceptType;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
@@ -30,10 +30,10 @@ public interface IPreconcept extends IDichotomizable<IPreconcept> {
 	
 	boolean meets(List<String> constraintAsStrings);
 	
-	void setType(ConceptualType type);
+	void setType(ConceptType type);
 	
 	@Override
 	String toString();
 	
-	ConceptualType type();
+	ConceptType type();
 }

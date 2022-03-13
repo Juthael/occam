@@ -20,11 +20,9 @@ public interface IConcept extends IPushdownAutomatonState<
 	
 	int getLowestSubordinateID();
 	
-	boolean isUniversal();
-	
 	int getID();
 	
-	ConceptualType type();
+	ConceptType type();
 	
 	IPreconcept getPreconcept();
 	

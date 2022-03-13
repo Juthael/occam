@@ -4,7 +4,7 @@ import com.tregouet.occam.data.automata.tapes.ITapeSet;
 
 public interface IState {
 	
-	boolean acceptInput(ITapeSet tapeSet);
+	boolean evaluate(ITapeSet tapeSet);
 	
 	@Override
 	boolean equals(Object o);
@@ -27,5 +27,7 @@ public interface IState {
 	void proceedTransitions();
 	
 	void setRank(int rank);
+	
+	void init();
 
 }

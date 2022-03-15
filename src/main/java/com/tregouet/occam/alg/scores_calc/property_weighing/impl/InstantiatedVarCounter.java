@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.alg.scores_calc.property_weighing.IPropertyWeigher;
-import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.properties.IProperty;
 import com.tregouet.occam.data.representations.transitions.IApplication;
 

@@ -6,8 +6,8 @@ import java.util.Map;
 
 import com.tregouet.occam.alg.concepts_gen.transitions_gen.utils.MapVariablesToValues;
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.languages.generic.AVariable;
-import com.tregouet.occam.data.languages.generic.ITerminal;
+import com.tregouet.occam.data.alphabets.generic.AVariable;
+import com.tregouet.occam.data.alphabets.generic.ITerminal;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IDenotationComparator;
 

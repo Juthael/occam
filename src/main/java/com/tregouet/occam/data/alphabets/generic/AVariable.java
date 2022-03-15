@@ -1,10 +1,11 @@
-package com.tregouet.occam.data.languages.generic;
+package com.tregouet.occam.data.alphabets.generic;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
+import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
 /**

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
+import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.productions.IProduction;
-import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;

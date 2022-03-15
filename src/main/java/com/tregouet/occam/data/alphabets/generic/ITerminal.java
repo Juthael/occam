@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.languages.generic;
+package com.tregouet.occam.data.alphabets.generic;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
 

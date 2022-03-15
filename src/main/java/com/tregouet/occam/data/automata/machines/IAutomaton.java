@@ -3,12 +3,12 @@ package com.tregouet.occam.data.automata.machines;
 import java.util.Collection;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
+import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_functions.ITransitionFunction;
 import com.tregouet.occam.data.automata.transitions.ITransition;
 import com.tregouet.occam.data.automata.transitions.input_config.IInputConfiguration;
 import com.tregouet.occam.data.automata.transitions.output_config.IOutputInternConfiguration;
-import com.tregouet.occam.data.languages.generic.AVariable;
 
 public interface IAutomaton<
 	State extends IState, 

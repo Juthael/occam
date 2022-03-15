@@ -1,6 +1,6 @@
-package com.tregouet.occam.data.languages.generic.impl;
+package com.tregouet.occam.data.alphabets.generic.impl;
 
-import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class Variable extends AVariable {

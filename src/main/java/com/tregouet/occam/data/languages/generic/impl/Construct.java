@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.alphabets.generic.AVariable;
+import com.tregouet.occam.data.alphabets.generic.ITerminal;
+import com.tregouet.occam.data.alphabets.generic.impl.Terminal;
+import com.tregouet.occam.data.alphabets.generic.impl.Variable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.ITerminal;
 import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class Construct implements IConstruct {

@@ -3,8 +3,8 @@ package com.tregouet.occam.data.representations.transitions.impl;
 import java.util.List;
 import java.util.Objects;
 
+import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.representations.IConcept;
 import com.tregouet.occam.data.representations.transitions.IConceptTransitionOIC;
 

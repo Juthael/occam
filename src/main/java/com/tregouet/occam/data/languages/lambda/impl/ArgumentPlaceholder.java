@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.languages.lambda.impl;
 
-import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.lambda.IArgumentPlaceholder;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 

@@ -3,7 +3,7 @@ package com.tregouet.occam.data.alphabets.productions;
 import java.util.List;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 

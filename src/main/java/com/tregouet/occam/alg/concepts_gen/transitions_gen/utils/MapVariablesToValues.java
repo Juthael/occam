@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.alphabets.generic.AVariable;
 
 public interface MapVariablesToValues {
 	

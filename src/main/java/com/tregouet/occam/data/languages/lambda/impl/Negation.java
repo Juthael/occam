@@ -2,7 +2,7 @@ package com.tregouet.occam.data.languages.lambda.impl;
 
 import java.util.List;
 
-import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
 public class Negation implements ILambdaExpression {

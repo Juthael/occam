@@ -9,12 +9,12 @@ import java.util.List;
 import org.junit.Test;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.alphabets.generic.AVariable;
+import com.tregouet.occam.data.alphabets.generic.ITerminal;
+import com.tregouet.occam.data.alphabets.generic.impl.Terminal;
+import com.tregouet.occam.data.alphabets.generic.impl.Variable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.ITerminal;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
-import com.tregouet.occam.data.languages.generic.impl.Terminal;
-import com.tregouet.occam.data.languages.generic.impl.Variable;
 import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 
 public class LambdaExpressionTest {

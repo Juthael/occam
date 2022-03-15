@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.concepts_gen.transitions_gen;
+package com.tregouet.occam.alg.representation_gen.transitions_gen;
 
-import java.util.List;
+import java.util.Set;
 
 import com.tregouet.occam.data.alphabets.productions.IProduction;
 import com.tregouet.occam.data.preconcepts.IDenotation;
@@ -14,6 +14,6 @@ public interface IProductionBuilder<T extends IProduction> {
 	 */
 	IProductionBuilder<T> input(IDenotation source, IDenotation target);
 	
-	List<T> output();
+	Set<T> output();
 
 }

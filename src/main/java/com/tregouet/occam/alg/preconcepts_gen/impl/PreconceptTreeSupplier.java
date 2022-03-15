@@ -1,8 +1,8 @@
 package com.tregouet.occam.alg.preconcepts_gen.impl;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
 import com.tregouet.occam.data.preconcepts.IIsA;
@@ -28,8 +28,8 @@ public class PreconceptTreeSupplier implements IPreconceptTreeSupplier {
 	}
 
 	@Override
-	public List<Tree<IPreconcept, IIsA>> getRemainingTreesOfPreconcepts() {
-		List<Tree<IPreconcept, IIsA>> remainingClassifications = new ArrayList<>();
+	public Set<Tree<IPreconcept, IIsA>> getRemainingTreesOfPreconcepts() {
+		Set<Tree<IPreconcept, IIsA>> remainingClassifications = new HashSet<>();
 		while (hasNext())
 			remainingClassifications.add(next());
 		return remainingClassifications;

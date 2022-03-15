@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.preconcepts_gen;
 
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
@@ -15,6 +15,6 @@ public interface IPreconceptTreeSupplier extends Iterator<Tree<IPreconcept, IIsA
 		return classificationTree;
 	}
 	
-	List<Tree<IPreconcept, IIsA>> getRemainingTreesOfPreconcepts();
+	Set<Tree<IPreconcept, IIsA>> getRemainingTreesOfPreconcepts();
 
 }

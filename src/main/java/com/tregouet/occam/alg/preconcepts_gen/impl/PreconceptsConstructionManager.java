@@ -133,7 +133,7 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 				denotatingConstructsToExtents.get(denotatingConstructs).addAll(subset);
 			else denotatingConstructsToExtents.put(denotatingConstructs, subset);
 		}
-		denotatingConstructsToExtents = singularizeConstructs(denotatingConstructsToExtents);
+		denotatingConstructsToExtents = replaceEqualConstructsByUniqueInstanceAndNameVariables(denotatingConstructsToExtents);
 		return denotatingConstructsToExtents;
 	}	
 	
@@ -150,35 +150,53 @@ public class PreconceptsConstructionManager implements IPreconceptsConstructionM
 	    return powerSet;
 	}	
 	
-	private Map<Set<IConstruct>, Set<IContextObject>> singularizeConstructs(
+	private Map<Set<IConstruct>, Set<IContextObject>> replaceEqualConstructsByUniqueInstanceAndNameVariables(
 			Map<Set<IConstruct>, Set<IContextObject>> denotatingConstructsToExtents) {
-		//HERE
+		//reset variable name provider
 		AVariable.resetVarNaming();
-		Map<Set<IConstruct>, Set<IContextObject>> mapWithSingularizedIntents 
-			= new HashMap<Set<IConstruct>, Set<IContextObject>>();
 		/*
-		 * must use transitory collections not based on hash tables, since variable naming
-		 * will modify hashcodes  
+		 * Build a map such that all equal constructs will return the same construct instance
+		 * (that will therefore be the reference instance). 
 		 */
-		List<Set<IConstruct>> constructSets = new ArrayList<Set<IConstruct>>();
-		List<Set<IConstruct>> singularizedConstructSets = new ArrayList<Set<IConstruct>>();
+		int nbOfMappings = denotatingConstructsToExtents.size();
+		Map<Set<IConstruct>, Set<IContextObject>> paramCopyWithRefInstancesAndNamedVars 
+			= new HashMap<Set<IConstruct>, Set<IContextObject>>(nbOfMappings);
+		Map<IConstruct, IConstruct> constructToRefInstance = new HashMap<>();
+		for (Set<IConstruct> constructSet : denotatingConstructsToExtents.keySet()) {
+			for (IConstruct construct : constructSet) {
+				if (!constructToRefInstance.containsKey(construct)) {
+					constructToRefInstance.put(construct, construct);
+				}
+			}
+		}
+		/*
+		 * Build a copy of the parameter map with reference construct instances only in values, 
+		 * and real variable names in constructs instead of placeholders.
+		 * Must use transitory collections not based on hash tables, since variable naming
+		 * will modify hashcodes.
+		 */
+		List<List<IConstruct>> setsOfReferenceConstrInstances = new ArrayList<List<IConstruct>>();
 		List<Set<IContextObject>> listOfExtents = new ArrayList<Set<IContextObject>>();
 		for (Entry<Set<IConstruct>, Set<IContextObject>> entry : denotatingConstructsToExtents.entrySet()) {
-			constructSets.add(entry.getKey());
+			List<IConstruct> withReferenceInstances = new ArrayList<>();
+			for (IConstruct construct : entry.getKey()) {
+				withReferenceInstances.add(constructToRefInstance.get(construct));
+			}
+			setsOfReferenceConstrInstances.add(withReferenceInstances);
 			listOfExtents.add(entry.getValue());
 		}
-		for (Set<IConstruct> constructSet : constructSets) {
-			Set<IConstruct> singularizedConstructs = new HashSet<IConstruct>();
-			for (IConstruct construct : constructSet) {
-				construct.nameVariables();
-				singularizedConstructs.add(construct);
-			}
-			singularizedConstructSets.add(singularizedConstructs);
+		//name variable, using side effects
+		for (IConstruct refInstance : constructToRefInstance.values())
+			refInstance.nameVariables();
+		/*
+		 * Populate the returned map with reference construct instances, whose 
+		 * variables now have a name.
+		 */
+		for (int i = 0 ; i < setsOfReferenceConstrInstances.size() ; i++) {
+			paramCopyWithRefInstancesAndNamedVars.put(
+					new HashSet<>(setsOfReferenceConstrInstances.get(i)), listOfExtents.get(i));
 		}
-		for (int i = 0 ; i < singularizedConstructSets.size() ; i++) {
-			mapWithSingularizedIntents.put(singularizedConstructSets.get(i), listOfExtents.get(i));
-		}
-		return mapWithSingularizedIntents;
+		return paramCopyWithRefInstancesAndNamedVars;
 	}	
 	
 	private IPreconcept instantiateOntologicalCommitment() {

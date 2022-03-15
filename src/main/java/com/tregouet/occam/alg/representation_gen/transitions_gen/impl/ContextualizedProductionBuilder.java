@@ -1,13 +1,15 @@
-package com.tregouet.occam.alg.concepts_gen.transitions_gen.impl;
+package com.tregouet.occam.alg.representation_gen.transitions_gen.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import com.tregouet.occam.alg.concepts_gen.transitions_gen.IProductionBuilder;
-import com.tregouet.occam.alg.concepts_gen.transitions_gen.utils.MapVariablesToValues;
+import com.tregouet.occam.alg.representation_gen.transitions_gen.IProductionBuilder;
+import com.tregouet.occam.alg.representation_gen.transitions_gen.utils.MapVariablesToValues;
 import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.generic.ITerminal;
@@ -25,14 +27,14 @@ public class ContextualizedProductionBuilder implements IProductionBuilder<ICont
 	
 	public static final ContextualizedProductionBuilder INSTANCE = new ContextualizedProductionBuilder();
 	
-	private List<IContextualizedProduction> productions = null;
+	private Set<IContextualizedProduction> productions = null;
 	
 	private ContextualizedProductionBuilder() {
 	}
 
 	@Override
 	public IProductionBuilder<IContextualizedProduction> input(IDenotation source, IDenotation target) {
-		productions = new ArrayList<>();
+		productions = new HashSet<>();
 		if (source.getListOfSymbols().equals(target.getListOfSymbols()))
 			productions.add(new ContextualizedEpsilon(source, target));
 		else if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals())) {
@@ -59,7 +61,7 @@ public class ContextualizedProductionBuilder implements IProductionBuilder<ICont
 	}
 
 	@Override
-	public List<IContextualizedProduction> output() {
+	public Set<IContextualizedProduction> output() {
 		return productions;
 	}
 	

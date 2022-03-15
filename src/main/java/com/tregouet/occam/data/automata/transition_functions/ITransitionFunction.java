@@ -12,22 +12,21 @@ import com.tregouet.occam.data.automata.transitions.output_config.IOutputInternC
 import com.tregouet.occam.data.languages.IWord;
 
 public interface ITransitionFunction<
-	S extends IState,
-	I extends ISymbol, 
-	K extends ISymbol, 
-	Input extends IInputConfiguration<I>, 
-	Output extends IOutputInternConfiguration,
-	T extends ITransition<Input, Output, I>> {
+	State extends IState,
+	InputSymbol extends ISymbol, 
+	InputConfig extends IInputConfiguration<InputSymbol>, 
+	OutputConfig extends IOutputInternConfiguration,
+	T extends ITransition<InputConfig, OutputConfig, InputSymbol>> {
 	
-	Set<I> getInputAlphabet();
+	Set<InputSymbol> getInputAlphabet();
 	
-	Set<K> getStackAlphabet();
 	
-	Set<IWord<I>> getStateLanguage(int iD);
 	
-	Set<IWord<I>> getMachineLanguage();
+	Set<IWord<InputSymbol>> getStateLanguage(int iD);
 	
-	DirectedMultigraph<S, T> getTransitionFunctionMultiGraph();
+	Set<IWord<InputSymbol>> getMachineLanguage();
+	
+	DirectedMultigraph<State, T> getTransitionFunctionMultiGraph();
 	
 	@Override
 	int hashCode();

@@ -2,15 +2,11 @@ package com.tregouet.occam.data.concepts;
 
 import java.util.Set;
 
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.automata.states.IPushdownAutomatonState;
-import com.tregouet.occam.data.concepts.transitions.IConceptTransition;
-import com.tregouet.occam.data.languages.generic.AVariable;
+import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.partitions.IPartition;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
-public interface IConcept extends IPushdownAutomatonState<
-	IContextualizedProduction, AVariable, IConceptTransition> {
+public interface IConcept extends IState {
 	
 	IPartition getConceptPartition();
 	

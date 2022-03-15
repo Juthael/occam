@@ -1,14 +1,18 @@
 package com.tregouet.occam.data.automata.states;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.automata.transitions.IPushdownAutomatonTransition;
+import com.tregouet.occam.data.automata.transitions.ITransition;
+import com.tregouet.occam.data.automata.transitions.input_config.IPushdownAutomatonIC;
+import com.tregouet.occam.data.automata.transitions.output_config.IPushdownAutomatonOIC;
 
 public interface IPushdownAutEvaluatingState<
 	InputSymbol extends ISymbol, 
 	StackSymbol extends ISymbol,  
-	Transition extends IPushdownAutomatonTransition<InputSymbol, StackSymbol>
+	InputConfig extends IPushdownAutomatonIC<InputSymbol, StackSymbol>, 
+	OutputConfig extends IPushdownAutomatonOIC<StackSymbol>, 
+	Transition extends ITransition<InputConfig, OutputConfig, InputSymbol>
 	>
-	extends IPushdownAutomatonState<InputSymbol, StackSymbol, Transition>{
+	extends IState{
 	
 	void loadTransitionRules(Transition transitions);
 

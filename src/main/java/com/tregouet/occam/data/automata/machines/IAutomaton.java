@@ -1,46 +1,42 @@
 package com.tregouet.occam.data.automata.machines;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Collection;
 
-import org.jgrapht.graph.DirectedMultigraph;
-import org.jgrapht.graph.SimpleDirectedGraph;
-
-import com.tregouet.occam.alg.scoring_dep.costs.ICosted;
-import com.tregouet.occam.alg.scoring_dep.scores.IScored;
+import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_functions.ITransitionFunction;
 import com.tregouet.occam.data.automata.transitions.ITransition;
-import com.tregouet.occam.data.automata.transitions.ITransitionRules;
+import com.tregouet.occam.data.automata.transitions.input_config.IInputConfiguration;
+import com.tregouet.occam.data.automata.transitions.output_config.IOutputInternConfiguration;
 import com.tregouet.occam.data.languages.generic.AVariable;
-import com.tregouet.occam.data.languages.specific.IDomainSpecificLanguageDisplayer;
-import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
-import com.tregouet.occam.data.preconcepts.IPreconcept;
 
-public interface IAutomaton<S extends IState> {
+public interface IAutomaton<
+	State extends IState, 
+	InputSymbol extends ISymbol,
+	InputConfig extends IInputConfiguration<InputSymbol>,
+	OutputConfig extends IOutputInternConfiguration,
+	TransFunc extends ITransitionFunction<
+		State, 
+		InputSymbol, 
+		InputConfig, 
+		OutputConfig, 
+		ITransition<InputConfig,OutputConfig,InputSymbol>>
+	>{
 	
 	@Override
 	boolean equals(Object o);
 	
-	List<IState> getStates();
+	Collection<IState> getStates();
 	
-	Set<IStronglyContextualized> getInputAlphabet();
-	
-	Set<AVariable> getStackAlphabet();
-	
-	ITransitionFunction getTransitionFunction();
+	TransFunc getTransitionFunction();
 	
 	IState getStartState();
 	
 	AVariable getInitialStackSymbol();
 	
-	List<IState> getAcceptStates();
-	
-	List<IState> getObjectStates();
+	Collection<IState> getAcceptStates();
 	
 	IState getStateWithID(int iD);
-	
-	IDomainSpecificLanguageDisplayer getDomainSpecificLanguageDisplayer();
 	
 	@Override
 	int hashCode();

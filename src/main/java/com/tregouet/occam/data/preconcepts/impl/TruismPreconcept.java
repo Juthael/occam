@@ -5,11 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.concepts.transitions.dimensions.This;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.representations.transitions.dimensions.This;
 
 public class TruismPreconcept extends Preconcept implements IPreconcept {
 	

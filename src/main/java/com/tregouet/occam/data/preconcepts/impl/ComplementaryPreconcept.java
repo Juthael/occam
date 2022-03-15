@@ -5,11 +5,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.data.concepts.ConceptType;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IComplementaryPreconcept;
 import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.representations.ConceptType;
 
 public class ComplementaryPreconcept extends Preconcept implements IComplementaryPreconcept {
 

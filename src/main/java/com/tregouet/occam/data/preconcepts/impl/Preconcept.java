@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import com.tregouet.occam.data.concepts.ConceptType;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.representations.ConceptType;
 
 public class Preconcept implements IPreconcept {
 

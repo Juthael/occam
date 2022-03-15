@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.automata.transition_functions;
 
-import java.util.Set;
+import java.util.Collection;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.automata.states.IState;
@@ -18,6 +18,8 @@ public interface IPushdownAutomatonTF<
 	>
 	extends ITransitionFunction<State, InputSymbol, InputConfig, OutputConfig, Transition> {
 	
-	Set<StackSymbol> getStackAlphabet();
+	Collection<StackSymbol> getStackAlphabet();
+	
+	StackSymbol getInitialStackSymbol();
 
 }

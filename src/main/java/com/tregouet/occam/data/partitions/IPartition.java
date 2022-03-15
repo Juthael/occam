@@ -1,7 +1,7 @@
 package com.tregouet.occam.data.partitions;
 
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IDifferentiae;
+import com.tregouet.occam.data.representations.IConcept;
+import com.tregouet.occam.data.representations.IDifferentiae;
 
 public interface IPartition {
 	

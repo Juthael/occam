@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.jgrapht.Graphs;
 
-import com.tregouet.occam.data.concepts.ConceptType;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.representations.ConceptType;
 import com.tregouet.tree_finder.data.Tree;
 
 public class TreeOfPreconceptsToStringConvertor {

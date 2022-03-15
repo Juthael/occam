@@ -17,8 +17,6 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 import com.tregouet.occam.alg.preconcepts_gen.IPreconceptsConstructionManager;
 import com.tregouet.occam.alg.preconcepts_gen.MarkRedundantDenotations;
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.concepts.ConceptType;
-import com.tregouet.occam.data.concepts.transitions.dimensions.This;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
@@ -27,6 +25,8 @@ import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.occam.data.preconcepts.impl.IsA;
 import com.tregouet.occam.data.preconcepts.impl.Preconcept;
+import com.tregouet.occam.data.representations.ConceptType;
+import com.tregouet.occam.data.representations.transitions.dimensions.This;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public class PreconceptsConstructionManager implements IPreconceptsConstructionManager {

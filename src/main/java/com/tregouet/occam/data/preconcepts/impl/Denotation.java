@@ -33,7 +33,7 @@ public class Denotation extends Construct implements IDenotation {
 	}
 	
 	@Override
-	public IPreconcept getConcept() {
+	public IPreconcept getPreconcept() {
 		return preconcept;
 	}
 

@@ -104,7 +104,7 @@ public class ProductionBuilderTest {
 		boolean aVertexOrEdgeAdditionHasFailed = false;
 		List<IStronglyContextualized> stronglyContextualizeds = builder.getProductions()
 				.stream()
-				.filter(p -> p.getSource().getConcept().type() != IPreconcept.ABSURDITY)
+				.filter(p -> p.getSource().getPreconcept().type() != IPreconcept.ABSURDITY)
 				.collect(Collectors.toList());
 		List<IDenotation> denotations = new ArrayList<>();
 		for (IPreconcept preconcept : preconcepts.getTopologicalSorting()) {

@@ -139,7 +139,7 @@ public class TransitionFunctionSupplierTest {
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
 			for (IDenotation denotation : filteredDenotations.vertexSet()) {
-				returnedDenotationSets.add(denotation.getConcept());
+				returnedDenotationSets.add(denotation.getPreconcept());
 			}
 			if (!expectedDenotationSets.equals(returnedDenotationSets)) {
 				Set<IPreconcept> unfoundDenotationSets = Sets.difference(expectedDenotationSets, returnedDenotationSets);

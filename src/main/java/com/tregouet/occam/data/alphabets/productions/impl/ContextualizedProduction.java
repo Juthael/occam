@@ -28,7 +28,7 @@ public class ContextualizedProduction extends DefaultEdge implements IContextual
 
 	@Override
 	public IPreconcept getGenus() {
-		return genusDenotation.getConcept();
+		return genusDenotation.getPreconcept();
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class ContextualizedProduction extends DefaultEdge implements IContextual
 
 	@Override
 	public IPreconcept getSpecies() {
-		return speciesDenotation.getConcept();
+		return speciesDenotation.getPreconcept();
 	}
 
 	@Override

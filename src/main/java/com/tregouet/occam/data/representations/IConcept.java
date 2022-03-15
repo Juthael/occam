@@ -3,7 +3,7 @@ package com.tregouet.occam.data.representations;
 import java.util.Set;
 
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.automata.states.IPushdownAutEvaluatingState;
+import com.tregouet.occam.data.automata.states.IPushdownAutomatonState;
 import com.tregouet.occam.data.languages.generic.AVariable;
 import com.tregouet.occam.data.partitions.IPartition;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
@@ -12,7 +12,7 @@ import com.tregouet.occam.data.representations.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.representations.transitions.IConceptTransitionOIC;
 
-public interface IConcept extends  IPushdownAutEvaluatingState<
+public interface IConcept extends  IPushdownAutomatonState<
 	IContextualizedProduction, 
 	AVariable, 
 	IConceptTransitionIC, 

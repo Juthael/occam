@@ -5,7 +5,7 @@ import com.tregouet.occam.data.automata.transitions.ITransition;
 import com.tregouet.occam.data.automata.transitions.input_config.IPushdownAutomatonIC;
 import com.tregouet.occam.data.automata.transitions.output_config.IPushdownAutomatonOIC;
 
-public interface IPushdownAutEvaluatingState<
+public interface IPushdownAutomatonState<
 	InputSymbol extends ISymbol, 
 	StackSymbol extends ISymbol,  
 	InputConfig extends IPushdownAutomatonIC<InputSymbol, StackSymbol>, 

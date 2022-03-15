@@ -23,6 +23,8 @@ public interface ITapeSet<
 	
 	ITapeSet<InputSymbol, InputTape, InputConfig, OutputConfig, Transition, State> apply(Transition transition);
 	
-	void loadIntoNext(IState state);
+	void loadIntoNext(State state);
+	
+	ITapeSet<InputSymbol, InputTape, InputConfig, OutputConfig, Transition, State> clone();
 	
 }

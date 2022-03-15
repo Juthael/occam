@@ -16,5 +16,11 @@ public interface IPushdownAutomatonTapeSet<
 	State extends IPushdownAutomatonState<InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition>
 	>
 	extends ITapeSet<InputSymbol, InputTape, InputConfig, OutputConfig, Transition, State> {
+	
+	@Override
+	IPushdownAutomatonTapeSet<InputSymbol, StackSymbol, InputTape, InputConfig, OutputConfig, Transition, State> apply(Transition transition);
+	
+	@Override
+	IPushdownAutomatonTapeSet<InputSymbol, StackSymbol, InputTape, InputConfig, OutputConfig, Transition, State> clone();
 
 }

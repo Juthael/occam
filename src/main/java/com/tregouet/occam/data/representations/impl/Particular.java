@@ -16,45 +16,13 @@ public class Particular extends Concept implements IConcept {
 	}
 
 	@Override
-	public boolean evaluate(ITapeSet tapeSet) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void generateOutputLanguage() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public int getRank() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean isActive() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean isOperative() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void mergeTapeSets() {
-		// TODO Auto-generated method stub
-
+		return true;
 	}
 
 	@Override
 	public void proceedTransitions() {
-		// TODO Auto-generated method stub
-
+		// No more transitions from a particular
 	}
 
 	@Override
@@ -64,7 +32,7 @@ public class Particular extends Concept implements IConcept {
 	}
 
 	@Override
-	public void loadTransitionRules(IConceptTransition transitions) {
+	public void loadTransitionRule(IConceptTransition transitions) {
 		//No transition from a particular
 	}
 
@@ -93,19 +61,19 @@ public class Particular extends Concept implements IConcept {
 	}
 
 	@Override
-	public void setSubconceptsDistinctiveFeaturesSaliency() {
+	public void setSubconceptsDistinctiveFeaturesSalience() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setSpeciesAlignableDifferencesSaliency() {
+	public void setSpeciesAlignableDifferencesSalience() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setSaliencies() {
+	public void setSaliences() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -120,6 +88,18 @@ public class Particular extends Concept implements IConcept {
 	public Set<IConceptTransition> getConceptTransitions() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Set<IPartition> getAllPartitions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void loadTransitionRules(Set<IConceptTransition> transitions) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

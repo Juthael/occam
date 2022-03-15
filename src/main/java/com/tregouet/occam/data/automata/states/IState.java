@@ -1,10 +1,6 @@
 package com.tregouet.occam.data.automata.states;
 
-import com.tregouet.occam.data.automata.tapes.ITapeSet;
-
 public interface IState {
-	
-	boolean evaluate(ITapeSet tapeSet);
 	
 	@Override
 	boolean equals(Object o);
@@ -21,8 +17,6 @@ public interface IState {
 	boolean isActive();
 	
 	boolean isOperative();
-	
-	void mergeTapeSets();
 	
 	void proceedTransitions();
 	

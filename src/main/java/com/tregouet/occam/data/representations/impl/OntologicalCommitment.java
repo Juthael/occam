@@ -17,7 +17,7 @@ public class OntologicalCommitment extends Concept implements IConcept {
 	}
 
 	@Override
-	public void loadTransitionRules(IConceptTransition transitions) {
+	public void loadTransitionRule(IConceptTransition transitions) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -95,19 +95,19 @@ public class OntologicalCommitment extends Concept implements IConcept {
 	}
 
 	@Override
-	public void setSubconceptsDistinctiveFeaturesSaliency() {
+	public void setSubconceptsDistinctiveFeaturesSalience() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setSpeciesAlignableDifferencesSaliency() {
+	public void setSpeciesAlignableDifferencesSalience() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void setSaliencies() {
+	public void setSaliences() {
 		// TODO Auto-generated method stub
 		
 	}

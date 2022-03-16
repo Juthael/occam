@@ -8,6 +8,6 @@ public interface IStackTape<StackSymbol extends ISymbol> {
 	
 	StackSymbol popOff();
 	
-	IStackTape<StackSymbol> clone();
+	IStackTape<StackSymbol> copy();
 
 }

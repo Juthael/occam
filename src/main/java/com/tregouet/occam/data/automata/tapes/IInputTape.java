@@ -13,12 +13,6 @@ public interface IInputTape<InputSymbol extends ISymbol> extends IWord<InputSymb
 	@Override
 	boolean equals(Object o);
 	
-	List<InputSymbol> getInputTape();
-	
-	IInputTape<InputSymbol> clone();
-	
-	boolean hasNext();
-	
-	InputSymbol readNext();
+	IInputTape<InputSymbol> copy();
 
 }

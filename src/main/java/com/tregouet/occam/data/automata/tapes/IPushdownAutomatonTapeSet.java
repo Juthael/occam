@@ -21,6 +21,6 @@ public interface IPushdownAutomatonTapeSet<
 	IPushdownAutomatonTapeSet<InputSymbol, StackSymbol, InputTape, InputConfig, OutputConfig, Transition, State> apply(Transition transition);
 	
 	@Override
-	IPushdownAutomatonTapeSet<InputSymbol, StackSymbol, InputTape, InputConfig, OutputConfig, Transition, State> clone();
+	IPushdownAutomatonTapeSet<InputSymbol, StackSymbol, InputTape, InputConfig, OutputConfig, Transition, State> copy();
 
 }

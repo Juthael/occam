@@ -18,5 +18,8 @@ public interface IRepresentationTapeSet extends
 			IConceptTransitionOIC, 
 			IConceptTransition, 
 			IConcept> {
+	
+	@Override
+	public IRepresentationTapeSet apply(IConceptTransition transition);
 
 }

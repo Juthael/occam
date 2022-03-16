@@ -25,6 +25,6 @@ public interface ITapeSet<
 	
 	void loadIntoNext(State state);
 	
-	ITapeSet<InputSymbol, InputTape, InputConfig, OutputConfig, Transition, State> clone();
+	ITapeSet<InputSymbol, InputTape, InputConfig, OutputConfig, Transition, State> copy();
 	
 }

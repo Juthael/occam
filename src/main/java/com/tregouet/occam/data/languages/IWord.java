@@ -15,6 +15,6 @@ public interface IWord<S extends ISymbol> extends Iterator<S> {
 	
 	void initializeSymbolIterator();
 	
-	boolean appendSymbol(S symbol);
+	void appendSymbol(S symbol);
 
 }

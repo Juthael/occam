@@ -184,9 +184,8 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
-	public boolean appendSymbol(ISymbol symbol) {
+	public void appendSymbol(ISymbol symbol) {
 		symbols.add(symbol);
-		return true;
 	}
 
 }

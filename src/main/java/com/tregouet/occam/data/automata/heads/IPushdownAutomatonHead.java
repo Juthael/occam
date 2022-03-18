@@ -1,7 +1,5 @@
 package com.tregouet.occam.data.automata.heads;
 
-import java.util.Set;
-
 import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.automata.states.IPushdownAutomatonState;
 import com.tregouet.occam.data.automata.tapes.IPushdownAutomatonTapeSet;
@@ -21,13 +19,8 @@ public interface IPushdownAutomatonHead<
 	Transition extends IPushdownAutomatonTransition<InputSymbol, StackSymbol, InputConfig, OutputConfig>,
 	TapeSet extends IPushdownAutomatonTapeSet<InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition, State, TapeSet>, 
 	Word extends IWord<InputSymbol>, 
-	Head extends IHead<TransitionFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, State, Head>
+	Head extends IPushdownAutomatonHead<TransitionFunc, State, InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition, 
+	TapeSet, Word, Head>
 > extends IHead<TransitionFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, State, Head> {
-	
-	@Override
-	Set<? extends Head> evaluate();
-	
-	@Override
-	Set<? extends Head> enumerate();
 
 }

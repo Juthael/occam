@@ -20,9 +20,9 @@ public interface ITransitionFunction<
 
 	Collection<State> getStates();
 	
-	State getStartState();
-	
 	Collection<Transition> getTransitions();
+	
+	State getStartState();
 	
 	Collection<State> getAcceptStates();
 	
@@ -31,5 +31,7 @@ public interface ITransitionFunction<
 	
 	@Override
 	boolean equals(Object other);
+	
+	State getStateWithID(int iD);
 
 }

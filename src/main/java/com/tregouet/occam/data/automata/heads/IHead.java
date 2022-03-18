@@ -25,9 +25,11 @@ public interface IHead<
 	
 	void input(Word word);
 	
-	Set<? extends Head> evaluate();
+	void set(TransFunc transitionFunction, TapeSet tapeSet);
 	
-	Set<? extends Head> enumerate();
+	Set<? extends Head> evaluateNextSymbol();
+	
+	Set<? extends Head> enumerateNextSymbol();
 	
 	boolean halted();
 	

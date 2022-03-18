@@ -7,5 +7,11 @@ public interface IVarBinder extends IStackTape<AVariable> {
 	
 	@Override
 	IVarBinder copy();
+	
+	@Override
+	int hashCode();
+	
+	@Override
+	boolean equals(Object o);
 
 }

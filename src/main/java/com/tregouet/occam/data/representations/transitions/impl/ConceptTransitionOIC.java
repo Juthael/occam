@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 
 import com.tregouet.occam.data.alphabets.generic.AVariable;
-import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.representations.IConcept;
 import com.tregouet.occam.data.representations.transitions.IConceptTransitionOIC;
 
@@ -44,7 +43,7 @@ public class ConceptTransitionOIC implements IConceptTransitionOIC {
 	}
 
 	@Override
-	public IState getOutputState() {
+	public IConcept getOutputState() {
 		return outputState;
 	}
 

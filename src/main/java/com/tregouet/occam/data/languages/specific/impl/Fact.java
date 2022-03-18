@@ -10,19 +10,21 @@ import com.tregouet.occam.data.languages.specific.IFact;
 public class Fact implements IFact {
 
 	private final List<IContextualizedProduction> fact;
-	private int index = 0;
+	private int index;
 	
-	public Fact(List<IContextualizedProduction> fact) {
+	public Fact(List<IContextualizedProduction> fact, int index) {
 		this.fact = fact;
+		this.index = index;
 	}
 	
 	public Fact() {
 		fact = new ArrayList<>();
+		index = 0;
 	}
 
 	@Override
 	public Fact copy() {
-		return new Fact(new ArrayList<>(fact));
+		return new Fact(new ArrayList<>(fact), index);
 	}
 
 	@Override

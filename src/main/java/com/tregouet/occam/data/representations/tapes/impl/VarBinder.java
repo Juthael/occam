@@ -2,6 +2,7 @@ package com.tregouet.occam.data.representations.tapes.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.tapes.IVarBinder;
@@ -9,7 +10,7 @@ import com.tregouet.occam.data.representations.transitions.dimensions.Nothing;
 
 public class VarBinder implements IVarBinder {
 
-	List<AVariable> dimensionStack;
+	private List<AVariable> dimensionStack;
 	
 	public VarBinder(List<AVariable> dimensionStack) {
 		this.dimensionStack = dimensionStack;
@@ -35,6 +36,23 @@ public class VarBinder implements IVarBinder {
 	@Override
 	public IVarBinder copy() {
 		return new VarBinder(new ArrayList<>(dimensionStack));
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(dimensionStack);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		VarBinder other = (VarBinder) obj;
+		return Objects.equals(dimensionStack, other.dimensionStack);
 	}
 
 }

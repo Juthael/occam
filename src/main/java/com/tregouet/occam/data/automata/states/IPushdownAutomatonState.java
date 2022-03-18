@@ -14,7 +14,7 @@ public interface IPushdownAutomatonState<
 	OutputConfig extends IPushdownAutomatonOIC<StackSymbol>, 
 	Transition extends IPushdownAutomatonTransition<InputSymbol, StackSymbol, InputConfig, OutputConfig>
 	>
-	extends IState{
+	extends IState<InputSymbol, InputConfig, OutputConfig, Transition>{
 	
 	void loadTransitionRule(Transition transition);
 	

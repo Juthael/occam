@@ -8,24 +8,17 @@ import com.tregouet.occam.data.automata.transitions.output_config.IPushdownAutom
 
 public interface IPushdownAutomatonTapeSet<
 	InputSymbol extends ISymbol, 
-	StackSymbol extends ISymbol,
-	InputTape extends IInputTape<InputSymbol>, 
+	StackSymbol extends ISymbol, 
 	InputConfig extends IPushdownAutomatonIC<InputSymbol, StackSymbol>, 
 	OutputConfig extends IPushdownAutomatonOIC<StackSymbol>, 
 	Transition extends IPushdownAutomatonTransition<InputSymbol, StackSymbol, InputConfig, OutputConfig>, 
 	State extends IPushdownAutomatonState<InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition>,
 	TapeSet extends IPushdownAutomatonTapeSet<
-		InputSymbol, StackSymbol, InputTape, InputConfig, OutputConfig, Transition, State, TapeSet>
+		InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition, State, TapeSet>
 	>
-	extends ITapeSet<InputSymbol, InputTape, InputConfig, OutputConfig, Transition, State, TapeSet> {
-	
-	@Override
-	TapeSet proceed(Transition transition);
+	extends ITapeSet<InputSymbol, InputConfig, OutputConfig, Transition, State, TapeSet> {
 	
 	@Override
 	TapeSet copy();
-	
-	@Override
-	IPushdownAutomatonTapeSets<InputSymbol, StackSymbol, InputTape, InputConfig, OutputConfig, Transition, State, TapeSet> evaluate();
 
 }

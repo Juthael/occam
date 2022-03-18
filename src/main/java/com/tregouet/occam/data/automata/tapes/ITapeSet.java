@@ -7,13 +7,12 @@ import com.tregouet.occam.data.automata.transitions.input_config.IInputConfigura
 import com.tregouet.occam.data.automata.transitions.output_config.IOutputInternConfiguration;
 
 public interface ITapeSet<
-	InputSymbol extends ISymbol, 
-	InputTape extends IInputTape<InputSymbol>,
+	InputSymbol extends ISymbol,
 	InputConfig extends IInputConfiguration<InputSymbol>, 
-	OutputConfig extends IOutputInternConfiguration,
-	Transition extends ITransition<InputConfig, OutputConfig, InputSymbol>, 
-	State extends IState,
-	TapeSet extends ITapeSet<InputSymbol, InputTape, InputConfig, OutputConfig, Transition, State, TapeSet>
+	OutputConfig extends IOutputInternConfiguration, 
+	Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>,
+	State extends IState<InputSymbol, InputConfig, OutputConfig, Transition>,
+	TapeSet extends ITapeSet<InputSymbol, InputConfig, OutputConfig, Transition, State, TapeSet>
 	> {
 	
 	@Override
@@ -22,14 +21,10 @@ public interface ITapeSet<
 	@Override
 	boolean equals(Object o);
 	
-	TapeSet proceed(Transition transition);
-	
 	TapeSet copy();
 	
 	boolean accepted();
 	
 	State acceptedBy(State acceptState);
-	
-	ITapeSets<InputSymbol, InputTape, InputConfig,OutputConfig, Transition, State, TapeSet> evaluate();
 	
 }

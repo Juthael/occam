@@ -1,10 +1,8 @@
 package com.tregouet.occam.data.automata.transitions.output_config;
 
-import com.tregouet.occam.data.automata.states.IState;
-
 public interface IOutputInternConfiguration {
 	
-	IState getOutputState();
+	int getOutputStateID();
 	
 	@Override
 	boolean equals(Object o);

@@ -1,9 +1,9 @@
 package com.tregouet.occam.data.representations.tapes;
 
 import com.tregouet.occam.data.alphabets.generic.AVariable;
-import com.tregouet.occam.data.automata.tapes.IStackTape;
+import com.tregouet.occam.data.automata.tapes.IStack;
 
-public interface IVarBinder extends IStackTape<AVariable> {
+public interface IVarBinder extends IStack<AVariable> {
 	
 	@Override
 	IVarBinder copy();

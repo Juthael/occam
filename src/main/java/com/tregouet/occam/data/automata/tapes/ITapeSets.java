@@ -10,12 +10,11 @@ import com.tregouet.occam.data.automata.transitions.output_config.IOutputInternC
 
 public interface ITapeSets<
 	InputSymbol extends ISymbol,
-	InputTape extends IInputTape<InputSymbol>, 
 	InputConfig extends IInputConfiguration<InputSymbol>, 
 	OutputConfig extends IOutputInternConfiguration, 
-	Transition extends ITransition<InputConfig, OutputConfig, InputSymbol>, 
-	State extends IState,
-	TapeSet extends ITapeSet<InputSymbol, InputTape, InputConfig, OutputConfig, Transition, State, TapeSet>
+	Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>, 
+	State extends IState<InputSymbol, InputConfig, OutputConfig, Transition>,
+	TapeSet extends ITapeSet<InputSymbol, InputConfig, OutputConfig, Transition, State, TapeSet>
 	>
 	extends Set<TapeSet> {
 

@@ -9,9 +9,10 @@ import com.tregouet.occam.data.automata.transitions.input_config.IInputConfigura
 import com.tregouet.occam.data.automata.transitions.output_config.IOutputInternConfiguration;
 
 public interface ITransition<
+	InputSymbol extends ISymbol,
 	InputConfig extends IInputConfiguration<InputSymbol>, 
-	OutputConfig extends IOutputInternConfiguration, 
-	InputSymbol extends ISymbol> {
+	OutputConfig extends IOutputInternConfiguration
+	> {
 	
 	StringBuilder prime = new StringBuilder();
 	ListIterator<Character> charIte = populateCharList().listIterator();

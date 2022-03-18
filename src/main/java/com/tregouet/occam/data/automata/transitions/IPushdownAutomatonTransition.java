@@ -10,7 +10,7 @@ public interface IPushdownAutomatonTransition<
 	InputConfig extends IPushdownAutomatonIC<InputSymbol, StackSymbol>,
 	OutputConfig extends IPushdownAutomatonOIC<StackSymbol>
 	>
-	extends ITransition<InputConfig, OutputConfig, InputSymbol>  {
+	extends ITransition<InputSymbol, InputConfig, OutputConfig>  {
 	
 	@Override
 	boolean equals(Object o);

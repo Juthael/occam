@@ -4,18 +4,16 @@ import java.util.Objects;
 
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.representations.IConcept;
 import com.tregouet.occam.data.representations.transitions.IConceptTransitionIC;
 
 public class ConceptTransitionIC implements IConceptTransitionIC {
 
-	private final IConcept inputState;
+	private final int inputStateID;
 	private final IContextualizedProduction inputSymbol;
 	private final AVariable stackSymbol;
 	
-	public ConceptTransitionIC(IConcept inputState, IContextualizedProduction inputSymbol, AVariable stackSymbol) {
-		this.inputState = inputState;
+	public ConceptTransitionIC(int inputStateID, IContextualizedProduction inputSymbol, AVariable stackSymbol) {
+		this.inputStateID = inputStateID;
 		this.inputSymbol = inputSymbol;
 		this.stackSymbol = stackSymbol;
 	}
@@ -26,18 +24,18 @@ public class ConceptTransitionIC implements IConceptTransitionIC {
 	}
 
 	@Override
-	public IState getInputState() {
-		return inputState;
-	}
-
-	@Override
 	public IContextualizedProduction getInputSymbol() {
 		return inputSymbol;
 	}
 
 	@Override
+	public int getInputStateID() {
+		return inputStateID;
+	}
+
+	@Override
 	public int hashCode() {
-		return Objects.hash(inputState, inputSymbol, stackSymbol);
+		return Objects.hash(inputStateID, inputSymbol, stackSymbol);
 	}
 
 	@Override
@@ -49,7 +47,7 @@ public class ConceptTransitionIC implements IConceptTransitionIC {
 		if (getClass() != obj.getClass())
 			return false;
 		ConceptTransitionIC other = (ConceptTransitionIC) obj;
-		return Objects.equals(inputState, other.inputState) && Objects.equals(inputSymbol, other.inputSymbol)
+		return inputStateID == other.inputStateID && Objects.equals(inputSymbol, other.inputSymbol)
 				&& Objects.equals(stackSymbol, other.stackSymbol);
 	}
 

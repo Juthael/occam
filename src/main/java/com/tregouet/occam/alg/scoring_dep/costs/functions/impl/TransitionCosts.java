@@ -1,8 +1,8 @@
 package com.tregouet.occam.alg.scoring_dep.costs.functions.impl;
 
 import com.tregouet.occam.alg.scoring_dep.costs.functions.IFunctionCoster;
-import com.tregouet.occam.data.automata.machines.IAutomaton;
-import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.automata.IAutomaton;
+import com.tregouet.occam.data.automata.transition_functions.transitions.IConjunctiveTransition;
 
 public class TransitionCosts implements IFunctionCoster {
 

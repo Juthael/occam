@@ -9,7 +9,7 @@ import java.util.TreeSet;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
-import com.tregouet.occam.data.automata.machines.IAutomaton;
+import com.tregouet.occam.data.automata.IAutomaton;
 import com.tregouet.occam.data.automata.machines.IIsomorphicAutomatons;
 import com.tregouet.occam.data.automata.machines.deprec.Automaton_dep;
 import com.tregouet.occam.data.automata.machines.impl.IsomorphicAutomatons;

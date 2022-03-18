@@ -3,9 +3,9 @@ package com.tregouet.occam.data.automata.states;
 import java.util.Set;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.automata.transitions.ITransition;
-import com.tregouet.occam.data.automata.transitions.input_config.IInputConfiguration;
-import com.tregouet.occam.data.automata.transitions.output_config.IOutputInternConfiguration;
+import com.tregouet.occam.data.automata.transition_functions.transitions.ITransition;
+import com.tregouet.occam.data.automata.transition_functions.transitions.input_config.IInputConfiguration;
+import com.tregouet.occam.data.automata.transition_functions.transitions.output_config.IOutputInternConfiguration;
 
 public interface IState<
 	InputSymbol extends ISymbol,

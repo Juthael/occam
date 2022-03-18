@@ -21,7 +21,7 @@ import com.tregouet.occam.alg.scoring_dep.costs.transitions.ITransitionCoster;
 import com.tregouet.occam.alg.scoring_dep.costs.transitions.TransitionCostingStrategy;
 import com.tregouet.occam.alg.scoring_dep.costs.transitions.impl.TransitionCosterFactory;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
-import com.tregouet.occam.data.automata.machines.IAutomaton;
+import com.tregouet.occam.data.automata.IAutomaton;
 import com.tregouet.occam.data.automata.machines.deprec.Automaton_dep;
 import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;

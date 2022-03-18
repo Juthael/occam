@@ -2,7 +2,7 @@ package com.tregouet.occam.data.representations.transitions.impl;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.automata.transitions.ITransition;
+import com.tregouet.occam.data.automata.transition_functions.transitions.ITransition;
 import com.tregouet.occam.data.representations.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.transitions.Salience;
 

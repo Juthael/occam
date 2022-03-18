@@ -20,7 +20,7 @@ import com.tregouet.occam.alg.scoring_dep.costs.functions.FunctionCostingStrateg
 import com.tregouet.occam.alg.scoring_dep.costs.functions.IFunctionCoster;
 import com.tregouet.occam.alg.scoring_dep.costs.functions.impl.FunctionCosterFactory;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
-import com.tregouet.occam.data.automata.machines.IAutomaton;
+import com.tregouet.occam.data.automata.IAutomaton;
 import com.tregouet.occam.data.automata.machines.deprec.Automaton_dep;
 import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;

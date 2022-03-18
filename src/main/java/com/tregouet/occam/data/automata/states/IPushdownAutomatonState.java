@@ -3,9 +3,9 @@ package com.tregouet.occam.data.automata.states;
 import java.util.Set;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.automata.transitions.IPushdownAutomatonTransition;
-import com.tregouet.occam.data.automata.transitions.input_config.IPushdownAutomatonIC;
-import com.tregouet.occam.data.automata.transitions.output_config.IPushdownAutomatonOIC;
+import com.tregouet.occam.data.automata.transition_functions.transitions.IPushdownAutomatonTransition;
+import com.tregouet.occam.data.automata.transition_functions.transitions.input_config.IPushdownAutomatonIC;
+import com.tregouet.occam.data.automata.transition_functions.transitions.output_config.IPushdownAutomatonOIC;
 
 public interface IPushdownAutomatonState<
 	InputSymbol extends ISymbol, 
@@ -19,5 +19,11 @@ public interface IPushdownAutomatonState<
 	void loadTransitionRule(Transition transition);
 	
 	void loadTransitionRules(Set<Transition> transitions);
+	
+	@Override
+	int hashCode();
+	
+	@Override
+	boolean equals(Object o);
 
 }

@@ -14,13 +14,13 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
-import com.tregouet.occam.data.automata.machines.IAutomaton;
+import com.tregouet.occam.data.automata.IAutomaton;
 import com.tregouet.occam.data.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
 import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transitions.IBasicOperator;
-import com.tregouet.occam.data.automata.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.automata.transitions.IReframerRule;
-import com.tregouet.occam.data.automata.transitions.ITransition;
+import com.tregouet.occam.data.automata.transition_functions.transitions.IBasicOperator;
+import com.tregouet.occam.data.automata.transition_functions.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.automata.transition_functions.transitions.IReframerRule;
+import com.tregouet.occam.data.automata.transition_functions.transitions.ITransition;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IIsA;

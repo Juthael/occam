@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.automata.transitions.output_config;
+package com.tregouet.occam.data.automata.transition_functions.transitions.output_config;
 
 public interface IOutputInternConfiguration {
 	

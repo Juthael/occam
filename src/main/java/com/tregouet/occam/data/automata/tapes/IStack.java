@@ -9,5 +9,11 @@ public interface IStack<StackSymbol extends ISymbol> {
 	StackSymbol popOff();
 	
 	IStack<StackSymbol> copy();
+	
+	@Override
+	int hashCode();
+	
+	@Override
+	boolean equals(Object o);
 
 }

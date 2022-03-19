@@ -128,12 +128,12 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append("<hr>");
 		sB.append(alinea + "<h2>Representation " + Integer.toString(denotSetTreeIdx) + " : </h2>" + NL);
 		sB.append(alineaa + "<p>" + NL);
-		sB.append(alineaaa + "<b>Coherence score : " 
+		sB.print(alineaaa + "<b>Coherence score : " 
 				+ round(currentTransFunc.getSimilarityCalculator().getCoherenceScore()) + "</b>" + NL);
-		sB.append(alineaaa + "Transition function cost : " + round(currentTransFunc.getCost()) + NL);
+		sB.print(alineaaa + "Transition function cost : " + round(currentTransFunc.getCost()) + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<p>" + NL);
-		sB.append(alineaaa + "<b>Extent structure : </b>" + isomorphicAutomatons.getExtentStructureAsString() + NL);
+		sB.print(alineaaa + "<b>Extent structure : </b>" + isomorphicAutomatons.getExtentStructureAsString() + NL);
 		sB.append(alineaa + "</p>" + NL);
 		sB.append(alineaa + "<h3>Prophyrian tree : </h3>" + NL);
 		sB.append(alineaaa + "<p>" + NL);

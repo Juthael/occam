@@ -19,12 +19,13 @@ public interface IPushdownAutomatonTapeSet<
 	extends ITapeSet<InputSymbol, InputConfig, OutputConfig, Transition, State, TapeSet> {
 	
 	@Override
-	TapeSet copy();
-	
-	@Override
 	int hashCode();
 	
 	@Override
 	boolean equals(Object o);
+	
+	StackSymbol popOff();
+	
+	void pushDown(StackSymbol stackSymbol);
 
 }

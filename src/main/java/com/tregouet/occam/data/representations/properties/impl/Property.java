@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.representations.properties.IProperty;
-import com.tregouet.occam.data.representations.transitions.IApplication;
+import com.tregouet.occam.data.representations.properties.transitions.IApplication;
 
 public class Property implements IProperty {
 

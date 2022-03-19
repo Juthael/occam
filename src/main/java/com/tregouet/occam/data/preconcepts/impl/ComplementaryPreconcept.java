@@ -9,7 +9,7 @@ import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IComplementaryPreconcept;
 import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.representations.ConceptType;
+import com.tregouet.occam.data.representations.concepts.ConceptType;
 
 public class ComplementaryPreconcept extends Preconcept implements IComplementaryPreconcept {
 

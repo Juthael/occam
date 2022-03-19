@@ -38,4 +38,7 @@ public interface IConstruct extends IWord<ISymbol> {
 	void nameVariables();
 	
 	List<String> toListOfStringsWithPlaceholders();	
+	
+	@Override
+	public IConstruct copy();
 }

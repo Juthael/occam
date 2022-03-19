@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.tregouet.occam.alg.scores_calc.IWeighed;
 import com.tregouet.occam.data.preconcepts.IDenotation;
-import com.tregouet.occam.data.representations.transitions.IApplication;
+import com.tregouet.occam.data.representations.properties.transitions.IApplication;
 
 public interface IProperty extends IWeighed {
 	

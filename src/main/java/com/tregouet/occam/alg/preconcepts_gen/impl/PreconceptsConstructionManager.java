@@ -25,8 +25,8 @@ import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.occam.data.preconcepts.impl.IsA;
 import com.tregouet.occam.data.preconcepts.impl.Preconcept;
-import com.tregouet.occam.data.representations.ConceptType;
-import com.tregouet.occam.data.representations.transitions.dimensions.This;
+import com.tregouet.occam.data.representations.concepts.ConceptType;
+import com.tregouet.occam.data.representations.properties.transitions.dimensions.This;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public class PreconceptsConstructionManager implements IPreconceptsConstructionManager {

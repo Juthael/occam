@@ -8,8 +8,8 @@ import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.representations.ConceptType;
-import com.tregouet.occam.data.representations.transitions.dimensions.Nothing;
+import com.tregouet.occam.data.representations.concepts.ConceptType;
+import com.tregouet.occam.data.representations.properties.transitions.dimensions.Nothing;
 
 public class WhatIsTherePreconcept extends Preconcept implements IPreconcept {
 	

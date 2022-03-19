@@ -12,5 +12,9 @@ public interface IInputTape<InputSymbol extends ISymbol> extends IWord<InputSymb
 	boolean equals(Object o);
 	
 	IInputTape<InputSymbol> copy();
+	
+	InputSymbol read();
+	
+	void print(InputSymbol symbol);
 
 }

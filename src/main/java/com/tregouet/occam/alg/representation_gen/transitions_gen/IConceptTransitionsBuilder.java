@@ -3,7 +3,7 @@ package com.tregouet.occam.alg.representation_gen.transitions_gen;
 import java.util.Set;
 
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.representations.transitions.IConceptTransition;
+import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 
 public interface IConceptTransitionsBuilder {
 	

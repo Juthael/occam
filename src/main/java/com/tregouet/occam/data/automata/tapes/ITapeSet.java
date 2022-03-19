@@ -23,8 +23,8 @@ public interface ITapeSet<
 	
 	TapeSet copy();
 	
-	boolean accepted();
+	InputSymbol readNextInputSymbol();
 	
-	State acceptedBy(State acceptState);
+	void printNext(InputSymbol symbol);
 	
 }

@@ -29,7 +29,7 @@ public interface IHead<
 	
 	Set<? extends Head> evaluateNextSymbol();
 	
-	Set<? extends Head> enumerateNextSymbol();
+	Set<? extends Head> printNextSymbol();
 	
 	boolean halted();
 	

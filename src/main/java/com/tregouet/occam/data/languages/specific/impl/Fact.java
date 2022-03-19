@@ -43,13 +43,13 @@ public class Fact implements IFact {
 	}
 
 	@Override
-	public void initializeSymbolIterator() {
+	public void initialize() {
 		index = 0;
 		
 	}
 
 	@Override
-	public void appendSymbol(IContextualizedProduction symbol) {
+	public void print(IContextualizedProduction symbol) {
 		fact.add(symbol);
 	}
 
@@ -68,6 +68,11 @@ public class Fact implements IFact {
 			return false;
 		Fact other = (Fact) obj;
 		return Objects.equals(fact, other.fact);
+	}
+
+	@Override
+	public IContextualizedProduction read() {
+		return next();
 	}
 
 }

@@ -186,9 +186,9 @@ public class Visualizer {
 	private static  String buildGenDiffStringDesc(IGenusDifferentiaDefinition_dep def) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("Cost : ");
-		sB.append(round(def.getCost()) + System.lineSeparator());
+		sB.print(round(def.getCost()) + System.lineSeparator());
 		for (IConjunctiveTransition conjTrans : def.getDifferentiae()) {
-			sB.append(operatorAsString(conjTrans));
+			sB.print(operatorAsString(conjTrans));
 		}
 		return sB.toString();
 	}
@@ -201,26 +201,26 @@ public class Visualizer {
 				IConjunctiveTransition conjTrans = (IConjunctiveTransition) transition;
 				IReframerRule reframerRule = conjTrans.getReframer();
 				if (reframerRule != null)
-					sB.append("FRAME " + reframerRule.toString() +  nL);
+					sB.print("FRAME " + reframerRule.toString() +  nL);
 				for (IBasicOperator operator : conjTrans.getOperators()) {
-					sB.append(operatorAsString(operator) + nL);
+					sB.print(operatorAsString(operator) + nL);
 				}
 			}
 			else if (transition instanceof IBasicOperator) {
 				IBasicOperator operator = (IBasicOperator) transition;
-				sB.append(operator.getName() + " : ");
+				sB.print(operator.getName() + " : ");
 				List<IStronglyContextualized> stronglyContextualizeds = operator.operation();
 				if (stronglyContextualizeds.size() > 1)
 					sB.append(nL);
 				for (int i = 0 ; i < stronglyContextualizeds.size() ; i++) {
-					sB.append(stronglyContextualizeds.get(i).toString());
+					sB.print(stronglyContextualizeds.get(i).toString());
 					if (i < stronglyContextualizeds.size() - 1)
 						sB.append(nL);
 				}
 			}
 			else if (transition instanceof IReframerRule) {
 				IReframerRule reframerRule = (IReframerRule) transition;
-				sB.append(reframerRule.getName());
+				sB.print(reframerRule.getName());
 			}
 		}
 		return sB.toString();

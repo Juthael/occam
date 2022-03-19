@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.representations.ConceptType;
+import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
 public interface IPreconcept extends IDichotomizable<IPreconcept> {

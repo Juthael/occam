@@ -17,7 +17,7 @@ public class Construct implements IConstruct {
 
 	protected final List<ISymbol> symbols;
 	private int nbOfTerminals;
-	private Iterator<ISymbol> symbolIte = null;
+	private int index = 0;
 	
 	public Construct(IConstruct construct) {
 		symbols = new ArrayList<>(construct.getListOfSymbols());
@@ -42,6 +42,12 @@ public class Construct implements IConstruct {
 				nbOfTerminals++;
 		}
 		this.nbOfTerminals = nbOfTerminals;
+	}
+	
+	private Construct(List<ISymbol> symbols, int nbOfTerminals, int index) {
+		this.symbols = symbols;
+		this.nbOfTerminals = nbOfTerminals;
+		this.index = index;
 	}
 
 	@Override
@@ -168,24 +174,27 @@ public class Construct implements IConstruct {
 
 	@Override
 	public boolean hasNext() {
-		if (symbolIte == null)
-			initializeSymbolIterator();
-		return symbolIte.hasNext();
+		return index < symbols.size() - 1;
 	}
 
 	@Override
 	public ISymbol next() {
-		return symbolIte.next();
+		return symbols.get(index++);
 	}
 
 	@Override
-	public void initializeSymbolIterator() {
-		symbolIte = symbols.iterator();
+	public void initialize() {
+		index = 0;
 	}
 
 	@Override
-	public void appendSymbol(ISymbol symbol) {
+	public void print(ISymbol symbol) {
 		symbols.add(symbol);
+	}
+
+	@Override
+	public IConstruct copy() {
+		return new Construct(new ArrayList<>(symbols), nbOfTerminals, index);
 	}
 
 }

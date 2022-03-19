@@ -6,7 +6,7 @@ import java.util.Set;
 import com.tregouet.occam.alg.scores_calc.property_weighing.IPropertyWeigher;
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.properties.IProperty;
-import com.tregouet.occam.data.representations.transitions.IApplication;
+import com.tregouet.occam.data.representations.properties.transitions.IApplication;
 
 public class InstantiatedVarCounter implements IPropertyWeigher {
 

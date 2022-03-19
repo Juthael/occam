@@ -9,12 +9,10 @@ public interface IWord<S extends ISymbol> extends Iterator<S> {
 	
 	List<S> getListOfSymbols();
 	
-	boolean hasNext();
+	void initialize();
 	
-	S next();
+	void print(S symbol);
 	
-	void initializeSymbolIterator();
-	
-	void appendSymbol(S symbol);
+	IWord<S> copy();
 
 }

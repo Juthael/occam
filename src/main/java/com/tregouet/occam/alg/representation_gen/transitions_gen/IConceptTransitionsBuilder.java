@@ -16,5 +16,7 @@ public interface IConceptTransitionsBuilder {
 	Set<IConceptTransition> buildClosuresFrom(Set<IConceptTransition> transitions);
 	
 	Set<IConceptTransition> buildUnclosedInheritancesFrom(Tree<IPreconcept, IIsA> treeOfPreconcepts);
+	
+	Set<IConceptTransition> buildSpontaneousTransitionsFrom(Tree<IPreconcept, IIsA> treeOfPreconcepts);
 
 }

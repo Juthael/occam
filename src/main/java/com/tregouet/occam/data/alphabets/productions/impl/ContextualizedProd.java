@@ -16,6 +16,7 @@ import com.tregouet.occam.data.preconcepts.IPreconcept;
 public class ContextualizedProd extends DefaultEdge implements IContextualizedProduction {
 
 	private static final long serialVersionUID = 1701074226278101143L;
+	
 	private final IDenotation speciesDenotation;
 	private final IDenotation genusDenotation;
 	private final IProduction production;

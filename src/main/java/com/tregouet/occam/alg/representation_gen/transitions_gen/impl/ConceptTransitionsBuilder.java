@@ -9,15 +9,16 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.Graphs;
+import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.representation_gen.transitions_gen.IConceptTransitionsBuilder;
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedEpsilonProd;
+import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.preconcepts.IPreconcepts;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionOIC;
@@ -27,8 +28,8 @@ import com.tregouet.occam.data.representations.properties.transitions.impl.Closu
 import com.tregouet.occam.data.representations.properties.transitions.impl.ConceptTransitionIC;
 import com.tregouet.occam.data.representations.properties.transitions.impl.ConceptTransitionOIC;
 import com.tregouet.occam.data.representations.properties.transitions.impl.InheritanceTransition;
+import com.tregouet.occam.data.representations.properties.transitions.impl.SpontaneousTransition;
 import com.tregouet.tree_finder.data.Tree;
-import com.tregouet.tree_finder.data.UpperSemilattice;
 
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
@@ -43,7 +44,8 @@ public class ConceptTransitionsBuilder implements IConceptTransitionsBuilder {
 	@Override
 	public Set<IConceptTransition> buildApplicationsAndClosedInheritancesFrom(Tree<IPreconcept, IIsA> treeOfPreconcepts,
 			Set<IContextualizedProduction> unfilteredProductions) {
-		Set<IContextualizedProduction> filteredProductions = filterProductionsWithTree(unfilteredProductions, treeOfPreconcepts);
+		Set<IContextualizedProduction> filteredProds = filterProductionsWithTree(unfilteredProductions, treeOfPreconcepts);
+		Set<IContextualizedProduction> filteredReducedProds = transitiveReduction(filteredProds);
 		Set<IConceptTransition> transitions = new HashSet<>();
 		Map<Integer, Integer> preconceptToSuccessorIDs = new HashMap<>();
 		IPreconcept root = treeOfPreconcepts.getRoot();
@@ -54,7 +56,7 @@ public class ConceptTransitionsBuilder implements IConceptTransitionsBuilder {
 						Graphs.successorListOf(treeOfPreconcepts, preconcept).get(0).getID());
 			}
 		}
-		for (IContextualizedProduction production : filteredProductions) {
+		for (IContextualizedProduction production : filteredReducedProds) {
 			int outputStateID = production.getSpecies().getID();
 			int inputStateID = preconceptToSuccessorIDs.get(outputStateID);
 			if (production.isEpsilon())
@@ -88,11 +90,21 @@ public class ConceptTransitionsBuilder implements IConceptTransitionsBuilder {
 	@Override
 	public Set<IConceptTransition> buildUnclosedInheritancesFrom(Tree<IPreconcept, IIsA> treeOfPreconcepts) {
 		Set<IConceptTransition> unclosedInheritances = new HashSet<>();
-		IPreconcept ontologicalCommitment = treeOfPreconcepts.getRoot();
-		for (IntIntPair genusToSpeciesID : getGenusToSpeciesIDs(ontologicalCommitment, treeOfPreconcepts)) {
+		IPreconcept root = treeOfPreconcepts.getRoot();
+		for (IntIntPair genusToSpeciesID : getGenusToSpeciesIDs(root, treeOfPreconcepts)) {
 			unclosedInheritances.add(new InheritanceTransition(genusToSpeciesID.firstInt(), genusToSpeciesID.secondInt()));
 		}
 		return unclosedInheritances;
+	}
+	
+	@Override
+	public Set<IConceptTransition> buildSpontaneousTransitionsFrom(Tree<IPreconcept, IIsA> treeOfPreconcepts) {
+		Set<IConceptTransition> spontaneousTransitions = new HashSet<>();
+		IPreconcept root = treeOfPreconcepts.getRoot();
+		for (IntIntPair genusToSpeciesID : getGenusToSpeciesIDs(root, treeOfPreconcepts)) {
+			spontaneousTransitions.add(new SpontaneousTransition(genusToSpeciesID.firstInt(), genusToSpeciesID.secondInt()));
+		}
+		return spontaneousTransitions;
 	}
 	
 	private static Set<IntIntPair> getGenusToSpeciesIDs(IPreconcept genus, DirectedAcyclicGraph<IPreconcept, IIsA> graph) {
@@ -115,6 +127,19 @@ public class ConceptTransitionsBuilder implements IConceptTransitionsBuilder {
 				filtered.add(production);
 		}
 		return filtered;
+	}
+	
+	private static Set<IContextualizedProduction> transitiveReduction(Set<IContextualizedProduction> unreduced){
+		DirectedAcyclicGraph<IDenotation, IContextualizedProduction> prodGraph = new DirectedAcyclicGraph<>(null, null, false);
+		for (IContextualizedProduction prod : unreduced) {
+			IDenotation source = prod.getSource();
+			IDenotation target = prod.getTarget();
+			prodGraph.addVertex(source);
+			prodGraph.addVertex(target);
+			prodGraph.addEdge(source, target, prod);
+		}
+		TransitiveReduction.INSTANCE.reduce(prodGraph);
+		return new HashSet<>(prodGraph.edgeSet());
 	}
 
 }

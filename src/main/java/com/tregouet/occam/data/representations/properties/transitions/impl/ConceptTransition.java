@@ -4,16 +4,19 @@ import java.util.Objects;
 
 import com.tregouet.occam.data.automata.transition_functions.transitions.ITransition;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
+import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionIC;
+import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionOIC;
 import com.tregouet.occam.data.representations.properties.transitions.Salience;
+import com.tregouet.occam.data.representations.properties.transitions.TransitionType;
 
-public class ConceptTransition implements IConceptTransition {
+public abstract class ConceptTransition implements IConceptTransition {
 
 	private final String name;
-	private final ConceptTransitionIC inputConfig;
-	private final ConceptTransitionOIC outputInternConfig;
+	private final IConceptTransitionIC inputConfig;
+	private final IConceptTransitionOIC outputInternConfig;
 	private Salience salience;
 	
-	public ConceptTransition(ConceptTransitionIC inputConfig, ConceptTransitionOIC outputInternConfig) {
+	public ConceptTransition(IConceptTransitionIC inputConfig, IConceptTransitionOIC outputInternConfig) {
 		name = ITransition.provideName();
 		this.inputConfig = inputConfig;
 		this.outputInternConfig = outputInternConfig;
@@ -25,13 +28,13 @@ public class ConceptTransition implements IConceptTransition {
 	}
 
 	@Override
-	public ConceptTransitionIC getInputConfiguration() {
+	public IConceptTransitionIC getInputConfiguration() {
 		return inputConfig;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(inputConfig, name, outputInternConfig);
+		return Objects.hash(inputConfig, outputInternConfig);
 	}
 
 	@Override
@@ -43,12 +46,12 @@ public class ConceptTransition implements IConceptTransition {
 		if (getClass() != obj.getClass())
 			return false;
 		ConceptTransition other = (ConceptTransition) obj;
-		return Objects.equals(inputConfig, other.inputConfig) && Objects.equals(name, other.name)
+		return Objects.equals(inputConfig, other.inputConfig)
 				&& Objects.equals(outputInternConfig, other.outputInternConfig);
 	}
 
 	@Override
-	public ConceptTransitionOIC getOutputInternConfiguration() {
+	public IConceptTransitionOIC getOutputInternConfiguration() {
 		return outputInternConfig;
 	}
 
@@ -61,5 +64,8 @@ public class ConceptTransition implements IConceptTransition {
 	public Salience getSalience() {
 		return salience;
 	}
+
+	@Override
+	abstract public TransitionType type();
 
 }

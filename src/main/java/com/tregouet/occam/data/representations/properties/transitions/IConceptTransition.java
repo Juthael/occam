@@ -13,5 +13,7 @@ public interface IConceptTransition extends IPushdownAutomatonTransition<
 	void setSalience(Salience salience);
 	
 	Salience getSalience();
+	
+	TransitionType type();
 
 }

@@ -6,12 +6,14 @@ import java.util.Set;
 import com.tregouet.occam.data.partitions.IPartition;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.properties.IDifferentiae;
 import com.tregouet.occam.data.representations.properties.transitions.IApplication;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 
 public class Universal extends Concept implements IConcept {
 
 	private List<IConcept> species;
+	private IDifferentiae[] differentiae;
 	
 	public Universal(IPreconcept preconcept) {
 		super(preconcept);

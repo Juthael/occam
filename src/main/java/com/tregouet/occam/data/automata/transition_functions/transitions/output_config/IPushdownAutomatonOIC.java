@@ -8,7 +8,7 @@ public interface IPushdownAutomatonOIC<
 	StackSymbol extends ISymbol> 
 	extends IOutputInternConfiguration {
 	
-	List<StackSymbol> getOutputStackSymbols();
+	List<StackSymbol> getPushedStackSymbols();
 	
 	@Override
 	boolean equals(Object o);

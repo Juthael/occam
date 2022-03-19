@@ -13,14 +13,14 @@ import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 
-public class ContextualizedProduction extends DefaultEdge implements IContextualizedProduction {
+public class ContextualizedProd extends DefaultEdge implements IContextualizedProduction {
 
 	private static final long serialVersionUID = 1701074226278101143L;
 	private final IDenotation speciesDenotation;
 	private final IDenotation genusDenotation;
 	private final IProduction production;
 	
-	public ContextualizedProduction(IDenotation speciesDenotation, IDenotation genusDenotation, IProduction production) {
+	public ContextualizedProd(IDenotation speciesDenotation, IDenotation genusDenotation, IProduction production) {
 		this.speciesDenotation = speciesDenotation;
 		this.genusDenotation = genusDenotation;
 		this.production = production;
@@ -101,7 +101,7 @@ public class ContextualizedProduction extends DefaultEdge implements IContextual
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ContextualizedProduction other = (ContextualizedProduction) obj;
+		ContextualizedProd other = (ContextualizedProd) obj;
 		return Objects.equals(speciesDenotation, other.speciesDenotation) && Objects.equals(genusDenotation, other.genusDenotation)
 				&& Objects.equals(production, other.production);
 	}

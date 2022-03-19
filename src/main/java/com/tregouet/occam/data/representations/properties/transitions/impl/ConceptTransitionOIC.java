@@ -9,16 +9,16 @@ import com.tregouet.occam.data.representations.properties.transitions.IConceptTr
 public class ConceptTransitionOIC implements IConceptTransitionOIC {
 
 	private final int outputStateID;
-	private final List<AVariable> nextStackSymbols;
+	private final List<AVariable> pushedStackSymbols;
 	
 	public ConceptTransitionOIC(int outputStateID, List<AVariable> nextStackSymbols) {
 		this.outputStateID = outputStateID;
-		this.nextStackSymbols = nextStackSymbols;
+		this.pushedStackSymbols = nextStackSymbols;
 	}
 
 	@Override
-	public List<AVariable> getOutputStackSymbols() {
-		return nextStackSymbols;
+	public List<AVariable> getPushedStackSymbols() {
+		return pushedStackSymbols;
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class ConceptTransitionOIC implements IConceptTransitionOIC {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(nextStackSymbols, outputStateID);
+		return Objects.hash(pushedStackSymbols, outputStateID);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class ConceptTransitionOIC implements IConceptTransitionOIC {
 		if (getClass() != obj.getClass())
 			return false;
 		ConceptTransitionOIC other = (ConceptTransitionOIC) obj;
-		return Objects.equals(nextStackSymbols, other.nextStackSymbols) && outputStateID == other.outputStateID;
+		return Objects.equals(pushedStackSymbols, other.pushedStackSymbols) && outputStateID == other.outputStateID;
 	}
 
 }

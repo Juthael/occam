@@ -162,8 +162,8 @@ public class Preconcept implements IPreconcept {
 		if (getClass() != obj.getClass())
 			return false;
 		Preconcept other = (Preconcept) obj;
-		return Objects.equals(denotations, other.denotations) && Objects.equals(extent, other.extent) && iD == other.iD
-				&& type == other.type;
+		return iD == other.iD && type == other.type && Objects.equals(denotations, other.denotations) 
+				&& Objects.equals(extent, other.extent);
 	}
 
 }

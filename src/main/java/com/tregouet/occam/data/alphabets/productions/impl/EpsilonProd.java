@@ -2,11 +2,11 @@ package com.tregouet.occam.data.alphabets.productions.impl;
 
 import com.tregouet.occam.data.alphabets.productions.IProduction;
 
-public class Epsilon extends Production implements IProduction {
+public class EpsilonProd extends Production implements IProduction {
 
-	public static final Epsilon INSTANCE = new Epsilon();
+	public static final EpsilonProd INSTANCE = new EpsilonProd();
 	
-	private Epsilon() {
+	private EpsilonProd() {
 		super(null, null);
 	}
 	

@@ -10,10 +10,10 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 
-import com.tregouet.occam.alg.generation.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.generation.preconcepts.IPreconceptTreeSupplier;
-import com.tregouet.occam.alg.generation.preconcepts.IPreconceptsConstructionManager;
-import com.tregouet.occam.alg.generation.preconcepts.impl.PreconceptTreeSupplier;
+import com.tregouet.occam.alg.generators.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.generators.preconcepts.IPreconceptTreeSupplier;
+import com.tregouet.occam.alg.generators.preconcepts.IPreconceptsConstructionManager;
+import com.tregouet.occam.alg.generators.preconcepts.impl.PreconceptTreeSupplier;
 import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;

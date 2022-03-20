@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.generation.preconcepts.IPreconceptTreeSupplier;
+import com.tregouet.occam.alg.generators.preconcepts.IPreconceptTreeSupplier;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
 import com.tregouet.occam.data.automata.IAutomaton;
 import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;

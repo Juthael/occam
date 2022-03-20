@@ -15,8 +15,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.generation.preconcepts.IPreconceptTreeSupplier;
-import com.tregouet.occam.alg.generation.representation.transitions_gen.impl.ProductionSetBuilder;
+import com.tregouet.occam.alg.generators.preconcepts.IPreconceptTreeSupplier;
+import com.tregouet.occam.alg.generators.representations.transitions_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;

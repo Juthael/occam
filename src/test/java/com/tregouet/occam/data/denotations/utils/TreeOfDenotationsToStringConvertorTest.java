@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.generation.preconcepts.IPreconceptTreeSupplier;
+import com.tregouet.occam.alg.generators.preconcepts.IPreconceptTreeSupplier;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.data.preconcepts.IContextObject;

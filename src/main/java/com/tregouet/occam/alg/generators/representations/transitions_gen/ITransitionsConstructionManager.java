@@ -11,7 +11,7 @@ import com.tregouet.tree_finder.data.Tree;
 public interface ITransitionsConstructionManager {
 	
 	ITransitionsConstructionManager input(Tree<IPreconcept, IIsA> treeOfPreconcepts,
-			Set<IContextualizedProduction> unfilteredProductions);
+			Set<IContextualizedProduction> unfilteredUnreducedProds);
 	
 	Set<IConceptTransition> output();
 

@@ -1,6 +1,5 @@
 package com.tregouet.occam.data.automata.transition_functions;
 
-import java.util.Collection;
 import java.util.Set;
 
 import com.tregouet.occam.data.alphabets.ISymbol;
@@ -18,13 +17,13 @@ public interface ITransitionFunction<
 	
 	Set<InputSymbol> getInputAlphabet();
 
-	Collection<State> getStates();
+	Set<Integer> getStateIDs();
 	
-	Collection<Transition> getTransitions();
+	Set<Transition> getTransitions();
 	
-	State getStartState();
+	int getStartStateID();
 	
-	Collection<State> getAcceptStates();
+	Set<Integer> getAcceptStateIDs();
 	
 	@Override
 	int hashCode();

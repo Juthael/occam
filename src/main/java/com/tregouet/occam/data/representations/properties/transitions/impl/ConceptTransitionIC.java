@@ -19,7 +19,7 @@ public class ConceptTransitionIC implements IConceptTransitionIC {
 	}
 
 	@Override
-	public AVariable getInputStackSymbol() {
+	public AVariable getPoppedStackSymbol() {
 		return stackSymbol;
 	}
 

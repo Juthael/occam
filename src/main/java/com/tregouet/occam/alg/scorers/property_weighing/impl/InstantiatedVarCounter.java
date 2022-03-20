@@ -20,7 +20,7 @@ public class InstantiatedVarCounter implements IPropertyWeigher {
 		Set<AVariable> varInstantiatedByNonRedundantApp = new HashSet<>();
 		for (IApplication app : property.getApplications()) {
 			if (!app.isRedundant()) {
-				varInstantiatedByNonRedundantApp.add(app.getInputConfiguration().getInputStackSymbol());
+				varInstantiatedByNonRedundantApp.add(app.getInputConfiguration().getPoppedStackSymbol());
 			}
 		}
 		property.setWeight((double) varInstantiatedByNonRedundantApp.size());

@@ -10,6 +10,8 @@ import com.tregouet.tree_finder.data.Tree;
 
 public interface IConceptTransitionsBuilder {
 	
+	IConceptTransition buildInitialTransition(Tree<IPreconcept, IIsA> treeOfPreconcepts);
+	
 	Set<IConceptTransition> buildApplicationsAndClosedInheritancesFrom(
 			Tree<IPreconcept, IIsA> treeOfPreconcepts, Set<IContextualizedProduction> contextualizedProductions);
 	

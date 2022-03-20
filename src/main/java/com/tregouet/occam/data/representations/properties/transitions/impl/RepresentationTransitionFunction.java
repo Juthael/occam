@@ -11,7 +11,6 @@ import com.tregouet.occam.data.representations.properties.transitions.IRepresent
 
 public class RepresentationTransitionFunction implements IRepresentationTransitionFunction {
 	
-	private final InitialTransition initial;
 	private final Set<IConceptTransition> applications;
 	private final Set<IConceptTransition> closures;
 	private final Set<IConceptTransition> inheritances;
@@ -22,7 +21,7 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 	}
 
 	@Override
-	public Collection<AVariable> getStackAlphabet() {
+	public Set<AVariable> getStackAlphabet() {
 		// TODO Auto-generated method stub
 		return null;
 	}

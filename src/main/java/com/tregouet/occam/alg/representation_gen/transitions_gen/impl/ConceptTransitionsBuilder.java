@@ -28,6 +28,7 @@ import com.tregouet.occam.data.representations.properties.transitions.impl.Closu
 import com.tregouet.occam.data.representations.properties.transitions.impl.ConceptTransitionIC;
 import com.tregouet.occam.data.representations.properties.transitions.impl.ConceptTransitionOIC;
 import com.tregouet.occam.data.representations.properties.transitions.impl.InheritanceTransition;
+import com.tregouet.occam.data.representations.properties.transitions.impl.InitialTransition;
 import com.tregouet.occam.data.representations.properties.transitions.impl.SpontaneousTransition;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -140,6 +141,11 @@ public class ConceptTransitionsBuilder implements IConceptTransitionsBuilder {
 		}
 		TransitiveReduction.INSTANCE.reduce(prodGraph);
 		return new HashSet<>(prodGraph.edgeSet());
+	}
+
+	@Override
+	public IConceptTransition buildInitialTransition(Tree<IPreconcept, IIsA> treeOfPreconcepts) {
+		return new InitialTransition(treeOfPreconcepts.getRoot().getID());
 	}
 
 }

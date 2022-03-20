@@ -11,9 +11,9 @@ import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.occam.data.representations.properties.transitions.dimensions.This;
 
-public class TruismPreconcept extends Preconcept implements IPreconcept {
+public class ThisPreconcept extends Preconcept implements IPreconcept {
 	
-	public TruismPreconcept(Set<IContextObject> extent) {
+	public ThisPreconcept(Set<IContextObject> extent) {
 		super(new HashSet<IConstruct>(
 				Arrays.asList(
 						new IConstruct[] {new Construct(

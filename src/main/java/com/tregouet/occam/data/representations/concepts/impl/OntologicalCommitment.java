@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.tregouet.occam.data.partitions.IPartition;
 import com.tregouet.occam.data.preconcepts.IContextObject;
-import com.tregouet.occam.data.preconcepts.impl.TruismPreconcept;
+import com.tregouet.occam.data.preconcepts.impl.ThisPreconcept;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.properties.transitions.IApplication;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
@@ -12,7 +12,7 @@ import com.tregouet.occam.data.representations.properties.transitions.IConceptTr
 public class OntologicalCommitment extends Concept implements IConcept {
 
 	public OntologicalCommitment(Set<IContextObject> extent) {
-		super(new TruismPreconcept(extent));
+		super(new ThisPreconcept(extent));
 	}
 
 	@Override

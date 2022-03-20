@@ -1,11 +1,11 @@
-package com.tregouet.occam.alg.preconcepts_gen;
+package com.tregouet.occam.alg.generation.preconcepts;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.preconcepts_gen.impl.PreconceptsConstructionManager;
+import com.tregouet.occam.alg.generation.preconcepts.impl.PreconceptsConstructionManager;
 import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;

@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.preconcepts_gen.impl;
+package com.tregouet.occam.alg.generation.preconcepts.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,8 +14,8 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.preconcepts_gen.IPreconceptsConstructionManager;
-import com.tregouet.occam.alg.preconcepts_gen.MarkRedundantDenotations;
+import com.tregouet.occam.alg.generation.preconcepts.IPreconceptsConstructionManager;
+import com.tregouet.occam.alg.generation.preconcepts.utils.MarkRedundantDenotations;
 import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.generic.IConstruct;

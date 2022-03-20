@@ -1,10 +1,10 @@
-package com.tregouet.occam.alg.preconcepts_gen.impl;
+package com.tregouet.occam.alg.generation.preconcepts.impl;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
+import com.tregouet.occam.alg.generation.preconcepts.IPreconceptTreeSupplier;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;

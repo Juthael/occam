@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.representation_gen;
+package com.tregouet.occam.alg.generation.representation;
 
 import com.tregouet.occam.data.preconcepts.impl.Preconcept;
 import com.tregouet.occam.data.representations.concepts.IConcept;

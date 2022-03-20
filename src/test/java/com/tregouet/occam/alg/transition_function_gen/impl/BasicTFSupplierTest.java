@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.representation_gen.transitions_gen.impl.ProductionSetBuilder;
+import com.tregouet.occam.alg.generation.representation.transitions_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;

@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
+import com.tregouet.occam.alg.generation.preconcepts.IPreconceptTreeSupplier;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public interface IPreconcepts {

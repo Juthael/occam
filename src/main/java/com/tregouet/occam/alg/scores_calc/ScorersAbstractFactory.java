@@ -18,7 +18,7 @@ public class ScorersAbstractFactory {
 	}
 	
 	public void setUpStrategy(ScoringStrategy overallStrategy) {
-		switch (overallStrategy) {
+		switch(overallStrategy) {
 			case SCORING_STRATEGY_1 : 
 				propertyWeighingStrategy = PropertyWeighingStrategy.NB_OF_INSTANTIATED_VAR;
 				break;

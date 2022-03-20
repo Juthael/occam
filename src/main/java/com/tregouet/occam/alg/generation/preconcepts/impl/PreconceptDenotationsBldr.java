@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.preconcepts_gen.impl;
+package com.tregouet.occam.alg.generation.preconcepts.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;

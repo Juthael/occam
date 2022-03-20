@@ -10,9 +10,10 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 
-import com.tregouet.occam.alg.preconcepts_gen.IPreconceptTreeSupplier;
-import com.tregouet.occam.alg.preconcepts_gen.IPreconceptsConstructionManager;
-import com.tregouet.occam.alg.preconcepts_gen.impl.PreconceptTreeSupplier;
+import com.tregouet.occam.alg.generation.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.generation.preconcepts.IPreconceptTreeSupplier;
+import com.tregouet.occam.alg.generation.preconcepts.IPreconceptsConstructionManager;
+import com.tregouet.occam.alg.generation.preconcepts.impl.PreconceptTreeSupplier;
 import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
@@ -31,7 +32,8 @@ public class Preconcepts implements IPreconcepts {
 	private final IPreconcept absurdity;
 	
 	public Preconcepts(Collection<IContextObject> objects) {
-		IPreconceptsConstructionManager manager = IPreconceptsConstructionManager.getInstance().input(objects);
+		IPreconceptsConstructionManager manager = 
+				GeneratorsAbstractFactory.INSTANCE.getPreconceptsConstructionManager();
 		this.objects = manager.getObjects();
 		lattice = manager.getLattice();
 		upperSemilattice = manager.getUpperSemilattice();

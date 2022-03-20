@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedEpsilonProd;
-import com.tregouet.occam.data.representations.concepts.impl.OntologicalCommitment;
+import com.tregouet.occam.data.preconcepts.impl.ThisPreconcept;
 import com.tregouet.occam.data.representations.concepts.impl.WhatIsThere;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.TransitionType;
@@ -14,14 +14,14 @@ import com.tregouet.occam.data.representations.properties.transitions.dimensions
 
 public class InitialTransition extends ConceptTransition implements IConceptTransition {
 
-	public InitialTransition(OntologicalCommitment commitment) {
+	public InitialTransition(ThisPreconcept thisPreconcept) {
 		super(
 				new ConceptTransitionIC(
 						WhatIsThere.INSTANCE.getID(), 
 						new ContextualizedEpsilonProd(null, null), 
 						Nothing.INSTANCE),
 				new ConceptTransitionOIC(
-						commitment.getID(), 
+						thisPreconcept.getID(), 
 						new ArrayList<AVariable>(
 								Arrays.asList(
 										new AVariable[] {Nothing.INSTANCE, This.INSTANCE})))

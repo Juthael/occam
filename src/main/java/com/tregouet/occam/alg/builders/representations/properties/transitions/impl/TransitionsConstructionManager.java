@@ -1,10 +1,10 @@
-package com.tregouet.occam.alg.builders.representations.transitions_gen.impl;
+package com.tregouet.occam.alg.builders.representations.properties.transitions.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.representations.transitions_gen.IConceptTransitionsBuilder;
-import com.tregouet.occam.alg.builders.representations.transitions_gen.ITransitionsConstructionManager;
+import com.tregouet.occam.alg.builders.representations.properties.transitions.IConceptTransitionsBuilder;
+import com.tregouet.occam.alg.builders.representations.properties.transitions.ITransitionsConstructionManager;
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;

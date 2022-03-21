@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.builders.representations.transitions_gen;
+package com.tregouet.occam.alg.builders.representations.properties.transitions;
 
-import com.tregouet.occam.alg.builders.representations.transitions_gen.impl.TransitionsConstructionManager;
+import com.tregouet.occam.alg.builders.representations.properties.transitions.impl.TransitionsConstructionManager;
 
 public class TransitionsConstructionManagerFactory {
 	

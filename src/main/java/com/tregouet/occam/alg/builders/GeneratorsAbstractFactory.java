@@ -6,9 +6,9 @@ import com.tregouet.occam.alg.builders.preconcepts.PreconceptsConstructionStrate
 import com.tregouet.occam.alg.builders.representations.properties.IPropertyBuilder;
 import com.tregouet.occam.alg.builders.representations.properties.PropertyBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.properties.PropertyConstructionStrategy;
-import com.tregouet.occam.alg.builders.representations.transitions_gen.ITransitionsConstructionManager;
-import com.tregouet.occam.alg.builders.representations.transitions_gen.TransitionsConstructionManagerFactory;
-import com.tregouet.occam.alg.builders.representations.transitions_gen.TransitionsConstructionStrategy;
+import com.tregouet.occam.alg.builders.representations.properties.transitions.ITransitionsConstructionManager;
+import com.tregouet.occam.alg.builders.representations.properties.transitions.TransitionsConstructionManagerFactory;
+import com.tregouet.occam.alg.builders.representations.properties.transitions.TransitionsConstructionStrategy;
 
 public class GeneratorsAbstractFactory {
 	

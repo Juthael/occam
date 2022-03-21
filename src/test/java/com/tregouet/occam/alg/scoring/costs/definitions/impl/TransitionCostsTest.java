@@ -13,7 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.builders.preconcepts.IPreconceptTreeSupplier;
-import com.tregouet.occam.alg.builders.representations.transitions_gen.impl.ProductionSetBuilder;
+import com.tregouet.occam.alg.builders.representations.properties.transitions.impl.ProductionSetBuilder;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.scoring_dep.costs.definitions.DefinitionCostingStrategy;

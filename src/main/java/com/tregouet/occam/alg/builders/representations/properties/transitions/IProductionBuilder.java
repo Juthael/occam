@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.representations.transitions_gen;
+package com.tregouet.occam.alg.builders.representations.properties.transitions;
 
 import java.util.Set;
 

@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.representations.transitions_gen.utils;
+package com.tregouet.occam.alg.builders.representations.properties.transitions.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

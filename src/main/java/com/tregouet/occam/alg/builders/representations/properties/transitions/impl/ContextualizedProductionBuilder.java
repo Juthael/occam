@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.representations.transitions_gen.impl;
+package com.tregouet.occam.alg.builders.representations.properties.transitions.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.representations.transitions_gen.IProductionBuilder;
-import com.tregouet.occam.alg.builders.representations.transitions_gen.utils.MapVariablesToValues;
+import com.tregouet.occam.alg.builders.representations.properties.transitions.IProductionBuilder;
+import com.tregouet.occam.alg.builders.representations.properties.transitions.utils.MapVariablesToValues;
 import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.generic.ITerminal;

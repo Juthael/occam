@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.representations.properties;
 
-import java.util.List;
+import java.util.Set;
 
 import com.tregouet.occam.alg.scorers.IWeighed;
 import com.tregouet.occam.data.preconcepts.IDenotation;
@@ -10,8 +10,8 @@ public interface IProperty extends IWeighed {
 	
 	IDenotation getFunction();
 	
-	List<IApplication> getApplications();
+	Set<IApplication> getApplications();
 	
-	List<IDenotation> getResultingValues();
+	Set<IDenotation> getResultingValues();
 
 }

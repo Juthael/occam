@@ -24,7 +24,7 @@ public class TransitionCosts implements IFunctionCoster {
 		for (IConjunctiveTransition transition : automaton.getConjunctiveTransitions()) {
 			cost += transition.getCostOfComponents();
 		}
-		automaton.setCost(cost);
+		automaton.weigh(cost);
 	}
 
 }

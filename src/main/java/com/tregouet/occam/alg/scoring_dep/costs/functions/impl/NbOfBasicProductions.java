@@ -24,7 +24,7 @@ public class NbOfBasicProductions implements IFunctionCoster {
 		for (IConjunctiveTransition conjTransition : automaton.getConjunctiveTransitions()) {
 			nbOfBasicProductions += conjTransition.howManyBasicProductions();
 		}
-		automaton.setCost((double) nbOfBasicProductions);
+		automaton.weigh((double) nbOfBasicProductions);
 	}
 
 }

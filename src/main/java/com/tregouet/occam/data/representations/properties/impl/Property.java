@@ -1,7 +1,8 @@
 package com.tregouet.occam.data.representations.properties.impl;
 
-import java.util.List;
+import java.util.Set;
 
+import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.representations.properties.IProperty;
 import com.tregouet.occam.data.representations.properties.transitions.IApplication;
@@ -9,14 +10,16 @@ import com.tregouet.occam.data.representations.properties.transitions.IApplicati
 public class Property implements IProperty {
 
 	private final IDenotation function;
-	private final List<IApplication> applications;
-	private final List<IDenotation> resultingValues;
-	private Double weight = null; 
+	private final Set<IApplication> applications;
+	private final Set<IDenotation> resultingValues;
+	private final Double weight; 
 	
-	public Property(IDenotation function, List<IApplication> applications, List<IDenotation> resultingValues) {
+	public Property(IDenotation function, Set<IApplication> applications, 
+			Set<IDenotation> resultingValues) {
 		this.function = function;
 		this.applications = applications;
 		this.resultingValues = resultingValues;
+		weight = ScorersAbstractFactory.INSTANCE.getPropertyWheigher().weigh(this);
 	}
 	
 	@Override
@@ -25,23 +28,18 @@ public class Property implements IProperty {
 	}
 
 	@Override
-	public List<IApplication> getApplications() {
+	public Set<IApplication> getApplications() {
 		return applications;
 	}
 
 	@Override
-	public List<IDenotation> getResultingValues() {
+	public Set<IDenotation> getResultingValues() {
 		return resultingValues;
 	}
 
 	@Override
-	public Double getWeight() {
+	public Double weight() {
 		return weight;
-	}
-
-	@Override
-	public void setWeight(double wheight) {
-		this.weight = wheight;
 	}
 
 }

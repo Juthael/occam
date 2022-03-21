@@ -36,7 +36,7 @@ public class ProductionsEntropyReduction implements IDefinitionCoster {
 		int nbOfProperties = 0;
 		for (IConjunctiveTransition conjTransition : costed.getDifferentiae())
 			nbOfProperties += conjTransition.howManyBasicProductions();
-		costed.setCost(((double) nbOfProperties) * entropyReduction); 
+		costed.weigh(((double) nbOfProperties) * entropyReduction); 
 	}
 	
 	@Override

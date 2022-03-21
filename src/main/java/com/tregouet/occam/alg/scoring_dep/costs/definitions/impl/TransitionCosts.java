@@ -26,7 +26,7 @@ public class TransitionCosts implements IDefinitionCoster {
 		List<IConjunctiveTransition> transitions = definition.getDifferentiae();
 		for (IConjunctiveTransition transition : transitions)
 			cost += transition.getCostOfComponents();
-		definition.setCost(cost);
+		definition.weigh(cost);
 	}
 
 }

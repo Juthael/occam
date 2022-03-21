@@ -36,7 +36,7 @@ public class TransitionsEntropyReduction implements IDefinitionCoster {
 		int nbOfTransitions = 0;
 		for (IConjunctiveTransition conjTransition : costed.getDifferentiae())
 			nbOfTransitions += conjTransition.howManyOperators();
-		costed.setCost(((double) nbOfTransitions) * entropyReduction); 
+		costed.weigh(((double) nbOfTransitions) * entropyReduction); 
 	}
 	
 	@Override

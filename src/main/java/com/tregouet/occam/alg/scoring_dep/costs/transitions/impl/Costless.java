@@ -19,7 +19,7 @@ public class Costless implements ITransitionCoster {
 
 	@Override
 	public void setCost() {
-		costed.setCost(0.0);
+		costed.weigh(0.0);
 	}
 
 }

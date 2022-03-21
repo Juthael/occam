@@ -39,7 +39,7 @@ public class InstantiationsEntropyReductionOC implements IDefinitionCoster {
 		int nbOfInstantiatedVariables = 0;
 		for (IConjunctiveTransition conjTransition : costed.getDifferentiae())
 			nbOfInstantiatedVariables += conjTransition.howManyInstantiatedVariables();
-		costed.setCost(((double) nbOfInstantiatedVariables) * entropyReduction); 
+		costed.weigh(((double) nbOfInstantiatedVariables) * entropyReduction); 
 	}
 
 	@Override

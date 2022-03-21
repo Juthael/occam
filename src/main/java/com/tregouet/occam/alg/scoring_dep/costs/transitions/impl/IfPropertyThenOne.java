@@ -21,8 +21,8 @@ public class IfPropertyThenOne implements ITransitionCoster {
 	@Override
 	public void setCost() {
 		if (costed instanceof IBasicOperator && ((IBasicOperator) costed).isBlank())
-			costed.setCost(0.0);
-		else costed.setCost(1.0);
+			costed.weigh(0.0);
+		else costed.weigh(1.0);
 	}
 
 }

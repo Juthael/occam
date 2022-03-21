@@ -51,7 +51,7 @@ public class NbOfInstantiatedVariables implements IFunctionCoster {
 				}
 			}
 		}
-		automaton.setCost((double) instantiatedVariables.size());
+		automaton.weigh((double) instantiatedVariables.size());
 	}
 
 }

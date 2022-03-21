@@ -16,7 +16,7 @@ public interface IPushdownAutomaton<
 	InputConfig extends IPushdownAutomatonIC<InputSymbol, StackSymbol>,
 	OutputConfig extends IPushdownAutomatonOIC<StackSymbol>, 
 	Transition extends IPushdownAutomatonTransition<InputSymbol, StackSymbol, InputConfig, OutputConfig>,
-	TransFunc extends IPushdownAutomatonTF<State, InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition>
+	TransFunc extends IPushdownAutomatonTF<InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition>
 	> 
 	extends IAutomaton<State, InputSymbol, Word, InputConfig, OutputConfig, Transition, TransFunc>{
 	

@@ -19,7 +19,7 @@ public interface IAutomaton<
 	InputConfig extends IInputConfiguration<InputSymbol>,
 	OutputConfig extends IOutputInternConfiguration,
 	Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>,
-	TransFunc extends ITransitionFunction<State, InputSymbol, InputConfig, OutputConfig, Transition>
+	TransFunc extends ITransitionFunction<InputSymbol, InputConfig, OutputConfig, Transition>
 	>{
 	
 	@Override

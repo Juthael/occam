@@ -10,7 +10,7 @@ import com.tregouet.occam.data.automata.transition_functions.transitions.output_
 import com.tregouet.occam.data.languages.IWord;
 
 public interface IPushdownAutomatonHead<
-	TransitionFunc extends IPushdownAutomatonTF<State, InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition>,
+	TransitionFunc extends IPushdownAutomatonTF<InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition>,
 	State extends IPushdownAutomatonState<InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition>,
 	InputSymbol extends ISymbol,
 	StackSymbol extends ISymbol,

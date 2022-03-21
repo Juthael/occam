@@ -12,7 +12,7 @@ import com.tregouet.occam.data.automata.transition_functions.transitions.output_
 import com.tregouet.occam.data.languages.IWord;
 
 public interface IHead<
-	TransFunc extends ITransitionFunction<State, InputSymbol, InputConfig, OutputConfig, Transition>,
+	TransFunc extends ITransitionFunction<InputSymbol, InputConfig, OutputConfig, Transition>,
 	TapeSet extends ITapeSet<InputSymbol, InputConfig, OutputConfig, Transition, State, TapeSet>,
 	InputSymbol extends ISymbol,
 	Word extends IWord<InputSymbol>,

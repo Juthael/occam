@@ -8,7 +8,6 @@ import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.Tree;
@@ -20,6 +19,7 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 	private final Set<IConceptTransition> closures = new HashSet<>();
 	private final Set<IConceptTransition> inheritances = new HashSet<>();
 	private final Set<IConceptTransition> spontaneous = new HashSet<>();
+	private final Set<Integer> acceptStatesIDs = new HashSet<>();
 	
 	public RepresentationTransitionFunction(Tree<IPreconcept, IIsA> treeOfPreconcepts,
 			Set<IContextualizedProduction> unfilteredUnreducedProds) {
@@ -49,6 +49,8 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 			}
 		}
 		initial = initialTemp;
+		for (IPreconcept objPreconcept : treeOfPreconcepts.getLeaves())
+			acceptStatesIDs.add(objPreconcept.getID());
 	}
 
 	@Override
@@ -98,17 +100,12 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 
 	@Override
 	public int getStartStateID() {
-		//constructeur
+		return initial.getInputConfiguration().getInputStateID();
 	}
 
 	@Override
 	public Set<Integer> getAcceptStateIDs() {
-		//constructeur
-	}
-
-	@Override
-	public IConcept getStateWithID(int iD) {
-		//enlever;
+		return new HashSet<>(acceptStatesIDs);
 	}
 
 }

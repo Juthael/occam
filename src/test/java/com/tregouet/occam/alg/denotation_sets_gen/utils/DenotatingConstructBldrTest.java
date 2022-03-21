@@ -14,7 +14,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.generators.preconcepts.impl.PreconceptDenotationsBldr;
+import com.tregouet.occam.alg.builders.preconcepts.impl.PreconceptDenotationsBldr;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;

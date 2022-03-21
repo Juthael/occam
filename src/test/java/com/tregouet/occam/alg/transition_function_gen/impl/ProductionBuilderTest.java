@@ -18,7 +18,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
-import com.tregouet.occam.alg.generators.representations.transitions_gen.impl.ProductionSetBuilder;
+import com.tregouet.occam.alg.builders.representations.transitions_gen.impl.ProductionSetBuilder;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IContextObject;

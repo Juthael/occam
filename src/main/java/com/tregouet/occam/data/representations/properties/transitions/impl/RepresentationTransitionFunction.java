@@ -3,7 +3,7 @@ package com.tregouet.occam.data.representations.properties.transitions.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.alg.generators.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.preconcepts.IIsA;

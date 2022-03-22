@@ -9,6 +9,7 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 
+import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.preconcepts.trees.IPreconceptTreeBuilder;
 import com.tregouet.occam.alg.builders.preconcepts.trees.impl.UnidimensionalSorting;
 import com.tregouet.occam.data.preconcepts.IContextObject;
@@ -61,11 +62,6 @@ public class PreconceptLattice implements IPreconceptLattice {
 	@Override
 	public IPreconcept getAbsurdity() {
 		return absurdity;
-	}
-
-	@Override
-	public IPreconceptTreeBuilder getConceptTreeSupplier() throws IOException {
-		return new UnidimensionalSorting(upperSemilattice, ontologicalCommitment);
 	}
 
 	@Override

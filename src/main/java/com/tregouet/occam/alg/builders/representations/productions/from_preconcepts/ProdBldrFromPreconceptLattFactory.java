@@ -11,7 +11,7 @@ public class ProdBldrFromPreconceptLattFactory {
 	
 	public IProdBuilderFromPreconceptLattice apply(ProdConstrFromPreconceptLattStrategy strategy) {
 		switch(strategy) {
-			case IF_IS_A_THEN_BUILD_PRODUCTIONS :
+			case IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS :
 				return new IfIsAThenBuildProductions();
 			default : 
 				return null;

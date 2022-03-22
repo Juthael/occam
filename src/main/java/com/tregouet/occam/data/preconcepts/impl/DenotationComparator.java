@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.alg.builders.representations.transitions.utils.MapVariablesToValues;
+import com.tregouet.occam.alg.builders.representations.productions.from_denotations.utils.MapVariablesToValues;
 import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.generic.ITerminal;

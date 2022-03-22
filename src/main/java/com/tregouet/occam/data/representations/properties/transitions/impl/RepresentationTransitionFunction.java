@@ -3,34 +3,34 @@ package com.tregouet.occam.data.representations.properties.transitions.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.google.common.collect.Sets;
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.preconcepts.IIsA;
-import com.tregouet.occam.data.preconcepts.IPreconcept;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
-import com.tregouet.tree_finder.data.Tree;
 
 public class RepresentationTransitionFunction implements IRepresentationTransitionFunction {
 	
 	private final IConceptTransition initial;
-	private final Set<IConceptTransition> applications = new HashSet<>();
-	private final Set<IConceptTransition> closures = new HashSet<>();
-	private final Set<IConceptTransition> inheritances = new HashSet<>();
-	private final Set<IConceptTransition> spontaneous = new HashSet<>();
-	private final Set<Integer> acceptStatesIDs = new HashSet<>();
+	private final Set<IConceptTransition> applications;
+	private final Set<IConceptTransition> closures;
+	private final Set<IConceptTransition> inheritances;
+	private final Set<IConceptTransition> spontaneous;
+	private final Set<Integer> acceptStateIDs;
 	
-	public RepresentationTransitionFunction(Tree<IPreconcept, IIsA> treeOfPreconcepts,
-			Set<IContextualizedProduction> unfilteredUnreducedProds) {
-		Set<IConceptTransition> allTransitions = 
-				GeneratorsAbstractFactory.INSTANCE
-					.getTransitionsConstructionManager()
-					.input(treeOfPreconcepts, unfilteredUnreducedProds)
-					.output();
+	public RepresentationTransitionFunction(Set<IConceptTransition> transitions) {
 		IConceptTransition initialTemp = null;
-		for (IConceptTransition transition : allTransitions) {
+		applications = new HashSet<>();
+		closures = new HashSet<>();
+		inheritances = new HashSet<>();
+		spontaneous = new HashSet<>();
+		Set<Integer> inputStateIDs = new HashSet<>();
+		Set<Integer> outputStateIDs = new HashSet<>();
+		for (IConceptTransition transition : transitions) {
 			switch (transition.type()) {
+				case INITIAL : 
+					initialTemp = transition;
+					break;
 				case APPLICATION : 
 					applications.add(transition);
 					break;
@@ -40,17 +40,15 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 				case INHERITANCE : 
 					inheritances.add(transition);
 					break;
-				case INITIAL : 
-					initialTemp = transition;
-					break;
 				case SPONTANEOUS : 
 					spontaneous.add(transition);
 					break;
 			}
+			inputStateIDs.add(transition.getInputConfiguration().getInputStateID());
+			outputStateIDs.add(transition.getOutputInternConfiguration().getOutputStateID());
 		}
+		acceptStateIDs = new HashSet<>(Sets.difference(outputStateIDs, inputStateIDs));
 		initial = initialTemp;
-		for (IPreconcept objPreconcept : treeOfPreconcepts.getLeaves())
-			acceptStatesIDs.add(objPreconcept.getID());
 	}
 
 	@Override
@@ -105,7 +103,7 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 
 	@Override
 	public Set<Integer> getAcceptStateIDs() {
-		return new HashSet<>(acceptStatesIDs);
+		return new HashSet<>(acceptStateIDs);
 	}
 
 }

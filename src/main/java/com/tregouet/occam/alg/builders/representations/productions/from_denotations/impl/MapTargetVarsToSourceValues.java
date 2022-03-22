@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.IProdBuilderFromDenotations;
-import com.tregouet.occam.alg.builders.representations.transitions.utils.MapVariablesToValues;
+import com.tregouet.occam.alg.builders.representations.productions.from_denotations.utils.MapVariablesToValues;
 import com.tregouet.occam.data.alphabets.ISymbol;
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.generic.ITerminal;

@@ -21,8 +21,6 @@ public interface IPreconceptLattice {
 	
 	IPreconcept getAbsurdity();
 	
-	IPreconceptTreeBuilder getConceptTreeSupplier() throws IOException;
-	
 	DirectedAcyclicGraph<IPreconcept, IIsA> getLatticeOfConcepts();
 	
 	/**

@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.representations.transitions.impl;
+package com.tregouet.occam.alg.builders.representations.transition_functions.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,8 @@ import org.jgrapht.Graphs;
 import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.builders.representations.transitions.IConceptTransitionsBuilder;
+import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.representations.transition_functions.IRepresentationTransFuncBuilder;
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedEpsilonProd;
@@ -23,6 +24,7 @@ import com.tregouet.occam.data.preconcepts.impl.ThisPreconcept;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionOIC;
+import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.representations.properties.transitions.TransitionType;
 import com.tregouet.occam.data.representations.properties.transitions.impl.Application;
 import com.tregouet.occam.data.representations.properties.transitions.impl.ClosureTransition;
@@ -30,21 +32,63 @@ import com.tregouet.occam.data.representations.properties.transitions.impl.Conce
 import com.tregouet.occam.data.representations.properties.transitions.impl.ConceptTransitionOIC;
 import com.tregouet.occam.data.representations.properties.transitions.impl.InheritanceTransition;
 import com.tregouet.occam.data.representations.properties.transitions.impl.InitialTransition;
+import com.tregouet.occam.data.representations.properties.transitions.impl.RepresentationTransitionFunction;
 import com.tregouet.occam.data.representations.properties.transitions.impl.SpontaneousTransition;
 import com.tregouet.tree_finder.data.Tree;
 
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
 
-public class ConceptTransitionsBuilder implements IConceptTransitionsBuilder {
+public class AbstractFactsAccepted implements IRepresentationTransFuncBuilder {
 
-	public static final ConceptTransitionsBuilder INSTANCE = new ConceptTransitionsBuilder();
 	
-	private ConceptTransitionsBuilder() {
+	private Tree<IPreconcept, IIsA> treeOfPreconcepts = null;
+	private Set<IContextualizedProduction> unfilteredUnreducedProds = null;
+	
+	public AbstractFactsAccepted() {
 	}
 	
 	@Override
-	public Set<IConceptTransition> buildApplicationsAndClosedInheritancesFrom(Tree<IPreconcept, IIsA> treeOfPreconcepts,
+	public IRepresentationTransFuncBuilder input(Tree<IPreconcept, IIsA> treeOfPreconcepts,
+			Set<IContextualizedProduction> unfilteredUnreducedProds) {
+		this.treeOfPreconcepts = treeOfPreconcepts;
+		this.unfilteredUnreducedProds = unfilteredUnreducedProds;
+		return this;
+	}
+
+	@Override
+	public IRepresentationTransitionFunction output() {
+		//declare TF constructor parameters
+		IConceptTransition initial;
+		Set<IConceptTransition> applications = new HashSet<>();
+		Set<IConceptTransition> closures;
+		Set<IConceptTransition> inheritances = new HashSet<>();
+		Set<IConceptTransition> spontaneous;
+		//build
+		initial = buildInitialTransition(treeOfPreconcepts);
+		Set<IConceptTransition> appAndClosedInheritances = 
+				buildApplicationsAndClosedInheritancesFrom(treeOfPreconcepts, unfilteredUnreducedProds);
+		for (IConceptTransition transition : appAndClosedInheritances) {
+			if (transition.type() == TransitionType.APPLICATION)
+				applications.add(transition);
+			else inheritances.add(transition);
+		}
+		closures = buildClosuresFrom(applications);
+		inheritances.addAll(buildUnclosedInheritancesFrom(treeOfPreconcepts));
+		spontaneous = buildSpontaneousTransitionsFrom(treeOfPreconcepts);
+		//set saliences
+		Set<IConceptTransition> transitions = new HashSet<>();
+		transitions.add(initial);
+		transitions.addAll(applications);
+		transitions.addAll(closures);
+		transitions.addAll(inheritances);
+		transitions.addAll(spontaneous);
+		GeneratorsAbstractFactory.INSTANCE.getTransitionSalienceSetter().setTransitionSaliencesOf(transitions);
+		//return 
+		return new RepresentationTransitionFunction(transitions);
+	}
+	
+	private static Set<IConceptTransition> buildApplicationsAndClosedInheritancesFrom(Tree<IPreconcept, IIsA> treeOfPreconcepts,
 			Set<IContextualizedProduction> unfilteredUnreducedProds) {
 		Set<IContextualizedProduction> mutableUnfilteredUnreduced = new HashSet<>(unfilteredUnreducedProds);
 		Set<IContextualizedProduction> filteredProds = 
@@ -81,18 +125,17 @@ public class ConceptTransitionsBuilder implements IConceptTransitionsBuilder {
 		return transitions;
 	}
 	
-	@Override
-	public Set<IConceptTransition> buildClosuresFrom(Set<IConceptTransition> transitions) {
+	private static Set<IConceptTransition> buildClosuresFrom(Set<IConceptTransition> applications) {
 		Set<IConceptTransition> closures = new HashSet<>();
-		transitions.stream()
-				.filter(t -> t.type() == TransitionType.APPLICATION)
-				.forEach(a -> closures.add(
-						new ClosureTransition(a.getInputConfiguration(), a.getOutputInternConfiguration().getOutputStateID())));
+		for (IConceptTransition application : applications)
+			closures.add(
+					new ClosureTransition(
+							application.getInputConfiguration(), 
+							application.getOutputInternConfiguration().getOutputStateID()));
 		return closures;
 	}
 
-	@Override
-	public Set<IConceptTransition> buildUnclosedInheritancesFrom(Tree<IPreconcept, IIsA> treeOfPreconcepts) {
+	private static Set<IConceptTransition> buildUnclosedInheritancesFrom(Tree<IPreconcept, IIsA> treeOfPreconcepts) {
 		Set<IConceptTransition> unclosedInheritances = new HashSet<>();
 		IPreconcept root = treeOfPreconcepts.getRoot();
 		for (IntIntPair genusToSpeciesID : getGenusToSpeciesIDs(root, treeOfPreconcepts)) {
@@ -101,8 +144,7 @@ public class ConceptTransitionsBuilder implements IConceptTransitionsBuilder {
 		return unclosedInheritances;
 	}
 	
-	@Override
-	public Set<IConceptTransition> buildSpontaneousTransitionsFrom(Tree<IPreconcept, IIsA> treeOfPreconcepts) {
+	private static Set<IConceptTransition> buildSpontaneousTransitionsFrom(Tree<IPreconcept, IIsA> treeOfPreconcepts) {
 		Set<IConceptTransition> spontaneousTransitions = new HashSet<>();
 		IPreconcept root = treeOfPreconcepts.getRoot();
 		for (IntIntPair genusToSpeciesID : getGenusToSpeciesIDs(root, treeOfPreconcepts)) {
@@ -146,10 +188,9 @@ public class ConceptTransitionsBuilder implements IConceptTransitionsBuilder {
 		return new HashSet<>(prodGraph.edgeSet());
 	}
 
-	@Override
-	public IConceptTransition buildInitialTransition(Tree<IPreconcept, IIsA> treeOfPreconcepts) {
+	private static IConceptTransition buildInitialTransition(Tree<IPreconcept, IIsA> treeOfPreconcepts) {
 		ThisPreconcept thisPreconcept = (ThisPreconcept) treeOfPreconcepts.getRoot();
 		return new InitialTransition(thisPreconcept);
-	}
+	}	
 
 }

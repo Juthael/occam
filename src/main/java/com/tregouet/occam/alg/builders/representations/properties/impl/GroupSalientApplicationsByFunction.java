@@ -26,7 +26,7 @@ public class GroupSalientApplicationsByFunction implements IPropertyBuilder {
 	public void intput(Set<IApplication> applications) {
 		for (IApplication application : applications) {
 			Salience salience = application.getSalience();
-			if (salience == Salience.COMMON_FEATURE || salience == Salience.PARTITION_RULE) {
+			if (salience == Salience.COMMON_FEATURE || salience == Salience.TRANSITION_RULE) {
 				IDenotation function = application.getInputConfiguration().getInputSymbol().getTarget();
 				int functionIdx = functions.indexOf(function);
 				if (functionIdx == -1) {

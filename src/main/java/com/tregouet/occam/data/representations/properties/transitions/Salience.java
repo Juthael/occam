@@ -5,6 +5,6 @@ public enum Salience {
 	HIDDEN, 
 	REDUNDANT, 
 	COMMON_FEATURE, 
-	PARTITION_RULE
+	TRANSITION_RULE
 	
 }

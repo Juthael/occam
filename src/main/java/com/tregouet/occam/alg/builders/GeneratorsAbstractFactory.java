@@ -18,9 +18,12 @@ import com.tregouet.occam.alg.builders.representations.productions.from_preconce
 import com.tregouet.occam.alg.builders.representations.properties.IPropertyBuilder;
 import com.tregouet.occam.alg.builders.representations.properties.PropertyBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.properties.PropertyConstructionStrategy;
-import com.tregouet.occam.alg.builders.representations.transitions.ITransitionsConstructionManager;
-import com.tregouet.occam.alg.builders.representations.transitions.TransitionsConstructionManagerFactory;
-import com.tregouet.occam.alg.builders.representations.transitions.TransitionsConstructionStrategy;
+import com.tregouet.occam.alg.builders.representations.salience.ITransitionSalienceSetter;
+import com.tregouet.occam.alg.builders.representations.salience.TransitionSalienceSetterFactory;
+import com.tregouet.occam.alg.builders.representations.salience.TransitionSalienceSettingStrategy;
+import com.tregouet.occam.alg.builders.representations.transition_functions.IRepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncConstructionStrategy;
 
 public class GeneratorsAbstractFactory {
 	
@@ -31,7 +34,8 @@ public class GeneratorsAbstractFactory {
 	private PreconceptTreeConstructionStrategy preconceptTreeConstructionStrategy = null;
 	private ProdConstrFromDenotationsStrategy prodConstrFromDenotationsStrategy = null;
 	private ProdConstrFromPreconceptLattStrategy prodConstrFromPreconceptLattStrategy = null;
-	private TransitionsConstructionStrategy transitionsConstructionStrategy = null;
+	private TransitionSalienceSettingStrategy transitionSalienceSettingStrategy = null;
+	private RepresentationTransFuncConstructionStrategy representationTransFuncConstructionStrategy = null;
 	private PropertyConstructionStrategy propertyConstructionStrategy = null;
 	
 	private GeneratorsAbstractFactory() {
@@ -44,13 +48,18 @@ public class GeneratorsAbstractFactory {
 				preconceptLatticeConstructionStrategy = PreconceptLatticeConstructionStrategy.GALOIS_CONNECTION;
 				preconceptTreeConstructionStrategy = PreconceptTreeConstructionStrategy.UNIDIMENSIONAL_SORTING;
 				prodConstrFromDenotationsStrategy = ProdConstrFromDenotationsStrategy.MAP_TARGET_VARS_TO_SOURCE_VALUES;
-				prodConstrFromPreconceptLattStrategy = ProdConstrFromPreconceptLattStrategy.IF_IS_A_THEN_BUILD_PRODUCTIONS;
-				transitionsConstructionStrategy = TransitionsConstructionStrategy.TRANSITIONS_CNSTR_STRATEGY_1;
+				prodConstrFromPreconceptLattStrategy = ProdConstrFromPreconceptLattStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
+				transitionSalienceSettingStrategy = TransitionSalienceSettingStrategy.HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS;
+				representationTransFuncConstructionStrategy = RepresentationTransFuncConstructionStrategy.ABSTRACT_FACTS_ACCEPTED;
 				propertyConstructionStrategy = PropertyConstructionStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
 				break;
 			default : 
 				break;
 		}
+	}
+	
+	public ITransitionSalienceSetter getTransitionSalienceSetter() {
+		return TransitionSalienceSetterFactory.INSTANCE.apply(transitionSalienceSettingStrategy);
 	}
 	
 	public IProdBuilderFromPreconceptLattice getProdBuilderFromPreconceptLattice() {
@@ -73,8 +82,8 @@ public class GeneratorsAbstractFactory {
 		return PreconceptTreeBuilderFactory.INSTANCE.apply(preconceptTreeConstructionStrategy);
 	}
 	
-	public ITransitionsConstructionManager getTransitionsConstructionManager() {
-		return TransitionsConstructionManagerFactory.INSTANCE.apply(transitionsConstructionStrategy);
+	public IRepresentationTransFuncBuilder getTransitionsConstructionManager() {
+		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncConstructionStrategy);
 	}
 	
 	public IPropertyBuilder getPropertyBuilder() {

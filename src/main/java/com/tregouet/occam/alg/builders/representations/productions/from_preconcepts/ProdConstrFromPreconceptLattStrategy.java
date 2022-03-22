@@ -2,6 +2,6 @@ package com.tregouet.occam.alg.builders.representations.productions.from_preconc
 
 public enum ProdConstrFromPreconceptLattStrategy {
 	
-	IF_IS_A_THEN_BUILD_PRODUCTIONS
+	IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS
 
 }

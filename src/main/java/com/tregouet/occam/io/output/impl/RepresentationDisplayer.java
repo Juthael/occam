@@ -18,7 +18,7 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.builders.representations.properties.transitions.impl.ProductionSetBuilder;
+import com.tregouet.occam.alg.builders.representations.productions.from_preconcepts.impl.IfIsAThenBuildProductions;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
@@ -31,8 +31,8 @@ import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.preconcepts.IPreconcepts;
-import com.tregouet.occam.data.preconcepts.impl.Preconcepts;
+import com.tregouet.occam.data.preconcepts.IPreconceptLattice;
+import com.tregouet.occam.data.preconcepts.impl.PreconceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.IRepresentationDisplayer;
 import com.tregouet.occam.io.output.utils.Visualizer;
@@ -45,7 +45,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	private static final DecimalFormat df = new DecimalFormat("#.####");
 	private final String folderPath;
 	private TreeSet<IContextObject> context = null;
-	private IPreconcepts preconcepts = null;
+	private IPreconceptLattice preconceptLattice = null;
 	private IStructureBasedTFSupplier structureBasedTFSupplier = null;
 	private IIsomorphicAutomatons isomorphicAutomatons = null;
 	private int denotSetTreeIdx = 0;
@@ -75,7 +75,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void generateDenotationSetLatticeGraph() throws IOException {
-		DirectedAcyclicGraph<IPreconcept, IIsA> lattice = preconcepts.getLatticeOfConcepts();
+		DirectedAcyclicGraph<IPreconcept, IIsA> lattice = preconceptLattice.getLatticeOfConcepts();
 		TransitiveReduction.INSTANCE.reduce(lattice); 
 		Visualizer.visualizeDenotationSetGraph(lattice, "denotation_lattice.png");
 	}
@@ -286,8 +286,8 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		} catch (IOException e) {
 			return false;
 		}
-		preconcepts = new Preconcepts(context);
-		List<IStronglyContextualized> stronglyContextualizeds = new ProductionSetBuilder(preconcepts).getProductions();
+		preconceptLattice = new PreconceptLattice(context);
+		List<IStronglyContextualized> stronglyContextualizeds = new IfIsAThenBuildProductions(preconceptLattice).getProductions();
 		DirectedAcyclicGraph<IDenotation, IStronglyContextualized> constructs = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		stronglyContextualizeds.stream().forEach(p -> {
@@ -296,7 +296,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
 		try {
-			structureBasedTFSupplier = new StructureBasedTFSupplier(preconcepts, constructs);
+			structureBasedTFSupplier = new StructureBasedTFSupplier(preconceptLattice, constructs);
 		} catch (IOException e) {
 			return false;
 		}

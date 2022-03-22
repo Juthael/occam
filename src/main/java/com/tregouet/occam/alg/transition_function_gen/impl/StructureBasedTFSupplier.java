@@ -18,7 +18,7 @@ import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.preconcepts.IPreconcepts;
+import com.tregouet.occam.data.preconcepts.IPreconceptLattice;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
@@ -30,11 +30,11 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	private final Map<IPreconcept, String> objectDenotationSetToName = new HashMap<>();
 	private Iterator<IIsomorphicAutomatons> ite;
 	
-	public StructureBasedTFSupplier(IPreconcepts preconcepts, 
+	public StructureBasedTFSupplier(IPreconceptLattice preconceptLattice, 
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations) throws IOException {
-		super(preconcepts, denotations);
+		super(preconceptLattice, denotations);
 		populateSetsOfRelatedTransFunctions();
-		for (IPreconcept objDenotationSet : preconcepts.getObjectConcepts())
+		for (IPreconcept objDenotationSet : preconceptLattice.getObjectConcepts())
 			objectDenotationSetToName.put(objDenotationSet, objDenotationSet.getExtent().iterator().next().getName());
 		ite = transFunctionSets.iterator();
 	}
@@ -65,8 +65,8 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	}	
 	
 	private void populateSetsOfRelatedTransFunctions() {
-		while (preconceptTreeSupplier.hasNext()) {
-			Tree<IPreconcept, IIsA> currTreeOfDenotationSets = preconceptTreeSupplier.next();
+		while (preconceptTreeBuilder.hasNext()) {
+			Tree<IPreconcept, IIsA> currTreeOfDenotationSets = preconceptTreeBuilder.next();
 			IIsomorphicAutomatons currSetOfIsomorphicTransFunctions = new IsomorphicAutomatons(
 					currTreeOfDenotationSets, objectDenotationSetToName);
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotationGraph = 

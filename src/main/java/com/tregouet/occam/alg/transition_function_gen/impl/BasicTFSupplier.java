@@ -14,7 +14,7 @@ import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.preconcepts.IPreconcepts;
+import com.tregouet.occam.data.preconcepts.IPreconceptLattice;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
 import com.tregouet.tree_finder.data.Tree;
@@ -24,9 +24,9 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	private final TreeSet<IAutomaton> automatons = new TreeSet<>(functionComparator);
 	private Iterator<IAutomaton> ite;
 	
-	public BasicTFSupplier(IPreconcepts preconcepts, DirectedAcyclicGraph<IDenotation, IStronglyContextualized> constructs) 
+	public BasicTFSupplier(IPreconceptLattice preconceptLattice, DirectedAcyclicGraph<IDenotation, IStronglyContextualized> constructs) 
 			throws IOException {
-		super(preconcepts, constructs);
+		super(preconceptLattice, constructs);
 		populateTransitionFunctions();
 		ite = automatons.iterator();
 	}
@@ -52,8 +52,8 @@ public class BasicTFSupplier extends TransitionFunctionSupplier implements IBasi
 	}
 
 	private void populateTransitionFunctions() {
-		while (preconceptTreeSupplier.hasNext()) {
-			Tree<IPreconcept, IIsA> currTreeOfDenotationSets = preconceptTreeSupplier.next();
+		while (preconceptTreeBuilder.hasNext()) {
+			Tree<IPreconcept, IIsA> currTreeOfDenotationSets = preconceptTreeBuilder.next();
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotationGraph = 
 					getDenotationGraphFilteredByTreeOfDenotationSets(currTreeOfDenotationSets, denotations);
 			IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier = 

@@ -14,7 +14,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.preconcepts.impl.PreconceptDenotationsBldr;
+import com.tregouet.occam.alg.builders.preconcepts.denotations.impl.MaxSymbolSubsequences;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
 import com.tregouet.occam.data.preconcepts.IContextObject;
@@ -56,16 +56,16 @@ public class DenotatingConstructBldrTest {
 
 	@Test
 	public void whenIntentRequestedThenExpectedReturned() {
-		Set<IConstruct> alphaBetaGammaIntent = PreconceptDenotationsBldr.getCommonDenotationsOf(alphaBetaGamma);
+		Set<IConstruct> alphaBetaGammaIntent = MaxSymbolSubsequences.getCommonDenotationsOf(alphaBetaGamma);
 		Set<IConstruct> alphaBetaGammaExpected = setAlphaBetaGammaExpected();
 		boolean alphaBetaGammaIntentAsExpected = alphaBetaGammaIntent.equals(alphaBetaGammaExpected);
-		Set<IConstruct> alphaBetaIntent = PreconceptDenotationsBldr.getCommonDenotationsOf(alphaBeta);
+		Set<IConstruct> alphaBetaIntent = MaxSymbolSubsequences.getCommonDenotationsOf(alphaBeta);
 		Set<IConstruct> alphaBetaExpected = setAlphaBetaExpected();
 		boolean alphaBetaIntentAsExpected = alphaBetaIntent.equals(alphaBetaExpected);
-		Set<IConstruct> alphaGammaIntent = PreconceptDenotationsBldr.getCommonDenotationsOf(alphaGamma);
+		Set<IConstruct> alphaGammaIntent = MaxSymbolSubsequences.getCommonDenotationsOf(alphaGamma);
 		Set<IConstruct> alphaGammaExpected = setAlphaGammaExpected();
 		boolean alphaGammaIntentAsExpected = alphaGammaIntent.equals(alphaGammaExpected);
-		Set<IConstruct> betaGammaIntent = PreconceptDenotationsBldr.getCommonDenotationsOf(betaGamma);
+		Set<IConstruct> betaGammaIntent = MaxSymbolSubsequences.getCommonDenotationsOf(betaGamma);
 		Set<IConstruct> betaGammaExpected = setBetaGammaExpected();
 		boolean betaGammaIntentAsExpected = betaGammaIntent.equals(betaGammaExpected);
 		/*
@@ -80,7 +80,7 @@ public class DenotatingConstructBldrTest {
 	
 	@Test
 	public void whenSqToMaxSubsqRequestedThenExpectedReturned() {
-		Map<ISymbolSeq, Set<ISymbolSeq>> sqToMaxSubsq = PreconceptDenotationsBldr.getSubsqToMaxSubsq(alphaBetaGamma);
+		Map<ISymbolSeq, Set<ISymbolSeq>> sqToMaxSubsq = MaxSymbolSubsequences.getSubsqToMaxSubsq(alphaBetaGamma);
 		/*
 		for (ISymbolSeq symbolSeq : sqToMaxSubsq.keySet()) {
 			System.out.println("SYMBOL_SEQ : " + symbolSeq.toString());

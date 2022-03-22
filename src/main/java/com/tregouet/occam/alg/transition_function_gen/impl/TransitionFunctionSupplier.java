@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.builders.preconcepts.IPreconceptTreeSupplier;
+import com.tregouet.occam.alg.builders.preconcepts.trees.IPreconceptTreeBuilder;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
 import com.tregouet.occam.data.automata.IAutomaton;
 import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
@@ -14,22 +14,22 @@ import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.preconcepts.IPreconcepts;
+import com.tregouet.occam.data.preconcepts.IPreconceptLattice;
 import com.tregouet.tree_finder.data.Tree;
 
 public abstract class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 
 	protected static final int MAX_CAPACITY = 50;
 	
-	protected final IPreconcepts preconcepts;
-	protected final IPreconceptTreeSupplier preconceptTreeSupplier;
+	protected final IPreconceptLattice preconceptLattice;
+	protected final IPreconceptTreeBuilder preconceptTreeBuilder;
 	protected final DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations;
 	protected final Comparator<IAutomaton> functionComparator;
 	
-	public TransitionFunctionSupplier(IPreconcepts preconcepts, 
+	public TransitionFunctionSupplier(IPreconceptLattice preconceptLattice, 
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> constructs) throws IOException {
-		this.preconcepts = preconcepts;
-		preconceptTreeSupplier = preconcepts.getConceptTreeSupplier();
+		this.preconceptLattice = preconceptLattice;
+		preconceptTreeBuilder = preconceptLattice.getConceptTreeSupplier();
 		this.denotations = constructs;
 		functionComparator = ScoreThenCostTFComparator.INSTANCE;
 	}

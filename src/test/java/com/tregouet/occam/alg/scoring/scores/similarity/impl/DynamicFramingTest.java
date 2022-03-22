@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.preconcepts.IPreconceptTreeSupplier;
-import com.tregouet.occam.alg.builders.representations.properties.transitions.impl.ProductionSetBuilder;
+import com.tregouet.occam.alg.builders.preconcepts.trees.IPreconceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.productions.from_preconcepts.impl.IfIsAThenBuildProductions;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.scoring_dep.scores.similarity.ISimilarityScorer;
@@ -29,8 +29,8 @@ import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IIsA;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.preconcepts.IPreconcepts;
-import com.tregouet.occam.data.preconcepts.impl.Preconcepts;
+import com.tregouet.occam.data.preconcepts.IPreconceptLattice;
+import com.tregouet.occam.data.preconcepts.impl.PreconceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
@@ -40,10 +40,10 @@ public class DynamicFramingTest {
 	
 	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> objects;
-	private IPreconcepts preconcepts;
+	private IPreconceptLattice preconceptLattice;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IPreconceptTreeSupplier preconceptTreeSupplier;
+	private IPreconceptTreeBuilder preconceptTreeBuilder;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered_reduced_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier;
 	private Tree<IDenotation, IStronglyContextualized> denotationTree;
@@ -58,16 +58,16 @@ public class DynamicFramingTest {
 	@Before
 	public void setUp() throws Exception {
 		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
-		preconcepts = new Preconcepts(objects);
-		List<IStronglyContextualized> stronglyContextualizeds = new ProductionSetBuilder(preconcepts).getProductions();
+		preconceptLattice = new PreconceptLattice(objects);
+		List<IStronglyContextualized> stronglyContextualizeds = new IfIsAThenBuildProductions(preconceptLattice).getProductions();
 		stronglyContextualizeds.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		preconceptTreeSupplier = preconcepts.getConceptTreeSupplier();
-		while (preconceptTreeSupplier.hasNext()) {
-			Tree<IPreconcept, IIsA> currTreeOfDenotationSets  = preconceptTreeSupplier.next();
+		preconceptTreeBuilder = preconceptLattice.getConceptTreeSupplier();
+		while (preconceptTreeBuilder.hasNext()) {
+			Tree<IPreconcept, IIsA> currTreeOfDenotationSets  = preconceptTreeBuilder.next();
 			filtered_reduced_denotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(
 							currTreeOfDenotationSets, denotations);

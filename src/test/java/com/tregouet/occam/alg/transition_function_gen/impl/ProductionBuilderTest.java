@@ -18,14 +18,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
-import com.tregouet.occam.alg.builders.representations.properties.transitions.impl.ProductionSetBuilder;
+import com.tregouet.occam.alg.builders.representations.productions.from_preconcepts.impl.IfIsAThenBuildProductions;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.preconcepts.IPreconcepts;
-import com.tregouet.occam.data.preconcepts.impl.Preconcepts;
+import com.tregouet.occam.data.preconcepts.IPreconceptLattice;
+import com.tregouet.occam.data.preconcepts.impl.PreconceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")
@@ -33,8 +33,8 @@ public class ProductionBuilderTest {
 
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1.txt");
 	private static List<IContextObject> shapes1Obj;
-	private IPreconcepts preconcepts;
-	private ProductionSetBuilder builder;
+	private IPreconceptLattice preconceptLattice;
+	private IfIsAThenBuildProductions builder;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -59,8 +59,8 @@ public class ProductionBuilderTest {
 	
 	@Before
 	public void setUp() {
-		preconcepts = new Preconcepts(shapes1Obj);
-		builder = new ProductionSetBuilder(preconcepts);
+		preconceptLattice = new PreconceptLattice(shapes1Obj);
+		builder = new IfIsAThenBuildProductions(preconceptLattice);
 		/*
 		Categories catImpl = (Categories) categories;
 		try {
@@ -107,7 +107,7 @@ public class ProductionBuilderTest {
 				.filter(p -> p.getSource().getPreconcept().type() != IPreconcept.ABSURDITY)
 				.collect(Collectors.toList());
 		List<IDenotation> denotations = new ArrayList<>();
-		for (IPreconcept preconcept : preconcepts.getTopologicalSorting()) {
+		for (IPreconcept preconcept : preconceptLattice.getTopologicalSorting()) {
 			if (preconcept.type() != IPreconcept.ABSURDITY)
 				denotations.addAll(preconcept.getDenotations());
 		}

@@ -56,8 +56,11 @@ public class HiddenByDefaultThenFindSpecifics implements ITransitionSalienceSett
 		//set common features
 		for (Set<IConceptTransition> conceptApplications : applications) {
 			for (IConceptTransition application : conceptApplications) {
-				if (!particularIDs.contains(application.getOutputInternConfiguration().getOutputStateID()))
-					application.setSalience(Salience.COMMON_FEATURE);
+				if (!particularIDs.contains(application.getOutputInternConfiguration().getOutputStateID())) {
+					if (application.getInputConfiguration().getInputSymbol().isRedundant())
+						application.setSalience(Salience.REDUNDANT);
+					else application.setSalience(Salience.COMMON_FEATURE); 
+				}
 			}
 		}
 		//set partition rules

@@ -11,6 +11,7 @@ import com.tregouet.occam.data.preconcepts.IDenotation;
 import com.tregouet.occam.data.representations.properties.IProperty;
 import com.tregouet.occam.data.representations.properties.impl.Property;
 import com.tregouet.occam.data.representations.properties.transitions.IApplication;
+import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.representations.properties.transitions.Salience;
 
 public class GroupSalientApplicationsByFunction implements IPropertyBuilder {
@@ -23,8 +24,8 @@ public class GroupSalientApplicationsByFunction implements IPropertyBuilder {
 	}
 	
 	@Override
-	public void intput(Set<IApplication> applications) {
-		for (IApplication application : applications) {
+	public void intput(IRepresentationTransitionFunction transFunction) {
+		for (IApplication application : transFunction.getSalientApplications()) {
 			Salience salience = application.getSalience();
 			if (salience == Salience.COMMON_FEATURE || salience == Salience.TRANSITION_RULE) {
 				IDenotation function = application.getInputConfiguration().getInputSymbol().getTarget();

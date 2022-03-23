@@ -6,13 +6,15 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.tregouet.occam.data.alphabets.generic.AVariable;
 import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
+import com.tregouet.occam.data.representations.properties.transitions.IApplication;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.properties.transitions.Salience;
 
 public class RepresentationTransitionFunction implements IRepresentationTransitionFunction {
 	
 	private final IConceptTransition initial;
-	private final Set<IConceptTransition> applications;
+	private final Set<IApplication> applications;
 	private final Set<IConceptTransition> closures;
 	private final Set<IConceptTransition> inheritances;
 	private final Set<IConceptTransition> spontaneous;
@@ -32,7 +34,7 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 					initialTemp = transition;
 					break;
 				case APPLICATION : 
-					applications.add(transition);
+					applications.add((IApplication) transition);
 					break;
 				case CLOSURE : 
 					closures.add(transition);
@@ -104,6 +106,17 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 	@Override
 	public Set<Integer> getAcceptStateIDs() {
 		return new HashSet<>(acceptStateIDs);
+	}
+
+	@Override
+	public Set<IApplication> getSalientApplications() {
+		Set<IApplication> salientApplications = new HashSet<>();
+		for (IApplication application : applications) {
+			Salience salienceVal = application.getSalience(); 
+			if (salienceVal == Salience.COMMON_FEATURE || salienceVal == Salience.TRANSITION_RULE)
+				salientApplications.add(application);
+		}
+		return salientApplications;
 	}
 
 }

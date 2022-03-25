@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.data.automata.machines.IIsomorphicAutomatons;
-import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.concepts.IConcept;
 
 public interface IStructureBasedTFSupplier extends ITransitionFunctionSupplier, Iterator<IIsomorphicAutomatons> {
 	
-	public static String getObjectsDenotationsAsString(Map<IPreconcept, String> objDenotationSetToName) {
+	public static String getObjectsDenotationsAsString(Map<IConcept, String> objDenotationSetToName) {
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
 		sB.append("*** OBJECTS DENOTATIONS ***" + newLine + newLine);
-		List<IPreconcept> objDenotationSets = new ArrayList<>(objDenotationSetToName.keySet());
+		List<IConcept> objDenotationSets = new ArrayList<>(objDenotationSetToName.keySet());
 		for (int i = 0 ; i < objDenotationSets.size() ; i++) {
-			IPreconcept objDenotationSet = objDenotationSets.get(i);
+			IConcept objDenotationSet = objDenotationSets.get(i);
 			sB.append("**Object " + objDenotationSetToName.get(objDenotationSet) + " :" + newLine);
 			sB.append(objDenotationSet.toString());
 			if (i < objDenotationSets.size() - 1)

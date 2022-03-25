@@ -13,17 +13,17 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.representations.productions.from_preconcepts.impl.IfIsAThenBuildProductions;
+import com.tregouet.occam.alg.builders.representations.productions.from_concepts.impl.IfIsAThenBuildProductions;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.StructureBasedTFSupplier;
 import com.tregouet.occam.data.automata.machines.IIsomorphicAutomatons;
+import com.tregouet.occam.data.concepts.IContextObject;
+import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.concepts.IConceptLattice;
+import com.tregouet.occam.data.concepts.impl.ConceptLattice;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
-import com.tregouet.occam.data.preconcepts.IContextObject;
-import com.tregouet.occam.data.preconcepts.IDenotation;
-import com.tregouet.occam.data.preconcepts.IPreconceptLattice;
-import com.tregouet.occam.data.preconcepts.impl.PreconceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")
@@ -31,7 +31,7 @@ public class ConceptStructureBasedTFSupplierTest {
 	
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private IPreconceptLattice preconceptLattice;
+	private IConceptLattice conceptLattice;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 
@@ -43,8 +43,8 @@ public class ConceptStructureBasedTFSupplierTest {
 
 	@Before
 	public void setUp() throws Exception {
-		preconceptLattice = new PreconceptLattice(shapes2Obj);
-		List<IStronglyContextualized> stronglyContextualizeds = new IfIsAThenBuildProductions(preconceptLattice).getProductions();
+		conceptLattice = new ConceptLattice(shapes2Obj);
+		List<IStronglyContextualized> stronglyContextualizeds = new IfIsAThenBuildProductions(conceptLattice).getProductions();
 		stronglyContextualizeds.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
@@ -60,7 +60,7 @@ public class ConceptStructureBasedTFSupplierTest {
 		*/
 		boolean increasingOrder = true;
 		int idx = 0;
-		IStructureBasedTFSupplier transFuncSupplier = new StructureBasedTFSupplier(preconceptLattice, denotations);
+		IStructureBasedTFSupplier transFuncSupplier = new StructureBasedTFSupplier(conceptLattice, denotations);
 		List<Double> coherenceScores = new ArrayList<>();
 		IIsomorphicAutomatons isomorphicAutomatons;
 		while (transFuncSupplier.hasNext()) {

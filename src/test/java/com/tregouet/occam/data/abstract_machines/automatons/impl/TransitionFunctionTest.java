@@ -17,8 +17,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.preconcepts.trees.IPreconceptTreeBuilder;
-import com.tregouet.occam.alg.builders.representations.productions.from_preconcepts.impl.IfIsAThenBuildProductions;
+import com.tregouet.occam.alg.builders.concepts.trees.IConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.productions.from_concepts.impl.IfIsAThenBuildProductions;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
@@ -29,17 +29,17 @@ import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_functions.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.automata.transition_functions.transitions.IOperator;
 import com.tregouet.occam.data.automata.transition_functions.transitions.ITransition;
+import com.tregouet.occam.data.concepts.IContextObject;
+import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConceptLattice;
+import com.tregouet.occam.data.concepts.impl.ConceptLattice;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
 import com.tregouet.occam.data.languages.specific.impl.BlankEdgeProduction;
-import com.tregouet.occam.data.preconcepts.IContextObject;
-import com.tregouet.occam.data.preconcepts.IDenotation;
-import com.tregouet.occam.data.preconcepts.IIsA;
-import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.preconcepts.IPreconceptLattice;
-import com.tregouet.occam.data.preconcepts.impl.PreconceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
@@ -50,10 +50,10 @@ public class TransitionFunctionTest {
 
 	private static final Path SHAPES = Paths.get(".", "src", "test", "java", "files", "shapes1bis.txt");
 	private static List<IContextObject> objects;
-	private IPreconceptLattice preconceptLattice;
+	private IConceptLattice conceptLattice;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
-	private IPreconceptTreeBuilder preconceptTreeBuilder;
+	private IConceptTreeBuilder conceptTreeBuilder;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered_reduced_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier;
 	private Tree<IDenotation, IStronglyContextualized> denotationTree;
@@ -71,8 +71,8 @@ public class TransitionFunctionTest {
 	
 	private static boolean sameSourceAndTargetCategoryForAll(List<IStronglyContextualized> stronglyContextualizeds) {
 		boolean sameSourceAndTargetDenotationSet = true;
-		IPreconcept sourceDS = null;
-		IPreconcept targetDS = null;
+		IConcept sourceDS = null;
+		IConcept targetDS = null;
 		for (int i = 0 ; i < stronglyContextualizeds.size() ; i++) {
 			if (i == 0) {
 				sourceDS = stronglyContextualizeds.get(i).getSourceConcept();
@@ -117,16 +117,16 @@ public class TransitionFunctionTest {
 	@Before
 	public void setUp() throws Exception {
 		automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
-		preconceptLattice = new PreconceptLattice(objects);
-		List<IStronglyContextualized> stronglyContextualizeds = new IfIsAThenBuildProductions(preconceptLattice).getProductions();
+		conceptLattice = new ConceptLattice(objects);
+		List<IStronglyContextualized> stronglyContextualizeds = new IfIsAThenBuildProductions(conceptLattice).getProductions();
 		stronglyContextualizeds.stream().forEach(p -> {
 			denotations.addVertex(p.getSource());
 			denotations.addVertex(p.getTarget());
 			denotations.addEdge(p.getSource(), p.getTarget(), p);
 		});
-		preconceptTreeBuilder = preconceptLattice.getConceptTreeSupplier();
-		while (preconceptTreeBuilder.hasNext()) {
-			Tree<IPreconcept, IIsA> currTreeOfDenotationSets  = preconceptTreeBuilder.next();
+		conceptTreeBuilder = conceptLattice.getConceptTreeSupplier();
+		while (conceptTreeBuilder.hasNext()) {
+			Tree<IConcept, IIsA> currTreeOfDenotationSets  = conceptTreeBuilder.next();
 			filtered_reduced_denotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(
 							currTreeOfDenotationSets, denotations);

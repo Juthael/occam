@@ -19,9 +19,9 @@ import com.tregouet.occam.data.alphabets.productions.IProduction;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedEpsilonProd;
 import com.tregouet.occam.data.alphabets.productions.impl.ContextualizedProd;
 import com.tregouet.occam.data.alphabets.productions.impl.Production;
+import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
-import com.tregouet.occam.data.preconcepts.IDenotation;
 
 public class MapTargetVarsToSourceValues implements IProdBuilderFromDenotations {
 	

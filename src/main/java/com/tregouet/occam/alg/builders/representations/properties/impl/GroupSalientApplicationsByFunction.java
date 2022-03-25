@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.properties.IPropertyBuilder;
-import com.tregouet.occam.data.preconcepts.IDenotation;
+import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.data.representations.properties.IProperty;
 import com.tregouet.occam.data.representations.properties.impl.Property;
 import com.tregouet.occam.data.representations.properties.transitions.IApplication;

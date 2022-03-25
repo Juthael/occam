@@ -14,10 +14,10 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.preconcepts.denotations.impl.MaxSymbolSubsequences;
+import com.tregouet.occam.alg.builders.concepts.denotations.impl.MaxSymbolSubsequences;
+import com.tregouet.occam.data.concepts.IContextObject;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.generic.impl.Construct;
-import com.tregouet.occam.data.preconcepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.subseq_finder.ISymbolSeq;
 

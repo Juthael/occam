@@ -18,21 +18,21 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.builders.representations.productions.from_preconcepts.impl.IfIsAThenBuildProductions;
+import com.tregouet.occam.alg.builders.representations.productions.from_concepts.impl.IfIsAThenBuildProductions;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.StructureBasedTFSupplier;
 import com.tregouet.occam.data.automata.IAutomaton;
 import com.tregouet.occam.data.automata.machines.IIsomorphicAutomatons;
+import com.tregouet.occam.data.concepts.IContextObject;
+import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConceptLattice;
+import com.tregouet.occam.data.concepts.impl.ConceptLattice;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
-import com.tregouet.occam.data.preconcepts.IContextObject;
-import com.tregouet.occam.data.preconcepts.IDenotation;
-import com.tregouet.occam.data.preconcepts.IIsA;
-import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.preconcepts.IPreconceptLattice;
-import com.tregouet.occam.data.preconcepts.impl.PreconceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.IRepresentationDisplayer;
 import com.tregouet.occam.io.output.utils.Visualizer;
@@ -45,7 +45,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	private static final DecimalFormat df = new DecimalFormat("#.####");
 	private final String folderPath;
 	private TreeSet<IContextObject> context = null;
-	private IPreconceptLattice preconceptLattice = null;
+	private IConceptLattice conceptLattice = null;
 	private IStructureBasedTFSupplier structureBasedTFSupplier = null;
 	private IIsomorphicAutomatons isomorphicAutomatons = null;
 	private int denotSetTreeIdx = 0;
@@ -75,7 +75,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void generateDenotationSetLatticeGraph() throws IOException {
-		DirectedAcyclicGraph<IPreconcept, IIsA> lattice = preconceptLattice.getLatticeOfConcepts();
+		DirectedAcyclicGraph<IConcept, IIsA> lattice = conceptLattice.getLatticeOfConcepts();
 		TransitiveReduction.INSTANCE.reduce(lattice); 
 		Visualizer.visualizeDenotationSetGraph(lattice, "denotation_lattice.png");
 	}
@@ -84,7 +84,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	public String generateConceptualCoherenceArray(String alinea) {
 		Map<Integer, Double> catIDToCoherence = 
 				currentTransFunc.getSimilarityCalculator().getConceptualCoherenceMap();
-		List<IPreconcept> topologicalOrder = new ArrayList<>();
+		List<IConcept> topologicalOrder = new ArrayList<>();
 		new TopologicalOrderIterator<>(currentTransFunc.getTreeOfDenotationSets()).forEachRemaining(topologicalOrder::add);
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
@@ -94,13 +94,13 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		sB.append(alinea + "<caption> " + "Conceptual coherence" + "</caption>" + NL);
 		sB.append(alineaa + "<thead>" + NL);
 		sB.append(alineaaa + "<tr>" + NL);
-		for (IPreconcept cat : topologicalOrder)
+		for (IConcept cat : topologicalOrder)
 			sB.append(alineaaaa + "<th>" + Integer.toString(cat.getID()) + "</th>");
 		sB.append(alineaaa + "</tr>" + NL);
 		sB.append(alineaa + "</thead>" + NL);
 		sB.append(alineaa + "<tbody>" + NL);
 		sB.append(alineaaa + "<tr>" + NL);
-		for (IPreconcept cat : topologicalOrder)
+		for (IConcept cat : topologicalOrder)
 			sB.append(alineaaaa + "<td>" + round(catIDToCoherence.get(cat.getID())) + "</td>");
 		sB.append(alineaaa + "</tr>" + NL);
 		sB.append(alineaa + "</tbody>" + NL);
@@ -286,8 +286,8 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 		} catch (IOException e) {
 			return false;
 		}
-		preconceptLattice = new PreconceptLattice(context);
-		List<IStronglyContextualized> stronglyContextualizeds = new IfIsAThenBuildProductions(preconceptLattice).getProductions();
+		conceptLattice = new ConceptLattice(context);
+		List<IStronglyContextualized> stronglyContextualizeds = new IfIsAThenBuildProductions(conceptLattice).getProductions();
 		DirectedAcyclicGraph<IDenotation, IStronglyContextualized> constructs = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		stronglyContextualizeds.stream().forEach(p -> {
@@ -296,7 +296,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 			constructs.addEdge(p.getSource(), p.getTarget(), p);
 		});
 		try {
-			structureBasedTFSupplier = new StructureBasedTFSupplier(preconceptLattice, constructs);
+			structureBasedTFSupplier = new StructureBasedTFSupplier(conceptLattice, constructs);
 		} catch (IOException e) {
 			return false;
 		}

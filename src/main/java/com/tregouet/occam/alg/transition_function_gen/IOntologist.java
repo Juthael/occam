@@ -15,8 +15,8 @@ import com.tregouet.occam.data.automata.machines.deprec.GenusDifferentiaDefiniti
 import com.tregouet.occam.data.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
 import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.automata.transition_functions.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.preconcepts.IIsA;
-import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.concepts.IConcept;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IOntologist {
@@ -26,7 +26,7 @@ public interface IOntologist {
 		DirectedAcyclicGraph<IState, IGenusDifferentiaDefinition_dep> porphyrianTree = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		Graphs.addAllVertices(porphyrianTree, automaton.getStates());
-		Tree<IPreconcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
+		Tree<IConcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
 		Map<IState, List<IConjunctiveTransition>> sourceToTransitions = new HashMap<>();
 		for (IConjunctiveTransition transition : automaton.getConjunctiveTransitions()) {
 			IState sourceState = transition.getInputState();
@@ -52,10 +52,10 @@ public interface IOntologist {
 		IState startState = automaton.getAssociatedStateOf(treeOfDenotationSets.getRoot());
 		Set<IState> finalStates = new HashSet<>();
 		List<IState> topoOrderedStates = new ArrayList<>();
-		for (IPreconcept preconcept : treeOfDenotationSets.getTopologicalOrder()) {
-			IState associatedState = automaton.getAssociatedStateOf(preconcept);
+		for (IConcept concept : treeOfDenotationSets.getTopologicalOrder()) {
+			IState associatedState = automaton.getAssociatedStateOf(concept);
 			topoOrderedStates.add(associatedState);
-			if (preconcept.type() == IPreconcept.OBJECT)
+			if (concept.type() == IConcept.OBJECT)
 				finalStates.add(associatedState);
 		}
 		return new Tree<IState, IGenusDifferentiaDefinition_dep>(porphyrianTree, startState, 

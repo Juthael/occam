@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.tregouet.occam.alg.scoring_dep.scores.IScorer;
 import com.tregouet.occam.data.automata.IAutomaton;
-import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.concepts.IConcept;
 
 public interface ISimilarityScorer extends IScorer<ISimilarityScorer, IAutomaton> {
 	
@@ -17,7 +17,7 @@ public interface ISimilarityScorer extends IScorer<ISimilarityScorer, IAutomaton
 	
 	Map<Integer, Double> getConceptualCoherenceMap();
 	
-	List<IPreconcept> getListOfSingletons();
+	List<IConcept> getListOfSingletons();
 	
 	double[][] getSimilarityMatrix();
 	

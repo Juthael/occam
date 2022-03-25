@@ -15,15 +15,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.preconcepts.trees.IPreconceptTreeBuilder;
+import com.tregouet.occam.alg.builders.concepts.trees.IConceptTreeBuilder;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
-import com.tregouet.occam.data.preconcepts.IContextObject;
-import com.tregouet.occam.data.preconcepts.IIsA;
-import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.preconcepts.IPreconceptLattice;
-import com.tregouet.occam.data.preconcepts.impl.PreconceptLattice;
-import com.tregouet.occam.data.preconcepts.utils.TreeOfPreconceptsToStringConvertor;
+import com.tregouet.occam.data.concepts.IContextObject;
+import com.tregouet.occam.data.concepts.IIsA;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConceptLattice;
+import com.tregouet.occam.data.concepts.impl.ConceptLattice;
+import com.tregouet.occam.data.concepts.utils.TreeOfConceptsToStringConvertor;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -32,9 +32,9 @@ public class TreeOfDenotationsToStringConvertorTest {
 
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
-	private IPreconceptLattice preconceptLattice;
-	private IPreconceptTreeBuilder preconceptTreeBuilder;
-	private Map<IPreconcept, String> objDenotationSetToName = new HashMap<>();
+	private IConceptLattice conceptLattice;
+	private IConceptTreeBuilder conceptTreeBuilder;
+	private Map<IConcept, String> objDenotationSetToName = new HashMap<>();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -44,12 +44,12 @@ public class TreeOfDenotationsToStringConvertorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		preconceptLattice = new PreconceptLattice(shapes2Obj);
+		conceptLattice = new ConceptLattice(shapes2Obj);
 		char name = 'A';
-		for (IPreconcept objectCategory : preconceptLattice.getObjectConcepts()) {
+		for (IConcept objectCategory : conceptLattice.getObjectConcepts()) {
 			objDenotationSetToName.put(objectCategory, new String(Character.toString(name++)));
 		}
-		preconceptTreeBuilder = preconceptLattice.getConceptTreeSupplier();
+		conceptTreeBuilder = conceptLattice.getConceptTreeSupplier();
 	}
 
 	@Test
@@ -63,12 +63,12 @@ public class TreeOfDenotationsToStringConvertorTest {
 		Visualizer.visualizeCategoryGraph(cats.getCategoryLattice(), "CatTreeToStringConvertorTest");
 		int treeIdx = 0;
 		*/
-		while (preconceptTreeBuilder.hasNext()) {
-			Tree<IPreconcept, IIsA> currTree = preconceptTreeBuilder.next();
+		while (conceptTreeBuilder.hasNext()) {
+			Tree<IConcept, IIsA> currTree = conceptTreeBuilder.next();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/
-			String currTreeDesc = new TreeOfPreconceptsToStringConvertor(currTree, objDenotationSetToName).toString();
+			String currTreeDesc = new TreeOfConceptsToStringConvertor(currTree, objDenotationSetToName).toString();
 			/*
 			System.out.println(currTreeDesc);
 			*/
@@ -85,7 +85,7 @@ public class TreeOfDenotationsToStringConvertorTest {
 		StringBuilder sB = new StringBuilder();
 		String newLine = System.lineSeparator();
 		sB.append("*** DEFINITION OF OBJECTS ***" + newLine + newLine);
-		for (IPreconcept objectCat : objDenotationSetToName.keySet()) {
+		for (IConcept objectCat : objDenotationSetToName.keySet()) {
 			sB.append("**Object " + objDenotationSetToName.get(objectCat) + " :" + newLine);
 			sB.append(objectCat.toString());
 			sB.append(newLine + newLine);

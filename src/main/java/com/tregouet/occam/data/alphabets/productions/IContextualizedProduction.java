@@ -1,17 +1,17 @@
 package com.tregouet.occam.data.alphabets.productions;
 
-import com.tregouet.occam.data.preconcepts.IDenotation;
-import com.tregouet.occam.data.preconcepts.IPreconcept;
+import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.concepts.IConcept;
 
 public interface IContextualizedProduction extends IProduction {
 	
-	IPreconcept getGenus();
+	IConcept getGenus();
 	
 	String getLabel();
 	
 	IDenotation getSource();
 	
-	IPreconcept getSpecies();
+	IConcept getSpecies();
 	
 	IDenotation getTarget();
 	

@@ -18,14 +18,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
-import com.tregouet.occam.alg.builders.representations.productions.from_preconcepts.impl.IfIsAThenBuildProductions;
+import com.tregouet.occam.data.concepts.IContextObject;
+import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.alg.builders.representations.productions.from_concepts.impl.IfIsAThenBuildProductions;
+import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.concepts.IConceptLattice;
+import com.tregouet.occam.data.concepts.impl.ConceptLattice;
 import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
 import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
-import com.tregouet.occam.data.preconcepts.IContextObject;
-import com.tregouet.occam.data.preconcepts.IDenotation;
-import com.tregouet.occam.data.preconcepts.IPreconcept;
-import com.tregouet.occam.data.preconcepts.IPreconceptLattice;
-import com.tregouet.occam.data.preconcepts.impl.PreconceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")
@@ -33,7 +33,7 @@ public class ProductionBuilderTest {
 
 	private static final Path SHAPES1 = Paths.get(".", "src", "test", "java", "files", "shapes1.txt");
 	private static List<IContextObject> shapes1Obj;
-	private IPreconceptLattice preconceptLattice;
+	private IConceptLattice conceptLattice;
 	private IfIsAThenBuildProductions builder;
 	
 	@BeforeClass
@@ -59,8 +59,8 @@ public class ProductionBuilderTest {
 	
 	@Before
 	public void setUp() {
-		preconceptLattice = new PreconceptLattice(shapes1Obj);
-		builder = new IfIsAThenBuildProductions(preconceptLattice);
+		conceptLattice = new ConceptLattice(shapes1Obj);
+		builder = new IfIsAThenBuildProductions(conceptLattice);
 		/*
 		Categories catImpl = (Categories) categories;
 		try {
@@ -104,12 +104,12 @@ public class ProductionBuilderTest {
 		boolean aVertexOrEdgeAdditionHasFailed = false;
 		List<IStronglyContextualized> stronglyContextualizeds = builder.getProductions()
 				.stream()
-				.filter(p -> p.getSource().getPreconcept().type() != IPreconcept.ABSURDITY)
+				.filter(p -> p.getSource().getConcept().type() != IConcept.ABSURDITY)
 				.collect(Collectors.toList());
 		List<IDenotation> denotations = new ArrayList<>();
-		for (IPreconcept preconcept : preconceptLattice.getTopologicalSorting()) {
-			if (preconcept.type() != IPreconcept.ABSURDITY)
-				denotations.addAll(preconcept.getDenotations());
+		for (IConcept concept : conceptLattice.getTopologicalSorting()) {
+			if (concept.type() != IConcept.ABSURDITY)
+				denotations.addAll(concept.getDenotations());
 		}
 		DirectedAcyclicGraph<IDenotation, IStronglyContextualized> graph = new DirectedAcyclicGraph<>(IStronglyContextualized.class);
 		for (IDenotation denotation : denotations) {

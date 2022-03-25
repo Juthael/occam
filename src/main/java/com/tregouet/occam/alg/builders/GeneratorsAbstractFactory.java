@@ -1,20 +1,20 @@
 package com.tregouet.occam.alg.builders;
 
-import com.tregouet.occam.alg.builders.preconcepts.denotations.DenotationBuilderFactory;
-import com.tregouet.occam.alg.builders.preconcepts.denotations.DenotationConstructionStrategy;
-import com.tregouet.occam.alg.builders.preconcepts.denotations.IDenotationBuilder;
-import com.tregouet.occam.alg.builders.preconcepts.lattices.IPreconceptLatticeBuilder;
-import com.tregouet.occam.alg.builders.preconcepts.lattices.PreconceptLatticeBuilderFactory;
-import com.tregouet.occam.alg.builders.preconcepts.lattices.PreconceptLatticeConstructionStrategy;
-import com.tregouet.occam.alg.builders.preconcepts.trees.IPreconceptTreeBuilder;
-import com.tregouet.occam.alg.builders.preconcepts.trees.PreconceptTreeBuilderFactory;
-import com.tregouet.occam.alg.builders.preconcepts.trees.PreconceptTreeConstructionStrategy;
+import com.tregouet.occam.alg.builders.concepts.denotations.DenotationBuilderFactory;
+import com.tregouet.occam.alg.builders.concepts.denotations.DenotationConstructionStrategy;
+import com.tregouet.occam.alg.builders.concepts.denotations.IDenotationBuilder;
+import com.tregouet.occam.alg.builders.concepts.lattices.IConceptLatticeBuilder;
+import com.tregouet.occam.alg.builders.concepts.lattices.ConceptLatticeBuilderFactory;
+import com.tregouet.occam.alg.builders.concepts.lattices.ConceptLatticeConstructionStrategy;
+import com.tregouet.occam.alg.builders.concepts.trees.IConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.concepts.trees.ConceptTreeBuilderFactory;
+import com.tregouet.occam.alg.builders.concepts.trees.ConceptTreeConstructionStrategy;
+import com.tregouet.occam.alg.builders.representations.productions.from_concepts.IProdBuilderFromConceptLattice;
+import com.tregouet.occam.alg.builders.representations.productions.from_concepts.ProdBldrFromConceptLattFactory;
+import com.tregouet.occam.alg.builders.representations.productions.from_concepts.ProdConstrFromConceptLattStrategy;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.IProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBldrFromDenotationsFactory;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdConstrFromDenotationsStrategy;
-import com.tregouet.occam.alg.builders.representations.productions.from_preconcepts.IProdBuilderFromPreconceptLattice;
-import com.tregouet.occam.alg.builders.representations.productions.from_preconcepts.ProdBldrFromPreconceptLattFactory;
-import com.tregouet.occam.alg.builders.representations.productions.from_preconcepts.ProdConstrFromPreconceptLattStrategy;
 import com.tregouet.occam.alg.builders.representations.properties.IPropertyBuilder;
 import com.tregouet.occam.alg.builders.representations.properties.PropertyBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.properties.PropertyConstructionStrategy;
@@ -30,10 +30,10 @@ public class GeneratorsAbstractFactory {
 	public static final GeneratorsAbstractFactory INSTANCE = new GeneratorsAbstractFactory();
 	
 	private DenotationConstructionStrategy denotationConstructionStrategy = null;
-	private PreconceptLatticeConstructionStrategy preconceptLatticeConstructionStrategy = null;
-	private PreconceptTreeConstructionStrategy preconceptTreeConstructionStrategy = null;
+	private ConceptLatticeConstructionStrategy conceptLatticeConstructionStrategy = null;
+	private ConceptTreeConstructionStrategy conceptTreeConstructionStrategy = null;
 	private ProdConstrFromDenotationsStrategy prodConstrFromDenotationsStrategy = null;
-	private ProdConstrFromPreconceptLattStrategy prodConstrFromPreconceptLattStrategy = null;
+	private ProdConstrFromConceptLattStrategy prodConstrFromConceptLattStrategy = null;
 	private TransitionSalienceSettingStrategy transitionSalienceSettingStrategy = null;
 	private RepresentationTransFuncConstructionStrategy representationTransFuncConstructionStrategy = null;
 	private PropertyConstructionStrategy propertyConstructionStrategy = null;
@@ -45,10 +45,10 @@ public class GeneratorsAbstractFactory {
 		switch(overallStrategy) {
 			case GENERATION_STRATEGY_1 : 
 				denotationConstructionStrategy = DenotationConstructionStrategy.MAX_SYMBOL_SUBSEQUENCES;
-				preconceptLatticeConstructionStrategy = PreconceptLatticeConstructionStrategy.GALOIS_CONNECTION;
-				preconceptTreeConstructionStrategy = PreconceptTreeConstructionStrategy.UNIDIMENSIONAL_SORTING;
+				conceptLatticeConstructionStrategy = ConceptLatticeConstructionStrategy.GALOIS_CONNECTION;
+				conceptTreeConstructionStrategy = ConceptTreeConstructionStrategy.UNIDIMENSIONAL_SORTING;
 				prodConstrFromDenotationsStrategy = ProdConstrFromDenotationsStrategy.MAP_TARGET_VARS_TO_SOURCE_VALUES;
-				prodConstrFromPreconceptLattStrategy = ProdConstrFromPreconceptLattStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
+				prodConstrFromConceptLattStrategy = ProdConstrFromConceptLattStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
 				transitionSalienceSettingStrategy = TransitionSalienceSettingStrategy.HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS;
 				representationTransFuncConstructionStrategy = RepresentationTransFuncConstructionStrategy.ABSTRACT_FACTS_ACCEPTED;
 				propertyConstructionStrategy = PropertyConstructionStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
@@ -62,8 +62,8 @@ public class GeneratorsAbstractFactory {
 		return TransitionSalienceSetterFactory.INSTANCE.apply(transitionSalienceSettingStrategy);
 	}
 	
-	public IProdBuilderFromPreconceptLattice getProdBuilderFromPreconceptLattice() {
-		return ProdBldrFromPreconceptLattFactory.INSTANCE.apply(prodConstrFromPreconceptLattStrategy);
+	public IProdBuilderFromConceptLattice getProdBuilderFromConceptLattice() {
+		return ProdBldrFromConceptLattFactory.INSTANCE.apply(prodConstrFromConceptLattStrategy);
 	}
 	
 	public IProdBuilderFromDenotations getProdBuilderFromDenotations() {
@@ -74,12 +74,12 @@ public class GeneratorsAbstractFactory {
 		return DenotationBuilderFactory.INSTANCE.apply(denotationConstructionStrategy);
 	}
 	
-	public IPreconceptLatticeBuilder getPreconceptLatticeBuilder() {
-		return PreconceptLatticeBuilderFactory.INSTANCE.apply(preconceptLatticeConstructionStrategy);
+	public IConceptLatticeBuilder getConceptLatticeBuilder() {
+		return ConceptLatticeBuilderFactory.INSTANCE.apply(conceptLatticeConstructionStrategy);
 	}
 	
-	public IPreconceptTreeBuilder getPreconceptTreeBuilder() {
-		return PreconceptTreeBuilderFactory.INSTANCE.apply(preconceptTreeConstructionStrategy);
+	public IConceptTreeBuilder getConceptTreeBuilder() {
+		return ConceptTreeBuilderFactory.INSTANCE.apply(conceptTreeConstructionStrategy);
 	}
 	
 	public IRepresentationTransFuncBuilder getTransitionsConstructionManager() {

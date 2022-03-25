@@ -64,26 +64,8 @@ public abstract class Concept implements IConcept {
 	}
 
 	@Override
-	abstract public boolean isOperative();
-
-	@Override
 	public void setRank(int rank) {
 		this.rank = rank;
 	}
-
-	@Override
-	abstract public void setSubconceptsDistinctiveFeaturesSalience();
-
-	@Override
-	abstract public void setSpeciesAlignableDifferencesSalience();
-
-	@Override
-	abstract public void setSaliences();
-
-	@Override
-	abstract public Set<IApplication> getApplications();
-
-	@Override
-	abstract public Set<IConceptTransition> getConceptTransitions();
 
 }

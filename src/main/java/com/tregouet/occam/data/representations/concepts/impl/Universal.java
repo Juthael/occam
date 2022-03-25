@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.representations.concepts.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -58,30 +59,6 @@ public class Universal extends Concept implements IConcept {
 
 	@Override
 	public void loadTransitionRules(Set<IConceptTransition> transitions) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isOperative() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setSubconceptsDistinctiveFeaturesSalience() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setSpeciesAlignableDifferencesSalience() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setSaliences() {
 		// TODO Auto-generated method stub
 		
 	}

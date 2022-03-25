@@ -25,7 +25,7 @@ public interface IHead<
 	
 	void input(Word word);
 	
-	void set(TransFunc transitionFunction, TapeSet tapeSet);
+	void set(Set<State> states, TransFunc transitionFunction, TapeSet tapeSet);
 	
 	Set<? extends Head> evaluateNextSymbol();
 	

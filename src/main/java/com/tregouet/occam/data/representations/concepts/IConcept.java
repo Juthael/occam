@@ -39,17 +39,5 @@ public interface IConcept extends  IPushdownAutomatonState<
 	
 	@Override
 	int hashCode();
-	
-	void setSubconceptsDistinctiveFeaturesSalience();
-	
-	void setSpeciesAlignableDifferencesSalience();
-	
-	void setSaliences();
-	
-	Set<IApplication> getApplications();
-	
-	Set<IConceptTransition> getConceptTransitions();	
-	
-	boolean isOperative();
 
 }

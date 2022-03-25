@@ -57,30 +57,6 @@ public class Particular extends Concept implements IConcept {
 	}
 
 	@Override
-	public boolean isOperative() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setSubconceptsDistinctiveFeaturesSalience() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setSpeciesAlignableDifferencesSalience() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setSaliences() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public Set<IApplication> getApplications() {
 		// TODO Auto-generated method stub
 		return null;

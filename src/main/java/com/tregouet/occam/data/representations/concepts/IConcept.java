@@ -15,8 +15,6 @@ public interface IConcept extends IDichotomizable<IConcept>, IState {
 	
 	Set<IContextObject> getExtent();
 	
-	int getID();
-	
 	Set<IDenotation> getDenotations();
 	
 	Set<IDenotation> getRedundantDenotations();

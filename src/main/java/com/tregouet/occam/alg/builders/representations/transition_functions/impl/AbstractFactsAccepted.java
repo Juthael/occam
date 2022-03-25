@@ -49,15 +49,14 @@ public class AbstractFactsAccepted implements IRepresentationTransFuncBuilder {
 	}
 	
 	@Override
-	public IRepresentationTransFuncBuilder input(Tree<IConcept, IIsA> treeOfConcepts,
+	public IRepresentationTransitionFunction apply(Tree<IConcept, IIsA> treeOfConcepts,
 			Set<IContextualizedProduction> unfilteredUnreducedProds) {
 		this.treeOfConcepts = treeOfConcepts;
 		this.unfilteredUnreducedProds = unfilteredUnreducedProds;
-		return this;
+		return output();
 	}
 
-	@Override
-	public IRepresentationTransitionFunction output() {
+	private IRepresentationTransitionFunction output() {
 		//declare TF constructor parameters
 		IConceptTransition initial;
 		Set<IConceptTransition> applications = new HashSet<>();
@@ -83,7 +82,7 @@ public class AbstractFactsAccepted implements IRepresentationTransFuncBuilder {
 		transitions.addAll(closures);
 		transitions.addAll(inheritances);
 		transitions.addAll(spontaneous);
-		GeneratorsAbstractFactory.INSTANCE.getTransitionSalienceSetter().setTransitionSaliencesOf(transitions);
+		GeneratorsAbstractFactory.INSTANCE.getTransitionSalienceSetter().accept(transitions);
 		//return 
 		return new RepresentationTransitionFunction(transitions);
 	}
@@ -100,12 +99,12 @@ public class AbstractFactsAccepted implements IRepresentationTransFuncBuilder {
 		for (IConcept concept : treeOfConcepts.vertexSet()) {
 			if (!concept.equals(root)) {
 				conceptToSuccessorIDs.put(
-						concept.getID(), 
-						Graphs.successorListOf(treeOfConcepts, concept).get(0).getID());
+						concept.iD(), 
+						Graphs.successorListOf(treeOfConcepts, concept).get(0).iD());
 			}
 		}
 		for (IContextualizedProduction production : filteredReducedProds) {
-			int outputStateID = production.getSpecies().getID();
+			int outputStateID = production.getSpecies().iD();
 			int inputStateID = conceptToSuccessorIDs.get(outputStateID);
 			if (production.isEpsilon())
 				transitions.add(new InheritanceTransition(inputStateID, outputStateID, (ContextualizedEpsilonProd) production));
@@ -155,9 +154,9 @@ public class AbstractFactsAccepted implements IRepresentationTransFuncBuilder {
 	
 	private static Set<IntIntPair> getGenusToSpeciesIDs(IConcept genus, DirectedAcyclicGraph<IConcept, IIsA> graph) {
 		Set<IntIntPair> genusToSpeciesIDs = new HashSet<>();
-		int genusID = genus.getID();
+		int genusID = genus.iD();
 		for (IConcept species : Graphs.predecessorListOf(graph, genus)) {
-			genusToSpeciesIDs.add(new IntIntImmutablePair(genusID, species.getID()));
+			genusToSpeciesIDs.add(new IntIntImmutablePair(genusID, species.iD()));
 			genusToSpeciesIDs.addAll(getGenusToSpeciesIDs(species, graph));
 		}
 		return genusToSpeciesIDs;

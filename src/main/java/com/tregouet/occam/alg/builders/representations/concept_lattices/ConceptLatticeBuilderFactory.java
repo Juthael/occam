@@ -9,7 +9,7 @@ public class ConceptLatticeBuilderFactory {
 	private ConceptLatticeBuilderFactory() {
 	}
 	
-	public ConceptLatticeBuilder apply(ConceptLatticeConstructionStrategy strategy) {
+	public ConceptLatticeBuilder apply(ConceptLatticeBuilderStrategy strategy) {
 		switch(strategy) {
 			case GALOIS_CONNECTION : 
 				return new ConceptLatticeBuilder();

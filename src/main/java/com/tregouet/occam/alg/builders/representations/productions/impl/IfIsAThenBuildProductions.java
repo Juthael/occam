@@ -5,25 +5,23 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.builders.representations.productions.IProdBuilderFromConceptLattice;
+import com.tregouet.occam.alg.builders.representations.productions.IProductionBuilder;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IDenotation;
 
-public class IfIsAThenBuildProductions implements IProdBuilderFromConceptLattice {
+public class IfIsAThenBuildProductions implements IProductionBuilder {
 
 	public static final IfIsAThenBuildProductions INSTANCE = new IfIsAThenBuildProductions();
-	
-	private Set<IContextualizedProduction> productions = null;
 	
 	public IfIsAThenBuildProductions() {
 	}
 
 	@Override
-	public IProdBuilderFromConceptLattice input(IConceptLattice conceptLattice) {
+	public Set<IContextualizedProduction> apply(IConceptLattice conceptLattice) {
+		Set<IContextualizedProduction> productions = new HashSet<>();
 		List<IConcept> topoOrderedConcepts = conceptLattice.getTopologicalSorting();
-		productions = new HashSet<>();
 		for (int i = 0 ; i < topoOrderedConcepts.size() - 1 ; i++) {
 			IConcept iConcept = topoOrderedConcepts.get(i);
 			for (int j = i+1 ; j < topoOrderedConcepts.size() ; j++) {
@@ -33,19 +31,13 @@ public class IfIsAThenBuildProductions implements IProdBuilderFromConceptLattice
 						for (IDenotation target : jConcept.getDenotations()) {
 							Set<IContextualizedProduction> ijDenotationsProds = 
 									GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromDenotations()
-										.input(source, target)
-										.output();
+										.apply(source, target);
 							productions.addAll(ijDenotationsProds);
 						}
 					}
 				}
 			}
 		}
-		return this;
-	}
-
-	@Override
-	public Set<IContextualizedProduction> output() {
 		return productions;
 	}
 

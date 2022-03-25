@@ -25,14 +25,12 @@ import com.tregouet.occam.data.representations.concepts.IDenotation;
 
 public class MapTargetVarsToSourceValues implements IProdBuilderFromDenotations {
 	
-	private Set<IContextualizedProduction> productions = null;
-	
 	public MapTargetVarsToSourceValues() {
 	}
 
 	@Override
-	public IProdBuilderFromDenotations input(IDenotation source, IDenotation target) {
-		productions = new HashSet<>();
+	public Set<IContextualizedProduction> apply(IDenotation source, IDenotation target) {
+		Set<IContextualizedProduction> productions = new HashSet<>();
 		if (source.getListOfSymbols().equals(target.getListOfSymbols()))
 			productions.add(new ContextualizedEpsilonProd(source, target));
 		else if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals())) {
@@ -55,11 +53,6 @@ public class MapTargetVarsToSourceValues implements IProdBuilderFromDenotations 
 				}
 			}
 		}
-		return this;
-	}
-
-	@Override
-	public Set<IContextualizedProduction> output() {
 		return productions;
 	}
 	

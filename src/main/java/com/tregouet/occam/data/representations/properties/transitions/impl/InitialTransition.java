@@ -17,11 +17,11 @@ public class InitialTransition extends ConceptTransition implements IConceptTran
 	public InitialTransition(Everything everything) {
 		super(
 				new ConceptTransitionIC(
-						WhatIsThere.INSTANCE.getID(), 
+						WhatIsThere.INSTANCE.iD(), 
 						new ContextualizedEpsilonProd(null, null), 
 						Nothing.INSTANCE),
 				new ConceptTransitionOIC(
-						everything.getID(), 
+						everything.iD(), 
 						new ArrayList<AVariable>(
 								Arrays.asList(
 										new AVariable[] {Nothing.INSTANCE, This.INSTANCE})))

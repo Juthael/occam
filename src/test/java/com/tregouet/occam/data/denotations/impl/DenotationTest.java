@@ -18,7 +18,7 @@ import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.IDenotation;
 import com.tregouet.occam.data.representations.concepts.impl.Concept;
-import com.tregouet.occam.data.representations.concepts.impl.ContextObject;
+import com.tregouet.occam.data.representations.concepts.impl.Particular;
 
 public class DenotationTest {
 
@@ -52,9 +52,9 @@ public class DenotationTest {
 		obj3ConstructsAsStrings.add(Arrays.asList(prog4));
 		obj3ConstructsAsStrings.add(Arrays.asList(prog1));
 		
-		obj1 = new ContextObject(obj1ConstructsAsStrings);
-		obj2 = new ContextObject(obj2ConstructsAsStrings);
-		obj3 = new ContextObject(obj3ConstructsAsStrings);
+		obj1 = new Particular(obj1ConstructsAsStrings);
+		obj2 = new Particular(obj2ConstructsAsStrings);
+		obj3 = new Particular(obj3ConstructsAsStrings);
 		
 		Set<IConstruct> dS1Constructs = new HashSet<>();
 		dS1Constructs.addAll(obj1.getConstructs());

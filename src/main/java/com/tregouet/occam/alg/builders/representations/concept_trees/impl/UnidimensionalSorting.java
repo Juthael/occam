@@ -22,34 +22,23 @@ public class UnidimensionalSorting extends ConceptTreeBuilder implements IConcep
 	}
 	
 	@Override
-	public IConceptTreeBuilder input(IConceptLattice conceptLattice) throws IOException {
+	public Set<Tree<IConcept, IIsA>> apply(IConceptLattice conceptLattice) {
 		UpperSemilattice<IConcept, IIsA> conceptUSL = conceptLattice.getOntologicalUpperSemilattice();
 		try {
 			this.conceptSorter = new UnidimensionalSorter<>(conceptUSL);
 		} catch (IOException e) {
-			throw new IOException("ConceptTreeSupplier() : error." + System.lineSeparator() + e.getMessage());
+			System.out.println("ConceptTreeSupplier() : error." + System.lineSeparator() + e.getMessage());
 		}
 		this.ontologicalCommitment = conceptLattice.getOntologicalCommitment();
-		return this;
+		return output();
 	}	
 	
 
-	@Override
-	public Set<Tree<IConcept, IIsA>> output() {
+	private Set<Tree<IConcept, IIsA>> output() {
 		Set<Tree<IConcept, IIsA>> commitedTrees = new HashSet<>();
-		while (hasNext())
-			commitedTrees.add(next());
+		while (conceptSorter.hasNext())
+			commitedTrees.add(ConceptTreeBuilder.commit(conceptSorter.next(), ontologicalCommitment));
 		return commitedTrees;
-	}
-
-	@Override
-	public boolean hasNext() {
-		return conceptSorter.hasNext();
-	}
-
-	@Override
-	public Tree<IConcept, IIsA> next() {
-		return ConceptTreeBuilder.commit(conceptSorter.next(), ontologicalCommitment);
 	}
 
 }

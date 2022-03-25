@@ -83,7 +83,7 @@ public class ConceptLatticeBuilder implements IConceptLatticeBuilder {
 			Set<IConstruct> denotatingConstructs;
 			if (subset.size() > 1)
 				denotatingConstructs = 
-					GeneratorsAbstractFactory.INSTANCE.getDenotationBuilder().input(subset).output();
+					GeneratorsAbstractFactory.INSTANCE.getDenotationBuilder().apply(subset);
 			else if (subset.size() == 1)
 				denotatingConstructs = new HashSet<IConstruct>(subset.iterator().next().getConstructs());
 			else {
@@ -169,7 +169,7 @@ public class ConceptLatticeBuilder implements IConceptLatticeBuilder {
 	}
 
 	@Override
-	public IConceptLatticeBuilder input(Collection<IContextObject> objects) {
+	public IConceptLattice apply(Collection<IContextObject> objects) {
 		AVariable.resetVarNaming();
 		this.objects = new ArrayList<>(objects);
 		particulars = new ArrayList<>(Arrays.asList(new IConcept[objects.size()]));
@@ -206,11 +206,10 @@ public class ConceptLatticeBuilder implements IConceptLatticeBuilder {
 				new UpperSemilattice<>(upperSemilattice, truism, new HashSet<>(particulars), topologicalOrder);
 		this.upperSemilattice.addAsNewRoot(ontologicalCommitment, true);
 		markRedundantDenotationsOfUSLConcepts();
-		return this;
+		return output();
 	}
 	
-	@Override
-	public IConceptLattice output() {
+	private IConceptLattice output() {
 		return new ConceptLattice(
 				objects, lattice, upperSemilattice, topologicalOrder, ontologicalCommitment, truism, 
 				particulars, absurdity);

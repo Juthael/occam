@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.builders.representations_dep.salience;
+package com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences;
 
-import com.tregouet.occam.alg.builders.representations_dep.salience.impl.HiddenByDefaultThenFindSpecifics;
+import com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.impl.HiddenByDefaultThenFindSpecifics;
 
 public class TransitionSalienceSetterFactory {
 	
@@ -9,7 +9,7 @@ public class TransitionSalienceSetterFactory {
 	private TransitionSalienceSetterFactory() {
 	}
 	
-	public ITransitionSalienceSetter apply(TransitionSalienceSettingStrategy strategy) {
+	public ITransitionSalienceSetter apply(TransitionSalienceSetterStrategy strategy) {
 		switch (strategy) {
 			case HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS : 
 				return new HiddenByDefaultThenFindSpecifics();

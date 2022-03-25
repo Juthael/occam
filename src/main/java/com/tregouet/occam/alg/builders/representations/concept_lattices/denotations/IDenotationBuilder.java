@@ -2,16 +2,12 @@ package com.tregouet.occam.alg.builders.representations.concept_lattices.denotat
 
 import java.util.Collection;
 import java.util.Set;
+import java.util.function.Function;
 
 import com.tregouet.occam.data.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 
-public interface IDenotationBuilder {
-	
-	IDenotationBuilder input(Collection<IContextObject> extent);
-	
-	Set<IConstruct> output();
-	
-	
+@FunctionalInterface
+public interface IDenotationBuilder extends Function<Collection<IContextObject>, Set<IConstruct>> {	
 
 }

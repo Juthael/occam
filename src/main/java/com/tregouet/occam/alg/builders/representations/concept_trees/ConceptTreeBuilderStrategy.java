@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.representations.concept_trees;
 
-public enum ConceptTreeConstructionStrategy {
+public enum ConceptTreeBuilderStrategy {
 	
 	UNIDIMENSIONAL_SORTING
 

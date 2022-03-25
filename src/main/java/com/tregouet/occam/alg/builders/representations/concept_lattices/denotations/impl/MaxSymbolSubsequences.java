@@ -17,23 +17,19 @@ import com.tregouet.subseq_finder.impl.SubseqFinder;
 
 public class MaxSymbolSubsequences implements IDenotationBuilder {
 
-	private final List<List<ISymbolSeq>> objSymbolSeqs = new ArrayList<>();
-	private final Set<IConstruct> denotations = new HashSet<>();
+	private List<List<ISymbolSeq>> objSymbolSeqs;
+	private Set<IConstruct> denotations;
 	private int[] arrayDimensions = null;
 	private int[] coords = null;
-	private final Map<ISymbolSeq, Set<ISymbolSeq>> subsqToMaxSubsq = new HashMap<>();
-	private final Map<ISymbolSeq, IConstruct> symbolSeqToConstruct = new HashMap<>();
+	private Map<ISymbolSeq, Set<ISymbolSeq>> subsqToMaxSubsq;
+	private Map<ISymbolSeq, IConstruct> symbolSeqToConstruct;
 	
 	public MaxSymbolSubsequences() {
 	}
 	
 	@Override
-	public Set<IConstruct> output(){
-		return denotations;
-	}
-
-	@Override
-	public IDenotationBuilder input(Collection<IContextObject> extentCollection){
+	public Set<IConstruct> apply(Collection<IContextObject> extentCollection){
+		init();
 		List<IContextObject> extent;
 		if (extentCollection instanceof List<IContextObject>)
 			extent = (List<IContextObject>) extentCollection;
@@ -57,7 +53,7 @@ public class MaxSymbolSubsequences implements IDenotationBuilder {
 			for (ISymbolSeq maxSubseq : maxSubseqs)
 				denotations.add(getConstruct(maxSubseq));
 		}
-		return this;
+		return denotations;
 	}
 	
 	//for unit test use only
@@ -78,6 +74,13 @@ public class MaxSymbolSubsequences implements IDenotationBuilder {
 		}
 		setSubsqToMaxSubsq();
 		return subsqToMaxSubsq;
+	}
+	
+	private void init() {
+		objSymbolSeqs = new ArrayList<>();
+		denotations = new HashSet<>();
+		subsqToMaxSubsq = new HashMap<>();
+		symbolSeqToConstruct = new HashMap<>();
 	}
 	
 	private boolean nextCoord(){

@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.representations_dep.salience.impl;
+package com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.representations_dep.salience.ITransitionSalienceSetter;
+import com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.ITransitionSalienceSetter;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IProduction;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
@@ -17,16 +17,24 @@ import com.tregouet.occam.data.representations.properties.transitions.Transition
 
 public class HiddenByDefaultThenFindSpecifics implements ITransitionSalienceSetter {
 	
-	private final List<Integer> inputStateIDs = new ArrayList<>();
-	private final List<Set<Integer>> outputStateIDs = new ArrayList<>();
-	private final List<Set<IConceptTransition>> applications = new ArrayList<>();
-	private final Set<Integer> particularIDs = new HashSet<>();
+	private List<Integer> inputStateIDs;
+	private List<Set<Integer>> outputStateIDs;
+	private List<Set<IConceptTransition>> applications;
+	private Set<Integer> particularIDs;
 	
 	public HiddenByDefaultThenFindSpecifics() {
 	}
 	
+	private void init() {
+		inputStateIDs = new ArrayList<>();
+		outputStateIDs = new ArrayList<>();
+		applications = new ArrayList<>();
+		particularIDs = new HashSet<>();
+	}
+	
 	@Override
-	public void setTransitionSaliencesOf(Set<IConceptTransition> transitions) {
+	public void accept(Set<IConceptTransition> transitions) {
+		init();
 		// set salience default value as HIDDEN, group applications by input concept, find input/output relation
 		for (IConceptTransition transition : transitions) {
 			//default value, may be changed later

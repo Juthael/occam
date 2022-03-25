@@ -10,21 +10,21 @@ import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.subseq_finder.ISymbolSeq;
 import com.tregouet.subseq_finder.impl.SymbolSeq;
 
-public class ContextObject implements IContextObject {
+public class Particular implements IContextObject {
 
 	private static int nextID = 0;
 	private final List<IConstruct> constructs = new ArrayList<IConstruct>();
 	private final int iD;
 	private final String name;
 	
-	public ContextObject(List<List<String>> constructsAsLists) {
+	public Particular(List<List<String>> constructsAsLists) {
 		iD = nextID++;
 		for (List<String> constructAsList : constructsAsLists)
 			constructs.add(new Construct(constructAsList.toArray(new String[constructAsList.size()])));
 		name = null;
 	}
 	
-	public ContextObject(List<List<String>> constructsAsLists, String name) {
+	public Particular(List<List<String>> constructsAsLists, String name) {
 		iD = nextID++;
 		for (List<String> constructAsList : constructsAsLists)
 			constructs.add(new Construct(constructAsList.toArray(new String[constructAsList.size()])));
@@ -44,7 +44,7 @@ public class ContextObject implements IContextObject {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ContextObject other = (ContextObject) obj;
+		Particular other = (Particular) obj;
 		if (iD != other.iD)
 			return false;
 		return true;

@@ -56,7 +56,7 @@ public class Concept implements IConcept {
 	}
 
 	@Override
-	public int getID() {
+	public int iD() {
 		return iD;
 	}
 

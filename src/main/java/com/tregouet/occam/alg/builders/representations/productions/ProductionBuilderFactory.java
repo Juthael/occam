@@ -2,14 +2,14 @@ package com.tregouet.occam.alg.builders.representations.productions;
 
 import com.tregouet.occam.alg.builders.representations.productions.impl.IfIsAThenBuildProductions;
 
-public class ProdBldrFromConceptLattFactory {
+public class ProductionBuilderFactory {
 	
-	public static final ProdBldrFromConceptLattFactory INSTANCE = new ProdBldrFromConceptLattFactory();
+	public static final ProductionBuilderFactory INSTANCE = new ProductionBuilderFactory();
 	
-	private ProdBldrFromConceptLattFactory() {
+	private ProductionBuilderFactory() {
 	}
 	
-	public IProdBuilderFromConceptLattice apply(ProdConstrFromConceptLattStrategy strategy) {
+	public IProductionBuilder apply(ProductionBuilderStrategy strategy) {
 		switch(strategy) {
 			case IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS :
 				return new IfIsAThenBuildProductions();

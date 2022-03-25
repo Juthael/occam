@@ -21,7 +21,7 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 				.map(d -> new Construct(d.getListOfSymbols()))
 				.collect(Collectors.toSet()), 
 				new HashSet<>(Sets.difference(complementing.getExtent(), toBeComplemented.getExtent())), 
-				complementing.getID());
+				complementing.iD());
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
 		setType(ConceptType.UNIVERSAL);
@@ -60,7 +60,7 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 
 	@Override
 	public String toString() {
-		return Integer.toString(-complementedByThis.getID());
+		return Integer.toString(-complementedByThis.iD());
 	}
 
 	@Override

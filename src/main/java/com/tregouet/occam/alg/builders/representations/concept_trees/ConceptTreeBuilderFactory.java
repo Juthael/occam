@@ -9,7 +9,7 @@ public class ConceptTreeBuilderFactory {
 	private ConceptTreeBuilderFactory() {
 	}
 	
-	public IConceptTreeBuilder apply(ConceptTreeConstructionStrategy strategy) {
+	public IConceptTreeBuilder apply(ConceptTreeBuilderStrategy strategy) {
 		switch(strategy) {
 			case UNIDIMENSIONAL_SORTING : 
 				return new UnidimensionalSorting();

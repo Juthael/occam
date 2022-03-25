@@ -10,7 +10,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.transition_function_gen.utils.ProductionGenerator;
+import com.tregouet.occam.alg.transition_function_gen_dep.utils.ProductionGenerator;
 import com.tregouet.occam.data.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.alphabets.generic.impl.Terminal;

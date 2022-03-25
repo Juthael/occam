@@ -14,7 +14,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.concepts.denotations.impl.MaxSymbolSubsequences;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.impl.MaxSymbolSubsequences;
 import com.tregouet.occam.data.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.representations.concepts.IContextObject;

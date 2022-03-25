@@ -15,11 +15,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.builders.concepts.trees.IConceptTreeBuilder;
-import com.tregouet.occam.alg.builders.representations.productions.from_concepts.impl.IfIsAThenBuildProductions;
+import com.tregouet.occam.alg.builders.representations.concept_trees.IConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.productions.impl.IfIsAThenBuildProductions;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
-import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
+import com.tregouet.occam.alg.transition_function_gen_dep.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
 import com.tregouet.occam.data.representations.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.representations.concepts.IConcept;

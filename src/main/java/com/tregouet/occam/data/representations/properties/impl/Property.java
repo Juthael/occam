@@ -2,7 +2,7 @@ package com.tregouet.occam.data.representations.properties.impl;
 
 import java.util.Set;
 
-import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
+import com.tregouet.occam.alg.weighers.ScorersAbstractFactory;
 import com.tregouet.occam.data.representations.concepts.IDenotation;
 import com.tregouet.occam.data.representations.properties.IProperty;
 import com.tregouet.occam.data.representations.properties.transitions.IApplication;

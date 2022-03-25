@@ -1,29 +1,29 @@
 package com.tregouet.occam.alg.builders;
 
-import com.tregouet.occam.alg.builders.concepts.denotations.DenotationBuilderFactory;
-import com.tregouet.occam.alg.builders.concepts.denotations.DenotationConstructionStrategy;
-import com.tregouet.occam.alg.builders.concepts.denotations.IDenotationBuilder;
-import com.tregouet.occam.alg.builders.concepts.lattices.IConceptLatticeBuilder;
-import com.tregouet.occam.alg.builders.concepts.lattices.ConceptLatticeBuilderFactory;
-import com.tregouet.occam.alg.builders.concepts.lattices.ConceptLatticeConstructionStrategy;
-import com.tregouet.occam.alg.builders.concepts.trees.IConceptTreeBuilder;
-import com.tregouet.occam.alg.builders.concepts.trees.ConceptTreeBuilderFactory;
-import com.tregouet.occam.alg.builders.concepts.trees.ConceptTreeConstructionStrategy;
-import com.tregouet.occam.alg.builders.representations.productions.from_concepts.IProdBuilderFromConceptLattice;
-import com.tregouet.occam.alg.builders.representations.productions.from_concepts.ProdBldrFromConceptLattFactory;
-import com.tregouet.occam.alg.builders.representations.productions.from_concepts.ProdConstrFromConceptLattStrategy;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeConstructionStrategy;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.IConceptLatticeBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationConstructionStrategy;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.IDenotationBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeConstructionStrategy;
+import com.tregouet.occam.alg.builders.representations.concept_trees.IConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.productions.IProdBuilderFromConceptLattice;
+import com.tregouet.occam.alg.builders.representations.productions.ProdBldrFromConceptLattFactory;
+import com.tregouet.occam.alg.builders.representations.productions.ProdConstrFromConceptLattStrategy;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.IProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBldrFromDenotationsFactory;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdConstrFromDenotationsStrategy;
-import com.tregouet.occam.alg.builders.representations.properties.IPropertyBuilder;
-import com.tregouet.occam.alg.builders.representations.properties.PropertyBuilderFactory;
-import com.tregouet.occam.alg.builders.representations.properties.PropertyConstructionStrategy;
-import com.tregouet.occam.alg.builders.representations.salience.ITransitionSalienceSetter;
-import com.tregouet.occam.alg.builders.representations.salience.TransitionSalienceSetterFactory;
-import com.tregouet.occam.alg.builders.representations.salience.TransitionSalienceSettingStrategy;
 import com.tregouet.occam.alg.builders.representations.transition_functions.IRepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncConstructionStrategy;
+import com.tregouet.occam.alg.builders.representations_dep.properties.IPropertyBuilder;
+import com.tregouet.occam.alg.builders.representations_dep.properties.PropertyBuilderFactory;
+import com.tregouet.occam.alg.builders.representations_dep.properties.PropertyConstructionStrategy;
+import com.tregouet.occam.alg.builders.representations_dep.salience.ITransitionSalienceSetter;
+import com.tregouet.occam.alg.builders.representations_dep.salience.TransitionSalienceSetterFactory;
+import com.tregouet.occam.alg.builders.representations_dep.salience.TransitionSalienceSettingStrategy;
 
 public class GeneratorsAbstractFactory {
 	

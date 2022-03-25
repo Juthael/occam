@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.representations.productions.from_concepts.impl.IfIsAThenBuildProductions;
+import com.tregouet.occam.alg.builders.representations.productions.impl.IfIsAThenBuildProductions;
 import com.tregouet.occam.data.languages.words.fact.ICompositeEdgeProduction;
 import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;

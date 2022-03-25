@@ -13,11 +13,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.representations.productions.from_concepts.impl.IfIsAThenBuildProductions;
+import com.tregouet.occam.alg.builders.representations.productions.impl.IfIsAThenBuildProductions;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
-import com.tregouet.occam.alg.transition_function_gen.IStructureBasedTFSupplier;
-import com.tregouet.occam.alg.transition_function_gen.impl.StructureBasedTFSupplier;
+import com.tregouet.occam.alg.transition_function_gen_dep.IStructureBasedTFSupplier;
+import com.tregouet.occam.alg.transition_function_gen_dep.impl.StructureBasedTFSupplier;
 import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
 import com.tregouet.occam.data.logical_structures.automata.machines.IIsomorphicAutomatons;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;

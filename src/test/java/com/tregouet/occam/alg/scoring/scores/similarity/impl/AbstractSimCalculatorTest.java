@@ -13,14 +13,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.concepts.trees.IConceptTreeBuilder;
-import com.tregouet.occam.alg.builders.representations.productions.from_concepts.impl.IfIsAThenBuildProductions;
+import com.tregouet.occam.alg.builders.representations.concept_trees.IConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.productions.impl.IfIsAThenBuildProductions;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.scoring_dep.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.alg.scoring_dep.scores.similarity.SimilarityScoringStrategy;
 import com.tregouet.occam.alg.scoring_dep.scores.similarity.impl.SimilarityScorerFactory;
-import com.tregouet.occam.alg.transition_function_gen.impl.TransitionFunctionSupplier;
+import com.tregouet.occam.alg.transition_function_gen_dep.impl.TransitionFunctionSupplier;
 import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
 import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
 import com.tregouet.occam.data.logical_structures.automata.machines.deprec.Automaton_dep;

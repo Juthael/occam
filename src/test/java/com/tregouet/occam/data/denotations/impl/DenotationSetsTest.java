@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.concepts.trees.IConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_trees.IConceptTreeBuilder;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.data.languages.words.construct.IConstruct;

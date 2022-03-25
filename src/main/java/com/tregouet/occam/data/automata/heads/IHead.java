@@ -13,13 +13,13 @@ import com.tregouet.occam.data.languages.IWord;
 
 public interface IHead<
 	TransFunc extends ITransitionFunction<InputSymbol, InputConfig, OutputConfig, Transition>,
-	TapeSet extends ITapeSet<InputSymbol, InputConfig, OutputConfig, Transition, State, TapeSet>,
+	TapeSet extends ITapeSet<InputSymbol, TapeSet>,
 	InputSymbol extends ISymbol,
 	Word extends IWord<InputSymbol>,
 	InputConfig extends IInputConfiguration<InputSymbol>,
 	OutputConfig extends IOutputInternConfiguration,
 	Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>,
-	State extends IState<InputSymbol, InputConfig, OutputConfig, Transition>,
+	State extends IState,
 	Head extends IHead<TransFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, State, Head>
 	>{
 	

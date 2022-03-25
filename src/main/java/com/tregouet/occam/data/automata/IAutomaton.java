@@ -13,7 +13,7 @@ import com.tregouet.occam.data.automata.transition_functions.transitions.output_
 import com.tregouet.occam.data.languages.IWord;
 
 public interface IAutomaton<
-	State extends IState<InputSymbol, InputConfig, OutputConfig, Transition>, 
+	State extends IState, 
 	InputSymbol extends ISymbol,
 	Word extends IWord<InputSymbol>,
 	InputConfig extends IInputConfiguration<InputSymbol>,

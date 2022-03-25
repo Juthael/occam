@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
+import com.tregouet.occam.data.automata.states.IState;
 import com.tregouet.occam.data.languages.generic.IConstruct;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
-public interface IConcept extends IDichotomizable<IConcept> {
+public interface IConcept extends IDichotomizable<IConcept>, IState {
 	
 	@Override
 	boolean equals(Object obj);

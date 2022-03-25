@@ -2,10 +2,10 @@ package com.tregouet.occam.data.representations.evaluation.tapes.impl;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.alphabets.generic.AVariable;
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.languages.specific.IFact;
-import com.tregouet.occam.data.languages.specific.impl.Fact;
+import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
+import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
+import com.tregouet.occam.data.languages.words.fact.IFact;
+import com.tregouet.occam.data.languages.words.fact.impl.Fact;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.impl.WhatIsThere;
 import com.tregouet.occam.data.representations.evaluation.tapes.IRepresentationTapeSet;

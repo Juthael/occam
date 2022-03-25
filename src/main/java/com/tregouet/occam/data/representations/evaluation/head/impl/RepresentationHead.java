@@ -2,7 +2,7 @@ package com.tregouet.occam.data.representations.evaluation.head.impl;
 
 import java.util.Set;
 
-import com.tregouet.occam.data.languages.specific.IFact;
+import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.representations.evaluation.head.IRepresentationHead;
 import com.tregouet.occam.data.representations.evaluation.tapes.IRepresentationTapeSet;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;

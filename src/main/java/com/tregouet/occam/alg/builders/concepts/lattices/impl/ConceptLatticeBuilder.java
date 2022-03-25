@@ -17,17 +17,17 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.concepts.lattices.IConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.concepts.lattices.utils.MarkRedundantDenotations;
-import com.tregouet.occam.data.alphabets.generic.AVariable;
-import com.tregouet.occam.data.concepts.ConceptType;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConceptLattice;
-import com.tregouet.occam.data.concepts.impl.IsA;
-import com.tregouet.occam.data.concepts.impl.Concept;
-import com.tregouet.occam.data.concepts.impl.ConceptLattice;
-import com.tregouet.occam.data.concepts.impl.Everything;
-import com.tregouet.occam.data.languages.generic.IConstruct;
+import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
+import com.tregouet.occam.data.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.representations.concepts.ConceptType;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IConceptLattice;
+import com.tregouet.occam.data.representations.concepts.IContextObject;
+import com.tregouet.occam.data.representations.concepts.IIsA;
+import com.tregouet.occam.data.representations.concepts.impl.Concept;
+import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
+import com.tregouet.occam.data.representations.concepts.impl.Everything;
+import com.tregouet.occam.data.representations.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
 public class ConceptLatticeBuilder implements IConceptLatticeBuilder {

@@ -10,13 +10,13 @@ import java.util.Set;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.automata.IAutomaton;
-import com.tregouet.occam.data.automata.machines.deprec.GenusDifferentiaDefinition_dep;
-import com.tregouet.occam.data.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
-import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transition_functions.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
+import com.tregouet.occam.data.logical_structures.automata.machines.deprec.GenusDifferentiaDefinition_dep;
+import com.tregouet.occam.data.logical_structures.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
+import com.tregouet.occam.data.logical_structures.automata.states.IState;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IOntologist {

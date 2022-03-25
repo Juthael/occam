@@ -17,12 +17,12 @@ import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.alg.transition_function_gen.IBasicTFSupplier;
 import com.tregouet.occam.alg.transition_function_gen.impl.BasicTFSupplier;
-import com.tregouet.occam.data.automata.IAutomaton;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IConceptLattice;
-import com.tregouet.occam.data.concepts.impl.ConceptLattice;
-import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
+import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
+import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
+import com.tregouet.occam.data.representations.concepts.IConceptLattice;
+import com.tregouet.occam.data.representations.concepts.IContextObject;
+import com.tregouet.occam.data.representations.concepts.IDenotation;
+import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")

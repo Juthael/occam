@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.impl.ContextObject;
-import com.tregouet.occam.data.concepts.impl.Concept;
-import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.impl.Construct;
+import com.tregouet.occam.data.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IContextObject;
+import com.tregouet.occam.data.representations.concepts.IDenotation;
+import com.tregouet.occam.data.representations.concepts.impl.Concept;
+import com.tregouet.occam.data.representations.concepts.impl.ContextObject;
 
 public class DenotationTest {
 

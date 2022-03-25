@@ -11,9 +11,9 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.scoring_dep.scores.similarity.ISimilarityScorer;
-import com.tregouet.occam.data.automata.IAutomaton;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 

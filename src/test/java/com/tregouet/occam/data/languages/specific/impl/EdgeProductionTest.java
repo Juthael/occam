@@ -12,21 +12,21 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.alphabets.ISymbol;
-import com.tregouet.occam.data.alphabets.generic.AVariable;
-import com.tregouet.occam.data.alphabets.generic.ITerminal;
-import com.tregouet.occam.data.alphabets.generic.impl.Terminal;
-import com.tregouet.occam.data.alphabets.generic.impl.Variable;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.impl.Denotation;
-import com.tregouet.occam.data.concepts.impl.Concept;
-import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.impl.Construct;
-import com.tregouet.occam.data.languages.lambda.ILambdaExpression;
-import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
-import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
-import com.tregouet.occam.data.languages.specific.impl.SimpleEdgeProduction;
+import com.tregouet.occam.data.languages.alphabets.ISymbol;
+import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
+import com.tregouet.occam.data.languages.alphabets.generic.ITerminal;
+import com.tregouet.occam.data.languages.alphabets.generic.impl.Terminal;
+import com.tregouet.occam.data.languages.alphabets.generic.impl.Variable;
+import com.tregouet.occam.data.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.languages.words.fact.ISimpleEdgeProduction;
+import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
+import com.tregouet.occam.data.languages.words.fact.impl.SimpleEdgeProduction;
+import com.tregouet.occam.data.languages.words.lambda.ILambdaExpression;
+import com.tregouet.occam.data.representations.concepts.IContextObject;
+import com.tregouet.occam.data.representations.concepts.IDenotation;
+import com.tregouet.occam.data.representations.concepts.impl.Concept;
+import com.tregouet.occam.data.representations.concepts.impl.Denotation;
 
 public class EdgeProductionTest {
 

@@ -3,8 +3,8 @@ package com.tregouet.occam.alg.builders.concepts.lattices.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IDenotation;
 
 public interface MarkRedundantDenotations {
 	

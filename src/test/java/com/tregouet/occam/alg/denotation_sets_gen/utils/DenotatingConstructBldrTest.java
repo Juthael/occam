@@ -15,9 +15,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.tregouet.occam.alg.builders.concepts.denotations.impl.MaxSymbolSubsequences;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.languages.generic.IConstruct;
-import com.tregouet.occam.data.languages.generic.impl.Construct;
+import com.tregouet.occam.data.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.subseq_finder.ISymbolSeq;
 

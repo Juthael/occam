@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.salience.ITransitionSalienceSetter;
-import com.tregouet.occam.data.alphabets.generic.AVariable;
-import com.tregouet.occam.data.alphabets.productions.IProduction;
+import com.tregouet.occam.data.languages.alphabets.domain_specific.IProduction;
+import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.Salience;
 import com.tregouet.occam.data.representations.properties.transitions.TransitionType;

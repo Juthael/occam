@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.tregouet.occam.data.alphabets.generic.AVariable;
+import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.evaluation.tapes.IVarBinder;
 import com.tregouet.occam.data.representations.properties.transitions.dimensions.Nothing;
 

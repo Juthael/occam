@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.data.alphabets.generic.AVariable;
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
+import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
+import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.properties.transitions.IApplication;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;

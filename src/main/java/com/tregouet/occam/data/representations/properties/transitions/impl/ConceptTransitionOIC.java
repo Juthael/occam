@@ -3,7 +3,7 @@ package com.tregouet.occam.data.representations.properties.transitions.impl;
 import java.util.List;
 import java.util.Objects;
 
-import com.tregouet.occam.data.alphabets.generic.AVariable;
+import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionOIC;
 
 public class ConceptTransitionOIC implements IConceptTransitionOIC {

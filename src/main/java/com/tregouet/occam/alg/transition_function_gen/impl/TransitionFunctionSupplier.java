@@ -8,13 +8,13 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.concepts.trees.IConceptTreeBuilder;
 import com.tregouet.occam.alg.transition_function_gen.ITransitionFunctionSupplier;
-import com.tregouet.occam.data.automata.IAutomaton;
-import com.tregouet.occam.data.automata.machines.utils.ScoreThenCostTFComparator;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConceptLattice;
-import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
+import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
+import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
+import com.tregouet.occam.data.logical_structures.automata.machines.utils.ScoreThenCostTFComparator;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IConceptLattice;
+import com.tregouet.occam.data.representations.concepts.IDenotation;
+import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public abstract class TransitionFunctionSupplier implements ITransitionFunctionSupplier {

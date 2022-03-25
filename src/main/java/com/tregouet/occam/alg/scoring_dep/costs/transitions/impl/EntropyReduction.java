@@ -5,10 +5,10 @@ import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 
 import com.tregouet.occam.alg.scoring_dep.costs.transitions.ITransitionCoster;
-import com.tregouet.occam.data.automata.IAutomaton;
-import com.tregouet.occam.data.automata.transition_functions.transitions.ICostedTransition;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.IConcept;
+import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.ICostedTransition;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 public class EntropyReduction implements ITransitionCoster {

@@ -12,13 +12,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IDenotation;
 import com.tregouet.occam.alg.builders.representations.productions.from_concepts.impl.IfIsAThenBuildProductions;
-import com.tregouet.occam.data.concepts.IConceptLattice;
-import com.tregouet.occam.data.concepts.impl.ConceptLattice;
-import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
-import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
+import com.tregouet.occam.data.languages.words.fact.ICompositeEdgeProduction;
+import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
+import com.tregouet.occam.data.representations.concepts.IConceptLattice;
+import com.tregouet.occam.data.representations.concepts.IContextObject;
+import com.tregouet.occam.data.representations.concepts.IDenotation;
+import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class CompositeEdgeProductionTest {

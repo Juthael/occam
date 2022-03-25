@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.data.concepts.IIsA;
 import com.tregouet.occam.alg.builders.concepts.trees.IConceptTreeBuilder;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConceptLattice;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IConceptLattice;
+import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IUnidimensionalSorter;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalSorter;
 import com.tregouet.tree_finder.data.Tree;

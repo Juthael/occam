@@ -14,17 +14,17 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
-import com.tregouet.occam.data.automata.IAutomaton;
-import com.tregouet.occam.data.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
-import com.tregouet.occam.data.automata.states.IState;
-import com.tregouet.occam.data.automata.transition_functions.transitions.IBasicOperator;
-import com.tregouet.occam.data.automata.transition_functions.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.automata.transition_functions.transitions.IReframerRule;
-import com.tregouet.occam.data.automata.transition_functions.transitions.ITransition;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
+import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
+import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
+import com.tregouet.occam.data.logical_structures.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
+import com.tregouet.occam.data.logical_structures.automata.states.IState;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IBasicOperator;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IReframerRule;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.ITransition;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IDenotation;
+import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 import guru.nidi.graphviz.engine.Format;

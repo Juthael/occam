@@ -7,9 +7,9 @@ import java.util.Map;
 import org.jgrapht.Graphs;
 
 import com.tregouet.occam.alg.scoring_dep.scores.similarity.ISimilarityScorer;
-import com.tregouet.occam.data.automata.IAutomaton;
-import com.tregouet.occam.data.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
-import com.tregouet.occam.data.automata.states.IState;
+import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
+import com.tregouet.occam.data.logical_structures.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
+import com.tregouet.occam.data.logical_structures.automata.states.IState;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 

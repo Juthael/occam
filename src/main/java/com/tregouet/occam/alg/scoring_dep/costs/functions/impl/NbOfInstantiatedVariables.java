@@ -4,14 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.alg.scoring_dep.costs.functions.IFunctionCoster;
-import com.tregouet.occam.data.alphabets.generic.AVariable;
-import com.tregouet.occam.data.automata.IAutomaton;
-import com.tregouet.occam.data.automata.transition_functions.transitions.IBasicOperator;
-import com.tregouet.occam.data.automata.transition_functions.transitions.IConjunctiveTransition;
-import com.tregouet.occam.data.automata.transition_functions.transitions.ITransition;
-import com.tregouet.occam.data.languages.specific.ISimpleEdgeProduction;
-import com.tregouet.occam.data.languages.specific.ICompositeEdgeProduction;
-import com.tregouet.occam.data.languages.specific.IStronglyContextualized;
+import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
+import com.tregouet.occam.data.languages.words.fact.ICompositeEdgeProduction;
+import com.tregouet.occam.data.languages.words.fact.ISimpleEdgeProduction;
+import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
+import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IBasicOperator;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.ITransition;
 
 public class NbOfInstantiatedVariables implements IFunctionCoster {
 

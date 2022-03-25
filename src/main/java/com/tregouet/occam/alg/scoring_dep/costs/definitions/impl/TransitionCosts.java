@@ -3,8 +3,8 @@ package com.tregouet.occam.alg.scoring_dep.costs.definitions.impl;
 import java.util.List;
 
 import com.tregouet.occam.alg.scoring_dep.costs.definitions.IDefinitionCoster;
-import com.tregouet.occam.data.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
-import com.tregouet.occam.data.automata.transition_functions.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.logical_structures.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IConjunctiveTransition;
 
 public class TransitionCosts implements IDefinitionCoster {
 

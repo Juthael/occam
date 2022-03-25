@@ -6,10 +6,10 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.productions.from_concepts.IProdBuilderFromConceptLattice;
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.concepts.IDenotation;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConceptLattice;
+import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IConceptLattice;
+import com.tregouet.occam.data.representations.concepts.IDenotation;
 
 public class IfIsAThenBuildProductions implements IProdBuilderFromConceptLattice {
 

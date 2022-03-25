@@ -1,8 +1,8 @@
 package com.tregouet.occam.data.representations.evaluation.tapes;
 
-import com.tregouet.occam.data.alphabets.generic.AVariable;
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.automata.tapes.IPushdownAutomatonTapeSet;
+import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
+import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
+import com.tregouet.occam.data.logical_structures.automata.tapes.IPushdownAutomatonTapeSet;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionIC;

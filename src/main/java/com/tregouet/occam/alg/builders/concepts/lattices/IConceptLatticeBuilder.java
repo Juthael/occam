@@ -2,8 +2,8 @@ package com.tregouet.occam.alg.builders.concepts.lattices;
 
 import java.util.Collection;
 
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IConceptLattice;
+import com.tregouet.occam.data.representations.concepts.IConceptLattice;
+import com.tregouet.occam.data.representations.concepts.IContextObject;
 
 public interface IConceptLatticeBuilder {
 	

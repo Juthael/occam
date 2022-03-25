@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.builders.representations;
 
-import com.tregouet.occam.data.concepts.impl.Concept;
 import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.impl.Concept;
 
 public interface IConceptBldr {
 	

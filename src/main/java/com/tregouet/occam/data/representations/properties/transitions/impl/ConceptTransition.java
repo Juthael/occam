@@ -2,7 +2,7 @@ package com.tregouet.occam.data.representations.properties.transitions.impl;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.automata.transition_functions.transitions.ITransition;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.ITransition;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionOIC;

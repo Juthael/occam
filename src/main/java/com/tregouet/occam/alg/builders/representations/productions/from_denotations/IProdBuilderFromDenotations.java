@@ -2,8 +2,8 @@ package com.tregouet.occam.alg.builders.representations.productions.from_denotat
 
 import java.util.Set;
 
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.concepts.IDenotation;
+import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
+import com.tregouet.occam.data.representations.concepts.IDenotation;
 
 public interface IProdBuilderFromDenotations {
 	

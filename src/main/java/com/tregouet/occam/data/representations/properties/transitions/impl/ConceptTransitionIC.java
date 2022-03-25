@@ -2,8 +2,8 @@ package com.tregouet.occam.data.representations.properties.transitions.impl;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.alphabets.generic.AVariable;
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
+import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
+import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionIC;
 
 public class ConceptTransitionIC implements IConceptTransitionIC {

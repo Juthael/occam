@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.scoring_dep.scores.functions.impl;
 
 import com.tregouet.occam.alg.scoring_dep.scores.functions.IFunctionScorer;
-import com.tregouet.occam.data.automata.IAutomaton;
+import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
 
 public class ConceptualCoherence implements IFunctionScorer {
 

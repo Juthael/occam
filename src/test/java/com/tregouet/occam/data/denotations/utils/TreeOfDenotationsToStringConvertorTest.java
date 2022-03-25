@@ -18,12 +18,12 @@ import org.junit.Test;
 import com.tregouet.occam.alg.builders.concepts.trees.IConceptTreeBuilder;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
-import com.tregouet.occam.data.concepts.IContextObject;
-import com.tregouet.occam.data.concepts.IIsA;
-import com.tregouet.occam.data.concepts.IConcept;
-import com.tregouet.occam.data.concepts.IConceptLattice;
-import com.tregouet.occam.data.concepts.impl.ConceptLattice;
-import com.tregouet.occam.data.concepts.utils.TreeOfConceptsToStringConvertor;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IConceptLattice;
+import com.tregouet.occam.data.representations.concepts.IContextObject;
+import com.tregouet.occam.data.representations.concepts.IIsA;
+import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
+import com.tregouet.occam.data.representations.concepts.utils.TreeOfConceptsToStringConvertor;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.Tree;
 

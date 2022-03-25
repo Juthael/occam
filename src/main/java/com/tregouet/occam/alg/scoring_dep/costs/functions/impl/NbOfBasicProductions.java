@@ -1,8 +1,8 @@
 package com.tregouet.occam.alg.scoring_dep.costs.functions.impl;
 
 import com.tregouet.occam.alg.scoring_dep.costs.functions.IFunctionCoster;
-import com.tregouet.occam.data.automata.IAutomaton;
-import com.tregouet.occam.data.automata.transition_functions.transitions.IConjunctiveTransition;
+import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
+import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IConjunctiveTransition;
 
 public class NbOfBasicProductions implements IFunctionCoster {
 	

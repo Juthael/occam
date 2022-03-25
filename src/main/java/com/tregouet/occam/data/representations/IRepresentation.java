@@ -1,9 +1,9 @@
 package com.tregouet.occam.data.representations;
 
-import com.tregouet.occam.data.alphabets.generic.AVariable;
-import com.tregouet.occam.data.alphabets.productions.IContextualizedProduction;
-import com.tregouet.occam.data.automata.IPushdownAutomaton;
-import com.tregouet.occam.data.languages.specific.IFact;
+import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
+import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
+import com.tregouet.occam.data.languages.words.fact.IFact;
+import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionIC;

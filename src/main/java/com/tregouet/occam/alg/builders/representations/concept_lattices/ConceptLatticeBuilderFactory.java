@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.representations.concept_lattices;
 
-import com.tregouet.occam.alg.builders.representations.concept_lattices.impl.ConceptLatticeBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.impl.GaloisConnection;
 
 public class ConceptLatticeBuilderFactory {
 	
@@ -9,10 +9,10 @@ public class ConceptLatticeBuilderFactory {
 	private ConceptLatticeBuilderFactory() {
 	}
 	
-	public ConceptLatticeBuilder apply(ConceptLatticeBuilderStrategy strategy) {
+	public GaloisConnection apply(ConceptLatticeBuilderStrategy strategy) {
 		switch(strategy) {
 			case GALOIS_CONNECTION : 
-				return new ConceptLatticeBuilder();
+				return new GaloisConnection();
 			default : 
 				return null;
 		}

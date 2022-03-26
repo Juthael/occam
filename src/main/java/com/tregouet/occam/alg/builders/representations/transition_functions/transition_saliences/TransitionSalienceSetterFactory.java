@@ -9,7 +9,7 @@ public class TransitionSalienceSetterFactory {
 	private TransitionSalienceSetterFactory() {
 	}
 	
-	public ITransitionSalienceSetter apply(TransitionSalienceSetterStrategy strategy) {
+	public TransitionSalienceSetter apply(TransitionSalienceSetterStrategy strategy) {
 		switch (strategy) {
 			case HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS : 
 				return new HiddenByDefaultThenFindSpecifics();

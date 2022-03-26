@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.ITransitionSalienceSetter;
+import com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.TransitionSalienceSetter;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IProduction;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.Salience;
 import com.tregouet.occam.data.representations.properties.transitions.TransitionType;
 
-public class HiddenByDefaultThenFindSpecifics implements ITransitionSalienceSetter {
+public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSetter {
 	
 	private List<Integer> inputStateIDs;
 	private List<Set<Integer>> outputStateIDs;

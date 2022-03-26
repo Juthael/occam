@@ -10,6 +10,8 @@ import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
 public interface IConcept extends IDichotomizable<IConcept>, IState {
 	
+	public static final int WHAT_IS_THERE_ID = 9999;
+	
 	@Override
 	boolean equals(Object obj);
 	

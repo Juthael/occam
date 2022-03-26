@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.builders.representations.concept_trees.IConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilder;
 import com.tregouet.occam.alg.transition_function_gen_dep.ITransitionFunctionSupplier;
 import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
 import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
@@ -22,7 +22,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	protected static final int MAX_CAPACITY = 50;
 	
 	protected final IConceptLattice conceptLattice;
-	protected final IConceptTreeBuilder conceptTreeBuilder;
+	protected final ConceptTreeBuilder conceptTreeBuilder;
 	protected final DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations;
 	protected final Comparator<IAutomaton> functionComparator;
 	

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.representations.concept_trees.IConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilder;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IIsA;
@@ -13,7 +13,7 @@ import com.tregouet.tree_finder.algo.unidimensional_sorting.impl.UnidimensionalS
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
-public class UnidimensionalSorting extends ConceptTreeBuilder implements IConceptTreeBuilder {
+public class UnidimensionalSorting extends AbstractConceptTreeBuilder implements ConceptTreeBuilder {
 
 	private IUnidimensionalSorter<IConcept, IIsA> conceptSorter = null;
 	private IConcept ontologicalCommitment = null;
@@ -37,7 +37,7 @@ public class UnidimensionalSorting extends ConceptTreeBuilder implements IConcep
 	private Set<Tree<IConcept, IIsA>> output() {
 		Set<Tree<IConcept, IIsA>> commitedTrees = new HashSet<>();
 		while (conceptSorter.hasNext())
-			commitedTrees.add(ConceptTreeBuilder.commit(conceptSorter.next(), ontologicalCommitment));
+			commitedTrees.add(AbstractConceptTreeBuilder.commit(conceptSorter.next(), ontologicalCommitment));
 		return commitedTrees;
 	}
 

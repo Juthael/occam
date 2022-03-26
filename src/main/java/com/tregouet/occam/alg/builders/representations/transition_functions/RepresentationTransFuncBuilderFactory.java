@@ -9,7 +9,7 @@ public class RepresentationTransFuncBuilderFactory {
 	private RepresentationTransFuncBuilderFactory() {
 	}
 	
-	public IRepresentationTransFuncBuilder apply(RepresentationTransFuncBuilderStrategy strategy) {
+	public RepresentationTransFuncBuilder apply(RepresentationTransFuncBuilderStrategy strategy) {
 		switch(strategy) {
 			case ABSTRACT_FACTS_ACCEPTED :
 				return new AbstractFactsAccepted();

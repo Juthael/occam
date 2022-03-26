@@ -1,7 +1,7 @@
 package com.tregouet.occam.data.problem_space.partitions;
 
 import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.properties.IDifferentiae;
+import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
 
 public interface IPartition {
 	
@@ -11,7 +11,7 @@ public interface IPartition {
 	
 	IConcept[] getSpecies();
 	
-	IDifferentiae getDifferentiae();
+	AbstractDifferentiae getDifferentiae();
 	
 	double[] getCardinality();
 	

@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.representations.concept_trees.IConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilder;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.data.languages.words.construct.IConstruct;
@@ -125,7 +125,7 @@ public class DenotationSetsTest {
 	
 	@Test
 	public void whenDenotationSetTreeSupplierRequestedThenReturned() {
-		IConceptTreeBuilder conceptTreeBuilder = null;
+		ConceptTreeBuilder conceptTreeBuilder = null;
 		try {
 			conceptTreeBuilder = conceptLattice.getConceptTreeSupplier();
 		}
@@ -237,7 +237,7 @@ public class DenotationSetsTest {
 	
 	@Test
 	public void whenTreeSuppliedThenReallyIsATree() throws IOException {
-		IConceptTreeBuilder conceptTreeBuilder = conceptLattice.getConceptTreeSupplier();
+		ConceptTreeBuilder conceptTreeBuilder = conceptLattice.getConceptTreeSupplier();
 		int nbOfChecks = 0;
 		while (conceptTreeBuilder.hasNext()) {
 			Tree<IConcept, IIsA> nextTree = conceptTreeBuilder.next();

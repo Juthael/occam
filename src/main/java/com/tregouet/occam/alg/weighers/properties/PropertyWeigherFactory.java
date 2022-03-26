@@ -9,7 +9,7 @@ public class PropertyWeigherFactory {
 	private PropertyWeigherFactory() {
 	}
 	
-	public IPropertyWeigher apply(PropertyWeighingStrategy strategy) {
+	public PropertyWeigher apply(PropertyWeighingStrategy strategy) {
 		switch(strategy) {
 			case NB_OF_INSTANTIATED_VAR : 
 				return InstantiatedVarCounter.INSTANCE;

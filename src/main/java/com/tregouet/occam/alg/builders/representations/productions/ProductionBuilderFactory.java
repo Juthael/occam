@@ -9,7 +9,7 @@ public class ProductionBuilderFactory {
 	private ProductionBuilderFactory() {
 	}
 	
-	public IProductionBuilder apply(ProductionBuilderStrategy strategy) {
+	public ProductionBuilder apply(ProductionBuilderStrategy strategy) {
 		switch(strategy) {
 			case IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS :
 				return new IfIsAThenBuildProductions();

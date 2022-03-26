@@ -2,28 +2,31 @@ package com.tregouet.occam.alg.builders;
 
 import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.concept_lattices.IConceptLatticeBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.IDenotationBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.concept_trees.IConceptTreeBuilder;
-import com.tregouet.occam.alg.builders.representations.productions.IProductionBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.productions.from_denotations.IProdBuilderFromDenotations;
+import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBldrFromDenotationsFactory;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotationsStrategy;
-import com.tregouet.occam.alg.builders.representations.transition_functions.IRepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.ITransitionSalienceSetter;
+import com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.TransitionSalienceSetter;
 import com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.TransitionSalienceSetterFactory;
 import com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.TransitionSalienceSetterStrategy;
-import com.tregouet.occam.alg.builders.representations_dep.properties.IPropertyBuilder;
-import com.tregouet.occam.alg.builders.representations_dep.properties.PropertyBuilderFactory;
-import com.tregouet.occam.alg.builders.representations_dep.properties.PropertyConstructionStrategy;
 
 public class GeneratorsAbstractFactory {
 	
@@ -36,7 +39,8 @@ public class GeneratorsAbstractFactory {
 	private ProductionBuilderStrategy productionBuilderStrategy = null;
 	private TransitionSalienceSetterStrategy transitionSalienceSetterStrategy = null;
 	private RepresentationTransFuncBuilderStrategy representationTransFuncBuilderStrategy = null;
-	private PropertyConstructionStrategy propertyConstructionStrategy = null;
+	private PropertyBuilderStrategy propertyBuilderStrategy = null;
+	private DifferentiaeBuilderStrategy differentiaeBuilderStrategy = null;
 	
 	private GeneratorsAbstractFactory() {
 	}
@@ -51,22 +55,27 @@ public class GeneratorsAbstractFactory {
 				productionBuilderStrategy = ProductionBuilderStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
 				transitionSalienceSetterStrategy = TransitionSalienceSetterStrategy.HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS;
 				representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.ABSTRACT_FACTS_ACCEPTED;
-				propertyConstructionStrategy = PropertyConstructionStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
+				propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
+				differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
 				break;
 			default : 
 				break;
 		}
 	}
 	
-	public ITransitionSalienceSetter getTransitionSalienceSetter() {
+	public DifferentiaeBuilder getDifferentiaeBuilder() {
+		return DifferentiaeBuilderFactory.INSTANCE.apply(differentiaeBuilderStrategy);
+	}
+	
+	public TransitionSalienceSetter getTransitionSalienceSetter() {
 		return TransitionSalienceSetterFactory.INSTANCE.apply(transitionSalienceSetterStrategy);
 	}
 	
-	public IProductionBuilder getProdBuilderFromConceptLattice() {
+	public ProductionBuilder getProdBuilderFromConceptLattice() {
 		return ProductionBuilderFactory.INSTANCE.apply(productionBuilderStrategy);
 	}
 	
-	public IProdBuilderFromDenotations getProdBuilderFromDenotations() {
+	public ProdBuilderFromDenotations getProdBuilderFromDenotations() {
 		return ProdBldrFromDenotationsFactory.INSTANCE.apply(prodBuilderFromDenotationsStrategy);
 	}
 	
@@ -74,20 +83,20 @@ public class GeneratorsAbstractFactory {
 		return DenotationBuilderFactory.INSTANCE.apply(denotationBuilderStrategy);
 	}
 	
-	public IConceptLatticeBuilder getConceptLatticeBuilder() {
+	public ConceptLatticeBuilder getConceptLatticeBuilder() {
 		return ConceptLatticeBuilderFactory.INSTANCE.apply(conceptLatticeBuilderStrategy);
 	}
 	
-	public IConceptTreeBuilder getConceptTreeBuilder() {
+	public ConceptTreeBuilder getConceptTreeBuilder() {
 		return ConceptTreeBuilderFactory.INSTANCE.apply(conceptTreeBuilderStrategy);
 	}
 	
-	public IRepresentationTransFuncBuilder getTransitionsConstructionManager() {
+	public RepresentationTransFuncBuilder getTransitionsConstructionManager() {
 		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
 	}
 	
-	public IPropertyBuilder getPropertyBuilder() {
-		return PropertyBuilderFactory.INSTANCE.apply(propertyConstructionStrategy);
+	public PropertyBuilder getPropertyBuilder() {
+		return PropertyBuilderFactory.INSTANCE.apply(propertyBuilderStrategy);
 	}
 
 }

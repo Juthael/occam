@@ -6,6 +6,6 @@ import java.util.function.Consumer;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 
 @FunctionalInterface
-public interface ITransitionSalienceSetter extends Consumer<Set<IConceptTransition>> {
+public interface TransitionSalienceSetter extends Consumer<Set<IConceptTransition>> {
 
 }

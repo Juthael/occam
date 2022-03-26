@@ -12,8 +12,7 @@ import org.jgrapht.Graphs;
 import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.builders.representations.transition_functions.IRepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.impl.ContextualizedEpsilonProd;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
@@ -39,7 +38,7 @@ import com.tregouet.tree_finder.data.Tree;
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
 
-public class AbstractFactsAccepted implements IRepresentationTransFuncBuilder {
+public class AbstractFactsAccepted implements RepresentationTransFuncBuilder {
 
 	
 	private Tree<IConcept, IIsA> treeOfConcepts = null;
@@ -82,7 +81,7 @@ public class AbstractFactsAccepted implements IRepresentationTransFuncBuilder {
 		transitions.addAll(closures);
 		transitions.addAll(inheritances);
 		transitions.addAll(spontaneous);
-		GeneratorsAbstractFactory.INSTANCE.getTransitionSalienceSetter().accept(transitions);
+		RepresentationTransFuncBuilder.transitionSalienceSetter().accept(transitions);
 		//return 
 		return new RepresentationTransitionFunction(transitions);
 	}

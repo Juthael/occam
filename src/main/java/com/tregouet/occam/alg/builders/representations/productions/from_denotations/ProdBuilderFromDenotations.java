@@ -7,6 +7,6 @@ import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualiz
 import com.tregouet.occam.data.representations.concepts.IDenotation;
 
 @FunctionalInterface
-public interface IProdBuilderFromDenotations extends BiFunction<IDenotation, IDenotation, Set<IContextualizedProduction>> {
+public interface ProdBuilderFromDenotations extends BiFunction<IDenotation, IDenotation, Set<IContextualizedProduction>> {
 
 }

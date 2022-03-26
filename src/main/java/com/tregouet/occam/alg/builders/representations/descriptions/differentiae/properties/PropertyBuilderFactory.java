@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.builders.representations_dep.properties;
+package com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties;
 
-import com.tregouet.occam.alg.builders.representations_dep.properties.impl.GroupSalientApplicationsByFunction;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.impl.GroupSalientApplicationsByFunction;
 
 public class PropertyBuilderFactory {
 	
@@ -9,7 +9,7 @@ public class PropertyBuilderFactory {
 	private PropertyBuilderFactory() {
 	}
 	
-	public IPropertyBuilder apply(PropertyConstructionStrategy strategy) {
+	public PropertyBuilder apply(PropertyBuilderStrategy strategy) {
 		switch(strategy) {
 			case GROUP_APPLICATIONS_BY_FUNCTION : 
 				return new GroupSalientApplicationsByFunction();

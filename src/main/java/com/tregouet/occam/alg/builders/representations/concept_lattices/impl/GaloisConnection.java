@@ -14,8 +14,7 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.builders.representations.concept_lattices.IConceptLatticeBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.utils.MarkRedundantDenotations;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.words.construct.IConstruct;
@@ -30,7 +29,7 @@ import com.tregouet.occam.data.representations.concepts.impl.Everything;
 import com.tregouet.occam.data.representations.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.UpperSemilattice;
 
-public class ConceptLatticeBuilder implements IConceptLatticeBuilder {
+public class GaloisConnection implements ConceptLatticeBuilder {
 
 	private List<IContextObject> objects = null;
 	private DirectedAcyclicGraph<IConcept, IIsA> lattice = null;
@@ -41,7 +40,7 @@ public class ConceptLatticeBuilder implements IConceptLatticeBuilder {
 	private List<IConcept> particulars = null;
 	private IConcept absurdity = null;
 	
-	public ConceptLatticeBuilder() {
+	public GaloisConnection() {
 	}
 	
 	private void buildLattice() {
@@ -82,8 +81,7 @@ public class ConceptLatticeBuilder implements IConceptLatticeBuilder {
 		for (Set<IContextObject> subset : objectsPowerSet) {
 			Set<IConstruct> denotatingConstructs;
 			if (subset.size() > 1)
-				denotatingConstructs = 
-					GeneratorsAbstractFactory.INSTANCE.getDenotationBuilder().apply(subset);
+				denotatingConstructs = ConceptLatticeBuilder.denotationBuilder().apply(subset);
 			else if (subset.size() == 1)
 				denotatingConstructs = new HashSet<IConstruct>(subset.iterator().next().getConstructs());
 			else {

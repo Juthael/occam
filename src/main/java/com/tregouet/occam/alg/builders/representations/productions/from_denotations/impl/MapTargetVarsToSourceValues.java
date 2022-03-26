@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.representations.productions.from_denotations.IProdBuilderFromDenotations;
+import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.utils.MapVariablesToValues;
 import com.tregouet.occam.data.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
@@ -23,7 +23,7 @@ import com.tregouet.occam.data.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.representations.concepts.IDenotation;
 
-public class MapTargetVarsToSourceValues implements IProdBuilderFromDenotations {
+public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 	
 	public MapTargetVarsToSourceValues() {
 	}

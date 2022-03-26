@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.tregouet.occam.alg.builders.representations.concept_trees.IConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilder;
 import com.tregouet.occam.alg.scoring_dep.CalculatorsAbstractFactory;
 import com.tregouet.occam.alg.scoring_dep.ScoringStrategy_dep;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -33,7 +33,7 @@ public class TreeOfDenotationsToStringConvertorTest {
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	private static List<IContextObject> shapes2Obj;	
 	private IConceptLattice conceptLattice;
-	private IConceptTreeBuilder conceptTreeBuilder;
+	private ConceptTreeBuilder conceptTreeBuilder;
 	private Map<IConcept, String> objDenotationSetToName = new HashMap<>();
 	
 	@BeforeClass

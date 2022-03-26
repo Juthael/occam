@@ -9,6 +9,6 @@ import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.tree_finder.data.Tree;
 
 @FunctionalInterface
-public interface IConceptTreeBuilder extends Function<IConceptLattice, Set<Tree<IConcept, IIsA>>> {
+public interface ConceptTreeBuilder extends Function<IConceptLattice, Set<Tree<IConcept, IIsA>>> {
 
 }

@@ -9,7 +9,7 @@ public class ProdBldrFromDenotationsFactory {
 	private ProdBldrFromDenotationsFactory() {
 	}
 	
-	public IProdBuilderFromDenotations apply(ProdBuilderFromDenotationsStrategy strategy) {
+	public ProdBuilderFromDenotations apply(ProdBuilderFromDenotationsStrategy strategy) {
 		switch(strategy) {
 			case MAP_TARGET_VARS_TO_SOURCE_VALUES : 
 				return new MapTargetVarsToSourceValues();

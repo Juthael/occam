@@ -13,5 +13,7 @@ public interface IProperty extends IWeighed {
 	Set<IApplication> getApplications();
 	
 	Set<IDenotation> getResultingValues();
+	
+	void setWeight(double weight);
 
 }

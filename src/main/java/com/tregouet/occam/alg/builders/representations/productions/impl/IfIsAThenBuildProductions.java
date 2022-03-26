@@ -4,14 +4,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.builders.representations.productions.IProductionBuilder;
+import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IDenotation;
 
-public class IfIsAThenBuildProductions implements IProductionBuilder {
+public class IfIsAThenBuildProductions implements ProductionBuilder {
 
 	public static final IfIsAThenBuildProductions INSTANCE = new IfIsAThenBuildProductions();
 	
@@ -30,8 +29,7 @@ public class IfIsAThenBuildProductions implements IProductionBuilder {
 					for (IDenotation source : iConcept.getDenotations()) {
 						for (IDenotation target : jConcept.getDenotations()) {
 							Set<IContextualizedProduction> ijDenotationsProds = 
-									GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromDenotations()
-										.apply(source, target);
+									ProductionBuilder.prodBuilderFromDenotations().apply(source, target);
 							productions.addAll(ijDenotationsProds);
 						}
 					}

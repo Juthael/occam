@@ -21,7 +21,7 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 				.map(d -> new Construct(d.getListOfSymbols()))
 				.collect(Collectors.toSet()), 
 				new HashSet<>(Sets.difference(complementing.getExtent(), toBeComplemented.getExtent())), 
-				complementing.iD());
+				- toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
 		setType(ConceptType.UNIVERSAL);
@@ -31,7 +31,8 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 		super(supremum.getDenotations().stream()
 				.map(d -> new Construct(d.getListOfSymbols()))
 				.collect(Collectors.toSet()), 
-				extent);
+				extent, 
+				- toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		setType(ConceptType.UNIVERSAL);
 	}	

@@ -1,7 +1,8 @@
 package com.tregouet.occam.alg.weighers;
 
-public interface IWeigher<W extends IWeighed> {
-	
-	double weigh(W weighed);
+import java.util.function.Consumer;
+
+@FunctionalInterface
+public interface IWeigher<W extends IWeighed> extends Consumer<W> {
 
 }

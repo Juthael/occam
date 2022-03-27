@@ -35,7 +35,7 @@ import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 public class TransitionCostsTest {
 	
@@ -47,7 +47,7 @@ public class TransitionCostsTest {
 	private ConceptTreeBuilder conceptTreeBuilder;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered_reduced_constructs;
 	private IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier;
-	private Tree<IDenotation, IStronglyContextualized> denotationTree;
+	private InvertedTree<IDenotation, IStronglyContextualized> denotationTree;
 	private TreeSet<IAutomaton> automatons;
 
 	@BeforeClass
@@ -68,7 +68,7 @@ public class TransitionCostsTest {
 		});
 		conceptTreeBuilder = conceptLattice.getConceptTreeSupplier();
 		while (conceptTreeBuilder.hasNext()) {
-			Tree<IConcept, IIsA> currDenotationSetTree  = conceptTreeBuilder.next();
+			InvertedTree<IConcept, IIsA> currDenotationSetTree  = conceptTreeBuilder.next();
 			filtered_reduced_constructs = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(
 							currDenotationSetTree, denotations);
@@ -89,7 +89,7 @@ public class TransitionCostsTest {
 		IDefinitionCoster coster = 
 				DefinitionCosterFactory.INSTANCE.apply(DefinitionCostingStrategy.TRANSITION_COSTS);
 		for (IAutomaton tF : automatons) {
-			Tree<IState, IGenusDifferentiaDefinition_dep> porphyrianTree = tF.getPorphyrianTree();
+			InvertedTree<IState, IGenusDifferentiaDefinition_dep> porphyrianTree = tF.getPorphyrianTree();
 			for (IGenusDifferentiaDefinition_dep def : porphyrianTree.edgeSet()) {
 				Double defCost = null;
 				try {

@@ -6,9 +6,9 @@ import java.util.function.Function;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 @FunctionalInterface
-public interface ConceptTreeBuilder extends Function<IConceptLattice, Set<Tree<IConcept, IIsA>>> {
+public interface ConceptTreeBuilder extends Function<IConceptLattice, Set<InvertedTree<IConcept, IIsA>>> {
 
 }

@@ -34,7 +34,7 @@ import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 @SuppressWarnings("unused")
 public class EntropyReductionTest {
@@ -45,10 +45,10 @@ public class EntropyReductionTest {
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private ConceptTreeBuilder conceptTreeBuilder;
-	private Tree<IConcept, IIsA> denotationTree;
+	private InvertedTree<IConcept, IIsA> denotationTree;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier;
-	private Tree<IDenotation, IStronglyContextualized> treeOfDenotationSets;
+	private InvertedTree<IDenotation, IStronglyContextualized> treeOfDenotationSets;
 	private TreeSet<IAutomaton> automatons = new TreeSet<>(ScoreThenCostTFComparator.INSTANCE);
 
 	@BeforeClass

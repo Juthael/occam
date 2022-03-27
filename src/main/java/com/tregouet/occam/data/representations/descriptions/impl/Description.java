@@ -10,19 +10,11 @@ import com.tregouet.tree_finder.data.Tree;
 public class Description implements IDescription {
 
 	private final Tree<Integer, AbstractDifferentiae> classification;
-	private final List<Integer> topoOrderedConceptIDs;
-	private final double[][] similarityMatrix;
-	private final double[][] asymmetricalSimilarityMatrix;
+	private double[][] similarityMatrix = null;
+	private double[][] asymmetricalSimilarityMatrix = null;
 	
-	public Description(
-			Tree<Integer, AbstractDifferentiae> classification, 
-			List<Integer> topoOrderedConceptIDS, 
-			double[][]similarityMatrix, 
-			double[][]asymetricalSimilarityMatrix) {
+	public Description(	Tree<Integer, AbstractDifferentiae> classification) {
 		this.classification = classification;
-		this.topoOrderedConceptIDs = topoOrderedConceptIDS;
-		this.similarityMatrix = similarityMatrix;
-		this.asymmetricalSimilarityMatrix = asymetricalSimilarityMatrix;
 	}
 	
 	
@@ -44,7 +36,7 @@ public class Description implements IDescription {
 
 	@Override
 	public List<Integer> getTopologicallyOrderedConceptIDs() {
-		return new ArrayList<>(topoOrderedConceptIDs);
+		return new ArrayList<>(classification.getTopologicalOrder());
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.tree_finder.data.UpperSemilattice;
+import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
 public interface IConceptLattice {
 	
@@ -34,7 +34,7 @@ public interface IConceptLattice {
 	
 	IConcept getOntologicalCommitment();
 	
-	UpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice();
+	InvertedUpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice();
 	
 	//it is guaranteed that the order is the same as getContextObjects();
 	List<IConcept> getObjectConcepts();

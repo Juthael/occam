@@ -8,14 +8,14 @@ import org.jgrapht.Graphs;
 import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 public class TreeOfConceptsToStringConvertor {
 
-	private final Tree<IConcept, IIsA> treeOfDenotationSets;
+	private final InvertedTree<IConcept, IIsA> treeOfDenotationSets;
 	private final Map<IConcept, String> leafToLeafName;
 	
-	public TreeOfConceptsToStringConvertor(Tree<IConcept, IIsA> treeOfDenotationSets, Map<IConcept, String> leafToLeafName) {
+	public TreeOfConceptsToStringConvertor(InvertedTree<IConcept, IIsA> treeOfDenotationSets, Map<IConcept, String> leafToLeafName) {
 		this.treeOfDenotationSets = treeOfDenotationSets;
 		this.leafToLeafName = leafToLeafName;
 	}

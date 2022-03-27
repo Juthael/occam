@@ -14,7 +14,7 @@ import com.tregouet.occam.alg.scoring_dep.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public abstract class AbstractSimCalculator implements ISimilarityScorer {
@@ -66,7 +66,7 @@ public abstract class AbstractSimCalculator implements ISimilarityScorer {
 	@Override
 	public Map<Integer, Double> getConceptualCoherenceMap() {
 		Map<Integer, Double> cncptIDToCoherenceScore = new HashMap<>();
-		Tree<IConcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
+		InvertedTree<IConcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
 		Iterator<IConcept> iterator = treeOfDenotationSets.getTopologicalOrder().iterator();
 		Set<IConcept> singletonSet = new HashSet<>(treeOfDenotationSets.getLeaves());
 		while (iterator.hasNext()) {

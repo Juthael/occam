@@ -33,7 +33,7 @@ import com.tregouet.occam.data.representations.properties.transitions.impl.Inher
 import com.tregouet.occam.data.representations.properties.transitions.impl.InitialTransition;
 import com.tregouet.occam.data.representations.properties.transitions.impl.RepresentationTransitionFunction;
 import com.tregouet.occam.data.representations.properties.transitions.impl.SpontaneousTransition;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
@@ -41,14 +41,14 @@ import it.unimi.dsi.fastutil.ints.IntIntPair;
 public class AbstractFactsAccepted implements RepresentationTransFuncBuilder {
 
 	
-	private Tree<IConcept, IIsA> treeOfConcepts = null;
+	private InvertedTree<IConcept, IIsA> treeOfConcepts = null;
 	private Set<IContextualizedProduction> unfilteredUnreducedProds = null;
 	
 	public AbstractFactsAccepted() {
 	}
 	
 	@Override
-	public IRepresentationTransitionFunction apply(Tree<IConcept, IIsA> treeOfConcepts,
+	public IRepresentationTransitionFunction apply(InvertedTree<IConcept, IIsA> treeOfConcepts,
 			Set<IContextualizedProduction> unfilteredUnreducedProds) {
 		this.treeOfConcepts = treeOfConcepts;
 		this.unfilteredUnreducedProds = unfilteredUnreducedProds;
@@ -86,7 +86,7 @@ public class AbstractFactsAccepted implements RepresentationTransFuncBuilder {
 		return new RepresentationTransitionFunction(transitions);
 	}
 	
-	private static Set<IConceptTransition> buildApplicationsAndClosedInheritancesFrom(Tree<IConcept, IIsA> treeOfConcepts,
+	private static Set<IConceptTransition> buildApplicationsAndClosedInheritancesFrom(InvertedTree<IConcept, IIsA> treeOfConcepts,
 			Set<IContextualizedProduction> unfilteredUnreducedProds) {
 		Set<IContextualizedProduction> mutableUnfilteredUnreduced = new HashSet<>(unfilteredUnreducedProds);
 		Set<IContextualizedProduction> filteredProds = 
@@ -133,7 +133,7 @@ public class AbstractFactsAccepted implements RepresentationTransFuncBuilder {
 		return closures;
 	}
 
-	private static Set<IConceptTransition> buildUnclosedInheritancesFrom(Tree<IConcept, IIsA> treeOfConcepts) {
+	private static Set<IConceptTransition> buildUnclosedInheritancesFrom(InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		Set<IConceptTransition> unclosedInheritances = new HashSet<>();
 		IConcept root = treeOfConcepts.getRoot();
 		for (IntIntPair genusToSpeciesID : getGenusToSpeciesIDs(root, treeOfConcepts)) {
@@ -142,7 +142,7 @@ public class AbstractFactsAccepted implements RepresentationTransFuncBuilder {
 		return unclosedInheritances;
 	}
 	
-	private static Set<IConceptTransition> buildSpontaneousTransitionsFrom(Tree<IConcept, IIsA> treeOfConcepts) {
+	private static Set<IConceptTransition> buildSpontaneousTransitionsFrom(InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		Set<IConceptTransition> spontaneousTransitions = new HashSet<>();
 		IConcept root = treeOfConcepts.getRoot();
 		for (IntIntPair genusToSpeciesID : getGenusToSpeciesIDs(root, treeOfConcepts)) {
@@ -163,7 +163,7 @@ public class AbstractFactsAccepted implements RepresentationTransFuncBuilder {
 	
 	private static Set<IContextualizedProduction> filterProductionsWithTree(
 			Set<IContextualizedProduction> unfiltered, 
-			Tree<IConcept, IIsA> treeOfConcepts) {
+			InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		Set<IContextualizedProduction> filtered = new HashSet<>();
 		for (IContextualizedProduction production : unfiltered) {
 			if (treeOfConcepts.containsVertex(production.getGenus()) 
@@ -186,7 +186,7 @@ public class AbstractFactsAccepted implements RepresentationTransFuncBuilder {
 		return new HashSet<>(prodGraph.edgeSet());
 	}
 
-	private static IConceptTransition buildInitialTransition(Tree<IConcept, IIsA> treeOfConcepts) {
+	private static IConceptTransition buildInitialTransition(InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		Everything everything = (Everything) treeOfConcepts.getRoot();
 		return new InitialTransition(everything);
 	}	

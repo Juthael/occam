@@ -9,11 +9,11 @@ import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualiz
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 @FunctionalInterface
 public interface RepresentationTransFuncBuilder 
-	extends BiFunction<Tree<IConcept, IIsA>, Set<IContextualizedProduction>, IRepresentationTransitionFunction> {
+	extends BiFunction<InvertedTree<IConcept, IIsA>, Set<IContextualizedProduction>, IRepresentationTransitionFunction> {
 	
 	//a transition can only occur from a concept to one of its direct subordinate
 	

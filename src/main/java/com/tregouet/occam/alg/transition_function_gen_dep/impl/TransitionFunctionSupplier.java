@@ -15,7 +15,7 @@ import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IDenotation;
 import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 public abstract class TransitionFunctionSupplier implements ITransitionFunctionSupplier {
 
@@ -35,7 +35,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 	}
 
 	public static DirectedAcyclicGraph<IDenotation, IStronglyContextualized> getDenotationGraphFilteredByTreeOfDenotationSets(
-			Tree<IConcept, IIsA> treeOfDenotationSets, 
+			InvertedTree<IConcept, IIsA> treeOfDenotationSets, 
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> unfilteredUnreduced) {
 		DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered =	
 				new DirectedAcyclicGraph<>(null, null, false);
@@ -88,7 +88,7 @@ public abstract class TransitionFunctionSupplier implements ITransitionFunctionS
 		return edgesReturned;
 	}
 	
-	private static boolean isA(IConcept denotationSet1, IConcept denotationSet2, Tree<IConcept, IIsA> treeOfDenotationSets) {
+	private static boolean isA(IConcept denotationSet1, IConcept denotationSet2, InvertedTree<IConcept, IIsA> treeOfDenotationSets) {
 		return treeOfDenotationSets.getDescendants(denotationSet1).contains(denotationSet2);
 	}
 

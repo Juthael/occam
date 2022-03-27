@@ -27,13 +27,13 @@ import com.tregouet.occam.data.representations.concepts.impl.Concept;
 import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.data.representations.concepts.impl.Everything;
 import com.tregouet.occam.data.representations.concepts.impl.IsA;
-import com.tregouet.tree_finder.data.UpperSemilattice;
+import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
 public class GaloisConnection implements ConceptLatticeBuilder {
 
 	private List<IContextObject> objects = null;
 	private DirectedAcyclicGraph<IConcept, IIsA> lattice = null;
-	private UpperSemilattice<IConcept, IIsA> upperSemilattice = null;
+	private InvertedUpperSemilattice<IConcept, IIsA> invertedUpperSemilattice = null;
 	private IConcept ontologicalCommitment = null;
 	private List<IConcept> topologicalOrder = null;
 	private IConcept truism = null;
@@ -161,7 +161,7 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 	}
 	
 	private void markRedundantDenotationsOfUSLConcepts() {
-		for (IConcept concept : upperSemilattice) {
+		for (IConcept concept : invertedUpperSemilattice) {
 			MarkRedundantDenotations.of(concept);
 		}
 	}
@@ -200,16 +200,16 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 		TransitiveReduction.INSTANCE.reduce(upperSemilattice);
 		topologicalOrder = new ArrayList<>();
 		new TopologicalOrderIterator<>(upperSemilattice).forEachRemaining(topologicalOrder::add);
-		this.upperSemilattice = 
-				new UpperSemilattice<>(upperSemilattice, truism, new HashSet<>(particulars), topologicalOrder);
-		this.upperSemilattice.addAsNewRoot(ontologicalCommitment, true);
+		this.invertedUpperSemilattice = 
+				new InvertedUpperSemilattice<>(upperSemilattice, truism, new HashSet<>(particulars), topologicalOrder);
+		this.invertedUpperSemilattice.addAsNewRoot(ontologicalCommitment, true);
 		markRedundantDenotationsOfUSLConcepts();
 		return output();
 	}
 	
 	private IConceptLattice output() {
 		return new ConceptLattice(
-				objects, lattice, upperSemilattice, topologicalOrder, ontologicalCommitment, truism, 
+				objects, lattice, invertedUpperSemilattice, topologicalOrder, ontologicalCommitment, truism, 
 				particulars, absurdity);
 	}
 

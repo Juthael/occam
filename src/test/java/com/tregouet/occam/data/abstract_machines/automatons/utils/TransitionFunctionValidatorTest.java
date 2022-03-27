@@ -28,7 +28,7 @@ import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 @SuppressWarnings("unused")
 public class TransitionFunctionValidatorTest {
@@ -39,10 +39,10 @@ public class TransitionFunctionValidatorTest {
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> denotations = 
 			new DirectedAcyclicGraph<>(null, null, false);
 	private ConceptTreeBuilder conceptTreeBuilder;
-	private Tree<IConcept, IIsA> treeOfDenotationSets;
+	private InvertedTree<IConcept, IIsA> treeOfDenotationSets;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered_reduced_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> constrTreeSupplier;
-	private Tree<IDenotation, IStronglyContextualized> constrTree;
+	private InvertedTree<IDenotation, IStronglyContextualized> constrTree;
 	private TreeSet<IAutomaton> automatons;	
 	
 	@BeforeClass

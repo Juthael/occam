@@ -9,35 +9,37 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilder;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.descriptions.impl.Description;
 import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.Tree;
 
-public class BuildThenWeigh implements DescriptionBuilder {
+public class DeferMatrixCalc implements DescriptionBuilder {
 	
-	private Set<Integer> conceptIDs;
-	private Set<AbstractDifferentiae> differentiae;
-	private Tree<Integer, AbstractDifferentiae> classification;
-	
-	public BuildThenWeigh() {
+	public DeferMatrixCalc() {
 	}
 
 	@Override
 	public IDescription apply(IRepresentationTransitionFunction transFunc) {
+		Set<AbstractDifferentiae> differentiae;
+		Tree<Integer, AbstractDifferentiae> classification;
 		differentiae = DescriptionBuilder.getDifferentiaeBuilder().apply(transFunc);
-		DirectedAcyclicGraph<Integer, AbstractDifferentiae> tempGraph = new DirectedAcyclicGraph<>(null, null, false);
+		DirectedAcyclicGraph<Integer, AbstractDifferentiae> paramTree = new DirectedAcyclicGraph<>(null, null, false);
 		for (AbstractDifferentiae diff : differentiae) {
 			Integer genusID = diff.getSource();
 			Integer speciesID = diff.getTarget();
-			tempGraph.addVertex();
-			tempGraph.addVertex();
-			tempGraph.addEdge(genusID, speciesID, diff);
+			paramTree.addVertex(genusID);
+			paramTree.addVertex(speciesID);
+			paramTree.addEdge(genusID, speciesID, diff);
 		}
 		List<Integer> topoOrderOverConcepts = new ArrayList<>();
-		new TopologicalOrderIterator<Integer, AbstractDifferentiae>(tempGraph).forEachRemaining(topoOrderOverConcepts::add);
-		Integer truismID = topoOrderOverConcepts.get(topoOrderOverConcepts.size() - 1);
+		new TopologicalOrderIterator<Integer, AbstractDifferentiae>(paramTree).forEachRemaining(topoOrderOverConcepts::add);
+		Integer ontologicalCommitmentID = topoOrderOverConcepts.get(0);
 		Set<Integer> particularIDs = transFunc.getAcceptStateIDs();
-		classification = new Tree<Integer, AbstractDifferentiae>(tempGraph, truismID, particularIDs, topoOrderOverConcepts);
+		classification = 
+				new Tree<Integer, AbstractDifferentiae>(
+						paramTree, ontologicalCommitmentID, particularIDs, topoOrderOverConcepts);
+		return new Description(classification);
 	}
 
 }

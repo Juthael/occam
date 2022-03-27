@@ -12,13 +12,13 @@ import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.tree_finder.data.UpperSemilattice;
+import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
 public class ConceptLattice implements IConceptLattice {
 	
 	private final List<IContextObject> objects;
 	private final DirectedAcyclicGraph<IConcept, IIsA> lattice;
-	private final UpperSemilattice<IConcept, IIsA> upperSemilattice;
+	private final InvertedUpperSemilattice<IConcept, IIsA> invertedUpperSemilattice;
 	private final List<IConcept> topologicalOrder;
 	private final IConcept ontologicalCommitment;
 	private final IConcept truism;
@@ -28,7 +28,7 @@ public class ConceptLattice implements IConceptLattice {
 	public ConceptLattice(
 			List<IContextObject> objects, 
 			DirectedAcyclicGraph<IConcept, IIsA> lattice, 
-			UpperSemilattice<IConcept, IIsA> upperSemilattice, 
+			InvertedUpperSemilattice<IConcept, IIsA> upperSemilattice, 
 			List<IConcept> topologicalOrder, 
 			IConcept ontologicalCommitment, 
 			IConcept truism, 
@@ -36,7 +36,7 @@ public class ConceptLattice implements IConceptLattice {
 			IConcept absurdity) {
 		this.objects = objects;
 		this.lattice = lattice;
-		this.upperSemilattice = upperSemilattice;
+		this.invertedUpperSemilattice = upperSemilattice;
 		this.topologicalOrder = topologicalOrder;
 		this.ontologicalCommitment = ontologicalCommitment;
 		this.truism = truism;
@@ -107,8 +107,8 @@ public class ConceptLattice implements IConceptLattice {
 	}
 	
 	@Override
-	public UpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice() {
-		return upperSemilattice;
+	public InvertedUpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice() {
+		return invertedUpperSemilattice;
 	}
 	
 	@Override
@@ -123,7 +123,7 @@ public class ConceptLattice implements IConceptLattice {
 	
 	@Override
 	public DirectedAcyclicGraph<IConcept, IIsA> getTransitiveReduction() {
-		return upperSemilattice;
+		return invertedUpperSemilattice;
 	}
 	
 	@Override
@@ -136,7 +136,7 @@ public class ConceptLattice implements IConceptLattice {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(denotationSet1) < topologicalOrder.indexOf(denotationSet2)) {
 			BreadthFirstIterator<IConcept, IIsA> iterator = 
-					new BreadthFirstIterator<>(upperSemilattice, denotationSet1);
+					new BreadthFirstIterator<>(invertedUpperSemilattice, denotationSet1);
 			iterator.next();
 			while (!isA && iterator.hasNext())
 				isA = denotationSet2.equals(iterator.next());
@@ -146,7 +146,7 @@ public class ConceptLattice implements IConceptLattice {
 
 	@Override
 	public boolean isADirectSubordinateOf(IConcept denotationSet1, IConcept denotationSet2) {
-		return (upperSemilattice.getEdge(denotationSet1, denotationSet2) != null);
+		return (invertedUpperSemilattice.getEdge(denotationSet1, denotationSet2) != null);
 	}	
 
 	private List<IConcept> removeSubCategories(Set<IConcept> concepts) {

@@ -34,7 +34,7 @@ import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 public class AbstractSimCalculatorTest {
 	
@@ -46,7 +46,7 @@ public class AbstractSimCalculatorTest {
 	private ConceptTreeBuilder conceptTreeBuilder;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered_reduced_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier;
-	private Tree<IDenotation, IStronglyContextualized> denotationTree;
+	private InvertedTree<IDenotation, IStronglyContextualized> denotationTree;
 	private TreeSet<IAutomaton> automatons;
 
 	@BeforeClass
@@ -67,7 +67,7 @@ public class AbstractSimCalculatorTest {
 		});
 		conceptTreeBuilder = conceptLattice.getConceptTreeSupplier();
 		while (conceptTreeBuilder.hasNext()) {
-			Tree<IConcept, IIsA> currTreeOfDenotationSets  = conceptTreeBuilder.next();
+			InvertedTree<IConcept, IIsA> currTreeOfDenotationSets  = conceptTreeBuilder.next();
 			filtered_reduced_denotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(
 							currTreeOfDenotationSets, denotations);

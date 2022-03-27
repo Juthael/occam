@@ -33,7 +33,7 @@ import com.tregouet.occam.data.representations.concepts.IDenotation;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.utils.StructureInspector;
 
 @SuppressWarnings("unused")
@@ -240,7 +240,7 @@ public class DenotationSetsTest {
 		ConceptTreeBuilder conceptTreeBuilder = conceptLattice.getConceptTreeSupplier();
 		int nbOfChecks = 0;
 		while (conceptTreeBuilder.hasNext()) {
-			Tree<IConcept, IIsA> nextTree = conceptTreeBuilder.next();
+			InvertedTree<IConcept, IIsA> nextTree = conceptTreeBuilder.next();
 			/*
 			Visualizer.visualizeCategoryGraph(nextTree, "2109231614_classification" + Integer.toString(nbOfChecks));
 			*/

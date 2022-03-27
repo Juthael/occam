@@ -29,7 +29,7 @@ import com.tregouet.occam.data.representations.concepts.IDenotation;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.utils.StructureInspector;
 
 @SuppressWarnings("unused")
@@ -65,7 +65,7 @@ public class TransitionFunctionSupplierTest {
 		boolean filteredGraphsAreRootedInvertedDAGs = true;
 		int checkCount = 0;
 		while (conceptTreeBuilder.hasNext() && filteredGraphsAreRootedInvertedDAGs) {
-			Tree<IConcept, IIsA> catTree = conceptTreeBuilder.next();
+			InvertedTree<IConcept, IIsA> catTree = conceptTreeBuilder.next();
 			/*
 			Visualizer.visualizeCategoryGraph(catTree, "2108141517_cats");
 			*/
@@ -88,7 +88,7 @@ public class TransitionFunctionSupplierTest {
 			throws IOException {
 		boolean expectedSetOfDenotationSets = true;
 		while (conceptTreeBuilder.hasNext()) {
-			Tree<IConcept, IIsA> treeOfDenotationSets = conceptTreeBuilder.next();
+			InvertedTree<IConcept, IIsA> treeOfDenotationSets = conceptTreeBuilder.next();
 			Set<IConcept> expectedDenotationSets = treeOfDenotationSets.vertexSet();
 			Set<IConcept> returnedDenotationSets = new HashSet<>();
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotations = 
@@ -115,7 +115,7 @@ public class TransitionFunctionSupplierTest {
 		boolean sourceAndTargetDenotSetsAreRelated = true;
 		int checkCount = 0;
 		while (conceptTreeBuilder.hasNext()) {
-			Tree<IConcept, IIsA> treeOfDenotationSets = conceptTreeBuilder.next();
+			InvertedTree<IConcept, IIsA> treeOfDenotationSets = conceptTreeBuilder.next();
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(treeOfDenotationSets, denotations);
 			for (IStronglyContextualized stronglyContextualized : filteredDenotations.edgeSet()) {
@@ -133,7 +133,7 @@ public class TransitionFunctionSupplierTest {
 	public void whenDenotationGraphIsFilteredByTreeOfDenotSetThenSetOfContainingDenotSetsIsDenotSetTreeMinusFramingConcepts() {
 		boolean expectedSetOfDenotationSets = true;
 		while (conceptTreeBuilder.hasNext()) {
-			Tree<IConcept, IIsA> treeOfDenotationSets = conceptTreeBuilder.next();
+			InvertedTree<IConcept, IIsA> treeOfDenotationSets = conceptTreeBuilder.next();
 			Set<IConcept> expectedDenotationSets = treeOfDenotationSets.vertexSet();
 			Set<IConcept> returnedDenotationSets = new HashSet<>();
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotations = 

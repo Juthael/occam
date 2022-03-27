@@ -21,7 +21,7 @@ import com.tregouet.occam.data.representations.concepts.IDenotation;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 public class StructureBasedTFSupplier extends TransitionFunctionSupplier 
 	implements IStructureBasedTFSupplier {
@@ -66,7 +66,7 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 	
 	private void populateSetsOfRelatedTransFunctions() {
 		while (conceptTreeBuilder.hasNext()) {
-			Tree<IConcept, IIsA> currTreeOfDenotationSets = conceptTreeBuilder.next();
+			InvertedTree<IConcept, IIsA> currTreeOfDenotationSets = conceptTreeBuilder.next();
 			IIsomorphicAutomatons currSetOfIsomorphicTransFunctions = new IsomorphicAutomatons(
 					currTreeOfDenotationSets, objectDenotationSetToName);
 			DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filteredDenotationGraph = 
@@ -74,7 +74,7 @@ public class StructureBasedTFSupplier extends TransitionFunctionSupplier
 			IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier = 
 					new RestrictorOpt<>(filteredDenotationGraph, true);
 			while (denotationTreeSupplier.hasNext()) {
-				Tree<IDenotation, IStronglyContextualized> denotationTree = denotationTreeSupplier.nextTransitiveReduction();
+				InvertedTree<IDenotation, IStronglyContextualized> denotationTree = denotationTreeSupplier.nextTransitiveReduction();
 				IAutomaton automaton = new Automaton_dep(
 						currTreeOfDenotationSets, denotationTree);
 				if (automaton.validate(TransitionFunctionValidator.INSTANCE))

@@ -25,7 +25,7 @@ import com.tregouet.occam.data.logical_structures.automata.transition_functions.
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IDenotation;
 import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -102,7 +102,7 @@ public class Visualizer {
 	
 	public static void visualizePorphyrianTree(IAutomaton automaton, 
 			String fileName) throws IOException {
-		Tree<IState, IGenusDifferentiaDefinition_dep> prophyrianTree = 
+		InvertedTree<IState, IGenusDifferentiaDefinition_dep> prophyrianTree = 
 				automaton.getPorphyrianTree();
 		//convert in DOT format
 		DOTExporter<IState,IGenusDifferentiaDefinition_dep> exporter = new DOTExporter<>();

@@ -33,7 +33,7 @@ import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.IHierarchicalRestrictionFinder;
 import com.tregouet.tree_finder.algo.hierarchical_restriction.impl.RestrictorOpt;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 public class NbOfInstantiatedVariablesTest {
 	
@@ -45,7 +45,7 @@ public class NbOfInstantiatedVariablesTest {
 	private ConceptTreeBuilder conceptTreeBuilder;
 	private DirectedAcyclicGraph<IDenotation, IStronglyContextualized> filtered_reduced_denotations;
 	private IHierarchicalRestrictionFinder<IDenotation, IStronglyContextualized> denotationTreeSupplier;
-	private Tree<IDenotation, IStronglyContextualized> denotationTree;
+	private InvertedTree<IDenotation, IStronglyContextualized> denotationTree;
 	private TreeSet<IAutomaton> automatons;
 
 	@BeforeClass
@@ -66,7 +66,7 @@ public class NbOfInstantiatedVariablesTest {
 		});
 		conceptTreeBuilder = conceptLattice.getConceptTreeSupplier();
 		while (conceptTreeBuilder.hasNext()) {
-			Tree<IConcept, IIsA> currDSTree  = conceptTreeBuilder.next();
+			InvertedTree<IConcept, IIsA> currDSTree  = conceptTreeBuilder.next();
 			filtered_reduced_denotations = 
 					TransitionFunctionSupplier.getDenotationGraphFilteredByTreeOfDenotationSets(
 							currDSTree, denotations);

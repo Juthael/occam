@@ -10,12 +10,12 @@ import com.tregouet.occam.alg.scoring_dep.scores.similarity.ISimilarityScorer;
 import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
 import com.tregouet.occam.data.logical_structures.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
 import com.tregouet.occam.data.logical_structures.automata.states.IState;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public class DynamicFraming extends AbstractSimCalculator implements ISimilarityScorer {
 
-	private Tree<IState, IGenusDifferentiaDefinition_dep> porphyrianTree = null;
+	private InvertedTree<IState, IGenusDifferentiaDefinition_dep> porphyrianTree = null;
 	private Map<Integer, IState> stateIDToState = null;
 	
 	public DynamicFraming() {

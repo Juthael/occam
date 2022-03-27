@@ -17,16 +17,16 @@ import com.tregouet.occam.data.logical_structures.automata.states.IState;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 public interface IOntologist {
 	
-	public static Tree<IState, IGenusDifferentiaDefinition_dep> getPorphyrianTree(
+	public static InvertedTree<IState, IGenusDifferentiaDefinition_dep> getPorphyrianTree(
 			IAutomaton automaton){
 		DirectedAcyclicGraph<IState, IGenusDifferentiaDefinition_dep> porphyrianTree = 
 				new DirectedAcyclicGraph<>(null, null, false);
 		Graphs.addAllVertices(porphyrianTree, automaton.getStates());
-		Tree<IConcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
+		InvertedTree<IConcept, IIsA> treeOfDenotationSets = automaton.getTreeOfDenotationSets();
 		Map<IState, List<IConjunctiveTransition>> sourceToTransitions = new HashMap<>();
 		for (IConjunctiveTransition transition : automaton.getConjunctiveTransitions()) {
 			IState sourceState = transition.getInputState();
@@ -58,7 +58,7 @@ public interface IOntologist {
 			if (concept.type() == IConcept.OBJECT)
 				finalStates.add(associatedState);
 		}
-		return new Tree<IState, IGenusDifferentiaDefinition_dep>(porphyrianTree, startState, 
+		return new InvertedTree<IState, IGenusDifferentiaDefinition_dep>(porphyrianTree, startState, 
 				finalStates, topoOrderedStates);
 	}
 

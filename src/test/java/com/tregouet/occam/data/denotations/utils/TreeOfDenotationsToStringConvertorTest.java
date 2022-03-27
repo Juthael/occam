@@ -25,7 +25,7 @@ import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.data.representations.concepts.utils.TreeOfConceptsToStringConvertor;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 @SuppressWarnings("unused")
 public class TreeOfDenotationsToStringConvertorTest {
@@ -64,7 +64,7 @@ public class TreeOfDenotationsToStringConvertorTest {
 		int treeIdx = 0;
 		*/
 		while (conceptTreeBuilder.hasNext()) {
-			Tree<IConcept, IIsA> currTree = conceptTreeBuilder.next();
+			InvertedTree<IConcept, IIsA> currTree = conceptTreeBuilder.next();
 			/*
 			Visualizer.visualizeCategoryGraph(currTree, "2110151257_tree" + Integer.toString(treeIdx++));
 			*/

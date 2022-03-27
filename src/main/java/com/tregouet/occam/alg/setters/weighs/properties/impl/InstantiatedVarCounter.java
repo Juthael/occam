@@ -1,9 +1,9 @@
-package com.tregouet.occam.alg.weighers.properties.impl;
+package com.tregouet.occam.alg.setters.weighs.properties.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.alg.weighers.properties.PropertyWeigher;
+import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigher;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.properties.IProperty;
 import com.tregouet.occam.data.representations.properties.transitions.IApplication;

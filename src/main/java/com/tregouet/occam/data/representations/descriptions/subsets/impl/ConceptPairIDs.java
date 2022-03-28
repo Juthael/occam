@@ -1,15 +1,15 @@
 package com.tregouet.occam.data.representations.descriptions.subsets.impl;
 
 import com.tregouet.occam.alg.scorers.scores.DoubleScore;
-import com.tregouet.occam.data.representations.descriptions.subsets.IConceptAsymmetricalPairIDs;
+import com.tregouet.occam.data.representations.descriptions.subsets.IConceptPairIDs;
 
-public class ConceptAsymmetricalPairIDs implements IConceptAsymmetricalPairIDs {
+public class ConceptPairIDs implements IConceptPairIDs {
 	
 	private final int targetID;
 	private final int sourceID;
 	private DoubleScore asymmetricalSimilarityScore = null;
 	
-	public ConceptAsymmetricalPairIDs(int targetID, int sourceID) {
+	public ConceptPairIDs(int targetID, int sourceID) {
 		this.targetID = targetID;
 		this.sourceID = sourceID;
 	}
@@ -25,12 +25,12 @@ public class ConceptAsymmetricalPairIDs implements IConceptAsymmetricalPairIDs {
 	}
 
 	@Override
-	public int getTargetID() {
+	public int first() {
 		return targetID;
 	}
 
 	@Override
-	public int getSourceID() {
+	public int second() {
 		return sourceID;
 	}
 

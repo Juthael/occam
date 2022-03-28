@@ -1,7 +1,8 @@
 package com.tregouet.occam.alg.scorers;
 
 import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
-import com.tregouet.occam.alg.scorers.similarity.BasicSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.PairSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.SubsetSimilarityScorer;
 import com.tregouet.occam.alg.scorers.similarity.SimilarityScorerFactory;
 import com.tregouet.occam.alg.scorers.similarity.SimilarityScorerStrategy;
 
@@ -24,12 +25,16 @@ public class ScorersAbstractFactory {
 		}
 	}
 	
-	public BasicSimilarityScorer getBasicSimilarityScorer() {
+	public SubsetSimilarityScorer getBasicSimilarityScorer() {
 		return SimilarityScorerFactory.INSTANCE.getBasicSimilarityScorer(similarityScorerStrategy);
 	}
 	
 	public AsymmetricalSimilarityScorer getAsymmetricalSimilarityScorer() {
 		return SimilarityScorerFactory.INSTANCE.getAsymmetricalSimilarityScorer(similarityScorerStrategy);
+	}
+	
+	public PairSimilarityScorer getPairSimilarityScorer() {
+		return SimilarityScorerFactory.INSTANCE.getPairSimilarityScorer(similarityScorerStrategy);
 	}
 
 }

@@ -1,14 +1,14 @@
 package com.tregouet.occam.alg.scorers.similarity.impl;
 
 import com.tregouet.occam.alg.scorers.scores.DoubleScore;
-import com.tregouet.occam.alg.scorers.similarity.BasicSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.SubsetSimilarityScorer;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.descriptions.subsets.IConceptSubsetIDs;
 import com.tregouet.tree_finder.utils.Functions;
 
-public class DynamicFraming extends AbstractSimilarityScorer<IConceptSubsetIDs> implements BasicSimilarityScorer {
+public class DynamicFramingForSubsets extends AbstractSimilarityScorer<IConceptSubsetIDs> implements SubsetSimilarityScorer {
 	
-	public DynamicFraming() {
+	public DynamicFramingForSubsets() {
 	}
 
 	@Override
@@ -18,7 +18,7 @@ public class DynamicFraming extends AbstractSimilarityScorer<IConceptSubsetIDs> 
 	}
 
 	@Override
-	public BasicSimilarityScorer setAsContext(IDescription description) {
+	public SubsetSimilarityScorer setAsContext(IDescription description) {
 		classificationTree = description.asGraph();
 		return this;
 	}

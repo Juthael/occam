@@ -4,17 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.descriptions.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class Description implements IDescription {
 
 	private final Tree<Integer, AbstractDifferentiae> classification;
-	private double[][] similarityMatrix = null;
-	private double[][] asymmetricalSimilarityMatrix = null;
+	private ISimilarityMetrics similarityMetrics = null;
 	
-	public Description(	Tree<Integer, AbstractDifferentiae> classification) {
+	public Description(	Tree<Integer, AbstractDifferentiae> classification, ISimilarityMetrics similarityMetrics) {
 		this.classification = classification;
+		this.similarityMetrics = similarityMetrics;
 	}
 	
 	
@@ -24,13 +25,8 @@ public class Description implements IDescription {
 	}
 
 	@Override
-	public double[][] getSimilarityMatrix() {
-		return similarityMatrix;
-	}
-
-	@Override
-	public double[][] getAsymmetricalSimilarityMatrix() {
-		return asymmetricalSimilarityMatrix;
+	public ISimilarityMetrics getSimilarityMetrics() {
+		return similarityMetrics;
 	}
 
 

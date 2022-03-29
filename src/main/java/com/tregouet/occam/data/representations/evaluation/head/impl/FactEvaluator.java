@@ -8,6 +8,7 @@ import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.representations.evaluation.head.IFactEvaluator;
 import com.tregouet.occam.data.representations.evaluation.tapes.IRepresentationTapeSet;
+import com.tregouet.occam.data.representations.evaluation.tapes.impl.RepresentationTapeSet;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionOIC;
@@ -48,6 +49,7 @@ public class FactEvaluator implements IFactEvaluator {
 	@Override
 	public Set<IFactEvaluator> evaluate() {
 		//NOT IMPLEMENTED YET
+		reinitialize();
 		return null;
 	}
 
@@ -105,6 +107,13 @@ public class FactEvaluator implements IFactEvaluator {
 	@Override
 	public IRepresentationTapeSet getTapeSet() {
 		return tapeSet;
+	}
+
+	@Override
+	public void reinitialize() {
+		tapeSet = new RepresentationTapeSet();
+		activeStateID = transitionFunction.getStartStateID();
+		halted = false;
 	}
 
 }

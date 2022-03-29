@@ -52,7 +52,7 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 			properties.add(new Property(functions.get(i), applicationSets.get(i), valueSets.get(i)));
 		}
 		for (IProperty property : properties)
-			PropertyBuilder.weigher().accept(property);
+			PropertyBuilder.propertyWeigher().accept(property);
 		return properties;
 	}
 	

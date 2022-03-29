@@ -13,19 +13,19 @@ import com.tregouet.occam.data.representations.properties.transitions.IRepresent
 
 public interface DescriptionBuilder extends Function<IRepresentationTransitionFunction, IDescription> {
 	
-	public static DifferentiaeBuilder getDifferentiaeBuilder() {
+	public static DifferentiaeBuilder differentiaeBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getDifferentiaeBuilder();
 	}
 	
-	public static DifferentiaeCoeffSetter getDifferentiaeCoeffSetter() {
+	public static DifferentiaeCoeffSetter differentiaeCoeffSetter() {
 		return SettersAbstractFactory.INSTANCE.getDifferentiaeCoeffSetter();
 	}
 	
-	public static DifferentiaeWeigher getDifferentiaeWeigher() {
+	public static DifferentiaeWeigher differentiaeWeigher() {
 		return SettersAbstractFactory.INSTANCE.getDifferentiaeWeigher();
 	}
 	
-	public static SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
+	public static SimilarityMetricsBuilder similarityMetricsBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getSimilarityMetricsBuilder();
 	}
 

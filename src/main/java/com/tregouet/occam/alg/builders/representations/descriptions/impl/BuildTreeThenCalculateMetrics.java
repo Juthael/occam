@@ -28,7 +28,7 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 	public IDescription apply(IRepresentationTransitionFunction transFunc) {
 		Set<AbstractDifferentiae> differentiae;
 		Tree<Integer, AbstractDifferentiae> classification;
-		differentiae = DescriptionBuilder.getDifferentiaeBuilder().apply(transFunc);
+		differentiae = DescriptionBuilder.differentiaeBuilder().apply(transFunc);
 		DirectedAcyclicGraph<Integer, AbstractDifferentiae> paramTree = new DirectedAcyclicGraph<>(null, null, false);
 		for (AbstractDifferentiae diff : differentiae) {
 			Integer genusID = diff.getSource();
@@ -45,13 +45,13 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 				new Tree<Integer, AbstractDifferentiae>(
 						paramTree, ontologicalCommitmentID, particularIDs, topoOrderOverConcepts);
 		DifferentiaeCoeffSetter differentiaeCoeffSetter = 
-				DescriptionBuilder.getDifferentiaeCoeffSetter().setContext(classification);
-		DifferentiaeWeigher differentiaeWeigher = DescriptionBuilder.getDifferentiaeWeigher();
+				DescriptionBuilder.differentiaeCoeffSetter().setContext(classification);
+		DifferentiaeWeigher differentiaeWeigher = DescriptionBuilder.differentiaeWeigher();
 		for (AbstractDifferentiae diff : classification.edgeSet()) {
 			differentiaeCoeffSetter.accept(diff);
 			differentiaeWeigher.accept(diff);
 		}
-		ISimilarityMetrics similarityMetrics = DescriptionBuilder.getSimilarityMetricsBuilder().apply(classification);
+		ISimilarityMetrics similarityMetrics = DescriptionBuilder.similarityMetricsBuilder().apply(classification);
 		IDescription description = new Description(classification, similarityMetrics);
 		return description;
 	}

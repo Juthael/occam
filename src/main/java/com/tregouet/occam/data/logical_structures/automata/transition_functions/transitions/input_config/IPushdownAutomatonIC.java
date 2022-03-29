@@ -7,7 +7,7 @@ public interface IPushdownAutomatonIC<
 	StackSymbol extends ISymbol> 
 	extends IInputConfiguration<InputSymbol> {
 	
-	StackSymbol getPoppedStackSymbol();
+	StackSymbol getRequiredStackSymbol();
 	
 	@Override
 	boolean equals(Object o);

@@ -72,6 +72,8 @@ public class Fact implements IFact {
 
 	@Override
 	public IContextualizedProduction read() {
+		if (!hasNext())
+			return null;
 		return next();
 	}
 

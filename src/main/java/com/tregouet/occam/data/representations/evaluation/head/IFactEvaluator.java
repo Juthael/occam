@@ -4,17 +4,15 @@ import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualiz
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.logical_structures.automata.heads.IPushdownAutomatonHead;
-import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.evaluation.tapes.IRepresentationTapeSet;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionOIC;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
 
-public interface IRepresentationHead extends
+public interface IFactEvaluator extends
 	IPushdownAutomatonHead<
 		IRepresentationTransitionFunction, 
-		IConcept, 
 		IContextualizedProduction, 
 		AVariable, 
 		IConceptTransitionIC, 
@@ -22,6 +20,10 @@ public interface IRepresentationHead extends
 		IConceptTransition, 
 		IRepresentationTapeSet, 
 		IFact, 
-		IRepresentationHead> {
+		IFactEvaluator> {
+	
+	IRepresentationTransitionFunction getTransitionFunction();
+	
+	IRepresentationTapeSet getTapeSet();
 	
 }

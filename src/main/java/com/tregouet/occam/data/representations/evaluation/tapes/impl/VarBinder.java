@@ -28,7 +28,7 @@ public class VarBinder implements IVarBinder {
 
 	@Override
 	public AVariable popOff() {
-		if (!dimensionStack.isEmpty())
+		if (hasNext())
 			return dimensionStack.remove(dimensionStack.size() - 1);
 		return null;
 	}
@@ -53,6 +53,11 @@ public class VarBinder implements IVarBinder {
 			return false;
 		VarBinder other = (VarBinder) obj;
 		return Objects.equals(dimensionStack, other.dimensionStack);
+	}
+
+	@Override
+	public boolean hasNext() {
+		return !dimensionStack.isEmpty();
 	}
 
 }

@@ -39,7 +39,7 @@ public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSette
 		for (IConceptTransition transition : transitions) {
 			//default value, may be changed later
 			transition.setSalience(Salience.HIDDEN);
-			Integer inputStateID = transition.getInputConfiguration().getInputStateID();
+			Integer inputStateID = transition.getInputConfiguration().getRequiredInputStateID();
 			if (inputStateIDs.contains(inputStateID)) {
 				int inputStateIdx = inputStateIDs.indexOf(inputStateID);
 				outputStateIDs.get(inputStateIdx).add(transition.getOutputInternConfiguration().getOutputStateID());
@@ -80,7 +80,7 @@ public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSette
 	private void setPartitionRulesSalience(int inputConceptIdx) {
 		Map<AVariable, Set<IConceptTransition>> varToApplications = new HashMap<>();
 		for (IConceptTransition application : applications.get(inputConceptIdx)) {
-			AVariable instantiatedVar = application.getInputConfiguration().getPoppedStackSymbol();
+			AVariable instantiatedVar = application.getInputConfiguration().getRequiredStackSymbol();
 			if (varToApplications.containsKey(instantiatedVar))
 				varToApplications.get(instantiatedVar).add(application);
 			else varToApplications.put(

@@ -4,7 +4,6 @@ import java.util.Set;
 
 import com.tregouet.occam.data.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.languages.words.IWord;
-import com.tregouet.occam.data.logical_structures.automata.states.IState;
 import com.tregouet.occam.data.logical_structures.automata.tapes.ITapeSet;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.ITransitionFunction;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.ITransition;
@@ -19,17 +18,16 @@ public interface IHead<
 	InputConfig extends IInputConfiguration<InputSymbol>,
 	OutputConfig extends IOutputInternConfiguration,
 	Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>,
-	State extends IState,
-	Head extends IHead<TransFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, State, Head>
+	Head extends IHead<TransFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head>
 	>{
 	
 	void input(Word word);
 	
-	void set(Set<State> states, TransFunc transitionFunction, TapeSet tapeSet);
+	void set(TransFunc transitionFunction, TapeSet tapeSet);
 	
-	Set<? extends Head> evaluateNextSymbol();
+	Set<Head> evaluate();
 	
-	Set<? extends Head> printNextSymbol();
+	Set<Head> generateEverySuccessfulEvaluation();
 	
 	boolean halted();
 	
@@ -40,5 +38,7 @@ public interface IHead<
 	
 	@Override
 	boolean equals(Object o);
+	
+	void reinitialize();
 
 }

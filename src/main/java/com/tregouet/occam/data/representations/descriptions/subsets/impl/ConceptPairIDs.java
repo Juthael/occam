@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.representations.descriptions.subsets.impl;
 
-import com.tregouet.occam.alg.scorers.scores.DoubleScore;
+import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
 import com.tregouet.occam.data.representations.descriptions.subsets.IConceptPairIDs;
 
 public class ConceptPairIDs implements IConceptPairIDs {

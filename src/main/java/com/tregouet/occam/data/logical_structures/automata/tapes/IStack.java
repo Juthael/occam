@@ -6,6 +6,10 @@ public interface IStack<StackSymbol extends ISymbol> {
 	
 	void pushDown(StackSymbol symbol);
 	
+	/**
+	 * If no next symbol, returns null
+	 * @return
+	 */
 	StackSymbol popOff();
 	
 	IStack<StackSymbol> copy();
@@ -15,5 +19,7 @@ public interface IStack<StackSymbol extends ISymbol> {
 	
 	@Override
 	boolean equals(Object o);
+	
+	boolean hasNext();
 
 }

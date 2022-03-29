@@ -19,4 +19,6 @@ public interface ITapeSet<
 	
 	void printNext(InputSymbol symbol);
 	
+	boolean hasNextInputSymbol();
+	
 }

@@ -13,6 +13,10 @@ public interface IInputTape<InputSymbol extends ISymbol> extends IWord<InputSymb
 	
 	IInputTape<InputSymbol> copy();
 	
+	/**
+	 * If no next symbol, returns null
+	 * @return
+	 */
 	InputSymbol read();
 	
 	void print(InputSymbol symbol);

@@ -46,7 +46,7 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 					spontaneous.add(transition);
 					break;
 			}
-			inputStateIDs.add(transition.getInputConfiguration().getInputStateID());
+			inputStateIDs.add(transition.getInputConfiguration().getRequiredInputStateID());
 			outputStateIDs.add(transition.getOutputInternConfiguration().getOutputStateID());
 		}
 		acceptStateIDs = new HashSet<>(Sets.difference(outputStateIDs, inputStateIDs));
@@ -57,7 +57,7 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 	public Set<AVariable> getStackAlphabet() {
 		Set<AVariable> stackAlphabet = new HashSet<>();
 		for (IConceptTransition transition : getTransitions()) {
-			stackAlphabet.add(transition.getInputConfiguration().getPoppedStackSymbol());
+			stackAlphabet.add(transition.getInputConfiguration().getRequiredStackSymbol());
 			stackAlphabet.addAll(transition.getOutputInternConfiguration().getPushedStackSymbols());
 		}
 		return stackAlphabet;
@@ -65,7 +65,7 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 
 	@Override
 	public AVariable getInitialStackSymbol() {
-		return initial.getInputConfiguration().getPoppedStackSymbol();
+		return initial.getInputConfiguration().getRequiredStackSymbol();
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 	public Set<Integer> getStateIDs() {
 		Set<Integer> stateIDs = new HashSet<>();
 		for (IConceptTransition transition : getTransitions()) {
-			stateIDs.add(transition.getInputConfiguration().getInputStateID());
+			stateIDs.add(transition.getInputConfiguration().getRequiredInputStateID());
 			stateIDs.add(transition.getOutputInternConfiguration().getOutputStateID());
 		}
 		return stateIDs;
@@ -100,7 +100,7 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 
 	@Override
 	public int getStartStateID() {
-		return initial.getInputConfiguration().getInputStateID();
+		return initial.getInputConfiguration().getRequiredInputStateID();
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class ConceptTransitionIC implements IConceptTransitionIC {
 	}
 
 	@Override
-	public AVariable getPoppedStackSymbol() {
+	public AVariable getRequiredStackSymbol() {
 		return stackSymbol;
 	}
 
@@ -29,7 +29,7 @@ public class ConceptTransitionIC implements IConceptTransitionIC {
 	}
 
 	@Override
-	public int getInputStateID() {
+	public int getRequiredInputStateID() {
 		return inputStateID;
 	}
 

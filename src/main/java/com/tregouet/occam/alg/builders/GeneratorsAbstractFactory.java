@@ -9,12 +9,18 @@ import com.tregouet.occam.alg.builders.representations.concept_lattices.denotati
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderStrategy;
@@ -41,6 +47,8 @@ public class GeneratorsAbstractFactory {
 	private RepresentationTransFuncBuilderStrategy representationTransFuncBuilderStrategy = null;
 	private PropertyBuilderStrategy propertyBuilderStrategy = null;
 	private DifferentiaeBuilderStrategy differentiaeBuilderStrategy = null;
+	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
+	private DescriptionBuilderStrategy descriptionBuilderStrategy = null;
 	
 	private GeneratorsAbstractFactory() {
 	}
@@ -57,6 +65,8 @@ public class GeneratorsAbstractFactory {
 				representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.ABSTRACT_FACTS_ACCEPTED;
 				propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
 				differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
+				similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.DEFERRED_MATRICES_INSTANTIATION;
+				descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 				break;
 			default : 
 				break;
@@ -97,6 +107,14 @@ public class GeneratorsAbstractFactory {
 	
 	public PropertyBuilder getPropertyBuilder() {
 		return PropertyBuilderFactory.INSTANCE.apply(propertyBuilderStrategy);
+	}
+	
+	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
+		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
+	}
+	
+	public DescriptionBuilder getDescriptionBuilder() {
+		return DescriptionBuilderFactory.INSTANCE.apply(descriptionBuilderStrategy);
 	}
 
 }

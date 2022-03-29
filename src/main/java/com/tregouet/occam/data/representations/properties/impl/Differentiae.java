@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.representations.properties.impl;
 
+import java.util.Objects;
 import java.util.Set;
 
 import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
@@ -66,6 +67,23 @@ public class Differentiae extends AbstractDifferentiae {
 	@Override
 	public Integer getTarget() {
 		return speciesID;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(genusID, properties, speciesID);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Differentiae other = (Differentiae) obj;
+		return genusID == other.genusID && Objects.equals(properties, other.properties) && speciesID == other.speciesID;
 	}
 
 }

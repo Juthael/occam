@@ -28,5 +28,11 @@ public abstract class AbstractDifferentiae extends DefaultEdge implements Parame
 	
 	@Override
 	abstract public Integer getTarget();
+	
+	@Override
+	abstract public int hashCode();
+	
+	@Override
+	abstract public boolean equals(Object o);
 
 }

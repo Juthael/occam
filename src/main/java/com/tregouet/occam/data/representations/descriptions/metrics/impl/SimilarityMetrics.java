@@ -15,7 +15,7 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 	private PairSimilarityScorer pairSimilarityScorer = null;
 	private AsymmetricalSimilarityScorer asymmetricalSimilarityScorer = null;
 	
-	SimilarityMetrics(int[] particularIDs, PairSimilarityScorer pairSimilarityScorer, 
+	public SimilarityMetrics(int[] particularIDs, PairSimilarityScorer pairSimilarityScorer, 
 			AsymmetricalSimilarityScorer asymmetricalSimilarityScorer){
 		this.particularIDs = particularIDs;
 		this.pairSimilarityScorer = pairSimilarityScorer;
@@ -43,6 +43,8 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 
 	@Override
 	public double[] getTypicalityVector() {
+		if (typicalityVector == null)
+			instantiateTypicalityVector();
 		return typicalityVector;
 	}
 	
@@ -76,7 +78,18 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 	}
 	
 	private void instantiateTypicalityVector() {
-		//HERE
+		int nbOfParticulars = particularIDs.length;
+		typicalityVector = new double[nbOfParticulars];
+		if (similarityMatrix == null)
+			instantiateSimilarityMatrix();
+		for (int i = 0 ; i < nbOfParticulars ; i++) {
+			double typicalityScore = 0.0;
+			for (int j = 0 ; j < nbOfParticulars ; j++) {
+				typicalityScore += similarityMatrix[i][j];
+			}
+			typicalityScore = typicalityScore / (double) nbOfParticulars;
+			typicalityVector[i] = typicalityScore;
+		}
 	}
 
 }

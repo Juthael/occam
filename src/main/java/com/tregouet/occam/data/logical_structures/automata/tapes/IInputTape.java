@@ -1,9 +1,8 @@
 package com.tregouet.occam.data.logical_structures.automata.tapes;
 
 import com.tregouet.occam.data.languages.alphabets.ISymbol;
-import com.tregouet.occam.data.languages.words.IWord;
 
-public interface IInputTape<InputSymbol extends ISymbol> extends IWord<InputSymbol> {
+public interface IInputTape<InputSymbol extends ISymbol> {
 	
 	@Override
 	public int hashCode();

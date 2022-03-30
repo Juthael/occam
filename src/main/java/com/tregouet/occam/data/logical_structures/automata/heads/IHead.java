@@ -27,7 +27,7 @@ public interface IHead<
 	
 	Set<Head> evaluate();
 	
-	Set<Head> generateEverySuccessfulEvaluation();
+	Set<Head> printer();
 	
 	boolean halted();
 	

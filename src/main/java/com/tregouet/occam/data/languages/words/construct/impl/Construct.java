@@ -20,7 +20,7 @@ public class Construct implements IConstruct {
 	private int index = 0;
 	
 	public Construct(IConstruct construct) {
-		symbols = new ArrayList<>(construct.getListOfSymbols());
+		symbols = new ArrayList<>(construct.asList());
 		nbOfTerminals = construct.getNbOfTerminals();
 	}
 	
@@ -73,7 +73,7 @@ public class Construct implements IConstruct {
 	}
 	
 	@Override
-	public List<ISymbol> getListOfSymbols(){
+	public List<ISymbol> asList(){
 		return symbols;
 	}
 
@@ -119,7 +119,7 @@ public class Construct implements IConstruct {
 	
 	@Override
 	public boolean meets(IConstruct constraint) {
-		List<ISymbol> constraintSymbols = constraint.getListOfSymbols();
+		List<ISymbol> constraintSymbols = constraint.asList();
 		if (this.nbOfTerminals >= constraintSymbols.size()) {
 			int constraintIdx = 0;
 			for (int constructIdx = 0 ; constructIdx < symbols.size() 

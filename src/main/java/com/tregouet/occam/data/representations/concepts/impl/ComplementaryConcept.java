@@ -18,7 +18,7 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 	
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
 		super(complementing.getDenotations().stream()
-				.map(d -> new Construct(d.getListOfSymbols()))
+				.map(d -> new Construct(d.asList()))
 				.collect(Collectors.toSet()), 
 				new HashSet<>(Sets.difference(complementing.getExtent(), toBeComplemented.getExtent())), 
 				- toBeComplemented.iD());
@@ -29,7 +29,7 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 	
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept supremum, Set<IContextObject> extent) {
 		super(supremum.getDenotations().stream()
-				.map(d -> new Construct(d.getListOfSymbols()))
+				.map(d -> new Construct(d.asList()))
 				.collect(Collectors.toSet()), 
 				extent, 
 				- toBeComplemented.iD());

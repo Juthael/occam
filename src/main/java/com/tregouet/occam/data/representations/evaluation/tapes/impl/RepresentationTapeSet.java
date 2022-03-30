@@ -4,24 +4,23 @@ import java.util.Objects;
 
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
-import com.tregouet.occam.data.languages.words.fact.IFact;
-import com.tregouet.occam.data.languages.words.fact.impl.Fact;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.impl.WhatIsThere;
+import com.tregouet.occam.data.representations.evaluation.tapes.IFactAsTape;
 import com.tregouet.occam.data.representations.evaluation.tapes.IRepresentationTapeSet;
 import com.tregouet.occam.data.representations.evaluation.tapes.IVarBinder;
 
 public class RepresentationTapeSet implements IRepresentationTapeSet {
 
-	private IFact inputTape = null;
+	private IFactAsTape inputTape = null;
 	private IVarBinder stack = null;
 	
 	public RepresentationTapeSet() {
-		inputTape = new Fact();
+		inputTape = new FactAsTape();
 		stack = new VarBinder();
 	}
 	
-	public RepresentationTapeSet(IFact inputTape, IVarBinder stackTape) {
+	public RepresentationTapeSet(IFactAsTape inputTape, IVarBinder stackTape) {
 		this.inputTape = inputTape;
 		this.stack = stackTape;
 	}
@@ -74,7 +73,7 @@ public class RepresentationTapeSet implements IRepresentationTapeSet {
 	}
 
 	@Override
-	public IFact getInputTape() {
+	public IFactAsTape getInputTape() {
 		return inputTape;
 	}
 

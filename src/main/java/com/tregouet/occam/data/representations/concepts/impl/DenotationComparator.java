@@ -20,8 +20,8 @@ public class DenotationComparator implements IDenotationComparator {
 	
 	private static boolean strictLowerBoundOf(IDenotation d1, IDenotation d2) {
 		if (subSequenceOf(d2.getListOfTerminals(), d1.getListOfTerminals())) {
-			List<ISymbol> d1ValueProvider = d1.getListOfSymbols();
-			List<ISymbol> d2VarProvider = d2.getListOfSymbols();
+			List<ISymbol> d1ValueProvider = d1.asList();
+			List<ISymbol> d2VarProvider = d2.asList();
 			Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(d1ValueProvider, d2VarProvider);
 			if (varToValue != null) {
 				return true;

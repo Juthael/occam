@@ -31,12 +31,12 @@ public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 	@Override
 	public Set<IContextualizedProduction> apply(IDenotation source, IDenotation target) {
 		Set<IContextualizedProduction> productions = new HashSet<>();
-		if (source.getListOfSymbols().equals(target.getListOfSymbols()))
+		if (source.asList().equals(target.asList()))
 			productions.add(new ContextualizedEpsilonProd(source, target));
 		else if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals())) {
 			//then source may be an instance of target
-			List<ISymbol> sourceSymbolSeq = source.getListOfSymbols();
-			List<ISymbol> targetSymbolSeq = target.getListOfSymbols();
+			List<ISymbol> sourceSymbolSeq = source.asList();
+			List<ISymbol> targetSymbolSeq = target.asList();
 			Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(sourceSymbolSeq, targetSymbolSeq);
 			if (varToValue != null) {
 				for (AVariable variable : varToValue.keySet()) {

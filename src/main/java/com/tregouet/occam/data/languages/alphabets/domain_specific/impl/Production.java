@@ -75,9 +75,9 @@ public class Production implements IProduction {
 	 */
 	public IConstruct derive(IConstruct construct) {
 		List<ISymbol> returned = new ArrayList<>();
-		for (ISymbol symbol : construct.getListOfSymbols()) {
+		for (ISymbol symbol : construct.asList()) {
 			if (symbol.equals(variable))
-				returned.addAll(value.getListOfSymbols());
+				returned.addAll(value.asList());
 			else returned.add(symbol);
 		}
 		return new Construct(returned);
@@ -89,10 +89,10 @@ public class Production implements IProduction {
 	 * @return
 	 */
 	public IConstruct doAbstract(IConstruct construct) {
-		List<ISymbol> valueList = value.getListOfSymbols();
+		List<ISymbol> valueList = value.asList();
 		List<ISymbol> returned = new ArrayList<>();
 		List<ISymbol> buffer = new ArrayList<>();
-		Iterator<ISymbol> constructIte = construct.getListOfSymbols().iterator(); 
+		Iterator<ISymbol> constructIte = construct.asList().iterator(); 
 		int valueIdx = 0;
 		while (constructIte.hasNext()) {
 			ISymbol nextSymbol = constructIte.next();

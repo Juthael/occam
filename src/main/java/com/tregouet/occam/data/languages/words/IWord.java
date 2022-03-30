@@ -7,11 +7,7 @@ import com.tregouet.occam.data.languages.alphabets.ISymbol;
 
 public interface IWord<S extends ISymbol> extends Iterator<S> {
 	
-	List<S> getListOfSymbols();
-	
-	void initialize();
-	
-	void print(S symbol);
+	List<S> asList();
 	
 	IWord<S> copy();
 

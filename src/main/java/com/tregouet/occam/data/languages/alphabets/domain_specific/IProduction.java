@@ -22,10 +22,6 @@ public interface IProduction extends ISymbol {
 	@Override
 	String toString();
 	
-	ILambdaExpression semanticRule();
-	
-	ILambdaExpression asLambda(List<IProduction> nextProductions);
-	
 	//Denotes an empty string of symbols. A symbols are productions, also denotes that no variable is derived. 
 	boolean isEpsilon();
 	

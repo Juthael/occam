@@ -27,7 +27,7 @@ public interface IHead<
 	
 	Set<Head> evaluate();
 	
-	Set<Head> printer();
+	Set<Head> factEnumerator();
 	
 	boolean halted();
 	

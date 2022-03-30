@@ -5,47 +5,39 @@ import java.util.List;
 import java.util.Objects;
 
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
-import com.tregouet.occam.data.representations.evaluation.tapes.IFactAsTape;
+import com.tregouet.occam.data.languages.words.fact.IFact;
+import com.tregouet.occam.data.languages.words.fact.impl.Fact;
+import com.tregouet.occam.data.languages.words.lambda.ILambdaExpression;
+import com.tregouet.occam.data.representations.evaluation.tapes.IFactTape;
 
-public class FactAsTape implements IFactAsTape {
+public class FactTape implements IFactTape {
 
 	private final List<IContextualizedProduction> fact;
 	private int index;
 	
-	public FactAsTape(List<IContextualizedProduction> fact, int index) {
+	public FactTape(List<IContextualizedProduction> fact, int index) {
 		this.fact = fact;
 		this.index = index;
 	}
 	
-	public FactAsTape() {
+	public FactTape(IFact fact) {
+		this.fact = fact.asList();
+		this.index = 0;
+	}
+	
+	public FactTape() {
 		fact = new ArrayList<>();
 		index = 0;
 	}
 
 	@Override
-	public FactAsTape copy() {
-		return new FactAsTape(new ArrayList<>(fact), index);
+	public FactTape copy() {
+		return new FactTape(new ArrayList<>(fact), index);
 	}
 
 	@Override
 	public boolean hasNext() {
 		return index < fact.size() - 1;
-	}
-
-	@Override
-	public List<IContextualizedProduction> getListOfSymbols() {
-		return new ArrayList<>(fact);
-	}
-
-	@Override
-	public IContextualizedProduction next() {
-		return fact.get(index++);
-	}
-
-	@Override
-	public void initialize() {
-		index = 0;
-		
 	}
 
 	@Override
@@ -66,7 +58,7 @@ public class FactAsTape implements IFactAsTape {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FactAsTape other = (FactAsTape) obj;
+		FactTape other = (FactTape) obj;
 		return Objects.equals(fact, other.fact);
 	}
 
@@ -74,7 +66,22 @@ public class FactAsTape implements IFactAsTape {
 	public IContextualizedProduction read() {
 		if (!hasNext())
 			return null;
-		return next();
+		return fact.get(index++);
+	}
+
+	@Override
+	public ILambdaExpression asLambda() {
+		return new Fact(fact).asLambda();
+	}
+
+	@Override
+	public List<IContextualizedProduction> asList() {
+		return fact;
+	}
+
+	@Override
+	public IFact getFact() {
+		return new Fact(fact);
 	}
 
 }

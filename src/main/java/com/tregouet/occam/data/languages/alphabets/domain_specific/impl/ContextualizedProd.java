@@ -1,6 +1,5 @@
 package com.tregouet.occam.data.languages.alphabets.domain_specific.impl;
 
-import java.util.List;
 import java.util.Objects;
 
 import org.jgrapht.graph.DefaultEdge;
@@ -9,7 +8,6 @@ import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualiz
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IProduction;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.languages.words.lambda.ILambdaExpression;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IDenotation;
 
@@ -65,16 +63,6 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	@Override
 	public AVariable getVariable() {
 		return production.getVariable();
-	}
-
-	@Override
-	public ILambdaExpression semanticRule() {
-		return production.semanticRule();
-	}
-
-	@Override
-	public ILambdaExpression asLambda(List<IProduction> nextProductions) {
-		return production.asLambda(nextProductions);
 	}
 	
 	@Override

@@ -19,5 +19,7 @@ public interface IInputTape<InputSymbol extends ISymbol> {
 	InputSymbol read();
 	
 	void print(InputSymbol symbol);
+	
+	boolean hasNext();
 
 }

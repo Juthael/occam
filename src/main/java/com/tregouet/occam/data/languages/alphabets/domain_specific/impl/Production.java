@@ -10,8 +10,6 @@ import com.tregouet.occam.data.languages.alphabets.domain_specific.IProduction;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.languages.words.lambda.ILambdaExpression;
-import com.tregouet.occam.data.languages.words.lambda.impl.LambdaExpression;
 
 public class Production implements IProduction {
 	
@@ -37,36 +35,11 @@ public class Production implements IProduction {
 	public IConstruct getValue() {
 		return value;
 	}
-
-	@Override
-	public ILambdaExpression asLambda(List<IProduction> nextProductions) {
-		ILambdaExpression lambda = semanticRule();
-		if (value.isAbstract()) {
-			int nbOfRemainingValueVars = value.getVariables().size();
-			List<IProduction> remainingProd = new ArrayList<>(nextProductions);
-			Iterator<IProduction> prodIte = nextProductions.iterator();
-			while (nbOfRemainingValueVars > 0 && prodIte.hasNext()) {
-				IProduction nextProd = prodIte.next();
-				AVariable prodVar = nextProd.getVariable();
-				if (value.getVariables().contains(prodVar)) {
-					remainingProd.remove(nextProd);
-					lambda.setArgument(prodVar, nextProd.asLambda(remainingProd));
-					nbOfRemainingValueVars--;
-				}
-			}
-		}
-		return lambda;
-	}
 	
 	@Override
 	public String toString() {
 		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
 	}
-	
-	@Override
-	public ILambdaExpression semanticRule() {
-		return new LambdaExpression(value);
-	}	
 	
 	/**
 	 * Given as an example to show what a Production is meant to be. No real utility. 

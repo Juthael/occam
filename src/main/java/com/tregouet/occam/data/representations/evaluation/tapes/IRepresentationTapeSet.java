@@ -16,6 +16,6 @@ public interface IRepresentationTapeSet extends
 	@Override
 	boolean equals(Object o);
 	
-	IFactAsTape getInputTape();
+	IFactTape getInputTape();
 
 }

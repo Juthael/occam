@@ -5,13 +5,13 @@ import java.util.Set;
 
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
+import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.logical_structures.scores.IScore;
 import com.tregouet.occam.data.problem_space.partitions.IPartition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
-import com.tregouet.occam.data.representations.evaluation.tapes.IFactAsTape;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionOIC;
@@ -22,7 +22,7 @@ public interface IRepresentation<S extends IScore<S>> extends
 	IPushdownAutomaton<
 		IConcept, 
 		IContextualizedProduction, 
-		IFactAsTape,
+		IFact,
 		AVariable, 
 		IConceptTransitionIC, 
 		IConceptTransitionOIC, 
@@ -30,7 +30,7 @@ public interface IRepresentation<S extends IScore<S>> extends
 		IRepresentationTransitionFunction
 	> {
 	
-	Map<Integer, Set<IFactAsTape>> mapParticularIDsToAcceptedFacts();
+	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
 	
 	IDescription getContextDescription();
 	

@@ -1,12 +1,8 @@
 package com.tregouet.occam.data.languages.words.lambda;
 
-import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
+import com.tregouet.occam.data.languages.alphabets.domain_specific.IProduction;
 
 public interface ILambdaExpression {
-	
-	boolean appliesAFunction();
-	
-	boolean binds(AVariable boundVar);
 	
 	@Override
 	boolean equals(Object o);
@@ -14,9 +10,11 @@ public interface ILambdaExpression {
 	@Override
 	int hashCode();
 	
-	boolean setArgument(AVariable boundVar, ILambdaExpression argument);
+	boolean abstractAndApplyAccordingTo(IProduction production);
 	
 	@Override
 	String toString();
+	
+	boolean isAnApplication();
 
 }

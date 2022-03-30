@@ -6,7 +6,7 @@ import java.util.Set;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.evaluation.head.IFactEvaluator;
-import com.tregouet.occam.data.representations.evaluation.tapes.IFactAsTape;
+import com.tregouet.occam.data.representations.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.representations.evaluation.tapes.IRepresentationTapeSet;
 import com.tregouet.occam.data.representations.evaluation.tapes.impl.RepresentationTapeSet;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
@@ -35,7 +35,7 @@ public class FactEvaluator implements IFactEvaluator {
 	}
 	
 	@Override
-	public void input(IFactAsTape factAsTape) {
+	public void input(IFactTape factTape) {
 		// NOT IMPLEMENTED YET
 	}
 
@@ -54,7 +54,7 @@ public class FactEvaluator implements IFactEvaluator {
 	}
 
 	@Override
-	public Set<IFactEvaluator> printer() {
+	public Set<IFactEvaluator> factEnumerator() {
 		Set<IFactEvaluator> acceptHeads = new HashSet<>();
 		if (transitionFunction.getAcceptStateIDs().contains(activeStateID)) {
 			halted = true;
@@ -70,7 +70,7 @@ public class FactEvaluator implements IFactEvaluator {
 						proceedPrintingTransition(
 								requiredInputConfig.getInputSymbol(), 
 								transition.getOutputInternConfiguration());
-				acceptHeads.addAll(nextHead.printer());
+				acceptHeads.addAll(nextHead.factEnumerator());
 			}
 		}
 		return acceptHeads;

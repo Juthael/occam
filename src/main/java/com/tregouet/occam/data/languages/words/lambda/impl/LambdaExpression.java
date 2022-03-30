@@ -1,110 +1,74 @@
 package com.tregouet.occam.data.languages.words.lambda.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.tregouet.occam.data.languages.alphabets.domain_specific.IProduction;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.languages.words.lambda.ILambdaExpression;
 
 public class LambdaExpression implements ILambdaExpression {
 
-	private final IConstruct construct;
-	private final List<AVariable> boundVars;
-	private List<ILambdaExpression> arguments = new ArrayList<>();
+	private IConstruct term = null;
+	private AVariable boundVariable = null;
+	private LambdaExpression argument = null;
 	
-	public LambdaExpression(IConstruct construct) {
-		this.construct = construct;
-		if (construct.isAbstract())
-			boundVars = construct.getVariables();
-		else boundVars = new ArrayList<>();
-		for (AVariable variable : boundVars)
-			arguments.add(new ArgumentPlaceholder(variable));
+	public LambdaExpression(IConstruct term) {
+		this.term = term;
 	}
 	
-	protected LambdaExpression() {
-		construct = null;
-		boundVars = null;
-	}
-
-	@Override
-	public boolean appliesAFunction() {
-		return (!boundVars.isEmpty());
-	}
-
-	@Override
-	public boolean binds(AVariable boundVar) {
-		return boundVars.contains(boundVar);
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		LambdaExpression other = (LambdaExpression) obj;
-		if (arguments == null) {
-			if (other.arguments != null)
-				return false;
-		} else if (!arguments.equals(other.arguments))
-			return false;
-		if (boundVars == null) {
-			if (other.boundVars != null)
-				return false;
-		} else if (!boundVars.equals(other.boundVars))
-			return false;
-		if (construct == null) {
-			if (other.construct != null)
-				return false;
-		} else if (!construct.equals(other.construct))
-			return false;
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((arguments == null) ? 0 : arguments.hashCode());
-		result = prime * result + ((boundVars == null) ? 0 : boundVars.hashCode());
-		result = prime * result + ((construct == null) ? 0 : construct.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean setArgument(AVariable boundVar, ILambdaExpression argument) {
-		int varIdx = boundVars.indexOf(boundVar);
-		if (varIdx != -1) {
-			arguments.remove(varIdx);
-			arguments.add(varIdx, argument);
-			return true;
+	public <P extends IProduction> LambdaExpression(List<P> productionList) {
+		for (int i = 0 ; i < productionList.size() ; i++) {
+			IProduction iProduction = productionList.get(i);
+			if (term == null) {
+				if (!iProduction.isEpsilon())
+					term = iProduction.getValue();
+			}
+			else abstractAndApplyAccordingTo(iProduction);
 		}
-		return false;
 	}
-
+	
+	@Override
+	public boolean abstractAndApplyAccordingTo(IProduction production) {
+		if (production.isEpsilon())
+			return false;
+		if (argument == null) {
+			AVariable varToBind = production.getVariable();
+			if (term.getVariables().contains(varToBind)) {
+				boundVariable = varToBind;
+				argument = new LambdaExpression(production.getValue());
+				return true;
+			}
+			return false;
+		}
+		return argument.abstractAndApplyAccordingTo(production);
+	}
+	
 	@Override
 	public String toString() {
-		if (construct.isAbstract()) {
-			StringBuilder sB = new StringBuilder();
-			sB.append("(λ");
-			for (AVariable variable : boundVars) {
-				sB.append(variable.toString());
-			}
-			sB.append(".");
-			sB.append(construct.toString());
-			sB.append(")");
-			for (ILambdaExpression arg : arguments) {
-				sB.append(" ");
-				if (arg.appliesAFunction())
-					sB.append("(" + arg.toString() + ")");
-				else sB.append(arg.toString());
-			}
-			return sB.toString();	
+		if (boundVariable == null) {
+			if (term.asList().size() == 1)
+				return term.toString();
+			return "(" + term.toString() + ")";
 		}
-		else return construct.toString();
+		StringBuilder sB = new StringBuilder();
+		sB.append("(λ");
+		sB.append(boundVariable.toString());
+		sB.append(".");
+		sB.append(term.toString());
+		sB.append(")");
+		if (argument.isAnApplication()) {
+			sB.append("(");
+			sB.append(argument.toString());
+			sB.append(")");
+		}
+		else sB.append(argument.toString());
+		return sB.toString();
+	}
+
+	@Override
+	public boolean isAnApplication() {
+		return boundVariable != null;
 	}
 
 }

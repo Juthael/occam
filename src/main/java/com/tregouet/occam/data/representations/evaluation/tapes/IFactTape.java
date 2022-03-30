@@ -3,12 +3,13 @@ package com.tregouet.occam.data.representations.evaluation.tapes;
 import java.util.List;
 
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
+import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.logical_structures.automata.tapes.IInputTape;
 
-public interface IFactAsTape extends IInputTape<IContextualizedProduction> {
+public interface IFactTape extends IInputTape<IContextualizedProduction>, IFact {
 	
 	@Override
-	IFactAsTape copy();
+	IFactTape copy();
 	
 	public static boolean isAWellFormedFact(List<IContextualizedProduction> word) {
 		if (word.isEmpty())
@@ -31,5 +32,7 @@ public interface IFactAsTape extends IInputTape<IContextualizedProduction> {
 	
 	@Override
 	boolean equals(Object o);	
+	
+	IFact getFact();
 
 }

@@ -1,21 +1,18 @@
 package com.tregouet.occam.data.representations;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
+import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.logical_structures.scores.impl.LexicographicScore;
 import com.tregouet.occam.data.problem_space.partitions.IPartition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.evaluation.head.IFactEvaluator;
-import com.tregouet.occam.data.representations.evaluation.tapes.IFactAsTape;
+import com.tregouet.occam.data.representations.evaluation.tapes.impl.FactTape;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -44,8 +41,8 @@ public class Representation implements IRepresentation<LexicographicScore> {
 	}
 
 	@Override
-	public boolean evaluate(IFactAsTape factAsTape) {
-		factEvaluator.input(factAsTape);
+	public boolean evaluate(IFact fact) {
+		factEvaluator.input(new FactTape(fact));
 		Set<IFactEvaluator> evaluations = factEvaluator.evaluate();
 		for (IFactEvaluator evaluation : evaluations) {
 			if (evaluation.accepts())
@@ -55,28 +52,27 @@ public class Representation implements IRepresentation<LexicographicScore> {
 	}
 
 	@Override
-	public Set<IFactAsTape> enumerateMachineLanguage() {
-		Set<IFactAsTape> trueFacts = new HashSet<>();
-		for (IFactEvaluator output : factEvaluator.generateEverySuccessfulEvaluation()) {
-			trueFacts.add(output.getTapeSet().getInputTape());
+	public Set<IFact> enumerateMachineLanguage() {
+		Set<IFact> trueFacts = new HashSet<>();
+		for (IFactEvaluator output : factEvaluator.factEnumerator()) {
+			trueFacts.add(output.getTapeSet().getInputTape().getFact());
 		}
 		factEvaluator.reinitialize();
 		return trueFacts;
 	}
 
 	@Override
-	public Map<IConcept, Set<IFactAsTape>> acceptStateToAcceptedWords() {
-		Map<IConcept, Set<IFactAsTape>> acceptStateToAcceptedWords = new HashMap<>();
+	public Map<IConcept, Set<IFact>> acceptStateToAcceptedWords() {
+		Map<IConcept, Set<IFact>> acceptStateToAcceptedWords = new HashMap<>();
 		Map<Integer, IConcept> particularIDToParticular = new HashMap<>();
-		Map<Integer, Set<IFactAsTape>> particularIDToFacts = new HashMap<>();
+		Map<Integer, Set<IFact>> particularIDToFacts = new HashMap<>();
 		for (IConcept particular : treeOfConcepts.getLeaves()) {
 			int particularID = particular.iD();
 			particularIDToFacts.put(particularID, new HashSet<>());
 			particularIDToParticular.put(particularID, particular);
 		}
-		Set<IFactEvaluator> printers = factEvaluator.printer();
-		for (IFactEvaluator printer : printers) {
-			particularIDToFacts.get(printer.getActiveStateID()).add(printer.getTapeSet().getInputTape());
+		for (IFactEvaluator output : factEvaluator.factEnumerator()) {
+			particularIDToFacts.get(output.getActiveStateID()).add(output.getTapeSet().getInputTape().getFact());
 		}
 		for (Integer particularID : particularIDToFacts.keySet()) {
 			acceptStateToAcceptedWords.put(particularIDToParticular.get(particularID), particularIDToFacts.get(particularID));
@@ -86,35 +82,36 @@ public class Representation implements IRepresentation<LexicographicScore> {
 	}
 
 	@Override
-	public Map<IConcept, Set<IFactAsTape>> anyStateToAcceptedWords() {
+	public Map<IConcept, Set<IFact>> anyStateToAcceptedWords() {
 		// NOT IMPLEMENTED YET
 		return null;
 	}
 
 	@Override
-	public Map<Integer, Set<IFactAsTape>> mapParticularIDsToAcceptedFacts() {
-		Map<Integer, Set<IFactAsTape>> particularIDToParticular = new HashMap<>();
+	public Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts() {
+		Map<Integer, Set<IFact>> particularIDToFacts = new HashMap<>();
 		for (IConcept particular : treeOfConcepts.getLeaves())
-			particularIDToParticular.put(particular.iD(), new HashSet<>());
-		
+			particularIDToFacts.put(particular.iD(), new HashSet<>());
+		for (IFactEvaluator output : factEvaluator.factEnumerator()) {
+			particularIDToFacts.get(output.getActiveStateID()).add(output.getTapeSet().getInputTape().getFact());
+		}
+		factEvaluator.reinitialize();
+		return particularIDToFacts;
 	}
 
 	@Override
 	public IDescription getContextDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return description;
 	}
 
 	@Override
 	public Tree<IConcept, IIsA> getTreeOfConcepts() {
-		// TODO Auto-generated method stub
-		return null;
+		return treeOfConcepts;
 	}
 
 	@Override
 	public LexicographicScore getScore() {
-		// TODO Auto-generated method stub
-		return null;
+		return score;
 	}
 
 	@Override
@@ -125,8 +122,7 @@ public class Representation implements IRepresentation<LexicographicScore> {
 
 	@Override
 	public void setScore(LexicographicScore score) {
-		// TODO Auto-generated method stub
-
+		this.score = score;
 	}
 
 }

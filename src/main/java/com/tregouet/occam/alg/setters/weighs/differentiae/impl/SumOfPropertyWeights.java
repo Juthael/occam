@@ -16,7 +16,7 @@ public class SumOfPropertyWeights implements DifferentiaeWeigher {
 		double weight = 0.0;
 		for (IProperty property : differentiae.getProperties())
 			weight += property.weight();
-		differentiae.setWeight(weight);
+		differentiae.setCoeffFreeWeight(weight);
 	}
 
 }

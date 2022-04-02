@@ -44,6 +44,7 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 		classification = 
 				new Tree<Integer, AbstractDifferentiae>(
 						paramTree, ontologicalCommitmentID, particularIDs, topoOrderOverConcepts);
+		DescriptionBuilder.differentiaeRankSetter().accept(classification);
 		DifferentiaeCoeffSetter differentiaeCoeffSetter = 
 				DescriptionBuilder.differentiaeCoeffSetter().setContext(classification);
 		DifferentiaeWeigher differentiaeWeigher = DescriptionBuilder.differentiaeWeigher();

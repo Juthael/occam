@@ -21,7 +21,7 @@ public abstract class AbstractDifferentiae extends DefaultEdge implements Parame
 	
 	abstract public void setWeightCoeff(double coeff);
 	
-	abstract public void setWeight(double weight);
+	abstract public void setCoeffFreeWeight(double weight);
 	
 	@Override
 	abstract public Integer getSource();
@@ -29,10 +29,20 @@ public abstract class AbstractDifferentiae extends DefaultEdge implements Parame
 	@Override
 	abstract public Integer getTarget();
 	
+	/**
+	 * must not make use of rank, coeff, weigh (non-final class parameters)
+	 */
 	@Override
 	abstract public int hashCode();
 	
+	/**
+	 * must not make use of rank, coeff, weigh (non-final class parameters)
+	 */
 	@Override
 	abstract public boolean equals(Object o);
+	
+	abstract public void setRank(int rank);
+	
+	abstract public Integer rank();
 
 }

@@ -5,6 +5,7 @@ import java.util.function.Function;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetter;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.parameters.differentiae_coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
@@ -23,6 +24,10 @@ public interface DescriptionBuilder extends Function<IRepresentationTransitionFu
 	
 	public static DifferentiaeWeigher differentiaeWeigher() {
 		return SettersAbstractFactory.INSTANCE.getDifferentiaeWeigher();
+	}
+	
+	public static DifferentiaeRankSetter differentiaeRankSetter() {
+		return GeneratorsAbstractFactory.INSTANCE.getDifferentiaeRankSetter();
 	}
 	
 	public static SimilarityMetricsBuilder similarityMetricsBuilder() {

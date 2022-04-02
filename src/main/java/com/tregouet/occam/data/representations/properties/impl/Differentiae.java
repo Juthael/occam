@@ -15,6 +15,7 @@ public class Differentiae extends AbstractDifferentiae {
 	private final Set<IProperty> properties;
 	private Double coeff = null;
 	private Double weight = null;
+	private Integer rank = null;
 	
 	public Differentiae(int genusID, int speciesID, Set<IProperty> properties){
 		this.genusID = genusID;
@@ -55,7 +56,7 @@ public class Differentiae extends AbstractDifferentiae {
 
 
 	@Override
-	public void setWeight(double weight) {
+	public void setCoeffFreeWeight(double weight) {
 		this.weight = weight();
 	}
 	
@@ -84,6 +85,16 @@ public class Differentiae extends AbstractDifferentiae {
 			return false;
 		Differentiae other = (Differentiae) obj;
 		return genusID == other.genusID && Objects.equals(properties, other.properties) && speciesID == other.speciesID;
+	}
+	
+	@Override
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	@Override
+	public Integer rank() {
+		return rank;
 	}
 
 }

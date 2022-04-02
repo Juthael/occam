@@ -21,6 +21,9 @@ import com.tregouet.occam.alg.builders.representations.descriptions.differentiae
 import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetter;
+import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetterFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetterStrategy;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderStrategy;
@@ -47,6 +50,7 @@ public class GeneratorsAbstractFactory {
 	private RepresentationTransFuncBuilderStrategy representationTransFuncBuilderStrategy = null;
 	private PropertyBuilderStrategy propertyBuilderStrategy = null;
 	private DifferentiaeBuilderStrategy differentiaeBuilderStrategy = null;
+	private DifferentiaeRankSetterStrategy differentiaeRankSetterStrategy = null;
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
 	private DescriptionBuilderStrategy descriptionBuilderStrategy = null;
 	
@@ -67,6 +71,7 @@ public class GeneratorsAbstractFactory {
 				differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
 				similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.DEFERRED_MATRICES_INSTANTIATION;
 				descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
+				differentiaeRankSetterStrategy = DifferentiaeRankSetterStrategy.DEPTH_FIRST;
 				break;
 			default : 
 				break;
@@ -115,6 +120,10 @@ public class GeneratorsAbstractFactory {
 	
 	public DescriptionBuilder getDescriptionBuilder() {
 		return DescriptionBuilderFactory.INSTANCE.apply(descriptionBuilderStrategy);
+	}
+	
+	public DifferentiaeRankSetter getDifferentiaeRankSetter() {
+		return DifferentiaeRankSetterFactory.INSTANCE.apply(differentiaeRankSetterStrategy);
 	}
 
 }

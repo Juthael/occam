@@ -13,7 +13,7 @@ public class Description implements IDescription {
 	private final Tree<Integer, AbstractDifferentiae> classification;
 	private ISimilarityMetrics similarityMetrics = null;
 	
-	public Description(	Tree<Integer, AbstractDifferentiae> classification, ISimilarityMetrics similarityMetrics) {
+	public Description(Tree<Integer, AbstractDifferentiae> classification, ISimilarityMetrics similarityMetrics) {
 		this.classification = classification;
 		this.similarityMetrics = similarityMetrics;
 	}

@@ -24,6 +24,12 @@ import com.tregouet.occam.alg.builders.representations.descriptions.metrics.Simi
 import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetter;
 import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetterFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetterStrategy;
+import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilder;
+import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.partitions.as_strings.PartitionStringBuilder;
+import com.tregouet.occam.alg.builders.representations.partitions.as_strings.PartitionStringBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.partitions.as_strings.PartitionStringBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderStrategy;
@@ -50,9 +56,11 @@ public class GeneratorsAbstractFactory {
 	private RepresentationTransFuncBuilderStrategy representationTransFuncBuilderStrategy = null;
 	private PropertyBuilderStrategy propertyBuilderStrategy = null;
 	private DifferentiaeBuilderStrategy differentiaeBuilderStrategy = null;
-	private DifferentiaeRankSetterStrategy differentiaeRankSetterStrategy = null;
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
 	private DescriptionBuilderStrategy descriptionBuilderStrategy = null;
+	private DifferentiaeRankSetterStrategy differentiaeRankSetterStrategy = null;
+	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
+	private PartitionStringBuilderStrategy partitionStringBuilderStrategy = null;
 	
 	private GeneratorsAbstractFactory() {
 	}
@@ -72,6 +80,8 @@ public class GeneratorsAbstractFactory {
 				similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.DEFERRED_MATRICES_INSTANTIATION;
 				descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 				differentiaeRankSetterStrategy = DifferentiaeRankSetterStrategy.DEPTH_FIRST;
+				partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
+				partitionStringBuilderStrategy = PartitionStringBuilderStrategy.RECURSIVE_FRAMING;
 				break;
 			default : 
 				break;
@@ -124,6 +134,14 @@ public class GeneratorsAbstractFactory {
 	
 	public DifferentiaeRankSetter getDifferentiaeRankSetter() {
 		return DifferentiaeRankSetterFactory.INSTANCE.apply(differentiaeRankSetterStrategy);
+	}
+	
+	public PartitionGraphBuilder getPartitionGraphBuilder() {
+		return PartitionGraphBuilderFactory.INSTANCE.apply(partitionGraphBuilderStrategy);
+	}
+	
+	public PartitionStringBuilder getPartitionStringBuilder() {
+		return PartitionStringBuilderFactory.INSTANCE.apply(partitionStringBuilderStrategy);
 	}
 
 }

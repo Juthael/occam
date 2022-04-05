@@ -12,13 +12,21 @@ import com.tregouet.occam.data.problem_space.partitions.IPartition;
 import com.tregouet.occam.data.problem_space.partitions.impl.Partition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
+import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
+import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.data.Tree;
 
 public class BuildGraphFirst implements PartitionBuilder {
+	
+	public static final BuildGraphFirst INSTANCE = new BuildGraphFirst();
+	
+	private BuildGraphFirst() {
+	}
 
 	@Override
-	public Set<IPartition> apply(Tree<IConcept, IIsA> treeOfConcepts, Tree<Integer, AbstractDifferentiae> classification) {
+	public Set<IPartition> apply(InvertedTree<IConcept, IIsA> treeOfConcepts, IDescription description) {
+		Tree<Integer, AbstractDifferentiae> classification = description.asGraph();
 		Set<IPartition> partitions = new HashSet<>();
 		Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> partitionsAsGraph = 
 				PartitionBuilder.getPartitionGraphBuilder().apply(classification);

@@ -9,12 +9,12 @@ import com.tregouet.occam.alg.builders.representations.partitions.as_strings.Par
 import com.tregouet.occam.data.problem_space.partitions.IPartition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 @FunctionalInterface
 public interface PartitionBuilder 
-	extends BiFunction<Tree<IConcept, IIsA>, Tree<Integer, AbstractDifferentiae>, Set<IPartition>> {
+	extends BiFunction<InvertedTree<IConcept, IIsA>, IDescription, Set<IPartition>> {
 	
 	public static PartitionGraphBuilder getPartitionGraphBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getPartitionGraphBuilder();

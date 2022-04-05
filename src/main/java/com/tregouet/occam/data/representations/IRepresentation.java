@@ -8,7 +8,7 @@ import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualiz
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
-import com.tregouet.occam.data.logical_structures.scores.IScore;
+import com.tregouet.occam.data.logical_structures.scores.impl.LexicographicScore;
 import com.tregouet.occam.data.problem_space.partitions.IPartition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
@@ -17,9 +17,9 @@ import com.tregouet.occam.data.representations.properties.transitions.IConceptTr
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.representations.properties.transitions.IConceptTransitionOIC;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
-public interface IRepresentation<S extends IScore<S>> extends 
+public interface IRepresentation extends 
 	IPushdownAutomaton<
 		IConcept, 
 		IContextualizedProduction, 
@@ -30,19 +30,21 @@ public interface IRepresentation<S extends IScore<S>> extends
 		IConceptTransition,
 		IRepresentationTransitionFunction
 	>,  
-	Scored<S>, 
-	Comparable<IRepresentation<S>> {
+	Scored<LexicographicScore>, 
+	Comparable<IRepresentation> {
 	
 	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
 	
 	IDescription getContextDescription();
 	
-	Tree<IConcept, IIsA> getTreeOfConcepts();
-	
-	S getScore();
+	InvertedTree<IConcept, IIsA> getTreeOfConcepts();
 	
 	Set<IPartition> getPartitions();
 	
-	void setScore(S score);
+	@Override
+	int hashCode();
+	
+	@Override
+	boolean equals(Object o);
 
 }

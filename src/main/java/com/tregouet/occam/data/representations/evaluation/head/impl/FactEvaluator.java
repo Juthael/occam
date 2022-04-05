@@ -35,8 +35,9 @@ public class FactEvaluator implements IFactEvaluator {
 	}
 	
 	@Override
-	public void input(IFactTape factTape) {
+	public IFactEvaluator input(IFactTape factTape) {
 		// NOT IMPLEMENTED YET
+		return null;
 	}
 
 	@Override

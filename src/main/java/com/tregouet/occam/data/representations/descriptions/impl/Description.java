@@ -2,6 +2,7 @@ package com.tregouet.occam.data.representations.descriptions.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.descriptions.metrics.ISimilarityMetrics;
@@ -33,6 +34,25 @@ public class Description implements IDescription {
 	@Override
 	public List<Integer> getTopologicallyOrderedConceptIDs() {
 		return new ArrayList<>(classification.getTopologicalOrder());
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(classification);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Description other = (Description) obj;
+		return Objects.equals(classification, other.classification);
 	}
 
 }

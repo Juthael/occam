@@ -14,4 +14,10 @@ public interface IDescription {
 	
 	List<Integer> getTopologicallyOrderedConceptIDs();
 	
+	@Override
+	int hashCode();
+	
+	@Override
+	boolean equals(Object o);
+	
 }

@@ -14,12 +14,12 @@ import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public class RecursiveFraming implements PartitionStringBuilder {
 	
-	private Tree<IConcept, IIsA> classification = null;
+	private InvertedTree<IConcept, IIsA> classification = null;
 	private SortedSet<Integer> particularIDs = new TreeSet<>();
 	private DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph = null;
 	
@@ -27,7 +27,7 @@ public class RecursiveFraming implements PartitionStringBuilder {
 	}
 
 	@Override
-	public String apply(Tree<IConcept, IIsA> classification, DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph) {
+	public String apply(InvertedTree<IConcept, IIsA> classification, DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph) {
 		this.classification = classification;
 		this.partitionGraph = partitionGraph;
 		for (IConcept particular : classification.getLeaves())

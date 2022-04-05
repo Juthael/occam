@@ -1,14 +1,17 @@
 package com.tregouet.occam.alg.builders;
 
+import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
+import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.IDenotationBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderStrategy;
@@ -24,6 +27,9 @@ import com.tregouet.occam.alg.builders.representations.descriptions.metrics.Simi
 import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetter;
 import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetterFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetterStrategy;
+import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilder;
+import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilder;
 import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilderStrategy;
@@ -33,8 +39,8 @@ import com.tregouet.occam.alg.builders.representations.partitions.as_strings.Par
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBldrFromDenotationsFactory;
+import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotationsStrategy;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderFactory;
@@ -61,6 +67,8 @@ public class GeneratorsAbstractFactory {
 	private DifferentiaeRankSetterStrategy differentiaeRankSetterStrategy = null;
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
 	private PartitionStringBuilderStrategy partitionStringBuilderStrategy = null;
+	private PartitionBuilderStrategy partitionBuilderStrategy = null;
+	private RepresentationSortedSetBuilderStrategy representationSortedSetBuilderStrategy = null;
 	
 	private GeneratorsAbstractFactory() {
 	}
@@ -82,6 +90,9 @@ public class GeneratorsAbstractFactory {
 				differentiaeRankSetterStrategy = DifferentiaeRankSetterStrategy.DEPTH_FIRST;
 				partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 				partitionStringBuilderStrategy = PartitionStringBuilderStrategy.RECURSIVE_FRAMING;
+				partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
+				representationSortedSetBuilderStrategy = 
+						RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
 				break;
 			default : 
 				break;
@@ -116,7 +127,7 @@ public class GeneratorsAbstractFactory {
 		return ConceptTreeBuilderFactory.INSTANCE.apply(conceptTreeBuilderStrategy);
 	}
 	
-	public RepresentationTransFuncBuilder getTransitionsConstructionManager() {
+	public RepresentationTransFuncBuilder getRepresentationTransFuncBuilder() {
 		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
 	}
 	
@@ -142,6 +153,14 @@ public class GeneratorsAbstractFactory {
 	
 	public PartitionStringBuilder getPartitionStringBuilder() {
 		return PartitionStringBuilderFactory.INSTANCE.apply(partitionStringBuilderStrategy);
+	}
+	
+	public PartitionBuilder getPartitionBuilder() {
+		return PartitionBuilderFactory.INSTANCE.apply(partitionBuilderStrategy);
+	}
+	
+	public RepresentationSortedSetBuilder getRepresentationLexOrderedSetBuilder() {
+		return RepresentationSortedSetBuilderFactory.INSTANCE.apply(representationSortedSetBuilderStrategy);
 	}
 
 }

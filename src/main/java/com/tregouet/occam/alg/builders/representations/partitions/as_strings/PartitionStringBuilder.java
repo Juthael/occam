@@ -7,12 +7,12 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 @FunctionalInterface
 public interface PartitionStringBuilder 
 	extends BiFunction<
-		Tree<IConcept, IIsA>, 
+		InvertedTree<IConcept, IIsA>, 
 		DirectedAcyclicGraph<Integer, AbstractDifferentiae>, 
 		String> {
 

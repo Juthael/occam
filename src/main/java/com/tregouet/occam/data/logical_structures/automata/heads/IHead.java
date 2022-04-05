@@ -21,7 +21,7 @@ public interface IHead<
 	Head extends IHead<TransFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head>
 	>{
 	
-	void input(Word word);
+	IHead<TransFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head> input(Word word);
 	
 	void set(TransFunc transitionFunction, TapeSet tapeSet);
 	

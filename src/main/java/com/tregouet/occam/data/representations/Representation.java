@@ -3,6 +3,7 @@ package com.tregouet.occam.data.representations;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.tregouet.occam.data.languages.words.fact.IFact;
@@ -12,29 +13,29 @@ import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.evaluation.head.IFactEvaluator;
+import com.tregouet.occam.data.representations.evaluation.head.impl.FactEvaluator;
 import com.tregouet.occam.data.representations.evaluation.tapes.impl.FactTape;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
-public class Representation implements IRepresentation<LexicographicScore> {
+public class Representation implements IRepresentation {
 
-	private final Tree<IConcept, IIsA> treeOfConcepts;
-	private final IFactEvaluator factEvaluator;
+	private final InvertedTree<IConcept, IIsA> classification;
+	private final IFactEvaluator factEvaluator = new FactEvaluator();
 	private final IDescription description;
 	private final Set<IPartition> partitions;
 	private LexicographicScore score = null;
 	
-	public Representation(Tree<IConcept, IIsA> treeOfConcepts, IFactEvaluator factEvaluator, 
-			IDescription description, Set<IPartition> partitions) {
-		this.treeOfConcepts = treeOfConcepts;
-		this.factEvaluator = factEvaluator;
+	public Representation(InvertedTree<IConcept, IIsA> classification, IDescription description, 
+			Set<IPartition> partitions) {
+		this.classification = classification;
 		this.description = description;
 		this.partitions = partitions;
 	}
 	
 	@Override
 	public Set<IConcept> getStates() {
-		return treeOfConcepts.vertexSet();
+		return classification.vertexSet();
 	}
 
 	@Override
@@ -68,7 +69,7 @@ public class Representation implements IRepresentation<LexicographicScore> {
 		Map<IConcept, Set<IFact>> acceptStateToAcceptedWords = new HashMap<>();
 		Map<Integer, IConcept> particularIDToParticular = new HashMap<>();
 		Map<Integer, Set<IFact>> particularIDToFacts = new HashMap<>();
-		for (IConcept particular : treeOfConcepts.getLeaves()) {
+		for (IConcept particular : classification.getLeaves()) {
 			int particularID = particular.iD();
 			particularIDToFacts.put(particularID, new HashSet<>());
 			particularIDToParticular.put(particularID, particular);
@@ -92,7 +93,7 @@ public class Representation implements IRepresentation<LexicographicScore> {
 	@Override
 	public Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts() {
 		Map<Integer, Set<IFact>> particularIDToFacts = new HashMap<>();
-		for (IConcept particular : treeOfConcepts.getLeaves())
+		for (IConcept particular : classification.getLeaves())
 			particularIDToFacts.put(particular.iD(), new HashSet<>());
 		for (IFactEvaluator output : factEvaluator.factEnumerator()) {
 			particularIDToFacts.get(output.getActiveStateID()).add(output.getTapeSet().getInputTape().getFact());
@@ -107,13 +108,8 @@ public class Representation implements IRepresentation<LexicographicScore> {
 	}
 
 	@Override
-	public Tree<IConcept, IIsA> getTreeOfConcepts() {
-		return treeOfConcepts;
-	}
-
-	@Override
-	public LexicographicScore getScore() {
-		return score;
+	public InvertedTree<IConcept, IIsA> getTreeOfConcepts() {
+		return classification;
 	}
 
 	@Override
@@ -128,14 +124,32 @@ public class Representation implements IRepresentation<LexicographicScore> {
 
 	@Override
 	public LexicographicScore score() {
-		// TODO Auto-generated method stub
-		return null;
+		return score;
 	}
 
 	@Override
-	public int compareTo(IRepresentation<LexicographicScore> o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int hashCode() {
+		return Objects.hash(description, classification);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Representation other = (Representation) obj;
+		return Objects.equals(description, other.description) && Objects.equals(classification, other.classification);
+	}
+
+	@Override
+	public int compareTo(IRepresentation other) {
+		int scoreComparison = this.score.compareTo(other.score());
+		if (scoreComparison == 0 && !this.equals(other))
+			return System.identityHashCode(this) - System.identityHashCode(other);
+		return scoreComparison;
 	}
 
 }

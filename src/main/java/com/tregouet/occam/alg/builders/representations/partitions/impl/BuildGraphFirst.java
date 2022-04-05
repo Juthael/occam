@@ -49,7 +49,9 @@ public class BuildGraphFirst implements PartitionBuilder {
 					speciesIDList.add(diff.getTarget());
 			}
 			speciesIDs = IPartition.orderOverIDs(speciesIDList);
-			partitions.add(new Partition(partitionAsGraph, partitionAsString, genusID, speciesIDs));
+			IPartition partition = new Partition(partitionAsGraph, partitionAsString, genusID, speciesIDs);
+			PartitionBuilder.getPartitionWeigher().accept(partition);
+			partitions.add(partition);
 		}
 		return partitions;
 	}

@@ -6,6 +6,9 @@ import com.tregouet.occam.alg.setters.parameters.differentiae_coeff.Differentiae
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigherFactory;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigherStrategy;
+import com.tregouet.occam.alg.setters.weighs.partitions.PartitionWeigher;
+import com.tregouet.occam.alg.setters.weighs.partitions.PartitionWeigherFactory;
+import com.tregouet.occam.alg.setters.weighs.partitions.PartitionWeigherStrategy;
 import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigher;
 import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigherFactory;
 import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigherStrategy;
@@ -17,6 +20,7 @@ public class SettersAbstractFactory {
 	private PropertyWeigherStrategy propertyWeigherStrategy = null;
 	private DifferentiaeCoeffSetterStrategy differentiaeCoeffSetterStrategy = null;
 	private DifferentiaeWeigherStrategy differentiaeWeigherStrategy = null;
+	private PartitionWeigherStrategy partitionWeigherStrategy = null;
 	
 	private SettersAbstractFactory() {
 	}
@@ -27,6 +31,7 @@ public class SettersAbstractFactory {
 				propertyWeigherStrategy = PropertyWeigherStrategy.NB_OF_INSTANTIATED_VAR;
 				differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.SPECIES_CARDINALITY;
 				differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.SUM_OF_PROPERTY_WEIGHTS;
+				partitionWeigherStrategy = PartitionWeigherStrategy.SUM_PARTITION_DIFFERENTIAE;
 				break;
 			default : 
 				break;
@@ -43,6 +48,10 @@ public class SettersAbstractFactory {
 	
 	public DifferentiaeWeigher getDifferentiaeWeigher() {
 		return DifferentiaeWeigherFactory.INSTANCE.apply(differentiaeWeigherStrategy);
+	}
+	
+	public PartitionWeigher getPartitionWeigher() {
+		return PartitionWeigherFactory.INSTANCE.apply(partitionWeigherStrategy);
 	}
 
 }

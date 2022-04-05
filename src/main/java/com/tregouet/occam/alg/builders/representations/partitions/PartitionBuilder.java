@@ -6,6 +6,8 @@ import java.util.function.BiFunction;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilder;
 import com.tregouet.occam.alg.builders.representations.partitions.as_strings.PartitionStringBuilder;
+import com.tregouet.occam.alg.setters.SettersAbstractFactory;
+import com.tregouet.occam.alg.setters.weighs.partitions.PartitionWeigher;
 import com.tregouet.occam.data.problem_space.partitions.IPartition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
@@ -22,6 +24,10 @@ public interface PartitionBuilder
 	
 	public static PartitionStringBuilder getPartitionStringBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getPartitionStringBuilder();
+	}
+	
+	public static PartitionWeigher getPartitionWeigher() {
+		return SettersAbstractFactory.INSTANCE.getPartitionWeigher();
 	}
 
 }

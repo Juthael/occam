@@ -1,11 +1,11 @@
-package com.tregouet.occam.data.problem_space.partitions.impl;
+package com.tregouet.occam.data.representations.partitions.impl;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.problem_space.partitions.IPartition;
+import com.tregouet.occam.data.representations.partitions.IPartition;
 import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
 
 public class Partition implements IPartition {

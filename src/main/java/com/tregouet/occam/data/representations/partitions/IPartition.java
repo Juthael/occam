@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.problem_space.partitions;
+package com.tregouet.occam.data.representations.partitions;
 
 import java.util.List;
 

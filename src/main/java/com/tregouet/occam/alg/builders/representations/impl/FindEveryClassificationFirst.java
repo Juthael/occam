@@ -6,7 +6,6 @@ import java.util.TreeSet;
 
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
-import com.tregouet.occam.data.problem_space.partitions.IPartition;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.Representation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -14,6 +13,7 @@ import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.partitions.IPartition;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.InvertedTree;
 

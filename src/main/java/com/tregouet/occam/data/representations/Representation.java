@@ -8,13 +8,13 @@ import java.util.Set;
 
 import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.logical_structures.scores.impl.LexicographicScore;
-import com.tregouet.occam.data.problem_space.partitions.IPartition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.evaluation.head.IFactEvaluator;
 import com.tregouet.occam.data.representations.evaluation.head.impl.FactEvaluator;
 import com.tregouet.occam.data.representations.evaluation.tapes.impl.FactTape;
+import com.tregouet.occam.data.representations.partitions.IPartition;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.InvertedTree;
 

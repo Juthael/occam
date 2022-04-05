@@ -8,10 +8,10 @@ import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.Part
 import com.tregouet.occam.alg.builders.representations.partitions.as_strings.PartitionStringBuilder;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.weighs.partitions.PartitionWeigher;
-import com.tregouet.occam.data.problem_space.partitions.IPartition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.partitions.IPartition;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 @FunctionalInterface

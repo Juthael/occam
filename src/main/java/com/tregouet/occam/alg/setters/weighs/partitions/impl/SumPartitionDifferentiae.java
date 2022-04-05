@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.setters.weighs.partitions.impl;
 
 import com.tregouet.occam.alg.setters.weighs.partitions.PartitionWeigher;
-import com.tregouet.occam.data.problem_space.partitions.IPartition;
+import com.tregouet.occam.data.representations.partitions.IPartition;
 import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
 
 public class SumPartitionDifferentiae implements PartitionWeigher {

@@ -3,6 +3,7 @@ package com.tregouet.occam.data.representations;
 import java.util.Map;
 import java.util.Set;
 
+import com.tregouet.occam.alg.scorers.Scored;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
 import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.words.fact.IFact;
@@ -28,7 +29,9 @@ public interface IRepresentation<S extends IScore<S>> extends
 		IConceptTransitionOIC, 
 		IConceptTransition,
 		IRepresentationTransitionFunction
-	> {
+	>,  
+	Scored<S>, 
+	Comparable<IRepresentation<S>> {
 	
 	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
 	

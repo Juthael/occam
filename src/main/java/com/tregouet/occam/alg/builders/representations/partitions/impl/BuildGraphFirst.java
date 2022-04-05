@@ -36,6 +36,8 @@ public class BuildGraphFirst implements PartitionBuilder {
 					maxRank = diff.rank();
 				}
 				else if (diff.rank() == maxRank)
+					if (genusID == null)
+						genusID = diff.getSource();
 					speciesIDList.add(diff.getTarget());
 			}
 			speciesIDs = IPartition.orderOverIDs(speciesIDList);

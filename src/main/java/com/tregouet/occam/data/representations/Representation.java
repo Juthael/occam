@@ -21,13 +21,15 @@ public class Representation implements IRepresentation<LexicographicScore> {
 	private final Tree<IConcept, IIsA> treeOfConcepts;
 	private final IFactEvaluator factEvaluator;
 	private final IDescription description;
+	private final Set<IPartition> partitions;
 	private LexicographicScore score = null;
 	
 	public Representation(Tree<IConcept, IIsA> treeOfConcepts, IFactEvaluator factEvaluator, 
-			IDescription description) {
+			IDescription description, Set<IPartition> partitions) {
 		this.treeOfConcepts = treeOfConcepts;
 		this.factEvaluator = factEvaluator;
 		this.description = description;
+		this.partitions = partitions;
 	}
 	
 	@Override
@@ -116,13 +118,24 @@ public class Representation implements IRepresentation<LexicographicScore> {
 
 	@Override
 	public Set<IPartition> getPartitions() {
-		// TODO Auto-generated method stub
-		return null;
+		return partitions;
 	}
 
 	@Override
 	public void setScore(LexicographicScore score) {
 		this.score = score;
+	}
+
+	@Override
+	public LexicographicScore score() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int compareTo(IRepresentation<LexicographicScore> o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

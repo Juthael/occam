@@ -45,7 +45,7 @@ public class Differentiae extends AbstractDifferentiae {
 
 	@Override
 	public Double weight() {
-		return weight;
+		return coeff * weight;
 	}
 
 
@@ -57,7 +57,7 @@ public class Differentiae extends AbstractDifferentiae {
 
 	@Override
 	public void setCoeffFreeWeight(double weight) {
-		this.weight = weight();
+		this.weight = weight;
 	}
 	
 	@Override

@@ -17,10 +17,17 @@ public class LexicographicScore implements IScore<LexicographicScore> {
 	public int compareTo(LexicographicScore o) {
 		Iterator<Double> thisIte = values.iterator();
 		Iterator<Double> otherIte = o.values.iterator();
+		return iterativelyCompareTo(thisIte, otherIte);
+	}
+	
+	private int iterativelyCompareTo(Iterator<Double> thisIte, Iterator<Double> otherIte) {
 		while (thisIte.hasNext()) {
-			if (otherIte.hasNext())
-				return Double.compare(thisIte.next(), otherIte.next());
-			else return 1;
+			if (otherIte.hasNext()) {
+				int localComparison = Double.compare(thisIte.next(), otherIte.next());
+				if (localComparison == 0)
+					return iterativelyCompareTo(thisIte, otherIte);
+				else return localComparison;
+			}
 		}
 		if (otherIte.hasNext())
 			return -1;

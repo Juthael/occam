@@ -25,7 +25,7 @@ public class SettersAbstractFactory {
 		switch(overallStrategy) {
 			case SCORING_STRATEGY_1 : 
 				propertyWeigherStrategy = PropertyWeigherStrategy.NB_OF_INSTANTIATED_VAR;
-				differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.NO_COEFF;
+				differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.SPECIES_CARDINALITY;
 				differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.SUM_OF_PROPERTY_WEIGHTS;
 				break;
 			default : 

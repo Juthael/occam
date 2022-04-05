@@ -9,6 +9,7 @@ import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.logical_structures.scores.impl.LexicographicScore;
+import com.tregouet.occam.data.problem_spaces.ICategorizationGoalState;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
@@ -31,11 +32,12 @@ public interface IRepresentation extends
 		IRepresentationTransitionFunction
 	>,  
 	Scored<LexicographicScore>, 
-	Comparable<IRepresentation> {
+	Comparable<IRepresentation>, 
+	ICategorizationGoalState {
 	
 	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
 	
-	IDescription getContextDescription();
+	IDescription getDescription();
 	
 	InvertedTree<IConcept, IIsA> getTreeOfConcepts();
 	

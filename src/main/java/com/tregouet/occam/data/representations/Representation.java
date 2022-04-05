@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.representations;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.logical_structures.scores.impl.LexicographicScore;
+import com.tregouet.occam.data.problem_spaces.ICategorizationState;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
@@ -103,11 +105,6 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
-	public IDescription getContextDescription() {
-		return description;
-	}
-
-	@Override
 	public InvertedTree<IConcept, IIsA> getTreeOfConcepts() {
 		return classification;
 	}
@@ -150,6 +147,27 @@ public class Representation implements IRepresentation {
 		if (scoreComparison == 0 && !this.equals(other))
 			return System.identityHashCode(this) - System.identityHashCode(other);
 		return scoreComparison;
+	}
+
+	@Override
+	public IRepresentation getRepresentation() {
+		return this;
+	}
+
+	@Override
+	public IDescription getDescription() {
+		return description;
+	}
+
+	@Override
+	public Set<IRepresentation> getReacheableExhaustiveRepresentations() {
+		return new HashSet<>(Arrays.asList(new IRepresentation[] {this}));
+	}
+
+	@Override
+	public Integer compareTo(ICategorizationState o) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

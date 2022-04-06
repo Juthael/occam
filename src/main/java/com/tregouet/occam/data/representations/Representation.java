@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.logical_structures.scores.impl.LexicographicScore;
+import com.tregouet.occam.data.problem_spaces.ICategorizationGoalState;
 import com.tregouet.occam.data.problem_spaces.ICategorizationState;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
@@ -21,7 +22,10 @@ import com.tregouet.occam.data.representations.properties.transitions.IRepresent
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class Representation implements IRepresentation {
+	
+	private static int nextID = 1;
 
+	private final int iD;
 	private final InvertedTree<IConcept, IIsA> classification;
 	private final IFactEvaluator factEvaluator = new FactEvaluator();
 	private final IDescription description;
@@ -29,10 +33,12 @@ public class Representation implements IRepresentation {
 	private LexicographicScore score = null;
 	
 	public Representation(InvertedTree<IConcept, IIsA> classification, IDescription description, 
-			Set<IPartition> partitions) {
+			IRepresentationTransitionFunction transitionFunction, Set<IPartition> partitions) {
 		this.classification = classification;
 		this.description = description;
 		this.partitions = partitions;
+		factEvaluator.set(transitionFunction);
+		iD = nextID++;
 	}
 	
 	@Override
@@ -150,24 +156,34 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
-	public IRepresentation getRepresentation() {
-		return this;
-	}
-
-	@Override
 	public IDescription getDescription() {
 		return description;
 	}
 
 	@Override
-	public Set<IRepresentation> getReacheableExhaustiveRepresentations() {
-		return new HashSet<>(Arrays.asList(new IRepresentation[] {this}));
+	public Set<ICategorizationGoalState> getReacheableGoalStates() {
+		return new HashSet<>(Arrays.asList(new Representation[] {this}));
 	}
 
 	@Override
-	public Integer compareTo(ICategorizationState o) {
-		// TODO Auto-generated method stub
+	public Integer compareTo(ICategorizationState other) {
+		if (this.equals(other))
+			return 0;
+		if (this.partitions.containsAll(other.getPartitions()))
+			return 1;
+		if (other.getPartitions().containsAll(this.partitions))
+			return -1;
 		return null;
+	}
+
+	@Override
+	public int id() {
+		return iD;
+	}
+
+	@Override
+	public void initializeIDGenerator() {
+		nextID = 1;
 	}
 
 }

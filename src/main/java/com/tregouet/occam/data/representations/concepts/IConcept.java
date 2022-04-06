@@ -36,4 +36,6 @@ public interface IConcept extends IDichotomizable<IConcept>, IState {
 	String toString();
 	
 	ConceptType type();
+	
+	void initializeIDGenerator();
 }

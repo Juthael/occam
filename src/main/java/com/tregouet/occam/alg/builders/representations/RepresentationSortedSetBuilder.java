@@ -1,7 +1,6 @@
 package com.tregouet.occam.alg.builders.representations;
 
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.function.Function;
 
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
@@ -13,11 +12,11 @@ import com.tregouet.occam.alg.builders.representations.productions.ProductionBui
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
 import com.tregouet.occam.alg.scorers.representations.RepresentationLexicographicScorer;
-import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.representations.IRepresentations;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 
 public interface RepresentationSortedSetBuilder
-	extends Function<Set<IContextObject>, SortedSet<IRepresentation>> {
+	extends Function<Set<IContextObject>, IRepresentations> {
 	
 	public static ConceptLatticeBuilder getConceptLatticeBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder();

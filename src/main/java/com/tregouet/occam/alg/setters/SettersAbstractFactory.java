@@ -1,8 +1,8 @@
 package com.tregouet.occam.alg.setters;
 
-import com.tregouet.occam.alg.setters.parameters.differentiae_coeff.DifferentiaeCoeffSetter;
-import com.tregouet.occam.alg.setters.parameters.differentiae_coeff.DifferentiaeCoeffSetterFactory;
-import com.tregouet.occam.alg.setters.parameters.differentiae_coeff.DifferentiaeCoeffSetterStrategy;
+import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
+import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetterFactory;
+import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetterStrategy;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigherFactory;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigherStrategy;

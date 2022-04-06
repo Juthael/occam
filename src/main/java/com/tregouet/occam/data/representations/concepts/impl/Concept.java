@@ -1,7 +1,6 @@
 package com.tregouet.occam.data.representations.concepts.impl;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -27,7 +26,7 @@ public class Concept implements IConcept {
 	public Concept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent) {
 		for (IConstruct construct : denotatingConstructs)
 			this.denotations.add(new Denotation(construct, this));
-		this.extent = Collections.unmodifiableSet(extent);
+		this.extent = extent;
 		if (extent.size() == 1)
 			iD = extent.iterator().next().getID();
 		else iD = nextID++;
@@ -36,7 +35,7 @@ public class Concept implements IConcept {
 	public Concept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent, int iD) {
 		for (IConstruct construct : denotatingConstructs)
 			this.denotations.add(new Denotation(construct, this));
-		this.extent = Collections.unmodifiableSet(extent);
+		this.extent = extent;
 		this.iD = iD;
 	}
 
@@ -164,6 +163,11 @@ public class Concept implements IConcept {
 		Concept other = (Concept) obj;
 		return iD == other.iD && type == other.type && Objects.equals(denotations, other.denotations) 
 				&& Objects.equals(extent, other.extent);
+	}
+
+	@Override
+	public void initializeIDGenerator() {
+		nextID = 100;
 	}
 
 }

@@ -7,7 +7,7 @@ import com.tregouet.occam.alg.builders.representations.descriptions.differentiae
 import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetter;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
-import com.tregouet.occam.alg.setters.parameters.differentiae_coeff.DifferentiaeCoeffSetter;
+import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;

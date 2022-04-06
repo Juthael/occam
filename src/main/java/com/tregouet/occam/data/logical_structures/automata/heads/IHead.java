@@ -23,7 +23,7 @@ public interface IHead<
 	
 	IHead<TransFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head> input(Word word);
 	
-	void set(TransFunc transitionFunction, TapeSet tapeSet);
+	void set(TransFunc transitionFunction);
 	
 	Set<Head> evaluate();
 	

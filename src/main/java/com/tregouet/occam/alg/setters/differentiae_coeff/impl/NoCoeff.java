@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.setters.parameters.differentiae_coeff.impl;
+package com.tregouet.occam.alg.setters.differentiae_coeff.impl;
 
-import com.tregouet.occam.alg.setters.parameters.differentiae_coeff.DifferentiaeCoeffSetter;
+import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 

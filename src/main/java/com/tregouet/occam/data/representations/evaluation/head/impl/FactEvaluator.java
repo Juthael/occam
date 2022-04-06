@@ -18,7 +18,7 @@ import com.tregouet.occam.data.representations.properties.transitions.dimensions
 public class FactEvaluator implements IFactEvaluator {
 
 	private IRepresentationTransitionFunction transitionFunction = null;
-	private IRepresentationTapeSet tapeSet = null;
+	private IRepresentationTapeSet tapeSet = new RepresentationTapeSet();
 	private int activeStateID;
 	private boolean halted = false;
 	
@@ -30,20 +30,18 @@ public class FactEvaluator implements IFactEvaluator {
 			IRepresentationTapeSet tapeSet,
 			Integer activeState) {
 		this.transitionFunction = transitionFunction;
-		this.tapeSet = tapeSet;
 		this.activeStateID = activeState;
 	}
 	
 	@Override
 	public IFactEvaluator input(IFactTape factTape) {
-		// NOT IMPLEMENTED YET
-		return null;
+		tapeSet.input(factTape);
+		return this;
 	}
 
 	@Override
-	public void set(IRepresentationTransitionFunction transitionFunction, IRepresentationTapeSet tapeSet) {
+	public void set(IRepresentationTransitionFunction transitionFunction) {
 		this.transitionFunction = transitionFunction;
-		this.tapeSet = tapeSet;
 		activeStateID = transitionFunction.getStartStateID();
 	}
 

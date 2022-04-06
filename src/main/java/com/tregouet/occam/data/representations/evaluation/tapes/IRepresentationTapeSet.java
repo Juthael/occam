@@ -17,5 +17,7 @@ public interface IRepresentationTapeSet extends
 	boolean equals(Object o);
 	
 	IFactTape getInputTape();
+	
+	void input(IFactTape inputTape);
 
 }

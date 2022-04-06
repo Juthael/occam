@@ -4,10 +4,9 @@ import java.util.Set;
 
 import org.jgrapht.graph.DefaultEdge;
 
-import com.tregouet.occam.alg.setters.parameters.Parameterized;
 import com.tregouet.occam.alg.setters.weighs.Weighed;
 
-public abstract class AbstractDifferentiae extends DefaultEdge implements Parameterized, Weighed {
+public abstract class AbstractDifferentiae extends DefaultEdge implements Weighed {
 	
 	private static final long serialVersionUID = -1429808993785838851L;
 

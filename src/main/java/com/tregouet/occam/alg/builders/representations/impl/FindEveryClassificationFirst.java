@@ -7,7 +7,9 @@ import java.util.TreeSet;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
 import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.representations.IRepresentations;
 import com.tregouet.occam.data.representations.Representation;
+import com.tregouet.occam.data.representations.Representations;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
@@ -25,7 +27,7 @@ public class FindEveryClassificationFirst implements RepresentationSortedSetBuil
 	}
 
 	@Override
-	public SortedSet<IRepresentation> apply(Set<IContextObject> particulars) {
+	public IRepresentations apply(Set<IContextObject> particulars) {
 		SortedSet<IRepresentation> representations = new TreeSet<>();
 		IConceptLattice conceptLattice = 
 				RepresentationSortedSetBuilder.getConceptLatticeBuilder().apply(particulars);
@@ -39,11 +41,11 @@ public class FindEveryClassificationFirst implements RepresentationSortedSetBuil
 			IDescription description = 
 					RepresentationSortedSetBuilder.getDescriptionBuilder().apply(transFunc);
 			Set<IPartition> partitions = RepresentationSortedSetBuilder.getPartitionBuilder().apply(classification, description);
-			IRepresentation representation = new Representation(classification, description, partitions);
+			IRepresentation representation = new Representation(classification, description, transFunc, partitions);
 			representation.setScore(RepresentationSortedSetBuilder.getRepresentationScorer().apply(representation));
 			representations.add(representation);
 		}
-		return representations;
+		return new Representations(conceptLattice, representations);
 	}
 
 }

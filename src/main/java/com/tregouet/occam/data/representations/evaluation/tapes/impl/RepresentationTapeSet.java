@@ -14,7 +14,6 @@ public class RepresentationTapeSet implements IRepresentationTapeSet {
 	private IVarBinder stack = null;
 	
 	public RepresentationTapeSet() {
-		inputTape = new FactTape();
 		stack = new VarBinder();
 	}
 	
@@ -73,6 +72,11 @@ public class RepresentationTapeSet implements IRepresentationTapeSet {
 	@Override
 	public IFactTape getInputTape() {
 		return inputTape;
+	}
+
+	@Override
+	public void input(IFactTape inputTape) {
+		this.inputTape = inputTape;
 	}
 
 }

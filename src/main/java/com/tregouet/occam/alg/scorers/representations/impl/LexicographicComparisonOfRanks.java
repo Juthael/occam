@@ -19,7 +19,7 @@ public class LexicographicComparisonOfRanks implements RepresentationLexicograph
 	@Override
 	public LexicographicScore apply(IRepresentation representation) {
 		int maxRank = 0;
-		Set<AbstractDifferentiae> differentiae = new HashSet<>(representation.getContextDescription().asGraph().edgeSet());
+		Set<AbstractDifferentiae> differentiae = new HashSet<>(representation.getDescription().asGraph().edgeSet());
 		for (AbstractDifferentiae diff : differentiae) {
 			if (maxRank < diff.rank())
 				maxRank = diff.rank();

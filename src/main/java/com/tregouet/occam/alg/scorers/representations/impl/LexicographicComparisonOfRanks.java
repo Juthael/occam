@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.scorers.representations.RepresentationLexicographicScorer;
 import com.tregouet.occam.data.logical_structures.scores.impl.LexicographicScore;
-import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
 
 public class LexicographicComparisonOfRanks implements RepresentationLexicographicScorer {
@@ -17,7 +17,7 @@ public class LexicographicComparisonOfRanks implements RepresentationLexicograph
 	}
 
 	@Override
-	public LexicographicScore apply(IRepresentation representation) {
+	public LexicographicScore apply(ICompleteRepresentation representation) {
 		int maxRank = 0;
 		Set<AbstractDifferentiae> differentiae = new HashSet<>(representation.getDescription().asGraph().edgeSet());
 		for (AbstractDifferentiae diff : differentiae) {

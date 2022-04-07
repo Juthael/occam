@@ -1,6 +1,5 @@
 package com.tregouet.occam.data.representations.partitions.impl;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -84,11 +83,7 @@ public class Partition implements IPartition {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(speciesIDs);
-		result = prime * result + Objects.hash(asGraph, asString, genusID);
-		return result;
+		return Objects.hash(asGraph);
 	}
 
 	@Override
@@ -100,8 +95,12 @@ public class Partition implements IPartition {
 		if (getClass() != obj.getClass())
 			return false;
 		Partition other = (Partition) obj;
-		return Objects.equals(asGraph, other.asGraph) && Objects.equals(asString, other.asString)
-				&& Objects.equals(genusID, other.genusID) && Arrays.equals(speciesIDs, other.speciesIDs);
+		return Objects.equals(asGraph, other.asGraph);
+	}
+	
+	@Override
+	public String toString() {
+		return asString;
 	}
 
 }

@@ -18,14 +18,14 @@ import com.tregouet.occam.data.representations.properties.transitions.IRepresent
 
 public interface ICategorizationState extends 
 	IPushdownAutomaton<
-	IConcept, 
-	IContextualizedProduction, 
-	IFact,
-	AVariable, 
-	IConceptTransitionIC, 
-	IConceptTransitionOIC, 
-	IConceptTransition,
-	IRepresentationTransitionFunction
+		IConcept, 
+		IContextualizedProduction, 
+		IFact,
+		AVariable, 
+		IConceptTransitionIC, 
+		IConceptTransitionOIC, 
+		IConceptTransition,
+		IRepresentationTransitionFunction
 	>, 
 	PartiallyComparable<ICategorizationState> {
 	
@@ -35,7 +35,7 @@ public interface ICategorizationState extends
 	
 	IDescription getDescription();
 	
-	Set<ICategorizationGoalState> getReacheableGoalStates();
+	Set<ICategorizationGoalState> getReachableGoalStates();
 	
 	int id();
 	

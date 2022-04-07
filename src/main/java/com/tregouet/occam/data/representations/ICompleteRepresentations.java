@@ -4,9 +4,9 @@ import java.util.SortedSet;
 
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 
-public interface IRepresentations {
+public interface ICompleteRepresentations {
 	
-	SortedSet<IRepresentation> getSortedRepresentations();
+	SortedSet<ICompleteRepresentation> getSortedRepresentations();
 	
 	IConceptLattice getConceptLattice();
 

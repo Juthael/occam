@@ -33,9 +33,7 @@ public interface IAutomaton<
 	
 	Set<Word> enumerateMachineLanguage();
 	
-	Map<State, Set<Word>> acceptStateToAcceptedWords();
-	
-	Map<State, Set<Word>> anyStateToAcceptedWords();
+	Map<State, Set<Word>> mapAcceptStateToAcceptedWords();
 	
 	@Override
 	int hashCode();

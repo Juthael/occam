@@ -45,5 +45,7 @@ public interface RepresentationSortedSetBuilder
 	public static RepresentationLexicographicScorer getRepresentationScorer() {
 		return ScorersAbstractFactory.INSTANCE.getRepresentationLexicographicScorer();
 	}
+	
+	RepresentationSortedSetBuilder setMaxSize(Integer maxSize);
 
 }

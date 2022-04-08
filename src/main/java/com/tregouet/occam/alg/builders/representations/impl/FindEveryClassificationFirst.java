@@ -6,9 +6,8 @@ import java.util.TreeSet;
 
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
 import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
+import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
@@ -23,6 +22,8 @@ import com.tregouet.tree_finder.data.InvertedTree;
 public class FindEveryClassificationFirst implements RepresentationSortedSetBuilder {
 	
 	public static final FindEveryClassificationFirst INSTANCE = new FindEveryClassificationFirst();
+	
+	private Integer maxSize = null;
 	
 	private FindEveryClassificationFirst() {
 	}
@@ -44,9 +45,22 @@ public class FindEveryClassificationFirst implements RepresentationSortedSetBuil
 			Set<IPartition> partitions = RepresentationSortedSetBuilder.getPartitionBuilder().apply(classification, description);
 			ICompleteRepresentation representation = new CompleteRepresentation(classification, description, transFunc, partitions);
 			representation.setScore(RepresentationSortedSetBuilder.getRepresentationScorer().apply(representation));
-			representations.add(representation);
+			addAndTrimIfRequired(representation, representations);
 		}
 		return new CompleteRepresentations(conceptLattice, representations);
+	}
+	
+	private void addAndTrimIfRequired(ICompleteRepresentation newRepresentation, 
+			SortedSet<ICompleteRepresentation> representations) {
+		representations.add(newRepresentation);
+		if (maxSize != null & representations.size() > maxSize)
+			representations.remove(representations.first());
+	}
+
+	@Override
+	public RepresentationSortedSetBuilder setMaxSize(Integer maxSize) {
+		this.maxSize = maxSize;
+		return this;
 	}
 
 }

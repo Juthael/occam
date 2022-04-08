@@ -69,6 +69,7 @@ public class GeneratorsAbstractFactory {
 	private PartitionStringBuilderStrategy partitionStringBuilderStrategy = null;
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private RepresentationSortedSetBuilderStrategy representationSortedSetBuilderStrategy = null;
+	private Integer representationSortedSetMaxSize = null;
 	
 	private GeneratorsAbstractFactory() {
 	}
@@ -93,6 +94,7 @@ public class GeneratorsAbstractFactory {
 				partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 				representationSortedSetBuilderStrategy = 
 						RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
+				representationSortedSetMaxSize = 50;
 				break;
 			default : 
 				break;
@@ -160,7 +162,9 @@ public class GeneratorsAbstractFactory {
 	}
 	
 	public RepresentationSortedSetBuilder getRepresentationLexOrderedSetBuilder() {
-		return RepresentationSortedSetBuilderFactory.INSTANCE.apply(representationSortedSetBuilderStrategy);
+		return RepresentationSortedSetBuilderFactory.INSTANCE
+				.apply(representationSortedSetBuilderStrategy)
+				.setMaxSize(representationSortedSetMaxSize);
 	}
 
 }

@@ -6,7 +6,7 @@ public interface ICategorizationProblemSpace {
 	
 	DirectedAcyclicGraph<ICategorizationState, ACategorizationStateTransition> asGraph();
 	
-	boolean setMaxNbOfGoalStates(int maxNbOfGoalStates);
+	
 	
 	
 

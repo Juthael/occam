@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.setters.partial_representation.impl;
+package com.tregouet.occam.alg.builders.problem_spaces.partial_representations.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.setters.partial_representation.PartialRepresentationLateSetter;
+import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.IPartialRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -23,6 +23,11 @@ import com.tregouet.occam.data.representations.properties.transitions.impl.Repre
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class InferNullMembers implements PartialRepresentationLateSetter {
+	
+	public static final InferNullMembers INSTANCE = new InferNullMembers();
+	
+	private InferNullMembers() {
+	}
 
 	@Override
 	public void accept(IPartialRepresentation partialRepresentation) {

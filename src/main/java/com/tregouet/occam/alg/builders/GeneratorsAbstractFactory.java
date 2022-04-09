@@ -1,8 +1,11 @@
 package com.tregouet.occam.alg.builders;
 
-import com.tregouet.occam.alg.builders.problem_spaces.transition.CategorizationTransitionBuilder;
-import com.tregouet.occam.alg.builders.problem_spaces.transition.CategorizationTransitionBuilderFactory;
-import com.tregouet.occam.alg.builders.problem_spaces.transition.CategorizationTransitionBuilderStrategy;
+import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
+import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterFactory;
+import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterStrategy;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.CategorizationTransitionBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.CategorizationTransitionBuilderFactory;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.CategorizationTransitionBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderStrategy;
@@ -73,6 +76,7 @@ public class GeneratorsAbstractFactory {
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private RepresentationSortedSetBuilderStrategy representationSortedSetBuilderStrategy = null;
 	private Integer representationSortedSetMaxSize = null;
+	private PartialRepresentationLateSetterStrategy partialRepresentationLateSetterStrategy = null;
 	private CategorizationTransitionBuilderStrategy categorizationTransitionBuilderStrategy = null;
 	
 	private GeneratorsAbstractFactory() {
@@ -99,6 +103,7 @@ public class GeneratorsAbstractFactory {
 				representationSortedSetBuilderStrategy = 
 						RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
 				representationSortedSetMaxSize = 50;
+				partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
 				categorizationTransitionBuilderStrategy = CategorizationTransitionBuilderStrategy.USE_PARTIAL_ORDER;
 				break;
 			default : 
@@ -174,6 +179,10 @@ public class GeneratorsAbstractFactory {
 	
 	public CategorizationTransitionBuilder getCategorizationTransitionBuilder() {
 		return CategorizationTransitionBuilderFactory.INSTANCE.apply(categorizationTransitionBuilderStrategy);
+	}
+	
+	public PartialRepresentationLateSetter getPartialRepresentationLateSetter() {
+		return PartialRepresentationLateSetterFactory.INSTANCE.apply(partialRepresentationLateSetterStrategy);
 	}
 
 }

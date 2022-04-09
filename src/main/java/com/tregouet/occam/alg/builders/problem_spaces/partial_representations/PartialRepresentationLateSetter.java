@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.setters.partial_representation;
+package com.tregouet.occam.alg.builders.problem_spaces.partial_representations;
 
 import java.util.function.Consumer;
 

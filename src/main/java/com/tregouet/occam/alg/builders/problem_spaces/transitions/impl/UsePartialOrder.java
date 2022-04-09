@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.problem_spaces.transition.impl;
+package com.tregouet.occam.alg.builders.problem_spaces.transitions.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.builders.problem_spaces.transition.CategorizationTransitionBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.CategorizationTransitionBuilder;
 import com.tregouet.occam.data.problem_spaces.ACategorizationStateTransition;
 import com.tregouet.occam.data.problem_spaces.ICategorizationState;
 import com.tregouet.occam.data.problem_spaces.impl.CategorizationTransition;

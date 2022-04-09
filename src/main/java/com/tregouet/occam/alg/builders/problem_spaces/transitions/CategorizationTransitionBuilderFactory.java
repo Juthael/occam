@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.builders.problem_spaces.transition;
+package com.tregouet.occam.alg.builders.problem_spaces.transitions;
 
-import com.tregouet.occam.alg.builders.problem_spaces.transition.impl.UsePartialOrder;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.impl.UsePartialOrder;
 
 public class CategorizationTransitionBuilderFactory {
 	

@@ -6,7 +6,7 @@ import com.tregouet.occam.data.representations.ICompleteRepresentation;
 
 public interface ICategorizationProblemSpace {
 	
-	DirectedAcyclicGraph<ICategorizationState, ACategorizationStateTransition> asGraph();
+	DirectedAcyclicGraph<ICategorizationState, ACategorizationTransition> asGraph();
 	
 	ICategorizationState getCategorizationStateWithID(int iD);
 	

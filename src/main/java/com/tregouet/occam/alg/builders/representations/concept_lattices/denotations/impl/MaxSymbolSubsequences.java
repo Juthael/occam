@@ -31,7 +31,7 @@ public class MaxSymbolSubsequences implements IDenotationBuilder {
 	public Set<IConstruct> apply(Collection<IContextObject> extentCollection){
 		init();
 		List<IContextObject> extent;
-		if (extentCollection instanceof List<IContextObject>)
+		if (extentCollection instanceof List<?>)
 			extent = (List<IContextObject>) extentCollection;
 		else extent = new ArrayList<IContextObject>(extentCollection);
 		arrayDimensions = new int[extent.size()];

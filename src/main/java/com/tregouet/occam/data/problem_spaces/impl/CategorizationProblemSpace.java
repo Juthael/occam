@@ -3,7 +3,7 @@ package com.tregouet.occam.data.problem_spaces.impl;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
-import com.tregouet.occam.data.problem_spaces.ACategorizationStateTransition;
+import com.tregouet.occam.data.problem_spaces.ACategorizationTransition;
 import com.tregouet.occam.data.problem_spaces.ICategorizationGoalState;
 import com.tregouet.occam.data.problem_spaces.ICategorizationProblemSpace;
 import com.tregouet.occam.data.problem_spaces.ICategorizationState;
@@ -12,18 +12,18 @@ import com.tregouet.occam.data.representations.IPartialRepresentation;
 
 public class CategorizationProblemSpace implements ICategorizationProblemSpace {
 
-	private final DirectedAcyclicGraph<ICategorizationState, ACategorizationStateTransition> problemGraph;
+	private final DirectedAcyclicGraph<ICategorizationState, ACategorizationTransition> problemGraph;
 	private final PartialRepresentationLateSetter partialRepresentationLateSetter;
 	
 	public CategorizationProblemSpace( 
-			DirectedAcyclicGraph<ICategorizationState, ACategorizationStateTransition> problemGraph,
+			DirectedAcyclicGraph<ICategorizationState, ACategorizationTransition> problemGraph,
 			PartialRepresentationLateSetter partialRepresentationLateSetter) {
 		this.problemGraph = problemGraph;
 		this.partialRepresentationLateSetter = partialRepresentationLateSetter;
 	}
 	
 	@Override
-	public DirectedAcyclicGraph<ICategorizationState, ACategorizationStateTransition> asGraph() {
+	public DirectedAcyclicGraph<ICategorizationState, ACategorizationTransition> asGraph() {
 		return problemGraph;
 	}
 

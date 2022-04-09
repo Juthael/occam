@@ -17,7 +17,7 @@ public class PartialRepresentation extends Representation implements IPartialRep
 
 	Set<ICompleteRepresentation> representationCompletions;
 	
-	PartialRepresentation(Set<IPartition> partitions, Set<ICompleteRepresentation> representationCompletions) {
+	public PartialRepresentation(Set<IPartition> partitions, Set<ICompleteRepresentation> representationCompletions) {
 		super(null, null, null, partitions);
 		this.representationCompletions = representationCompletions;
 	}

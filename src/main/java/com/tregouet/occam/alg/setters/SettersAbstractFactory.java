@@ -3,6 +3,9 @@ package com.tregouet.occam.alg.setters;
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetterFactory;
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetterStrategy;
+import com.tregouet.occam.alg.setters.weighs.categorization_transitions.CategorizationTransitionWeigher;
+import com.tregouet.occam.alg.setters.weighs.categorization_transitions.CategorizationTransitionWeigherFactory;
+import com.tregouet.occam.alg.setters.weighs.categorization_transitions.CategorizationTransitionWeigherStrategy;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigherFactory;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigherStrategy;
@@ -21,6 +24,7 @@ public class SettersAbstractFactory {
 	private DifferentiaeCoeffSetterStrategy differentiaeCoeffSetterStrategy = null;
 	private DifferentiaeWeigherStrategy differentiaeWeigherStrategy = null;
 	private PartitionWeigherStrategy partitionWeigherStrategy = null;
+	private CategorizationTransitionWeigherStrategy categorizationTransitionWeigherStrategy = null;
 	
 	private SettersAbstractFactory() {
 	}
@@ -32,6 +36,8 @@ public class SettersAbstractFactory {
 				differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.SPECIES_CARDINALITY;
 				differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.SUM_OF_PROPERTY_WEIGHTS;
 				partitionWeigherStrategy = PartitionWeigherStrategy.SUM_PARTITION_DIFFERENTIAE;
+				categorizationTransitionWeigherStrategy = 
+						CategorizationTransitionWeigherStrategy.INVERSE_OF_PARTITIONS_WEIGHT;
 				break;
 			default : 
 				break;
@@ -52,6 +58,10 @@ public class SettersAbstractFactory {
 	
 	public PartitionWeigher getPartitionWeigher() {
 		return PartitionWeigherFactory.INSTANCE.apply(partitionWeigherStrategy);
+	}
+	
+	public CategorizationTransitionWeigher getCategorizationTransitionWeigher() {
+		return CategorizationTransitionWeigherFactory.INSTANCE.apply(categorizationTransitionWeigherStrategy);
 	}
 
 }

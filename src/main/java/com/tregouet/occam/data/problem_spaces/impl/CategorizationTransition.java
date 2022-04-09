@@ -2,21 +2,22 @@ package com.tregouet.occam.data.problem_spaces.impl;
 
 import java.util.Set;
 
-import com.tregouet.occam.data.problem_spaces.ACategorizationStateTransition;
+import com.tregouet.occam.data.problem_spaces.ACategorizationTransition;
+import com.tregouet.occam.data.problem_spaces.ICategorizationState;
 import com.tregouet.occam.data.representations.partitions.IPartition;
 
-public class CategorizationTransition extends ACategorizationStateTransition {
+public class CategorizationTransition extends ACategorizationTransition {
 	
 	private static final long serialVersionUID = -8705069997158945728L;
 
-	private final Integer sourceID;
-	private final Integer targetID;
+	private final ICategorizationState source;
+	private final ICategorizationState target;
 	private final Set<IPartition> partitions;
 	private Double weight = null;
 	
-	public CategorizationTransition(Integer sourceID, Integer targetID, Set<IPartition> partitions) {
-		this.sourceID = sourceID;
-		this.targetID = targetID;
+	public CategorizationTransition(ICategorizationState sourceID, ICategorizationState targetID, Set<IPartition> partitions) {
+		this.source = sourceID;
+		this.target = targetID;
 		this.partitions = partitions;
 	}
 	
@@ -36,13 +37,13 @@ public class CategorizationTransition extends ACategorizationStateTransition {
 	}
 	
 	@Override
-	public Integer getSource() {
-		return sourceID;
+	public ICategorizationState getSource() {
+		return source;
 	}
 	
 	@Override
-	public Integer getTarget() {
-		return targetID;
+	public ICategorizationState getTarget() {
+		return target;
 	}
 
 }

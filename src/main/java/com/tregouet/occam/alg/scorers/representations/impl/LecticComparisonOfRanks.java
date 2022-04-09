@@ -4,20 +4,20 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.alg.scorers.representations.RepresentationLexicographicScorer;
-import com.tregouet.occam.data.logical_structures.scores.impl.LexicographicScore;
+import com.tregouet.occam.alg.scorers.representations.RepresentationLecticScorer;
+import com.tregouet.occam.data.logical_structures.scores.impl.LecticScore;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
 
-public class LexicographicComparisonOfRanks implements RepresentationLexicographicScorer {
+public class LecticComparisonOfRanks implements RepresentationLecticScorer {
 	
-	public static final LexicographicComparisonOfRanks INSTANCE = new LexicographicComparisonOfRanks();
+	public static final LecticComparisonOfRanks INSTANCE = new LecticComparisonOfRanks();
 	
-	private LexicographicComparisonOfRanks() {
+	private LecticComparisonOfRanks() {
 	}
 
 	@Override
-	public LexicographicScore apply(ICompleteRepresentation representation) {
+	public LecticScore apply(ICompleteRepresentation representation) {
 		int maxRank = 0;
 		Set<AbstractDifferentiae> differentiae = new HashSet<>(representation.getDescription().asGraph().edgeSet());
 		for (AbstractDifferentiae diff : differentiae) {
@@ -28,7 +28,7 @@ public class LexicographicComparisonOfRanks implements RepresentationLexicograph
 		for (AbstractDifferentiae diff : differentiae) {
 			valuesArray[diff.rank()] += diff.weight();
 		}
-		return new LexicographicScore(Arrays.asList(valuesArray));
+		return new LecticScore(Arrays.asList(valuesArray));
 	}
 
 }

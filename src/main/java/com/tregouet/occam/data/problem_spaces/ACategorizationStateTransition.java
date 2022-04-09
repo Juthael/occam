@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.problem_spaces;
 
-import java.util.List;
+import java.util.Set;
 
 import org.jgrapht.graph.DefaultEdge;
 
@@ -11,6 +11,8 @@ public abstract class ACategorizationStateTransition extends DefaultEdge impleme
 	
 	private static final long serialVersionUID = 331789410869969821L;
 
-	public abstract List<IPartition> getPartitions();
+	public abstract Set<IPartition> getPartitions();
+	
+	public abstract void setWeight(Double weight);
 
 }

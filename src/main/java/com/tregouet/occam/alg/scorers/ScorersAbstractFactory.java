@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.scorers;
 
-import com.tregouet.occam.alg.scorers.representations.RepresentationLexicographicScorer;
+import com.tregouet.occam.alg.scorers.representations.RepresentationLecticScorer;
 import com.tregouet.occam.alg.scorers.representations.RepresentationScorerFactory;
 import com.tregouet.occam.alg.scorers.representations.RepresentationScorerStrategy;
 import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
@@ -42,7 +42,7 @@ public class ScorersAbstractFactory {
 		return SimilarityScorerFactory.INSTANCE.getPairSimilarityScorer(similarityScorerStrategy);
 	}
 	
-	public RepresentationLexicographicScorer getRepresentationLexicographicScorer(){
+	public RepresentationLecticScorer getRepresentationLexicographicScorer(){
 		return RepresentationScorerFactory.INSTANCE.apply(representationScorerStrategy);
 	}
 

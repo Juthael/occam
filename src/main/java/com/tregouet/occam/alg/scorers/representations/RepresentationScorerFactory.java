@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.scorers.representations;
 
-import com.tregouet.occam.alg.scorers.representations.impl.LexicographicComparisonOfRanks;
+import com.tregouet.occam.alg.scorers.representations.impl.LecticComparisonOfRanks;
 
 public class RepresentationScorerFactory {
 	
@@ -9,10 +9,10 @@ public class RepresentationScorerFactory {
 	private RepresentationScorerFactory() {
 	}
 	
-	public RepresentationLexicographicScorer apply(RepresentationScorerStrategy strategy) {
+	public RepresentationLecticScorer apply(RepresentationScorerStrategy strategy) {
 		switch (strategy) {
 			case LEXICOGRAPHIC_COMPARISON_OF_RANKS : 
-				return LexicographicComparisonOfRanks.INSTANCE;
+				return LecticComparisonOfRanks.INSTANCE;
 			default : 
 				return null;
 		}

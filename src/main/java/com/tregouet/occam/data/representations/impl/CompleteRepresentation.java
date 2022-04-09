@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import com.tregouet.occam.data.logical_structures.scores.impl.LexicographicScore;
+import com.tregouet.occam.data.logical_structures.scores.impl.LecticScore;
 import com.tregouet.occam.data.problem_spaces.ICategorizationGoalState;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -17,7 +17,7 @@ import com.tregouet.tree_finder.data.InvertedTree;
 
 public class CompleteRepresentation extends Representation implements ICompleteRepresentation {
 	
-	private LexicographicScore score = null;
+	private LecticScore score = null;
 	
 	public CompleteRepresentation(InvertedTree<IConcept, IIsA> classification, IDescription description, 
 			IRepresentationTransitionFunction transitionFunction, Set<IPartition> partitions) {
@@ -25,12 +25,12 @@ public class CompleteRepresentation extends Representation implements ICompleteR
 	}
 
 	@Override
-	public void setScore(LexicographicScore score) {
+	public void setScore(LecticScore score) {
 		this.score = score;
 	}
 
 	@Override
-	public LexicographicScore score() {
+	public LecticScore score() {
 		return score;
 	}
 

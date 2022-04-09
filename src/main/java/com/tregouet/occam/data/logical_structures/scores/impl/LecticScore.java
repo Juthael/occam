@@ -5,16 +5,16 @@ import java.util.List;
 
 import com.tregouet.occam.data.logical_structures.scores.IScore;
 
-public class LexicographicScore implements IScore<LexicographicScore> {
+public class LecticScore implements IScore<LecticScore> {
 
 	private List<Double> values;
 	
-	public LexicographicScore(List<Double> values) {
+	public LecticScore(List<Double> values) {
 		this.values = values;
 	}
 	
 	@Override
-	public int compareTo(LexicographicScore o) {
+	public int compareTo(LecticScore o) {
 		Iterator<Double> thisIte = values.iterator();
 		Iterator<Double> otherIte = o.values.iterator();
 		return iterativelyCompareTo(thisIte, otherIte);

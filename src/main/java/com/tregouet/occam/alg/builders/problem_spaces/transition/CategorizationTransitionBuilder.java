@@ -6,9 +6,7 @@ import java.util.function.Function;
 import com.tregouet.occam.data.problem_spaces.ACategorizationStateTransition;
 import com.tregouet.occam.data.problem_spaces.ICategorizationState;
 
-public interface CategorizationStateTransitionBuilder 
+public interface CategorizationTransitionBuilder 
 	extends Function<Set<ICategorizationState>, Set<ACategorizationStateTransition>> { 
-	
-	String string;
 
 }

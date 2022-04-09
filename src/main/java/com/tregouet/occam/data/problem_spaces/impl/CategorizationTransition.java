@@ -5,7 +5,7 @@ import java.util.Set;
 import com.tregouet.occam.data.problem_spaces.ACategorizationStateTransition;
 import com.tregouet.occam.data.representations.partitions.IPartition;
 
-public class CategorizationStateTransition extends ACategorizationStateTransition {
+public class CategorizationTransition extends ACategorizationStateTransition {
 	
 	private static final long serialVersionUID = -8705069997158945728L;
 
@@ -14,7 +14,7 @@ public class CategorizationStateTransition extends ACategorizationStateTransitio
 	private final Set<IPartition> partitions;
 	private Double weight = null;
 	
-	public CategorizationStateTransition(Integer sourceID, Integer targetID, Set<IPartition> partitions) {
+	public CategorizationTransition(Integer sourceID, Integer targetID, Set<IPartition> partitions) {
 		this.sourceID = sourceID;
 		this.targetID = targetID;
 		this.partitions = partitions;

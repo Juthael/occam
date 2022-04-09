@@ -1,5 +1,8 @@
 package com.tregouet.occam.alg.builders;
 
+import com.tregouet.occam.alg.builders.problem_spaces.transition.CategorizationTransitionBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.transition.CategorizationTransitionBuilderFactory;
+import com.tregouet.occam.alg.builders.problem_spaces.transition.CategorizationTransitionBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderStrategy;
@@ -70,6 +73,7 @@ public class GeneratorsAbstractFactory {
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private RepresentationSortedSetBuilderStrategy representationSortedSetBuilderStrategy = null;
 	private Integer representationSortedSetMaxSize = null;
+	private CategorizationTransitionBuilderStrategy categorizationTransitionBuilderStrategy = null;
 	
 	private GeneratorsAbstractFactory() {
 	}
@@ -95,6 +99,7 @@ public class GeneratorsAbstractFactory {
 				representationSortedSetBuilderStrategy = 
 						RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
 				representationSortedSetMaxSize = 50;
+				categorizationTransitionBuilderStrategy = CategorizationTransitionBuilderStrategy.USE_PARTIAL_ORDER;
 				break;
 			default : 
 				break;
@@ -165,6 +170,10 @@ public class GeneratorsAbstractFactory {
 		return RepresentationSortedSetBuilderFactory.INSTANCE
 				.apply(representationSortedSetBuilderStrategy)
 				.setMaxSize(representationSortedSetMaxSize);
+	}
+	
+	public CategorizationTransitionBuilder getCategorizationTransitionBuilder() {
+		return CategorizationTransitionBuilderFactory.INSTANCE.apply(categorizationTransitionBuilderStrategy);
 	}
 
 }

@@ -31,7 +31,7 @@ public class SettersAbstractFactory {
 	
 	public void setUpStrategy(SettingStrategy overallStrategy) {
 		switch(overallStrategy) {
-			case SCORING_STRATEGY_1 : 
+			case SETTING_STRATEGY_1 : 
 				propertyWeigherStrategy = PropertyWeigherStrategy.NB_OF_BOUND_VAR;
 				differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.SPECIES_CARDINALITY;
 				differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.SUM_OF_PROPERTY_WEIGHTS;

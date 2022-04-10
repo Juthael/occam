@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.setters.weighs.properties;
 
-import com.tregouet.occam.alg.setters.weighs.properties.impl.InstantiatedVarCounter;
+import com.tregouet.occam.alg.setters.weighs.properties.impl.BoundVarCounter;
 
 public class PropertyWeigherFactory {
 	
@@ -11,8 +11,8 @@ public class PropertyWeigherFactory {
 	
 	public PropertyWeigher apply(PropertyWeigherStrategy strategy) {
 		switch(strategy) {
-			case NB_OF_INSTANTIATED_VAR : 
-				return InstantiatedVarCounter.INSTANCE;
+			case NB_OF_BOUND_VAR : 
+				return BoundVarCounter.INSTANCE;
 			default : 
 				return null;
 		}

@@ -1,5 +1,8 @@
 package com.tregouet.occam.alg.builders;
 
+import com.tregouet.occam.alg.builders.problem_spaces.CategorizationProblemSpaceBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.CategorizationProblemSpaceBuilderFactory;
+import com.tregouet.occam.alg.builders.problem_spaces.CategorizationProblemSpaceBuilderStrategy;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterStrategy;
@@ -78,6 +81,7 @@ public class GeneratorsAbstractFactory {
 	private Integer representationSortedSetMaxSize = null;
 	private PartialRepresentationLateSetterStrategy partialRepresentationLateSetterStrategy = null;
 	private CategorizationTransitionBuilderStrategy categorizationTransitionBuilderStrategy = null;
+	private CategorizationProblemSpaceBuilderStrategy categorizationProblemSpaceBuilderStrategy = null;
 	
 	private GeneratorsAbstractFactory() {
 	}
@@ -105,6 +109,8 @@ public class GeneratorsAbstractFactory {
 				representationSortedSetMaxSize = 50;
 				partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
 				categorizationTransitionBuilderStrategy = CategorizationTransitionBuilderStrategy.USE_PARTIAL_ORDER;
+				categorizationProblemSpaceBuilderStrategy = 
+						CategorizationProblemSpaceBuilderStrategy.GALOIS_LATTICE_OF_REPRESENTATIONS;
 				break;
 			default : 
 				break;
@@ -183,6 +189,10 @@ public class GeneratorsAbstractFactory {
 	
 	public PartialRepresentationLateSetter getPartialRepresentationLateSetter() {
 		return PartialRepresentationLateSetterFactory.INSTANCE.apply(partialRepresentationLateSetterStrategy);
+	}
+	
+	public CategorizationProblemSpaceBuilder getCategorizationProblemSpaceBuilder() {
+		return CategorizationProblemSpaceBuilderFactory.INSTANCE.apply(categorizationProblemSpaceBuilderStrategy);
 	}
 
 }

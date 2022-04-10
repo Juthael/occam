@@ -8,11 +8,11 @@ import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.representations.properties.IProperty;
 import com.tregouet.occam.data.representations.properties.transitions.IApplication;
 
-public class InstantiatedVarCounter implements PropertyWeigher {
+public class BoundVarCounter implements PropertyWeigher {
 
-	public static final InstantiatedVarCounter INSTANCE = new InstantiatedVarCounter();
+	public static final BoundVarCounter INSTANCE = new BoundVarCounter();
 	
-	private InstantiatedVarCounter() {
+	private BoundVarCounter() {
 	}
 	
 	@Override

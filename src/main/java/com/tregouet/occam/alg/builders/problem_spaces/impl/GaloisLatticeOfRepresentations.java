@@ -16,24 +16,31 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.next_closure.IClosedSetsFinder;
 import com.tregouet.next_closure.impl.NextClosure;
 import com.tregouet.occam.alg.builders.problem_spaces.CategorizationProblemSpaceBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
 import com.tregouet.occam.alg.builders.problem_spaces.transitions.CategorizationTransitionBuilder;
+import com.tregouet.occam.alg.setters.weighs.categorization_transitions.CategorizationTransitionWeigher;
 import com.tregouet.occam.data.problem_spaces.ACategorizationTransition;
 import com.tregouet.occam.data.problem_spaces.ICategorizationProblemSpace;
 import com.tregouet.occam.data.problem_spaces.ICategorizationState;
+import com.tregouet.occam.data.problem_spaces.impl.CategorizationProblemSpace;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.impl.PartialRepresentation;
 import com.tregouet.occam.data.representations.partitions.IPartition;
 
-public class BuildLatticeOfRepresentations implements CategorizationProblemSpaceBuilder {
+public class GaloisLatticeOfRepresentations implements CategorizationProblemSpaceBuilder {
+	
+	public static final CategorizationProblemSpaceBuilder INSTANCE = new GaloisLatticeOfRepresentations();
+	
+	private GaloisLatticeOfRepresentations() {
+	}
 
 	@Override
 	public ICategorizationProblemSpace apply(ICompleteRepresentations completeRepresentations) {
-		ICategorizationProblemSpace problemSpace;
 		Map<Integer, Set<IPartition>> completeRepIdx2Partitions = 
 				setCompleteRepIdx2PartitionMap(completeRepresentations);
-		IClosedSetsFinder<Integer, IPartition> finder = new NextClosure<>(); 
-		LinkedHashMap<Set<Integer>, Set<IPartition>> lecticallyOrderedClosedSets = finder.apply(completeRepIdx2Partitions);
+		IClosedSetsFinder<Integer, IPartition> closedSetsFinder = new NextClosure<>(); 
+		LinkedHashMap<Set<Integer>, Set<IPartition>> lecticallyOrderedClosedSets = closedSetsFinder.apply(completeRepIdx2Partitions);
 		List<ICategorizationState> topoOrderedStates = 
 				buildCategorisationStates(completeRepresentations, lecticallyOrderedClosedSets);
 		CategorizationTransitionBuilder transBldr = CategorizationProblemSpaceBuilder.getCategorizationTransitionBuilder();
@@ -43,7 +50,11 @@ public class BuildLatticeOfRepresentations implements CategorizationProblemSpace
 		for (ACategorizationTransition transition : transitions)
 			problemGraph.addEdge(transition.getSource(), transition.getTarget(), transition);
 		TransitiveReduction.INSTANCE.reduce(problemGraph);
-		//Mettre des poids aux transitions;
+		CategorizationTransitionWeigher weigher = CategorizationProblemSpaceBuilder.getCategorizationTransitionWeigher().setContext(problemGraph);
+		for (ACategorizationTransition transition : problemGraph.edgeSet())
+			weigher.accept(transition);
+		PartialRepresentationLateSetter partialRepLateSetter = CategorizationProblemSpaceBuilder.getPartialRepresentationLateSetter();
+		return new CategorizationProblemSpace(problemGraph, partialRepLateSetter);
 	}
 	
 	private static Map<Integer, Set<IPartition>> setCompleteRepIdx2PartitionMap(

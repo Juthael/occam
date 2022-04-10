@@ -9,7 +9,7 @@ import com.tregouet.occam.alg.builders.problem_spaces.transitions.Categorization
 import com.tregouet.occam.data.problem_spaces.ACategorizationTransition;
 import com.tregouet.occam.data.problem_spaces.ICategorizationState;
 import com.tregouet.occam.data.problem_spaces.impl.CategorizationTransition;
-import com.tregouet.occam.data.representations.partitions.IPartition;
+import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 
 public class UsePartialOrder implements CategorizationTransitionBuilder {
 

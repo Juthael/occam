@@ -23,10 +23,10 @@ import com.tregouet.occam.data.problem_spaces.ACategorizationTransition;
 import com.tregouet.occam.data.problem_spaces.ICategorizationProblemSpace;
 import com.tregouet.occam.data.problem_spaces.ICategorizationState;
 import com.tregouet.occam.data.problem_spaces.impl.CategorizationProblemSpace;
+import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.impl.PartialRepresentation;
-import com.tregouet.occam.data.representations.partitions.IPartition;
 
 public class GaloisLatticeOfRepresentations implements CategorizationProblemSpaceBuilder {
 	

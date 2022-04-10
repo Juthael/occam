@@ -7,7 +7,7 @@ import java.util.TreeSet;
 import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.data.representations.descriptions.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.representations.descriptions.metrics.impl.SimilarityMetrics;
-import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class DeferredMatricesInstantiation implements SimilarityMetricsBuilder {

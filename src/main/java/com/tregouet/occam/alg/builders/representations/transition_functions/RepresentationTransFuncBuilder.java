@@ -5,10 +5,10 @@ import java.util.function.BiFunction;
 
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.TransitionSalienceSetter;
-import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 @FunctionalInterface

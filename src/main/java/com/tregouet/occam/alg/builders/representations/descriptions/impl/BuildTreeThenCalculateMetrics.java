@@ -13,8 +13,8 @@ import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.descriptions.impl.Description;
 import com.tregouet.occam.data.representations.descriptions.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
-import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.Tree;
 
 public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {

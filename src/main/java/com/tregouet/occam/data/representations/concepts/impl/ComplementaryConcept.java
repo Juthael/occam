@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.data.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.representations.concepts.IConcept;

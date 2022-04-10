@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.descriptions.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class Description implements IDescription {

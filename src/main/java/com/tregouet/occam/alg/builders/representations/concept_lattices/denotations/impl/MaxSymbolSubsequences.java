@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.IDenotationBuilder;
-import com.tregouet.occam.data.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.subseq_finder.ISymbolSeq;
 import com.tregouet.subseq_finder.impl.SubseqFinder;

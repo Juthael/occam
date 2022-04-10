@@ -3,8 +3,8 @@ package com.tregouet.occam.data.representations.descriptions.metrics.impl;
 import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
 import com.tregouet.occam.alg.scorers.similarity.PairSimilarityScorer;
 import com.tregouet.occam.data.representations.descriptions.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.representations.descriptions.subsets.IConceptPairIDs;
-import com.tregouet.occam.data.representations.descriptions.subsets.impl.ConceptPairIDs;
+import com.tregouet.occam.data.representations.descriptions.metrics.subsets.IConceptPairIDs;
+import com.tregouet.occam.data.representations.descriptions.metrics.subsets.impl.ConceptPairIDs;
 
 public class SimilarityMetrics implements ISimilarityMetrics {
 

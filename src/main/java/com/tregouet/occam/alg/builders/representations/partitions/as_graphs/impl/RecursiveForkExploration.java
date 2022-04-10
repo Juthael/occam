@@ -7,7 +7,7 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilder;
-import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class RecursiveForkExploration implements PartitionGraphBuilder {

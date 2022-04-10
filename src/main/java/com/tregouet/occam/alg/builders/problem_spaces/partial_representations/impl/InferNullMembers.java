@@ -17,9 +17,9 @@ import com.tregouet.occam.data.representations.IPartialRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
-import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
-import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.representations.properties.transitions.impl.RepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.transitions.IConceptTransition;
+import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.transitions.impl.RepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class InferNullMembers implements PartialRepresentationLateSetter {

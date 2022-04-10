@@ -6,7 +6,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 @FunctionalInterface

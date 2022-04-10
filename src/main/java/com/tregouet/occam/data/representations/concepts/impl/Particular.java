@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.subseq_finder.ISymbolSeq;
 import com.tregouet.subseq_finder.impl.SymbolSeq;

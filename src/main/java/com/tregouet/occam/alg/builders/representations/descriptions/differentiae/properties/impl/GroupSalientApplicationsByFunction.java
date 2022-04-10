@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilder;
-import com.tregouet.occam.data.representations.concepts.IDenotation;
-import com.tregouet.occam.data.representations.properties.IProperty;
-import com.tregouet.occam.data.representations.properties.impl.Property;
-import com.tregouet.occam.data.representations.properties.transitions.IApplication;
-import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.representations.properties.transitions.Salience;
+import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.representations.descriptions.properties.IProperty;
+import com.tregouet.occam.data.representations.descriptions.properties.impl.Property;
+import com.tregouet.occam.data.representations.transitions.IApplication;
+import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.transitions.Salience;
 
 public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 

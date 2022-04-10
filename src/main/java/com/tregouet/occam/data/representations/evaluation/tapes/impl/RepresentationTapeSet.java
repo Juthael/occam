@@ -2,11 +2,11 @@ package com.tregouet.occam.data.representations.evaluation.tapes.impl;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
-import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.representations.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.representations.evaluation.tapes.IRepresentationTapeSet;
 import com.tregouet.occam.data.representations.evaluation.tapes.IVarBinder;
+import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
 public class RepresentationTapeSet implements IRepresentationTapeSet {
 

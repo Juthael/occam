@@ -1,13 +1,35 @@
 package com.tregouet.occam.data.representations;
 
+import java.util.Map;
 import java.util.Set;
 
+import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_spaces.ICategorizationState;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
+import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.evaluation.facts.IFact;
+import com.tregouet.occam.data.representations.transitions.IConceptTransition;
+import com.tregouet.occam.data.representations.transitions.IConceptTransitionIC;
+import com.tregouet.occam.data.representations.transitions.IConceptTransitionOIC;
+import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public interface IRepresentation extends ICategorizationState {
+public interface IRepresentation 
+	extends
+		IPushdownAutomaton<
+			IConcept, 
+			IContextualizedProduction, 
+			IFact,
+			AVariable, 
+			IConceptTransitionIC, 
+			IConceptTransitionOIC, 
+			IConceptTransition,
+			IRepresentationTransitionFunction
+			>,
+		ICategorizationState {
 	
 	InvertedTree<IConcept, IIsA> getTreeOfConcepts();
 	
@@ -18,5 +40,9 @@ public interface IRepresentation extends ICategorizationState {
 	boolean equals(Object o);
 	
 	Set<ICompleteRepresentation> getRepresentationCompletions();
+	
+	IDescription getDescription();
+	
+	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
 
 }

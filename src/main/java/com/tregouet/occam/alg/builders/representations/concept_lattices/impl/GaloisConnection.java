@@ -16,8 +16,8 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.utils.MarkRedundantDenotations;
-import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
-import com.tregouet.occam.data.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;

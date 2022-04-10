@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.data.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.automata.states.IState;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
 public interface IConcept extends IDichotomizable<IConcept>, IState {

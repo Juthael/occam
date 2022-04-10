@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
-import com.tregouet.occam.data.languages.words.fact.IFact;
-import com.tregouet.occam.data.languages.words.fact.impl.Fact;
-import com.tregouet.occam.data.languages.words.lambda.ILambdaExpression;
+import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
+import com.tregouet.occam.data.representations.evaluation.facts.IFact;
+import com.tregouet.occam.data.representations.evaluation.facts.impl.Fact;
 import com.tregouet.occam.data.representations.evaluation.tapes.IFactTape;
+import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
 public class FactTape implements IFactTape {
 

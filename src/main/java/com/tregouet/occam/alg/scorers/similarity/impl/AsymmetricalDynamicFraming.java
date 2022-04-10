@@ -5,9 +5,9 @@ import java.util.Iterator;
 import org.jgrapht.Graphs;
 
 import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
-import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
+import com.tregouet.occam.data.logical_structures.orders.total.impl.DoubleScore;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
-import com.tregouet.occam.data.representations.descriptions.subsets.IConceptPairIDs;
+import com.tregouet.occam.data.representations.descriptions.metrics.subsets.IConceptPairIDs;
 import com.tregouet.tree_finder.utils.Functions;
 
 public class AsymmetricalDynamicFraming extends AbstractSimilarityScorer<IConceptPairIDs> 

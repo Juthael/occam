@@ -14,7 +14,6 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
-import com.tregouet.occam.data.languages.words.fact.IStronglyContextualized;
 import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
 import com.tregouet.occam.data.logical_structures.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
 import com.tregouet.occam.data.logical_structures.automata.states.IState;
@@ -23,8 +22,9 @@ import com.tregouet.occam.data.logical_structures.automata.transition_functions.
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IReframerRule;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.ITransition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IDenotation;
 import com.tregouet.occam.data.representations.concepts.IIsA;
+import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.representations.evaluation.facts.IStronglyContextualized;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 import guru.nidi.graphviz.engine.Format;

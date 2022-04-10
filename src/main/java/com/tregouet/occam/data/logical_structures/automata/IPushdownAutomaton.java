@@ -1,12 +1,12 @@
 package com.tregouet.occam.data.logical_structures.automata;
 
-import com.tregouet.occam.data.languages.alphabets.ISymbol;
-import com.tregouet.occam.data.languages.words.IWord;
 import com.tregouet.occam.data.logical_structures.automata.states.IState;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.IPushdownAutomatonTF;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IPushdownAutomatonTransition;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.input_config.IPushdownAutomatonIC;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.output_config.IPushdownAutomatonOIC;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
+import com.tregouet.occam.data.logical_structures.languages.words.IWord;
 
 public interface IPushdownAutomaton<
 	State extends IState, 

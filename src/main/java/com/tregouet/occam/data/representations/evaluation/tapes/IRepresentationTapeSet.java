@@ -1,8 +1,8 @@
 package com.tregouet.occam.data.representations.evaluation.tapes;
 
-import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
-import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
 import com.tregouet.occam.data.logical_structures.automata.tapes.IPushdownAutomatonTapeSet;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
 public interface IRepresentationTapeSet extends
 		IPushdownAutomatonTapeSet<

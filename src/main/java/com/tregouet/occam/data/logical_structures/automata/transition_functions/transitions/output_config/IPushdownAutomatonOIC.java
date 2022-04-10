@@ -2,7 +2,7 @@ package com.tregouet.occam.data.logical_structures.automata.transition_functions
 
 import java.util.List;
 
-import com.tregouet.occam.data.languages.alphabets.ISymbol;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface IPushdownAutomatonOIC<
 	StackSymbol extends ISymbol> 

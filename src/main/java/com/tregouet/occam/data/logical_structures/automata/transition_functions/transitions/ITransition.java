@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.tregouet.occam.data.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.input_config.IInputConfiguration;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.output_config.IOutputInternConfiguration;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface ITransition<
 	InputSymbol extends ISymbol,

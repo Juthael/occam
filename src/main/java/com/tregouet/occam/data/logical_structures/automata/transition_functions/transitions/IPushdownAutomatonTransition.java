@@ -1,8 +1,8 @@
 package com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions;
 
-import com.tregouet.occam.data.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.input_config.IPushdownAutomatonIC;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.output_config.IPushdownAutomatonOIC;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface IPushdownAutomatonTransition<
 	InputSymbol extends ISymbol, 

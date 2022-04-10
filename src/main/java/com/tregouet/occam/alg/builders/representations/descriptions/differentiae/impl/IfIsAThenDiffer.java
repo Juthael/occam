@@ -7,11 +7,11 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilder;
 import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
-import com.tregouet.occam.data.representations.properties.IProperty;
-import com.tregouet.occam.data.representations.properties.impl.Differentiae;
-import com.tregouet.occam.data.representations.properties.transitions.IConceptTransition;
-import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.representations.descriptions.properties.IProperty;
+import com.tregouet.occam.data.representations.descriptions.properties.impl.Differentiae;
+import com.tregouet.occam.data.representations.transitions.IConceptTransition;
+import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import it.unimi.dsi.fastutil.ints.IntIntPair;

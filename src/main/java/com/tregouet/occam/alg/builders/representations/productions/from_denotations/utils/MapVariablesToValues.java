@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.languages.alphabets.ISymbol;
-import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface MapVariablesToValues {
 	

@@ -5,7 +5,7 @@ import java.util.Set;
 import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.alg.setters.weighs.Weighed;
-import com.tregouet.occam.data.representations.partitions.IPartition;
+import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 
 public abstract class ACategorizationTransition extends DefaultEdge implements Weighed {
 	

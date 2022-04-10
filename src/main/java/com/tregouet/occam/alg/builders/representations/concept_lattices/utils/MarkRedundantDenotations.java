@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IDenotation;
+import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 
 public interface MarkRedundantDenotations {
 	

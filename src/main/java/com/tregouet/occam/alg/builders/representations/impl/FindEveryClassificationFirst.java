@@ -5,7 +5,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
-import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
+import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -15,8 +15,8 @@ import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.impl.CompleteRepresentation;
 import com.tregouet.occam.data.representations.impl.CompleteRepresentations;
-import com.tregouet.occam.data.representations.partitions.IPartition;
-import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class FindEveryClassificationFirst implements RepresentationSortedSetBuilder {

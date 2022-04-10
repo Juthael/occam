@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.data.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.impl.Particular;
 

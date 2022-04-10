@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import com.tregouet.occam.data.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
-import com.tregouet.occam.data.representations.concepts.IDenotation;
+import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.representations.concepts.denotations.impl.Denotation;
 
 public class Concept implements IConcept {
 

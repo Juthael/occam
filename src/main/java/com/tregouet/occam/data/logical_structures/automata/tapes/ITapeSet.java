@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.logical_structures.automata.tapes;
 
-import com.tregouet.occam.data.languages.alphabets.ISymbol;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface ITapeSet<
 	InputSymbol extends ISymbol,

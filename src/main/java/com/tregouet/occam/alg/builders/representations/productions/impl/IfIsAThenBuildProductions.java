@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
-import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.concepts.IDenotation;
+import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
 public class IfIsAThenBuildProductions implements ProductionBuilder {
 

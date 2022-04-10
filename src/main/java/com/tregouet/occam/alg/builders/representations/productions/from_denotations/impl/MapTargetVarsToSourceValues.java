@@ -10,18 +10,18 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.utils.MapVariablesToValues;
-import com.tregouet.occam.data.languages.alphabets.ISymbol;
-import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
-import com.tregouet.occam.data.languages.alphabets.domain_specific.IProduction;
-import com.tregouet.occam.data.languages.alphabets.domain_specific.impl.ContextualizedEpsilonProd;
-import com.tregouet.occam.data.languages.alphabets.domain_specific.impl.ContextualizedProd;
-import com.tregouet.occam.data.languages.alphabets.domain_specific.impl.Production;
-import com.tregouet.occam.data.languages.alphabets.generic.AVariable;
-import com.tregouet.occam.data.languages.alphabets.generic.ITerminal;
-import com.tregouet.occam.data.languages.alphabets.generic.impl.Terminal;
-import com.tregouet.occam.data.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.representations.concepts.IDenotation;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Terminal;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.representations.transitions.productions.IProduction;
+import com.tregouet.occam.data.representations.transitions.productions.impl.ContextualizedEpsilonProd;
+import com.tregouet.occam.data.representations.transitions.productions.impl.ContextualizedProd;
+import com.tregouet.occam.data.representations.transitions.productions.impl.Production;
 
 public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 	

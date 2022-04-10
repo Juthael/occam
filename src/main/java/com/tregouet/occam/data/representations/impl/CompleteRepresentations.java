@@ -1,7 +1,6 @@
 package com.tregouet.occam.data.representations.impl;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
 

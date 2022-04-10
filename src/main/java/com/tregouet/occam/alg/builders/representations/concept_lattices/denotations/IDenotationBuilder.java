@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.function.Function;
 
-import com.tregouet.occam.data.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 
 @FunctionalInterface

@@ -10,7 +10,7 @@ import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
-import com.tregouet.occam.data.representations.properties.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 
 public interface DescriptionBuilder extends Function<IRepresentationTransitionFunction, IDescription> {
 	

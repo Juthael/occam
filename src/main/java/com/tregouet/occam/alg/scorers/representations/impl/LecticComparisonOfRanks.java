@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.alg.scorers.representations.RepresentationLecticScorer;
-import com.tregouet.occam.data.logical_structures.scores.impl.LecticScore;
+import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
-import com.tregouet.occam.data.representations.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 
 public class LecticComparisonOfRanks implements RepresentationLecticScorer {
 	

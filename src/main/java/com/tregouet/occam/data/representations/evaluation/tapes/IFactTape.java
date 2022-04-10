@@ -2,9 +2,9 @@ package com.tregouet.occam.data.representations.evaluation.tapes;
 
 import java.util.List;
 
-import com.tregouet.occam.data.languages.alphabets.domain_specific.IContextualizedProduction;
-import com.tregouet.occam.data.languages.words.fact.IFact;
 import com.tregouet.occam.data.logical_structures.automata.tapes.IInputTape;
+import com.tregouet.occam.data.representations.evaluation.facts.IFact;
+import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
 public interface IFactTape extends IInputTape<IContextualizedProduction>, IFact {
 	

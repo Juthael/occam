@@ -5,8 +5,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
-import com.tregouet.occam.data.problem_spaces.ICategorizationGoalState;
+import com.tregouet.occam.data.problem_spaces.IGoalState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -17,21 +16,9 @@ import com.tregouet.tree_finder.data.InvertedTree;
 
 public class CompleteRepresentation extends Representation implements ICompleteRepresentation {
 	
-	private LecticScore score = null;
-	
 	public CompleteRepresentation(InvertedTree<IConcept, IIsA> classification, IDescription description, 
 			IRepresentationTransitionFunction transitionFunction, Set<IPartition> partitions) {
 		super(classification, description, transitionFunction, partitions);
-	}
-
-	@Override
-	public void setScore(LecticScore score) {
-		this.score = score;
-	}
-
-	@Override
-	public LecticScore score() {
-		return score;
 	}
 
 	@Override
@@ -52,15 +39,7 @@ public class CompleteRepresentation extends Representation implements ICompleteR
 	}
 
 	@Override
-	public int compareTo(ICompleteRepresentation other) {
-		int scoreComparison = this.score.compareTo(other.score());
-		if (scoreComparison == 0 && !this.equals(other))
-			return System.identityHashCode(this) - System.identityHashCode(other);
-		return scoreComparison;
-	}
-
-	@Override
-	public Set<ICategorizationGoalState> getReachableGoalStates() {
+	public Set<IGoalState> getReachableGoalStates() {
 		return new HashSet<>(Arrays.asList(new CompleteRepresentation[] {this}));
 	}
 

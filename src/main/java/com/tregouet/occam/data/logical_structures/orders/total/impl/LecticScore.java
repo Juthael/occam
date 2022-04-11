@@ -7,7 +7,7 @@ import com.tregouet.occam.data.logical_structures.orders.total.IScore;
 
 public class LecticScore implements IScore<LecticScore> {
 
-	private List<Double> values;
+	protected List<Double> values;
 	
 	public LecticScore(List<Double> values) {
 		this.values = values;
@@ -17,7 +17,11 @@ public class LecticScore implements IScore<LecticScore> {
 	public int compareTo(LecticScore o) {
 		Iterator<Double> thisIte = values.iterator();
 		Iterator<Double> otherIte = o.values.iterator();
-		return iterativelyCompareTo(thisIte, otherIte);
+		int comparison = iterativelyCompareTo(thisIte, otherIte);
+		if (comparison == 0)
+			//for consistency with Object.equals(), which is not overloaded 
+			return System.identityHashCode(this) - System.identityHashCode(o);
+		return comparison;
 	}
 	
 	private int iterativelyCompareTo(Iterator<Double> thisIte, Iterator<Double> otherIte) {

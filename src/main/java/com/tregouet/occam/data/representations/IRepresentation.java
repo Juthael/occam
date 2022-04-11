@@ -3,9 +3,11 @@ package com.tregouet.occam.data.representations;
 import java.util.Map;
 import java.util.Set;
 
+import com.tregouet.occam.alg.scorers.Scored;
 import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_spaces.ICategorizationState;
+import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
+import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
@@ -29,7 +31,9 @@ public interface IRepresentation
 			IConceptTransition,
 			IRepresentationTransitionFunction
 			>,
-		ICategorizationState {
+		IProblemState, 
+		Scored<LecticScore>,
+		Comparable<IRepresentation>{
 	
 	InvertedTree<IConcept, IIsA> getTreeOfConcepts();
 	

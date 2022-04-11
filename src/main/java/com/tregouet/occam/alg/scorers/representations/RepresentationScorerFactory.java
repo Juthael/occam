@@ -9,9 +9,9 @@ public class RepresentationScorerFactory {
 	private RepresentationScorerFactory() {
 	}
 	
-	public RepresentationLecticScorer apply(RepresentationScorerStrategy strategy) {
+	public RepresentationScorer apply(RepresentationScorerStrategy strategy) {
 		switch (strategy) {
-			case LEXICOGRAPHIC_COMPARISON_OF_RANKS : 
+			case LECTIC_COMPARISON_OF_RANKS : 
 				return LecticComparisonOfRanks.INSTANCE;
 			default : 
 				return null;

@@ -6,8 +6,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import com.tregouet.occam.data.problem_spaces.ICategorizationGoalState;
-import com.tregouet.occam.data.problem_spaces.ICategorizationState;
+import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
+import com.tregouet.occam.data.problem_spaces.IGoalState;
+import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -29,6 +30,7 @@ public abstract class Representation implements IRepresentation {
 	protected IFactEvaluator factEvaluator = new FactEvaluator();
 	protected IDescription description;
 	protected final Set<IPartition> partitions;
+	protected LecticScore score = null;
 	
 	Representation(InvertedTree<IConcept, IIsA> classification, IDescription description, 
 			IRepresentationTransitionFunction transitionFunction, Set<IPartition> partitions) {
@@ -38,6 +40,24 @@ public abstract class Representation implements IRepresentation {
 		factEvaluator.set(transitionFunction);
 		iD = nextID++;
 	}
+	
+	@Override
+	public void setScore(LecticScore score) {
+		this.score = score;
+	}
+
+	@Override
+	public LecticScore score() {
+		return score;
+	}
+	
+	@Override
+	public int compareTo(IRepresentation other) {
+		int scoreComparison = this.score.compareTo(other.score());
+		if (scoreComparison == 0 && !this.equals(other))
+			return System.identityHashCode(this) - System.identityHashCode(other);
+		return scoreComparison;
+	}	
 
 	@Override
 	public Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts() {
@@ -62,7 +82,7 @@ public abstract class Representation implements IRepresentation {
 	}
 
 	@Override
-	abstract public Set<ICategorizationGoalState> getReachableGoalStates();
+	abstract public Set<IGoalState> getReachableGoalStates();
 
 	@Override
 	public int id() {
@@ -126,7 +146,7 @@ public abstract class Representation implements IRepresentation {
 	}
 
 	@Override
-	public Integer compareTo(ICategorizationState other) {
+	public Integer compareTo(IProblemState other) {
 		if (this.equals(other))
 			return 0;
 		if (this.partitions.containsAll(other.getPartitions()))

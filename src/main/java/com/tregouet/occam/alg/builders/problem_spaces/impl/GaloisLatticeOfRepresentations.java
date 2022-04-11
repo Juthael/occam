@@ -18,11 +18,12 @@ import com.tregouet.next_closure.impl.NextClosure;
 import com.tregouet.occam.alg.builders.problem_spaces.CategorizationProblemSpaceBuilder;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
 import com.tregouet.occam.alg.builders.problem_spaces.transitions.CategorizationTransitionBuilder;
+import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.CategorizationTransitionWeigher;
-import com.tregouet.occam.data.problem_spaces.ACategorizationTransition;
-import com.tregouet.occam.data.problem_spaces.ICategorizationProblemSpace;
-import com.tregouet.occam.data.problem_spaces.ICategorizationState;
-import com.tregouet.occam.data.problem_spaces.impl.CategorizationProblemSpace;
+import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
+import com.tregouet.occam.data.problem_spaces.IProblemSpace;
+import com.tregouet.occam.data.problem_spaces.IProblemState;
+import com.tregouet.occam.data.problem_spaces.impl.ProblemSpace;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
@@ -36,25 +37,30 @@ public class GaloisLatticeOfRepresentations implements CategorizationProblemSpac
 	}
 
 	@Override
-	public ICategorizationProblemSpace apply(ICompleteRepresentations completeRepresentations) {
+	public IProblemSpace apply(ICompleteRepresentations completeRepresentations) {
 		Map<Integer, Set<IPartition>> completeRepIdx2Partitions = 
 				setCompleteRepIdx2PartitionMap(completeRepresentations);
 		IClosedSetsFinder<Integer, IPartition> closedSetsFinder = new NextClosure<>(); 
 		LinkedHashMap<Set<Integer>, Set<IPartition>> lecticallyOrderedClosedSets = closedSetsFinder.apply(completeRepIdx2Partitions);
-		List<ICategorizationState> topoOrderedStates = 
+		List<IProblemState> topoOrderedStates = 
 				buildCategorisationStates(completeRepresentations, lecticallyOrderedClosedSets);
 		CategorizationTransitionBuilder transBldr = CategorizationProblemSpaceBuilder.getCategorizationTransitionBuilder();
-		Set<ACategorizationTransition> transitions = transBldr.apply(topoOrderedStates);
-		DirectedAcyclicGraph<ICategorizationState, ACategorizationTransition> problemGraph = new DirectedAcyclicGraph<>(null, null, true);
+		Set<AProblemStateTransition> transitions = transBldr.apply(topoOrderedStates);
+		DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemGraph = 
+				new DirectedAcyclicGraph<>(null, null, true);
 		Graphs.addAllVertices(problemGraph, topoOrderedStates);
-		for (ACategorizationTransition transition : transitions)
+		for (AProblemStateTransition transition : transitions)
 			problemGraph.addEdge(transition.getSource(), transition.getTarget(), transition);
 		TransitiveReduction.INSTANCE.reduce(problemGraph);
-		CategorizationTransitionWeigher weigher = CategorizationProblemSpaceBuilder.getCategorizationTransitionWeigher().setContext(problemGraph);
-		for (ACategorizationTransition transition : problemGraph.edgeSet())
+		CategorizationTransitionWeigher weigher = 
+				CategorizationProblemSpaceBuilder.getCategorizationTransitionWeigher().setContext(problemGraph);
+		for (AProblemStateTransition transition : problemGraph.edgeSet())
 			weigher.accept(transition);
+		ProblemStateScorer scorer = CategorizationProblemSpaceBuilder.getProblemStateScorer().setUp(problemGraph);
+		for (IProblemState state : problemGraph)
+			scorer.apply(state);
 		PartialRepresentationLateSetter partialRepLateSetter = CategorizationProblemSpaceBuilder.getPartialRepresentationLateSetter();
-		return new CategorizationProblemSpace(problemGraph, partialRepLateSetter);
+		return new ProblemSpace(problemGraph, partialRepLateSetter);
 	}
 	
 	private static Map<Integer, Set<IPartition>> setCompleteRepIdx2PartitionMap(
@@ -65,10 +71,10 @@ public class GaloisLatticeOfRepresentations implements CategorizationProblemSpac
 		return mapping;
 	}
 	
-	private static List<ICategorizationState> buildCategorisationStates(
+	private static List<IProblemState> buildCategorisationStates(
 			ICompleteRepresentations completeRepresentations,
 			LinkedHashMap<Set<Integer>, Set<IPartition>> closedSets) {
-		List<ICategorizationState> states = new ArrayList<>();
+		List<IProblemState> states = new ArrayList<>();
 		for (Set<Integer> completeRepIdxes : closedSets.keySet()) {
 			if (completeRepIdxes.size() == 1)
 				states.add(completeRepresentations.get(completeRepIdxes.iterator().next()));

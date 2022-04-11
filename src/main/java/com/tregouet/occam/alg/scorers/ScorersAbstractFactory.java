@@ -1,6 +1,9 @@
 package com.tregouet.occam.alg.scorers;
 
-import com.tregouet.occam.alg.scorers.representations.RepresentationLecticScorer;
+import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
+import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorerFactory;
+import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorerStrategy;
+import com.tregouet.occam.alg.scorers.representations.RepresentationScorer;
 import com.tregouet.occam.alg.scorers.representations.RepresentationScorerFactory;
 import com.tregouet.occam.alg.scorers.representations.RepresentationScorerStrategy;
 import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
@@ -15,6 +18,7 @@ public class ScorersAbstractFactory {
 	
 	private SimilarityScorerStrategy similarityScorerStrategy = null;
 	private RepresentationScorerStrategy representationScorerStrategy = null;
+	private ProblemStateScorerStrategy problemStateScorerStrategy = null;
 	
 	private ScorersAbstractFactory() {
 	}
@@ -23,7 +27,8 @@ public class ScorersAbstractFactory {
 		switch (overallStrategy) {
 			case SCORING_STRATEGY_1 : 
 				similarityScorerStrategy = SimilarityScorerStrategy.DYNAMIC_FRAMING;
-				representationScorerStrategy = RepresentationScorerStrategy.LEXICOGRAPHIC_COMPARISON_OF_RANKS;
+				representationScorerStrategy = RepresentationScorerStrategy.LECTIC_COMPARISON_OF_RANKS;
+				problemStateScorerStrategy = ProblemStateScorerStrategy.MARKHOV_PROCESS;
 				break;
 			default : 
 				break;
@@ -42,8 +47,12 @@ public class ScorersAbstractFactory {
 		return SimilarityScorerFactory.INSTANCE.getPairSimilarityScorer(similarityScorerStrategy);
 	}
 	
-	public RepresentationLecticScorer getRepresentationLexicographicScorer(){
+	public RepresentationScorer getRepresentationScorer() {
 		return RepresentationScorerFactory.INSTANCE.apply(representationScorerStrategy);
+	}
+	
+	public ProblemStateScorer getProblemStateScorer() {
+		return ProblemStateScorerFactory.INSTANCE.apply(problemStateScorerStrategy);
 	}
 
 }

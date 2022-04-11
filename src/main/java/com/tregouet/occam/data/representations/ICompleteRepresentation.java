@@ -1,13 +1,7 @@
 package com.tregouet.occam.data.representations;
 
-import com.tregouet.occam.alg.scorers.Scored;
-import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
-import com.tregouet.occam.data.problem_spaces.ICategorizationGoalState;
+import com.tregouet.occam.data.problem_spaces.IGoalState;
 
-public interface ICompleteRepresentation extends 
-	ICategorizationGoalState,
-	IRepresentation, 
-	Scored<LecticScore>, 
-	Comparable<ICompleteRepresentation>{
+public interface ICompleteRepresentation extends IGoalState, IRepresentation {
 
 }

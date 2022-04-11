@@ -1,6 +1,7 @@
 package com.tregouet.occam.alg.setters.weighs.categorization_transitions;
 
-import com.tregouet.occam.alg.setters.weighs.categorization_transitions.impl.InverseOfPartitionsWeight;
+import com.tregouet.occam.alg.setters.weighs.categorization_transitions.impl.PartitionsWeight;
+import com.tregouet.occam.alg.setters.weighs.categorization_transitions.impl.PartitionsWeightInverse;
 
 public class CategorizationTransitionWeigherFactory {
 	
@@ -12,8 +13,10 @@ public class CategorizationTransitionWeigherFactory {
 	
 	public CategorizationTransitionWeigher apply(CategorizationTransitionWeigherStrategy strategy) {
 		switch(strategy) {
-			case INVERSE_OF_PARTITIONS_WEIGHT : 
-				return InverseOfPartitionsWeight.INSTANCE;
+			case PARTITIONS_WEIGHT : 
+				return PartitionsWeight.INSTANCE;
+			case PARTITIONS_WEIGHT_INVERSE : 
+				return PartitionsWeightInverse.INSTANCE;
 			default : 
 				return null;
 		}

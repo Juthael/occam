@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
-import com.tregouet.occam.data.problem_spaces.ACategorizationTransition;
-import com.tregouet.occam.data.problem_spaces.ICategorizationState;
+import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
+import com.tregouet.occam.data.problem_spaces.IProblemState;
 
 /**
  * Input list must be topologically ordered
@@ -13,6 +13,6 @@ import com.tregouet.occam.data.problem_spaces.ICategorizationState;
  *
  */
 public interface CategorizationTransitionBuilder 
-	extends Function<List<ICategorizationState>, Set<ACategorizationTransition>> { 
+	extends Function<List<IProblemState>, Set<AProblemStateTransition>> { 
 
 }

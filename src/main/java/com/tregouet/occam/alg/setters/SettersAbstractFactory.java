@@ -37,7 +37,7 @@ public class SettersAbstractFactory {
 				differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.SUM_OF_PROPERTY_WEIGHTS;
 				partitionWeigherStrategy = PartitionWeigherStrategy.SUM_PARTITION_DIFFERENTIAE;
 				categorizationTransitionWeigherStrategy = 
-						CategorizationTransitionWeigherStrategy.INVERSE_OF_PARTITIONS_WEIGHT;
+						CategorizationTransitionWeigherStrategy.PARTITIONS_WEIGHT;
 				break;
 			default : 
 				break;

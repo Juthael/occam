@@ -7,7 +7,7 @@ import org.jgrapht.graph.DefaultEdge;
 import com.tregouet.occam.alg.setters.weighs.Weighed;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 
-public abstract class ACategorizationTransition extends DefaultEdge implements Weighed {
+public abstract class AProblemStateTransition extends DefaultEdge implements Weighed {
 	
 	private static final long serialVersionUID = 331789410869969821L;
 
@@ -16,9 +16,9 @@ public abstract class ACategorizationTransition extends DefaultEdge implements W
 	public abstract void setWeight(Double weight);
 	
 	@Override
-	public abstract ICategorizationState getSource();
+	public abstract IProblemState getSource();
 	
 	@Override
-	public abstract ICategorizationState getTarget();
+	public abstract IProblemState getTarget();
 
 }

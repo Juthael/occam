@@ -44,7 +44,7 @@ public class FindEveryClassificationFirst implements RepresentationSortedSetBuil
 					RepresentationSortedSetBuilder.getDescriptionBuilder().apply(transFunc);
 			Set<IPartition> partitions = RepresentationSortedSetBuilder.getPartitionBuilder().apply(classification, description);
 			ICompleteRepresentation representation = new CompleteRepresentation(classification, description, transFunc, partitions);
-			representation.setScore(RepresentationSortedSetBuilder.getRepresentationScorer().apply(representation));
+			representation.setScore(RepresentationSortedSetBuilder.getRepresentationHeuristicScorer().apply(representation));
 			addAndTrimIfRequired(representation, representations);
 		}
 		return new CompleteRepresentations(conceptLattice, representations);

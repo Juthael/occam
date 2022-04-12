@@ -15,6 +15,11 @@ import com.tregouet.occam.data.problem_spaces.IProblemSpace;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 
 public class RebuildFromScratch implements ProblemSpaceModifier {
+	
+	public static final RebuildFromScratch INSTANCE = new RebuildFromScratch();
+	
+	private RebuildFromScratch() {
+	}
 
 	@Override
 	public IProblemSpace remove(IProblemSpace pbSpace, int stateID) {

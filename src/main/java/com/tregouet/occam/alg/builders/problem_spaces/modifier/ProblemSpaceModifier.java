@@ -18,7 +18,7 @@ public interface ProblemSpaceModifier {
 	IProblemSpace restrictTo(IProblemSpace pbSpace, Set<Integer> stateIDs);
 	
 	public static TransitionBuilder getCategorizationTransitionBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getCategorizationTransitionBuilder();
+		return GeneratorsAbstractFactory.INSTANCE.getProblemTransitionBuilder();
 	}
 	
 	public static PartialRepresentationLateSetter getPartialRepresentationLateSetter() {

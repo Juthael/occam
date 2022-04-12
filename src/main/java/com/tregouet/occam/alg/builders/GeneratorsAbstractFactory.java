@@ -3,6 +3,9 @@ package com.tregouet.occam.alg.builders;
 import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilder;
 import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilderFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilderStrategy;
+import com.tregouet.occam.alg.builders.problem_spaces.modifier.ProblemSpaceModifier;
+import com.tregouet.occam.alg.builders.problem_spaces.modifier.ProblemSpaceModifierFactory;
+import com.tregouet.occam.alg.builders.problem_spaces.modifier.ProblemSpaceModifierStrategy;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterStrategy;
@@ -82,6 +85,7 @@ public class GeneratorsAbstractFactory {
 	private PartialRepresentationLateSetterStrategy partialRepresentationLateSetterStrategy = null;
 	private TransitionBuilderStrategy transitionBuilderStrategy = null;
 	private ProblemSpaceBuilderStrategy problemSpaceBuilderStrategy = null;
+	private ProblemSpaceModifierStrategy problemSpaceModifierStrategy = null;
 	
 	private GeneratorsAbstractFactory() {
 	}
@@ -111,6 +115,7 @@ public class GeneratorsAbstractFactory {
 				transitionBuilderStrategy = TransitionBuilderStrategy.USE_PARTIAL_ORDER;
 				problemSpaceBuilderStrategy = 
 						ProblemSpaceBuilderStrategy.GALOIS_LATTICE_OF_REPRESENTATIONS;
+				problemSpaceModifierStrategy = ProblemSpaceModifierStrategy.REBUILD_FROM_SCRATCH;
 				break;
 			default : 
 				break;
@@ -183,7 +188,7 @@ public class GeneratorsAbstractFactory {
 				.setMaxSize(representationSortedSetMaxSize);
 	}
 	
-	public TransitionBuilder getCategorizationTransitionBuilder() {
+	public TransitionBuilder getProblemTransitionBuilder() {
 		return TransitionBuilderFactory.INSTANCE.apply(transitionBuilderStrategy);
 	}
 	
@@ -191,8 +196,12 @@ public class GeneratorsAbstractFactory {
 		return PartialRepresentationLateSetterFactory.INSTANCE.apply(partialRepresentationLateSetterStrategy);
 	}
 	
-	public ProblemSpaceBuilder getCategorizationProblemSpaceBuilder() {
+	public ProblemSpaceBuilder getProblemSpaceBuilder() {
 		return ProblemSpaceBuilderFactory.INSTANCE.apply(problemSpaceBuilderStrategy);
+	}
+	
+	public ProblemSpaceModifier getProblemSpaceModifier() {
+		return ProblemSpaceModifierFactory.INSTANCE.apply(problemSpaceModifierStrategy);
 	}
 
 }

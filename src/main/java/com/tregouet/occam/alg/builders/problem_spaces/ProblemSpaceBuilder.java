@@ -29,7 +29,7 @@ public interface ProblemSpaceBuilder
 	}
 	
 	public static TransitionBuilder getCategorizationTransitionBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getCategorizationTransitionBuilder();
+		return GeneratorsAbstractFactory.INSTANCE.getProblemTransitionBuilder();
 	}
 	
 	public static CategorizationTransitionWeigher getCategorizationTransitionWeigher() {

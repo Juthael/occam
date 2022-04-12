@@ -2,6 +2,7 @@ package com.tregouet.occam.alg.builders.representations.transition_functions;
 
 public enum RepresentationTransFuncBuilderStrategy {
 	
-	ABSTRACT_FACTS_ACCEPTED
-
+	EVERY_TRANSITION, 
+	REMOVE_NON_SALIENT_APP, 
+	RETAIN_SALIENT_APP
 }

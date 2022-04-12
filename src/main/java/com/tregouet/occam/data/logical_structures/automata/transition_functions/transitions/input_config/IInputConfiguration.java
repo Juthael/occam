@@ -4,7 +4,7 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface IInputConfiguration<InputSymbol extends ISymbol> {
 	
-	int getRequiredInputStateID();
+	int getInputStateID();
 	
 	InputSymbol getInputSymbol();
 	

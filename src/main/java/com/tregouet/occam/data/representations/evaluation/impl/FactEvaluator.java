@@ -63,8 +63,8 @@ public class FactEvaluator implements IFactEvaluator {
 		AVariable poppedStackSymbol = tapeSet.popOff();
 		for (IConceptTransition transition : transitionFunction.getTransitions()) {
 			IConceptTransitionIC requiredInputConfig = transition.getInputConfiguration();
-			if (requiredInputConfig.getRequiredInputStateID() == activeStateID
-					&& requiredInputConfig.getRequiredStackSymbol().equals(poppedStackSymbol)) {
+			if (requiredInputConfig.getInputStateID() == activeStateID
+					&& requiredInputConfig.getStackSymbol().equals(poppedStackSymbol)) {
 				IFactEvaluator nextHead = 
 						proceedPrintingTransition(
 								requiredInputConfig.getInputSymbol(), 

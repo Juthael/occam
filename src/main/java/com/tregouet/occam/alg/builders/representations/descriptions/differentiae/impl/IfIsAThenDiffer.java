@@ -46,7 +46,7 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 	private void populateMap(IRepresentationTransitionFunction transFunc) {
 		Set<IntIntPair> sourceToTargetIDs = new HashSet<>();
 		for (IConceptTransition transition : transFunc.getTransitions()) {
-			int inputStateID = transition.getInputConfiguration().getRequiredInputStateID();
+			int inputStateID = transition.getInputConfiguration().getInputStateID();
 			if (inputStateID != IConcept.WHAT_IS_THERE_ID) {
 				sourceToTargetIDs.add(new IntIntImmutablePair(
 						inputStateID, 

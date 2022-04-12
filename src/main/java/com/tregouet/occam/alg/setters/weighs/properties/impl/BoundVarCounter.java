@@ -20,7 +20,7 @@ public class BoundVarCounter implements PropertyWeigher {
 		Set<AVariable> varInstantiatedByNonRedundantApp = new HashSet<>();
 		for (IApplication app : property.getApplications()) {
 			if (!app.isRedundant()) {
-				varInstantiatedByNonRedundantApp.add(app.getInputConfiguration().getRequiredStackSymbol());
+				varInstantiatedByNonRedundantApp.add(app.getInputConfiguration().getStackSymbol());
 			}
 		}
 		property.setWeight((double) varInstantiatedByNonRedundantApp.size());

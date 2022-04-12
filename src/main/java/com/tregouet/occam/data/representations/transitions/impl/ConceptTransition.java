@@ -74,7 +74,7 @@ public abstract class ConceptTransition implements IConceptTransition {
 		sB.append("(")
 			.append(inputConfig.toString())
 			.append(", ")
-			.append(inputConfig.getRequiredStackSymbol().toString())
+			.append(inputConfig.getStackSymbol().toString())
 			.append(" -> ")
 			.append(outputInternConfig.getPushedStackSymbols().toString())
 			.append(")");

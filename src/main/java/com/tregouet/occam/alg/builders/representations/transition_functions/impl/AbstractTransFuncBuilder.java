@@ -38,13 +38,13 @@ import com.tregouet.tree_finder.data.InvertedTree;
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import it.unimi.dsi.fastutil.ints.IntIntPair;
 
-public class AbstractFactsAccepted implements RepresentationTransFuncBuilder {
+public abstract class AbstractTransFuncBuilder implements RepresentationTransFuncBuilder {
 
 	
 	private InvertedTree<IConcept, IIsA> treeOfConcepts = null;
 	private Set<IContextualizedProduction> unfilteredUnreducedProds = null;
 	
-	public AbstractFactsAccepted() {
+	public AbstractTransFuncBuilder() {
 	}
 	
 	@Override
@@ -190,5 +190,7 @@ public class AbstractFactsAccepted implements RepresentationTransFuncBuilder {
 		Everything everything = (Everything) treeOfConcepts.getRoot();
 		return new InitialTransition(everything);
 	}	
+	
+	abstract protected Set<IConceptTransition> filter(Set<IConceptTransition> transitions);
 
 }

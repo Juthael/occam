@@ -16,5 +16,11 @@ public interface IProblemState extends PartiallyComparable<IProblemState>, Score
 	int id();
 	
 	void initializeIDGenerator();
+	
+	@Override
+	int hashCode();
+	
+	@Override
+	boolean equals(Object o);
 
 }

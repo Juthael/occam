@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.builders.problem_spaces.transitions.CategorizationTransitionBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.TransitionBuilder;
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.impl.ProblemStateTransition;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 
-public class UsePartialOrder implements CategorizationTransitionBuilder {
+public class UsePartialOrder implements TransitionBuilder {
 
 	public static final UsePartialOrder INSTANCE = new UsePartialOrder();
 	

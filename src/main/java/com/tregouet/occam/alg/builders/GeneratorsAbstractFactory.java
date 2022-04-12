@@ -1,14 +1,14 @@
 package com.tregouet.occam.alg.builders;
 
-import com.tregouet.occam.alg.builders.problem_spaces.CategorizationProblemSpaceBuilder;
-import com.tregouet.occam.alg.builders.problem_spaces.CategorizationProblemSpaceBuilderFactory;
-import com.tregouet.occam.alg.builders.problem_spaces.CategorizationProblemSpaceBuilderStrategy;
+import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilderFactory;
+import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilderStrategy;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterStrategy;
-import com.tregouet.occam.alg.builders.problem_spaces.transitions.CategorizationTransitionBuilder;
-import com.tregouet.occam.alg.builders.problem_spaces.transitions.CategorizationTransitionBuilderFactory;
-import com.tregouet.occam.alg.builders.problem_spaces.transitions.CategorizationTransitionBuilderStrategy;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.TransitionBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.TransitionBuilderFactory;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.TransitionBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderStrategy;
@@ -80,8 +80,8 @@ public class GeneratorsAbstractFactory {
 	private RepresentationSortedSetBuilderStrategy representationSortedSetBuilderStrategy = null;
 	private Integer representationSortedSetMaxSize = null;
 	private PartialRepresentationLateSetterStrategy partialRepresentationLateSetterStrategy = null;
-	private CategorizationTransitionBuilderStrategy categorizationTransitionBuilderStrategy = null;
-	private CategorizationProblemSpaceBuilderStrategy categorizationProblemSpaceBuilderStrategy = null;
+	private TransitionBuilderStrategy transitionBuilderStrategy = null;
+	private ProblemSpaceBuilderStrategy problemSpaceBuilderStrategy = null;
 	
 	private GeneratorsAbstractFactory() {
 	}
@@ -108,9 +108,9 @@ public class GeneratorsAbstractFactory {
 						RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
 				representationSortedSetMaxSize = 50;
 				partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
-				categorizationTransitionBuilderStrategy = CategorizationTransitionBuilderStrategy.USE_PARTIAL_ORDER;
-				categorizationProblemSpaceBuilderStrategy = 
-						CategorizationProblemSpaceBuilderStrategy.GALOIS_LATTICE_OF_REPRESENTATIONS;
+				transitionBuilderStrategy = TransitionBuilderStrategy.USE_PARTIAL_ORDER;
+				problemSpaceBuilderStrategy = 
+						ProblemSpaceBuilderStrategy.GALOIS_LATTICE_OF_REPRESENTATIONS;
 				break;
 			default : 
 				break;
@@ -183,16 +183,16 @@ public class GeneratorsAbstractFactory {
 				.setMaxSize(representationSortedSetMaxSize);
 	}
 	
-	public CategorizationTransitionBuilder getCategorizationTransitionBuilder() {
-		return CategorizationTransitionBuilderFactory.INSTANCE.apply(categorizationTransitionBuilderStrategy);
+	public TransitionBuilder getCategorizationTransitionBuilder() {
+		return TransitionBuilderFactory.INSTANCE.apply(transitionBuilderStrategy);
 	}
 	
 	public PartialRepresentationLateSetter getPartialRepresentationLateSetter() {
 		return PartialRepresentationLateSetterFactory.INSTANCE.apply(partialRepresentationLateSetterStrategy);
 	}
 	
-	public CategorizationProblemSpaceBuilder getCategorizationProblemSpaceBuilder() {
-		return CategorizationProblemSpaceBuilderFactory.INSTANCE.apply(categorizationProblemSpaceBuilderStrategy);
+	public ProblemSpaceBuilder getCategorizationProblemSpaceBuilder() {
+		return ProblemSpaceBuilderFactory.INSTANCE.apply(problemSpaceBuilderStrategy);
 	}
 
 }

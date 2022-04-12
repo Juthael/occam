@@ -1,13 +1,11 @@
 package com.tregouet.occam.data.problem_spaces.impl;
 
-import java.util.Map;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
-import com.tregouet.occam.data.logical_structures.orders.total.IScore;
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.problem_spaces.IGoalState;
 import com.tregouet.occam.data.problem_spaces.IProblemSpace;
@@ -55,18 +53,6 @@ public class ProblemSpace implements IProblemSpace {
 				return (ICompleteRepresentation) problemState;
 			}
 		}
-		return null;
-	}
-
-	@Override
-	public boolean addRepresentation(String representationAsRegEx) {
-		// NOT IMPLEMENTED YET
-		return false;
-	}
-
-	@Override
-	public Map<IProblemState, IScore<?>> mapRepresentationToScore() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

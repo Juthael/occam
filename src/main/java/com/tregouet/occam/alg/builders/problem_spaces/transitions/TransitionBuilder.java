@@ -8,11 +8,11 @@ import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 
 /**
- * Input list must be topologically ordered
+ * Input list must be topologically ordered. No transitive reduction applied to the output.
  * @author Gael Tregouet
  *
  */
-public interface CategorizationTransitionBuilder 
+public interface TransitionBuilder 
 	extends Function<List<IProblemState>, Set<AProblemStateTransition>> { 
 
 }

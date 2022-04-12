@@ -34,7 +34,7 @@ import guru.nidi.graphviz.parse.Parser;
 
 public class Visualizer {
 
-	private static String location = "D:\\ProjetDocs\\essais_viz\\";
+	private static String location = "C:\\Users\\TREGOUET\\Documents\\Sandbox";
 	private static final DecimalFormat df = new DecimalFormat("#.####");
 	
 	private Visualizer() {
@@ -61,44 +61,10 @@ public class Visualizer {
 		Writer writer = new StringWriter();
 		exporter.exportGraph(graph, writer);
 		String stringDOT = writer.toString();
-		/*
-		 System.out.println(writer.toString());
-		 */
 		//display graph
 		MutableGraph dotGraph = new Parser().read(stringDOT);
 		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
 	}	
-	
-	public static void visualizeDenotationGraph(DirectedAcyclicGraph<IDenotation, IStronglyContextualized> graph, 
-			String fileName) throws IOException {
-		//convert in DOT format
-		DOTExporter<IDenotation,IStronglyContextualized> exporter = new DOTExporter<>();
-		exporter.setGraphAttributeProvider(() -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
-			return map;
-		});
-		exporter.setVertexAttributeProvider((v) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.toString()));
-			return map;
-		});
-		exporter.setEdgeAttributeProvider((e) -> {
-			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(e.getLabel()));
-			return map;
-		}); 
-		Writer writer = new StringWriter();
-		exporter.exportGraph(graph, writer);
-		String stringDOT = writer.toString();
-		/*
-		 System.out.println(writer.toString());
-		*/ 
-		//display graph
-		MutableGraph dotGraph = new Parser().read(stringDOT);
-		Graphviz.fromGraph(dotGraph)
-			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
-	}
 	
 	public static void visualizePorphyrianTree(IAutomaton automaton, 
 			String fileName) throws IOException {

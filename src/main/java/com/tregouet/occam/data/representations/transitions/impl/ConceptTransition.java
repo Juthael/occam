@@ -67,5 +67,18 @@ public abstract class ConceptTransition implements IConceptTransition {
 
 	@Override
 	abstract public TransitionType type();
+	
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		sB.append("(")
+			.append(inputConfig.toString())
+			.append(", ")
+			.append(inputConfig.getRequiredStackSymbol().toString())
+			.append(" -> ")
+			.append(outputInternConfig.getPushedStackSymbols().toString())
+			.append(")");
+		return sB.toString();
+	}
 
 }

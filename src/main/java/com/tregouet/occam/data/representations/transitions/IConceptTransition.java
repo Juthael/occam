@@ -15,5 +15,8 @@ public interface IConceptTransition extends IPushdownAutomatonTransition<
 	Salience getSalience();
 	
 	TransitionType type();
+	
+	@Override
+	String toString();
 
 }

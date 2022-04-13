@@ -17,25 +17,27 @@ import com.tregouet.occam.data.representations.IPartialRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.evaluation.IFactEvaluator;
 import com.tregouet.occam.data.representations.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.representations.transitions.impl.RepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class InferNullMembers implements PartialRepresentationLateSetter {
+public class InferNullParameters implements PartialRepresentationLateSetter {
 	
-	public static final InferNullMembers INSTANCE = new InferNullMembers();
+	public static final InferNullParameters INSTANCE = new InferNullParameters();
 	
-	private InferNullMembers() {
+	private InferNullParameters() {
 	}
 
 	@Override
 	public void accept(IPartialRepresentation partialRepresentation) {
 		IRepresentationTransitionFunction transFunc = buildTransitionFunction(partialRepresentation.getRepresentationCompletions());
+		IFactEvaluator factEvaluator = PartialRepresentationLateSetter.getfactEvaluatorBuilder().apply(transFunc);
 		InvertedTree<IConcept, IIsA> classification = buildClassification(partialRepresentation.getRepresentationCompletions());
 		IDescription description = PartialRepresentationLateSetter.descriptionBuilder().apply(transFunc);
 		partialRepresentation.setClassification(classification);
-		partialRepresentation.setUpFactEvaluator(transFunc);
+		partialRepresentation.setFactEvaluator(factEvaluator);
 		partialRepresentation.setDescription(description);
 	}
 	

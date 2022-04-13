@@ -13,6 +13,7 @@ import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.evaluation.IFactEvaluator;
 import com.tregouet.occam.data.representations.impl.CompleteRepresentation;
 import com.tregouet.occam.data.representations.impl.CompleteRepresentations;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
@@ -40,10 +41,12 @@ public class FindEveryClassificationFirst implements RepresentationSortedSetBuil
 		for (InvertedTree<IConcept, IIsA> classification : classifications) {
 			IRepresentationTransitionFunction transFunc = 
 					RepresentationSortedSetBuilder.getTransFuncBuilder().apply(classification, productions);
+			IFactEvaluator factEvaluator = RepresentationSortedSetBuilder.getFactEvaluatorBuilder().apply(transFunc);
 			IDescription description = 
 					RepresentationSortedSetBuilder.getDescriptionBuilder().apply(transFunc);
 			Set<IPartition> partitions = RepresentationSortedSetBuilder.getPartitionBuilder().apply(classification, description);
-			ICompleteRepresentation representation = new CompleteRepresentation(classification, description, transFunc, partitions);
+			ICompleteRepresentation representation = 
+					new CompleteRepresentation(classification, description, factEvaluator, partitions);
 			representation.setScore(RepresentationSortedSetBuilder.getRepresentationHeuristicScorer().apply(representation));
 			addAndTrimIfRequired(representation, representations);
 		}

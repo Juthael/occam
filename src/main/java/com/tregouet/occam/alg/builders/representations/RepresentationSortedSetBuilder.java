@@ -7,6 +7,7 @@ import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilder;
+import com.tregouet.occam.alg.builders.representations.fact_evaluators.FactEvaluatorBuilder;
 import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
@@ -44,6 +45,10 @@ public interface RepresentationSortedSetBuilder
 	
 	public static RepresentationScorer getRepresentationHeuristicScorer() {
 		return ScorersAbstractFactory.INSTANCE.getRepresentationScorer();
+	}
+	
+	public static FactEvaluatorBuilder getFactEvaluatorBuilder() {
+		return GeneratorsAbstractFactory.INSTANCE.getFactEvaluatorBuilder();
 	}
 	
 	RepresentationSortedSetBuilder setMaxSize(Integer maxSize);

@@ -39,6 +39,9 @@ import com.tregouet.occam.alg.builders.representations.descriptions.metrics.Simi
 import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetter;
 import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetterFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetterStrategy;
+import com.tregouet.occam.alg.builders.representations.fact_evaluators.FactEvaluatorBuilder;
+import com.tregouet.occam.alg.builders.representations.fact_evaluators.FactEvaluatorBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.fact_evaluators.FactEvaluatorBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilderStrategy;
@@ -80,6 +83,7 @@ public class GeneratorsAbstractFactory {
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
 	private PartitionStringBuilderStrategy partitionStringBuilderStrategy = null;
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
+	private FactEvaluatorBuilderStrategy factEvaluatorBuilderStrategy = null;
 	private RepresentationSortedSetBuilderStrategy representationSortedSetBuilderStrategy = null;
 	private Integer representationSortedSetMaxSize = null;
 	private PartialRepresentationLateSetterStrategy partialRepresentationLateSetterStrategy = null;
@@ -108,6 +112,7 @@ public class GeneratorsAbstractFactory {
 				partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 				partitionStringBuilderStrategy = PartitionStringBuilderStrategy.RECURSIVE_FRAMING;
 				partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
+				factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
 				representationSortedSetBuilderStrategy = 
 						RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
 				representationSortedSetMaxSize = 50;
@@ -182,7 +187,11 @@ public class GeneratorsAbstractFactory {
 		return PartitionBuilderFactory.INSTANCE.apply(partitionBuilderStrategy);
 	}
 	
-	public RepresentationSortedSetBuilder getRepresentationLexOrderedSetBuilder() {
+	public FactEvaluatorBuilder getFactEvaluatorBuilder() {
+		return FactEvaluatorBuilderFactory.INSTANCE.apply(factEvaluatorBuilderStrategy);
+	}
+	
+	public RepresentationSortedSetBuilder getRepresentationSortedSetBuilder() {
 		return RepresentationSortedSetBuilderFactory.INSTANCE
 				.apply(representationSortedSetBuilderStrategy)
 				.setMaxSize(representationSortedSetMaxSize);

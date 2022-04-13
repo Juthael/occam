@@ -33,11 +33,11 @@ public abstract class Representation implements IRepresentation {
 	protected LecticScore score = null;
 	
 	Representation(InvertedTree<IConcept, IIsA> classification, IDescription description, 
-			IRepresentationTransitionFunction transitionFunction, Set<IPartition> partitions) {
+			IFactEvaluator factEvaluator, Set<IPartition> partitions) {
 		this.classification = classification;
 		this.description = description;
 		this.partitions = partitions;
-		factEvaluator.set(transitionFunction);
+		this.factEvaluator = factEvaluator;
 		iD = nextID++;
 	}
 	

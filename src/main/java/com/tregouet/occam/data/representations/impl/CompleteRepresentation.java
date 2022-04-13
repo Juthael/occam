@@ -11,14 +11,14 @@ import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
-import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.evaluation.IFactEvaluator;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class CompleteRepresentation extends Representation implements ICompleteRepresentation {
 	
 	public CompleteRepresentation(InvertedTree<IConcept, IIsA> classification, IDescription description, 
-			IRepresentationTransitionFunction transitionFunction, Set<IPartition> partitions) {
-		super(classification, description, transitionFunction, partitions);
+			IFactEvaluator factEvaluator, Set<IPartition> partitions) {
+		super(classification, description, factEvaluator, partitions);
 	}
 
 	@Override

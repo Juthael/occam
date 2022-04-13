@@ -11,7 +11,7 @@ import com.tregouet.occam.data.representations.IPartialRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
-import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.evaluation.IFactEvaluator;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class PartialRepresentation extends Representation implements IPartialRepresentation {
@@ -29,9 +29,8 @@ public class PartialRepresentation extends Representation implements IPartialRep
 	}
 
 	@Override
-	public void setUpFactEvaluator(IRepresentationTransitionFunction transFunc) {
-		super.factEvaluator.set(transFunc);
-
+	public void setFactEvaluator(IFactEvaluator factEvaluator) {
+		super.factEvaluator = factEvaluator;
 	}
 
 	@Override

@@ -3,6 +3,9 @@ package com.tregouet.occam.alg.displayers;
 import com.tregouet.occam.alg.displayers.problem_states.ProblemStateDisplayer;
 import com.tregouet.occam.alg.displayers.problem_states.ProblemStateDisplayerFactory;
 import com.tregouet.occam.alg.displayers.problem_states.ProblemStateDisplayerStrategy;
+import com.tregouet.occam.alg.displayers.problem_transitions.ProblemTransitionDisplayer;
+import com.tregouet.occam.alg.displayers.problem_transitions.ProblemTransitionDisplayerFactory;
+import com.tregouet.occam.alg.displayers.problem_transitions.ProblemTransitionDisplayerStrategy;
 import com.tregouet.occam.alg.displayers.properties.PropertyDisplayer;
 import com.tregouet.occam.alg.displayers.properties.PropertyDisplayerFactory;
 import com.tregouet.occam.alg.displayers.properties.PropertyDisplayerStrategy;
@@ -17,6 +20,7 @@ public class DisplayersAbstractFactory {
 	private TransitionFunctionDisplayerStrategy transitionFunctionDisplayerStrategy = null;
 	private PropertyDisplayerStrategy propertyDisplayerStrategy = null;
 	private ProblemStateDisplayerStrategy problemStateDisplayerStrategy = null;
+	private ProblemTransitionDisplayerStrategy problemTransitionDisplayerStrategy = null;
 	
 	private DisplayersAbstractFactory() {
 	}
@@ -27,6 +31,7 @@ public class DisplayersAbstractFactory {
 				transitionFunctionDisplayerStrategy = TransitionFunctionDisplayerStrategy.REMOVE_NON_SALIENT_APP;
 				propertyDisplayerStrategy = PropertyDisplayerStrategy.AS_LAMBDA;
 				problemStateDisplayerStrategy = ProblemStateDisplayerStrategy.NESTED_FRAMES;
+				problemTransitionDisplayerStrategy = ProblemTransitionDisplayerStrategy.WEIGHT_ONLY;
 			default : 
 				break;
 		}
@@ -42,6 +47,10 @@ public class DisplayersAbstractFactory {
 	
 	public ProblemStateDisplayer getProblemStateDisplayer() {
 		return ProblemStateDisplayerFactory.INSTANCE.apply(problemStateDisplayerStrategy);
+	}
+	
+	public ProblemTransitionDisplayer getProblemTransitionDisplayer() {
+		return ProblemTransitionDisplayerFactory.INSTANCE.apply(problemTransitionDisplayerStrategy);
 	}
 
 }

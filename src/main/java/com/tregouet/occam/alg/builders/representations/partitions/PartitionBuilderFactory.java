@@ -12,7 +12,7 @@ public class PartitionBuilderFactory {
 	public PartitionBuilder apply(PartitionBuilderStrategy strategy) {
 		switch (strategy) {
 			case BUILD_GRAPH_FIRST : 
-				return BuildGraphFirst.INSTANCE;
+				return new BuildGraphFirst();
 			default : 
 				return null;
 		}

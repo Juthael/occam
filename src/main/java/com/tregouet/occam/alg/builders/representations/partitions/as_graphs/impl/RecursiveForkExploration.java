@@ -1,10 +1,14 @@
 package com.tregouet.occam.alg.builders.representations.partitions.as_graphs.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
+import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilder;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
@@ -18,10 +22,11 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 	}
 	
 	@Override
-	public Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> apply(Tree<Integer, AbstractDifferentiae> tree) {
+	public Set<Tree<Integer, AbstractDifferentiae>> apply(Tree<Integer, AbstractDifferentiae> tree) {
 		DirectedAcyclicGraph<Integer, AbstractDifferentiae> builtSoFar = new DirectedAcyclicGraph<>(null, null, false);
 		builtSoFar.addVertex(tree.getRoot());
-		return part(tree, builtSoFar, tree.getRoot());
+		Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> dagPartitions = part(tree, builtSoFar, tree.getRoot());
+		return convertIntoTrees(dagPartitions);
 	}
 	
 	private static  Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> part(
@@ -48,5 +53,26 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 		Graphs.addAllEdges(copy, copied, copied.edgeSet());
 		return copy;
 	}	
+	
+	private static Set<Tree<Integer, AbstractDifferentiae>> convertIntoTrees(
+			Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> dagPartitions) {
+		Set<Tree<Integer, AbstractDifferentiae>> partitions = new HashSet<>();
+		for (DirectedAcyclicGraph<Integer, AbstractDifferentiae> dagPartition : dagPartitions) {
+			Integer root = null;
+			Set<Integer> leaves = new HashSet<>();
+			List<Integer> topoOrder = new ArrayList<>();
+			Iterator<Integer> topoIte = new TopologicalOrderIterator<>(dagPartition);
+			while (topoIte.hasNext()) {
+				Integer nextConceptID = topoIte.next();
+				topoOrder.add(nextConceptID);
+				if (dagPartition.inDegreeOf(nextConceptID) == 0)
+					root = nextConceptID;
+				if (dagPartition.outDegreeOf(nextConceptID) == 0)
+					leaves.add(nextConceptID);
+			}
+			partitions.add(new Tree<Integer, AbstractDifferentiae>(dagPartition, root, leaves, topoOrder));
+		}
+		return partitions;
+	}
 
 }

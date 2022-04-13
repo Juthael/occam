@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.displayers.problem_states;
 
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
@@ -15,11 +15,7 @@ import com.tregouet.occam.data.representations.concepts.IIsA;
  * @author Gael Tregouet
  *
  */
-public interface ProblemStateDisplayer 
-	extends BiFunction<
-		IProblemState, 
-		DirectedAcyclicGraph<IConcept, IIsA>, 
-		String> {
+public interface ProblemStateDisplayer extends Function<IProblemState, String> {
 	
 	public static PartitionStringBuilder getPartitionStringBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getPartitionStringBuilder();

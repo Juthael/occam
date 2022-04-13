@@ -1,26 +1,31 @@
 package com.tregouet.occam.data.problem_spaces.partitions.impl;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.tree_finder.data.Tree;
 
 public class Partition implements IPartition {
 
-	private final DirectedAcyclicGraph<Integer, AbstractDifferentiae> asGraph;
+	private final Tree<Integer, AbstractDifferentiae> asGraph;
 	private final String asString;
 	private final Integer genusID;
 	private final Integer[] speciesIDs;
+	private final Map<Integer, List<Integer>> leaf2Extent;
 	private Double weight = null;
 	
-	public Partition(DirectedAcyclicGraph<Integer, AbstractDifferentiae> asGraph, String asString, Integer genusID, 
-			Integer[] speciesIDs) {
+	public Partition(Tree<Integer, AbstractDifferentiae> asGraph, String asString, Integer genusID, 
+			Integer[] speciesIDs, Map<Integer, List<Integer>> leaf2Extent) {
 		this.asGraph = asGraph;
 		this.asString = asString;
 		this.genusID = genusID;
 		this.speciesIDs = speciesIDs;
+		this.leaf2Extent = leaf2Extent;
 	}
 	
 	@Override
@@ -101,6 +106,11 @@ public class Partition implements IPartition {
 	@Override
 	public String toString() {
 		return asString;
+	}
+
+	@Override
+	public Map<Integer, List<Integer>> getLeaf2ExtentMap() {
+		return leaf2Extent;
 	}
 
 }

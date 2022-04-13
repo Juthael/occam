@@ -1,6 +1,7 @@
 package com.tregouet.occam.data.problem_spaces.partitions;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
@@ -48,5 +49,7 @@ public interface IPartition extends Weighed, PartiallyComparable<IPartition> {
 		}
 		return ordered;
 	}
+	
+	Map<Integer, List<Integer>> getLeaf2ExtentMap();
 
 }

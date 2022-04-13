@@ -14,13 +14,11 @@ import com.tregouet.occam.data.representations.descriptions.properties.AbstractD
 
 public class AsNestedFrames implements ProblemStateDisplayer {
 	
-	public static final AsNestedFrames INSTANCE = new AsNestedFrames();
-	
-	private AsNestedFrames() {
+	public AsNestedFrames() {
 	}
 
 	@Override
-	public String apply(IProblemState state, DirectedAcyclicGraph<IConcept, IIsA> concepts) {
+	public String apply(IProblemState state) {
 		DirectedAcyclicGraph<Integer, AbstractDifferentiae> stateGraph;
 		if (state instanceof IPartialRepresentation) {
 			stateGraph = asGraph((IPartialRepresentation) state);

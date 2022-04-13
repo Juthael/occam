@@ -1,43 +1,28 @@
 package com.tregouet.occam.alg.builders.representations.partitions.as_strings.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Map;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.representations.partitions.as_strings.PartitionStringBuilder;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
-import com.tregouet.occam.data.representations.concepts.ConceptType;
-import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
-import com.tregouet.tree_finder.data.InvertedTree;
-import com.tregouet.tree_finder.utils.Functions;
+import com.tregouet.tree_finder.data.Tree;
 
 public class RecursiveFraming implements PartitionStringBuilder {
 	
-	private DirectedAcyclicGraph<IConcept, IIsA> concepts = null;
-	private SortedSet<Integer> particularIDs = new TreeSet<>();
 	private DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph = null;
+	private Map<Integer, List<Integer>> conceptID2ExtentIDs = null;
 	
 	public RecursiveFraming() {
 	}
 
 	@Override
-	public String apply(DirectedAcyclicGraph<IConcept, IIsA> concepts, DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph) {
-		this.concepts = concepts;
+	public String apply(Tree<Integer, AbstractDifferentiae> partitionGraph) {
 		this.partitionGraph = partitionGraph;
-		Collection<IConcept> leaves = (concepts instanceof InvertedTree<?, ?> ? 
-				((InvertedTree<IConcept, IIsA>) concepts).getLeaves() : getLeaves(concepts));
-		for (IConcept particular : leaves)
-			particularIDs.add(particular.iD());
-		return doFrame(getTruism().iD());
+		return doFrame(partitionGraph.getRoot());
 	}
 	
 	private String doFrame(Integer frameConceptID) {
@@ -47,7 +32,8 @@ public class RecursiveFraming implements PartitionStringBuilder {
 		else {
 			StringBuilder sB = new StringBuilder();
 			sB.append("(");
-			Integer[] orderedSubConcepts = IPartition.orderOverIDs(Graphs.successorListOf(partitionGraph, frameConceptID));
+			Integer[] orderedSubConcepts = 
+					IPartition.orderOverIDs(Graphs.successorListOf(partitionGraph, frameConceptID));
 			for (Integer subconcept : orderedSubConcepts)
 				sB.append(doFrame(subconcept));
 			sB.append(")");
@@ -56,50 +42,23 @@ public class RecursiveFraming implements PartitionStringBuilder {
 	}
 	
 	private String getConceptExtensionAsString(Integer conceptID) {
-		if (particularIDs.contains(conceptID))
-			return conceptID.toString();
-		else {
-			Set<IConcept> lowerSet = Functions.lowerSet(concepts, getConceptWithID(conceptID));
-			SortedSet<Integer> extensionIDs = new TreeSet<>();
-			for (IConcept lowerBound : lowerSet)
-				extensionIDs.add(lowerBound.iD());
-			extensionIDs.retainAll(particularIDs);
-			StringBuilder sB = new StringBuilder();
-			Iterator<Integer> extensionIte = extensionIDs.iterator();
-			while (extensionIte.hasNext()) {
-				sB.append(extensionIte.next().toString());
-				if (extensionIte.hasNext())
-					sB.append(" ");
-			}
-			return extensionIte.toString();
+		List<Integer> extentIDs = conceptID2ExtentIDs.get(conceptID);
+		int extentSize = extentIDs.size();
+		if (extentSize == 1)
+			return extentIDs.get(0).toString();
+		StringBuilder sB = new StringBuilder();
+		for (int i = 0 ; i < extentSize ; i++) {
+			sB.append(extentIDs.get(i));
+			if (i < extentSize - 1)
+				sB.append(", ");
 		}
+		return sB.toString();
 	}
-	
-	private IConcept getConceptWithID(Integer iD) {
-		Iterator<IConcept> topoIte = concepts.iterator();
-		while (topoIte.hasNext()) {
-			IConcept nextConcept = topoIte.next();
-			if (nextConcept.iD() == iD)
-				return nextConcept;
-		}
-		return null;
-	}
-	
-	private IConcept getTruism() {
-		for (IConcept concept : concepts) {
-			if (concept.type() == ConceptType.TRUISM)
-				return concept;
-		}
-		return null;
-	}
-	
-	private List<IConcept> getLeaves(DirectedAcyclicGraph<IConcept, IIsA> concepts) {
-		List<IConcept> leaves = new ArrayList<>();
-		for (IConcept concept : concepts) {
-			if (concepts.inDegreeOf(concept) == 0)
-				leaves.add(concept);
-		}
-		return leaves;
+
+	@Override
+	public PartitionStringBuilder setUp(Map<Integer, List<Integer>> conceptID2ExtentIDs) {
+		this.conceptID2ExtentIDs = conceptID2ExtentIDs;
+		return this;
 	}
 
 }

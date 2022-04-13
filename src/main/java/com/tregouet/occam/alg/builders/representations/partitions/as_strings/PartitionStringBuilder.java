@@ -1,24 +1,15 @@
 package com.tregouet.occam.alg.builders.representations.partitions.as_strings;
 
-import java.util.function.BiFunction;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
-import org.jgrapht.graph.DirectedAcyclicGraph;
-
-import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.tree_finder.data.Tree;
 
-/**
- * The second graph must be isomorphic to - or a restriction of - the first one, with each concept
- * in the first graph matching with its iD in the second one. 
- * @author Gael Tregouet
- *
- */
-@FunctionalInterface
 public interface PartitionStringBuilder 
-	extends BiFunction<
-		DirectedAcyclicGraph<IConcept, IIsA>, 
-		DirectedAcyclicGraph<Integer, AbstractDifferentiae>, 
-		String> {
+	extends Function<Tree<Integer, AbstractDifferentiae>, String> {
+	
+	public PartitionStringBuilder setUp(Map<Integer, List<Integer>> conceptID2ExtentIDs);
 
 }

@@ -14,6 +14,9 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
+import com.tregouet.occam.alg.displayers.DisplayersAbstractFactory;
+import com.tregouet.occam.alg.displayers.problem_states.ProblemStateDisplayer;
+import com.tregouet.occam.alg.displayers.problem_transitions.ProblemTransitionDisplayer;
 import com.tregouet.occam.data.logical_structures.automata.IAutomaton;
 import com.tregouet.occam.data.logical_structures.automata.machines.deprec.IGenusDifferentiaDefinition_dep;
 import com.tregouet.occam.data.logical_structures.automata.states.IState;
@@ -21,6 +24,9 @@ import com.tregouet.occam.data.logical_structures.automata.transition_functions.
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IConjunctiveTransition;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.IReframerRule;
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.ITransition;
+import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
+import com.tregouet.occam.data.problem_spaces.IProblemSpace;
+import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
@@ -42,6 +48,25 @@ public class Visualizer {
 	
 	public static void setLocation(String newLocation) {
 		location = newLocation;
+	}
+	
+	public static void vizualizeProblemSpaceGraph(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> pbSpaceGraph, 
+			DirectedAcyclicGraph<IConcept, IIsA> concepts) {
+		//convert in DOT format
+		DOTExporter<IProblemState, AProblemStateTransition> exporter = new DOTExporter<>();
+		ProblemStateDisplayer stateDisplayer = DisplayersAbstractFactory.INSTANCE.getProblemStateDisplayer().setUp(concepts);
+		ProblemTransitionDisplayer transitionDisplayer = DisplayersAbstractFactory.INSTANCE.getProblemTransitionDisplayer();
+		exporter.setVertexAttributeProvider((v) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(stateDisplayer.apply(v)));
+			return map;
+		});
+		exporter.setEdgeAttributeProvider((e) -> {
+			Map<String, Attribute> map = new LinkedHashMap<>();
+			map.put("label", DefaultAttribute.createAttribute(transitionDisplayer.apply(e)));
+			return map;
+		}); 	
+		
 	}
 	
 	public static void visualizeDenotationSetGraph(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName) 

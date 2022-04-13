@@ -7,17 +7,17 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.representations.transitions.productions.IProduction;
 
-public class LambdaExpression implements ILambdaExpression {
+public class BasicAbstractionApplication extends ALambdaTerm implements ILambdaExpression {
 
-	private IConstruct term = null;
 	private AVariable boundVariable = null;
-	private LambdaExpression argument = null;
+	private BasicAbstractionApplication argument = null;
 	
-	public LambdaExpression(IConstruct term) {
-		this.term = term;
+	public BasicAbstractionApplication(IConstruct term) {
+		super(term);
 	}
 	
-	public <P extends IProduction> LambdaExpression(List<P> productionList) {
+	public <P extends IProduction> BasicAbstractionApplication(List<P> productionList) {
+		super(null);
 		for (int i = 0 ; i < productionList.size() ; i++) {
 			IProduction iProduction = productionList.get(i);
 			if (term == null) {
@@ -36,7 +36,7 @@ public class LambdaExpression implements ILambdaExpression {
 			AVariable varToBind = production.getVariable();
 			if (term.getVariables().contains(varToBind)) {
 				boundVariable = varToBind;
-				argument = new LambdaExpression(production.getValue());
+				argument = new BasicAbstractionApplication(production.getValue());
 				return true;
 			}
 			return false;
@@ -46,6 +46,20 @@ public class LambdaExpression implements ILambdaExpression {
 	
 	@Override
 	public String toString() {
+		return toString(false);
+	}
+
+	@Override
+	public boolean isAnApplication() {
+		return boundVariable != null;
+	}
+
+	@Override
+	public String toShorterString() {
+		return toString(true);
+	}
+	
+	private String toString(boolean shorter) {
 		if (boundVariable == null) {
 			if (term.asList().size() == 1)
 				return term.toString();
@@ -55,7 +69,7 @@ public class LambdaExpression implements ILambdaExpression {
 		sB.append("(λ");
 		sB.append(boundVariable.toString());
 		sB.append(".");
-		sB.append(term.toString());
+		sB.append(shorter ? term.getFunctionType() : term.toString());
 		sB.append(")");
 		if (argument.isAnApplication()) {
 			sB.append("(");
@@ -64,11 +78,6 @@ public class LambdaExpression implements ILambdaExpression {
 		}
 		else sB.append(argument.toString());
 		return sB.toString();
-	}
-
-	@Override
-	public boolean isAnApplication() {
-		return boundVariable != null;
 	}
 
 }

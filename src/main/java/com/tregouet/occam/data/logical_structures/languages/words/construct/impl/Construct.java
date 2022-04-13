@@ -175,4 +175,21 @@ public class Construct implements IConstruct {
 		return new Construct(new ArrayList<>(symbols), nbOfTerminals);
 	}
 
+	@Override
+	public String getFunctionType() {
+		List<AVariable> vars  = getVariables();
+		if (vars.isEmpty())
+			return null;
+		StringBuilder sB = new StringBuilder();
+		sB.append("τ_(");
+		Iterator<AVariable> varIte = vars.iterator();
+		while (varIte.hasNext()) {
+			sB.append(varIte.next().toString());
+			if (varIte.hasNext())
+				sB.append(", ");
+		}
+		sB.append(")");
+		return sB.toString();
+	}
+
 }

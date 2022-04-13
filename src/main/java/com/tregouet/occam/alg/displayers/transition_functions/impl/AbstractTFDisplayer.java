@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.displayers.transition_function.impl;
+package com.tregouet.occam.alg.displayers.transition_functions.impl;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,7 +9,7 @@ import java.util.Set;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.displayers.transition_function.TransitionFunctionDisplayer;
+import com.tregouet.occam.alg.displayers.transition_functions.TransitionFunctionDisplayer;
 import com.tregouet.occam.data.representations.transitions.AConceptTransitionSet;
 import com.tregouet.occam.data.representations.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;

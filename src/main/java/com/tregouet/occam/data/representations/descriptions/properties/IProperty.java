@@ -15,5 +15,8 @@ public interface IProperty extends Weighed {
 	Set<IDenotation> getResultingValues();
 	
 	void setWeight(double weight);
+	
+	@Override
+	String toString();
 
 }

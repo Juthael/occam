@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
-import com.tregouet.occam.data.logical_structures.lambda_terms.impl.LambdaExpression;
+import com.tregouet.occam.data.logical_structures.lambda_terms.impl.BasicAbstractionApplication;
 import com.tregouet.occam.data.representations.evaluation.facts.IFact;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
@@ -28,7 +28,7 @@ public class Fact implements IFact {
 
 	@Override
 	public ILambdaExpression asLambda() {
-		return new LambdaExpression(productionList);
+		return new BasicAbstractionApplication(productionList);
 	}
 
 }

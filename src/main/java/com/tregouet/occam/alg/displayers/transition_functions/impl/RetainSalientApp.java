@@ -1,9 +1,9 @@
-package com.tregouet.occam.alg.displayers.transition_function.impl;
+package com.tregouet.occam.alg.displayers.transition_functions.impl;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.tregouet.occam.alg.displayers.transition_function.TransitionFunctionDisplayer;
+import com.tregouet.occam.alg.displayers.transition_functions.TransitionFunctionDisplayer;
 import com.tregouet.occam.data.representations.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.transitions.Salience;
 import com.tregouet.occam.data.representations.transitions.TransitionType;

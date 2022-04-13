@@ -1,8 +1,8 @@
-package com.tregouet.occam.alg.displayers.transition_function;
+package com.tregouet.occam.alg.displayers.transition_functions;
 
-import com.tregouet.occam.alg.displayers.transition_function.impl.DisplayAllTransitions;
-import com.tregouet.occam.alg.displayers.transition_function.impl.RemoveNonSalientApp;
-import com.tregouet.occam.alg.displayers.transition_function.impl.RetainSalientApp;
+import com.tregouet.occam.alg.displayers.transition_functions.impl.DisplayAllTransitions;
+import com.tregouet.occam.alg.displayers.transition_functions.impl.RemoveNonSalientApp;
+import com.tregouet.occam.alg.displayers.transition_functions.impl.RetainSalientApp;
 
 public class TransitionFunctionDisplayerFactory {
 	

@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.displayers.transition_function;
+package com.tregouet.occam.alg.displayers.transition_functions;
 
 public enum TransitionFunctionDisplayerStrategy {
 	

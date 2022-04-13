@@ -41,4 +41,6 @@ public interface IConstruct extends IWord<ISymbol> {
 	
 	@Override
 	public IConstruct copy();
+	
+	public String getFunctionType();
 }

@@ -15,6 +15,8 @@ public interface ILambdaExpression {
 	@Override
 	String toString();
 	
+	String toShorterString();
+	
 	boolean isAnApplication();
 
 }

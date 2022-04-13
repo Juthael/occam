@@ -99,7 +99,7 @@ public class GeneratorsAbstractFactory {
 				prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.MAP_TARGET_VARS_TO_SOURCE_VALUES;
 				productionBuilderStrategy = ProductionBuilderStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
 				transitionSalienceSetterStrategy = TransitionSalienceSetterStrategy.HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS;
-				representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.EVERY_TRANSITION;
+				representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.BUILD_EXHAUSTIVELY;
 				propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
 				differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
 				similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.DEFERRED_MATRICES_INSTANTIATION;

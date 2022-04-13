@@ -1,8 +1,6 @@
 package com.tregouet.occam.alg.builders.representations.transition_functions;
 
-import com.tregouet.occam.alg.builders.representations.transition_functions.impl.BuildEveryTransition;
-import com.tregouet.occam.alg.builders.representations.transition_functions.impl.RemoveNonSalientApplications;
-import com.tregouet.occam.alg.builders.representations.transition_functions.impl.RetainSalientApplications;
+import com.tregouet.occam.alg.builders.representations.transition_functions.impl.BuildExhaustively;
 
 public class RepresentationTransFuncBuilderFactory {
 	
@@ -13,12 +11,8 @@ public class RepresentationTransFuncBuilderFactory {
 	
 	public RepresentationTransFuncBuilder apply(RepresentationTransFuncBuilderStrategy strategy) {
 		switch(strategy) {
-			case EVERY_TRANSITION :
-				return new BuildEveryTransition();
-			case REMOVE_NON_SALIENT_APP : 
-				return new RemoveNonSalientApplications();
-			case RETAIN_SALIENT_APP : 
-				return new RetainSalientApplications();
+			case BUILD_EXHAUSTIVELY :
+				return new BuildExhaustively();
 			default :
 				return null;
 		}

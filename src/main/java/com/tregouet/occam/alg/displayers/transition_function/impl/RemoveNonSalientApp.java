@@ -1,14 +1,14 @@
-package com.tregouet.occam.alg.builders.representations.transition_functions.impl;
+package com.tregouet.occam.alg.displayers.transition_function.impl;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.displayers.transition_function.TransitionFunctionDisplayer;
 import com.tregouet.occam.data.representations.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.transitions.Salience;
 import com.tregouet.occam.data.representations.transitions.TransitionType;
 
-public class RemoveNonSalientApplications extends AbstractTransFuncBuilder implements RepresentationTransFuncBuilder {
+public class RemoveNonSalientApp extends AbstractTFDisplayer implements TransitionFunctionDisplayer {
 
 	@Override
 	protected Set<IConceptTransition> filter(Set<IConceptTransition> transitions) {

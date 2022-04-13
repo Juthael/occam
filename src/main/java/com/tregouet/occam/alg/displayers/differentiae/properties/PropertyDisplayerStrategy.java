@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.displayers.properties;
+package com.tregouet.occam.alg.displayers.differentiae.properties;
 
 public enum PropertyDisplayerStrategy {
 	

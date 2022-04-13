@@ -11,13 +11,13 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.representations.transitions.productions.IProduction;
 
-public class NaryConjunctiveAbsractionApplication extends ALambdaTerm implements ILambdaExpression {
+public class NaryConjunctiveAbstractionApplication extends ALambdaTerm implements ILambdaExpression {
 	
 	private List<AVariable> boundVariables = new ArrayList<>();
-	private List<Set<NaryConjunctiveAbsractionApplication>> argSets = new ArrayList<>();
+	private List<Set<NaryConjunctiveAbstractionApplication>> argSets = new ArrayList<>();
 	
 	
-	public NaryConjunctiveAbsractionApplication(IConstruct construct) {
+	public NaryConjunctiveAbstractionApplication(IConstruct construct) {
 		super(construct);
 	}
 
@@ -30,12 +30,12 @@ public class NaryConjunctiveAbsractionApplication extends ALambdaTerm implements
 			int varIndex = boundVariables.indexOf(varToBind);
 			if (varIndex == -1) {
 				boundVariables.add(varToBind);
-				Set<NaryConjunctiveAbsractionApplication> args = new HashSet<>();
-				args.add(new NaryConjunctiveAbsractionApplication(production.getValue()));
+				Set<NaryConjunctiveAbstractionApplication> args = new HashSet<>();
+				args.add(new NaryConjunctiveAbstractionApplication(production.getValue()));
 				argSets.add(args);
 			}
 			else {
-				argSets.get(varIndex).add(new NaryConjunctiveAbsractionApplication(production.getValue()));
+				argSets.get(varIndex).add(new NaryConjunctiveAbstractionApplication(production.getValue()));
 			}
 			return true;
 		}
@@ -63,11 +63,11 @@ public class NaryConjunctiveAbsractionApplication extends ALambdaTerm implements
 		for (AVariable var : boundVariables)
 			sB.append(var.toString());
 		sB.append(".").append(shorter ? term.getFunctionType() : term.toString()).append(")");
-		for (Set<NaryConjunctiveAbsractionApplication> argSet : argSets) {
+		for (Set<NaryConjunctiveAbstractionApplication> argSet : argSets) {
 			sB.append("(");
-			Iterator<NaryConjunctiveAbsractionApplication> argIte = argSet.iterator();
+			Iterator<NaryConjunctiveAbstractionApplication> argIte = argSet.iterator();
 			while (argIte.hasNext()) {
-				NaryConjunctiveAbsractionApplication nextArg = argIte.next();
+				NaryConjunctiveAbstractionApplication nextArg = argIte.next();
 				sB.append(shorter ? nextArg.toShorterString() : nextArg.toString());
 				if (argIte.hasNext())
 					sB.append(" Λ ");

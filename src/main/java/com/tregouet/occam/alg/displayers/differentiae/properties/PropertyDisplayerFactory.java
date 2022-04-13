@@ -1,8 +1,8 @@
-package com.tregouet.occam.alg.displayers.properties;
+package com.tregouet.occam.alg.displayers.differentiae.properties;
 
-import com.tregouet.occam.alg.displayers.properties.impl.AsLambdaShorterString;
-import com.tregouet.occam.alg.displayers.properties.impl.AsLambdaString;
-import com.tregouet.occam.alg.displayers.properties.impl.AsProductionString;
+import com.tregouet.occam.alg.displayers.differentiae.properties.impl.AsLambdaShorterString;
+import com.tregouet.occam.alg.displayers.differentiae.properties.impl.AsLambdaString;
+import com.tregouet.occam.alg.displayers.differentiae.properties.impl.AsProductionString;
 
 public class PropertyDisplayerFactory {
 	

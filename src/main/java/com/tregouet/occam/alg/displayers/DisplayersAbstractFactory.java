@@ -1,5 +1,8 @@
 package com.tregouet.occam.alg.displayers;
 
+import com.tregouet.occam.alg.displayers.problem_states.ProblemStateDisplayer;
+import com.tregouet.occam.alg.displayers.problem_states.ProblemStateDisplayerFactory;
+import com.tregouet.occam.alg.displayers.problem_states.ProblemStateDisplayerStrategy;
 import com.tregouet.occam.alg.displayers.properties.PropertyDisplayer;
 import com.tregouet.occam.alg.displayers.properties.PropertyDisplayerFactory;
 import com.tregouet.occam.alg.displayers.properties.PropertyDisplayerStrategy;
@@ -13,6 +16,7 @@ public class DisplayersAbstractFactory {
 	
 	private TransitionFunctionDisplayerStrategy transitionFunctionDisplayerStrategy = null;
 	private PropertyDisplayerStrategy propertyDisplayerStrategy = null;
+	private ProblemStateDisplayerStrategy problemStateDisplayerStrategy = null;
 	
 	private DisplayersAbstractFactory() {
 	}
@@ -22,6 +26,7 @@ public class DisplayersAbstractFactory {
 			case DISPLAY_STRATEGY_1 : 
 				transitionFunctionDisplayerStrategy = TransitionFunctionDisplayerStrategy.REMOVE_NON_SALIENT_APP;
 				propertyDisplayerStrategy = PropertyDisplayerStrategy.AS_LAMBDA;
+				problemStateDisplayerStrategy = ProblemStateDisplayerStrategy.NESTED_FRAMES;
 			default : 
 				break;
 		}
@@ -33,6 +38,10 @@ public class DisplayersAbstractFactory {
 	
 	public PropertyDisplayer getPropertyDisplayer() {
 		return PropertyDisplayerFactory.INSTANCE.apply(propertyDisplayerStrategy);
+	}
+	
+	public ProblemStateDisplayer getProblemStateDisplayer() {
+		return ProblemStateDisplayerFactory.INSTANCE.apply(problemStateDisplayerStrategy);
 	}
 
 }

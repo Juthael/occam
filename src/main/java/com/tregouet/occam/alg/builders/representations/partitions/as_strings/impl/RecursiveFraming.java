@@ -1,6 +1,9 @@
 package com.tregouet.occam.alg.builders.representations.partitions.as_strings.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -19,7 +22,7 @@ import com.tregouet.tree_finder.utils.Functions;
 
 public class RecursiveFraming implements PartitionStringBuilder {
 	
-	private InvertedTree<IConcept, IIsA> classification = null;
+	private DirectedAcyclicGraph<IConcept, IIsA> concepts = null;
 	private SortedSet<Integer> particularIDs = new TreeSet<>();
 	private DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph = null;
 	
@@ -27,10 +30,12 @@ public class RecursiveFraming implements PartitionStringBuilder {
 	}
 
 	@Override
-	public String apply(InvertedTree<IConcept, IIsA> classification, DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph) {
-		this.classification = classification;
+	public String apply(DirectedAcyclicGraph<IConcept, IIsA> concepts, DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph) {
+		this.concepts = concepts;
 		this.partitionGraph = partitionGraph;
-		for (IConcept particular : classification.getLeaves())
+		Collection<IConcept> leaves = (concepts instanceof InvertedTree<?, ?> ? 
+				((InvertedTree<IConcept, IIsA>) concepts).getLeaves() : getLeaves(concepts));
+		for (IConcept particular : leaves)
 			particularIDs.add(particular.iD());
 		return doFrame(getTruism().iD());
 	}
@@ -54,10 +59,10 @@ public class RecursiveFraming implements PartitionStringBuilder {
 		if (particularIDs.contains(conceptID))
 			return conceptID.toString();
 		else {
-			Set<IConcept> upperSet = Functions.upperSet(classification, getConceptWithID(conceptID));
+			Set<IConcept> lowerSet = Functions.lowerSet(concepts, getConceptWithID(conceptID));
 			SortedSet<Integer> extensionIDs = new TreeSet<>();
-			for (IConcept upperBound : upperSet)
-				extensionIDs.add(upperBound.iD());
+			for (IConcept lowerBound : lowerSet)
+				extensionIDs.add(lowerBound.iD());
 			extensionIDs.retainAll(particularIDs);
 			StringBuilder sB = new StringBuilder();
 			Iterator<Integer> extensionIte = extensionIDs.iterator();
@@ -71,7 +76,7 @@ public class RecursiveFraming implements PartitionStringBuilder {
 	}
 	
 	private IConcept getConceptWithID(Integer iD) {
-		Iterator<IConcept> topoIte = classification.iterator();
+		Iterator<IConcept> topoIte = concepts.iterator();
 		while (topoIte.hasNext()) {
 			IConcept nextConcept = topoIte.next();
 			if (nextConcept.iD() == iD)
@@ -81,12 +86,20 @@ public class RecursiveFraming implements PartitionStringBuilder {
 	}
 	
 	private IConcept getTruism() {
-		for (IConcept concept : classification.getTopologicalOrder()) {
+		for (IConcept concept : concepts) {
 			if (concept.type() == ConceptType.TRUISM)
 				return concept;
 		}
 		return null;
 	}
 	
+	private List<IConcept> getLeaves(DirectedAcyclicGraph<IConcept, IIsA> concepts) {
+		List<IConcept> leaves = new ArrayList<>();
+		for (IConcept concept : concepts) {
+			if (concepts.inDegreeOf(concept) == 0)
+				leaves.add(concept);
+		}
+		return leaves;
+	}
 
 }

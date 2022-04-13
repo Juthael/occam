@@ -7,12 +7,17 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
-import com.tregouet.tree_finder.data.InvertedTree;
 
+/**
+ * The second graph must be isomorphic to - or a restriction of - the first one, with each concept
+ * in the first graph matching with its iD in the second one. 
+ * @author Gael Tregouet
+ *
+ */
 @FunctionalInterface
 public interface PartitionStringBuilder 
 	extends BiFunction<
-		InvertedTree<IConcept, IIsA>, 
+		DirectedAcyclicGraph<IConcept, IIsA>, 
 		DirectedAcyclicGraph<Integer, AbstractDifferentiae>, 
 		String> {
 

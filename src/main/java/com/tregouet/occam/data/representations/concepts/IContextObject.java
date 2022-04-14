@@ -23,5 +23,8 @@ public interface IContextObject extends Comparable<IContextObject> {
 	String getName();
 	
 	List<ISymbolSeq> toSymbolSeqs();	
+	
+	@Override
+	String toString();
 
 }

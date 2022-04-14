@@ -43,7 +43,7 @@ public class Visualizer {
 		location = newLocation;
 	}
 	
-	public static void vizualizeProblemSpaceGraph(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> pbSpaceGraph, 
+	public static String vizualizeProblemSpaceGraph(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> pbSpaceGraph, 
 			String fileName) throws IOException {
 		//convert in DOT format
 		DOTExporter<IProblemState, AProblemStateTransition> exporter = new DOTExporter<>();
@@ -64,10 +64,12 @@ public class Visualizer {
 		String stringDOT = writer.toString();
 		//display graph
 		MutableGraph dotGraph = new Parser().read(stringDOT);
-		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
+		String filePath = location + "\\" + fileName;
+		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
+		return filePath;
 	}
 	
-	public static void visualizeConceptGraph(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName) 
+	public static String visualizeConceptGraph(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName) 
 			throws IOException {
 		//convert in DOT format
 		DOTExporter<IConcept,IIsA> exporter = new DOTExporter<>();
@@ -86,10 +88,12 @@ public class Visualizer {
 		String stringDOT = writer.toString();
 		//display graph
 		MutableGraph dotGraph = new Parser().read(stringDOT);
-		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(location + "\\" + fileName));
+		String filePath = location + "\\" + fileName;
+		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
+		return filePath;
 	}	
 	
-	public static void visualizeTransitionFunction(IRepresentationTransitionFunction transFunc, 
+	public static String visualizeTransitionFunction(IRepresentationTransitionFunction transFunc, 
 			String fileName) throws IOException {
 		TransitionFunctionDisplayer displayer = DisplayersAbstractFactory.INSTANCE.getTransitionFunctionDisplayer();
 		DirectedAcyclicGraph<Integer, AConceptTransitionSet> transFuncGraph = displayer.apply(transFunc);
@@ -110,11 +114,12 @@ public class Visualizer {
 		String dOTFile = writer.toString();
 		//display graph
 		MutableGraph dotGraph = new Parser().read(dOTFile);
-		Graphviz.fromGraph(dotGraph)
-			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
+		String filePath = location + "\\" + fileName;
+		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
+		return filePath;
 	}
 	
-	public static void visualizeRepresentationDescription(IDescription description, String fileName) 
+	public static String visualizeRepresentationDescription(IDescription description, String fileName) 
 			throws IOException {
 		DifferentiaeDisplayer diffDisplayer = DisplayersAbstractFactory.INSTANCE.getDifferentiaeDisplayer();
 		Tree<Integer, AbstractDifferentiae> descGraph = description.asGraph();
@@ -135,8 +140,9 @@ public class Visualizer {
 		String dOTFile = writer.toString();
 		//display graph
 		MutableGraph dotGraph = new Parser().read(dOTFile);
-		Graphviz.fromGraph(dotGraph)
-			.render(Format.PNG).toFile(new File(location + "\\" + fileName));
+		String filePath = location + "\\" + fileName;
+		Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
+		return filePath;
 	}
 	
 }

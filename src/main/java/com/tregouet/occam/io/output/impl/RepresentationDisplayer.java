@@ -41,7 +41,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	private static final String NL = System.lineSeparator();
 	private static final Path headPath = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io", 
-			"output", "html", "head.txt");
+			"output", "html", "files", "head.txt");
 	private static final DecimalFormat df = new DecimalFormat("#.####");
 	private final String folderPath;
 	private TreeSet<IContextObject> context = null;

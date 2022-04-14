@@ -1,0 +1,13 @@
+		<section>
+			<header>
+				<h2>Problem space menu</h2>
+			</header>
+			<p>
+				<ol>
+					<li> Enter the ID of some state in the problem space graph </li>
+					<li> Add a new state encoded as a regular expression </li>
+					<li> Read the grammar rules for the state-encoding regular expressions </li>
+					<li> Back to main menu. </li>
+				</ol>
+			</p>
+		</section>

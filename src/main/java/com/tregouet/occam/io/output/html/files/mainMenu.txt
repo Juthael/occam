@@ -1,0 +1,20 @@
+		<section>
+			<header>
+				<h2>Main menu</h2>
+			</header>
+			<p>
+				<ol>
+					<li> Drop an input text file. </li>
+					<li> Read the writing rules of accepted inputs. </li>
+					<li> Try some input sample. </li>
+						<ul>
+							<li> example 1 : <u> grammar </u>, <u> input file </u>, <u> try </u> </li>
+							<li> example 2 : <u> grammar </u>, <u> input file </u>, <u> try </u> </li>
+							<li> example 3 : <u> grammar </u>, <u> input file </u>, <u> try </u> </li>
+							<li> example 4 : <u> grammar </u>, <u> input file </u>, <u> try </u> </li>
+							<li> example 5 : <u> grammar </u>, <u> input file </u>, <u> try </u> </li>
+						</ul>
+					<li> Change the target folder path. </i>
+				</ol>
+			</p>
+		</section>

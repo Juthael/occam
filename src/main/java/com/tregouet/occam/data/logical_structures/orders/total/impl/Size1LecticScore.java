@@ -27,7 +27,7 @@ public class Size1LecticScore extends LecticScore implements IScore<LecticScore>
 	
 	@Override
 	public String toString() {
-		return Double.toString(value);
+		return IScore.round(value);
 	}	
 	
 	private int compareTo(double otherValue) {

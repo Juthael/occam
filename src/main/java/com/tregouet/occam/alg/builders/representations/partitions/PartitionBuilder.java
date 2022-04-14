@@ -5,7 +5,7 @@ import java.util.Set;
 import com.google.common.base.Function;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilder;
-import com.tregouet.occam.alg.builders.representations.partitions.as_strings.PartitionStringBuilder;
+import com.tregouet.occam.alg.builders.representations.string_scheme.StringSchemeBuilder;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.weighs.partitions.PartitionWeigher;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
@@ -22,8 +22,8 @@ public interface PartitionBuilder extends Function<IDescription, Set<IPartition>
 		return GeneratorsAbstractFactory.INSTANCE.getPartitionGraphBuilder();
 	}
 	
-	public static PartitionStringBuilder getPartitionStringBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getPartitionStringBuilder();
+	public static StringSchemeBuilder getPartitionStringBuilder() {
+		return GeneratorsAbstractFactory.INSTANCE.getStringSchemeBuilder();
 	}
 	
 	public static PartitionWeigher getPartitionWeigher() {

@@ -48,15 +48,15 @@ import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuild
 import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilder;
 import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.partitions.as_strings.PartitionStringBuilder;
-import com.tregouet.occam.alg.builders.representations.partitions.as_strings.PartitionStringBuilderFactory;
-import com.tregouet.occam.alg.builders.representations.partitions.as_strings.PartitionStringBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBldrFromDenotationsFactory;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotationsStrategy;
+import com.tregouet.occam.alg.builders.representations.string_scheme.StringSchemeBuilder;
+import com.tregouet.occam.alg.builders.representations.string_scheme.StringSchemeBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.string_scheme.StringSchemeBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
@@ -81,7 +81,7 @@ public class GeneratorsAbstractFactory {
 	private DescriptionBuilderStrategy descriptionBuilderStrategy = null;
 	private DifferentiaeRankSetterStrategy differentiaeRankSetterStrategy = null;
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
-	private PartitionStringBuilderStrategy partitionStringBuilderStrategy = null;
+	private StringSchemeBuilderStrategy stringSchemeBuilderStrategy = null;
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private FactEvaluatorBuilderStrategy factEvaluatorBuilderStrategy = null;
 	private RepresentationSortedSetBuilderStrategy representationSortedSetBuilderStrategy = null;
@@ -110,7 +110,7 @@ public class GeneratorsAbstractFactory {
 				descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 				differentiaeRankSetterStrategy = DifferentiaeRankSetterStrategy.DEPTH_FIRST;
 				partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
-				partitionStringBuilderStrategy = PartitionStringBuilderStrategy.RECURSIVE_FRAMING;
+				stringSchemeBuilderStrategy = StringSchemeBuilderStrategy.RECURSIVE_FRAMING;
 				partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 				factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
 				representationSortedSetBuilderStrategy = 
@@ -179,8 +179,8 @@ public class GeneratorsAbstractFactory {
 		return PartitionGraphBuilderFactory.INSTANCE.apply(partitionGraphBuilderStrategy);
 	}
 	
-	public PartitionStringBuilder getPartitionStringBuilder() {
-		return PartitionStringBuilderFactory.INSTANCE.apply(partitionStringBuilderStrategy);
+	public StringSchemeBuilder getStringSchemeBuilder() {
+		return StringSchemeBuilderFactory.INSTANCE.apply(stringSchemeBuilderStrategy);
 	}
 	
 	public PartitionBuilder getPartitionBuilder() {

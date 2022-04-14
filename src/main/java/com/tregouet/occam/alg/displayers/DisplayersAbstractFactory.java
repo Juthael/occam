@@ -36,7 +36,7 @@ public class DisplayersAbstractFactory {
 				transitionFunctionDisplayerStrategy = TransitionFunctionDisplayerStrategy.REMOVE_NON_SALIENT_APP;
 				propertyDisplayerStrategy = PropertyDisplayerStrategy.AS_LAMBDA;
 				differentiaeDisplayerStrategy = DifferentiaeDisplayerStrategy.PROPERTIES_THEN_WEIGHT;
-				problemStateDisplayerStrategy = ProblemStateDisplayerStrategy.NESTED_FRAMES;
+				problemStateDisplayerStrategy = ProblemStateDisplayerStrategy.AS_NESTED_FRAMES;
 				problemTransitionDisplayerStrategy = ProblemTransitionDisplayerStrategy.WEIGHT_ONLY;
 				break;
 			default : 

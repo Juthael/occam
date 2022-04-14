@@ -21,7 +21,7 @@ public class DoubleScore implements IScore<DoubleScore> {
 	
 	@Override
 	public String toString() {
-		return Double.toString(value);
+		return IScore.round(value);
 	}
 
 }

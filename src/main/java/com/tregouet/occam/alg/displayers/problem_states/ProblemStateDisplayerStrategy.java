@@ -2,6 +2,6 @@ package com.tregouet.occam.alg.displayers.problem_states;
 
 public enum ProblemStateDisplayerStrategy {
 	
-	NESTED_FRAMES
+	AS_NESTED_FRAMES
 
 }

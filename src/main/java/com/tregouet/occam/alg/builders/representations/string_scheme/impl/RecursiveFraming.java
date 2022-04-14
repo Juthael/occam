@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.representations.partitions.as_strings.impl;
+package com.tregouet.occam.alg.builders.representations.string_scheme.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -6,12 +6,12 @@ import java.util.Map;
 import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.builders.representations.partitions.as_strings.PartitionStringBuilder;
+import com.tregouet.occam.alg.builders.representations.string_scheme.StringSchemeBuilder;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
-public class RecursiveFraming implements PartitionStringBuilder {
+public class RecursiveFraming implements StringSchemeBuilder {
 	
 	private DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph = null;
 	private Map<Integer, List<Integer>> conceptID2ExtentIDs = null;
@@ -42,6 +42,9 @@ public class RecursiveFraming implements PartitionStringBuilder {
 	}
 	
 	private String getConceptExtensionAsString(Integer conceptID) {
+		if (conceptID2ExtentIDs == null) 
+			//then the arg given to apply() must be the graph of a complete representation
+			return conceptID.toString();
 		List<Integer> extentIDs = conceptID2ExtentIDs.get(conceptID);
 		int extentSize = extentIDs.size();
 		if (extentSize == 1)
@@ -56,7 +59,7 @@ public class RecursiveFraming implements PartitionStringBuilder {
 	}
 
 	@Override
-	public PartitionStringBuilder setUp(Map<Integer, List<Integer>> conceptID2ExtentIDs) {
+	public StringSchemeBuilder setUp(Map<Integer, List<Integer>> conceptID2ExtentIDs) {
 		this.conceptID2ExtentIDs = conceptID2ExtentIDs;
 		return this;
 	}

@@ -77,7 +77,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 	public void generateDenotationSetLatticeGraph() throws IOException {
 		DirectedAcyclicGraph<IConcept, IIsA> lattice = conceptLattice.getLatticeOfConcepts();
 		TransitiveReduction.INSTANCE.reduce(lattice); 
-		Visualizer.visualizeDenotationSetGraph(lattice, "denotation_lattice.png");
+		Visualizer.visualizeConceptGraph(lattice, "denotation_lattice.png");
 	}
 
 	@Override
@@ -226,7 +226,7 @@ public class RepresentationDisplayer implements IRepresentationDisplayer {
 
 	@Override
 	public void generateTreeOfDenotationSets() throws IOException {
-		Visualizer.visualizeDenotationSetGraph(isomorphicAutomatons.getTreeOfDenotationSets(), "denot_set_tree.png");;
+		Visualizer.visualizeConceptGraph(isomorphicAutomatons.getTreeOfDenotationSets(), "denot_set_tree.png");;
 	}
 	
 	@Override

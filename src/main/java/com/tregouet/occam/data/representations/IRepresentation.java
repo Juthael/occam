@@ -48,8 +48,5 @@ public interface IRepresentation
 	IDescription getDescription();
 	
 	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
-	
-	@Override
-	String toString();
 
 }

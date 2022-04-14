@@ -44,7 +44,7 @@ public class LecticScore implements IScore<LecticScore> {
 		sB.append("(");
 		Iterator<Double> valueIte = values.iterator();
 		while(valueIte.hasNext()) {
-			sB.append(valueIte.next());
+			sB.append(IScore.round(valueIte.next()));
 			if (valueIte.hasNext())
 				sB.append(" ; ");
 		}

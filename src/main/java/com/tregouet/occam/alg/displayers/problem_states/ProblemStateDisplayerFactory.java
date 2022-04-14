@@ -10,8 +10,8 @@ public class ProblemStateDisplayerFactory {
 	}
 	
 	public ProblemStateDisplayer apply(ProblemStateDisplayerStrategy strategy) {
-		switch(strategy) {
-			case NESTED_FRAMES : 
+		switch (strategy) {
+			case AS_NESTED_FRAMES : 
 				return AsNestedFrames.INSTANCE;
 			default : 
 				return null;

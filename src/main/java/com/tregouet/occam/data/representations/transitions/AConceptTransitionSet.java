@@ -15,8 +15,5 @@ public abstract class AConceptTransitionSet extends DefaultEdge {
 	public abstract Integer getTarget();
 	
 	public abstract Set<IConceptTransition> getTransitions();
-	
-	@Override
-	public abstract String toString();
 
 }

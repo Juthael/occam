@@ -2,9 +2,9 @@ package com.tregouet.occam.io.output.html.problem_space_page;
 
 import java.io.IOException;
 
+import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_spaces.IProblemSpace;
 import com.tregouet.occam.io.output.html.general.FigurePrinter;
-import com.tregouet.occam.io.output.utils.Visualizer;
 
 public class ProblemSpacePrinter {
 	
@@ -15,7 +15,7 @@ public class ProblemSpacePrinter {
 	}
 	
 	public String print(IProblemSpace problemSpace, String fileName, String alinea) throws IOException {
-		String filePath = Visualizer.vizualizeProblemSpaceGraph(problemSpace.asGraph(), fileName);
+		String filePath = VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(problemSpace.asGraph(), alinea);
 		String alineaa = alinea + "   ";
 		String alineaaa = alineaa + "   ";
 		StringBuilder sB = new StringBuilder();

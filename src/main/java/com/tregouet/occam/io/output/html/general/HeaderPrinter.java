@@ -13,7 +13,7 @@ public class HeaderPrinter implements Supplier<String> {
 	public static final HeaderPrinter INSTANCE = new HeaderPrinter();
 	private static final Path headPath = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io", 
 			"output", "html", "files", "head.txt");
-	private static final String nL = System.lineSeparator();
+	private static final String NL = System.lineSeparator();
 	
 	private HeaderPrinter() {
 	}
@@ -26,7 +26,7 @@ public class HeaderPrinter implements Supplier<String> {
 			reader = Files.newBufferedReader(headPath);
 			String line = reader.readLine();
 			while (line != null) {
-				sB.append(line + nL);
+				sB.append(line + NL);
 				line = reader.readLine();
 			}
 		} catch (IOException e) {

@@ -12,11 +12,11 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
-import com.tregouet.occam.alg.displayers.DisplayersAbstractFactory;
-import com.tregouet.occam.alg.displayers.differentiae.DifferentiaeDisplayer;
-import com.tregouet.occam.alg.displayers.problem_states.ProblemStateDisplayer;
-import com.tregouet.occam.alg.displayers.problem_transitions.ProblemTransitionDisplayer;
-import com.tregouet.occam.alg.displayers.transition_functions.TransitionFunctionDisplayer;
+import com.tregouet.occam.alg.displayers.graph_labellers.LabellersAbstractFactory;
+import com.tregouet.occam.alg.displayers.graph_labellers.differentiae.DifferentiaeLabeller;
+import com.tregouet.occam.alg.displayers.graph_labellers.problem_states.ProblemStateLabeller;
+import com.tregouet.occam.alg.displayers.graph_labellers.problem_transitions.ProblemTransitionLabeller;
+import com.tregouet.occam.alg.displayers.graph_labellers.transition_functions.TransitionFunctionLabeller;
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -47,8 +47,8 @@ public class Visualizer {
 			String fileName) throws IOException {
 		//convert in DOT format
 		DOTExporter<IProblemState, AProblemStateTransition> exporter = new DOTExporter<>();
-		ProblemStateDisplayer stateDisplayer = DisplayersAbstractFactory.INSTANCE.getProblemStateDisplayer();
-		ProblemTransitionDisplayer transitionDisplayer = DisplayersAbstractFactory.INSTANCE.getProblemTransitionDisplayer();
+		ProblemStateLabeller stateDisplayer = LabellersAbstractFactory.INSTANCE.getProblemStateDisplayer();
+		ProblemTransitionLabeller transitionDisplayer = LabellersAbstractFactory.INSTANCE.getProblemTransitionDisplayer();
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(stateDisplayer.apply(v)));
@@ -95,7 +95,7 @@ public class Visualizer {
 	
 	public static String visualizeTransitionFunction(IRepresentationTransitionFunction transFunc, 
 			String fileName) throws IOException {
-		TransitionFunctionDisplayer displayer = DisplayersAbstractFactory.INSTANCE.getTransitionFunctionDisplayer();
+		TransitionFunctionLabeller displayer = LabellersAbstractFactory.INSTANCE.getTransitionFunctionDisplayer();
 		DirectedAcyclicGraph<Integer, AConceptTransitionSet> transFuncGraph = displayer.apply(transFunc);
 		//convert in DOT format
 		DOTExporter<Integer, AConceptTransitionSet> exporter = new DOTExporter<>();
@@ -121,7 +121,7 @@ public class Visualizer {
 	
 	public static String visualizeRepresentationDescription(IDescription description, String fileName) 
 			throws IOException {
-		DifferentiaeDisplayer diffDisplayer = DisplayersAbstractFactory.INSTANCE.getDifferentiaeDisplayer();
+		DifferentiaeLabeller diffDisplayer = LabellersAbstractFactory.INSTANCE.getDifferentiaeDisplayer();
 		Tree<Integer, AbstractDifferentiae> descGraph = description.asGraph();
 		//convert in DOT format
 		DOTExporter<Integer, AbstractDifferentiae> exporter = new DOTExporter<>();

@@ -35,7 +35,7 @@ public class ProblemSpace implements IProblemSpace {
 	}
 
 	@Override
-	public IProblemState getCategorizationStateWithID(int iD) {
+	public IProblemState getStateWithID(int iD) {
 		for (IProblemState problemState : problemGraph.vertexSet()) {
 			if (problemState.id() == iD) {
 				if (!(problemState instanceof IGoalState))
@@ -54,6 +54,11 @@ public class ProblemSpace implements IProblemSpace {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public NavigableSet<IRepresentation> getSortedSetOfStates() {
+		return representations;
 	}
 
 }

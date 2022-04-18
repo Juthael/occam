@@ -1,9 +1,8 @@
-package com.tregouet.occam.io.output.html.problem_space_page;
+package com.tregouet.occam.io.output.html.general;
 
 import java.util.List;
 
 import com.tregouet.occam.data.representations.concepts.IContextObject;
-import com.tregouet.occam.io.output.html.general.TablePrinter;
 
 public class ContextPrinter {
 	
@@ -24,7 +23,7 @@ public class ContextPrinter {
 				optionalSubhead[i] = obj.getName();
 			body[i] = obj.toString();
 		}
-		return TablePrinter.INSTANCE.print(head, optionalSubhead, body, caption, alinea);
+		return TablePrinter.INSTANCE.printStringTableWithOptionalSubHead(head, optionalSubhead, body, caption, alinea);
 	}
 
 }

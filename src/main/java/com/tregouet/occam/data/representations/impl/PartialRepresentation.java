@@ -3,7 +3,6 @@ package com.tregouet.occam.data.representations.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
 import com.tregouet.occam.data.problem_spaces.IGoalState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
@@ -47,17 +46,5 @@ public class PartialRepresentation extends Representation implements IPartialRep
 	public Set<ICompleteRepresentation> getRepresentationCompletions() {
 		return representationCompletions;
 	}
-
-	@Override
-	public LecticScore score() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setScore(LecticScore score) {
-		// TODO Auto-generated method stub
-		
-	}	
 
 }

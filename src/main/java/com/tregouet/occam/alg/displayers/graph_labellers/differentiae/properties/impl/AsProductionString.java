@@ -10,9 +10,9 @@ import com.tregouet.occam.data.representations.transitions.IApplication;
 import com.tregouet.occam.data.representations.transitions.productions.IProduction;
 
 public class AsProductionString implements PropertyLabeller {
-	
+
 	public static final AsProductionString INSTANCE = new AsProductionString();
-	
+
 	private AsProductionString() {
 	}
 

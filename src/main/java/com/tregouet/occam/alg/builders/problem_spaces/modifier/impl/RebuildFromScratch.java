@@ -15,10 +15,16 @@ import com.tregouet.occam.data.problem_spaces.IProblemSpace;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 
 public class RebuildFromScratch implements ProblemSpaceModifier {
-	
+
 	public static final RebuildFromScratch INSTANCE = new RebuildFromScratch();
-	
+
 	private RebuildFromScratch() {
+	}
+
+	@Override
+	public IProblemSpace add(IProblemSpace pbSpace, String regularExpression) {
+		// NOT IMPLEMENTED YET
+		return null;
 	}
 
 	@Override
@@ -26,8 +32,8 @@ public class RebuildFromScratch implements ProblemSpaceModifier {
 		List<IProblemState> topoOrderedStates = new ArrayList<>();
 		new TopologicalOrderIterator<>(pbSpace.asGraph()).forEachRemaining(topoOrderedStates::add);
 		if (remove(topoOrderedStates, stateID)) {
-			Set<AProblemStateTransition> transitions = 
-					ProblemSpaceModifier.getCategorizationTransitionBuilder().apply(topoOrderedStates); 
+			Set<AProblemStateTransition> transitions =
+					ProblemSpaceModifier.getCategorizationTransitionBuilder().apply(topoOrderedStates);
 			return ProblemSpaceBuilder.build(topoOrderedStates, transitions);
 		}
 		return pbSpace;
@@ -40,20 +46,25 @@ public class RebuildFromScratch implements ProblemSpaceModifier {
 		boolean modified = false;
 		for (Integer stateID : stateIDs) {
 			if (remove(topoOrderedStates, stateID))
-				modified = true;					
+				modified = true;
 		}
 		if (modified) {
-			Set<AProblemStateTransition> transitions = 
-					ProblemSpaceModifier.getCategorizationTransitionBuilder().apply(topoOrderedStates); 
-			return ProblemSpaceBuilder.build(topoOrderedStates, transitions);	
+			Set<AProblemStateTransition> transitions =
+					ProblemSpaceModifier.getCategorizationTransitionBuilder().apply(topoOrderedStates);
+			return ProblemSpaceBuilder.build(topoOrderedStates, transitions);
 		}
 		return pbSpace;
 	}
 
-	@Override
-	public IProblemSpace add(IProblemSpace pbSpace, String regularExpression) {
-		// NOT IMPLEMENTED YET
-		return null;
+	private boolean remove(List<IProblemState> states, int iD) {
+		ListIterator<IProblemState> ite = states.listIterator();
+		while (ite.hasNext()) {
+			if (ite.next().id() == iD) {
+				ite.remove();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -65,20 +76,9 @@ public class RebuildFromScratch implements ProblemSpaceModifier {
 				.collect(Collectors.toList());
 		if (topoOrderedStates.equals(restriction))
 			return pbSpace;
-		Set<AProblemStateTransition> transitions = 
-				ProblemSpaceModifier.getCategorizationTransitionBuilder().apply(restriction); 
-		return ProblemSpaceBuilder.build(restriction, transitions);					
-	}
-	
-	private boolean remove(List<IProblemState> states, int iD) {
-		ListIterator<IProblemState> ite = states.listIterator();
-		while (ite.hasNext()) {
-			if (ite.next().id() == iD) {
-				ite.remove();
-				return true;
-			}
-		}
-		return false;
+		Set<AProblemStateTransition> transitions =
+				ProblemSpaceModifier.getCategorizationTransitionBuilder().apply(restriction);
+		return ProblemSpaceBuilder.build(restriction, transitions);
 	}
 
 }

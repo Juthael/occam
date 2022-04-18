@@ -16,20 +16,25 @@ import com.tregouet.tree_finder.data.InvertedTree;
 public class PartialRepresentation extends Representation implements IPartialRepresentation {
 
 	private Set<ICompleteRepresentation> representationCompletions;
-	
+
 	public PartialRepresentation(Set<IPartition> partitions, Set<ICompleteRepresentation> representationCompletions) {
 		super(null, null, null, partitions);
 		this.representationCompletions = representationCompletions;
 	}
-	
+
 	@Override
-	public void setClassification(InvertedTree<IConcept, IIsA> classification) {
-		super.classification = classification;
+	public Set<IGoalState> getReachableGoalStates() {
+		return new HashSet<>(representationCompletions);
 	}
 
 	@Override
-	public void setFactEvaluator(IFactEvaluator factEvaluator) {
-		super.factEvaluator = factEvaluator;
+	public Set<ICompleteRepresentation> getRepresentationCompletions() {
+		return representationCompletions;
+	}
+
+	@Override
+	public void setClassification(InvertedTree<IConcept, IIsA> classification) {
+		super.classification = classification;
 	}
 
 	@Override
@@ -38,13 +43,8 @@ public class PartialRepresentation extends Representation implements IPartialRep
 	}
 
 	@Override
-	public Set<IGoalState> getReachableGoalStates() {
-		return new HashSet<>(representationCompletions);
-	}
-	
-	@Override
-	public Set<ICompleteRepresentation> getRepresentationCompletions() {
-		return representationCompletions;
+	public void setFactEvaluator(IFactEvaluator factEvaluator) {
+		super.factEvaluator = factEvaluator;
 	}
 
 }

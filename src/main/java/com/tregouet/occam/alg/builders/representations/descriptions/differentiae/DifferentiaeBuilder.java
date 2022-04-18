@@ -10,7 +10,7 @@ import com.tregouet.occam.data.representations.transitions.IRepresentationTransi
 
 @FunctionalInterface
 public interface DifferentiaeBuilder extends Function<IRepresentationTransitionFunction, Set<AbstractDifferentiae>> {
-	
+
 	public static PropertyBuilder propertyBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getPropertyBuilder();
 	}

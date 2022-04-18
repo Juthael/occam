@@ -23,32 +23,10 @@ import com.tregouet.occam.data.representations.descriptions.properties.AbstractD
 import com.tregouet.tree_finder.data.Tree;
 
 public class AsNestedFrames implements ProblemStateLabeller {
-	
+
 	public static final AsNestedFrames INSTANCE = new AsNestedFrames();
 	private static final String nL = System.lineSeparator();
-	
-	private AsNestedFrames() {
-	}
 
-	@Override
-	public String apply(IProblemState problemState) {
-		StringSchemeBuilder stringBldr = ProblemSpaceBuilder.getStringSchemeBuilder();
-		if (problemState instanceof IPartialRepresentation) {
-			Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<>();
-			Set<IPartition> statePartitions = problemState.getPartitions();
-			for (IPartition maxPart : getMaxPartitions(statePartitions))
-				conceptID2ExtentIDs.putAll(maxPart.getLeaf2ExtentMap());
-			stringBldr.setUp(conceptID2ExtentIDs);
-			return stringBldr.apply(asTree(statePartitions)) + nL + problemState.score().toString();
-		}
-		else if (problemState instanceof ICompleteRepresentation) {
-			ICompleteRepresentation completeRep = (ICompleteRepresentation) problemState;
-			return stringBldr.apply(completeRep.getDescription().asGraph()) + nL + problemState.score().toString();
-		}
-		else // there is nothing else
-			return problemState.toString() + nL + problemState.score().toString();
-	}
-	
 	private static Tree<Integer, AbstractDifferentiae> asTree(Set<IPartition> intent) {
 		DirectedAcyclicGraph<Integer, AbstractDifferentiae> stateDag = new DirectedAcyclicGraph<>(null, null, false);
 		for (IPartition partition : intent) {
@@ -68,9 +46,9 @@ public class AsNestedFrames implements ProblemStateLabeller {
 				leaves.add(nextID);
 			topoOrder.add(nextID);
 		}
-		return new Tree<Integer, AbstractDifferentiae>(stateDag, root, leaves, topoOrder);
+		return new Tree<>(stateDag, root, leaves, topoOrder);
 	}
-	
+
 	private static List<IPartition> getMaxPartitions(Set<IPartition> partitions){
 		List<IPartition> maxPartitions = new ArrayList<>();
 		Iterator<IPartition> partIte = partitions.iterator();
@@ -95,6 +73,28 @@ public class AsNestedFrames implements ProblemStateLabeller {
 				maxPartitions.add(nextPart);
 		}
 		return maxPartitions;
-	}	
+	}
+
+	private AsNestedFrames() {
+	}
+
+	@Override
+	public String apply(IProblemState problemState) {
+		StringSchemeBuilder stringBldr = ProblemSpaceBuilder.getStringSchemeBuilder();
+		if (problemState instanceof IPartialRepresentation) {
+			Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<>();
+			Set<IPartition> statePartitions = problemState.getPartitions();
+			for (IPartition maxPart : getMaxPartitions(statePartitions))
+				conceptID2ExtentIDs.putAll(maxPart.getLeaf2ExtentMap());
+			stringBldr.setUp(conceptID2ExtentIDs);
+			return stringBldr.apply(asTree(statePartitions)) + nL + problemState.score().toString();
+		}
+		else if (problemState instanceof ICompleteRepresentation) {
+			ICompleteRepresentation completeRep = (ICompleteRepresentation) problemState;
+			return stringBldr.apply(completeRep.getDescription().asGraph()) + nL + problemState.score().toString();
+		}
+		else // there is nothing else
+			return problemState.toString() + nL + problemState.score().toString();
+	}
 
 }

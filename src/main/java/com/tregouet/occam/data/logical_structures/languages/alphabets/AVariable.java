@@ -9,35 +9,30 @@ import com.tregouet.occam.data.representations.concepts.IConcept;
 
 /**
  * <p>
- * A formal variable, used as a placeholder for some unspecified part of an abstract construct ({@link IConstruct}). 
- * Variables can be assigned a value by domain-specific operators ({@link IDSOperator}), which leads to the generation of 
- * a new (and less abstract) construct. 
- * </p> 
- * 
+ * A formal variable, used as a placeholder for some unspecified part of an abstract construct ({@link IConstruct}).
+ * Variables can be assigned a value by domain-specific operators ({@link IDSOperator}), which leads to the generation of
+ * a new (and less abstract) construct.
+ * </p>
+ *
  * <p>
- * A given variable should never be found in distinct constructs, nor in similar constructs belonging to the intent of 
- * distinct categories ({@link IConcept}). This way, a variable can be referred to as a <i>dimension</i> :  
- * its biding by a domain-specific operator yields a function that expresses what is common to all constructs obtained by 
+ * A given variable should never be found in distinct constructs, nor in similar constructs belonging to the intent of
+ * distinct categories ({@link IConcept}). This way, a variable can be referred to as a <i>dimension</i> :
+ * its biding by a domain-specific operator yields a function that expresses what is common to all constructs obtained by
  * this variable's assignment of a <i>value</i>, and the set of accepted values are the attributes accessible in this dimension.
  * </p>
- * 
+ *
  * @author Gael Tregouet
  *
  */
 public abstract class AVariable implements ISymbol {
-	
+
 	public static boolean DEFERRED_NAMING = true;
 	private static int iterationsOverAlphabet = 0;
 	private static List<Character> charList = populateCharList();
 	private static Iterator<Character> charIte = charList.iterator();
-	
-	public static void resetVarNaming() {
-		iterationsOverAlphabet = 0;
-		charIte = charList.iterator();
-	}
-	
+
 	private static List<Character> populateCharList(){
-		List<Character> authorizedCharASCII = new ArrayList<Character>();
+		List<Character> authorizedCharASCII = new ArrayList<>();
 		for (char curr = 'a' ; curr <= 'z' ; curr++) {
 			authorizedCharASCII.add(curr);
 		}
@@ -46,24 +41,32 @@ public abstract class AVariable implements ISymbol {
 		}
 		return authorizedCharASCII;
 	}
-	
+
+	public static void resetVarNaming() {
+		iterationsOverAlphabet = 0;
+		charIte = charList.iterator();
+	}
+
 	@Override
-	public abstract boolean equals(Object o);	
-	
+	public abstract boolean equals(Object o);
+
 	/**
-	 * 
+	 *
 	 * @return this variable's name
 	 */
 	abstract public String getName();
-	
+
+	private char getNextChar() {
+		if (!charIte.hasNext()) {
+			charIte = populateCharList().iterator();
+			iterationsOverAlphabet++;
+		}
+		return charIte.next();
+	}
+
 	@Override
 	public abstract int hashCode();
-	
-	/**
-	 * Assigns a new arbitrary name to the variable.
-	 */
-	abstract public void setName();
-	
+
 	protected String provideName() {
 		StringBuffer sB = new StringBuffer();
 		sB.append(getNextChar());
@@ -72,13 +75,10 @@ public abstract class AVariable implements ISymbol {
 		}
 		return sB.toString();
 	}
-	
-	private char getNextChar() {
-		if (!charIte.hasNext()) {
-			charIte = populateCharList().iterator();
-			iterationsOverAlphabet++;
-		}
-		return charIte.next();
-	}
+
+	/**
+	 * Assigns a new arbitrary name to the variable.
+	 */
+	abstract public void setName();
 
 }

@@ -10,10 +10,10 @@ import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 public class PartitionsWeightInverse implements CategorizationTransitionWeigher {
 
 	public static final CategorizationTransitionWeigher INSTANCE = new PartitionsWeightInverse();
-	
+
 	private PartitionsWeightInverse() {
 	}
-	
+
 	@Override
 	public void accept(AProblemStateTransition transition) {
 		Double weight;

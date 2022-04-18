@@ -19,43 +19,43 @@ import com.tregouet.occam.data.representations.concepts.IContextObject;
 
 public interface RepresentationSortedSetBuilder
 	extends Function<Collection<IContextObject>, ICompleteRepresentations> {
-	
+
 	public static ConceptLatticeBuilder getConceptLatticeBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder();
 	}
-	
+
 	public static ConceptTreeBuilder getConceptTreeBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getConceptTreeBuilder();
 	}
-	
-	public static ProductionBuilder getProductionBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice();
-	}
-	
-	public static RepresentationTransFuncBuilder getTransFuncBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
-	}
-	
+
 	public static DescriptionBuilder getDescriptionBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder();
 	}
-	
-	public static PartitionBuilder getPartitionBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getPartitionBuilder();
-	}
-	
-	public static RepresentationScorer getRepresentationHeuristicScorer() {
-		return ScorersAbstractFactory.INSTANCE.getRepresentationScorer();
-	}
-	
+
 	public static FactEvaluatorBuilder getFactEvaluatorBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getFactEvaluatorBuilder();
 	}
-	
+
+	public static PartitionBuilder getPartitionBuilder() {
+		return GeneratorsAbstractFactory.INSTANCE.getPartitionBuilder();
+	}
+
+	public static ProductionBuilder getProductionBuilder() {
+		return GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice();
+	}
+
+	public static RepresentationScorer getRepresentationHeuristicScorer() {
+		return ScorersAbstractFactory.INSTANCE.getRepresentationScorer();
+	}
+
 	public static StringSchemeBuilder getStringSchemeBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getStringSchemeBuilder();
 	}
-	
+
+	public static RepresentationTransFuncBuilder getTransFuncBuilder() {
+		return GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
+	}
+
 	RepresentationSortedSetBuilder setMaxSize(Integer maxSize);
 
 }

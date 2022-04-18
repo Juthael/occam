@@ -10,7 +10,7 @@ import com.tregouet.occam.data.representations.concepts.IContextObject;
 
 @FunctionalInterface
 public interface ConceptLatticeBuilder extends Function<Collection<IContextObject>, IConceptLattice> {
-	
+
 	public static IDenotationBuilder denotationBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getDenotationBuilder();
 	}

@@ -7,7 +7,7 @@ import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 
 public interface CategorizationTransitionWeigher extends Weigher<AProblemStateTransition> {
-	
+
 	CategorizationTransitionWeigher setContext(
 			DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemGraph);
 

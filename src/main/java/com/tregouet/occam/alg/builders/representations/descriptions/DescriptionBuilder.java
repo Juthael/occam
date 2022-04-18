@@ -13,23 +13,23 @@ import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 
 public interface DescriptionBuilder extends Function<IRepresentationTransitionFunction, IDescription> {
-	
+
 	public static DifferentiaeBuilder differentiaeBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getDifferentiaeBuilder();
 	}
-	
+
 	public static DifferentiaeCoeffSetter differentiaeCoeffSetter() {
 		return SettersAbstractFactory.INSTANCE.getDifferentiaeCoeffSetter();
 	}
-	
-	public static DifferentiaeWeigher differentiaeWeigher() {
-		return SettersAbstractFactory.INSTANCE.getDifferentiaeWeigher();
-	}
-	
+
 	public static DifferentiaeRankSetter differentiaeRankSetter() {
 		return GeneratorsAbstractFactory.INSTANCE.getDifferentiaeRankSetter();
 	}
-	
+
+	public static DifferentiaeWeigher differentiaeWeigher() {
+		return SettersAbstractFactory.INSTANCE.getDifferentiaeWeigher();
+	}
+
 	public static SimilarityMetricsBuilder similarityMetricsBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getSimilarityMetricsBuilder();
 	}

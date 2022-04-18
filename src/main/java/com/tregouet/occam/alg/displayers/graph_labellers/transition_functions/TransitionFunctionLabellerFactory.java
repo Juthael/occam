@@ -5,22 +5,22 @@ import com.tregouet.occam.alg.displayers.graph_labellers.transition_functions.im
 import com.tregouet.occam.alg.displayers.graph_labellers.transition_functions.impl.RetainSalientApp;
 
 public class TransitionFunctionLabellerFactory {
-	
+
 	public static final TransitionFunctionLabellerFactory INSTANCE =
 			new TransitionFunctionLabellerFactory();
-	
+
 	private TransitionFunctionLabellerFactory() {
 	}
-	
+
 	public TransitionFunctionLabeller apply(TransitionFunctionLabellerStrategy strategy) {
 		switch (strategy) {
-			case DISPLAY_ALL_TRANSITIONS : 
+			case DISPLAY_ALL_TRANSITIONS :
 				return new DisplayAllTransitions();
-			case REMOVE_NON_SALIENT_APP : 
+			case REMOVE_NON_SALIENT_APP :
 				return new RemoveNonSalientApp();
-			case RETAIN_SALIENT_APP : 
+			case RETAIN_SALIENT_APP :
 				return new RetainSalientApp();
-			default : 
+			default :
 				return null;
 		}
 	}

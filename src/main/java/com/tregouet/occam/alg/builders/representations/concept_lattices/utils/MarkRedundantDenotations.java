@@ -7,7 +7,7 @@ import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 
 public interface MarkRedundantDenotations {
-	
+
 	public static void of(IConcept concept) {
 		List<IDenotation> denotationList = new ArrayList<>(concept.getDenotations());
 		for (int i = 0 ; i < denotationList.size() - 1 ; i++) {

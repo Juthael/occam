@@ -17,19 +17,24 @@ public class Construct implements IConstruct {
 
 	protected final List<ISymbol> symbols;
 	private int nbOfTerminals;
-	
+
 	public Construct(IConstruct construct) {
 		symbols = new ArrayList<>(construct.asList());
 		nbOfTerminals = construct.getNbOfTerminals();
 	}
-	
+
 	public Construct(List<ISymbol> prog) {
 		this.symbols = prog;
 		nbOfTerminals = setNbOfTerminals();
 	}
-	
+
+	private Construct(List<ISymbol> symbols, int nbOfTerminals) {
+		this.symbols = symbols;
+		this.nbOfTerminals = nbOfTerminals;
+	}
+
 	public Construct(String[] progStrings) {
-		symbols = new ArrayList<ISymbol>();
+		symbols = new ArrayList<>();
 		for (String symString : progStrings) {
 			if (symString.equals(ISymbolSeq.PLACEHOLDER))
 				symbols.add(new Variable(AVariable.DEFERRED_NAMING));
@@ -42,19 +47,22 @@ public class Construct implements IConstruct {
 		}
 		this.nbOfTerminals = nbOfTerminals;
 	}
-	
-	private Construct(List<ISymbol> symbols, int nbOfTerminals) {
-		this.symbols = symbols;
-		this.nbOfTerminals = nbOfTerminals;
+
+	@Override
+	public List<ISymbol> asList(){
+		return symbols;
+	}
+
+	@Override
+	public IConstruct copy() {
+		return new Construct(new ArrayList<>(symbols), nbOfTerminals);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Construct other = (Construct) obj;
 		if (symbols == null) {
@@ -66,13 +74,25 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
+	public String getFunctionType() {
+		List<AVariable> vars  = getVariables();
+		if (vars.isEmpty())
+			return null;
+		StringBuilder sB = new StringBuilder();
+		sB.append("τ_(");
+		Iterator<AVariable> varIte = vars.iterator();
+		while (varIte.hasNext()) {
+			sB.append(varIte.next().toString());
+			if (varIte.hasNext())
+				sB.append(", ");
+		}
+		sB.append(")");
+		return sB.toString();
+	}
+
+	@Override
 	public Iterator<ISymbol> getIteratorOverSymbols(){
 		return symbols.iterator();
-	}
-	
-	@Override
-	public List<ISymbol> asList(){
-		return symbols;
 	}
 
 	@Override
@@ -80,14 +100,14 @@ public class Construct implements IConstruct {
 		return symbols.stream()
 				.filter(d -> d instanceof ITerminal)
 				.map(s -> (ITerminal) s)
-				.collect(Collectors.toList()); 
+				.collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public int getNbOfTerminals() {
 		return nbOfTerminals;
 	}
-	
+
 	@Override
 	public List<AVariable> getVariables() {
 		List<AVariable> variables = new ArrayList<>();
@@ -114,13 +134,13 @@ public class Construct implements IConstruct {
 			isAbstract = (ite.next() instanceof AVariable);
 		return isAbstract;
 	}
-	
+
 	@Override
 	public boolean meets(IConstruct constraint) {
 		List<ISymbol> constraintSymbols = constraint.asList();
 		if (this.nbOfTerminals >= constraintSymbols.size()) {
 			int constraintIdx = 0;
-			for (int constructIdx = 0 ; constructIdx < symbols.size() 
+			for (int constructIdx = 0 ; constructIdx < symbols.size()
 					&& constraintIdx < constraintSymbols.size() ; constructIdx++) {
 				if (symbols.get(constructIdx).equals(constraintSymbols.get(constraintIdx)))
 					constraintIdx++;
@@ -130,7 +150,7 @@ public class Construct implements IConstruct {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void nameVariables() {
 		for (ISymbol symbol : symbols) {
@@ -139,9 +159,18 @@ public class Construct implements IConstruct {
 		}
 	}
 
+	protected int setNbOfTerminals() {
+		int nbOfTerminals = 0;
+		for (ISymbol symbol : symbols) {
+			if (symbol instanceof ITerminal)
+				nbOfTerminals++;
+		}
+		return nbOfTerminals;
+	}
+
 	@Override
 	public List<String> toListOfStringsWithPlaceholders(){
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		for (ISymbol sym : symbols) {
 			if (sym instanceof AVariable)
 				list.add(ISymbolSeq.PLACEHOLDER);
@@ -158,37 +187,6 @@ public class Construct implements IConstruct {
 			if (i < symbols.size() - 1)
 				sB.append(" ");
 		}
-		return sB.toString();
-	}
-	
-	protected int setNbOfTerminals() {
-		int nbOfTerminals = 0;
-		for (ISymbol symbol : symbols) {
-			if (symbol instanceof ITerminal)
-				nbOfTerminals++;
-		}
-		return nbOfTerminals;
-	}
-
-	@Override
-	public IConstruct copy() {
-		return new Construct(new ArrayList<>(symbols), nbOfTerminals);
-	}
-
-	@Override
-	public String getFunctionType() {
-		List<AVariable> vars  = getVariables();
-		if (vars.isEmpty())
-			return null;
-		StringBuilder sB = new StringBuilder();
-		sB.append("τ_(");
-		Iterator<AVariable> varIte = vars.iterator();
-		while (varIte.hasNext()) {
-			sB.append(varIte.next().toString());
-			if (varIte.hasNext())
-				sB.append(", ");
-		}
-		sB.append(")");
 		return sB.toString();
 	}
 

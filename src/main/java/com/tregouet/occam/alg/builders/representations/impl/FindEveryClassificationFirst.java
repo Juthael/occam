@@ -22,45 +22,45 @@ import com.tregouet.occam.data.representations.transitions.productions.IContextu
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class FindEveryClassificationFirst implements RepresentationSortedSetBuilder {
-	
+
 	public static final FindEveryClassificationFirst INSTANCE = new FindEveryClassificationFirst();
-	
+
 	private Integer maxSize = null;
-	
+
 	private FindEveryClassificationFirst() {
+	}
+
+	private void addAndTrimIfRequired(ICompleteRepresentation newRepresentation,
+			SortedSet<ICompleteRepresentation> representations) {
+		representations.add(newRepresentation);
+		if (maxSize != null & representations.size() > maxSize)
+			representations.remove(representations.first());
 	}
 
 	@Override
 	public ICompleteRepresentations apply(Collection<IContextObject> particulars) {
 		SortedSet<ICompleteRepresentation> representations = new TreeSet<>();
-		IConceptLattice conceptLattice = 
+		IConceptLattice conceptLattice =
 				RepresentationSortedSetBuilder.getConceptLatticeBuilder().apply(particulars);
-		Set<InvertedTree<IConcept, IIsA>> classifications = 
+		Set<InvertedTree<IConcept, IIsA>> classifications =
 				RepresentationSortedSetBuilder.getConceptTreeBuilder().apply(conceptLattice);
-		Set<IContextualizedProduction> productions = 
+		Set<IContextualizedProduction> productions =
 				RepresentationSortedSetBuilder.getProductionBuilder().apply(conceptLattice);
 		for (InvertedTree<IConcept, IIsA> classification : classifications) {
-			IRepresentationTransitionFunction transFunc = 
+			IRepresentationTransitionFunction transFunc =
 					RepresentationSortedSetBuilder.getTransFuncBuilder().apply(classification, productions);
 			IFactEvaluator factEvaluator = RepresentationSortedSetBuilder.getFactEvaluatorBuilder().apply(transFunc);
-			IDescription description = 
+			IDescription description =
 					RepresentationSortedSetBuilder.getDescriptionBuilder().apply(transFunc);
 			Set<IPartition> partitions = RepresentationSortedSetBuilder.getPartitionBuilder()
 											.setUp(classification)
 											.apply(description);
-			ICompleteRepresentation representation = 
+			ICompleteRepresentation representation =
 					new CompleteRepresentation(classification, description, factEvaluator, partitions);
 			representation.setScore(RepresentationSortedSetBuilder.getRepresentationHeuristicScorer().apply(representation));
 			addAndTrimIfRequired(representation, representations);
 		}
 		return new CompleteRepresentations(conceptLattice, representations);
-	}
-	
-	private void addAndTrimIfRequired(ICompleteRepresentation newRepresentation, 
-			SortedSet<ICompleteRepresentation> representations) {
-		representations.add(newRepresentation);
-		if (maxSize != null & representations.size() > maxSize)
-			representations.remove(representations.first());
 	}
 
 	@Override

@@ -10,7 +10,7 @@ public class Application extends ConceptTransition implements IApplication {
 	public Application(IConceptTransitionIC inputConfig, IConceptTransitionOIC outputInternConfig) {
 		super(inputConfig, outputInternConfig);
 	}
-	
+
 	@Override
 	public boolean isRedundant() {
 		return getInputConfiguration().getInputSymbol().isRedundant();

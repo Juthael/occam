@@ -10,7 +10,7 @@ import com.tregouet.occam.data.representations.transitions.productions.IContextu
 
 @FunctionalInterface
 public interface ProductionBuilder extends Function<IConceptLattice, Set<IContextualizedProduction>> {
-	
+
 	public static ProdBuilderFromDenotations prodBuilderFromDenotations() {
 		return GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromDenotations();
 	}

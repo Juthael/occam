@@ -7,17 +7,17 @@ import com.tregouet.occam.data.representations.descriptions.properties.AbstractD
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IDescription {
-	
+
 	Tree<Integer, AbstractDifferentiae> asGraph();
-	
-	ISimilarityMetrics getSimilarityMetrics();
-	
-	List<Integer> getTopologicallyOrderedConceptIDs();
-	
-	@Override
-	int hashCode();
-	
+
 	@Override
 	boolean equals(Object o);
-	
+
+	ISimilarityMetrics getSimilarityMetrics();
+
+	List<Integer> getTopologicallyOrderedConceptIDs();
+
+	@Override
+	int hashCode();
+
 }

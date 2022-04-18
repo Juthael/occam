@@ -21,28 +21,21 @@ public class FactEvaluator implements IFactEvaluator {
 	private IRepresentationTapeSet tapeSet = new RepresentationTapeSet();
 	private int activeStateID;
 	private boolean halted = false;
-	
+
 	public FactEvaluator() {
 	}
-	
+
 	private FactEvaluator(
-			IRepresentationTransitionFunction transitionFunction, 
+			IRepresentationTransitionFunction transitionFunction,
 			IRepresentationTapeSet tapeSet,
 			Integer activeState) {
 		this.transitionFunction = transitionFunction;
 		this.activeStateID = activeState;
 	}
-	
-	@Override
-	public IFactEvaluator input(IFactTape factTape) {
-		tapeSet.input(factTape);
-		return this;
-	}
 
 	@Override
-	public void set(IRepresentationTransitionFunction transitionFunction) {
-		this.transitionFunction = transitionFunction;
-		activeStateID = transitionFunction.getStartStateID();
+	public boolean accepts() {
+		return halted && transitionFunction.getAcceptStateIDs().contains(activeStateID);
 	}
 
 	@Override
@@ -65,9 +58,9 @@ public class FactEvaluator implements IFactEvaluator {
 			IConceptTransitionIC requiredInputConfig = transition.getInputConfiguration();
 			if (requiredInputConfig.getInputStateID() == activeStateID
 					&& requiredInputConfig.getStackSymbol().equals(poppedStackSymbol)) {
-				IFactEvaluator nextHead = 
+				IFactEvaluator nextHead =
 						proceedPrintingTransition(
-								requiredInputConfig.getInputSymbol(), 
+								requiredInputConfig.getInputSymbol(),
 								transition.getOutputInternConfiguration());
 				acceptHeads.addAll(nextHead.factEnumerator());
 			}
@@ -76,16 +69,32 @@ public class FactEvaluator implements IFactEvaluator {
 	}
 
 	@Override
+	public int getActiveStateID() {
+		return activeStateID;
+	}
+
+	@Override
+	public IRepresentationTapeSet getTapeSet() {
+		return tapeSet;
+	}
+
+	@Override
+	public IRepresentationTransitionFunction getTransitionFunction() {
+		return transitionFunction;
+	}
+
+	@Override
 	public boolean halted() {
 		return halted;
 	}
 
 	@Override
-	public boolean accepts() {
-		return halted && transitionFunction.getAcceptStateIDs().contains(activeStateID);
+	public IFactEvaluator input(IFactTape factTape) {
+		tapeSet.input(factTape);
+		return this;
 	}
-	
-	private IFactEvaluator proceedPrintingTransition(IContextualizedProduction nextPrint, 
+
+	private IFactEvaluator proceedPrintingTransition(IContextualizedProduction nextPrint,
 			IConceptTransitionOIC outputInternConfig) {
 		IRepresentationTapeSet nextTapeSet = tapeSet.copy();
 		if (!nextPrint.isEpsilon())
@@ -99,25 +108,16 @@ public class FactEvaluator implements IFactEvaluator {
 	}
 
 	@Override
-	public IRepresentationTransitionFunction getTransitionFunction() {
-		return transitionFunction;
-	}
-
-	@Override
-	public IRepresentationTapeSet getTapeSet() {
-		return tapeSet;
-	}
-
-	@Override
 	public void reinitialize() {
 		tapeSet = new RepresentationTapeSet();
 		activeStateID = transitionFunction.getStartStateID();
 		halted = false;
 	}
-	
+
 	@Override
-	public int getActiveStateID() {
-		return activeStateID;
+	public void set(IRepresentationTransitionFunction transitionFunction) {
+		this.transitionFunction = transitionFunction;
+		activeStateID = transitionFunction.getStartStateID();
 	}
 
 }

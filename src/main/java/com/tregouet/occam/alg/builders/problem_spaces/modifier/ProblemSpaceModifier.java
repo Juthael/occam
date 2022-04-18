@@ -8,21 +8,21 @@ import com.tregouet.occam.alg.builders.problem_spaces.transitions.TransitionBuil
 import com.tregouet.occam.data.problem_spaces.IProblemSpace;
 
 public interface ProblemSpaceModifier {
-	
-	IProblemSpace remove(IProblemSpace pbSpace, int stateID);
-	
-	IProblemSpace remove(IProblemSpace pbSpace, Set<Integer> stateIDs);
-	
-	IProblemSpace add(IProblemSpace pbSpace, String regularExpression);
-	
-	IProblemSpace restrictTo(IProblemSpace pbSpace, Set<Integer> stateIDs);
-	
+
 	public static TransitionBuilder getCategorizationTransitionBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getProblemTransitionBuilder();
 	}
-	
+
 	public static PartialRepresentationLateSetter getPartialRepresentationLateSetter() {
 		return GeneratorsAbstractFactory.INSTANCE.getPartialRepresentationLateSetter();
 	}
+
+	IProblemSpace add(IProblemSpace pbSpace, String regularExpression);
+
+	IProblemSpace remove(IProblemSpace pbSpace, int stateID);
+
+	IProblemSpace remove(IProblemSpace pbSpace, Set<Integer> stateIDs);
+
+	IProblemSpace restrictTo(IProblemSpace pbSpace, Set<Integer> stateIDs);
 
 }

@@ -11,7 +11,7 @@ import com.tregouet.occam.data.representations.transitions.productions.impl.Cont
 public class SpontaneousTransition extends ConceptTransition implements IConceptTransition {
 
 	public SpontaneousTransition(int inputStateID, int outputStateID) {
-		super(new ConceptTransitionIC(inputStateID, new ContextualizedEpsilonProd(null, null), This.INSTANCE), 
+		super(new ConceptTransitionIC(inputStateID, new ContextualizedEpsilonProd(null, null), This.INSTANCE),
 				new ConceptTransitionOIC(outputStateID, Arrays.asList(new AVariable[] {This.INSTANCE})));
 	}
 

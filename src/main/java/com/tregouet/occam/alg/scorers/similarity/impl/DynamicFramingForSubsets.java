@@ -7,7 +7,7 @@ import com.tregouet.occam.data.representations.descriptions.metrics.subsets.ICon
 import com.tregouet.tree_finder.utils.Functions;
 
 public class DynamicFramingForSubsets extends AbstractSimilarityScorer<IConceptSubsetIDs> implements SubsetSimilarityScorer {
-	
+
 	public DynamicFramingForSubsets() {
 	}
 

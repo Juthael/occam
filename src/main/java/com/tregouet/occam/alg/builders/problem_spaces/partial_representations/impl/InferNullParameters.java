@@ -24,33 +24,9 @@ import com.tregouet.occam.data.representations.transitions.impl.RepresentationTr
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class InferNullParameters implements PartialRepresentationLateSetter {
-	
-	public static final InferNullParameters INSTANCE = new InferNullParameters();
-	
-	private InferNullParameters() {
-	}
 
-	@Override
-	public void accept(IPartialRepresentation partialRepresentation) {
-		IRepresentationTransitionFunction transFunc = buildTransitionFunction(partialRepresentation.getRepresentationCompletions());
-		IFactEvaluator factEvaluator = PartialRepresentationLateSetter.getfactEvaluatorBuilder().apply(transFunc);
-		InvertedTree<IConcept, IIsA> classification = buildClassification(partialRepresentation.getRepresentationCompletions());
-		IDescription description = PartialRepresentationLateSetter.descriptionBuilder().apply(transFunc);
-		partialRepresentation.setClassification(classification);
-		partialRepresentation.setFactEvaluator(factEvaluator);
-		partialRepresentation.setDescription(description);
-	}
-	
-	private static IRepresentationTransitionFunction buildTransitionFunction(Set<ICompleteRepresentation> completions) {
-		Set<IConceptTransition> transitions = new HashSet<>();
-		Iterator<ICompleteRepresentation> repIte = completions.iterator();
-		if (repIte.hasNext())
-			transitions.addAll(repIte.next().getTransitionFunction().getTransitions());
-		while (repIte.hasNext())
-			transitions.retainAll(repIte.next().getTransitionFunction().getTransitions());
-		return new RepresentationTransitionFunction(transitions);
-	}
-	
+	public static final InferNullParameters INSTANCE = new InferNullParameters();
+
 	private static InvertedTree<IConcept, IIsA> buildClassification(Set<ICompleteRepresentation> completions) {
 		DirectedAcyclicGraph<IConcept, IIsA> tempClass = new DirectedAcyclicGraph<>(null, null, false);
 		IConcept ontologicalCommitment = null;
@@ -72,7 +48,31 @@ public class InferNullParameters implements PartialRepresentationLateSetter {
 				leaves.add(concept);
 		}
 		new TopologicalOrderIterator<>(tempClass).forEachRemaining(topoOrderedSet::add);
-		return new InvertedTree<IConcept, IIsA>(tempClass, ontologicalCommitment, leaves, topoOrderedSet);
+		return new InvertedTree<>(tempClass, ontologicalCommitment, leaves, topoOrderedSet);
+	}
+
+	private static IRepresentationTransitionFunction buildTransitionFunction(Set<ICompleteRepresentation> completions) {
+		Set<IConceptTransition> transitions = new HashSet<>();
+		Iterator<ICompleteRepresentation> repIte = completions.iterator();
+		if (repIte.hasNext())
+			transitions.addAll(repIte.next().getTransitionFunction().getTransitions());
+		while (repIte.hasNext())
+			transitions.retainAll(repIte.next().getTransitionFunction().getTransitions());
+		return new RepresentationTransitionFunction(transitions);
+	}
+
+	private InferNullParameters() {
+	}
+
+	@Override
+	public void accept(IPartialRepresentation partialRepresentation) {
+		IRepresentationTransitionFunction transFunc = buildTransitionFunction(partialRepresentation.getRepresentationCompletions());
+		IFactEvaluator factEvaluator = PartialRepresentationLateSetter.getfactEvaluatorBuilder().apply(transFunc);
+		InvertedTree<IConcept, IIsA> classification = buildClassification(partialRepresentation.getRepresentationCompletions());
+		IDescription description = PartialRepresentationLateSetter.descriptionBuilder().apply(transFunc);
+		partialRepresentation.setClassification(classification);
+		partialRepresentation.setFactEvaluator(factEvaluator);
+		partialRepresentation.setDescription(description);
 	}
 
 }

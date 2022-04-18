@@ -17,7 +17,7 @@ public class RemoveNonSalientApp extends AbstractTFLabeller implements Transitio
 				.filter(t -> !isNonSalientApplication(t))
 				.collect(Collectors.toSet());
 	}
-	
+
 	private boolean isNonSalientApplication(IConceptTransition transition) {
 		if (transition.type() == TransitionType.APPLICATION
 				&& (transition.getSalience() == Salience.REDUNDANT

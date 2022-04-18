@@ -10,9 +10,9 @@ import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 
 public class LecticComparisonOfRanks implements RepresentationScorer {
-	
+
 	public static final LecticComparisonOfRanks INSTANCE = new LecticComparisonOfRanks();
-	
+
 	private LecticComparisonOfRanks() {
 	}
 

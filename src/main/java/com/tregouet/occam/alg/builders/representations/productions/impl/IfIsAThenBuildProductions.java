@@ -13,7 +13,7 @@ import com.tregouet.occam.data.representations.transitions.productions.IContextu
 public class IfIsAThenBuildProductions implements ProductionBuilder {
 
 	public static final IfIsAThenBuildProductions INSTANCE = new IfIsAThenBuildProductions();
-	
+
 	public IfIsAThenBuildProductions() {
 	}
 
@@ -28,7 +28,7 @@ public class IfIsAThenBuildProductions implements ProductionBuilder {
 				if (conceptLattice.isA(iConcept, jConcept)) {
 					for (IDenotation source : iConcept.getDenotations()) {
 						for (IDenotation target : jConcept.getDenotations()) {
-							Set<IContextualizedProduction> ijDenotationsProds = 
+							Set<IContextualizedProduction> ijDenotationsProds =
 									ProductionBuilder.prodBuilderFromDenotations().apply(source, target);
 							productions.addAll(ijDenotationsProds);
 						}

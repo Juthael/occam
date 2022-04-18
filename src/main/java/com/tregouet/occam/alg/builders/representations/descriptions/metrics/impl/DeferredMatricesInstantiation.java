@@ -13,14 +13,14 @@ import com.tregouet.tree_finder.data.Tree;
 public class DeferredMatricesInstantiation implements SimilarityMetricsBuilder {
 
 	public static final DeferredMatricesInstantiation INSTANCE = new DeferredMatricesInstantiation();
-	
+
 	private DeferredMatricesInstantiation() {
 	}
-	
+
 	@Override
 	public ISimilarityMetrics apply(Tree<Integer, AbstractDifferentiae> descriptionTree) {
 		List<Integer> topologicalOrder = descriptionTree.getTopologicalOrder();
-		TreeSet<Integer> particulars = 
+		TreeSet<Integer> particulars =
 				new TreeSet<>((e1, e2) -> topologicalOrder.indexOf(e1) - topologicalOrder.indexOf(e2));
 		particulars.addAll(descriptionTree.getLeaves());
 		int nbOfParticulars = particulars.size();
@@ -30,8 +30,8 @@ public class DeferredMatricesInstantiation implements SimilarityMetricsBuilder {
 		while (particularIte.hasNext())
 			particularArray[arrayIdx++] = particularIte.next();
 		return new SimilarityMetrics(
-				particularArray, 
-				SimilarityMetricsBuilder.pairSimilarityScorer(), 
+				particularArray,
+				SimilarityMetricsBuilder.pairSimilarityScorer(),
 				SimilarityMetricsBuilder.asymmetricalSimilarityScorer());
 	}
 

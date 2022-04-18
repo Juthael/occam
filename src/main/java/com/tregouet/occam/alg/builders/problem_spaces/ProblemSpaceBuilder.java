@@ -22,37 +22,17 @@ import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.impl.ProblemSpace;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
 
-public interface ProblemSpaceBuilder 
+public interface ProblemSpaceBuilder
 	extends Function<ICompleteRepresentations, IProblemSpace> {
-	
-	public static PartialRepresentationLateSetter getPartialRepresentationLateSetter() {
-		return GeneratorsAbstractFactory.INSTANCE.getPartialRepresentationLateSetter();
-	}
-	
-	public static TransitionBuilder getCategorizationTransitionBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getProblemTransitionBuilder();
-	}
-	
-	public static CategorizationTransitionWeigher getCategorizationTransitionWeigher() {
-		return SettersAbstractFactory.INSTANCE.getCategorizationTransitionWeigher();
-	}
-	
-	public static ProblemStateScorer getProblemStateScorer() {
-		return ScorersAbstractFactory.INSTANCE.getProblemStateScorer();
-	}
-	
-	public static StringSchemeBuilder getStringSchemeBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getStringSchemeBuilder();
-	}
-	
+
 	public static IProblemSpace build(List<IProblemState> topoOrderedStates, Set<AProblemStateTransition> transitions) {
-		DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemGraph = 
+		DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemGraph =
 				new DirectedAcyclicGraph<>(null, null, true);
 		Graphs.addAllVertices(problemGraph, topoOrderedStates);
 		for (AProblemStateTransition transition : transitions)
 			problemGraph.addEdge(transition.getSource(), transition.getTarget(), transition);
 		TransitiveReduction.INSTANCE.reduce(problemGraph);
-		CategorizationTransitionWeigher weigher = 
+		CategorizationTransitionWeigher weigher =
 				ProblemSpaceBuilder.getCategorizationTransitionWeigher().setContext(problemGraph);
 		for (AProblemStateTransition transition : problemGraph.edgeSet())
 			weigher.accept(transition);
@@ -61,6 +41,26 @@ public interface ProblemSpaceBuilder
 			scorer.apply(state);
 		PartialRepresentationLateSetter partialRepLateSetter = ProblemSpaceBuilder.getPartialRepresentationLateSetter();
 		return new ProblemSpace(problemGraph, partialRepLateSetter);
+	}
+
+	public static TransitionBuilder getCategorizationTransitionBuilder() {
+		return GeneratorsAbstractFactory.INSTANCE.getProblemTransitionBuilder();
+	}
+
+	public static CategorizationTransitionWeigher getCategorizationTransitionWeigher() {
+		return SettersAbstractFactory.INSTANCE.getCategorizationTransitionWeigher();
+	}
+
+	public static PartialRepresentationLateSetter getPartialRepresentationLateSetter() {
+		return GeneratorsAbstractFactory.INSTANCE.getPartialRepresentationLateSetter();
+	}
+
+	public static ProblemStateScorer getProblemStateScorer() {
+		return ScorersAbstractFactory.INSTANCE.getProblemStateScorer();
+	}
+
+	public static StringSchemeBuilder getStringSchemeBuilder() {
+		return GeneratorsAbstractFactory.INSTANCE.getStringSchemeBuilder();
 	}
 
 }

@@ -12,12 +12,9 @@ import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.representations.concepts.denotations.IDenotationComparator;
 
 public class DenotationComparator implements IDenotationComparator {
-	
+
 	public static final DenotationComparator INSTANCE = new DenotationComparator();
-	
-	private DenotationComparator() {
-	}
-	
+
 	private static boolean strictLowerBoundOf(IDenotation d1, IDenotation d2) {
 		if (subSequenceOf(d2.getListOfTerminals(), d1.getListOfTerminals())) {
 			List<ISymbol> d1ValueProvider = d1.asList();
@@ -29,7 +26,7 @@ public class DenotationComparator implements IDenotationComparator {
 		}
 		return false;
 	}
-	
+
 	private static boolean subSequenceOf(List<ITerminal> t1, List<ITerminal> t2) {
 		if (t1.isEmpty())
 			return true;
@@ -48,10 +45,13 @@ public class DenotationComparator implements IDenotationComparator {
 		return false;
 	}
 
+	private DenotationComparator() {
+	}
+
 	@Override
 	public Integer compare(IDenotation d1, IDenotation d2) {
-		/* implies that alpha-conversion is either supported by equals(), or is useless because 
-		 * it is guaranteed that two denotations can never vary only by the name of their variables.  
+		/* implies that alpha-conversion is either supported by equals(), or is useless because
+		 * it is guaranteed that two denotations can never vary only by the name of their variables.
 		 */
 		if (d1.equals(d2))
 			return 0;

@@ -19,8 +19,8 @@ public class ProblemSpace implements IProblemSpace {
 	private final DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemGraph;
 	private final PartialRepresentationLateSetter partialRepresentationLateSetter;
 	private final NavigableSet<IRepresentation> representations = new TreeSet<>();
-	
-	public ProblemSpace( 
+
+	public ProblemSpace(
 			DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemGraph,
 			PartialRepresentationLateSetter partialRepresentationLateSetter) {
 		this.problemGraph = problemGraph;
@@ -28,22 +28,10 @@ public class ProblemSpace implements IProblemSpace {
 		for (IProblemState state : problemGraph)
 			representations.add((IRepresentation) state);
 	}
-	
+
 	@Override
 	public DirectedAcyclicGraph<IProblemState, AProblemStateTransition> asGraph() {
 		return problemGraph;
-	}
-
-	@Override
-	public IProblemState getStateWithID(int iD) {
-		for (IProblemState problemState : problemGraph.vertexSet()) {
-			if (problemState.id() == iD) {
-				if (!(problemState instanceof IGoalState))
-					partialRepresentationLateSetter.accept((IPartialRepresentation) problemState);
-				return problemState;	
-			}
-		}
-		return null;
 	}
 
 	@Override
@@ -59,6 +47,18 @@ public class ProblemSpace implements IProblemSpace {
 	@Override
 	public NavigableSet<IRepresentation> getSortedSetOfStates() {
 		return representations;
+	}
+
+	@Override
+	public IProblemState getStateWithID(int iD) {
+		for (IProblemState problemState : problemGraph.vertexSet()) {
+			if (problemState.id() == iD) {
+				if (!(problemState instanceof IGoalState))
+					partialRepresentationLateSetter.accept((IPartialRepresentation) problemState);
+				return problemState;
+			}
+		}
+		return null;
 	}
 
 }

@@ -6,9 +6,9 @@ import com.tregouet.occam.data.representations.evaluation.impl.FactEvaluator;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 
 public class SalienceBlindFEBuilder implements FactEvaluatorBuilder {
-	
+
 	public static final SalienceBlindFEBuilder INSTANCE = new SalienceBlindFEBuilder();
-	
+
 	private SalienceBlindFEBuilder() {
 	}
 

@@ -22,33 +22,9 @@ import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.impl.PartialRepresentation;
 
 public class GaloisLatticeOfRepresentations implements ProblemSpaceBuilder {
-	
-	public static final ProblemSpaceBuilder INSTANCE = new GaloisLatticeOfRepresentations();
-	
-	private GaloisLatticeOfRepresentations() {
-	}
 
-	@Override
-	public IProblemSpace apply(ICompleteRepresentations completeRepresentations) {
-		Map<Integer, Set<IPartition>> completeRepIdx2Partitions = 
-				setCompleteRepIdx2PartitionMap(completeRepresentations);
-		IClosedSetsFinder<Integer, IPartition> closedSetsFinder = new NextClosure<>(); 
-		LinkedHashMap<Set<Integer>, Set<IPartition>> lecticallyOrderedClosedSets = closedSetsFinder.apply(completeRepIdx2Partitions);
-		List<IProblemState> topoOrderedStates = 
-				buildCategorisationStates(completeRepresentations, lecticallyOrderedClosedSets);
-		TransitionBuilder transBldr = ProblemSpaceBuilder.getCategorizationTransitionBuilder();
-		Set<AProblemStateTransition> transitions = transBldr.apply(topoOrderedStates);
-		return ProblemSpaceBuilder.build(topoOrderedStates, transitions);
-	}
-	
-	private static Map<Integer, Set<IPartition>> setCompleteRepIdx2PartitionMap(
-			ICompleteRepresentations completeRepresentations) {
-		Map<Integer, Set<IPartition>> mapping = new HashMap<>();
-		for (ICompleteRepresentation rep : completeRepresentations.getSortedRepresentations())
-			mapping.put(rep.id(), rep.getPartitions());
-		return mapping;
-	}
-	
+	public static final ProblemSpaceBuilder INSTANCE = new GaloisLatticeOfRepresentations();
+
 	private static List<IProblemState> buildCategorisationStates(
 			ICompleteRepresentations completeRepresentations,
 			LinkedHashMap<Set<Integer>, Set<IPartition>> closedSets) {
@@ -64,7 +40,7 @@ public class GaloisLatticeOfRepresentations implements ProblemSpaceBuilder {
 		}
 		return states;
 	}
-	
+
 	private static Set<IPartition> intent(Set<ICompleteRepresentation> extent) {
 		Set<IPartition> intent = new HashSet<>();
 		Iterator<ICompleteRepresentation> extentIte = extent.iterator();
@@ -73,6 +49,30 @@ public class GaloisLatticeOfRepresentations implements ProblemSpaceBuilder {
 		while (extentIte.hasNext())
 			intent.retainAll(extentIte.next().getPartitions());
 		return intent;
+	}
+
+	private static Map<Integer, Set<IPartition>> setCompleteRepIdx2PartitionMap(
+			ICompleteRepresentations completeRepresentations) {
+		Map<Integer, Set<IPartition>> mapping = new HashMap<>();
+		for (ICompleteRepresentation rep : completeRepresentations.getSortedRepresentations())
+			mapping.put(rep.id(), rep.getPartitions());
+		return mapping;
+	}
+
+	private GaloisLatticeOfRepresentations() {
+	}
+
+	@Override
+	public IProblemSpace apply(ICompleteRepresentations completeRepresentations) {
+		Map<Integer, Set<IPartition>> completeRepIdx2Partitions =
+				setCompleteRepIdx2PartitionMap(completeRepresentations);
+		IClosedSetsFinder<Integer, IPartition> closedSetsFinder = new NextClosure<>();
+		LinkedHashMap<Set<Integer>, Set<IPartition>> lecticallyOrderedClosedSets = closedSetsFinder.apply(completeRepIdx2Partitions);
+		List<IProblemState> topoOrderedStates =
+				buildCategorisationStates(completeRepresentations, lecticallyOrderedClosedSets);
+		TransitionBuilder transBldr = ProblemSpaceBuilder.getCategorizationTransitionBuilder();
+		Set<AProblemStateTransition> transitions = transBldr.apply(topoOrderedStates);
+		return ProblemSpaceBuilder.build(topoOrderedStates, transitions);
 	}
 
 }

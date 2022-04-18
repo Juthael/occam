@@ -4,7 +4,8 @@ import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.descriptions.metrics.subsets.IConceptSubsetIDs;
 
 public interface SubsetSimilarityScorer extends SimilarityScorer<IConceptSubsetIDs> {
-	
+
+	@Override
 	SubsetSimilarityScorer setAsContext(IDescription description);
 
 }

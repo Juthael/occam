@@ -17,9 +17,9 @@ public interface IPushdownAutomatonHead<
 	Transition extends IPushdownAutomatonTransition<InputSymbol, StackSymbol, InputConfig, OutputConfig>,
 	TapeSet extends IPushdownAutomatonTapeSet<InputSymbol, StackSymbol, TapeSet>,
 	Word extends IWord<InputSymbol>,
-	Head extends IPushdownAutomatonHead<TransitionFunc, InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition, 
+	Head extends IPushdownAutomatonHead<TransitionFunc, InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition,
 	TapeSet, Word, Head>
-	> 
+	>
 	extends IHead<TransitionFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head> {
 
 }

@@ -9,22 +9,13 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface MapVariablesToValues {
-	
-	/**
-	 * @param valueProvider
-	 * @param varProvider
-	 * @return null if source is not a target's instance
-	 */
-	public static Map<AVariable, List<ISymbol>> of(List<ISymbol> valueProvider, List<ISymbol> varProvider) {
-		return continueMapping(valueProvider, varProvider, new HashMap<AVariable, List<ISymbol>>(), 0, 0);
-	}
-	
-	private static Map<AVariable, List<ISymbol>> continueMapping(List<ISymbol> valueProvider, List<ISymbol> varProvider, 
+
+	private static Map<AVariable, List<ISymbol>> continueMapping(List<ISymbol> valueProvider, List<ISymbol> varProvider,
 			Map<AVariable, List<ISymbol>> varToValue, int srcIdx, int targetIdx) {
 		if (srcIdx == valueProvider.size() && targetIdx == varProvider.size())
 			return varToValue;
 		if (srcIdx == valueProvider.size() || targetIdx == varProvider.size())
-			return null;		
+			return null;
 		if (varProvider.get(targetIdx) instanceof AVariable) {
 			AVariable variable = (AVariable) varProvider.get(targetIdx);
 			int varSpan = 0;
@@ -36,7 +27,7 @@ public interface MapVariablesToValues {
 				while (srcAdvance < varSpan) {
 					nextMap.get(variable).add(valueProvider.get(srcIdx + srcAdvance));
 					srcAdvance++;
-				}					
+				}
 				nextMap = continueMapping(valueProvider, varProvider, nextMap, srcIdx + srcAdvance, targetIdx + 1);
 				varSpan++;
 			}
@@ -48,14 +39,23 @@ public interface MapVariablesToValues {
 			}
 			return null;
 		}
-	}	
-	
+	}
+
 	private static Map<AVariable, List<ISymbol>> deepCopy(Map<AVariable, List<ISymbol>> map){
 		Map<AVariable, List<ISymbol>> mapDeepCopy = new HashMap<>();
 		for (AVariable key : map.keySet()) {
-			mapDeepCopy.put(key, new ArrayList<ISymbol>(map.get(key)));
+			mapDeepCopy.put(key, new ArrayList<>(map.get(key)));
 		}
 		return mapDeepCopy;
+	}
+
+	/**
+	 * @param valueProvider
+	 * @param varProvider
+	 * @return null if source is not a target's instance
+	 */
+	public static Map<AVariable, List<ISymbol>> of(List<ISymbol> valueProvider, List<ISymbol> varProvider) {
+		return continueMapping(valueProvider, varProvider, new HashMap<AVariable, List<ISymbol>>(), 0, 0);
 	}
 
 }

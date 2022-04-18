@@ -23,9 +23,9 @@ import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public class BuildGraphFirst implements PartitionBuilder {
-	
-	Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<Integer, List<Integer>>(); 
-	
+
+	Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<>();
+
 	public BuildGraphFirst() {
 	}
 
@@ -33,7 +33,7 @@ public class BuildGraphFirst implements PartitionBuilder {
 	public Set<IPartition> apply(IDescription description) {
 		Tree<Integer, AbstractDifferentiae> classification = description.asGraph();
 		Set<IPartition> partitions = new HashSet<>();
-		Set<Tree<Integer, AbstractDifferentiae>> partitionsAsGraph = 
+		Set<Tree<Integer, AbstractDifferentiae>> partitionsAsGraph =
 				PartitionBuilder.getPartitionGraphBuilder().apply(classification);
 		StringSchemeBuilder stringBuilder = PartitionBuilder.getPartitionStringBuilder().setUp(conceptID2ExtentIDs);
 		for (Tree<Integer, AbstractDifferentiae> partitionAsGraph : partitionsAsGraph) {
@@ -77,7 +77,7 @@ public class BuildGraphFirst implements PartitionBuilder {
 			else {
 				List<Integer> extentIDs = new ArrayList<>();
 				Set<IConcept> extent = Sets.intersection(
-						Functions.lowerSet(treeOfConcepts, concept), 
+						Functions.lowerSet(treeOfConcepts, concept),
 						treeOfConcepts.getLeaves());
 				for (IConcept particular : extent)
 					extentIDs.add(particular.iD());
@@ -86,7 +86,7 @@ public class BuildGraphFirst implements PartitionBuilder {
 		}
 		return this;
 	}
-	
-	
+
+
 
 }

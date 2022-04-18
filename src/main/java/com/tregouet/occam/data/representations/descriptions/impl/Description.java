@@ -13,17 +13,28 @@ public class Description implements IDescription {
 
 	private final Tree<Integer, AbstractDifferentiae> classification;
 	private ISimilarityMetrics similarityMetrics = null;
-	
+
 	public Description(Tree<Integer, AbstractDifferentiae> classification, ISimilarityMetrics similarityMetrics) {
 		this.classification = classification;
 		this.similarityMetrics = similarityMetrics;
 	}
-	
-	
+
+
 	@Override
 	public Tree<Integer, AbstractDifferentiae> asGraph() {
 		return classification;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		Description other = (Description) obj;
+		return Objects.equals(classification, other.classification);
+	}
+
 
 	@Override
 	public ISimilarityMetrics getSimilarityMetrics() {
@@ -40,19 +51,6 @@ public class Description implements IDescription {
 	@Override
 	public int hashCode() {
 		return Objects.hash(classification);
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Description other = (Description) obj;
-		return Objects.equals(classification, other.classification);
 	}
 
 }

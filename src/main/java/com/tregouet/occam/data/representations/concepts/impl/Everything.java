@@ -13,13 +13,13 @@ import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.transitions.dimensions.This;
 
 public class Everything extends Concept implements IConcept {
-	
+
 	public Everything(Set<IContextObject> extent) {
-		super(new HashSet<IConstruct>(
+		super(new HashSet<>(
 				Arrays.asList(
 						new IConstruct[] {new Construct(
 								Arrays.asList(
-										new ISymbol[] {This.INSTANCE}))})), 
+										new ISymbol[] {This.INSTANCE}))})),
 			extent);
 		setType(ConceptType.ONTOLOGICAL_COMMITMENT);
 	}

@@ -25,9 +25,9 @@ import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
 
 public class BasicDescriptionViz implements DescriptionViz {
-	
+
 	public static final BasicDescriptionViz INSTANCE = new BasicDescriptionViz();
-	
+
 	private BasicDescriptionViz() {
 	}
 
@@ -46,12 +46,12 @@ public class BasicDescriptionViz implements DescriptionViz {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(diffDisplayer.apply(e)));
 			return map;
-		});		
+		});
 		Writer writer = new StringWriter();
 		exporter.exportGraph(descGraph, writer);
 		String dOTFile = writer.toString();
 		//display graph
-		try {		
+		try {
 			MutableGraph dotGraph = new Parser().read(dOTFile);
 			String filePath = LocalPaths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
 			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
@@ -60,7 +60,7 @@ public class BasicDescriptionViz implements DescriptionViz {
 		catch (IOException e) {
 			e.printStackTrace();
 			return null;
-		}		
+		}
 	}
 
 }

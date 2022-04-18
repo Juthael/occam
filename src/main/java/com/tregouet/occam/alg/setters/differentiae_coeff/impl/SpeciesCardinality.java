@@ -11,14 +11,20 @@ public class SpeciesCardinality implements DifferentiaeCoeffSetter {
 
 	private Tree<Integer, AbstractDifferentiae> classification = null;
 	private Set<Integer> particularIDs = null;
-	
+
 	public SpeciesCardinality() {
 	}
-	
+
 	@Override
 	public void accept(AbstractDifferentiae diff) {
-		double coeff = (double) getSpeciesCardinality(diff.getTarget());
+		double coeff = getSpeciesCardinality(diff.getTarget());
 		diff.setWeightCoeff(coeff);
+	}
+
+	private int getSpeciesCardinality(Integer speciesID) {
+		if (particularIDs.contains(speciesID))
+			return 1;
+		return Sets.intersection(classification.getDescendants(speciesID), particularIDs).size();
 	}
 
 	@Override
@@ -27,13 +33,7 @@ public class SpeciesCardinality implements DifferentiaeCoeffSetter {
 		this.particularIDs = classification.getLeaves();
 		return this;
 	}
-	
-	private int getSpeciesCardinality(Integer speciesID) {
-		if (particularIDs.contains(speciesID))
-			return 1;
-		return Sets.intersection(classification.getDescendants(speciesID), particularIDs).size();
-	}
-	
-	
+
+
 
 }

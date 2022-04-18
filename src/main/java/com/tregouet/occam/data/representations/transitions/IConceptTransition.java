@@ -5,18 +5,18 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
 public interface IConceptTransition extends IPushdownAutomatonTransition<
-	IContextualizedProduction, 
+	IContextualizedProduction,
 	AVariable,
-	IConceptTransitionIC, 
+	IConceptTransitionIC,
 	IConceptTransitionOIC> {
-	
-	void setSalience(Salience salience);
-	
+
 	Salience getSalience();
-	
-	TransitionType type();
-	
+
+	void setSalience(Salience salience);
+
 	@Override
 	String toString();
+
+	TransitionType type();
 
 }

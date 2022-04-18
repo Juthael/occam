@@ -10,33 +10,33 @@ import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 import com.tregouet.tree_finder.algo.unidimensional_sorting.IDichotomizable;
 
 public interface IConcept extends IDichotomizable<IConcept>, IState {
-	
+
 	public static final int WHAT_IS_THERE_ID = 9999;
-	
+
 	@Override
 	boolean equals(Object obj);
-	
-	Set<IContextObject> getExtent();
-	
+
 	Set<IDenotation> getDenotations();
-	
-	Set<IDenotation> getRedundantDenotations();
-	
+
+	Set<IContextObject> getExtent();
+
 	IDenotation getMatchingDenotation(List<String> constraintAsStrings) throws IOException;
-	
+
+	Set<IDenotation> getRedundantDenotations();
+
 	@Override
 	int hashCode();
-	
+
+	void initializeIDGenerator();
+
 	boolean meets(IConstruct constraint);
-	
+
 	boolean meets(List<String> constraintAsStrings);
-	
+
 	void setType(ConceptType type);
-	
+
 	@Override
 	String toString();
-	
+
 	ConceptType type();
-	
-	void initializeIDGenerator();
 }

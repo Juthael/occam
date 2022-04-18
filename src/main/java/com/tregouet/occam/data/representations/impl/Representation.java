@@ -22,7 +22,7 @@ import com.tregouet.occam.data.representations.transitions.IRepresentationTransi
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public abstract class Representation implements IRepresentation {
-	
+
 	private static int nextID = 1;
 
 	protected final int iD;
@@ -31,8 +31,8 @@ public abstract class Representation implements IRepresentation {
 	protected IDescription description;
 	protected final Set<IPartition> partitions;
 	protected LecticScore score = null;
-	
-	Representation(InvertedTree<IConcept, IIsA> classification, IDescription description, 
+
+	Representation(InvertedTree<IConcept, IIsA> classification, IDescription description,
 			IFactEvaluator factEvaluator, Set<IPartition> partitions) {
 		this.classification = classification;
 		this.description = description;
@@ -40,68 +40,44 @@ public abstract class Representation implements IRepresentation {
 		this.factEvaluator = factEvaluator;
 		iD = nextID++;
 	}
-	
-	@Override
-	public void setScore(LecticScore score) {
-		this.score = score;
-	}
 
 	@Override
-	public LecticScore score() {
-		return score;
+	public Integer compareTo(IProblemState other) {
+		if (this.equals(other))
+			return 0;
+		if (this.partitions.containsAll(other.getPartitions()))
+			return 1;
+		if (other.getPartitions().containsAll(this.partitions))
+			return -1;
+		return null;
 	}
-	
+
 	@Override
 	public int compareTo(IRepresentation other) {
 		int scoreComparison = this.score.compareTo(other.score());
 		if (scoreComparison == 0 && !this.equals(other))
 			return System.identityHashCode(this) - System.identityHashCode(other);
 		return scoreComparison;
-	}	
+	}
 
 	@Override
-	public Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts() {
-		Map<Integer, Set<IFact>> particularIDToFacts = new HashMap<>();
-		for (IConcept particular : classification.getLeaves())
-			particularIDToFacts.put(particular.iD(), new HashSet<>());
+	public Set<IFact> enumerateMachineLanguage() {
+		Set<IFact> trueFacts = new HashSet<>();
 		for (IFactEvaluator output : factEvaluator.factEnumerator()) {
-			particularIDToFacts.get(output.getActiveStateID()).add(output.getTapeSet().getInputTape().getFact());
+			trueFacts.add(output.getTapeSet().getInputTape().getFact());
 		}
 		factEvaluator.reinitialize();
-		return particularIDToFacts;
+		return trueFacts;
 	}
 
 	@Override
-	public Set<IPartition> getPartitions() {
-		return partitions;
-	}
-
-	@Override
-	public IDescription getDescription() {
-		return description;
-	}
-
-	@Override
-	abstract public Set<IGoalState> getReachableGoalStates();
-
-	@Override
-	public int id() {
-		return iD;
-	}
-
-	@Override
-	public void initializeIDGenerator() {
-		nextID = 1;
-	}
-
-	@Override
-	public Set<IConcept> getStates() {
-		return classification.vertexSet();
-	}
-
-	@Override
-	public IRepresentationTransitionFunction getTransitionFunction() {
-		return factEvaluator.getTransitionFunction();
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		Representation other = (Representation) obj;
+		return Objects.equals(partitions, other.partitions);
 	}
 
 	@Override
@@ -116,13 +92,46 @@ public abstract class Representation implements IRepresentation {
 	}
 
 	@Override
-	public Set<IFact> enumerateMachineLanguage() {
-		Set<IFact> trueFacts = new HashSet<>();
-		for (IFactEvaluator output : factEvaluator.factEnumerator()) {
-			trueFacts.add(output.getTapeSet().getInputTape().getFact());
-		}
-		factEvaluator.reinitialize();
-		return trueFacts;
+	public IDescription getDescription() {
+		return description;
+	}
+
+	@Override
+	public Set<IPartition> getPartitions() {
+		return partitions;
+	}
+
+	@Override
+	abstract public Set<IGoalState> getReachableGoalStates();
+
+	@Override
+	public Set<IConcept> getStates() {
+		return classification.vertexSet();
+	}
+
+	@Override
+	public IRepresentationTransitionFunction getTransitionFunction() {
+		return factEvaluator.getTransitionFunction();
+	}
+
+	@Override
+	public InvertedTree<IConcept, IIsA> getTreeOfConcepts() {
+		return classification;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(partitions);
+	}
+
+	@Override
+	public int id() {
+		return iD;
+	}
+
+	@Override
+	public void initializeIDGenerator() {
+		nextID = 1;
 	}
 
 	@Override
@@ -146,36 +155,25 @@ public abstract class Representation implements IRepresentation {
 	}
 
 	@Override
-	public Integer compareTo(IProblemState other) {
-		if (this.equals(other))
-			return 0;
-		if (this.partitions.containsAll(other.getPartitions()))
-			return 1;
-		if (other.getPartitions().containsAll(this.partitions))
-			return -1;
-		return null;
+	public Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts() {
+		Map<Integer, Set<IFact>> particularIDToFacts = new HashMap<>();
+		for (IConcept particular : classification.getLeaves())
+			particularIDToFacts.put(particular.iD(), new HashSet<>());
+		for (IFactEvaluator output : factEvaluator.factEnumerator()) {
+			particularIDToFacts.get(output.getActiveStateID()).add(output.getTapeSet().getInputTape().getFact());
+		}
+		factEvaluator.reinitialize();
+		return particularIDToFacts;
 	}
 
 	@Override
-	public InvertedTree<IConcept, IIsA> getTreeOfConcepts() {
-		return classification;
+	public LecticScore score() {
+		return score;
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(partitions);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Representation other = (Representation) obj;
-		return Objects.equals(partitions, other.partitions);
+	public void setScore(LecticScore score) {
+		this.score = score;
 	}
 
 }

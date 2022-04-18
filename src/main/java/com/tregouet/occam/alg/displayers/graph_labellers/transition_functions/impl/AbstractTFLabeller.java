@@ -19,14 +19,31 @@ import com.tregouet.occam.data.representations.transitions.impl.ConceptTransitio
 public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 
 	private static final String nL = System.lineSeparator();
+	private static  String toString(boolean application, Set<IConceptTransition> transitions) {
+		StringBuilder sB = new StringBuilder();
+		if (!transitions.isEmpty()) {
+			if (application) {
+				sB.append("applications : " + nL);
+			}
+			else sB.append("others : " + nL);
+			Iterator<IConceptTransition> transIte = transitions.iterator();
+			while (transIte.hasNext()) {
+				sB.append(transIte.next().toString());
+				if (transIte.hasNext())
+					sB.append(nL);
+			}
+		}
+		return sB.toString();
+	}
 	private Set<Integer> vertices = new HashSet<>();
 	private Map<Integer, Integer> targetIDToSourceID = new HashMap<>();
 	private Map<Integer, Set<IConceptTransition>> targetIDToApplications = new HashMap<>();
+
 	private Map<Integer, Set<IConceptTransition>> targetIDToOtherTransitions = new HashMap<>();
-	
+
 	public AbstractTFLabeller() {
 	}
-	
+
 	@Override
 	public DirectedAcyclicGraph<Integer, AConceptTransitionSet> apply(
 			IRepresentationTransitionFunction transFunc) {
@@ -53,9 +70,7 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 			transFuncGraph.addEdge(targetIDToSourceID.get(targetID), targetID, buildEdge(targetID));
 		return transFuncGraph;
 	}
-	
-	protected abstract Set<IConceptTransition> filter(Set<IConceptTransition> transitions);
-	
+
 	private AConceptTransitionSet buildEdge(Integer targetID) {
 		Set<IConceptTransition> transitions = new HashSet<>();
 		StringBuilder sB = new StringBuilder();
@@ -70,22 +85,7 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 		Integer sourceID = targetIDToSourceID.get(targetID);
 		return new ConceptTransitionSet(sourceID, targetID, transitions, sB.toString());
 	}
-	
-	private static  String toString(boolean application, Set<IConceptTransition> transitions) {
-		StringBuilder sB = new StringBuilder();
-		if (!transitions.isEmpty()) {
-			if (application) {
-				sB.append("applications : " + nL);
-			}
-			else sB.append("others : " + nL);
-			Iterator<IConceptTransition> transIte = transitions.iterator();
-			while (transIte.hasNext()) {
-				sB.append(transIte.next().toString());
-				if (transIte.hasNext())
-					sB.append(nL);
-			}
-		}
-		return sB.toString();
-	}
+
+	protected abstract Set<IConceptTransition> filter(Set<IConceptTransition> transitions);
 
 }

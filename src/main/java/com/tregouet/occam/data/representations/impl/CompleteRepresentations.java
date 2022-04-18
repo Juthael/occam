@@ -9,23 +9,13 @@ import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 
 public class CompleteRepresentations implements ICompleteRepresentations {
-	
+
 	private final IConceptLattice conceptLattice;
 	private final SortedSet<ICompleteRepresentation> representations;
-	
+
 	public CompleteRepresentations(IConceptLattice conceptLattice, SortedSet<ICompleteRepresentation> representations) {
 		this.conceptLattice = conceptLattice;
 		this.representations = representations;
-	}
-
-	@Override
-	public SortedSet<ICompleteRepresentation> getSortedRepresentations() {
-		return representations;
-	}
-
-	@Override
-	public IConceptLattice getConceptLattice() {
-		return conceptLattice;
 	}
 
 	@Override
@@ -46,6 +36,16 @@ public class CompleteRepresentations implements ICompleteRepresentations {
 				return null;
 			else representations.add(nextRep);
 		}
+		return representations;
+	}
+
+	@Override
+	public IConceptLattice getConceptLattice() {
+		return conceptLattice;
+	}
+
+	@Override
+	public SortedSet<ICompleteRepresentation> getSortedRepresentations() {
 		return representations;
 	}
 

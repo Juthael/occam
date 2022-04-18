@@ -13,46 +13,46 @@ import com.tregouet.occam.alg.scorers.similarity.SimilarityScorerStrategy;
 import com.tregouet.occam.alg.scorers.similarity.SubsetSimilarityScorer;
 
 public class ScorersAbstractFactory {
-	
+
 	public static final ScorersAbstractFactory INSTANCE = new ScorersAbstractFactory();
-	
+
 	private SimilarityScorerStrategy similarityScorerStrategy = null;
 	private RepresentationScorerStrategy representationScorerStrategy = null;
 	private ProblemStateScorerStrategy problemStateScorerStrategy = null;
-	
+
 	private ScorersAbstractFactory() {
 	}
-	
+
+	public AsymmetricalSimilarityScorer getAsymmetricalSimilarityScorer() {
+		return SimilarityScorerFactory.INSTANCE.getAsymmetricalSimilarityScorer(similarityScorerStrategy);
+	}
+
+	public SubsetSimilarityScorer getBasicSimilarityScorer() {
+		return SimilarityScorerFactory.INSTANCE.getBasicSimilarityScorer(similarityScorerStrategy);
+	}
+
+	public PairSimilarityScorer getPairSimilarityScorer() {
+		return SimilarityScorerFactory.INSTANCE.getPairSimilarityScorer(similarityScorerStrategy);
+	}
+
+	public ProblemStateScorer getProblemStateScorer() {
+		return ProblemStateScorerFactory.INSTANCE.apply(problemStateScorerStrategy);
+	}
+
+	public RepresentationScorer getRepresentationScorer() {
+		return RepresentationScorerFactory.INSTANCE.apply(representationScorerStrategy);
+	}
+
 	public void setUpStrategy(ScoringStrategy overallStrategy) {
 		switch (overallStrategy) {
-			case SCORING_STRATEGY_1 : 
+			case SCORING_STRATEGY_1 :
 				similarityScorerStrategy = SimilarityScorerStrategy.DYNAMIC_FRAMING;
 				representationScorerStrategy = RepresentationScorerStrategy.LECTIC_COMPARISON_OF_RANKS;
 				problemStateScorerStrategy = ProblemStateScorerStrategy.MARKHOV_PROCESS;
 				break;
-			default : 
+			default :
 				break;
 		}
-	}
-	
-	public SubsetSimilarityScorer getBasicSimilarityScorer() {
-		return SimilarityScorerFactory.INSTANCE.getBasicSimilarityScorer(similarityScorerStrategy);
-	}
-	
-	public AsymmetricalSimilarityScorer getAsymmetricalSimilarityScorer() {
-		return SimilarityScorerFactory.INSTANCE.getAsymmetricalSimilarityScorer(similarityScorerStrategy);
-	}
-	
-	public PairSimilarityScorer getPairSimilarityScorer() {
-		return SimilarityScorerFactory.INSTANCE.getPairSimilarityScorer(similarityScorerStrategy);
-	}
-	
-	public RepresentationScorer getRepresentationScorer() {
-		return RepresentationScorerFactory.INSTANCE.apply(representationScorerStrategy);
-	}
-	
-	public ProblemStateScorer getProblemStateScorer() {
-		return ProblemStateScorerFactory.INSTANCE.apply(problemStateScorerStrategy);
 	}
 
 }

@@ -8,9 +8,9 @@ import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 
 public class PartitionsWeight implements CategorizationTransitionWeigher {
-	
+
 	public static final PartitionsWeight INSTANCE = new PartitionsWeight();
-	
+
 	private PartitionsWeight() {
 	}
 

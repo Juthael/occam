@@ -12,7 +12,7 @@ import com.tregouet.occam.data.problem_spaces.IProblemState;
  * @author Gael Tregouet
  *
  */
-public interface TransitionBuilder 
-	extends Function<List<IProblemState>, Set<AProblemStateTransition>> { 
+public interface TransitionBuilder
+	extends Function<List<IProblemState>, Set<AProblemStateTransition>> {
 
 }

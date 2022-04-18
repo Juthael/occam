@@ -12,14 +12,14 @@ import com.tregouet.occam.data.representations.transitions.Salience;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
 public class RepresentationTransitionFunction implements IRepresentationTransitionFunction {
-	
+
 	private final IConceptTransition initial;
 	private final Set<IApplication> applications;
 	private final Set<IConceptTransition> closures;
 	private final Set<IConceptTransition> inheritances;
 	private final Set<IConceptTransition> spontaneous;
 	private final Set<Integer> acceptStateIDs;
-	
+
 	public RepresentationTransitionFunction(Set<IConceptTransition> transitions) {
 		IConceptTransition initialTemp = null;
 		applications = new HashSet<>();
@@ -30,19 +30,19 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 		Set<Integer> outputStateIDs = new HashSet<>();
 		for (IConceptTransition transition : transitions) {
 			switch (transition.type()) {
-				case INITIAL : 
+				case INITIAL :
 					initialTemp = transition;
 					break;
-				case APPLICATION : 
+				case APPLICATION :
 					applications.add((IApplication) transition);
 					break;
-				case CLOSURE : 
+				case CLOSURE :
 					closures.add(transition);
 					break;
-				case INHERITANCE : 
+				case INHERITANCE :
 					inheritances.add(transition);
 					break;
-				case SPONTANEOUS : 
+				case SPONTANEOUS :
 					spontaneous.add(transition);
 					break;
 			}
@@ -54,13 +54,8 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 	}
 
 	@Override
-	public Set<AVariable> getStackAlphabet() {
-		Set<AVariable> stackAlphabet = new HashSet<>();
-		for (IConceptTransition transition : getTransitions()) {
-			stackAlphabet.add(transition.getInputConfiguration().getStackSymbol());
-			stackAlphabet.addAll(transition.getOutputInternConfiguration().getPushedStackSymbols());
-		}
-		return stackAlphabet;
+	public Set<Integer> getAcceptStateIDs() {
+		return new HashSet<>(acceptStateIDs);
 	}
 
 	@Override
@@ -75,6 +70,32 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 			inputAlphabet.add(transition.getInputConfiguration().getInputSymbol());
 		}
 		return inputAlphabet;
+	}
+
+	@Override
+	public Set<IApplication> getSalientApplications() {
+		Set<IApplication> salientApplications = new HashSet<>();
+		for (IApplication application : applications) {
+			Salience salienceVal = application.getSalience();
+			if (salienceVal == Salience.COMMON_FEATURE || salienceVal == Salience.TRANSITION_RULE)
+				salientApplications.add(application);
+		}
+		return salientApplications;
+	}
+
+	@Override
+	public Set<AVariable> getStackAlphabet() {
+		Set<AVariable> stackAlphabet = new HashSet<>();
+		for (IConceptTransition transition : getTransitions()) {
+			stackAlphabet.add(transition.getInputConfiguration().getStackSymbol());
+			stackAlphabet.addAll(transition.getOutputInternConfiguration().getPushedStackSymbols());
+		}
+		return stackAlphabet;
+	}
+
+	@Override
+	public int getStartStateID() {
+		return initial.getInputConfiguration().getInputStateID();
 	}
 
 	@Override
@@ -96,27 +117,6 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 		transitions.addAll(inheritances);
 		transitions.addAll(spontaneous);
 		return transitions;
-	}
-
-	@Override
-	public int getStartStateID() {
-		return initial.getInputConfiguration().getInputStateID();
-	}
-
-	@Override
-	public Set<Integer> getAcceptStateIDs() {
-		return new HashSet<>(acceptStateIDs);
-	}
-
-	@Override
-	public Set<IApplication> getSalientApplications() {
-		Set<IApplication> salientApplications = new HashSet<>();
-		for (IApplication application : applications) {
-			Salience salienceVal = application.getSalience(); 
-			if (salienceVal == Salience.COMMON_FEATURE || salienceVal == Salience.TRANSITION_RULE)
-				salientApplications.add(application);
-		}
-		return salientApplications;
 	}
 
 }

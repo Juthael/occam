@@ -6,19 +6,19 @@ public interface ITapeSet<
 	InputSymbol extends ISymbol,
 	TapeSet extends ITapeSet<InputSymbol, TapeSet>
 	> {
-	
-	@Override
-	public int hashCode();
-	
+
+	TapeSet copy();
+
 	@Override
 	boolean equals(Object o);
-	
-	TapeSet copy();
-	
-	InputSymbol readNextInputSymbol();
-	
-	void printNext(InputSymbol symbol);
-	
+
+	@Override
+	public int hashCode();
+
 	boolean hasNextInputSymbol();
-	
+
+	void printNext(InputSymbol symbol);
+
+	InputSymbol readNextInputSymbol();
+
 }

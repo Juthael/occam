@@ -4,10 +4,10 @@ import com.tregouet.occam.alg.displayers.graph_labellers.problem_transitions.Pro
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 
 public class WeightOnly implements ProblemTransitionLabeller {
-	
+
 	public static final WeightOnly INSTANCE = new WeightOnly();
-	
-	private WeightOnly() {		
+
+	private WeightOnly() {
 	}
 
 	@Override

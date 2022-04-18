@@ -6,9 +6,9 @@ import com.google.common.base.Function;
 import com.tregouet.occam.data.representations.transitions.AConceptTransitionSet;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 
-public interface TransitionFunctionLabeller extends 
+public interface TransitionFunctionLabeller extends
 	Function<
-		IRepresentationTransitionFunction, 
+		IRepresentationTransitionFunction,
 		DirectedAcyclicGraph<Integer, AConceptTransitionSet>> {
 
 }

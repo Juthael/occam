@@ -5,9 +5,9 @@ import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 
 public class SumPartitionDifferentiae implements PartitionWeigher {
-	
+
 	public static final SumPartitionDifferentiae INSTANCE = new SumPartitionDifferentiae();
-	
+
 	private SumPartitionDifferentiae() {
 	}
 

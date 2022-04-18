@@ -5,13 +5,13 @@ import java.util.List;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 
 public class ContextPrinter {
-	
+
 	public static final ContextPrinter INSTANCE = new ContextPrinter();
 	public static final String caption = "Context";
-	
+
 	private ContextPrinter() {
 	}
-	
+
 	public String print(List<IContextObject> context, String alinea) {
 		String[] head = new String[context.size()];
 		String[] optionalSubhead = (context.get(0).getName() == null ? null : new String[context.size()]);

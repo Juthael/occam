@@ -7,9 +7,9 @@ import com.tregouet.occam.data.representations.descriptions.properties.AbstractD
 import com.tregouet.occam.data.representations.descriptions.properties.IProperty;
 
 public class PropertiesThenWeight implements DifferentiaeLabeller {
-	
+
 	public static final PropertiesThenWeight INSTANCE = new PropertiesThenWeight();
-	
+
 	private PropertiesThenWeight() {
 	}
 

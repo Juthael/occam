@@ -17,10 +17,10 @@ public class UnidimensionalSorting extends AbstractConceptTreeBuilder implements
 
 	private IUnidimensionalSorter<IConcept, IIsA> conceptSorter = null;
 	private IConcept ontologicalCommitment = null;
-	
+
 	public UnidimensionalSorting() {
 	}
-	
+
 	@Override
 	public Set<InvertedTree<IConcept, IIsA>> apply(IConceptLattice conceptLattice) {
 		InvertedUpperSemilattice<IConcept, IIsA> conceptUSL = conceptLattice.getOntologicalUpperSemilattice();
@@ -31,8 +31,8 @@ public class UnidimensionalSorting extends AbstractConceptTreeBuilder implements
 		}
 		this.ontologicalCommitment = conceptLattice.getOntologicalCommitment();
 		return output();
-	}	
-	
+	}
+
 
 	private Set<InvertedTree<IConcept, IIsA>> output() {
 		Set<InvertedTree<IConcept, IIsA>> commitedTrees = new HashSet<>();

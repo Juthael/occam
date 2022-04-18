@@ -10,7 +10,7 @@ import com.tregouet.occam.data.representations.transitions.IRepresentationTransi
 
 @FunctionalInterface
 public interface PropertyBuilder extends Function<IRepresentationTransitionFunction, Set<IProperty>> {
-	
+
 	public static PropertyWeigher propertyWeigher() {
 		return SettersAbstractFactory.INSTANCE.getPropertyWheigher();
 	}

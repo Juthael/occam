@@ -13,43 +13,41 @@ import com.tregouet.subseq_finder.impl.SymbolSeq;
 public class Particular implements IContextObject {
 
 	private static int nextID = 0;
-	private final List<IConstruct> constructs = new ArrayList<IConstruct>();
+	private final List<IConstruct> constructs = new ArrayList<>();
 	private final int iD;
 	private final String name;
-	
+
 	public Particular(List<List<String>> constructsAsLists) {
 		iD = nextID++;
 		for (List<String> constructAsList : constructsAsLists)
 			constructs.add(new Construct(constructAsList.toArray(new String[constructAsList.size()])));
 		name = null;
 	}
-	
+
 	public Particular(List<List<String>> constructsAsLists, String name) {
 		iD = nextID++;
 		for (List<String> constructAsList : constructsAsLists)
 			constructs.add(new Construct(constructAsList.toArray(new String[constructAsList.size()])));
 		this.name = name;
-	}	
+	}
 
 	@Override
 	public int compareTo(IContextObject o) {
 		return this.iD - o.getID();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Particular other = (Particular) obj;
 		if (iD != other.iD)
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public List<IConstruct> getConstructs() {
 		return constructs;
@@ -59,7 +57,7 @@ public class Particular implements IContextObject {
 	public int getID() {
 		return iD;
 	}
-	
+
 	@Override
 	public Iterator<IConstruct> getIteratorOverConstructs() {
 		return constructs.iterator();
@@ -90,7 +88,7 @@ public class Particular implements IContextObject {
 
 	@Override
 	public List<ISymbolSeq> toSymbolSeqs(){
-		List<ISymbolSeq> symbolSeqs = new ArrayList<ISymbolSeq>();
+		List<ISymbolSeq> symbolSeqs = new ArrayList<>();
 		for (IConstruct construct : constructs)
 			symbolSeqs.add(new SymbolSeq(construct.toListOfStringsWithPlaceholders()));
 		return symbolSeqs;

@@ -11,15 +11,14 @@ public class BasicAbstractionApplication extends ALambdaTerm implements ILambdaE
 
 	private AVariable boundVariable = null;
 	private BasicAbstractionApplication argument = null;
-	
+
 	public BasicAbstractionApplication(IConstruct term) {
 		super(term);
 	}
-	
+
 	public <P extends IProduction> BasicAbstractionApplication(List<P> productionList) {
 		super(null);
-		for (int i = 0 ; i < productionList.size() ; i++) {
-			IProduction iProduction = productionList.get(i);
+		for (P iProduction : productionList) {
 			if (term == null) {
 				if (!iProduction.isEpsilon())
 					term = iProduction.getValue();
@@ -27,7 +26,7 @@ public class BasicAbstractionApplication extends ALambdaTerm implements ILambdaE
 			else abstractAndApplyAccordingTo(iProduction);
 		}
 	}
-	
+
 	@Override
 	public boolean abstractAndApplyAccordingTo(IProduction production) {
 		if (production.isEpsilon())
@@ -43,11 +42,6 @@ public class BasicAbstractionApplication extends ALambdaTerm implements ILambdaE
 		}
 		return argument.abstractAndApplyAccordingTo(production);
 	}
-	
-	@Override
-	public String toString() {
-		return toString(false);
-	}
 
 	@Override
 	public boolean isAnApplication() {
@@ -58,7 +52,12 @@ public class BasicAbstractionApplication extends ALambdaTerm implements ILambdaE
 	public String toShorterString() {
 		return toString(true);
 	}
-	
+
+	@Override
+	public String toString() {
+		return toString(false);
+	}
+
 	private String toString(boolean shorter) {
 		if (boundVariable == null) {
 			if (term.asList().size() == 1)

@@ -5,7 +5,7 @@ import com.tregouet.occam.data.representations.descriptions.properties.AbstractD
 import com.tregouet.tree_finder.data.Tree;
 
 public interface DifferentiaeCoeffSetter extends Setter<AbstractDifferentiae> {
-	
+
 	DifferentiaeCoeffSetter setContext(Tree<Integer, AbstractDifferentiae> classification);
 
 }

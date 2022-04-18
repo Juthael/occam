@@ -23,9 +23,9 @@ import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
 
 public class BasicConceptGraphViz implements ConceptGraphViz {
-	
+
 	public static final BasicConceptGraphViz INSTANCE  = new BasicConceptGraphViz();
-	
+
 	private BasicConceptGraphViz() {
 	}
 

@@ -7,14 +7,14 @@ import com.tregouet.occam.io.output.html.general.MenuPrinter;
 import com.tregouet.occam.io.output.html.general.MenuType;
 
 public class StartPagePrinter implements Supplier<String> {
-	
-	public static final StartPagePrinter INSTANCE = new StartPagePrinter();	
+
+	public static final StartPagePrinter INSTANCE = new StartPagePrinter();
 
 	private static final String nL = System.lineSeparator();
-	
+
 	private StartPagePrinter() {
 	}
-	
+
 	@Override
 	public String get() {
 		StringBuilder sB = new StringBuilder();

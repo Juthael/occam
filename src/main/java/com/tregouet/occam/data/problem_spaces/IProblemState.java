@@ -8,19 +8,19 @@ import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 
 public interface IProblemState extends PartiallyComparable<IProblemState>, Scored<LecticScore> {
-	
-	Set<IPartition> getPartitions();
-	
-	Set<IGoalState> getReachableGoalStates();
-	
-	int id();
-	
-	void initializeIDGenerator();
-	
-	@Override
-	int hashCode();
-	
+
 	@Override
 	boolean equals(Object o);
+
+	Set<IPartition> getPartitions();
+
+	Set<IGoalState> getReachableGoalStates();
+
+	@Override
+	int hashCode();
+
+	int id();
+
+	void initializeIDGenerator();
 
 }

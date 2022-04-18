@@ -12,10 +12,10 @@ import com.tregouet.occam.data.representations.descriptions.properties.AbstractD
 import com.tregouet.tree_finder.data.Tree;
 
 public class RecursiveFraming implements StringSchemeBuilder {
-	
+
 	private DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph = null;
 	private Map<Integer, List<Integer>> conceptID2ExtentIDs = null;
-	
+
 	public RecursiveFraming() {
 	}
 
@@ -24,7 +24,7 @@ public class RecursiveFraming implements StringSchemeBuilder {
 		this.partitionGraph = partitionGraph;
 		return doFrame(partitionGraph.getRoot());
 	}
-	
+
 	private String doFrame(Integer frameConceptID) {
 		if (partitionGraph.outDegreeOf(frameConceptID) == 0) {
 			return "(" + getConceptExtensionAsString(frameConceptID) + ")";
@@ -32,7 +32,7 @@ public class RecursiveFraming implements StringSchemeBuilder {
 		else {
 			StringBuilder sB = new StringBuilder();
 			sB.append("(");
-			Integer[] orderedSubConcepts = 
+			Integer[] orderedSubConcepts =
 					IPartition.orderOverIDs(Graphs.successorListOf(partitionGraph, frameConceptID));
 			for (Integer subconcept : orderedSubConcepts)
 				sB.append(doFrame(subconcept));
@@ -40,9 +40,9 @@ public class RecursiveFraming implements StringSchemeBuilder {
 			return sB.toString();
 		}
 	}
-	
+
 	private String getConceptExtensionAsString(Integer conceptID) {
-		if (conceptID2ExtentIDs == null) 
+		if (conceptID2ExtentIDs == null)
 			//then the arg given to apply() must be the graph of a complete representation
 			return conceptID.toString();
 		List<Integer> extentIDs = conceptID2ExtentIDs.get(conceptID);

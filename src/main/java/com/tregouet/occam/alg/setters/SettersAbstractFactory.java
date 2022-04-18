@@ -17,51 +17,51 @@ import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigherFactory;
 import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigherStrategy;
 
 public class SettersAbstractFactory {
-	
+
 	public static final SettersAbstractFactory INSTANCE = new SettersAbstractFactory();
-	
+
 	private PropertyWeigherStrategy propertyWeigherStrategy = null;
 	private DifferentiaeCoeffSetterStrategy differentiaeCoeffSetterStrategy = null;
 	private DifferentiaeWeigherStrategy differentiaeWeigherStrategy = null;
 	private PartitionWeigherStrategy partitionWeigherStrategy = null;
 	private CategorizationTransitionWeigherStrategy categorizationTransitionWeigherStrategy = null;
-	
+
 	private SettersAbstractFactory() {
 	}
-	
+
+	public CategorizationTransitionWeigher getCategorizationTransitionWeigher() {
+		return CategorizationTransitionWeigherFactory.INSTANCE.apply(categorizationTransitionWeigherStrategy);
+	}
+
+	public DifferentiaeCoeffSetter getDifferentiaeCoeffSetter() {
+		return DifferentiaeCoeffSetterFactory.INSTANCE.apply(differentiaeCoeffSetterStrategy);
+	}
+
+	public DifferentiaeWeigher getDifferentiaeWeigher() {
+		return DifferentiaeWeigherFactory.INSTANCE.apply(differentiaeWeigherStrategy);
+	}
+
+	public PartitionWeigher getPartitionWeigher() {
+		return PartitionWeigherFactory.INSTANCE.apply(partitionWeigherStrategy);
+	}
+
+	public PropertyWeigher getPropertyWheigher() {
+		return PropertyWeigherFactory.INSTANCE.apply(propertyWeigherStrategy);
+	}
+
 	public void setUpStrategy(SettingStrategy overallStrategy) {
 		switch(overallStrategy) {
-			case SETTING_STRATEGY_1 : 
+			case SETTING_STRATEGY_1 :
 				propertyWeigherStrategy = PropertyWeigherStrategy.NB_OF_BOUND_VAR;
 				differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.SPECIES_CARDINALITY;
 				differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.SUM_OF_PROPERTY_WEIGHTS;
 				partitionWeigherStrategy = PartitionWeigherStrategy.SUM_PARTITION_DIFFERENTIAE;
-				categorizationTransitionWeigherStrategy = 
+				categorizationTransitionWeigherStrategy =
 						CategorizationTransitionWeigherStrategy.PARTITIONS_WEIGHT;
 				break;
-			default : 
+			default :
 				break;
 		}
-	}
-	
-	public PropertyWeigher getPropertyWheigher() {
-		return PropertyWeigherFactory.INSTANCE.apply(propertyWeigherStrategy);
-	}
-	
-	public DifferentiaeCoeffSetter getDifferentiaeCoeffSetter() {
-		return DifferentiaeCoeffSetterFactory.INSTANCE.apply(differentiaeCoeffSetterStrategy);
-	}
-	
-	public DifferentiaeWeigher getDifferentiaeWeigher() {
-		return DifferentiaeWeigherFactory.INSTANCE.apply(differentiaeWeigherStrategy);
-	}
-	
-	public PartitionWeigher getPartitionWeigher() {
-		return PartitionWeigherFactory.INSTANCE.apply(partitionWeigherStrategy);
-	}
-	
-	public CategorizationTransitionWeigher getCategorizationTransitionWeigher() {
-		return CategorizationTransitionWeigherFactory.INSTANCE.apply(categorizationTransitionWeigherStrategy);
 	}
 
 }

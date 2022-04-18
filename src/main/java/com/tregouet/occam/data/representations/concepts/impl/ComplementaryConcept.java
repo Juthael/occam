@@ -15,43 +15,48 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 
 	private final IConcept complementedByThis;
 	private IConcept wrappedComplementing = null;
-	
+
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
 		super(complementing.getDenotations().stream()
 				.map(d -> new Construct(d.asList()))
-				.collect(Collectors.toSet()), 
-				new HashSet<>(Sets.difference(complementing.getExtent(), toBeComplemented.getExtent())), 
+				.collect(Collectors.toSet()),
+				new HashSet<>(Sets.difference(complementing.getExtent(), toBeComplemented.getExtent())),
 				- toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
 		setType(ConceptType.UNIVERSAL);
 	}
-	
+
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept supremum, Set<IContextObject> extent) {
 		super(supremum.getDenotations().stream()
 				.map(d -> new Construct(d.asList()))
-				.collect(Collectors.toSet()), 
-				extent, 
+				.collect(Collectors.toSet()),
+				extent,
 				- toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		setType(ConceptType.UNIVERSAL);
-	}	
-	
+	}
+
 	@Override
 	public IConcept buildComplementOfThis(Set<IConcept> complementMinimalLowerBounds, IConcept supremum) {
 		//already a complement
 		return null;
-	}	
-	
+	}
+
 	@Override
 	public IConcept complementThisWith(IConcept complementing) {
 		//already a complement
 		return null;
-	}	
-	
+	}
+
 	@Override
 	public IConcept getComplemented() {
 		return complementedByThis;
+	}
+
+	@Override
+	public IConcept getWrappedComplementing() {
+		return wrappedComplementing;
 	}
 
 	@Override
@@ -63,10 +68,5 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 	public String toString() {
 		return Integer.toString(-complementedByThis.iD());
 	}
-
-	@Override
-	public IConcept getWrappedComplementing() {
-		return wrappedComplementing;
-	}	
 
 }

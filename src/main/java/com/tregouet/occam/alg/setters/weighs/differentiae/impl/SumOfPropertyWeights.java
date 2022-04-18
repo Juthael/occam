@@ -7,10 +7,10 @@ import com.tregouet.occam.data.representations.descriptions.properties.IProperty
 public class SumOfPropertyWeights implements DifferentiaeWeigher {
 
 	public static final SumOfPropertyWeights INSTANCE = new SumOfPropertyWeights();
-	
+
 	private SumOfPropertyWeights() {
 	}
-	
+
 	@Override
 	public void accept(AbstractDifferentiae differentiae) {
 		double weight = 0.0;

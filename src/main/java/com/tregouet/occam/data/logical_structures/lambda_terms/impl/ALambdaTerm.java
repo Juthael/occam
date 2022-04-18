@@ -7,11 +7,11 @@ import com.tregouet.occam.data.representations.transitions.productions.IProducti
 public abstract class ALambdaTerm implements ILambdaExpression {
 
 	protected IConstruct term = null;
-	
+
 	public ALambdaTerm(IConstruct term) {
 		this.term = term;
 	}
-	
+
 	@Override
 	abstract public boolean abstractAndApplyAccordingTo(IProduction production);
 

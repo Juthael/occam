@@ -8,22 +8,22 @@ import com.tregouet.occam.data.logical_structures.automata.transition_functions.
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface IPushdownAutomatonTF<
-	InputSymbol extends ISymbol, 
-	StackSymbol extends ISymbol, 
+	InputSymbol extends ISymbol,
+	StackSymbol extends ISymbol,
 	InputConfig extends IPushdownAutomatonIC<InputSymbol, StackSymbol>,
 	OutputConfig extends IPushdownAutomatonOIC<StackSymbol>,
 	Transition extends IPushdownAutomatonTransition<InputSymbol, StackSymbol, InputConfig, OutputConfig>
 	>
 	extends ITransitionFunction<InputSymbol, InputConfig, OutputConfig, Transition> {
-	
-	Set<StackSymbol> getStackAlphabet();
-	
-	StackSymbol getInitialStackSymbol();
-	
-	@Override
-	int hashCode();
-	
+
 	@Override
 	boolean equals(Object o);
+
+	StackSymbol getInitialStackSymbol();
+
+	Set<StackSymbol> getStackAlphabet();
+
+	@Override
+	int hashCode();
 
 }

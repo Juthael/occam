@@ -12,37 +12,17 @@ import com.tregouet.occam.data.logical_structures.languages.words.construct.impl
 import com.tregouet.occam.data.representations.transitions.productions.IProduction;
 
 public class Production implements IProduction {
-	
+
 	private final AVariable variable;
 	private final IConstruct value;
-	
+
 	public Production(AVariable variable, IConstruct value) {
 		this.variable = variable;
 		this.value = value;
 	}
-	
-	@Override
-	public boolean derives(AVariable var) {
-		return var.equals(variable);
-	}
 
-	@Override
-	public AVariable getVariable() {
-		return variable;
-	}
-	
-	@Override
-	public IConstruct getValue() {
-		return value;
-	}
-	
-	@Override
-	public String toString() {
-		return "[" + variable.toString() + " ::= " + value.toString() + "]";  
-	}
-	
 	/**
-	 * Given as an example to show what a Production is meant to be. No real utility. 
+	 * Given as an example to show what a Production is meant to be. No real utility.
 	 * @param construct
 	 * @return
 	 */
@@ -55,9 +35,14 @@ public class Production implements IProduction {
 		}
 		return new Construct(returned);
 	}
-	
+
+	@Override
+	public boolean derives(AVariable var) {
+		return var.equals(variable);
+	}
+
 	/**
-	 * Given as an example to show what a Production is meant to be. No real utility. 
+	 * Given as an example to show what a Production is meant to be. No real utility.
 	 * @param construct
 	 * @return
 	 */
@@ -65,7 +50,7 @@ public class Production implements IProduction {
 		List<ISymbol> valueList = value.asList();
 		List<ISymbol> returned = new ArrayList<>();
 		List<ISymbol> buffer = new ArrayList<>();
-		Iterator<ISymbol> constructIte = construct.asList().iterator(); 
+		Iterator<ISymbol> constructIte = construct.asList().iterator();
 		int valueIdx = 0;
 		while (constructIte.hasNext()) {
 			ISymbol nextSymbol = constructIte.next();
@@ -92,8 +77,23 @@ public class Production implements IProduction {
 	}
 
 	@Override
-	public boolean isEpsilon() {
-		return false;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		Production other = (Production) obj;
+		return Objects.equals(value, other.value) && Objects.equals(variable, other.variable);
+	}
+
+	@Override
+	public IConstruct getValue() {
+		return value;
+	}
+
+	@Override
+	public AVariable getVariable() {
+		return variable;
 	}
 
 	@Override
@@ -102,15 +102,13 @@ public class Production implements IProduction {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Production other = (Production) obj;
-		return Objects.equals(value, other.value) && Objects.equals(variable, other.variable);
-	}		
+	public boolean isEpsilon() {
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "[" + variable.toString() + " ::= " + value.toString() + "]";
+	}
 
 }

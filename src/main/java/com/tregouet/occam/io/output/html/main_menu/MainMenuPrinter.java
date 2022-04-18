@@ -11,12 +11,12 @@ import com.tregouet.occam.io.output.html.general.FootPrinter;
 import com.tregouet.occam.io.output.html.general.HeaderPrinter;
 
 public class MainMenuPrinter implements Supplier<String> {
-	
-	public static final MainMenuPrinter INSTANCE = new MainMenuPrinter();	
-	private static final Path mainMenuPath = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io", 
+
+	public static final MainMenuPrinter INSTANCE = new MainMenuPrinter();
+	private static final Path mainMenuPath = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io",
 			"output", "html", "files", "mainMenu.txt");
 	private static final String nL = System.lineSeparator();
-	
+
 	private MainMenuPrinter() {
 	}
 
@@ -24,7 +24,7 @@ public class MainMenuPrinter implements Supplier<String> {
 	public String get() {
 		StringBuilder sB = new StringBuilder();
 		sB.append(HeaderPrinter.INSTANCE.get());
-		BufferedReader reader = null;	
+		BufferedReader reader = null;
 		try {
 			reader = Files.newBufferedReader(mainMenuPath);
 			String line = reader.readLine();

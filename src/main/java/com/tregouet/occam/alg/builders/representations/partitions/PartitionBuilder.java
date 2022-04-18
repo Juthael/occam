@@ -15,19 +15,19 @@ import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public interface PartitionBuilder extends Function<IDescription, Set<IPartition>> {
-	
-	public PartitionBuilder setUp(InvertedTree<IConcept, IIsA> treeOfConcepts);
-	
+
 	public static PartitionGraphBuilder getPartitionGraphBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getPartitionGraphBuilder();
 	}
-	
+
 	public static StringSchemeBuilder getPartitionStringBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getStringSchemeBuilder();
 	}
-	
+
 	public static PartitionWeigher getPartitionWeigher() {
 		return SettersAbstractFactory.INSTANCE.getPartitionWeigher();
 	}
+
+	public PartitionBuilder setUp(InvertedTree<IConcept, IIsA> treeOfConcepts);
 
 }

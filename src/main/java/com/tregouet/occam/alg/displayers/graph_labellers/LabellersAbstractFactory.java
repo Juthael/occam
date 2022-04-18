@@ -17,51 +17,51 @@ import com.tregouet.occam.alg.displayers.graph_labellers.transition_functions.Tr
 import com.tregouet.occam.alg.displayers.graph_labellers.transition_functions.TransitionFunctionLabellerStrategy;
 
 public class LabellersAbstractFactory {
-	
-	public static final LabellersAbstractFactory INSTANCE = new LabellersAbstractFactory(); 
-	
+
+	public static final LabellersAbstractFactory INSTANCE = new LabellersAbstractFactory();
+
 	private TransitionFunctionLabellerStrategy transitionFunctionLabellerStrategy = null;
 	private PropertyLabellerStrategy propertyLabellerStrategy = null;
 	private DifferentiaeLabellerStrategy differentiaeLabellerStrategy = null;
 	private ProblemStateLabellerStrategy problemStateLabellerStrategy = null;
 	private ProblemTransitionLabellerStrategy problemTransitionLabellerStrategy = null;
-	
-	
+
+
 	private LabellersAbstractFactory() {
 	}
-	
+
+	public DifferentiaeLabeller getDifferentiaeDisplayer() {
+		return DifferentiaeLabellerFactory.INSTANCE.apply(differentiaeLabellerStrategy);
+	}
+
+	public ProblemStateLabeller getProblemStateDisplayer() {
+		return ProblemStateLabellerFactory.INSTANCE.apply(problemStateLabellerStrategy);
+	}
+
+	public ProblemTransitionLabeller getProblemTransitionDisplayer() {
+		return ProblemTransitionLabellerFactory.INSTANCE.apply(problemTransitionLabellerStrategy);
+	}
+
+	public PropertyLabeller getPropertyDisplayer() {
+		return PropertyLabellerFactory.INSTANCE.apply(propertyLabellerStrategy);
+	}
+
+	public TransitionFunctionLabeller getTransitionFunctionDisplayer() {
+		return TransitionFunctionLabellerFactory.INSTANCE.apply(transitionFunctionLabellerStrategy);
+	}
+
 	public void setUpStrategy(LabellingStrategy strategy) {
 		switch (strategy) {
-			case LABELLING_STRATEGY_1 : 
+			case LABELLING_STRATEGY_1 :
 				transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.REMOVE_NON_SALIENT_APP;
 				propertyLabellerStrategy = PropertyLabellerStrategy.AS_LAMBDA;
 				differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
 				problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES;
 				problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.WEIGHT_ONLY;
 				break;
-			default : 
+			default :
 				break;
 		}
-	}
-	
-	public TransitionFunctionLabeller getTransitionFunctionDisplayer() {
-		return TransitionFunctionLabellerFactory.INSTANCE.apply(transitionFunctionLabellerStrategy);
-	}
-	
-	public PropertyLabeller getPropertyDisplayer() {
-		return PropertyLabellerFactory.INSTANCE.apply(propertyLabellerStrategy);
-	}
-	
-	public ProblemStateLabeller getProblemStateDisplayer() {
-		return ProblemStateLabellerFactory.INSTANCE.apply(problemStateLabellerStrategy);
-	}
-	
-	public ProblemTransitionLabeller getProblemTransitionDisplayer() {
-		return ProblemTransitionLabellerFactory.INSTANCE.apply(problemTransitionLabellerStrategy);
-	}
-	
-	public DifferentiaeLabeller getDifferentiaeDisplayer() {
-		return DifferentiaeLabellerFactory.INSTANCE.apply(differentiaeLabellerStrategy);
 	}
 
 }

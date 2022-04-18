@@ -7,10 +7,7 @@ import com.tregouet.occam.data.representations.evaluation.facts.IFact;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
 public interface IFactTape extends IInputTape<IContextualizedProduction>, IFact {
-	
-	@Override
-	IFactTape copy();
-	
+
 	public static boolean isAWellFormedFact(List<IContextualizedProduction> word) {
 		if (word.isEmpty())
 			return false;
@@ -25,14 +22,17 @@ public interface IFactTape extends IInputTape<IContextualizedProduction>, IFact 
 			j++;
 		}
 		return true;
-	}	
-	
+	}
+
+	@Override
+	IFactTape copy();
+
+	@Override
+	boolean equals(Object o);
+
+	IFact getFact();
+
 	@Override
 	public int hashCode();
-	
-	@Override
-	boolean equals(Object o);	
-	
-	IFact getFact();
 
 }

@@ -10,15 +10,20 @@ public class ConceptTransitionOIC implements IConceptTransitionOIC {
 
 	private final int outputStateID;
 	private final List<AVariable> pushedStackSymbols;
-	
+
 	public ConceptTransitionOIC(int outputStateID, List<AVariable> nextStackSymbols) {
 		this.outputStateID = outputStateID;
 		this.pushedStackSymbols = nextStackSymbols;
 	}
 
 	@Override
-	public List<AVariable> getPushedStackSymbols() {
-		return pushedStackSymbols;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		ConceptTransitionOIC other = (ConceptTransitionOIC) obj;
+		return Objects.equals(pushedStackSymbols, other.pushedStackSymbols) && outputStateID == other.outputStateID;
 	}
 
 	@Override
@@ -27,20 +32,13 @@ public class ConceptTransitionOIC implements IConceptTransitionOIC {
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(pushedStackSymbols, outputStateID);
+	public List<AVariable> getPushedStackSymbols() {
+		return pushedStackSymbols;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ConceptTransitionOIC other = (ConceptTransitionOIC) obj;
-		return Objects.equals(pushedStackSymbols, other.pushedStackSymbols) && outputStateID == other.outputStateID;
+	public int hashCode() {
+		return Objects.hash(pushedStackSymbols, outputStateID);
 	}
 
 }

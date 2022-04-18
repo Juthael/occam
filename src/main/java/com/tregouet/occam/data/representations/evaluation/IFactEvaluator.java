@@ -12,20 +12,20 @@ import com.tregouet.occam.data.representations.transitions.productions.IContextu
 
 public interface IFactEvaluator extends
 	IPushdownAutomatonHead<
-		IRepresentationTransitionFunction, 
-		IContextualizedProduction, 
-		AVariable, 
-		IConceptTransitionIC, 
-		IConceptTransitionOIC, 
-		IConceptTransition, 
-		IRepresentationTapeSet, 
-		IFactTape, 
+		IRepresentationTransitionFunction,
+		IContextualizedProduction,
+		AVariable,
+		IConceptTransitionIC,
+		IConceptTransitionOIC,
+		IConceptTransition,
+		IRepresentationTapeSet,
+		IFactTape,
 		IFactEvaluator> {
-	
-	IRepresentationTransitionFunction getTransitionFunction();
-	
-	IRepresentationTapeSet getTapeSet();
-	
+
 	int getActiveStateID();
-	
+
+	IRepresentationTapeSet getTapeSet();
+
+	IRepresentationTransitionFunction getTransitionFunction();
+
 }

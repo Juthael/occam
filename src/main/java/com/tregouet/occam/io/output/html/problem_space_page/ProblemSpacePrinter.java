@@ -7,13 +7,13 @@ import com.tregouet.occam.data.problem_spaces.IProblemSpace;
 import com.tregouet.occam.io.output.html.general.FigurePrinter;
 
 public class ProblemSpacePrinter {
-	
+
 	public static final ProblemSpacePrinter INSTANCE = new ProblemSpacePrinter();
 	public static final String nL = System.lineSeparator();
-	
+
 	private ProblemSpacePrinter() {
 	}
-	
+
 	public String print(IProblemSpace problemSpace, String fileName, String alinea) throws IOException {
 		String filePath = VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(problemSpace.asGraph(), alinea);
 		String alineaa = alinea + "   ";

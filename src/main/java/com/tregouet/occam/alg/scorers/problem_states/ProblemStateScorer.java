@@ -8,7 +8,7 @@ import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 
 public interface ProblemStateScorer extends Scorer<IProblemState, LecticScore> {
-	
+
 	ProblemStateScorer setUp(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemSpace);
 
 }

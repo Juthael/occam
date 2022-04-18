@@ -25,9 +25,9 @@ import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
 
 public class BasicTransitionFunctionViz implements TransitionFunctionViz {
-	
+
 	public static final BasicTransitionFunctionViz INSTANCE = new BasicTransitionFunctionViz();
-	
+
 	private BasicTransitionFunctionViz() {
 	}
 
@@ -46,7 +46,7 @@ public class BasicTransitionFunctionViz implements TransitionFunctionViz {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(e.toString()));
 			return map;
-		});		
+		});
 		Writer writer = new StringWriter();
 		exporter.exportGraph(transFuncGraph, writer);
 		String dOTFile = writer.toString();
@@ -60,7 +60,7 @@ public class BasicTransitionFunctionViz implements TransitionFunctionViz {
 		catch (IOException e) {
 			e.printStackTrace();
 			return null;
-		}		
+		}
 	}
 
 }

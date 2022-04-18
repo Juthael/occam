@@ -24,7 +24,25 @@ import com.tregouet.occam.data.representations.transitions.productions.impl.Cont
 import com.tregouet.occam.data.representations.transitions.productions.impl.Production;
 
 public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
-	
+
+	private static boolean subSequenceOf(List<ITerminal> targetTerminals, List<ITerminal> sourceTerminals) {
+		if (targetTerminals.isEmpty())
+			return true;
+		if (sourceTerminals.isEmpty())
+			return false;
+		Iterator<ITerminal> sourceIte = sourceTerminals.iterator();
+		Iterator<ITerminal> targetIte = targetTerminals.iterator();
+		ITerminal targetCurr = targetIte.next();
+		while (sourceIte.hasNext()) {
+			if (targetCurr.equals(sourceIte.next())) {
+				if (targetIte.hasNext())
+					targetCurr = targetIte.next();
+				else return true;
+			}
+		}
+		return false;
+	}
+
 	public MapTargetVarsToSourceValues() {
 	}
 
@@ -43,7 +61,7 @@ public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 					IConstruct value;
 					List<ISymbol> valueList = varToValue.get(variable);
 					if (valueList.isEmpty()) {
-						List<ISymbol> emptyString = 
+						List<ISymbol> emptyString =
 								new ArrayList<>(Arrays.asList(new ISymbol[] {new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL)}));
 						value = new Construct(emptyString);
 					}
@@ -55,23 +73,5 @@ public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 		}
 		return productions;
 	}
-	
-	private static boolean subSequenceOf(List<ITerminal> targetTerminals, List<ITerminal> sourceTerminals) {
-		if (targetTerminals.isEmpty())
-			return true;
-		if (sourceTerminals.isEmpty())
-			return false;
-		Iterator<ITerminal> sourceIte = sourceTerminals.iterator();
-		Iterator<ITerminal> targetIte = targetTerminals.iterator();
-		ITerminal targetCurr = targetIte.next();
-		while (sourceIte.hasNext()) {
-			if (targetCurr.equals(sourceIte.next())) {
-				if (targetIte.hasNext())
-					targetCurr = targetIte.next();
-				else return true;
-			}
-		}
-		return false;
-	}	
 
 }

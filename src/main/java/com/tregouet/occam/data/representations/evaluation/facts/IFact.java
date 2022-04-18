@@ -5,7 +5,7 @@ import com.tregouet.occam.data.logical_structures.languages.words.IWord;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
 public interface IFact extends IWord<IContextualizedProduction> {
-	
+
 	ILambdaExpression asLambda();
 
 }

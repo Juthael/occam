@@ -10,13 +10,13 @@ import com.tregouet.occam.data.representations.descriptions.properties.AbstractD
 import com.tregouet.tree_finder.data.Tree;
 
 public interface SimilarityMetricsBuilder extends Function<Tree<Integer, AbstractDifferentiae>, ISimilarityMetrics> {
-	
-	public static PairSimilarityScorer pairSimilarityScorer() {
-		return ScorersAbstractFactory.INSTANCE.getPairSimilarityScorer();
-	}
-	
+
 	public static AsymmetricalSimilarityScorer asymmetricalSimilarityScorer() {
 		return ScorersAbstractFactory.INSTANCE.getAsymmetricalSimilarityScorer();
+	}
+
+	public static PairSimilarityScorer pairSimilarityScorer() {
+		return ScorersAbstractFactory.INSTANCE.getPairSimilarityScorer();
 	}
 
 }

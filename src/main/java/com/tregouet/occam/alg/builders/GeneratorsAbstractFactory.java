@@ -65,9 +65,9 @@ import com.tregouet.occam.alg.builders.representations.transition_functions.tran
 import com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.TransitionSalienceSetterStrategy;
 
 public class GeneratorsAbstractFactory {
-	
+
 	public static final GeneratorsAbstractFactory INSTANCE = new GeneratorsAbstractFactory();
-	
+
 	private DenotationBuilderStrategy denotationBuilderStrategy = null;
 	private ConceptLatticeBuilderStrategy conceptLatticeBuilderStrategy = null;
 	private ConceptTreeBuilderStrategy conceptTreeBuilderStrategy = null;
@@ -90,13 +90,99 @@ public class GeneratorsAbstractFactory {
 	private TransitionBuilderStrategy transitionBuilderStrategy = null;
 	private ProblemSpaceBuilderStrategy problemSpaceBuilderStrategy = null;
 	private ProblemSpaceModifierStrategy problemSpaceModifierStrategy = null;
-	
+
 	private GeneratorsAbstractFactory() {
 	}
-	
+
+	public ConceptLatticeBuilder getConceptLatticeBuilder() {
+		return ConceptLatticeBuilderFactory.INSTANCE.apply(conceptLatticeBuilderStrategy);
+	}
+
+	public ConceptTreeBuilder getConceptTreeBuilder() {
+		return ConceptTreeBuilderFactory.INSTANCE.apply(conceptTreeBuilderStrategy);
+	}
+
+	public IDenotationBuilder getDenotationBuilder() {
+		return DenotationBuilderFactory.INSTANCE.apply(denotationBuilderStrategy);
+	}
+
+	public DescriptionBuilder getDescriptionBuilder() {
+		return DescriptionBuilderFactory.INSTANCE.apply(descriptionBuilderStrategy);
+	}
+
+	public DifferentiaeBuilder getDifferentiaeBuilder() {
+		return DifferentiaeBuilderFactory.INSTANCE.apply(differentiaeBuilderStrategy);
+	}
+
+	public DifferentiaeRankSetter getDifferentiaeRankSetter() {
+		return DifferentiaeRankSetterFactory.INSTANCE.apply(differentiaeRankSetterStrategy);
+	}
+
+	public FactEvaluatorBuilder getFactEvaluatorBuilder() {
+		return FactEvaluatorBuilderFactory.INSTANCE.apply(factEvaluatorBuilderStrategy);
+	}
+
+	public PartialRepresentationLateSetter getPartialRepresentationLateSetter() {
+		return PartialRepresentationLateSetterFactory.INSTANCE.apply(partialRepresentationLateSetterStrategy);
+	}
+
+	public PartitionBuilder getPartitionBuilder() {
+		return PartitionBuilderFactory.INSTANCE.apply(partitionBuilderStrategy);
+	}
+
+	public PartitionGraphBuilder getPartitionGraphBuilder() {
+		return PartitionGraphBuilderFactory.INSTANCE.apply(partitionGraphBuilderStrategy);
+	}
+
+	public ProblemSpaceBuilder getProblemSpaceBuilder() {
+		return ProblemSpaceBuilderFactory.INSTANCE.apply(problemSpaceBuilderStrategy);
+	}
+
+	public ProblemSpaceModifier getProblemSpaceModifier() {
+		return ProblemSpaceModifierFactory.INSTANCE.apply(problemSpaceModifierStrategy);
+	}
+
+	public TransitionBuilder getProblemTransitionBuilder() {
+		return TransitionBuilderFactory.INSTANCE.apply(transitionBuilderStrategy);
+	}
+
+	public ProductionBuilder getProdBuilderFromConceptLattice() {
+		return ProductionBuilderFactory.INSTANCE.apply(productionBuilderStrategy);
+	}
+
+	public ProdBuilderFromDenotations getProdBuilderFromDenotations() {
+		return ProdBldrFromDenotationsFactory.INSTANCE.apply(prodBuilderFromDenotationsStrategy);
+	}
+
+	public PropertyBuilder getPropertyBuilder() {
+		return PropertyBuilderFactory.INSTANCE.apply(propertyBuilderStrategy);
+	}
+
+	public RepresentationSortedSetBuilder getRepresentationSortedSetBuilder() {
+		return RepresentationSortedSetBuilderFactory.INSTANCE
+				.apply(representationSortedSetBuilderStrategy)
+				.setMaxSize(representationSortedSetMaxSize);
+	}
+
+	public RepresentationTransFuncBuilder getRepresentationTransFuncBuilder() {
+		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
+	}
+
+	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
+		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
+	}
+
+	public StringSchemeBuilder getStringSchemeBuilder() {
+		return StringSchemeBuilderFactory.INSTANCE.apply(stringSchemeBuilderStrategy);
+	}
+
+	public TransitionSalienceSetter getTransitionSalienceSetter() {
+		return TransitionSalienceSetterFactory.INSTANCE.apply(transitionSalienceSetterStrategy);
+	}
+
 	public void setUpStrategy(GenerationStrategy overallStrategy) {
 		switch(overallStrategy) {
-			case GENERATION_STRATEGY_1 : 
+			case GENERATION_STRATEGY_1 :
 				denotationBuilderStrategy = DenotationBuilderStrategy.MAX_SYMBOL_SUBSEQUENCES;
 				conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
 				conceptTreeBuilderStrategy = ConceptTreeBuilderStrategy.UNIDIMENSIONAL_SORTING;
@@ -113,104 +199,18 @@ public class GeneratorsAbstractFactory {
 				stringSchemeBuilderStrategy = StringSchemeBuilderStrategy.RECURSIVE_FRAMING;
 				partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 				factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
-				representationSortedSetBuilderStrategy = 
+				representationSortedSetBuilderStrategy =
 						RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
 				representationSortedSetMaxSize = 50;
 				partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
 				transitionBuilderStrategy = TransitionBuilderStrategy.USE_PARTIAL_ORDER;
-				problemSpaceBuilderStrategy = 
+				problemSpaceBuilderStrategy =
 						ProblemSpaceBuilderStrategy.GALOIS_LATTICE_OF_REPRESENTATIONS;
 				problemSpaceModifierStrategy = ProblemSpaceModifierStrategy.REBUILD_FROM_SCRATCH;
 				break;
-			default : 
+			default :
 				break;
 		}
-	}
-	
-	public DifferentiaeBuilder getDifferentiaeBuilder() {
-		return DifferentiaeBuilderFactory.INSTANCE.apply(differentiaeBuilderStrategy);
-	}
-	
-	public TransitionSalienceSetter getTransitionSalienceSetter() {
-		return TransitionSalienceSetterFactory.INSTANCE.apply(transitionSalienceSetterStrategy);
-	}
-	
-	public ProductionBuilder getProdBuilderFromConceptLattice() {
-		return ProductionBuilderFactory.INSTANCE.apply(productionBuilderStrategy);
-	}
-	
-	public ProdBuilderFromDenotations getProdBuilderFromDenotations() {
-		return ProdBldrFromDenotationsFactory.INSTANCE.apply(prodBuilderFromDenotationsStrategy);
-	}
-	
-	public IDenotationBuilder getDenotationBuilder() {
-		return DenotationBuilderFactory.INSTANCE.apply(denotationBuilderStrategy);
-	}
-	
-	public ConceptLatticeBuilder getConceptLatticeBuilder() {
-		return ConceptLatticeBuilderFactory.INSTANCE.apply(conceptLatticeBuilderStrategy);
-	}
-	
-	public ConceptTreeBuilder getConceptTreeBuilder() {
-		return ConceptTreeBuilderFactory.INSTANCE.apply(conceptTreeBuilderStrategy);
-	}
-	
-	public RepresentationTransFuncBuilder getRepresentationTransFuncBuilder() {
-		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
-	}
-	
-	public PropertyBuilder getPropertyBuilder() {
-		return PropertyBuilderFactory.INSTANCE.apply(propertyBuilderStrategy);
-	}
-	
-	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
-		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
-	}
-	
-	public DescriptionBuilder getDescriptionBuilder() {
-		return DescriptionBuilderFactory.INSTANCE.apply(descriptionBuilderStrategy);
-	}
-	
-	public DifferentiaeRankSetter getDifferentiaeRankSetter() {
-		return DifferentiaeRankSetterFactory.INSTANCE.apply(differentiaeRankSetterStrategy);
-	}
-	
-	public PartitionGraphBuilder getPartitionGraphBuilder() {
-		return PartitionGraphBuilderFactory.INSTANCE.apply(partitionGraphBuilderStrategy);
-	}
-	
-	public StringSchemeBuilder getStringSchemeBuilder() {
-		return StringSchemeBuilderFactory.INSTANCE.apply(stringSchemeBuilderStrategy);
-	}
-	
-	public PartitionBuilder getPartitionBuilder() {
-		return PartitionBuilderFactory.INSTANCE.apply(partitionBuilderStrategy);
-	}
-	
-	public FactEvaluatorBuilder getFactEvaluatorBuilder() {
-		return FactEvaluatorBuilderFactory.INSTANCE.apply(factEvaluatorBuilderStrategy);
-	}
-	
-	public RepresentationSortedSetBuilder getRepresentationSortedSetBuilder() {
-		return RepresentationSortedSetBuilderFactory.INSTANCE
-				.apply(representationSortedSetBuilderStrategy)
-				.setMaxSize(representationSortedSetMaxSize);
-	}
-	
-	public TransitionBuilder getProblemTransitionBuilder() {
-		return TransitionBuilderFactory.INSTANCE.apply(transitionBuilderStrategy);
-	}
-	
-	public PartialRepresentationLateSetter getPartialRepresentationLateSetter() {
-		return PartialRepresentationLateSetterFactory.INSTANCE.apply(partialRepresentationLateSetterStrategy);
-	}
-	
-	public ProblemSpaceBuilder getProblemSpaceBuilder() {
-		return ProblemSpaceBuilderFactory.INSTANCE.apply(problemSpaceBuilderStrategy);
-	}
-	
-	public ProblemSpaceModifier getProblemSpaceModifier() {
-		return ProblemSpaceModifierFactory.INSTANCE.apply(problemSpaceModifierStrategy);
 	}
 
 }

@@ -16,22 +16,28 @@ import com.tregouet.occam.data.representations.transitions.TransitionType;
 import com.tregouet.occam.data.representations.transitions.productions.IProduction;
 
 public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSetter {
-	
+
+	private static boolean everySubConceptGivesThisVariableADistinctValue(List<Set<IProduction>> values) {
+		Set<Set<IProduction>> uniqueValues = new HashSet<>(values);
+		return uniqueValues.size() == values.size();
+	}
+	private static boolean everySubConceptInstantiatesThisVariable(List<Set<IProduction>> values) {
+		for (Set<IProduction> value : values) {
+			if (value.isEmpty())
+				return false;
+		}
+		return true;
+	}
 	private List<Integer> inputStateIDs;
 	private List<Set<Integer>> outputStateIDs;
+
 	private List<Set<IConceptTransition>> applications;
+
 	private Set<Integer> particularIDs;
-	
+
 	public HiddenByDefaultThenFindSpecifics() {
 	}
-	
-	private void init() {
-		inputStateIDs = new ArrayList<>();
-		outputStateIDs = new ArrayList<>();
-		applications = new ArrayList<>();
-		particularIDs = new HashSet<>();
-	}
-	
+
 	@Override
 	public void accept(Set<IConceptTransition> transitions) {
 		init();
@@ -67,7 +73,7 @@ public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSette
 				if (!particularIDs.contains(application.getOutputInternConfiguration().getOutputStateID())) {
 					if (application.getInputConfiguration().getInputSymbol().isRedundant())
 						application.setSalience(Salience.REDUNDANT);
-					else application.setSalience(Salience.COMMON_FEATURE); 
+					else application.setSalience(Salience.COMMON_FEATURE);
 				}
 			}
 		}
@@ -76,22 +82,15 @@ public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSette
 			setPartitionRulesSalience(i);
 		}
 	}
-	
-	private void setPartitionRulesSalience(int inputConceptIdx) {
-		Map<AVariable, Set<IConceptTransition>> varToApplications = new HashMap<>();
-		for (IConceptTransition application : applications.get(inputConceptIdx)) {
-			AVariable instantiatedVar = application.getInputConfiguration().getStackSymbol();
-			if (varToApplications.containsKey(instantiatedVar))
-				varToApplications.get(instantiatedVar).add(application);
-			else varToApplications.put(
-					instantiatedVar, 
-					new HashSet<>(Arrays.asList(new IConceptTransition[] {application})));
-		}
-		for (Map.Entry<AVariable, Set<IConceptTransition>> entry : varToApplications.entrySet())
-			setPartitionRuleSalienceOf(entry, inputConceptIdx);
+
+	private void init() {
+		inputStateIDs = new ArrayList<>();
+		outputStateIDs = new ArrayList<>();
+		applications = new ArrayList<>();
+		particularIDs = new HashSet<>();
 	}
-	
-	private void setPartitionRuleSalienceOf(Map.Entry<AVariable, Set<IConceptTransition>> varToApplications, 
+
+	private void setPartitionRuleSalienceOf(Map.Entry<AVariable, Set<IConceptTransition>> varToApplications,
 			int inputConceptIdx) {
 		List<Integer> outputIDs = new ArrayList<>(outputStateIDs.get(inputConceptIdx));
 		List<Set<IProduction>> values = new ArrayList<>(outputIDs.size());
@@ -102,24 +101,25 @@ public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSette
 			values.get(outputIDs.indexOf(application.getOutputInternConfiguration().getOutputStateID()))
 				.add(application.getInputConfiguration().getInputSymbol().getUncontextualizedProduction());
 		}
-		if (everySubConceptInstantiatesThisVariable(values) 
+		if (everySubConceptInstantiatesThisVariable(values)
 				&& everySubConceptGivesThisVariableADistinctValue(values)) {
 			for (IConceptTransition transitionRule : varToApplications.getValue())
 				transitionRule.setSalience(Salience.TRANSITION_RULE);
 		}
 	}
-	
-	private static boolean everySubConceptInstantiatesThisVariable(List<Set<IProduction>> values) {
-		for (Set<IProduction> value : values) {
-			if (value.isEmpty())
-				return false;
+
+	private void setPartitionRulesSalience(int inputConceptIdx) {
+		Map<AVariable, Set<IConceptTransition>> varToApplications = new HashMap<>();
+		for (IConceptTransition application : applications.get(inputConceptIdx)) {
+			AVariable instantiatedVar = application.getInputConfiguration().getStackSymbol();
+			if (varToApplications.containsKey(instantiatedVar))
+				varToApplications.get(instantiatedVar).add(application);
+			else varToApplications.put(
+					instantiatedVar,
+					new HashSet<>(Arrays.asList(new IConceptTransition[] {application})));
 		}
-		return true;
-	}
-	
-	private static boolean everySubConceptGivesThisVariableADistinctValue(List<Set<IProduction>> values) {
-		Set<Set<IProduction>> uniqueValues = new HashSet<>(values);
-		return uniqueValues.size() == values.size();
+		for (Map.Entry<AVariable, Set<IConceptTransition>> entry : varToApplications.entrySet())
+			setPartitionRuleSalienceOf(entry, inputConceptIdx);
 	}
 
 }

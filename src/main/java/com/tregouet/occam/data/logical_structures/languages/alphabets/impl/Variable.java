@@ -4,25 +4,23 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class Variable extends AVariable {
-	
+
 	private String name = ISymbolSeq.PLACEHOLDER;
 
 	public Variable(boolean deferredNaming) {
 		if (!deferredNaming)
 			setName();
 	}
-	
+
 	protected Variable(String name) {
 		this.name = name;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Variable other = (Variable) obj;
 		if (name == null) {
@@ -32,7 +30,7 @@ public class Variable extends AVariable {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String getName() {
 		return name;

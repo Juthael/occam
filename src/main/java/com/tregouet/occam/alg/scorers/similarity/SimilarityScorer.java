@@ -6,7 +6,7 @@ import com.tregouet.occam.data.logical_structures.orders.total.impl.DoubleScore;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 
 public interface SimilarityScorer<R extends Scored<DoubleScore>> extends Scorer<R, DoubleScore> {
-	
+
 	Scorer<R, DoubleScore> setAsContext(IDescription description);
 
 }

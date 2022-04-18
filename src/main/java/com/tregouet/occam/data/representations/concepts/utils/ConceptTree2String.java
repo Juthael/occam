@@ -14,17 +14,12 @@ public class ConceptTree2String {
 
 	private final InvertedTree<IConcept, IIsA> conceptTree;
 	private final Map<IConcept, String> leafToLeafName;
-	
+
 	public ConceptTree2String(InvertedTree<IConcept, IIsA> treeOfDenotationSets, Map<IConcept, String> leafToLeafName) {
 		this.conceptTree = treeOfDenotationSets;
 		this.leafToLeafName = leafToLeafName;
 	}
-	
-	@Override
-	public String toString() {
-		return getExtentStructure(conceptTree.getRoot());
-	}
-	
+
 	private String getExtentStructure(IConcept concept) {
 		String extentStructure;
 		if (concept.type() == ConceptType.PARTICULAR)
@@ -46,6 +41,11 @@ public class ConceptTree2String {
 			}
 		}
 		return extentStructure;
-	}	
+	}
+
+	@Override
+	public String toString() {
+		return getExtentStructure(conceptTree.getRoot());
+	}
 
 }

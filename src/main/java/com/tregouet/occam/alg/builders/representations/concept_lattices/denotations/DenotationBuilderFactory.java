@@ -3,15 +3,15 @@ package com.tregouet.occam.alg.builders.representations.concept_lattices.denotat
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.impl.MaxSymbolSubsequences;
 
 public class DenotationBuilderFactory {
-	
+
 	public static final DenotationBuilderFactory INSTANCE = new DenotationBuilderFactory();
-	
+
 	private DenotationBuilderFactory() {
 	}
-	
+
 	public IDenotationBuilder apply(DenotationBuilderStrategy strategy) {
 		switch(strategy) {
-			case MAX_SYMBOL_SUBSEQUENCES : 
+			case MAX_SYMBOL_SUBSEQUENCES :
 				return new MaxSymbolSubsequences();
 			default :
 				return null;

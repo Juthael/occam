@@ -15,7 +15,7 @@ import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
 public class ConceptLattice implements IConceptLattice {
-	
+
 	private final List<IContextObject> objects;
 	private final DirectedAcyclicGraph<IConcept, IIsA> lattice;
 	private final InvertedUpperSemilattice<IConcept, IIsA> invertedUpperSemilattice;
@@ -24,15 +24,15 @@ public class ConceptLattice implements IConceptLattice {
 	private final IConcept truism;
 	private final List<IConcept> particulars;
 	private final IConcept absurdity;
-	
+
 	public ConceptLattice(
-			List<IContextObject> objects, 
-			DirectedAcyclicGraph<IConcept, IIsA> lattice, 
-			InvertedUpperSemilattice<IConcept, IIsA> upperSemilattice, 
-			List<IConcept> topologicalOrder, 
-			IConcept ontologicalCommitment, 
-			IConcept truism, 
-			List<IConcept> particulars, 
+			List<IContextObject> objects,
+			DirectedAcyclicGraph<IConcept, IIsA> lattice,
+			InvertedUpperSemilattice<IConcept, IIsA> upperSemilattice,
+			List<IConcept> topologicalOrder,
+			IConcept ontologicalCommitment,
+			IConcept truism,
+			List<IConcept> particulars,
 			IConcept absurdity) {
 		this.objects = objects;
 		this.lattice = lattice;
@@ -42,7 +42,7 @@ public class ConceptLattice implements IConceptLattice {
 		this.truism = truism;
 		this.particulars = particulars;
 		this.absurdity = absurdity;
-	}	
+	}
 
 	@Override
 	public boolean areA(List<IConcept> concepts, IConcept concept) {
@@ -58,11 +58,6 @@ public class ConceptLattice implements IConceptLattice {
 	@Override
 	public IConcept getAbsurdity() {
 		return absurdity;
-	}
-
-	@Override
-	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
-		return lattice;
 	}
 
 	@Override
@@ -82,6 +77,11 @@ public class ConceptLattice implements IConceptLattice {
 	}
 
 	@Override
+	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
+		return lattice;
+	}
+
+	@Override
 	public IConcept getLeastCommonSuperordinate(Set<IConcept> concepts) {
 		if (concepts.isEmpty())
 			return null;
@@ -98,34 +98,34 @@ public class ConceptLattice implements IConceptLattice {
 			else if (concepts.contains(current))
 				abortSearch = true;
 		}
-		return leastCommonSuperordinate;		
+		return leastCommonSuperordinate;
+	}
+
+	@Override
+	public List<IConcept> getObjectConcepts() {
+		return particulars;
 	}
 
 	@Override
 	public IConcept getOntologicalCommitment() {
 		return ontologicalCommitment;
 	}
-	
+
 	@Override
 	public InvertedUpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice() {
 		return invertedUpperSemilattice;
 	}
-	
-	@Override
-	public List<IConcept> getObjectConcepts() {
-		return particulars;
-	}	
-	
+
 	@Override
 	public List<IConcept> getTopologicalSorting() {
 		return topologicalOrder;
 	}
-	
+
 	@Override
 	public DirectedAcyclicGraph<IConcept, IIsA> getTransitiveReduction() {
 		return invertedUpperSemilattice;
 	}
-	
+
 	@Override
 	public IConcept getTruism() {
 		return truism;
@@ -135,19 +135,19 @@ public class ConceptLattice implements IConceptLattice {
 	public boolean isA(IConcept denotationSet1, IConcept denotationSet2) {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(denotationSet1) < topologicalOrder.indexOf(denotationSet2)) {
-			BreadthFirstIterator<IConcept, IIsA> iterator = 
+			BreadthFirstIterator<IConcept, IIsA> iterator =
 					new BreadthFirstIterator<>(invertedUpperSemilattice, denotationSet1);
 			iterator.next();
 			while (!isA && iterator.hasNext())
 				isA = denotationSet2.equals(iterator.next());
 		}
-		return isA;		
+		return isA;
 	}
 
 	@Override
 	public boolean isADirectSubordinateOf(IConcept denotationSet1, IConcept denotationSet2) {
 		return (invertedUpperSemilattice.getEdge(denotationSet1, denotationSet2) != null);
-	}	
+	}
 
 	private List<IConcept> removeSubCategories(Set<IConcept> concepts) {
 		List<IConcept> denotSetList = new ArrayList<>(concepts);

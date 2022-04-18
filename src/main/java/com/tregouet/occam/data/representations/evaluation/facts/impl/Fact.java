@@ -11,11 +11,16 @@ import com.tregouet.occam.data.representations.transitions.productions.IContextu
 public class Fact implements IFact {
 
 	private final List<IContextualizedProduction> productionList;
-	
+
 	public Fact(List<IContextualizedProduction> productionList) {
 		this.productionList = productionList;
 	}
-	
+
+	@Override
+	public ILambdaExpression asLambda() {
+		return new BasicAbstractionApplication(productionList);
+	}
+
 	@Override
 	public List<IContextualizedProduction> asList() {
 		return new ArrayList<>(productionList);
@@ -24,11 +29,6 @@ public class Fact implements IFact {
 	@Override
 	public IFact copy() {
 		return new Fact(asList());
-	}
-
-	@Override
-	public ILambdaExpression asLambda() {
-		return new BasicAbstractionApplication(productionList);
 	}
 
 }

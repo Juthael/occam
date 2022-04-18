@@ -6,18 +6,18 @@ import com.tregouet.occam.data.representations.transitions.productions.IContextu
 
 public interface IRepresentationTapeSet extends
 		IPushdownAutomatonTapeSet<
-			IContextualizedProduction, 
-			AVariable, 
+			IContextualizedProduction,
+			AVariable,
 			IRepresentationTapeSet> {
-	
-	@Override
-	int hashCode();
-	
+
 	@Override
 	boolean equals(Object o);
-	
+
 	IFactTape getInputTape();
-	
+
+	@Override
+	int hashCode();
+
 	void input(IFactTape inputTape);
 
 }

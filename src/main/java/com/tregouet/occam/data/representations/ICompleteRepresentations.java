@@ -6,13 +6,13 @@ import java.util.SortedSet;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 
 public interface ICompleteRepresentations {
-	
-	SortedSet<ICompleteRepresentation> getSortedRepresentations();
-	
-	IConceptLattice getConceptLattice();
-	
+
 	ICompleteRepresentation get(int iD);
-	
+
 	Set<ICompleteRepresentation> get(Set<Integer> iDs);
+
+	IConceptLattice getConceptLattice();
+
+	SortedSet<ICompleteRepresentation> getSortedRepresentations();
 
 }

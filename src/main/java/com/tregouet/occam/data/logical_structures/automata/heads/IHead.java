@@ -20,25 +20,25 @@ public interface IHead<
 	Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>,
 	Head extends IHead<TransFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head>
 	>{
-	
-	IHead<TransFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head> input(Word word);
-	
-	void set(TransFunc transitionFunction);
-	
-	Set<Head> evaluate();
-	
-	Set<Head> factEnumerator();
-	
-	boolean halted();
-	
+
 	boolean accepts();
-	
-	@Override
-	int hashCode();
-	
+
 	@Override
 	boolean equals(Object o);
-	
+
+	Set<Head> evaluate();
+
+	Set<Head> factEnumerator();
+
+	boolean halted();
+
+	@Override
+	int hashCode();
+
+	IHead<TransFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head> input(Word word);
+
 	void reinitialize();
+
+	void set(TransFunc transitionFunction);
 
 }

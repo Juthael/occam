@@ -15,24 +15,17 @@ import com.tregouet.occam.data.representations.evaluation.IFactEvaluator;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class CompleteRepresentation extends Representation implements ICompleteRepresentation {
-	
-	public CompleteRepresentation(InvertedTree<IConcept, IIsA> classification, IDescription description, 
+
+	public CompleteRepresentation(InvertedTree<IConcept, IIsA> classification, IDescription description,
 			IFactEvaluator factEvaluator, Set<IPartition> partitions) {
 		super(classification, description, factEvaluator, partitions);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(description, classification);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		CompleteRepresentation other = (CompleteRepresentation) obj;
 		return Objects.equals(description, other.description) && Objects.equals(classification, other.classification);
@@ -46,6 +39,11 @@ public class CompleteRepresentation extends Representation implements ICompleteR
 	@Override
 	public Set<ICompleteRepresentation> getRepresentationCompletions() {
 		return new HashSet<>(Arrays.asList(new CompleteRepresentation[] {this}));
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(description, classification);
 	}
 
 }

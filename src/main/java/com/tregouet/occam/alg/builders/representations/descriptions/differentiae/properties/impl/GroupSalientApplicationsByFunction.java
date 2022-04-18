@@ -19,10 +19,10 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 	private List<IDenotation> functions;
 	private List<Set<IApplication>> applicationSets;
 	private List<Set<IDenotation>> valueSets;
-	
+
 	public GroupSalientApplicationsByFunction() {
 	}
-	
+
 	@Override
 	public Set<IProperty> apply(IRepresentationTransitionFunction transFunction) {
 		init();
@@ -46,6 +46,12 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 		return output();
 	}
 
+	private void init() {
+		functions = new ArrayList<>();
+		applicationSets = new ArrayList<>();
+		valueSets = new ArrayList<>();
+	}
+
 	private Set<IProperty> output() {
 		Set<IProperty> properties = new HashSet<>();
 		for (int i = 0 ; i < functions.size() ; i++) {
@@ -54,12 +60,6 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 		for (IProperty property : properties)
 			PropertyBuilder.propertyWeigher().accept(property);
 		return properties;
-	}
-	
-	private void init() {
-		functions = new ArrayList<>();
-		applicationSets = new ArrayList<>();
-		valueSets = new ArrayList<>();
 	}
 
 }

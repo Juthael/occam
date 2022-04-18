@@ -5,35 +5,35 @@ import com.tregouet.occam.alg.scorers.similarity.impl.DynamicFramingForPairs;
 import com.tregouet.occam.alg.scorers.similarity.impl.DynamicFramingForSubsets;
 
 public class SimilarityScorerFactory {
-	
+
 	public static final SimilarityScorerFactory INSTANCE = new SimilarityScorerFactory();
-	
+
 	private SimilarityScorerFactory() {
 	}
-	
-	public SubsetSimilarityScorer getBasicSimilarityScorer(SimilarityScorerStrategy strategy) {
-		switch (strategy) {
-			case DYNAMIC_FRAMING : 
-				return new DynamicFramingForSubsets();
-			default : 
-				return null;
-		}
-	}
-	
+
 	public AsymmetricalSimilarityScorer getAsymmetricalSimilarityScorer(SimilarityScorerStrategy strategy) {
 		switch (strategy) {
-			case DYNAMIC_FRAMING : 
+			case DYNAMIC_FRAMING :
 				return new AsymmetricalDynamicFraming();
-			default : 
+			default :
 				return null;
 		}
 	}
-	
+
+	public SubsetSimilarityScorer getBasicSimilarityScorer(SimilarityScorerStrategy strategy) {
+		switch (strategy) {
+			case DYNAMIC_FRAMING :
+				return new DynamicFramingForSubsets();
+			default :
+				return null;
+		}
+	}
+
 	public PairSimilarityScorer getPairSimilarityScorer(SimilarityScorerStrategy strategy) {
 		switch (strategy) {
-			case DYNAMIC_FRAMING : 
+			case DYNAMIC_FRAMING :
 				return new DynamicFramingForPairs();
-			default : 
+			default :
 				return null;
 		}
 	}

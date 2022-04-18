@@ -12,11 +12,11 @@ import com.tregouet.occam.data.logical_structures.languages.words.construct.ICon
 import com.tregouet.occam.data.representations.transitions.productions.IProduction;
 
 public class NaryConjunctiveAbstractionApplication extends ALambdaTerm implements ILambdaExpression {
-	
+
 	private List<AVariable> boundVariables = new ArrayList<>();
 	private List<Set<NaryConjunctiveAbstractionApplication>> argSets = new ArrayList<>();
-	
-	
+
+
 	public NaryConjunctiveAbstractionApplication(IConstruct construct) {
 		super(construct);
 	}
@@ -46,12 +46,17 @@ public class NaryConjunctiveAbstractionApplication extends ALambdaTerm implement
 	public boolean isAnApplication() {
 		return !boundVariables.isEmpty();
 	}
-	
+
+	@Override
+	public String toShorterString() {
+		return toString(true);
+	}
+
 	@Override
 	public String toString() {
 		return toString(false);
 	}
-	
+
 	private String toString(boolean shorter) {
 		if (boundVariables.isEmpty()) {
 			if (term.asList().size() == 1)
@@ -76,10 +81,5 @@ public class NaryConjunctiveAbstractionApplication extends ALambdaTerm implement
 		}
 		return sB.toString();
 	}
-
-	@Override
-	public String toShorterString() {
-		return toString(true);
-	}	
 
 }

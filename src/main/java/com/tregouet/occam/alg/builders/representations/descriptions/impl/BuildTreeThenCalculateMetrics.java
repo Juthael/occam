@@ -18,9 +18,9 @@ import com.tregouet.occam.data.representations.transitions.IRepresentationTransi
 import com.tregouet.tree_finder.data.Tree;
 
 public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
-	
+
 	public static final BuildTreeThenCalculateMetrics INSTANCE = new BuildTreeThenCalculateMetrics();
-	
+
 	private BuildTreeThenCalculateMetrics() {
 	}
 
@@ -38,14 +38,14 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 			paramTree.addEdge(genusID, speciesID, diff);
 		}
 		List<Integer> topoOrderOverConcepts = new ArrayList<>();
-		new TopologicalOrderIterator<Integer, AbstractDifferentiae>(paramTree).forEachRemaining(topoOrderOverConcepts::add);
+		new TopologicalOrderIterator<>(paramTree).forEachRemaining(topoOrderOverConcepts::add);
 		Integer ontologicalCommitmentID = topoOrderOverConcepts.get(0);
 		Set<Integer> particularIDs = transFunc.getAcceptStateIDs();
-		classification = 
-				new Tree<Integer, AbstractDifferentiae>(
+		classification =
+				new Tree<>(
 						paramTree, ontologicalCommitmentID, particularIDs, topoOrderOverConcepts);
 		DescriptionBuilder.differentiaeRankSetter().accept(classification);
-		DifferentiaeCoeffSetter differentiaeCoeffSetter = 
+		DifferentiaeCoeffSetter differentiaeCoeffSetter =
 				DescriptionBuilder.differentiaeCoeffSetter().setContext(classification);
 		DifferentiaeWeigher differentiaeWeigher = DescriptionBuilder.differentiaeWeigher();
 		for (AbstractDifferentiae diff : classification.edgeSet()) {

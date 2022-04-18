@@ -11,18 +11,13 @@ public class Property implements IProperty {
 	private final IDenotation function;
 	private final Set<IApplication> applications;
 	private final Set<IDenotation> resultingValues;
-	private Double weight = null; 
-	
-	public Property(IDenotation function, Set<IApplication> applications, 
+	private Double weight = null;
+
+	public Property(IDenotation function, Set<IApplication> applications,
 			Set<IDenotation> resultingValues) {
 		this.function = function;
 		this.applications = applications;
 		this.resultingValues = resultingValues;
-	}
-	
-	@Override
-	public IDenotation getFunction() {
-		return function;
 	}
 
 	@Override
@@ -31,18 +26,23 @@ public class Property implements IProperty {
 	}
 
 	@Override
+	public IDenotation getFunction() {
+		return function;
+	}
+
+	@Override
 	public Set<IDenotation> getResultingValues() {
 		return resultingValues;
 	}
 
 	@Override
-	public Double weight() {
-		return weight;
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 
 	@Override
-	public void setWeight(double weight) {
-		this.weight = weight;
+	public Double weight() {
+		return weight;
 	}
 
 }

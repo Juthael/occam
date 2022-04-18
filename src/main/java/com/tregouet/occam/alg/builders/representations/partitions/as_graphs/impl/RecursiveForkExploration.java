@@ -17,43 +17,7 @@ import com.tregouet.tree_finder.data.Tree;
 public class RecursiveForkExploration implements PartitionGraphBuilder {
 
 	public static final RecursiveForkExploration INSTANCE = new RecursiveForkExploration();
-	
-	private RecursiveForkExploration() {
-	}
-	
-	@Override
-	public Set<Tree<Integer, AbstractDifferentiae>> apply(Tree<Integer, AbstractDifferentiae> tree) {
-		DirectedAcyclicGraph<Integer, AbstractDifferentiae> builtSoFar = new DirectedAcyclicGraph<>(null, null, false);
-		builtSoFar.addVertex(tree.getRoot());
-		Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> dagPartitions = part(tree, builtSoFar, tree.getRoot());
-		return convertIntoTrees(dagPartitions);
-	}
-	
-	private static  Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> part(
-			Tree<Integer, AbstractDifferentiae> tree,
-			DirectedAcyclicGraph<Integer, AbstractDifferentiae> partedSoFar, Integer activeNode) {
-		Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> partedNext = new HashSet<>();
-		if (tree.getLeaves().contains(activeNode))
-			partedNext.add(partedSoFar);
-		else {
-			DirectedAcyclicGraph<Integer, AbstractDifferentiae> forked = shallowCopyOf(partedSoFar);
-			Set<AbstractDifferentiae> fork = tree.outgoingEdgesOf(activeNode);
-			Graphs.addAllEdges(forked, tree, fork);
-			for (AbstractDifferentiae path : fork) {
-				partedNext.addAll(part(tree, forked, path.getTarget()));
-			}
-		}
-		return partedNext;
-	}
-	
-	private static DirectedAcyclicGraph<Integer, AbstractDifferentiae> shallowCopyOf(
-			DirectedAcyclicGraph<Integer, AbstractDifferentiae> copied) {
-		DirectedAcyclicGraph<Integer, AbstractDifferentiae> copy = new DirectedAcyclicGraph<>(null, null, false);
-		Graphs.addAllVertices(copy, copied.vertexSet());
-		Graphs.addAllEdges(copy, copied, copied.edgeSet());
-		return copy;
-	}	
-	
+
 	private static Set<Tree<Integer, AbstractDifferentiae>> convertIntoTrees(
 			Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> dagPartitions) {
 		Set<Tree<Integer, AbstractDifferentiae>> partitions = new HashSet<>();
@@ -70,9 +34,45 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 				if (dagPartition.outDegreeOf(nextConceptID) == 0)
 					leaves.add(nextConceptID);
 			}
-			partitions.add(new Tree<Integer, AbstractDifferentiae>(dagPartition, root, leaves, topoOrder));
+			partitions.add(new Tree<>(dagPartition, root, leaves, topoOrder));
 		}
 		return partitions;
+	}
+
+	private static  Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> part(
+			Tree<Integer, AbstractDifferentiae> tree,
+			DirectedAcyclicGraph<Integer, AbstractDifferentiae> partedSoFar, Integer activeNode) {
+		Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> partedNext = new HashSet<>();
+		if (tree.getLeaves().contains(activeNode))
+			partedNext.add(partedSoFar);
+		else {
+			DirectedAcyclicGraph<Integer, AbstractDifferentiae> forked = shallowCopyOf(partedSoFar);
+			Set<AbstractDifferentiae> fork = tree.outgoingEdgesOf(activeNode);
+			Graphs.addAllEdges(forked, tree, fork);
+			for (AbstractDifferentiae path : fork) {
+				partedNext.addAll(part(tree, forked, path.getTarget()));
+			}
+		}
+		return partedNext;
+	}
+
+	private static DirectedAcyclicGraph<Integer, AbstractDifferentiae> shallowCopyOf(
+			DirectedAcyclicGraph<Integer, AbstractDifferentiae> copied) {
+		DirectedAcyclicGraph<Integer, AbstractDifferentiae> copy = new DirectedAcyclicGraph<>(null, null, false);
+		Graphs.addAllVertices(copy, copied.vertexSet());
+		Graphs.addAllEdges(copy, copied, copied.edgeSet());
+		return copy;
+	}
+
+	private RecursiveForkExploration() {
+	}
+
+	@Override
+	public Set<Tree<Integer, AbstractDifferentiae>> apply(Tree<Integer, AbstractDifferentiae> tree) {
+		DirectedAcyclicGraph<Integer, AbstractDifferentiae> builtSoFar = new DirectedAcyclicGraph<>(null, null, false);
+		builtSoFar.addVertex(tree.getRoot());
+		Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> dagPartitions = part(tree, builtSoFar, tree.getRoot());
+		return convertIntoTrees(dagPartitions);
 	}
 
 }

@@ -8,6 +8,6 @@ import com.tregouet.occam.data.logical_structures.languages.words.construct.ICon
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 
 @FunctionalInterface
-public interface IDenotationBuilder extends Function<Collection<IContextObject>, Set<IConstruct>> {	
+public interface IDenotationBuilder extends Function<Collection<IContextObject>, Set<IConstruct>> {
 
 }

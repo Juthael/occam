@@ -12,8 +12,8 @@ public abstract class IIsA extends DefaultEdge {
 			return false;
 		IIsA other = (IIsA) o;
 		return (getSource().equals(other.getSource()) && getTarget().equals(other.getTarget()));
-	}	
-	
+	}
+
 	@Override
 	public int hashCode() {
 		return getSource().hashCode() + getTarget().hashCode();

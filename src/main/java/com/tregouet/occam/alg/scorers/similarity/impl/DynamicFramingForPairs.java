@@ -10,15 +10,15 @@ import com.tregouet.tree_finder.utils.Functions;
 public class DynamicFramingForPairs extends AbstractSimilarityScorer<IConceptPairIDs> implements PairSimilarityScorer {
 
 	@Override
-	public Scorer<IConceptPairIDs, DoubleScore> setAsContext(IDescription description) {
-		classificationTree = description.asGraph();
-		return this;
-	}
-
-	@Override
 	public DoubleScore apply(IConceptPairIDs pair) {
 		Integer genus = Functions.commonAncestor(classificationTree, pair.first(), pair.second());
 		return new DoubleScore(getDefinitionCostOf(genus));
+	}
+
+	@Override
+	public Scorer<IConceptPairIDs, DoubleScore> setAsContext(IDescription description) {
+		classificationTree = description.asGraph();
+		return this;
 	}
 
 }

@@ -26,25 +26,45 @@ import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrin
 import com.tregouet.occam.io.output.html.representation_page.RepresentationPagePrinter;
 
 public class PrototypeMenu {
-	
+
 	private static final String NL = System.lineSeparator();
 	private static final OverallStrategy strategy = OverallStrategy.OVERALL_STRATEGY_1;
 	private static final String htmlFileName = "occam.html";
+	private static boolean isValidPath(String path) {
+	    try {
+	        Paths.get(path);
+	    } catch (InvalidPathException | NullPointerException ex) {
+	        return false;
+	    }
+	    return true;
+	}
+
 	private final Scanner entry = new Scanner(System.in);
-	
+
 	public PrototypeMenu() {
 		OverallAbstractFactory.INSTANCE.apply(strategy);
 		welcome();
 	}
-	
-	private void welcome() {
-		System.out.println("********************");
-		System.out.println("********OCCAM********");
-		System.out.println("********************");
+
+	private void enterNewInput() throws IOException {
 		System.out.println(NL);
-		enterTargetFolder();
-	}	
-	
+		System.out.println("Please enter a path for the next input : " + NL);
+		String inputPathString = entry.nextLine();
+		if (isValidPath(inputPathString)) {
+			Path inputPath = Paths.get(inputPathString);
+			List<IContextObject> objects = GenericFileReader.getContextObjects(inputPath);
+			RepresentationSortedSetBuilder completeRepBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationSortedSetBuilder();
+			ICompleteRepresentations completeRepresentations = completeRepBldr.apply(objects);
+			ProblemSpaceBuilder pbSpaceBldr = GeneratorsAbstractFactory.INSTANCE.getProblemSpaceBuilder();
+			IProblemSpace pbSpace = pbSpaceBldr.apply(completeRepresentations);
+			problemSpaceMenu(objects, pbSpace);
+		}
+		else {
+			System.out.println("This path is invalid." + NL);
+			enterTargetFolder();
+		}
+	}
+
 	private void enterTargetFolder() {
 		System.out.println(NL);
 		System.out.println("Please enter a path for the target folder : " + NL);
@@ -57,8 +77,16 @@ public class PrototypeMenu {
 			System.out.println("This path is invalid." + NL);
 			enterTargetFolder();
 		}
-	}	
-	
+	}
+
+	private void generate(String htmlPage) throws IOException {
+		String sep = File.separator;
+		File pageFile = new File(LocalPaths.INSTANCE.getTargetFolderPath() + sep + htmlFileName);
+		FileWriter writer = new FileWriter(pageFile);
+		writer.write(htmlPage);
+		writer.close();
+	}
+
 	private void mainMenu() {
 		try {
 			generate(MainMenuPrinter.INSTANCE.get());
@@ -80,39 +108,20 @@ public class PrototypeMenu {
 			} catch (IOException e) {
 				System.out.println(e.getMessage() + NL);
 				mainMenu();
-			} 
+			}
 				break;
 			case 2 : enterTargetFolder();
 				break;
 			case 3 : System.out.println("Goodbye.");
 				System.exit(0);
 				break;
-			default : 
+			default :
 				System.out.println("Please stay focused." + NL);
 				mainMenu();
 				break;
 		}
-	}	
-	
-	private void enterNewInput() throws IOException {
-		System.out.println(NL);
-		System.out.println("Please enter a path for the next input : " + NL);
-		String inputPathString = entry.nextLine();
-		if (isValidPath(inputPathString)) {
-			Path inputPath = Paths.get(inputPathString);
-			List<IContextObject> objects = GenericFileReader.getContextObjects(inputPath);
-			RepresentationSortedSetBuilder completeRepBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationSortedSetBuilder();
-			ICompleteRepresentations completeRepresentations = completeRepBldr.apply(objects);
-			ProblemSpaceBuilder pbSpaceBldr = GeneratorsAbstractFactory.INSTANCE.getProblemSpaceBuilder();
-			IProblemSpace pbSpace = pbSpaceBldr.apply(completeRepresentations);
-			problemSpaceMenu(objects, pbSpace);
-		}
-		else {
-			System.out.println("This path is invalid." + NL);
-			enterTargetFolder();
-		}
 	}
-	
+
 	private void problemSpaceMenu(List<IContextObject> objects, IProblemSpace problemSpace) {
 		try {
 			String htmlPage = ProblemSpacePagePrinter.INSTANCE.print(objects, problemSpace);
@@ -125,59 +134,59 @@ public class PrototypeMenu {
 		System.out.println(NL);
 		System.out.println("1 : select a representation" + NL);
 		System.out.println("2 : add a new representation (Not implemented yet)" + NL);
-		System.out.println("3 : back to main menu" + NL);		
+		System.out.println("3 : back to main menu" + NL);
 		int choice = 0;
 		try {
 			choice = entry.nextInt();
-			entry.nextLine();	
+			entry.nextLine();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			problemSpaceMenu(objects, problemSpace);
 		}
 		switch(choice) {
-			case 1 : 
+			case 1 :
 				IRepresentation representation = selectARepresentation(problemSpace);
 				representationMenu(objects, problemSpace, representation);
 				break;
-			case 2 : 
+			case 2 :
 				System.out.print("This functionality is not available yet.");
 				problemSpaceMenu(objects, problemSpace);
 				break;
-			case 3 : 
+			case 3 :
 				mainMenu();
 				break;
-			default : 
+			default :
 				System.out.println("Please stay focused." + NL);
 				mainMenu();
 				break;
-		}		
+		}
 	}
-	
+
 	private void representationMenu(List<IContextObject> objects, IProblemSpace problemSpace, IRepresentation representation) {
 		try {
 			String htmlPage = RepresentationPagePrinter.INSTANCE.print(objects, representation);
 			generate(htmlPage);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
+		}
 		System.out.println(NL);
 		System.out.println("**********REPRESENTATION MENU**********");
 		System.out.println(NL);
 		System.out.println("1 : display next representation (score descending order)" + NL);
 		System.out.println("2 : display previous representation (score descending order)" + NL);
-		System.out.println("3 : back to main menu" + NL);	
+		System.out.println("3 : back to main menu" + NL);
 		int choice = 0;
 		try {
 			choice = entry.nextInt();
-			entry.nextLine();	
+			entry.nextLine();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 			problemSpaceMenu(objects, problemSpace);
 		}
 		switch(choice) {
-			case 1 : 
+			case 1 :
 				NavigableSet<IRepresentation> lowerRep = problemSpace.getSortedSetOfStates().tailSet(representation, false);
 				if (lowerRep.isEmpty()) {
 					System.out.println("There is no next representation.");
@@ -185,7 +194,7 @@ public class PrototypeMenu {
 				}
 				else representationMenu(objects, problemSpace, lowerRep.first());
 				break;
-			case 2 : 
+			case 2 :
 				NavigableSet<IRepresentation> higherRep = problemSpace.getSortedSetOfStates().headSet(representation, false);
 				if (higherRep.isEmpty()) {
 					System.out.println("There is no previous representation.");
@@ -193,16 +202,16 @@ public class PrototypeMenu {
 				}
 				else representationMenu(objects, problemSpace, higherRep.last());
 				break;
-			case 3 : 
+			case 3 :
 				problemSpaceMenu(objects, problemSpace);
 				break;
-			default : 
+			default :
 				System.out.println("Please stay focused." + NL);
 				representationMenu(objects, problemSpace, representation);
 				break;
-		}		
+		}
 	}
-	
+
 	private IRepresentation selectARepresentation(IProblemSpace problemSpace) {
 		System.out.println(NL);
 		System.out.println("Please enter a representation ID : " + NL);
@@ -222,22 +231,13 @@ public class PrototypeMenu {
 		}
 		return representation;
 	}
-	
-	private static boolean isValidPath(String path) {
-	    try {
-	        Paths.get(path);
-	    } catch (InvalidPathException | NullPointerException ex) {
-	        return false;
-	    }
-	    return true;
-	}	
-	
-	private void generate(String htmlPage) throws IOException {
-		String sep = File.separator;
-		File pageFile = new File(LocalPaths.INSTANCE.getTargetFolderPath() + sep + htmlFileName);
-		FileWriter writer = new FileWriter(pageFile);
-		writer.write(htmlPage);
-		writer.close();
+
+	private void welcome() {
+		System.out.println("********************");
+		System.out.println("********OCCAM********");
+		System.out.println("********************");
+		System.out.println(NL);
+		enterTargetFolder();
 	}
 
 }

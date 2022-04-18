@@ -14,24 +14,12 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 	private double[] typicalityVector = null;
 	private PairSimilarityScorer pairSimilarityScorer = null;
 	private AsymmetricalSimilarityScorer asymmetricalSimilarityScorer = null;
-	
-	public SimilarityMetrics(int[] particularIDs, PairSimilarityScorer pairSimilarityScorer, 
+
+	public SimilarityMetrics(int[] particularIDs, PairSimilarityScorer pairSimilarityScorer,
 			AsymmetricalSimilarityScorer asymmetricalSimilarityScorer){
 		this.particularIDs = particularIDs;
 		this.pairSimilarityScorer = pairSimilarityScorer;
 		this.asymmetricalSimilarityScorer = asymmetricalSimilarityScorer;
-	}
-	
-	@Override
-	public int[] getParticularIDs() {
-		return particularIDs;
-	}
-	
-	@Override
-	public double[][] getSimilarityMatrix() {
-		if (similarityMatrix == null)
-			instantiateSimilarityMatrix();
-		return similarityMatrix;
 	}
 
 	@Override
@@ -42,12 +30,37 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 	}
 
 	@Override
+	public int[] getParticularIDs() {
+		return particularIDs;
+	}
+
+	@Override
+	public double[][] getSimilarityMatrix() {
+		if (similarityMatrix == null)
+			instantiateSimilarityMatrix();
+		return similarityMatrix;
+	}
+
+	@Override
 	public double[] getTypicalityVector() {
 		if (typicalityVector == null)
 			instantiateTypicalityVector();
 		return typicalityVector;
 	}
-	
+
+	private void instantiateAsymmetricalSimilarityMatrix() {
+		int nbOfParticulars = particularIDs.length;
+		asymmetricalSimilarityMatrix = new double[nbOfParticulars][nbOfParticulars];
+		for (int i = 0 ; i < nbOfParticulars ; i++) {
+			for (int j = 0 ; j < nbOfParticulars ; j++) {
+				int iParticularID = particularIDs[i];
+				int jParticularID = particularIDs[j];
+				IConceptPairIDs pair = new ConceptPairIDs(iParticularID, jParticularID);
+				asymmetricalSimilarityMatrix[i][j] = asymmetricalSimilarityScorer.apply(pair).value();
+			}
+		}
+	}
+
 	private void instantiateSimilarityMatrix() {
 		int nbOfParticulars = particularIDs.length;
 		similarityMatrix = new double[nbOfParticulars][nbOfParticulars];
@@ -63,20 +76,7 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 			}
 		}
 	}
-	
-	private void instantiateAsymmetricalSimilarityMatrix() {
-		int nbOfParticulars = particularIDs.length;
-		asymmetricalSimilarityMatrix = new double[nbOfParticulars][nbOfParticulars];
-		for (int i = 0 ; i < nbOfParticulars ; i++) {
-			for (int j = 0 ; j < nbOfParticulars ; j++) {
-				int iParticularID = particularIDs[i];
-				int jParticularID = particularIDs[j];
-				IConceptPairIDs pair = new ConceptPairIDs(iParticularID, jParticularID);
-				asymmetricalSimilarityMatrix[i][j] = asymmetricalSimilarityScorer.apply(pair).value();
-			}
-		}
-	}
-	
+
 	private void instantiateTypicalityVector() {
 		int nbOfParticulars = particularIDs.length;
 		typicalityVector = new double[nbOfParticulars];
@@ -87,7 +87,7 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 			for (int j = 0 ; j < nbOfParticulars ; j++) {
 				typicalityScore += similarityMatrix[i][j];
 			}
-			typicalityScore = typicalityScore / (double) nbOfParticulars;
+			typicalityScore = typicalityScore / nbOfParticulars;
 			typicalityVector[i] = typicalityScore;
 		}
 	}

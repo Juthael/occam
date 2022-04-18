@@ -7,9 +7,9 @@ import com.tregouet.occam.data.representations.descriptions.properties.IProperty
 import com.tregouet.occam.data.representations.transitions.IApplication;
 
 public class AsLambdaShorterString implements PropertyLabeller {
-	
+
 	public static final AsLambdaShorterString INSTANCE = new AsLambdaShorterString();
-	
+
 	private AsLambdaShorterString() {
 	}
 

@@ -6,14 +6,14 @@ import com.tregouet.occam.data.logical_structures.automata.transition_functions.
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
-public interface IRepresentationTransitionFunction extends 
+public interface IRepresentationTransitionFunction extends
 	IPushdownAutomatonTF<
-		IContextualizedProduction, 
-		AVariable, 
-		IConceptTransitionIC, 
-		IConceptTransitionOIC, 
+		IContextualizedProduction,
+		AVariable,
+		IConceptTransitionIC,
+		IConceptTransitionOIC,
 		IConceptTransition> {
-	
+
 	Set<IApplication> getSalientApplications();
 
 }

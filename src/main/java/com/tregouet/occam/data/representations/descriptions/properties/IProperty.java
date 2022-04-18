@@ -7,15 +7,15 @@ import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.representations.transitions.IApplication;
 
 public interface IProperty extends Weighed {
-	
-	IDenotation getFunction();
-	
+
 	Set<IApplication> getApplications();
-	
+
+	IDenotation getFunction();
+
 	Set<IDenotation> getResultingValues();
-	
+
 	void setWeight(double weight);
-	
+
 	@Override
 	String toString();
 

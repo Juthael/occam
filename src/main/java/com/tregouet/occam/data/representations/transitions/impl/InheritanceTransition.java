@@ -10,15 +10,15 @@ import com.tregouet.occam.data.representations.transitions.productions.impl.Cont
 
 public class InheritanceTransition extends ConceptTransition implements IConceptTransition {
 
-	//for inheritance of unclosed facts. 
+	//for inheritance of unclosed facts.
 	public InheritanceTransition(int inputStateID, int outputStateID) {
-		super(new ConceptTransitionIC(inputStateID, new ContextualizedEpsilonProd(null, null), Nothing.INSTANCE), 
+		super(new ConceptTransitionIC(inputStateID, new ContextualizedEpsilonProd(null, null), Nothing.INSTANCE),
 				new ConceptTransitionOIC(outputStateID, Arrays.asList(new AVariable[] {Nothing.INSTANCE})));
 	}
-	
+
 	//for inheritance of closed facts
 	public InheritanceTransition(int inputStateID, int outputStateID, ContextualizedEpsilonProd epsilonProd) {
-		super(new ConceptTransitionIC(inputStateID, epsilonProd, Nothing.INSTANCE), 
+		super(new ConceptTransitionIC(inputStateID, epsilonProd, Nothing.INSTANCE),
 				new ConceptTransitionOIC(outputStateID, Arrays.asList(new AVariable[] {Nothing.INSTANCE})));
 	}
 

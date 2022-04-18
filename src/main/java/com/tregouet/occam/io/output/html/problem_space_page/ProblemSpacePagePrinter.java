@@ -14,13 +14,13 @@ import com.tregouet.occam.io.output.html.general.HeaderPrinter;
 import com.tregouet.occam.io.output.html.general.TablePrinter;
 
 public class ProblemSpacePagePrinter {
-	
+
 	public static final ProblemSpacePagePrinter INSTANCE = new ProblemSpacePagePrinter();
 	public static final String NL = System.lineSeparator();
-	
+
 	private ProblemSpacePagePrinter() {
 	}
-	
+
 	public String print(List<IContextObject> objects, IProblemSpace problemSpace) throws IOException {
 		String alinea = "   ";
 		String alineaa = alinea + alinea;
@@ -49,10 +49,10 @@ public class ProblemSpacePagePrinter {
 			.append(alineaaa + "</header>" + NL)
 			.append(printRepresentationList(problemSpace, alineaaa) + NL)
 			.append(alineaa + "</section>" + NL)
-			.append(FootPrinter.INSTANCE.get());		
+			.append(FootPrinter.INSTANCE.get());
 		return sB.toString();
 	}
-	
+
 	private String printRepresentationList(IProblemSpace problemSpace, String alinea) {
 		NavigableSet<IRepresentation> sortedRep = problemSpace.getSortedSetOfStates();
 		String[] head = new String[sortedRep.size()];
@@ -67,6 +67,6 @@ public class ProblemSpacePagePrinter {
 		}
 		return TablePrinter.INSTANCE.printStringTableWithOptionalSubHead(head, null, table, "Representation scores", alinea);
 	}
-	
+
 
 }

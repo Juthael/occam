@@ -10,29 +10,7 @@ import com.tregouet.occam.data.logical_structures.orders.partial.PartiallyCompar
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 
 public interface IPartition extends Weighed, PartiallyComparable<IPartition> {
-	
-	Integer getGenusID();
-	
-	/**
-	 * 
-	 * @return IDs in 
-	 */
-	Integer[] getSpeciesIDs();
-	
-	AbstractDifferentiae[] getDifferentiae();
-	
-	String toString();
-	
-	DirectedAcyclicGraph<Integer, AbstractDifferentiae> asGraph();
-	
-	void setWeight(double weight);
-	
-	@Override
-	int hashCode();
-	
-	@Override
-	boolean equals(Object o);
-	
+
 	//Positive integers in ascending order, then unordered negative
 	public static Integer[] orderOverIDs(List<Integer> list) {
 		list.sort((x, y) -> Integer.compare(x, y));
@@ -49,7 +27,30 @@ public interface IPartition extends Weighed, PartiallyComparable<IPartition> {
 		}
 		return ordered;
 	}
-	
+
+	DirectedAcyclicGraph<Integer, AbstractDifferentiae> asGraph();
+
+	@Override
+	boolean equals(Object o);
+
+	AbstractDifferentiae[] getDifferentiae();
+
+	Integer getGenusID();
+
 	Map<Integer, List<Integer>> getLeaf2ExtentMap();
+
+	/**
+	 *
+	 * @return IDs in
+	 */
+	Integer[] getSpeciesIDs();
+
+	@Override
+	int hashCode();
+
+	void setWeight(double weight);
+
+	@Override
+	String toString();
 
 }

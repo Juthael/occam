@@ -7,24 +7,24 @@ import com.tregouet.occam.data.logical_structures.languages.words.construct.ICon
 import com.tregouet.subseq_finder.ISymbolSeq;
 
 public interface IContextObject extends Comparable<IContextObject> {
-	
-	@Override
-	public int hashCode();
-	
+
 	@Override
 	boolean equals(Object o);
-	
+
 	List<IConstruct> getConstructs();
-	
+
 	int getID();
-	
+
 	Iterator<IConstruct> getIteratorOverConstructs();
-	
+
 	String getName();
-	
-	List<ISymbolSeq> toSymbolSeqs();	
-	
+
+	@Override
+	public int hashCode();
+
 	@Override
 	String toString();
+
+	List<ISymbolSeq> toSymbolSeqs();
 
 }

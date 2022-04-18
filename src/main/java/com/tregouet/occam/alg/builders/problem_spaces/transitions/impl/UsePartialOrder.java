@@ -14,10 +14,10 @@ import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 public class UsePartialOrder implements TransitionBuilder {
 
 	public static final UsePartialOrder INSTANCE = new UsePartialOrder();
-	
+
 	private UsePartialOrder() {
 	}
-	
+
 	@Override
 	public Set<AProblemStateTransition> apply(List<IProblemState> topoOrderedStates) {
 		Set<AProblemStateTransition> transitions = new HashSet<>();
@@ -31,8 +31,8 @@ public class UsePartialOrder implements TransitionBuilder {
 				if (jStatePartitions.containsAll(iStatePartitions)) {
 					transitions.add(
 							new ProblemStateTransition(
-									iState, 
-									jState, 
+									iState,
+									jState,
 									new HashSet<>(Sets.difference(jStatePartitions, iStatePartitions))));
 				}
 			}

@@ -14,17 +14,33 @@ import com.tregouet.occam.alg.displayers.graph_visualizers.transition_functions.
 import com.tregouet.occam.alg.displayers.graph_visualizers.transition_functions.TransitionFunctionVizStrategy;
 
 public class VisualizersAbstractFactory {
-	
+
 	public static final VisualizersAbstractFactory INSTANCE = new VisualizersAbstractFactory();
-	
+
 	private ConceptGraphVizStrategy conceptGraphVizStrategy = null;
 	private DescriptionVizStrategy descriptionVizStrategy = null;
 	private ProblemSpaceVizStrategy problemSpaceVizStrategy = null;
 	private TransitionFunctionVizStrategy transitionFunctionVizStrategy = null;
-	
+
 	private VisualizersAbstractFactory() {
 	}
-	
+
+	public ConceptGraphViz getConceptGraphViz() {
+		return ConceptGraphVizFactory.INSTANCE.apply(conceptGraphVizStrategy);
+	}
+
+	public DescriptionViz getDescriptionViz() {
+		return DescriptionVizFactory.INSTANCE.apply(descriptionVizStrategy);
+	}
+
+	public ProblemSpaceViz getProblemSpaceViz() {
+		return ProblemSpaceVizFactory.INSTANCE.apply(problemSpaceVizStrategy);
+	}
+
+	public TransitionFunctionViz getTransitionFunctionViz() {
+		return TransitionFunctionVizFactory.INSTANCE.apply(transitionFunctionVizStrategy);
+	}
+
 	public void setUpStrategy(VisualizationStrategy strategy) {
 		switch (strategy) {
 			case VISUALIZATION_STRATEGY_1 :
@@ -33,25 +49,9 @@ public class VisualizersAbstractFactory {
 				problemSpaceVizStrategy = ProblemSpaceVizStrategy.BASIC;
 				transitionFunctionVizStrategy = TransitionFunctionVizStrategy.BASIC;
 				break;
-			default : 
+			default :
 				break;
 		}
-	}
-	
-	public ConceptGraphViz getConceptGraphViz() {
-		return ConceptGraphVizFactory.INSTANCE.apply(conceptGraphVizStrategy);
-	}
-	
-	public DescriptionViz getDescriptionViz() {
-		return DescriptionVizFactory.INSTANCE.apply(descriptionVizStrategy);
-	}
-	
-	public ProblemSpaceViz getProblemSpaceViz() {
-		return ProblemSpaceVizFactory.INSTANCE.apply(problemSpaceVizStrategy);
-	}
-	
-	public TransitionFunctionViz getTransitionFunctionViz() {
-		return TransitionFunctionVizFactory.INSTANCE.apply(transitionFunctionVizStrategy);
 	}
 
 }

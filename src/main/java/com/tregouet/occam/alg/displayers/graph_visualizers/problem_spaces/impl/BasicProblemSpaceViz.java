@@ -26,9 +26,9 @@ import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
 
 public class BasicProblemSpaceViz implements ProblemSpaceViz {
-	
+
 	public static final BasicProblemSpaceViz INSTANCE = new BasicProblemSpaceViz();
-	
+
 	private BasicProblemSpaceViz() {
 	}
 
@@ -47,12 +47,12 @@ public class BasicProblemSpaceViz implements ProblemSpaceViz {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(transitionDisplayer.apply(e)));
 			return map;
-		}); 	
+		});
 		Writer writer = new StringWriter();
 		exporter.exportGraph(graph, writer);
 		String stringDOT = writer.toString();
 		//display graph
-		try {		
+		try {
 			MutableGraph dotGraph = new Parser().read(stringDOT);
 			String filePath = LocalPaths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
 			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
@@ -61,7 +61,7 @@ public class BasicProblemSpaceViz implements ProblemSpaceViz {
 		catch (IOException e) {
 			e.printStackTrace();
 			return null;
-		}		
+		}
 	}
 
 }

@@ -10,23 +10,13 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface ITransition<
 	InputSymbol extends ISymbol,
-	InputConfig extends IInputConfiguration<InputSymbol>, 
+	InputConfig extends IInputConfiguration<InputSymbol>,
 	OutputConfig extends IOutputInternConfiguration
 	> {
-	
+
 	StringBuilder prime = new StringBuilder();
 	ListIterator<Character> charIte = populateCharList().listIterator();
-	
-	static void initializeNameProvider() {
-		while (charIte.hasPrevious())
-			charIte.previous();
-		prime.setLength(0);
-	}
-	
-	static String provideName() {
-		return getNextChar() + prime.toString();
-	}
-	
+
 	private static char getNextChar() {
 		if (!charIte.hasNext()) {
 			while(charIte.hasPrevious())
@@ -35,25 +25,35 @@ public interface ITransition<
 		}
 		return charIte.next();
 	}
-	
+
+	static void initializeNameProvider() {
+		while (charIte.hasPrevious())
+			charIte.previous();
+		prime.setLength(0);
+	}
+
 	private static List<Character> populateCharList(){
-		List<Character> authorizedCharASCII = new ArrayList<Character>();
+		List<Character> authorizedCharASCII = new ArrayList<>();
 		for (char curr = 'A' ; curr <= 'Z' ; curr++) {
 			authorizedCharASCII.add(curr);
 		}
 		return authorizedCharASCII;
 	}
-	
+
+	static String provideName() {
+		return getNextChar() + prime.toString();
+	}
+
+	@Override
+	boolean equals(Object o);
+
+	InputConfig getInputConfiguration();
+
+	String getName();
+
+	OutputConfig getOutputInternConfiguration();
+
 	@Override
 	public int hashCode();
-	
-	@Override
-	boolean equals(Object o);	
-	
-	String getName();
-	
-	InputConfig getInputConfiguration();
-	
-	OutputConfig getOutputInternConfiguration();
 
 }

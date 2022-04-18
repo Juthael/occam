@@ -9,19 +9,19 @@ import java.nio.file.Paths;
 import com.google.common.base.Supplier;
 
 public class HeaderPrinter implements Supplier<String> {
-	
+
 	public static final HeaderPrinter INSTANCE = new HeaderPrinter();
-	private static final Path headPath = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io", 
+	private static final Path headPath = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io",
 			"output", "html", "files", "head.txt");
 	private static final String NL = System.lineSeparator();
-	
+
 	private HeaderPrinter() {
 	}
 
 	@Override
 	public String get() {
 		StringBuilder sB = new StringBuilder();
-		BufferedReader reader = null;	
+		BufferedReader reader = null;
 		try {
 			reader = Files.newBufferedReader(headPath);
 			String line = reader.readLine();

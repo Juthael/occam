@@ -8,11 +8,11 @@ import com.tregouet.occam.alg.builders.representations.fact_evaluators.FactEvalu
 import com.tregouet.occam.data.representations.IPartialRepresentation;
 
 public interface PartialRepresentationLateSetter extends Consumer<IPartialRepresentation> {
-	
+
 	public static DescriptionBuilder descriptionBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder();
 	}
-	
+
 	public static FactEvaluatorBuilder getfactEvaluatorBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getFactEvaluatorBuilder();
 	}

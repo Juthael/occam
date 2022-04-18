@@ -14,15 +14,31 @@ import com.tregouet.occam.data.representations.transitions.productions.IProducti
 public class ContextualizedProd extends DefaultEdge implements IContextualizedProduction {
 
 	private static final long serialVersionUID = 1701074226278101143L;
-	
+
 	private final IDenotation speciesDenotation;
 	private final IDenotation genusDenotation;
 	private final IProduction production;
-	
+
 	public ContextualizedProd(IDenotation speciesDenotation, IDenotation genusDenotation, IProduction production) {
 		this.speciesDenotation = speciesDenotation;
 		this.genusDenotation = genusDenotation;
 		this.production = production;
+	}
+
+	@Override
+	public boolean derives(AVariable var) {
+		return production.derives(var);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		ContextualizedProd other = (ContextualizedProd) obj;
+		return Objects.equals(speciesDenotation, other.speciesDenotation) && Objects.equals(genusDenotation, other.genusDenotation)
+				&& Objects.equals(production, other.production);
 	}
 
 	@Override
@@ -51,8 +67,8 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
-	public boolean derives(AVariable var) {
-		return production.derives(var);
+	public IProduction getUncontextualizedProduction() {
+		return production;
 	}
 
 	@Override
@@ -64,12 +80,10 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	public AVariable getVariable() {
 		return production.getVariable();
 	}
-	
+
 	@Override
-	public String toString() {
-		if (isEpsilon())
-			return "inheritance";
-		else return production.toString();
+	public int hashCode() {
+		return Objects.hash(speciesDenotation, genusDenotation, production);
 	}
 
 	@Override
@@ -78,30 +92,15 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
-	public int hashCode() {
-		return Objects.hash(speciesDenotation, genusDenotation, production);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ContextualizedProd other = (ContextualizedProd) obj;
-		return Objects.equals(speciesDenotation, other.speciesDenotation) && Objects.equals(genusDenotation, other.genusDenotation)
-				&& Objects.equals(production, other.production);
-	}
-
-	@Override
-	public IProduction getUncontextualizedProduction() {
-		return production;
-	}
-	
 	public boolean isRedundant() {
 		return getSource().isRedundant();
-	}	
+	}
+
+	@Override
+	public String toString() {
+		if (isEpsilon())
+			return "inheritance";
+		else return production.toString();
+	}
 
 }

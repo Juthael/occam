@@ -3,17 +3,17 @@ package com.tregouet.occam.alg.builders.representations.descriptions.metrics;
 import com.tregouet.occam.alg.builders.representations.descriptions.metrics.impl.DeferredMatricesInstantiation;
 
 public class SimilarityMetricsBuilderFactory {
-	
+
 	public static final SimilarityMetricsBuilderFactory INSTANCE = new SimilarityMetricsBuilderFactory();
-	
-	private SimilarityMetricsBuilderFactory() {		
+
+	private SimilarityMetricsBuilderFactory() {
 	}
-	
+
 	public SimilarityMetricsBuilder apply(SimilarityMetricsBuilderStrategy strategy) {
 		switch (strategy) {
-			case DEFERRED_MATRICES_INSTANTIATION : 
+			case DEFERRED_MATRICES_INSTANTIATION :
 				return DeferredMatricesInstantiation.INSTANCE;
-			default : 
+			default :
 				return null;
 		}
 	}

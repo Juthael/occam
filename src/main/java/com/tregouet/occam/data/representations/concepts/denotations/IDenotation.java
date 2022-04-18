@@ -5,17 +5,17 @@ import com.tregouet.occam.data.logical_structures.orders.partial.PartiallyCompar
 import com.tregouet.occam.data.representations.concepts.IConcept;
 
 public interface IDenotation extends IConstruct, PartiallyComparable<IDenotation> {
-	
-	@Override
-	public int hashCode();
-	
+
 	@Override
 	boolean equals(Object o);
-	
+
 	IConcept getConcept();
-	
-	void markAsRedundant();
-	
+
+	@Override
+	public int hashCode();
+
 	boolean isRedundant();
+
+	void markAsRedundant();
 
 }

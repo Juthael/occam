@@ -11,10 +11,10 @@ public class ConceptGraphVizFactory {
 
 	public ConceptGraphViz apply(ConceptGraphVizStrategy strategy) {
 		switch (strategy) {
-			case BASIC :
-				return BasicConceptGraphViz.INSTANCE;
-			default :
-				return null;
+		case BASIC:
+			return BasicConceptGraphViz.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

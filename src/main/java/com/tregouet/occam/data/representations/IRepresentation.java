@@ -19,21 +19,9 @@ import com.tregouet.occam.data.representations.transitions.IRepresentationTransi
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public interface IRepresentation
-	extends
-		IPushdownAutomaton<
-			IConcept,
-			IContextualizedProduction,
-			IFact,
-			AVariable,
-			IConceptTransitionIC,
-			IConceptTransitionOIC,
-			IConceptTransition,
-			IRepresentationTransitionFunction
-			>,
-		IProblemState,
-		Scored<LecticScore>,
-		Comparable<IRepresentation>{
+public interface IRepresentation extends
+		IPushdownAutomaton<IConcept, IContextualizedProduction, IFact, AVariable, IConceptTransitionIC, IConceptTransitionOIC, IConceptTransition, IRepresentationTransitionFunction>,
+		IProblemState, Scored<LecticScore>, Comparable<IRepresentation> {
 
 	@Override
 	boolean equals(Object o);

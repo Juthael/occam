@@ -11,10 +11,10 @@ public class ProblemStateScorerFactory {
 
 	public ProblemStateScorer apply(ProblemStateScorerStrategy strategy) {
 		switch (strategy) {
-			case MARKHOV_PROCESS :
-				return new MarkhovProcess();
-			default :
-				return null;
+		case MARKHOV_PROCESS:
+			return new MarkhovProcess();
+		default:
+			return null;
 		}
 	}
 

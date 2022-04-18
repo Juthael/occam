@@ -11,10 +11,10 @@ public class TransitionFunctionVizFactory {
 
 	public TransitionFunctionViz apply(TransitionFunctionVizStrategy strategy) {
 		switch (strategy) {
-			case BASIC :
-				return BasicTransitionFunctionViz.INSTANCE;
-			default :
-				return null;
+		case BASIC:
+			return BasicTransitionFunctionViz.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

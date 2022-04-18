@@ -37,7 +37,8 @@ public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 			if (targetCurr.equals(sourceIte.next())) {
 				if (targetIte.hasNext())
 					targetCurr = targetIte.next();
-				else return true;
+				else
+					return true;
 			}
 		}
 		return false;
@@ -52,7 +53,7 @@ public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 		if (source.asList().equals(target.asList()))
 			productions.add(new ContextualizedEpsilonProd(source, target));
 		else if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals())) {
-			//then source may be an instance of target
+			// then source may be an instance of target
 			List<ISymbol> sourceSymbolSeq = source.asList();
 			List<ISymbol> targetSymbolSeq = target.asList();
 			Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(sourceSymbolSeq, targetSymbolSeq);
@@ -61,11 +62,11 @@ public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 					IConstruct value;
 					List<ISymbol> valueList = varToValue.get(variable);
 					if (valueList.isEmpty()) {
-						List<ISymbol> emptyString =
-								new ArrayList<>(Arrays.asList(new ISymbol[] {new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL)}));
+						List<ISymbol> emptyString = new ArrayList<>(
+								Arrays.asList(new ISymbol[] { new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL) }));
 						value = new Construct(emptyString);
-					}
-					else value = new Construct(valueList);
+					} else
+						value = new Construct(valueList);
 					IProduction production = new Production(variable, value);
 					productions.add(new ContextualizedProd(source, target, production));
 				}

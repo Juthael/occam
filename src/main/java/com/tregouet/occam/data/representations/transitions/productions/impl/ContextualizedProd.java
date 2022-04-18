@@ -37,7 +37,8 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		ContextualizedProd other = (ContextualizedProd) obj;
-		return Objects.equals(speciesDenotation, other.speciesDenotation) && Objects.equals(genusDenotation, other.genusDenotation)
+		return Objects.equals(speciesDenotation, other.speciesDenotation)
+				&& Objects.equals(genusDenotation, other.genusDenotation)
 				&& Objects.equals(production, other.production);
 	}
 
@@ -100,7 +101,8 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	public String toString() {
 		if (isEpsilon())
 			return "inheritance";
-		else return production.toString();
+		else
+			return production.toString();
 	}
 
 }

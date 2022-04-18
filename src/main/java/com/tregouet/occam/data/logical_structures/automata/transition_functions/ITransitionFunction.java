@@ -7,11 +7,7 @@ import com.tregouet.occam.data.logical_structures.automata.transition_functions.
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.output_config.IOutputInternConfiguration;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
-public interface ITransitionFunction<
-	InputSymbol extends ISymbol,
-	InputConfig extends IInputConfiguration<InputSymbol>,
-	OutputConfig extends IOutputInternConfiguration,
-	Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>> {
+public interface ITransitionFunction<InputSymbol extends ISymbol, InputConfig extends IInputConfiguration<InputSymbol>, OutputConfig extends IOutputInternConfiguration, Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>> {
 
 	@Override
 	boolean equals(Object other);

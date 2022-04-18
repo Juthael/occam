@@ -4,18 +4,17 @@ import com.tregouet.occam.alg.displayers.graph_labellers.problem_transitions.imp
 
 public class ProblemTransitionLabellerFactory {
 
-	public static final ProblemTransitionLabellerFactory INSTANCE =
-			new ProblemTransitionLabellerFactory();
+	public static final ProblemTransitionLabellerFactory INSTANCE = new ProblemTransitionLabellerFactory();
 
 	private ProblemTransitionLabellerFactory() {
 	}
 
 	public ProblemTransitionLabeller apply(ProblemTransitionLabellerStrategy strategy) {
 		switch (strategy) {
-			case WEIGHT_ONLY :
-				return WeightOnly.INSTANCE;
-			default :
-				return null;
+		case WEIGHT_ONLY:
+			return WeightOnly.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

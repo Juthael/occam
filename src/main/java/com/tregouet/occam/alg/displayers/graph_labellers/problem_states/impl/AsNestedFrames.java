@@ -31,7 +31,7 @@ public class AsNestedFrames implements ProblemStateLabeller {
 		DirectedAcyclicGraph<Integer, AbstractDifferentiae> stateDag = new DirectedAcyclicGraph<>(null, null, false);
 		for (IPartition partition : intent) {
 			DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph = partition.asGraph();
-			//uses addEdgeWithVertices(), so no need of vertex addition
+			// uses addEdgeWithVertices(), so no need of vertex addition
 			Graphs.addAllEdges(stateDag, partitionGraph, partitionGraph.edgeSet());
 		}
 		Integer root = null;
@@ -49,7 +49,7 @@ public class AsNestedFrames implements ProblemStateLabeller {
 		return new Tree<>(stateDag, root, leaves, topoOrder);
 	}
 
-	private static List<IPartition> getMaxPartitions(Set<IPartition> partitions){
+	private static List<IPartition> getMaxPartitions(Set<IPartition> partitions) {
 		List<IPartition> maxPartitions = new ArrayList<>();
 		Iterator<IPartition> partIte = partitions.iterator();
 		if (partIte.hasNext())
@@ -57,13 +57,12 @@ public class AsNestedFrames implements ProblemStateLabeller {
 		while (partIte.hasNext()) {
 			IPartition nextPart = partIte.next();
 			boolean isMaximal = true;
-			for (int i = 0 ; i < maxPartitions.size() ; i++) {
+			for (int i = 0; i < maxPartitions.size(); i++) {
 				Integer comparison = nextPart.compareTo(maxPartitions.get(i));
 				if (comparison != null) {
 					if (comparison > 0) {
 						maxPartitions.remove(i--);
-					}
-					else {
+					} else {
 						isMaximal = false;
 						break;
 					}
@@ -88,12 +87,10 @@ public class AsNestedFrames implements ProblemStateLabeller {
 				conceptID2ExtentIDs.putAll(maxPart.getLeaf2ExtentMap());
 			stringBldr.setUp(conceptID2ExtentIDs);
 			return stringBldr.apply(asTree(statePartitions)) + nL + problemState.score().toString();
-		}
-		else if (problemState instanceof ICompleteRepresentation) {
+		} else if (problemState instanceof ICompleteRepresentation) {
 			ICompleteRepresentation completeRep = (ICompleteRepresentation) problemState;
 			return stringBldr.apply(completeRep.getDescription().asGraph()) + nL + problemState.score().toString();
-		}
-		else // there is nothing else
+		} else // there is nothing else
 			return problemState.toString() + nL + problemState.score().toString();
 	}
 

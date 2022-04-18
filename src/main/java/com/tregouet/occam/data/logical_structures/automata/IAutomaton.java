@@ -12,15 +12,7 @@ import com.tregouet.occam.data.logical_structures.automata.transition_functions.
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.words.IWord;
 
-public interface IAutomaton<
-	State extends IState,
-	InputSymbol extends ISymbol,
-	Word extends IWord<InputSymbol>,
-	InputConfig extends IInputConfiguration<InputSymbol>,
-	OutputConfig extends IOutputInternConfiguration,
-	Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>,
-	TransFunc extends ITransitionFunction<InputSymbol, InputConfig, OutputConfig, Transition>
-	>{
+public interface IAutomaton<State extends IState, InputSymbol extends ISymbol, Word extends IWord<InputSymbol>, InputConfig extends IInputConfiguration<InputSymbol>, OutputConfig extends IOutputInternConfiguration, Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>, TransFunc extends ITransitionFunction<InputSymbol, InputConfig, OutputConfig, Transition>> {
 
 	Set<Word> enumerateMachineLanguage();
 

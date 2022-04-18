@@ -22,18 +22,15 @@ public class UsePartialOrder implements TransitionBuilder {
 	public Set<AProblemStateTransition> apply(List<IProblemState> topoOrderedStates) {
 		Set<AProblemStateTransition> transitions = new HashSet<>();
 		int nbOfStates = topoOrderedStates.size();
-		for (int i = 0 ; i < nbOfStates - 1 ; i++) {
+		for (int i = 0; i < nbOfStates - 1; i++) {
 			IProblemState iState = topoOrderedStates.get(i);
 			Set<IPartition> iStatePartitions = iState.getPartitions();
-			for (int j = i + 1 ; j < nbOfStates ; j++) {
+			for (int j = i + 1; j < nbOfStates; j++) {
 				IProblemState jState = topoOrderedStates.get(j);
 				Set<IPartition> jStatePartitions = jState.getPartitions();
 				if (jStatePartitions.containsAll(iStatePartitions)) {
-					transitions.add(
-							new ProblemStateTransition(
-									iState,
-									jState,
-									new HashSet<>(Sets.difference(jStatePartitions, iStatePartitions))));
+					transitions.add(new ProblemStateTransition(iState, jState,
+							new HashSet<>(Sets.difference(jStatePartitions, iStatePartitions))));
 				}
 			}
 		}

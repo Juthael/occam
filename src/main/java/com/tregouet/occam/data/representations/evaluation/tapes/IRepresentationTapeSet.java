@@ -4,11 +4,8 @@ import com.tregouet.occam.data.logical_structures.automata.tapes.IPushdownAutoma
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
-public interface IRepresentationTapeSet extends
-		IPushdownAutomatonTapeSet<
-			IContextualizedProduction,
-			AVariable,
-			IRepresentationTapeSet> {
+public interface IRepresentationTapeSet
+		extends IPushdownAutomatonTapeSet<IContextualizedProduction, AVariable, IRepresentationTapeSet> {
 
 	@Override
 	boolean equals(Object o);

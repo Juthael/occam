@@ -42,7 +42,7 @@ public class Denotation extends Construct implements IDenotation {
 
 	@Override
 	public int hashCode() {
-		//must not use concept hashCode(), since concept hashCode() uses this'.
+		// must not use concept hashCode(), since concept hashCode() uses this'.
 		return super.hashCode();
 	}
 

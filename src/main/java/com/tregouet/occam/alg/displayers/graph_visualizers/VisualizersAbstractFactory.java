@@ -43,14 +43,14 @@ public class VisualizersAbstractFactory {
 
 	public void setUpStrategy(VisualizationStrategy strategy) {
 		switch (strategy) {
-			case VISUALIZATION_STRATEGY_1 :
-				conceptGraphVizStrategy = ConceptGraphVizStrategy.BASIC;
-				descriptionVizStrategy = DescriptionVizStrategy.BASIC;
-				problemSpaceVizStrategy = ProblemSpaceVizStrategy.BASIC;
-				transitionFunctionVizStrategy = TransitionFunctionVizStrategy.BASIC;
-				break;
-			default :
-				break;
+		case VISUALIZATION_STRATEGY_1:
+			conceptGraphVizStrategy = ConceptGraphVizStrategy.BASIC;
+			descriptionVizStrategy = DescriptionVizStrategy.BASIC;
+			problemSpaceVizStrategy = ProblemSpaceVizStrategy.BASIC;
+			transitionFunctionVizStrategy = TransitionFunctionVizStrategy.BASIC;
+			break;
+		default:
+			break;
 		}
 	}
 

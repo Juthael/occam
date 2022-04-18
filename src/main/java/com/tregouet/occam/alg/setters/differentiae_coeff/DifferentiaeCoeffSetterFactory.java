@@ -12,12 +12,12 @@ public class DifferentiaeCoeffSetterFactory {
 
 	public DifferentiaeCoeffSetter apply(DifferentiaeCoeffSetterStrategy strategy) {
 		switch (strategy) {
-			case NO_COEFF :
-				return NoCoeff.INSTANCE;
-			case SPECIES_CARDINALITY :
-				return new SpeciesCardinality();
-			default :
-				return null;
+		case NO_COEFF:
+			return NoCoeff.INSTANCE;
+		case SPECIES_CARDINALITY:
+			return new SpeciesCardinality();
+		default:
+			return null;
 		}
 	}
 

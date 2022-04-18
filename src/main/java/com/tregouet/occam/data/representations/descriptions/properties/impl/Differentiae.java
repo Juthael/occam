@@ -17,7 +17,7 @@ public class Differentiae extends AbstractDifferentiae {
 	private Double weight = null;
 	private Integer rank = null;
 
-	public Differentiae(int genusID, int speciesID, Set<IProperty> properties){
+	public Differentiae(int genusID, int speciesID, Set<IProperty> properties) {
 		this.genusID = genusID;
 		this.speciesID = speciesID;
 		this.properties = properties;
@@ -53,12 +53,10 @@ public class Differentiae extends AbstractDifferentiae {
 		return speciesID;
 	}
 
-
 	@Override
 	public Integer getTarget() {
 		return speciesID;
 	}
-
 
 	@Override
 	public Double getWeightCoeff() {

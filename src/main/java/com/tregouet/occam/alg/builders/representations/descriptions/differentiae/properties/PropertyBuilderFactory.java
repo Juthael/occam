@@ -10,11 +10,11 @@ public class PropertyBuilderFactory {
 	}
 
 	public PropertyBuilder apply(PropertyBuilderStrategy strategy) {
-		switch(strategy) {
-			case GROUP_APPLICATIONS_BY_FUNCTION :
-				return new GroupSalientApplicationsByFunction();
-			default :
-				return null;
+		switch (strategy) {
+		case GROUP_APPLICATIONS_BY_FUNCTION:
+			return new GroupSalientApplicationsByFunction();
+		default:
+			return null;
 		}
 	}
 

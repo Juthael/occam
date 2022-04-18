@@ -13,12 +13,13 @@ import com.tregouet.tree_finder.data.Tree;
 public class Partition implements IPartition {
 
 	private static int containsAtReturnedIdx(Integer[] array, Integer element) {
-		for (int i = 0 ; i < array.length ; i++) {
+		for (int i = 0; i < array.length; i++) {
 			if (array[i].equals(element))
 				return i;
 		}
 		return -1;
 	}
+
 	private final Tree<Integer, AbstractDifferentiae> asGraph;
 	private final String asString;
 	private final Integer genusID;
@@ -70,8 +71,9 @@ public class Partition implements IPartition {
 		AbstractDifferentiae[] diffArray = new AbstractDifferentiae[speciesIDs.length];
 		for (AbstractDifferentiae diff : asGraph.edgeSet()) {
 			int speciesIdx = containsAtReturnedIdx(speciesIDs, diff.getTarget());
-			if (speciesIdx != -1);
-				diffArray[speciesIdx] = diff;
+			if (speciesIdx != -1)
+				;
+			diffArray[speciesIdx] = diff;
 		}
 		return diffArray;
 	}

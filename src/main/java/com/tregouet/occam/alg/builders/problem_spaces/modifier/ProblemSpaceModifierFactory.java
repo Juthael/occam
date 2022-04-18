@@ -8,12 +8,13 @@ public class ProblemSpaceModifierFactory {
 
 	private ProblemSpaceModifierFactory() {
 	}
+
 	public ProblemSpaceModifier apply(ProblemSpaceModifierStrategy strategy) {
 		switch (strategy) {
-			case REBUILD_FROM_SCRATCH :
-				return RebuildFromScratch.INSTANCE;
-			default :
-				return null;
+		case REBUILD_FROM_SCRATCH:
+			return RebuildFromScratch.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

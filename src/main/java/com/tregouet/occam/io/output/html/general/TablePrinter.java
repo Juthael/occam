@@ -33,7 +33,7 @@ public class TablePrinter {
 		sB.append(alineaa + "</thead>" + NL);
 		sB.append(alineaa + "<tbody>" + NL);
 		sB.append(alineaaa + "<tr>" + NL);
-		for (int i = 0 ; i < head.length ; i++)
+		for (int i = 0; i < head.length; i++)
 			sB.append(alineaaaa + "<td>" + round(table[i]) + "</td>" + NL);
 		sB.append(alineaaa + "</tr>" + NL);
 		sB.append(alineaa + "</tbody>" + NL);
@@ -50,7 +50,7 @@ public class TablePrinter {
 		sB.append(alinea + "<caption> " + caption + "</caption>" + NL);
 		sB.append(alineaa + "<thead>" + NL);
 		sB.append(alineaaa + "<tr>" + NL);
-		for (int i = 0 ; i <= head.length ; i++) {
+		for (int i = 0; i <= head.length; i++) {
 			sB.append(alineaaaa + "<th> ");
 			sB.append(head[i]);
 			sB.append(" </th>" + NL);
@@ -58,12 +58,13 @@ public class TablePrinter {
 		sB.append(alineaaa + "</tr>" + NL);
 		sB.append(alineaa + "</thead>" + NL);
 		sB.append(alineaa + "<tbody>" + NL);
-		for (int j = 1 ; j <= head.length ; j++) {
+		for (int j = 1; j <= head.length; j++) {
 			sB.append(alineaaa + "<tr>" + NL);
-			for (int i = 0 ; i <= head.length ; i++) {
+			for (int i = 0; i <= head.length; i++) {
 				if (i == 0)
 					sB.append(alineaaaa + "<th> " + head[j - 1] + " </th>" + NL);
-				else sB.append(alineaaaa + "<td>" + round(table[i - 1][j - 1]) + "</td>" + NL);
+				else
+					sB.append(alineaaaa + "<td>" + round(table[i - 1][j - 1]) + "</td>" + NL);
 			}
 			sB.append(alineaaa + "</tr>" + NL);
 		}
@@ -92,11 +93,11 @@ public class TablePrinter {
 		sB.append(alineaa + "<tbody>" + NL);
 		if (optionalSubHead != null) {
 			sB.append(alineaaa + "<tr>" + NL);
-			for (int i = 0 ; i < head.length ; i++)
+			for (int i = 0; i < head.length; i++)
 				sB.append(alineaaaa + "<td><b>" + optionalSubHead[i] + "</b></td>" + NL);
 			sB.append(alineaaa + "</tr>" + NL);
 		}
-		for (int i = 0 ; i < head.length ; i++)
+		for (int i = 0; i < head.length; i++)
 			sB.append(alineaaaa + "<td>" + NL + body[i] + NL + "</td>" + NL);
 		sB.append(alineaaa + "</tr>" + NL);
 		sB.append(alineaa + "</tbody>" + NL);

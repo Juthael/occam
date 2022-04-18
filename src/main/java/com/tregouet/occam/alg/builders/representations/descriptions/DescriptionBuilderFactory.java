@@ -11,10 +11,10 @@ public class DescriptionBuilderFactory {
 
 	public DescriptionBuilder apply(DescriptionBuilderStrategy strategy) {
 		switch (strategy) {
-			case BUILD_TREE_THEN_CALCULATE_METRICS :
-				return BuildTreeThenCalculateMetrics.INSTANCE;
-			default :
-				return null;
+		case BUILD_TREE_THEN_CALCULATE_METRICS:
+			return BuildTreeThenCalculateMetrics.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

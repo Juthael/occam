@@ -11,10 +11,10 @@ public class TransitionSalienceSetterFactory {
 
 	public TransitionSalienceSetter apply(TransitionSalienceSetterStrategy strategy) {
 		switch (strategy) {
-			case HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS :
-				return new HiddenByDefaultThenFindSpecifics();
-			default :
-				return null;
+		case HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS:
+			return new HiddenByDefaultThenFindSpecifics();
+		default:
+			return null;
 		}
 	}
 

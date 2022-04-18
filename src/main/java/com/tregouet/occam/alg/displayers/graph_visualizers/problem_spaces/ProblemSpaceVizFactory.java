@@ -11,10 +11,10 @@ public class ProblemSpaceVizFactory {
 
 	public ProblemSpaceViz apply(ProblemSpaceVizStrategy strategy) {
 		switch (strategy) {
-			case BASIC :
-				return BasicProblemSpaceViz.INSTANCE;
-			default :
-				return null;
+		case BASIC:
+			return BasicProblemSpaceViz.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

@@ -34,6 +34,4 @@ public class SpeciesCardinality implements DifferentiaeCoeffSetter {
 		return this;
 	}
 
-
-
 }

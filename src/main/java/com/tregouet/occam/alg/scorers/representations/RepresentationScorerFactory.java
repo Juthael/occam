@@ -11,10 +11,10 @@ public class RepresentationScorerFactory {
 
 	public RepresentationScorer apply(RepresentationScorerStrategy strategy) {
 		switch (strategy) {
-			case LECTIC_COMPARISON_OF_RANKS :
-				return LecticComparisonOfRanks.INSTANCE;
-			default :
-				return null;
+		case LECTIC_COMPARISON_OF_RANKS:
+			return LecticComparisonOfRanks.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

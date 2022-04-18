@@ -4,11 +4,8 @@ import com.tregouet.occam.data.logical_structures.automata.transition_functions.
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 
-public interface IConceptTransition extends IPushdownAutomatonTransition<
-	IContextualizedProduction,
-	AVariable,
-	IConceptTransitionIC,
-	IConceptTransitionOIC> {
+public interface IConceptTransition extends
+		IPushdownAutomatonTransition<IContextualizedProduction, AVariable, IConceptTransitionIC, IConceptTransitionOIC> {
 
 	Salience getSalience();
 

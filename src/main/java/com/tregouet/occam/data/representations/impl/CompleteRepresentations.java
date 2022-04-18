@@ -34,7 +34,8 @@ public class CompleteRepresentations implements ICompleteRepresentations {
 			ICompleteRepresentation nextRep = get(iD);
 			if (nextRep == null)
 				return null;
-			else representations.add(nextRep);
+			else
+				representations.add(nextRep);
 		}
 		return representations;
 	}

@@ -35,7 +35,7 @@ public class BasicTransitionFunctionViz implements TransitionFunctionViz {
 	public String apply(IRepresentationTransitionFunction transFunc, String fileName) {
 		TransitionFunctionLabeller displayer = LabellersAbstractFactory.INSTANCE.getTransitionFunctionDisplayer();
 		DirectedAcyclicGraph<Integer, AConceptTransitionSet> transFuncGraph = displayer.apply(transFunc);
-		//convert in DOT format
+		// convert in DOT format
 		DOTExporter<Integer, AConceptTransitionSet> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
@@ -50,14 +50,13 @@ public class BasicTransitionFunctionViz implements TransitionFunctionViz {
 		Writer writer = new StringWriter();
 		exporter.exportGraph(transFuncGraph, writer);
 		String dOTFile = writer.toString();
-		//display graph
+		// display graph
 		try {
 			MutableGraph dotGraph = new Parser().read(dOTFile);
 			String filePath = LocalPaths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
 			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
 			return filePath;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}

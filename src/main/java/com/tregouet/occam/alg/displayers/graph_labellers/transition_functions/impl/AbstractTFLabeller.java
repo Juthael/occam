@@ -19,13 +19,14 @@ import com.tregouet.occam.data.representations.transitions.impl.ConceptTransitio
 public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 
 	private static final String nL = System.lineSeparator();
-	private static  String toString(boolean application, Set<IConceptTransition> transitions) {
+
+	private static String toString(boolean application, Set<IConceptTransition> transitions) {
 		StringBuilder sB = new StringBuilder();
 		if (!transitions.isEmpty()) {
 			if (application) {
 				sB.append("applications : " + nL);
-			}
-			else sB.append("others : " + nL);
+			} else
+				sB.append("others : " + nL);
 			Iterator<IConceptTransition> transIte = transitions.iterator();
 			while (transIte.hasNext()) {
 				sB.append(transIte.next().toString());
@@ -35,6 +36,7 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 		}
 		return sB.toString();
 	}
+
 	private Set<Integer> vertices = new HashSet<>();
 	private Map<Integer, Integer> targetIDToSourceID = new HashMap<>();
 	private Map<Integer, Set<IConceptTransition>> targetIDToApplications = new HashMap<>();
@@ -45,9 +47,9 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 	}
 
 	@Override
-	public DirectedAcyclicGraph<Integer, AConceptTransitionSet> apply(
-			IRepresentationTransitionFunction transFunc) {
-		DirectedAcyclicGraph<Integer, AConceptTransitionSet> transFuncGraph = new DirectedAcyclicGraph<>(null, null, false);
+	public DirectedAcyclicGraph<Integer, AConceptTransitionSet> apply(IRepresentationTransitionFunction transFunc) {
+		DirectedAcyclicGraph<Integer, AConceptTransitionSet> transFuncGraph = new DirectedAcyclicGraph<>(null, null,
+				false);
 		for (IConceptTransition transition : transFunc.getTransitions()) {
 			Integer targetID = transition.getOutputInternConfiguration().getOutputStateID();
 			if (!targetIDToSourceID.containsKey(targetID)) {
@@ -63,7 +65,8 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 			Integer targetID = transition.getOutputInternConfiguration().getOutputStateID();
 			if (transition.type() == TransitionType.APPLICATION)
 				targetIDToApplications.get(targetID).add(transition);
-			else targetIDToOtherTransitions.get(targetID).add(transition);
+			else
+				targetIDToOtherTransitions.get(targetID).add(transition);
 		}
 		Graphs.addAllVertices(transFuncGraph, vertices);
 		for (Integer targetID : targetIDToSourceID.keySet())

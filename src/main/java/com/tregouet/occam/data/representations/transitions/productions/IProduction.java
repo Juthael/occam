@@ -18,7 +18,8 @@ public interface IProduction extends ISymbol {
 	@Override
 	int hashCode();
 
-	//Denotes an empty string of symbols. A symbols are productions, also denotes that no variable is derived.
+	// Denotes an empty string of symbols. A symbols are productions, also denotes
+	// that no variable is derived.
 	boolean isEpsilon();
 
 	@Override

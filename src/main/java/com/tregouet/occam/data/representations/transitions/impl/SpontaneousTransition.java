@@ -12,7 +12,7 @@ public class SpontaneousTransition extends ConceptTransition implements IConcept
 
 	public SpontaneousTransition(int inputStateID, int outputStateID) {
 		super(new ConceptTransitionIC(inputStateID, new ContextualizedEpsilonProd(null, null), This.INSTANCE),
-				new ConceptTransitionOIC(outputStateID, Arrays.asList(new AVariable[] {This.INSTANCE})));
+				new ConceptTransitionOIC(outputStateID, Arrays.asList(new AVariable[] { This.INSTANCE })));
 	}
 
 	@Override

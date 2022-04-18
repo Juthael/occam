@@ -22,8 +22,8 @@ public class BasicAbstractionApplication extends ALambdaTerm implements ILambdaE
 			if (term == null) {
 				if (!iProduction.isEpsilon())
 					term = iProduction.getValue();
-			}
-			else abstractAndApplyAccordingTo(iProduction);
+			} else
+				abstractAndApplyAccordingTo(iProduction);
 		}
 	}
 
@@ -74,8 +74,8 @@ public class BasicAbstractionApplication extends ALambdaTerm implements ILambdaE
 			sB.append("(");
 			sB.append(argument.toString());
 			sB.append(")");
-		}
-		else sB.append(argument.toString());
+		} else
+			sB.append(argument.toString());
 		return sB.toString();
 	}
 

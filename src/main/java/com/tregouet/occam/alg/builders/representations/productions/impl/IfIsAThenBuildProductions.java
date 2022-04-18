@@ -21,15 +21,15 @@ public class IfIsAThenBuildProductions implements ProductionBuilder {
 	public Set<IContextualizedProduction> apply(IConceptLattice conceptLattice) {
 		Set<IContextualizedProduction> productions = new HashSet<>();
 		List<IConcept> topoOrderedConcepts = conceptLattice.getTopologicalSorting();
-		for (int i = 0 ; i < topoOrderedConcepts.size() - 1 ; i++) {
+		for (int i = 0; i < topoOrderedConcepts.size() - 1; i++) {
 			IConcept iConcept = topoOrderedConcepts.get(i);
-			for (int j = i+1 ; j < topoOrderedConcepts.size() ; j++) {
+			for (int j = i + 1; j < topoOrderedConcepts.size(); j++) {
 				IConcept jConcept = topoOrderedConcepts.get(j);
 				if (conceptLattice.isA(iConcept, jConcept)) {
 					for (IDenotation source : iConcept.getDenotations()) {
 						for (IDenotation target : jConcept.getDenotations()) {
-							Set<IContextualizedProduction> ijDenotationsProds =
-									ProductionBuilder.prodBuilderFromDenotations().apply(source, target);
+							Set<IContextualizedProduction> ijDenotationsProds = ProductionBuilder
+									.prodBuilderFromDenotations().apply(source, target);
 							productions.addAll(ijDenotationsProds);
 						}
 					}

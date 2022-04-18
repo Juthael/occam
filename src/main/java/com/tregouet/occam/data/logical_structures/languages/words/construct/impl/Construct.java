@@ -38,7 +38,8 @@ public class Construct implements IConstruct {
 		for (String symString : progStrings) {
 			if (symString.equals(ISymbolSeq.PLACEHOLDER))
 				symbols.add(new Variable(AVariable.DEFERRED_NAMING));
-			else symbols.add(new Terminal(symString));
+			else
+				symbols.add(new Terminal(symString));
 		}
 		int nbOfTerminals = 0;
 		for (ISymbol symbol : symbols) {
@@ -49,7 +50,7 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
-	public List<ISymbol> asList(){
+	public List<ISymbol> asList() {
 		return symbols;
 	}
 
@@ -75,7 +76,7 @@ public class Construct implements IConstruct {
 
 	@Override
 	public String getFunctionType() {
-		List<AVariable> vars  = getVariables();
+		List<AVariable> vars = getVariables();
 		if (vars.isEmpty())
 			return null;
 		StringBuilder sB = new StringBuilder();
@@ -91,15 +92,13 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
-	public Iterator<ISymbol> getIteratorOverSymbols(){
+	public Iterator<ISymbol> getIteratorOverSymbols() {
 		return symbols.iterator();
 	}
 
 	@Override
 	public List<ITerminal> getListOfTerminals() {
-		return symbols.stream()
-				.filter(d -> d instanceof ITerminal)
-				.map(s -> (ITerminal) s)
+		return symbols.stream().filter(d -> d instanceof ITerminal).map(s -> (ITerminal) s)
 				.collect(Collectors.toList());
 	}
 
@@ -140,8 +139,8 @@ public class Construct implements IConstruct {
 		List<ISymbol> constraintSymbols = constraint.asList();
 		if (this.nbOfTerminals >= constraintSymbols.size()) {
 			int constraintIdx = 0;
-			for (int constructIdx = 0 ; constructIdx < symbols.size()
-					&& constraintIdx < constraintSymbols.size() ; constructIdx++) {
+			for (int constructIdx = 0; constructIdx < symbols.size()
+					&& constraintIdx < constraintSymbols.size(); constructIdx++) {
 				if (symbols.get(constructIdx).equals(constraintSymbols.get(constraintIdx)))
 					constraintIdx++;
 			}
@@ -169,12 +168,13 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
-	public List<String> toListOfStringsWithPlaceholders(){
+	public List<String> toListOfStringsWithPlaceholders() {
 		List<String> list = new ArrayList<>();
 		for (ISymbol sym : symbols) {
 			if (sym instanceof AVariable)
 				list.add(ISymbolSeq.PLACEHOLDER);
-			else list.add(sym.toString());
+			else
+				list.add(sym.toString());
 		}
 		return list;
 	}
@@ -182,7 +182,7 @@ public class Construct implements IConstruct {
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
-		for (int i = 0 ; i < symbols.size() ; i++) {
+		for (int i = 0; i < symbols.size(); i++) {
 			sB.append(symbols.get(i));
 			if (i < symbols.size() - 1)
 				sB.append(" ");

@@ -34,10 +34,11 @@ public class BasicProblemSpaceViz implements ProblemSpaceViz {
 
 	@Override
 	public String apply(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> graph, String fileName) {
-		//convert in DOT format
+		// convert in DOT format
 		DOTExporter<IProblemState, AProblemStateTransition> exporter = new DOTExporter<>();
 		ProblemStateLabeller stateDisplayer = LabellersAbstractFactory.INSTANCE.getProblemStateDisplayer();
-		ProblemTransitionLabeller transitionDisplayer = LabellersAbstractFactory.INSTANCE.getProblemTransitionDisplayer();
+		ProblemTransitionLabeller transitionDisplayer = LabellersAbstractFactory.INSTANCE
+				.getProblemTransitionDisplayer();
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(stateDisplayer.apply(v)));
@@ -51,14 +52,13 @@ public class BasicProblemSpaceViz implements ProblemSpaceViz {
 		Writer writer = new StringWriter();
 		exporter.exportGraph(graph, writer);
 		String stringDOT = writer.toString();
-		//display graph
+		// display graph
 		try {
 			MutableGraph dotGraph = new Parser().read(stringDOT);
 			String filePath = LocalPaths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
 			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
 			return filePath;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}

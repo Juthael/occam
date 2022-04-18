@@ -13,14 +13,14 @@ public class PropertyLabellerFactory {
 
 	public PropertyLabeller apply(PropertyLabellerStrategy strategy) {
 		switch (strategy) {
-			case AS_LAMBDA :
-				return AsLambdaString.INSTANCE;
-			case AS_SHORTER_LAMBDA :
-				return AsLambdaShorterString.INSTANCE;
-			case AS_PRODUCTIONS :
-				return AsProductionString.INSTANCE;
-			default :
-				return null;
+		case AS_LAMBDA:
+			return AsLambdaString.INSTANCE;
+		case AS_SHORTER_LAMBDA:
+			return AsLambdaShorterString.INSTANCE;
+		case AS_PRODUCTIONS:
+			return AsProductionString.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

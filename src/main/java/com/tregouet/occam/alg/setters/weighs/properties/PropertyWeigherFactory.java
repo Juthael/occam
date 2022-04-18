@@ -10,11 +10,11 @@ public class PropertyWeigherFactory {
 	}
 
 	public PropertyWeigher apply(PropertyWeigherStrategy strategy) {
-		switch(strategy) {
-			case NB_OF_BOUND_VAR :
-				return BoundVarCounter.INSTANCE;
-			default :
-				return null;
+		switch (strategy) {
+		case NB_OF_BOUND_VAR:
+			return BoundVarCounter.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

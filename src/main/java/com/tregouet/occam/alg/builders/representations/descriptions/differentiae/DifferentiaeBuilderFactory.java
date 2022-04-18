@@ -9,12 +9,12 @@ public class DifferentiaeBuilderFactory {
 	private DifferentiaeBuilderFactory() {
 	}
 
-	public DifferentiaeBuilder apply (DifferentiaeBuilderStrategy strategy) {
+	public DifferentiaeBuilder apply(DifferentiaeBuilderStrategy strategy) {
 		switch (strategy) {
-			case IF_IS_A_THEN_DIFFER :
-				return new IfIsAThenDiffer();
-			default :
-				return null;
+		case IF_IS_A_THEN_DIFFER:
+			return new IfIsAThenDiffer();
+		default:
+			return null;
 		}
 	}
 

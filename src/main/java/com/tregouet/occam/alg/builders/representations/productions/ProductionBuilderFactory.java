@@ -10,11 +10,11 @@ public class ProductionBuilderFactory {
 	}
 
 	public ProductionBuilder apply(ProductionBuilderStrategy strategy) {
-		switch(strategy) {
-			case IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS :
-				return new IfIsAThenBuildProductions();
-			default :
-				return null;
+		switch (strategy) {
+		case IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS:
+			return new IfIsAThenBuildProductions();
+		default:
+			return null;
 		}
 	}
 

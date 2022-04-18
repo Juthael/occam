@@ -12,12 +12,12 @@ public class FactEvaluatorBuilderFactory {
 
 	public FactEvaluatorBuilder apply(FactEvaluatorBuilderStrategy strategy) {
 		switch (strategy) {
-			case SALIENCE_AWARE :
-				return SalienceAwareFEBuilder.INSTANCE;
-			case SALIENCE_BLIND :
-				return SalienceBlindFEBuilder.INSTANCE;
-			default :
-				return null;
+		case SALIENCE_AWARE:
+			return SalienceAwareFEBuilder.INSTANCE;
+		case SALIENCE_BLIND:
+			return SalienceBlindFEBuilder.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

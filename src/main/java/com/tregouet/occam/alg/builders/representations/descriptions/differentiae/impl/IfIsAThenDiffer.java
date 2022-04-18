@@ -31,14 +31,11 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 		transitionToProperties = new HashMap<>();
 	}
 
-	private Set<AbstractDifferentiae> output(){
+	private Set<AbstractDifferentiae> output() {
 		Set<AbstractDifferentiae> differentiae = new HashSet<>();
 		for (IntIntPair transition : transitionToProperties.keySet()) {
-			differentiae.add(
-					new Differentiae(
-							transition.firstInt(),
-							transition.secondInt(),
-							transitionToProperties.get(transition)));
+			differentiae.add(new Differentiae(transition.firstInt(), transition.secondInt(),
+					transitionToProperties.get(transition)));
 		}
 		return differentiae;
 	}
@@ -48,8 +45,7 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 		for (IConceptTransition transition : transFunc.getTransitions()) {
 			int inputStateID = transition.getInputConfiguration().getInputStateID();
 			if (inputStateID != IConcept.WHAT_IS_THERE_ID) {
-				sourceToTargetIDs.add(new IntIntImmutablePair(
-						inputStateID,
+				sourceToTargetIDs.add(new IntIntImmutablePair(inputStateID,
 						transition.getOutputInternConfiguration().getOutputStateID()));
 			}
 		}
@@ -58,10 +54,8 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 		}
 		Set<IProperty> properties = DifferentiaeBuilder.propertyBuilder().apply(transFunc);
 		for (IProperty property : properties) {
-			IntIntPair transIDs =
-					new IntIntImmutablePair(
-							property.getFunction().getConcept().iD(),
-							property.getResultingValues().iterator().next().getConcept().iD());
+			IntIntPair transIDs = new IntIntImmutablePair(property.getFunction().getConcept().iD(),
+					property.getResultingValues().iterator().next().getConcept().iD());
 			transitionToProperties.get(transIDs).add(property);
 		}
 	}

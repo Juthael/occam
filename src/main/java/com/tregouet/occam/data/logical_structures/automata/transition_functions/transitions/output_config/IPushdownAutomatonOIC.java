@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
-public interface IPushdownAutomatonOIC<
-	StackSymbol extends ISymbol>
-	extends IOutputInternConfiguration {
+public interface IPushdownAutomatonOIC<StackSymbol extends ISymbol> extends IOutputInternConfiguration {
 
 	@Override
 	boolean equals(Object o);

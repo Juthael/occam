@@ -4,18 +4,17 @@ import com.tregouet.occam.alg.builders.problem_spaces.impl.GaloisLatticeOfRepres
 
 public class ProblemSpaceBuilderFactory {
 
-	public static final ProblemSpaceBuilderFactory INSTANCE =
-			new ProblemSpaceBuilderFactory();
+	public static final ProblemSpaceBuilderFactory INSTANCE = new ProblemSpaceBuilderFactory();
 
 	private ProblemSpaceBuilderFactory() {
 	}
 
 	public ProblemSpaceBuilder apply(ProblemSpaceBuilderStrategy strategy) {
-		switch(strategy) {
-			case GALOIS_LATTICE_OF_REPRESENTATIONS :
-				return GaloisLatticeOfRepresentations.INSTANCE;
-			default :
-				return null;
+		switch (strategy) {
+		case GALOIS_LATTICE_OF_REPRESENTATIONS:
+			return GaloisLatticeOfRepresentations.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

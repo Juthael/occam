@@ -11,7 +11,8 @@ import com.tregouet.occam.data.representations.transitions.dimensions.EpsilonDim
 public class ClosureTransition extends ConceptTransition implements IConceptTransition {
 
 	public ClosureTransition(IConceptTransitionIC inputConfig, int outputStateID) {
-		super(inputConfig, new ConceptTransitionOIC(outputStateID, Arrays.asList(new AVariable[] {EpsilonDimension.INSTANCE})));
+		super(inputConfig,
+				new ConceptTransitionOIC(outputStateID, Arrays.asList(new AVariable[] { EpsilonDimension.INSTANCE })));
 	}
 
 	@Override

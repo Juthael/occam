@@ -10,11 +10,11 @@ public class RepresentationTransFuncBuilderFactory {
 	}
 
 	public RepresentationTransFuncBuilder apply(RepresentationTransFuncBuilderStrategy strategy) {
-		switch(strategy) {
-			case BUILD_EXHAUSTIVELY :
-				return new BuildExhaustively();
-			default :
-				return null;
+		switch (strategy) {
+		case BUILD_EXHAUSTIVELY:
+			return new BuildExhaustively();
+		default:
+			return null;
 		}
 	}
 

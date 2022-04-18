@@ -39,7 +39,8 @@ public class DenotationComparator implements IDenotationComparator {
 			if (targetCurr.equals(sourceIte.next())) {
 				if (targetIte.hasNext())
 					targetCurr = targetIte.next();
-				else return true;
+				else
+					return true;
 			}
 		}
 		return false;
@@ -50,8 +51,10 @@ public class DenotationComparator implements IDenotationComparator {
 
 	@Override
 	public Integer compare(IDenotation d1, IDenotation d2) {
-		/* implies that alpha-conversion is either supported by equals(), or is useless because
-		 * it is guaranteed that two denotations can never vary only by the name of their variables.
+		/*
+		 * implies that alpha-conversion is either supported by equals(), or is useless
+		 * because it is guaranteed that two denotations can never vary only by the name
+		 * of their variables.
 		 */
 		if (d1.equals(d2))
 			return 0;

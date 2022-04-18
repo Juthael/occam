@@ -21,10 +21,10 @@ public class Size1LecticScore extends LecticScore implements IScore<LecticScore>
 		if (o instanceof Size1LecticScore) {
 			Size1LecticScore other = (Size1LecticScore) o;
 			comparison = compareTo(other.value);
-		}
-		else comparison = compareTo(o.values.get(0));
+		} else
+			comparison = compareTo(o.values.get(0));
 		if (comparison == 0)
-			//for consistency with Object.equals(), which is not overloaded
+			// for consistency with Object.equals(), which is not overloaded
 			return System.identityHashCode(this) - System.identityHashCode(o);
 		return comparison;
 	}

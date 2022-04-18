@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.NavigableSet;
 import java.util.Scanner;
 
-import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.OverallStrategy;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilder;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
@@ -28,21 +26,21 @@ import com.tregouet.occam.io.output.html.representation_page.RepresentationPageP
 public class PrototypeMenu {
 
 	private static final String NL = System.lineSeparator();
-	private static final OverallStrategy strategy = OverallStrategy.OVERALL_STRATEGY_1;
+
 	private static final String htmlFileName = "occam.html";
+
 	private static boolean isValidPath(String path) {
-	    try {
-	        Paths.get(path);
-	    } catch (InvalidPathException | NullPointerException ex) {
-	        return false;
-	    }
-	    return true;
+		try {
+			Paths.get(path);
+		} catch (InvalidPathException | NullPointerException ex) {
+			return false;
+		}
+		return true;
 	}
 
 	private final Scanner entry = new Scanner(System.in);
 
 	public PrototypeMenu() {
-		OverallAbstractFactory.INSTANCE.apply(strategy);
 		welcome();
 	}
 
@@ -53,13 +51,13 @@ public class PrototypeMenu {
 		if (isValidPath(inputPathString)) {
 			Path inputPath = Paths.get(inputPathString);
 			List<IContextObject> objects = GenericFileReader.getContextObjects(inputPath);
-			RepresentationSortedSetBuilder completeRepBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationSortedSetBuilder();
+			RepresentationSortedSetBuilder completeRepBldr = GeneratorsAbstractFactory.INSTANCE
+					.getRepresentationSortedSetBuilder();
 			ICompleteRepresentations completeRepresentations = completeRepBldr.apply(objects);
 			ProblemSpaceBuilder pbSpaceBldr = GeneratorsAbstractFactory.INSTANCE.getProblemSpaceBuilder();
 			IProblemSpace pbSpace = pbSpaceBldr.apply(completeRepresentations);
 			problemSpaceMenu(objects, pbSpace);
-		}
-		else {
+		} else {
 			System.out.println("This path is invalid." + NL);
 			enterTargetFolder();
 		}
@@ -72,8 +70,7 @@ public class PrototypeMenu {
 		if (isValidPath(pathString)) {
 			LocalPaths.INSTANCE.setTargetFolderPath(pathString);
 			mainMenu();
-		}
-		else {
+		} else {
 			System.out.println("This path is invalid." + NL);
 			enterTargetFolder();
 		}
@@ -102,23 +99,26 @@ public class PrototypeMenu {
 		int choice;
 		choice = entry.nextInt();
 		entry.nextLine();
-		switch(choice) {
-			case 1 : try {
+		switch (choice) {
+		case 1:
+			try {
 				enterNewInput();
 			} catch (IOException e) {
 				System.out.println(e.getMessage() + NL);
 				mainMenu();
 			}
-				break;
-			case 2 : enterTargetFolder();
-				break;
-			case 3 : System.out.println("Goodbye.");
-				System.exit(0);
-				break;
-			default :
-				System.out.println("Please stay focused." + NL);
-				mainMenu();
-				break;
+			break;
+		case 2:
+			enterTargetFolder();
+			break;
+		case 3:
+			System.out.println("Goodbye.");
+			System.exit(0);
+			break;
+		default:
+			System.out.println("Please stay focused." + NL);
+			mainMenu();
+			break;
 		}
 	}
 
@@ -139,31 +139,31 @@ public class PrototypeMenu {
 		try {
 			choice = entry.nextInt();
 			entry.nextLine();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			problemSpaceMenu(objects, problemSpace);
 		}
-		switch(choice) {
-			case 1 :
-				IRepresentation representation = selectARepresentation(problemSpace);
-				representationMenu(objects, problemSpace, representation);
-				break;
-			case 2 :
-				System.out.print("This functionality is not available yet.");
-				problemSpaceMenu(objects, problemSpace);
-				break;
-			case 3 :
-				mainMenu();
-				break;
-			default :
-				System.out.println("Please stay focused." + NL);
-				mainMenu();
-				break;
+		switch (choice) {
+		case 1:
+			IRepresentation representation = selectARepresentation(problemSpace);
+			representationMenu(objects, problemSpace, representation);
+			break;
+		case 2:
+			System.out.print("This functionality is not available yet.");
+			problemSpaceMenu(objects, problemSpace);
+			break;
+		case 3:
+			mainMenu();
+			break;
+		default:
+			System.out.println("Please stay focused." + NL);
+			mainMenu();
+			break;
 		}
 	}
 
-	private void representationMenu(List<IContextObject> objects, IProblemSpace problemSpace, IRepresentation representation) {
+	private void representationMenu(List<IContextObject> objects, IProblemSpace problemSpace,
+			IRepresentation representation) {
 		try {
 			String htmlPage = RepresentationPagePrinter.INSTANCE.print(objects, representation);
 			generate(htmlPage);
@@ -180,35 +180,35 @@ public class PrototypeMenu {
 		try {
 			choice = entry.nextInt();
 			entry.nextLine();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			problemSpaceMenu(objects, problemSpace);
 		}
-		switch(choice) {
-			case 1 :
-				NavigableSet<IRepresentation> lowerRep = problemSpace.getSortedSetOfStates().tailSet(representation, false);
-				if (lowerRep.isEmpty()) {
-					System.out.println("There is no next representation.");
-					representationMenu(objects, problemSpace, representation);
-				}
-				else representationMenu(objects, problemSpace, lowerRep.first());
-				break;
-			case 2 :
-				NavigableSet<IRepresentation> higherRep = problemSpace.getSortedSetOfStates().headSet(representation, false);
-				if (higherRep.isEmpty()) {
-					System.out.println("There is no previous representation.");
-					representationMenu(objects, problemSpace, representation);
-				}
-				else representationMenu(objects, problemSpace, higherRep.last());
-				break;
-			case 3 :
-				problemSpaceMenu(objects, problemSpace);
-				break;
-			default :
-				System.out.println("Please stay focused." + NL);
+		switch (choice) {
+		case 1:
+			NavigableSet<IRepresentation> lowerRep = problemSpace.getSortedSetOfStates().tailSet(representation, false);
+			if (lowerRep.isEmpty()) {
+				System.out.println("There is no next representation.");
 				representationMenu(objects, problemSpace, representation);
-				break;
+			} else
+				representationMenu(objects, problemSpace, lowerRep.first());
+			break;
+		case 2:
+			NavigableSet<IRepresentation> higherRep = problemSpace.getSortedSetOfStates().headSet(representation,
+					false);
+			if (higherRep.isEmpty()) {
+				System.out.println("There is no previous representation.");
+				representationMenu(objects, problemSpace, representation);
+			} else
+				representationMenu(objects, problemSpace, higherRep.last());
+			break;
+		case 3:
+			problemSpaceMenu(objects, problemSpace);
+			break;
+		default:
+			System.out.println("Please stay focused." + NL);
+			representationMenu(objects, problemSpace, representation);
+			break;
 		}
 	}
 
@@ -219,8 +219,7 @@ public class PrototypeMenu {
 		try {
 			iD = entry.nextInt();
 			entry.nextLine();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return selectARepresentation(problemSpace);
 		}

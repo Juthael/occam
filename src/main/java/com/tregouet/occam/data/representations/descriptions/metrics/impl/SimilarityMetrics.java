@@ -16,7 +16,7 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 	private AsymmetricalSimilarityScorer asymmetricalSimilarityScorer = null;
 
 	public SimilarityMetrics(int[] particularIDs, PairSimilarityScorer pairSimilarityScorer,
-			AsymmetricalSimilarityScorer asymmetricalSimilarityScorer){
+			AsymmetricalSimilarityScorer asymmetricalSimilarityScorer) {
 		this.particularIDs = particularIDs;
 		this.pairSimilarityScorer = pairSimilarityScorer;
 		this.asymmetricalSimilarityScorer = asymmetricalSimilarityScorer;
@@ -51,8 +51,8 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 	private void instantiateAsymmetricalSimilarityMatrix() {
 		int nbOfParticulars = particularIDs.length;
 		asymmetricalSimilarityMatrix = new double[nbOfParticulars][nbOfParticulars];
-		for (int i = 0 ; i < nbOfParticulars ; i++) {
-			for (int j = 0 ; j < nbOfParticulars ; j++) {
+		for (int i = 0; i < nbOfParticulars; i++) {
+			for (int j = 0; j < nbOfParticulars; j++) {
 				int iParticularID = particularIDs[i];
 				int jParticularID = particularIDs[j];
 				IConceptPairIDs pair = new ConceptPairIDs(iParticularID, jParticularID);
@@ -64,8 +64,8 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 	private void instantiateSimilarityMatrix() {
 		int nbOfParticulars = particularIDs.length;
 		similarityMatrix = new double[nbOfParticulars][nbOfParticulars];
-		for (int i = 0 ; i < nbOfParticulars ; i++) {
-			for (int j = i ; j < nbOfParticulars ; j++) {
+		for (int i = 0; i < nbOfParticulars; i++) {
+			for (int j = i; j < nbOfParticulars; j++) {
 				int iParticularID = particularIDs[i];
 				int jParticularID = particularIDs[j];
 				IConceptPairIDs pair = new ConceptPairIDs(iParticularID, jParticularID);
@@ -82,9 +82,9 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 		typicalityVector = new double[nbOfParticulars];
 		if (similarityMatrix == null)
 			instantiateSimilarityMatrix();
-		for (int i = 0 ; i < nbOfParticulars ; i++) {
+		for (int i = 0; i < nbOfParticulars; i++) {
 			double typicalityScore = 0.0;
-			for (int j = 0 ; j < nbOfParticulars ; j++) {
+			for (int j = 0; j < nbOfParticulars; j++) {
 				typicalityScore += similarityMatrix[i][j];
 			}
 			typicalityScore = typicalityScore / nbOfParticulars;

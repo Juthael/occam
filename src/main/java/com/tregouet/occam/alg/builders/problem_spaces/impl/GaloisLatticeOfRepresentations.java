@@ -25,8 +25,7 @@ public class GaloisLatticeOfRepresentations implements ProblemSpaceBuilder {
 
 	public static final ProblemSpaceBuilder INSTANCE = new GaloisLatticeOfRepresentations();
 
-	private static List<IProblemState> buildCategorisationStates(
-			ICompleteRepresentations completeRepresentations,
+	private static List<IProblemState> buildCategorisationStates(ICompleteRepresentations completeRepresentations,
 			LinkedHashMap<Set<Integer>, Set<IPartition>> closedSets) {
 		List<IProblemState> states = new ArrayList<>();
 		for (Set<Integer> completeRepIdxes : closedSets.keySet()) {
@@ -64,12 +63,13 @@ public class GaloisLatticeOfRepresentations implements ProblemSpaceBuilder {
 
 	@Override
 	public IProblemSpace apply(ICompleteRepresentations completeRepresentations) {
-		Map<Integer, Set<IPartition>> completeRepIdx2Partitions =
-				setCompleteRepIdx2PartitionMap(completeRepresentations);
+		Map<Integer, Set<IPartition>> completeRepIdx2Partitions = setCompleteRepIdx2PartitionMap(
+				completeRepresentations);
 		IClosedSetsFinder<Integer, IPartition> closedSetsFinder = new NextClosure<>();
-		LinkedHashMap<Set<Integer>, Set<IPartition>> lecticallyOrderedClosedSets = closedSetsFinder.apply(completeRepIdx2Partitions);
-		List<IProblemState> topoOrderedStates =
-				buildCategorisationStates(completeRepresentations, lecticallyOrderedClosedSets);
+		LinkedHashMap<Set<Integer>, Set<IPartition>> lecticallyOrderedClosedSets = closedSetsFinder
+				.apply(completeRepIdx2Partitions);
+		List<IProblemState> topoOrderedStates = buildCategorisationStates(completeRepresentations,
+				lecticallyOrderedClosedSets);
 		TransitionBuilder transBldr = ProblemSpaceBuilder.getCategorizationTransitionBuilder();
 		Set<AProblemStateTransition> transitions = transBldr.apply(topoOrderedStates);
 		return ProblemSpaceBuilder.build(topoOrderedStates, transitions);

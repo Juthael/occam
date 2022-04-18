@@ -16,6 +16,7 @@ public interface IStack<StackSymbol extends ISymbol> {
 
 	/**
 	 * If no next symbol, returns null
+	 * 
 	 * @return
 	 */
 	StackSymbol popOff();

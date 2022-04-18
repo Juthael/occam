@@ -18,6 +18,7 @@ public interface IConceptLattice {
 
 	/**
 	 * If param contains every object in the context, then return truism
+	 * 
 	 * @param extent
 	 * @return
 	 */
@@ -29,7 +30,7 @@ public interface IConceptLattice {
 
 	IConcept getLeastCommonSuperordinate(Set<IConcept> concepts);
 
-	//it is guaranteed that the order is the same as getContextObjects();
+	// it is guaranteed that the order is the same as getContextObjects();
 	List<IConcept> getObjectConcepts();
 
 	IConcept getOntologicalCommitment();
@@ -47,6 +48,7 @@ public interface IConceptLattice {
 
 	/**
 	 * Not a reflexive relation
+	 * 
 	 * @param cat1
 	 * @param cat2
 	 * @return

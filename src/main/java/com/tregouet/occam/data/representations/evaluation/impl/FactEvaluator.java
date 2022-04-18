@@ -25,9 +25,7 @@ public class FactEvaluator implements IFactEvaluator {
 	public FactEvaluator() {
 	}
 
-	private FactEvaluator(
-			IRepresentationTransitionFunction transitionFunction,
-			IRepresentationTapeSet tapeSet,
+	private FactEvaluator(IRepresentationTransitionFunction transitionFunction, IRepresentationTapeSet tapeSet,
 			Integer activeState) {
 		this.transitionFunction = transitionFunction;
 		this.activeStateID = activeState;
@@ -40,7 +38,7 @@ public class FactEvaluator implements IFactEvaluator {
 
 	@Override
 	public Set<IFactEvaluator> evaluate() {
-		//NOT IMPLEMENTED YET
+		// NOT IMPLEMENTED YET
 		reinitialize();
 		return null;
 	}
@@ -58,10 +56,8 @@ public class FactEvaluator implements IFactEvaluator {
 			IConceptTransitionIC requiredInputConfig = transition.getInputConfiguration();
 			if (requiredInputConfig.getInputStateID() == activeStateID
 					&& requiredInputConfig.getStackSymbol().equals(poppedStackSymbol)) {
-				IFactEvaluator nextHead =
-						proceedPrintingTransition(
-								requiredInputConfig.getInputSymbol(),
-								transition.getOutputInternConfiguration());
+				IFactEvaluator nextHead = proceedPrintingTransition(requiredInputConfig.getInputSymbol(),
+						transition.getOutputInternConfiguration());
 				acceptHeads.addAll(nextHead.factEnumerator());
 			}
 		}

@@ -41,12 +41,10 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 		new TopologicalOrderIterator<>(paramTree).forEachRemaining(topoOrderOverConcepts::add);
 		Integer ontologicalCommitmentID = topoOrderOverConcepts.get(0);
 		Set<Integer> particularIDs = transFunc.getAcceptStateIDs();
-		classification =
-				new Tree<>(
-						paramTree, ontologicalCommitmentID, particularIDs, topoOrderOverConcepts);
+		classification = new Tree<>(paramTree, ontologicalCommitmentID, particularIDs, topoOrderOverConcepts);
 		DescriptionBuilder.differentiaeRankSetter().accept(classification);
-		DifferentiaeCoeffSetter differentiaeCoeffSetter =
-				DescriptionBuilder.differentiaeCoeffSetter().setContext(classification);
+		DifferentiaeCoeffSetter differentiaeCoeffSetter = DescriptionBuilder.differentiaeCoeffSetter()
+				.setContext(classification);
 		DifferentiaeWeigher differentiaeWeigher = DescriptionBuilder.differentiaeWeigher();
 		for (AbstractDifferentiae diff : classification.edgeSet()) {
 			differentiaeCoeffSetter.accept(diff);

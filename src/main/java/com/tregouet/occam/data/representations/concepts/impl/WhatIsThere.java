@@ -17,12 +17,8 @@ public class WhatIsThere extends Concept implements IConcept {
 
 	private WhatIsThere() {
 		super(new HashSet<>(
-				Arrays.asList(
-						new IConstruct[] {new Construct(
-								Arrays.asList(
-										new ISymbol[] {Nothing.INSTANCE}))})),
-			new HashSet<IContextObject>(),
-			IConcept.WHAT_IS_THERE_ID);
+				Arrays.asList(new IConstruct[] { new Construct(Arrays.asList(new ISymbol[] { Nothing.INSTANCE })) })),
+				new HashSet<IContextObject>(), IConcept.WHAT_IS_THERE_ID);
 		setType(ConceptType.WHAT_IS_THERE);
 	}
 

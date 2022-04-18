@@ -22,18 +22,17 @@ import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.impl.ProblemSpace;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
 
-public interface ProblemSpaceBuilder
-	extends Function<ICompleteRepresentations, IProblemSpace> {
+public interface ProblemSpaceBuilder extends Function<ICompleteRepresentations, IProblemSpace> {
 
 	public static IProblemSpace build(List<IProblemState> topoOrderedStates, Set<AProblemStateTransition> transitions) {
-		DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemGraph =
-				new DirectedAcyclicGraph<>(null, null, true);
+		DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemGraph = new DirectedAcyclicGraph<>(null,
+				null, true);
 		Graphs.addAllVertices(problemGraph, topoOrderedStates);
 		for (AProblemStateTransition transition : transitions)
 			problemGraph.addEdge(transition.getSource(), transition.getTarget(), transition);
 		TransitiveReduction.INSTANCE.reduce(problemGraph);
-		CategorizationTransitionWeigher weigher =
-				ProblemSpaceBuilder.getCategorizationTransitionWeigher().setContext(problemGraph);
+		CategorizationTransitionWeigher weigher = ProblemSpaceBuilder.getCategorizationTransitionWeigher()
+				.setContext(problemGraph);
 		for (AProblemStateTransition transition : problemGraph.edgeSet())
 			weigher.accept(transition);
 		ProblemStateScorer scorer = ProblemSpaceBuilder.getProblemStateScorer().setUp(problemGraph);

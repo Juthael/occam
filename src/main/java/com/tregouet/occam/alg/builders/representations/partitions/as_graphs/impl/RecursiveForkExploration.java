@@ -39,9 +39,9 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 		return partitions;
 	}
 
-	private static  Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> part(
-			Tree<Integer, AbstractDifferentiae> tree,
-			DirectedAcyclicGraph<Integer, AbstractDifferentiae> partedSoFar, Integer activeNode) {
+	private static Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> part(
+			Tree<Integer, AbstractDifferentiae> tree, DirectedAcyclicGraph<Integer, AbstractDifferentiae> partedSoFar,
+			Integer activeNode) {
 		Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> partedNext = new HashSet<>();
 		if (tree.getLeaves().contains(activeNode))
 			partedNext.add(partedSoFar);

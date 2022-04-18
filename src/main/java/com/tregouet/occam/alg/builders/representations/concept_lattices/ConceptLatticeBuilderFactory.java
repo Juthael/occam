@@ -10,11 +10,11 @@ public class ConceptLatticeBuilderFactory {
 	}
 
 	public GaloisConnection apply(ConceptLatticeBuilderStrategy strategy) {
-		switch(strategy) {
-			case GALOIS_CONNECTION :
-				return new GaloisConnection();
-			default :
-				return null;
+		switch (strategy) {
+		case GALOIS_CONNECTION:
+			return new GaloisConnection();
+		default:
+			return null;
 		}
 	}
 

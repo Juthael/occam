@@ -10,11 +10,11 @@ public class StringSchemeBuilderFactory {
 	}
 
 	public StringSchemeBuilder apply(StringSchemeBuilderStrategy strategy) {
-		switch(strategy) {
-			case RECURSIVE_FRAMING :
-				return new RecursiveFraming();
-			default :
-				return null;
+		switch (strategy) {
+		case RECURSIVE_FRAMING:
+			return new RecursiveFraming();
+		default:
+			return null;
 		}
 	}
 

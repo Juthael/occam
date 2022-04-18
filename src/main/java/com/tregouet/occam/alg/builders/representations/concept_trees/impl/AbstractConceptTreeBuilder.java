@@ -7,8 +7,8 @@ import com.tregouet.tree_finder.data.InvertedTree;
 
 public abstract class AbstractConceptTreeBuilder implements ConceptTreeBuilder {
 
-	public static InvertedTree<IConcept, IIsA> commit(
-			InvertedTree<IConcept, IIsA> classificationTree, IConcept ontologicalCommitment) {
+	public static InvertedTree<IConcept, IIsA> commit(InvertedTree<IConcept, IIsA> classificationTree,
+			IConcept ontologicalCommitment) {
 		classificationTree.addAsNewRoot(ontologicalCommitment, true);
 		return classificationTree;
 	}

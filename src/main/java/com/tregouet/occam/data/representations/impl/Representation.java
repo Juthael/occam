@@ -32,8 +32,8 @@ public abstract class Representation implements IRepresentation {
 	protected final Set<IPartition> partitions;
 	protected LecticScore score = null;
 
-	Representation(InvertedTree<IConcept, IIsA> classification, IDescription description,
-			IFactEvaluator factEvaluator, Set<IPartition> partitions) {
+	Representation(InvertedTree<IConcept, IIsA> classification, IDescription description, IFactEvaluator factEvaluator,
+			Set<IPartition> partitions) {
 		this.classification = classification;
 		this.description = description;
 		this.partitions = partitions;
@@ -148,7 +148,8 @@ public abstract class Representation implements IRepresentation {
 			particularIDToFacts.get(output.getActiveStateID()).add(output.getTapeSet().getInputTape().getFact());
 		}
 		for (Integer particularID : particularIDToFacts.keySet()) {
-			acceptStateToAcceptedWords.put(particularIDToParticular.get(particularID), particularIDToFacts.get(particularID));
+			acceptStateToAcceptedWords.put(particularIDToParticular.get(particularID),
+					particularIDToFacts.get(particularID));
 		}
 		factEvaluator.reinitialize();
 		return acceptStateToAcceptedWords;

@@ -24,8 +24,7 @@ public class MarkhovProcess implements ProblemStateScorer {
 
 	@Override
 	public LecticScore apply(IProblemState problemState) {
-		return new Size1LecticScore(
-				stateProbability[topoOrderedStates.indexOf(problemState)]);
+		return new Size1LecticScore(stateProbability[topoOrderedStates.indexOf(problemState)]);
 	}
 
 	private void incrementTargetScores(IProblemState source) {
@@ -40,15 +39,13 @@ public class MarkhovProcess implements ProblemStateScorer {
 	}
 
 	@Override
-	public ProblemStateScorer setUp(
-			DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemSpace) {
+	public ProblemStateScorer setUp(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemSpace) {
 		this.problemSpace = problemSpace;
-		new TopologicalOrderIterator<>(problemSpace)
-			.forEachRemaining(topoOrderedStates::add);
+		new TopologicalOrderIterator<>(problemSpace).forEachRemaining(topoOrderedStates::add);
 		stateProbability = new double[topoOrderedStates.size()];
 		for (IProblemState problemState : problemSpace)
 			incrementTargetScores(problemState);
-		//start state
+		// start state
 		stateProbability[0] = 1;
 		return this;
 	}

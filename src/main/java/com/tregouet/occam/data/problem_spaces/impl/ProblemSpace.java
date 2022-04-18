@@ -20,8 +20,7 @@ public class ProblemSpace implements IProblemSpace {
 	private final PartialRepresentationLateSetter partialRepresentationLateSetter;
 	private final NavigableSet<IRepresentation> representations = new TreeSet<>();
 
-	public ProblemSpace(
-			DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemGraph,
+	public ProblemSpace(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemGraph,
 			PartialRepresentationLateSetter partialRepresentationLateSetter) {
 		this.problemGraph = problemGraph;
 		this.partialRepresentationLateSetter = partialRepresentationLateSetter;

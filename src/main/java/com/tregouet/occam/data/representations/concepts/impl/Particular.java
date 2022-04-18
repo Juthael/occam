@@ -67,7 +67,8 @@ public class Particular implements IContextObject {
 	public String getName() {
 		if (name == null)
 			return Integer.toString(iD);
-		else return name;
+		else
+			return name;
 	}
 
 	@Override
@@ -87,7 +88,7 @@ public class Particular implements IContextObject {
 	}
 
 	@Override
-	public List<ISymbolSeq> toSymbolSeqs(){
+	public List<ISymbolSeq> toSymbolSeqs() {
 		List<ISymbolSeq> symbolSeqs = new ArrayList<>();
 		for (IConstruct construct : constructs)
 			symbolSeqs.add(new SymbolSeq(construct.toListOfStringsWithPlaceholders()));

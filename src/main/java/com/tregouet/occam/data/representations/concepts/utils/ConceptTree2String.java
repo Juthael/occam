@@ -31,7 +31,7 @@ public class ConceptTree2String {
 			else {
 				StringBuilder sB = new StringBuilder();
 				sB.append("( ");
-				for (int i = 0 ; i < predecessors.size() ; i++) {
+				for (int i = 0; i < predecessors.size(); i++) {
 					sB.append(getExtentStructure(predecessors.get(i)));
 					if (i < predecessors.size() - 1)
 						sB.append(" ");

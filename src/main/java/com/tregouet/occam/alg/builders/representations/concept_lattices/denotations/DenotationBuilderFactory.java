@@ -10,11 +10,11 @@ public class DenotationBuilderFactory {
 	}
 
 	public IDenotationBuilder apply(DenotationBuilderStrategy strategy) {
-		switch(strategy) {
-			case MAX_SYMBOL_SUBSEQUENCES :
-				return new MaxSymbolSubsequences();
-			default :
-				return null;
+		switch (strategy) {
+		case MAX_SYMBOL_SUBSEQUENCES:
+			return new MaxSymbolSubsequences();
+		default:
+			return null;
 		}
 	}
 

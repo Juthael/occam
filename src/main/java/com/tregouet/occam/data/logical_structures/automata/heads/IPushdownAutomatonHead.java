@@ -8,18 +8,7 @@ import com.tregouet.occam.data.logical_structures.automata.transition_functions.
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.words.IWord;
 
-public interface IPushdownAutomatonHead<
-	TransitionFunc extends IPushdownAutomatonTF<InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition>,
-	InputSymbol extends ISymbol,
-	StackSymbol extends ISymbol,
-	InputConfig extends IPushdownAutomatonIC<InputSymbol, StackSymbol>,
-	OutputConfig extends IPushdownAutomatonOIC<StackSymbol>,
-	Transition extends IPushdownAutomatonTransition<InputSymbol, StackSymbol, InputConfig, OutputConfig>,
-	TapeSet extends IPushdownAutomatonTapeSet<InputSymbol, StackSymbol, TapeSet>,
-	Word extends IWord<InputSymbol>,
-	Head extends IPushdownAutomatonHead<TransitionFunc, InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition,
-	TapeSet, Word, Head>
-	>
-	extends IHead<TransitionFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head> {
+public interface IPushdownAutomatonHead<TransitionFunc extends IPushdownAutomatonTF<InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition>, InputSymbol extends ISymbol, StackSymbol extends ISymbol, InputConfig extends IPushdownAutomatonIC<InputSymbol, StackSymbol>, OutputConfig extends IPushdownAutomatonOIC<StackSymbol>, Transition extends IPushdownAutomatonTransition<InputSymbol, StackSymbol, InputConfig, OutputConfig>, TapeSet extends IPushdownAutomatonTapeSet<InputSymbol, StackSymbol, TapeSet>, Word extends IWord<InputSymbol>, Head extends IPushdownAutomatonHead<TransitionFunc, InputSymbol, StackSymbol, InputConfig, OutputConfig, Transition, TapeSet, Word, Head>>
+		extends IHead<TransitionFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head> {
 
 }

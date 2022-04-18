@@ -17,35 +17,30 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 	private IConcept wrappedComplementing = null;
 
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
-		super(complementing.getDenotations().stream()
-				.map(d -> new Construct(d.asList()))
-				.collect(Collectors.toSet()),
+		super(complementing.getDenotations().stream().map(d -> new Construct(d.asList())).collect(Collectors.toSet()),
 				new HashSet<>(Sets.difference(complementing.getExtent(), toBeComplemented.getExtent())),
-				- toBeComplemented.iD());
+				-toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
 		setType(ConceptType.UNIVERSAL);
 	}
 
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept supremum, Set<IContextObject> extent) {
-		super(supremum.getDenotations().stream()
-				.map(d -> new Construct(d.asList()))
-				.collect(Collectors.toSet()),
-				extent,
-				- toBeComplemented.iD());
+		super(supremum.getDenotations().stream().map(d -> new Construct(d.asList())).collect(Collectors.toSet()),
+				extent, -toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		setType(ConceptType.UNIVERSAL);
 	}
 
 	@Override
 	public IConcept buildComplementOfThis(Set<IConcept> complementMinimalLowerBounds, IConcept supremum) {
-		//already a complement
+		// already a complement
 		return null;
 	}
 
 	@Override
 	public IConcept complementThisWith(IConcept complementing) {
-		//already a complement
+		// already a complement
 		return null;
 	}
 

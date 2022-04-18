@@ -159,8 +159,7 @@ public class GeneratorsAbstractFactory {
 	}
 
 	public RepresentationSortedSetBuilder getRepresentationSortedSetBuilder() {
-		return RepresentationSortedSetBuilderFactory.INSTANCE
-				.apply(representationSortedSetBuilderStrategy)
+		return RepresentationSortedSetBuilderFactory.INSTANCE.apply(representationSortedSetBuilderStrategy)
 				.setMaxSize(representationSortedSetMaxSize);
 	}
 
@@ -181,35 +180,33 @@ public class GeneratorsAbstractFactory {
 	}
 
 	public void setUpStrategy(GenerationStrategy overallStrategy) {
-		switch(overallStrategy) {
-			case GENERATION_STRATEGY_1 :
-				denotationBuilderStrategy = DenotationBuilderStrategy.MAX_SYMBOL_SUBSEQUENCES;
-				conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
-				conceptTreeBuilderStrategy = ConceptTreeBuilderStrategy.UNIDIMENSIONAL_SORTING;
-				prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.MAP_TARGET_VARS_TO_SOURCE_VALUES;
-				productionBuilderStrategy = ProductionBuilderStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
-				transitionSalienceSetterStrategy = TransitionSalienceSetterStrategy.HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS;
-				representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.BUILD_EXHAUSTIVELY;
-				propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
-				differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
-				similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.DEFERRED_MATRICES_INSTANTIATION;
-				descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
-				differentiaeRankSetterStrategy = DifferentiaeRankSetterStrategy.DEPTH_FIRST;
-				partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
-				stringSchemeBuilderStrategy = StringSchemeBuilderStrategy.RECURSIVE_FRAMING;
-				partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
-				factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
-				representationSortedSetBuilderStrategy =
-						RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
-				representationSortedSetMaxSize = 50;
-				partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
-				transitionBuilderStrategy = TransitionBuilderStrategy.USE_PARTIAL_ORDER;
-				problemSpaceBuilderStrategy =
-						ProblemSpaceBuilderStrategy.GALOIS_LATTICE_OF_REPRESENTATIONS;
-				problemSpaceModifierStrategy = ProblemSpaceModifierStrategy.REBUILD_FROM_SCRATCH;
-				break;
-			default :
-				break;
+		switch (overallStrategy) {
+		case GENERATION_STRATEGY_1:
+			denotationBuilderStrategy = DenotationBuilderStrategy.MAX_SYMBOL_SUBSEQUENCES;
+			conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
+			conceptTreeBuilderStrategy = ConceptTreeBuilderStrategy.UNIDIMENSIONAL_SORTING;
+			prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.MAP_TARGET_VARS_TO_SOURCE_VALUES;
+			productionBuilderStrategy = ProductionBuilderStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
+			transitionSalienceSetterStrategy = TransitionSalienceSetterStrategy.HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS;
+			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.BUILD_EXHAUSTIVELY;
+			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
+			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
+			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.DEFERRED_MATRICES_INSTANTIATION;
+			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
+			differentiaeRankSetterStrategy = DifferentiaeRankSetterStrategy.DEPTH_FIRST;
+			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
+			stringSchemeBuilderStrategy = StringSchemeBuilderStrategy.RECURSIVE_FRAMING;
+			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
+			factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
+			representationSortedSetBuilderStrategy = RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
+			representationSortedSetMaxSize = 50;
+			partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
+			transitionBuilderStrategy = TransitionBuilderStrategy.USE_PARTIAL_ORDER;
+			problemSpaceBuilderStrategy = ProblemSpaceBuilderStrategy.GALOIS_LATTICE_OF_REPRESENTATIONS;
+			problemSpaceModifierStrategy = ProblemSpaceModifierStrategy.REBUILD_FROM_SCRATCH;
+			break;
+		default:
+			break;
 		}
 	}
 

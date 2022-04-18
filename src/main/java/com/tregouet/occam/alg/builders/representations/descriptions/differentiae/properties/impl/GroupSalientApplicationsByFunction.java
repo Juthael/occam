@@ -33,11 +33,10 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 				int functionIdx = functions.indexOf(function);
 				if (functionIdx == -1) {
 					functions.add(function);
-					applicationSets.add(new HashSet<>(Arrays.asList(new IApplication[] {application})));
-					valueSets.add(new HashSet<>(Arrays.asList(new IDenotation[] {
-							application.getInputConfiguration().getInputSymbol().getSource()})));
-				}
-				else {
+					applicationSets.add(new HashSet<>(Arrays.asList(new IApplication[] { application })));
+					valueSets.add(new HashSet<>(Arrays.asList(
+							new IDenotation[] { application.getInputConfiguration().getInputSymbol().getSource() })));
+				} else {
 					applicationSets.get(functionIdx).add(application);
 					valueSets.get(functionIdx).add(application.getInputConfiguration().getInputSymbol().getSource());
 				}
@@ -54,7 +53,7 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 
 	private Set<IProperty> output() {
 		Set<IProperty> properties = new HashSet<>();
-		for (int i = 0 ; i < functions.size() ; i++) {
+		for (int i = 0; i < functions.size(); i++) {
 			properties.add(new Property(functions.get(i), applicationSets.get(i), valueSets.get(i)));
 		}
 		for (IProperty property : properties)

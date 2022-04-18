@@ -19,7 +19,6 @@ public class Description implements IDescription {
 		this.similarityMetrics = similarityMetrics;
 	}
 
-
 	@Override
 	public Tree<Integer, AbstractDifferentiae> asGraph() {
 		return classification;
@@ -35,18 +34,15 @@ public class Description implements IDescription {
 		return Objects.equals(classification, other.classification);
 	}
 
-
 	@Override
 	public ISimilarityMetrics getSimilarityMetrics() {
 		return similarityMetrics;
 	}
 
-
 	@Override
 	public List<Integer> getTopologicallyOrderedConceptIDs() {
 		return new ArrayList<>(classification.getTopologicalOrder());
 	}
-
 
 	@Override
 	public int hashCode() {

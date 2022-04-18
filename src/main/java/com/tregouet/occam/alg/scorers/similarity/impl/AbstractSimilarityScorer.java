@@ -18,9 +18,8 @@ public abstract class AbstractSimilarityScorer<R extends Scored<DoubleScore>> im
 		if (Functions.lowerSet(classificationTree, conceptID).contains(frameConceptID)) {
 			double definitionCost = 0.0;
 			int currentConceptID = conceptID;
-			while(currentConceptID != frameConceptID) {
-				AbstractDifferentiae currentConceptDefinition =
-						classificationTree.incomingEdgeOf(currentConceptID);
+			while (currentConceptID != frameConceptID) {
+				AbstractDifferentiae currentConceptDefinition = classificationTree.incomingEdgeOf(currentConceptID);
 				definitionCost += currentConceptDefinition.weight();
 				currentConceptID = classificationTree.getEdgeTarget(currentConceptDefinition);
 			}
@@ -33,9 +32,8 @@ public abstract class AbstractSimilarityScorer<R extends Scored<DoubleScore>> im
 		double definitionCost = 0.0;
 		int currentConceptID = conceptID;
 		int ontologicalCommitmentID = classificationTree.getRoot();
-		while(currentConceptID != ontologicalCommitmentID) {
-			AbstractDifferentiae currentConceptDefinition =
-					classificationTree.incomingEdgeOf(currentConceptID);
+		while (currentConceptID != ontologicalCommitmentID) {
+			AbstractDifferentiae currentConceptDefinition = classificationTree.incomingEdgeOf(currentConceptID);
 			definitionCost += currentConceptDefinition.weight();
 			currentConceptID = classificationTree.getEdgeTarget(currentConceptDefinition);
 		}

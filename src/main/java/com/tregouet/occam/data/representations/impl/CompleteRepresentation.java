@@ -33,12 +33,12 @@ public class CompleteRepresentation extends Representation implements ICompleteR
 
 	@Override
 	public Set<IGoalState> getReachableGoalStates() {
-		return new HashSet<>(Arrays.asList(new CompleteRepresentation[] {this}));
+		return new HashSet<>(Arrays.asList(new CompleteRepresentation[] { this }));
 	}
 
 	@Override
 	public Set<ICompleteRepresentation> getRepresentationCompletions() {
-		return new HashSet<>(Arrays.asList(new CompleteRepresentation[] {this}));
+		return new HashSet<>(Arrays.asList(new CompleteRepresentation[] { this }));
 	}
 
 	@Override

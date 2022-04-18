@@ -13,8 +13,7 @@ public class Property implements IProperty {
 	private final Set<IDenotation> resultingValues;
 	private Double weight = null;
 
-	public Property(IDenotation function, Set<IApplication> applications,
-			Set<IDenotation> resultingValues) {
+	public Property(IDenotation function, Set<IApplication> applications, Set<IDenotation> resultingValues) {
 		this.function = function;
 		this.applications = applications;
 		this.resultingValues = resultingValues;

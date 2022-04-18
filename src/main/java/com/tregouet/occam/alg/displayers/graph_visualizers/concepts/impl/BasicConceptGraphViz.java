@@ -24,15 +24,15 @@ import guru.nidi.graphviz.parse.Parser;
 
 public class BasicConceptGraphViz implements ConceptGraphViz {
 
-	public static final BasicConceptGraphViz INSTANCE  = new BasicConceptGraphViz();
+	public static final BasicConceptGraphViz INSTANCE = new BasicConceptGraphViz();
 
 	private BasicConceptGraphViz() {
 	}
 
 	@Override
 	public String apply(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName) {
-		//convert in DOT format
-		DOTExporter<IConcept,IIsA> exporter = new DOTExporter<>();
+		// convert in DOT format
+		DOTExporter<IConcept, IIsA> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("rankdir", DefaultAttribute.createAttribute("BT"));
@@ -46,14 +46,13 @@ public class BasicConceptGraphViz implements ConceptGraphViz {
 		Writer writer = new StringWriter();
 		exporter.exportGraph(graph, writer);
 		String stringDOT = writer.toString();
-		//display graph
+		// display graph
 		try {
 			MutableGraph dotGraph = new Parser().read(stringDOT);
 			String filePath = LocalPaths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
 			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
 			return filePath;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}

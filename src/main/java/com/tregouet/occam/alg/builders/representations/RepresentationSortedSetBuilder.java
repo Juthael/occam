@@ -17,8 +17,7 @@ import com.tregouet.occam.alg.scorers.representations.RepresentationScorer;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 
-public interface RepresentationSortedSetBuilder
-	extends Function<Collection<IContextObject>, ICompleteRepresentations> {
+public interface RepresentationSortedSetBuilder extends Function<Collection<IContextObject>, ICompleteRepresentations> {
 
 	public static ConceptLatticeBuilder getConceptLatticeBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder();

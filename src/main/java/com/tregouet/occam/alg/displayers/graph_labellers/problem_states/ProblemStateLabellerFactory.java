@@ -11,10 +11,10 @@ public class ProblemStateLabellerFactory {
 
 	public ProblemStateLabeller apply(ProblemStateLabellerStrategy strategy) {
 		switch (strategy) {
-			case AS_NESTED_FRAMES :
-				return AsNestedFrames.INSTANCE;
-			default :
-				return null;
+		case AS_NESTED_FRAMES:
+			return AsNestedFrames.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

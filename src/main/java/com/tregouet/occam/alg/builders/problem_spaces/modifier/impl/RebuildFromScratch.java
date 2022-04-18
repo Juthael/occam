@@ -32,8 +32,8 @@ public class RebuildFromScratch implements ProblemSpaceModifier {
 		List<IProblemState> topoOrderedStates = new ArrayList<>();
 		new TopologicalOrderIterator<>(pbSpace.asGraph()).forEachRemaining(topoOrderedStates::add);
 		if (remove(topoOrderedStates, stateID)) {
-			Set<AProblemStateTransition> transitions =
-					ProblemSpaceModifier.getCategorizationTransitionBuilder().apply(topoOrderedStates);
+			Set<AProblemStateTransition> transitions = ProblemSpaceModifier.getCategorizationTransitionBuilder()
+					.apply(topoOrderedStates);
 			return ProblemSpaceBuilder.build(topoOrderedStates, transitions);
 		}
 		return pbSpace;
@@ -49,8 +49,8 @@ public class RebuildFromScratch implements ProblemSpaceModifier {
 				modified = true;
 		}
 		if (modified) {
-			Set<AProblemStateTransition> transitions =
-					ProblemSpaceModifier.getCategorizationTransitionBuilder().apply(topoOrderedStates);
+			Set<AProblemStateTransition> transitions = ProblemSpaceModifier.getCategorizationTransitionBuilder()
+					.apply(topoOrderedStates);
 			return ProblemSpaceBuilder.build(topoOrderedStates, transitions);
 		}
 		return pbSpace;
@@ -71,13 +71,12 @@ public class RebuildFromScratch implements ProblemSpaceModifier {
 	public IProblemSpace restrictTo(IProblemSpace pbSpace, Set<Integer> stateIDs) {
 		List<IProblemState> topoOrderedStates = new ArrayList<>();
 		new TopologicalOrderIterator<>(pbSpace.asGraph()).forEachRemaining(topoOrderedStates::add);
-		List<IProblemState> restriction = topoOrderedStates.stream()
-				.filter(s -> stateIDs.contains(s.id()))
+		List<IProblemState> restriction = topoOrderedStates.stream().filter(s -> stateIDs.contains(s.id()))
 				.collect(Collectors.toList());
 		if (topoOrderedStates.equals(restriction))
 			return pbSpace;
-		Set<AProblemStateTransition> transitions =
-				ProblemSpaceModifier.getCategorizationTransitionBuilder().apply(restriction);
+		Set<AProblemStateTransition> transitions = ProblemSpaceModifier.getCategorizationTransitionBuilder()
+				.apply(restriction);
 		return ProblemSpaceBuilder.build(restriction, transitions);
 	}
 

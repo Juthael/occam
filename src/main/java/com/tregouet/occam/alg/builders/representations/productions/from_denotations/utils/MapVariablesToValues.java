@@ -32,8 +32,7 @@ public interface MapVariablesToValues {
 				varSpan++;
 			}
 			return nextMap;
-		}
-		else {
+		} else {
 			if (valueProvider.get(srcIdx).equals(varProvider.get(targetIdx))) {
 				return continueMapping(valueProvider, varProvider, varToValue, srcIdx + 1, targetIdx + 1);
 			}
@@ -41,7 +40,7 @@ public interface MapVariablesToValues {
 		}
 	}
 
-	private static Map<AVariable, List<ISymbol>> deepCopy(Map<AVariable, List<ISymbol>> map){
+	private static Map<AVariable, List<ISymbol>> deepCopy(Map<AVariable, List<ISymbol>> map) {
 		Map<AVariable, List<ISymbol>> mapDeepCopy = new HashMap<>();
 		for (AVariable key : map.keySet()) {
 			mapDeepCopy.put(key, new ArrayList<>(map.get(key)));

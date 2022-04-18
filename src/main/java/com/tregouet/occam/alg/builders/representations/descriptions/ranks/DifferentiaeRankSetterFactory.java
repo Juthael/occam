@@ -9,12 +9,12 @@ public class DifferentiaeRankSetterFactory {
 	private DifferentiaeRankSetterFactory() {
 	}
 
-	public DifferentiaeRankSetter apply (DifferentiaeRankSetterStrategy strategy) {
+	public DifferentiaeRankSetter apply(DifferentiaeRankSetterStrategy strategy) {
 		switch (strategy) {
-			case DEPTH_FIRST :
-				return DepthFirstRankSetter.INSTANCE;
-			default :
-				return null;
+		case DEPTH_FIRST:
+			return DepthFirstRankSetter.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

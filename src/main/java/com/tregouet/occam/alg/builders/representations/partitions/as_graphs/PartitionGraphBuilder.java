@@ -8,6 +8,6 @@ import com.tregouet.tree_finder.data.Tree;
 
 @FunctionalInterface
 public interface PartitionGraphBuilder
-	extends Function<Tree<Integer, AbstractDifferentiae>, Set<Tree<Integer, AbstractDifferentiae>>> {
+		extends Function<Tree<Integer, AbstractDifferentiae>, Set<Tree<Integer, AbstractDifferentiae>>> {
 
 }

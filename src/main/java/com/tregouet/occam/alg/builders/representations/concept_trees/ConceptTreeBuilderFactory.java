@@ -10,11 +10,11 @@ public class ConceptTreeBuilderFactory {
 	}
 
 	public ConceptTreeBuilder apply(ConceptTreeBuilderStrategy strategy) {
-		switch(strategy) {
-			case UNIDIMENSIONAL_SORTING :
-				return new UnidimensionalSorting();
-			default :
-				return null;
+		switch (strategy) {
+		case UNIDIMENSIONAL_SORTING:
+			return new UnidimensionalSorting();
+		default:
+			return null;
 		}
 	}
 

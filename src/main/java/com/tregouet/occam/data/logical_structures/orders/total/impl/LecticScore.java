@@ -19,7 +19,7 @@ public class LecticScore implements IScore<LecticScore> {
 		Iterator<Double> otherIte = o.values.iterator();
 		int comparison = iterativelyCompareTo(thisIte, otherIte);
 		if (comparison == 0)
-			//for consistency with Object.equals(), which is not overloaded
+			// for consistency with Object.equals(), which is not overloaded
 			return System.identityHashCode(this) - System.identityHashCode(o);
 		return comparison;
 	}
@@ -30,7 +30,8 @@ public class LecticScore implements IScore<LecticScore> {
 				int localComparison = Double.compare(thisIte.next(), otherIte.next());
 				if (localComparison == 0)
 					return iterativelyCompareTo(thisIte, otherIte);
-				else return localComparison;
+				else
+					return localComparison;
 			}
 		}
 		if (otherIte.hasNext())
@@ -43,7 +44,7 @@ public class LecticScore implements IScore<LecticScore> {
 		StringBuilder sB = new StringBuilder();
 		sB.append("(");
 		Iterator<Double> valueIte = values.iterator();
-		while(valueIte.hasNext()) {
+		while (valueIte.hasNext()) {
 			sB.append(IScore.round(valueIte.next()));
 			if (valueIte.hasNext())
 				sB.append(" ; ");

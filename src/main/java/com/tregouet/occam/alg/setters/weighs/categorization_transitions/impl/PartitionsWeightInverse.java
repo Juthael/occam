@@ -20,7 +20,7 @@ public class PartitionsWeightInverse implements CategorizationTransitionWeigher 
 		double sumOfPartitionWeights = 0.0;
 		for (IPartition partition : transition.getPartitions())
 			sumOfPartitionWeights += partition.weight();
-		weight = 1/sumOfPartitionWeights;
+		weight = 1 / sumOfPartitionWeights;
 		transition.setWeight(weight);
 	}
 

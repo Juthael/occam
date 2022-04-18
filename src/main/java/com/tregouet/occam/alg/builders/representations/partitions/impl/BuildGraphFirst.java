@@ -33,13 +33,13 @@ public class BuildGraphFirst implements PartitionBuilder {
 	public Set<IPartition> apply(IDescription description) {
 		Tree<Integer, AbstractDifferentiae> classification = description.asGraph();
 		Set<IPartition> partitions = new HashSet<>();
-		Set<Tree<Integer, AbstractDifferentiae>> partitionsAsGraph =
-				PartitionBuilder.getPartitionGraphBuilder().apply(classification);
+		Set<Tree<Integer, AbstractDifferentiae>> partitionsAsGraph = PartitionBuilder.getPartitionGraphBuilder()
+				.apply(classification);
 		StringSchemeBuilder stringBuilder = PartitionBuilder.getPartitionStringBuilder().setUp(conceptID2ExtentIDs);
 		for (Tree<Integer, AbstractDifferentiae> partitionAsGraph : partitionsAsGraph) {
-			//set partitionAsString
+			// set partitionAsString
 			String partitionAsString = stringBuilder.apply(partitionAsGraph);
-			//set genusID and edgeIDs
+			// set genusID and edgeIDs
 			Integer genusID = null;
 			Integer[] speciesIDs;
 			List<Integer> speciesIDList = new ArrayList<>();
@@ -50,18 +50,17 @@ public class BuildGraphFirst implements PartitionBuilder {
 					speciesIDList.clear();
 					speciesIDList.add(diff.getTarget());
 					maxRank = diff.rank();
-				}
-				else if (diff.rank() == maxRank)
+				} else if (diff.rank() == maxRank)
 					if (genusID == null)
 						genusID = diff.getSource();
-					speciesIDList.add(diff.getTarget());
+				speciesIDList.add(diff.getTarget());
 			}
-			//set leaf2Extent
+			// set leaf2Extent
 			Map<Integer, List<Integer>> leaf2Extent = new HashMap<>();
 			for (Integer leafID : partitionAsGraph.getLeaves())
 				leaf2Extent.put(leafID, conceptID2ExtentIDs.get(leafID));
 			speciesIDs = IPartition.orderOverIDs(speciesIDList);
-			//instantiate
+			// instantiate
 			IPartition partition = new Partition(partitionAsGraph, partitionAsString, genusID, speciesIDs, leaf2Extent);
 			PartitionBuilder.getPartitionWeigher().accept(partition);
 			partitions.add(partition);
@@ -71,13 +70,12 @@ public class BuildGraphFirst implements PartitionBuilder {
 
 	@Override
 	public PartitionBuilder setUp(InvertedTree<IConcept, IIsA> treeOfConcepts) {
-		for(IConcept concept : treeOfConcepts) {
+		for (IConcept concept : treeOfConcepts) {
 			if (concept.type() == ConceptType.PARTICULAR)
-				conceptID2ExtentIDs.put(concept.iD(), new ArrayList<>(Arrays.asList(new Integer[] {concept.iD()})));
+				conceptID2ExtentIDs.put(concept.iD(), new ArrayList<>(Arrays.asList(new Integer[] { concept.iD() })));
 			else {
 				List<Integer> extentIDs = new ArrayList<>();
-				Set<IConcept> extent = Sets.intersection(
-						Functions.lowerSet(treeOfConcepts, concept),
+				Set<IConcept> extent = Sets.intersection(Functions.lowerSet(treeOfConcepts, concept),
 						treeOfConcepts.getLeaves());
 				for (IConcept particular : extent)
 					extentIDs.add(particular.iD());
@@ -86,7 +84,5 @@ public class BuildGraphFirst implements PartitionBuilder {
 		}
 		return this;
 	}
-
-
 
 }

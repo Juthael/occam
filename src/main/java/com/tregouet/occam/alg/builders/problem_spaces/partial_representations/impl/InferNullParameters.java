@@ -66,9 +66,11 @@ public class InferNullParameters implements PartialRepresentationLateSetter {
 
 	@Override
 	public void accept(IPartialRepresentation partialRepresentation) {
-		IRepresentationTransitionFunction transFunc = buildTransitionFunction(partialRepresentation.getRepresentationCompletions());
+		IRepresentationTransitionFunction transFunc = buildTransitionFunction(
+				partialRepresentation.getRepresentationCompletions());
 		IFactEvaluator factEvaluator = PartialRepresentationLateSetter.getfactEvaluatorBuilder().apply(transFunc);
-		InvertedTree<IConcept, IIsA> classification = buildClassification(partialRepresentation.getRepresentationCompletions());
+		InvertedTree<IConcept, IIsA> classification = buildClassification(
+				partialRepresentation.getRepresentationCompletions());
 		IDescription description = PartialRepresentationLateSetter.descriptionBuilder().apply(transFunc);
 		partialRepresentation.setClassification(classification);
 		partialRepresentation.setFactEvaluator(factEvaluator);

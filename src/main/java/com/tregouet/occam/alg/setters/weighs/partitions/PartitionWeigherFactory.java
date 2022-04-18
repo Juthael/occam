@@ -10,11 +10,11 @@ public class PartitionWeigherFactory {
 	}
 
 	public PartitionWeigher apply(PartitionWeigherStrategy strategy) {
-		switch(strategy) {
-			case SUM_PARTITION_DIFFERENTIAE :
-				return SumPartitionDifferentiae.INSTANCE;
-			default :
-				return null;
+		switch (strategy) {
+		case SUM_PARTITION_DIFFERENTIAE:
+			return SumPartitionDifferentiae.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

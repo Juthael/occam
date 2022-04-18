@@ -20,8 +20,8 @@ public class DeferredMatricesInstantiation implements SimilarityMetricsBuilder {
 	@Override
 	public ISimilarityMetrics apply(Tree<Integer, AbstractDifferentiae> descriptionTree) {
 		List<Integer> topologicalOrder = descriptionTree.getTopologicalOrder();
-		TreeSet<Integer> particulars =
-				new TreeSet<>((e1, e2) -> topologicalOrder.indexOf(e1) - topologicalOrder.indexOf(e2));
+		TreeSet<Integer> particulars = new TreeSet<>(
+				(e1, e2) -> topologicalOrder.indexOf(e1) - topologicalOrder.indexOf(e2));
 		particulars.addAll(descriptionTree.getLeaves());
 		int nbOfParticulars = particulars.size();
 		int[] particularArray = new int[nbOfParticulars];
@@ -29,9 +29,7 @@ public class DeferredMatricesInstantiation implements SimilarityMetricsBuilder {
 		Iterator<Integer> particularIte = particulars.iterator();
 		while (particularIte.hasNext())
 			particularArray[arrayIdx++] = particularIte.next();
-		return new SimilarityMetrics(
-				particularArray,
-				SimilarityMetricsBuilder.pairSimilarityScorer(),
+		return new SimilarityMetrics(particularArray, SimilarityMetricsBuilder.pairSimilarityScorer(),
 				SimilarityMetricsBuilder.asymmetricalSimilarityScorer());
 	}
 

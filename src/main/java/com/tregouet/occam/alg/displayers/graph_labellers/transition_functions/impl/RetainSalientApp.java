@@ -12,15 +12,13 @@ public class RetainSalientApp extends AbstractTFLabeller implements TransitionFu
 
 	@Override
 	protected Set<IConceptTransition> filter(Set<IConceptTransition> transitions) {
-		return transitions.stream()
-				.filter(t -> isASalientApplication(t))
-				.collect(Collectors.toSet());
+		return transitions.stream().filter(t -> isASalientApplication(t)).collect(Collectors.toSet());
 	}
 
 	private boolean isASalientApplication(IConceptTransition transition) {
-		if ((transition.type() == TransitionType.APPLICATION
-				&& (transition.getSalience() == Salience.COMMON_FEATURE
-					|| transition.getSalience() == Salience.TRANSITION_RULE)) || (transition.type() == TransitionType.INITIAL))
+		if ((transition.type() == TransitionType.APPLICATION && (transition.getSalience() == Salience.COMMON_FEATURE
+				|| transition.getSalience() == Salience.TRANSITION_RULE))
+				|| (transition.type() == TransitionType.INITIAL))
 			return true;
 		return false;
 	}

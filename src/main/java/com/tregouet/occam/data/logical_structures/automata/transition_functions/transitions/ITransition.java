@@ -8,18 +8,14 @@ import com.tregouet.occam.data.logical_structures.automata.transition_functions.
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.output_config.IOutputInternConfiguration;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
-public interface ITransition<
-	InputSymbol extends ISymbol,
-	InputConfig extends IInputConfiguration<InputSymbol>,
-	OutputConfig extends IOutputInternConfiguration
-	> {
+public interface ITransition<InputSymbol extends ISymbol, InputConfig extends IInputConfiguration<InputSymbol>, OutputConfig extends IOutputInternConfiguration> {
 
 	StringBuilder prime = new StringBuilder();
 	ListIterator<Character> charIte = populateCharList().listIterator();
 
 	private static char getNextChar() {
 		if (!charIte.hasNext()) {
-			while(charIte.hasPrevious())
+			while (charIte.hasPrevious())
 				charIte.previous();
 			prime.append("'");
 		}
@@ -32,9 +28,9 @@ public interface ITransition<
 		prime.setLength(0);
 	}
 
-	private static List<Character> populateCharList(){
+	private static List<Character> populateCharList() {
 		List<Character> authorizedCharASCII = new ArrayList<>();
-		for (char curr = 'A' ; curr <= 'Z' ; curr++) {
+		for (char curr = 'A'; curr <= 'Z'; curr++) {
 			authorizedCharASCII.add(curr);
 		}
 		return authorizedCharASCII;

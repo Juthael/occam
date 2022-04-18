@@ -28,12 +28,11 @@ public class RecursiveFraming implements StringSchemeBuilder {
 	private String doFrame(Integer frameConceptID) {
 		if (partitionGraph.outDegreeOf(frameConceptID) == 0) {
 			return "(" + getConceptExtensionAsString(frameConceptID) + ")";
-		}
-		else {
+		} else {
 			StringBuilder sB = new StringBuilder();
 			sB.append("(");
-			Integer[] orderedSubConcepts =
-					IPartition.orderOverIDs(Graphs.successorListOf(partitionGraph, frameConceptID));
+			Integer[] orderedSubConcepts = IPartition
+					.orderOverIDs(Graphs.successorListOf(partitionGraph, frameConceptID));
 			for (Integer subconcept : orderedSubConcepts)
 				sB.append(doFrame(subconcept));
 			sB.append(")");
@@ -43,14 +42,14 @@ public class RecursiveFraming implements StringSchemeBuilder {
 
 	private String getConceptExtensionAsString(Integer conceptID) {
 		if (conceptID2ExtentIDs == null)
-			//then the arg given to apply() must be the graph of a complete representation
+			// then the arg given to apply() must be the graph of a complete representation
 			return conceptID.toString();
 		List<Integer> extentIDs = conceptID2ExtentIDs.get(conceptID);
 		int extentSize = extentIDs.size();
 		if (extentSize == 1)
 			return extentIDs.get(0).toString();
 		StringBuilder sB = new StringBuilder();
-		for (int i = 0 ; i < extentSize ; i++) {
+		for (int i = 0; i < extentSize; i++) {
 			sB.append(extentIDs.get(i));
 			if (i < extentSize - 1)
 				sB.append(", ");

@@ -15,17 +15,10 @@ import com.tregouet.occam.data.representations.transitions.productions.impl.Cont
 public class InitialTransition extends ConceptTransition implements IConceptTransition {
 
 	public InitialTransition(Everything everything) {
-		super(
-				new ConceptTransitionIC(
-						WhatIsThere.INSTANCE.iD(),
-						new ContextualizedEpsilonProd(null, null),
-						Nothing.INSTANCE),
-				new ConceptTransitionOIC(
-						everything.iD(),
-						new ArrayList<>(
-								Arrays.asList(
-										new AVariable[] {Nothing.INSTANCE, This.INSTANCE})))
-		);
+		super(new ConceptTransitionIC(WhatIsThere.INSTANCE.iD(), new ContextualizedEpsilonProd(null, null),
+				Nothing.INSTANCE),
+				new ConceptTransitionOIC(everything.iD(),
+						new ArrayList<>(Arrays.asList(new AVariable[] { Nothing.INSTANCE, This.INSTANCE }))));
 	}
 
 	@Override

@@ -53,32 +53,31 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 		IConcept truism = null;
 		IConcept absurdity = null;
 		for (IConcept concept : lattice.vertexSet()) {
-			switch(concept.type()) {
-				case TRUISM :
-					truism = concept;
-					break;
-				case ABSURDITY :
-					absurdity = concept;
-					break;
-				case PARTICULAR :
-					particulars.set(this.objects.indexOf(concept.getExtent().iterator().next()), concept);
-					break;
-				default :
-					break;
+			switch (concept.type()) {
+			case TRUISM:
+				truism = concept;
+				break;
+			case ABSURDITY:
+				absurdity = concept;
+				break;
+			case PARTICULAR:
+				particulars.set(this.objects.indexOf(concept.getExtent().iterator().next()), concept);
+				break;
+			default:
+				break;
 			}
 		}
 		this.truism = truism;
 		this.absurdity = absurdity;
 		ontologicalCommitment = new Everything(new HashSet<>(objects));
 		@SuppressWarnings("unchecked")
-		DirectedAcyclicGraph<IConcept, IIsA> upperSemilattice =
-				(DirectedAcyclicGraph<IConcept, IIsA>) lattice.clone();
+		DirectedAcyclicGraph<IConcept, IIsA> upperSemilattice = (DirectedAcyclicGraph<IConcept, IIsA>) lattice.clone();
 		upperSemilattice.removeVertex(absurdity);
 		TransitiveReduction.INSTANCE.reduce(upperSemilattice);
 		topologicalOrder = new ArrayList<>();
 		new TopologicalOrderIterator<>(upperSemilattice).forEachRemaining(topologicalOrder::add);
-		this.invertedUpperSemilattice =
-				new InvertedUpperSemilattice<>(upperSemilattice, truism, new HashSet<>(particulars), topologicalOrder);
+		this.invertedUpperSemilattice = new InvertedUpperSemilattice<>(upperSemilattice, truism,
+				new HashSet<>(particulars), topologicalOrder);
 		this.invertedUpperSemilattice.addAsNewRoot(ontologicalCommitment, true);
 		markRedundantDenotationsOfUSLConcepts();
 		return output();
@@ -100,10 +99,11 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 			}
 			if (denotatingConstructsToExtents.containsKey(denotatingConstructs))
 				denotatingConstructsToExtents.get(denotatingConstructs).addAll(subset);
-			else denotatingConstructsToExtents.put(denotatingConstructs, subset);
+			else
+				denotatingConstructsToExtents.put(denotatingConstructs, subset);
 		}
-		denotatingConstructsToExtents =
-				replaceEqualConstructsByUniqueInstanceAndNameVariables(denotatingConstructsToExtents);
+		denotatingConstructsToExtents = replaceEqualConstructsByUniqueInstanceAndNameVariables(
+				denotatingConstructsToExtents);
 		return denotatingConstructsToExtents;
 	}
 
@@ -116,20 +116,18 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 					concept.setType(ConceptType.PARTICULAR);
 				else if (concept.getExtent().size() == objects.size()) {
 					concept.setType(ConceptType.TRUISM);
-				}
-				else {
+				} else {
 					concept.setType(ConceptType.UNIVERSAL);
 				}
-			}
-			else {
+			} else {
 				concept.setType(ConceptType.ABSURDITY);
 			}
 			lattice.addVertex(concept);
 		}
 		List<IConcept> denotSetList = new ArrayList<>(lattice.vertexSet());
-		for (int i = 0 ; i < denotSetList.size() - 1 ; i++) {
+		for (int i = 0; i < denotSetList.size() - 1; i++) {
 			IConcept iDenotSet = denotSetList.get(i);
-			for (int j = i+1 ; j < denotSetList.size() ; j++) {
+			for (int j = i + 1; j < denotSetList.size(); j++) {
 				IConcept jDenotSet = denotSetList.get(j);
 				if (iDenotSet.getExtent().containsAll(jDenotSet.getExtent()))
 					lattice.addEdge(jDenotSet, iDenotSet);
@@ -140,16 +138,16 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 	}
 
 	private Set<Set<IContextObject>> buildObjectsPowerSet() {
-	    Set<Set<IContextObject>> powerSet = new HashSet<>();
-	    for (int i = 0; i < (1 << objects.size()); i++) {
-	    	Set<IContextObject> subset = new HashSet<>();
-	        for (int j = 0; j < objects.size(); j++) {
-	            if(((1 << j) & i) > 0)
-	            	subset.add(objects.get(j));
-	        }
-	        powerSet.add(subset);
-	    }
-	    return powerSet;
+		Set<Set<IContextObject>> powerSet = new HashSet<>();
+		for (int i = 0; i < (1 << objects.size()); i++) {
+			Set<IContextObject> subset = new HashSet<>();
+			for (int j = 0; j < objects.size(); j++) {
+				if (((1 << j) & i) > 0)
+					subset.add(objects.get(j));
+			}
+			powerSet.add(subset);
+		}
+		return powerSet;
 	}
 
 	private void markRedundantDenotationsOfUSLConcepts() {
@@ -159,22 +157,20 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 	}
 
 	private IConceptLattice output() {
-		return new ConceptLattice(
-				objects, lattice, invertedUpperSemilattice, topologicalOrder, ontologicalCommitment, truism,
-				particulars, absurdity);
+		return new ConceptLattice(objects, lattice, invertedUpperSemilattice, topologicalOrder, ontologicalCommitment,
+				truism, particulars, absurdity);
 	}
 
 	private Map<Set<IConstruct>, Set<IContextObject>> replaceEqualConstructsByUniqueInstanceAndNameVariables(
 			Map<Set<IConstruct>, Set<IContextObject>> denotatingConstructsToExtents) {
-		//reset variable name provider
+		// reset variable name provider
 		AVariable.resetVarNaming();
 		/*
-		 * Build a map such that all equal constructs will return the same construct instance
-		 * (that will therefore be the reference instance).
+		 * Build a map such that all equal constructs will return the same construct
+		 * instance (that will therefore be the reference instance).
 		 */
 		int nbOfMappings = denotatingConstructsToExtents.size();
-		Map<Set<IConstruct>, Set<IContextObject>> paramCopyWithRefInstancesAndNamedVars
-			= new HashMap<>(nbOfMappings);
+		Map<Set<IConstruct>, Set<IContextObject>> paramCopyWithRefInstancesAndNamedVars = new HashMap<>(nbOfMappings);
 		Map<IConstruct, IConstruct> constructToRefInstance = new HashMap<>();
 		for (Set<IConstruct> constructSet : denotatingConstructsToExtents.keySet()) {
 			for (IConstruct construct : constructSet) {
@@ -184,9 +180,9 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 			}
 		}
 		/*
-		 * Build a copy of the parameter map with reference construct instances only in values,
-		 * and real variable names in constructs instead of placeholders.
-		 * Must use transitory collections not based on hash tables, since variable naming
+		 * Build a copy of the parameter map with reference construct instances only in
+		 * values, and real variable names in constructs instead of placeholders. Must
+		 * use transitory collections not based on hash tables, since variable naming
 		 * will modify hashcodes.
 		 */
 		List<List<IConstruct>> setsOfReferenceConstrInstances = new ArrayList<>();
@@ -199,16 +195,16 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 			setsOfReferenceConstrInstances.add(withReferenceInstances);
 			listOfExtents.add(entry.getValue());
 		}
-		//name variable, using side effects
+		// name variable, using side effects
 		for (IConstruct refInstance : constructToRefInstance.values())
 			refInstance.nameVariables();
 		/*
-		 * Populate the returned map with reference construct instances, whose
-		 * variables now have a name.
+		 * Populate the returned map with reference construct instances, whose variables
+		 * now have a name.
 		 */
-		for (int i = 0 ; i < setsOfReferenceConstrInstances.size() ; i++) {
-			paramCopyWithRefInstancesAndNamedVars.put(
-					new HashSet<>(setsOfReferenceConstrInstances.get(i)), listOfExtents.get(i));
+		for (int i = 0; i < setsOfReferenceConstrInstances.size(); i++) {
+			paramCopyWithRefInstancesAndNamedVars.put(new HashSet<>(setsOfReferenceConstrInstances.get(i)),
+					listOfExtents.get(i));
 		}
 		return paramCopyWithRefInstancesAndNamedVars;
 	}

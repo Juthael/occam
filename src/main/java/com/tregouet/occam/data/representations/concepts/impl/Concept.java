@@ -30,7 +30,8 @@ public class Concept implements IConcept {
 		this.extent = extent;
 		if (extent.size() == 1)
 			iD = extent.iterator().next().getID();
-		else iD = nextID++;
+		else
+			iD = nextID++;
 	}
 
 	public Concept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent, int iD) {
@@ -81,21 +82,23 @@ public class Concept implements IConcept {
 
 	/**
 	 * If many attributes meet the constraint, returns the first found.
+	 * 
 	 * @throws PropertyTargetingException
 	 */
 	@Override
 	public IDenotation getMatchingDenotation(List<String> constraintAsStrings) throws IOException {
 		IDenotation matchingDenotation = null;
-		IConstruct constraintAsConstruct =
-				new Construct(constraintAsStrings.toArray(new String[constraintAsStrings.size()]));
+		IConstruct constraintAsConstruct = new Construct(
+				constraintAsStrings.toArray(new String[constraintAsStrings.size()]));
 		Iterator<IDenotation> denotationIte = getDenotations().iterator();
 		while (denotationIte.hasNext()) {
 			IDenotation currDenotation = denotationIte.next();
 			if (currDenotation.meets(constraintAsConstruct)) {
 				if (matchingDenotation == null)
 					matchingDenotation = currDenotation;
-				else throw new IOException("AbstractDenotationSet.getMatchingDenotation(List<String>) : "
-						+ "the constraint is not specific enough to target a single attribute.");
+				else
+					throw new IOException("AbstractDenotationSet.getMatchingDenotation(List<String>) : "
+							+ "the constraint is not specific enough to target a single attribute.");
 			}
 		}
 		return matchingDenotation;

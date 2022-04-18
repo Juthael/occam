@@ -11,10 +11,10 @@ public class DifferentiaeLabellerFactory {
 
 	public DifferentiaeLabeller apply(DifferentiaeLabellerStrategy strategy) {
 		switch (strategy) {
-			case PROPERTIES_THEN_WEIGHT:
-				return PropertiesThenWeight.INSTANCE;
-			default :
-				return null;
+		case PROPERTIES_THEN_WEIGHT:
+			return PropertiesThenWeight.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

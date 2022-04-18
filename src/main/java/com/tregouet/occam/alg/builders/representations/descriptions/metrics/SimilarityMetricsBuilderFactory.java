@@ -11,10 +11,10 @@ public class SimilarityMetricsBuilderFactory {
 
 	public SimilarityMetricsBuilder apply(SimilarityMetricsBuilderStrategy strategy) {
 		switch (strategy) {
-			case DEFERRED_MATRICES_INSTANTIATION :
-				return DeferredMatricesInstantiation.INSTANCE;
-			default :
-				return null;
+		case DEFERRED_MATRICES_INSTANTIATION:
+			return DeferredMatricesInstantiation.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

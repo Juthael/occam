@@ -40,50 +40,45 @@ import it.unimi.dsi.fastutil.ints.IntIntPair;
 
 public abstract class AbstractTransFuncBuilder implements RepresentationTransFuncBuilder {
 
-
-	private static Set<IConceptTransition> buildApplicationsAndClosedInheritancesFrom(InvertedTree<IConcept, IIsA> treeOfConcepts,
-			Set<IContextualizedProduction> unfilteredUnreducedProds) {
+	private static Set<IConceptTransition> buildApplicationsAndClosedInheritancesFrom(
+			InvertedTree<IConcept, IIsA> treeOfConcepts, Set<IContextualizedProduction> unfilteredUnreducedProds) {
 		Set<IContextualizedProduction> mutableUnfilteredUnreduced = new HashSet<>(unfilteredUnreducedProds);
-		Set<IContextualizedProduction> filteredProds =
-				filterProductionsWithTree(mutableUnfilteredUnreduced, treeOfConcepts);
+		Set<IContextualizedProduction> filteredProds = filterProductionsWithTree(mutableUnfilteredUnreduced,
+				treeOfConcepts);
 		Set<IContextualizedProduction> filteredReducedProds = transitiveReduction(filteredProds);
 		Set<IConceptTransition> transitions = new HashSet<>();
 		Map<Integer, Integer> conceptToSuccessorIDs = new HashMap<>();
 		IConcept root = treeOfConcepts.getRoot();
 		for (IConcept concept : treeOfConcepts.vertexSet()) {
 			if (!concept.equals(root)) {
-				conceptToSuccessorIDs.put(
-						concept.iD(),
-						Graphs.successorListOf(treeOfConcepts, concept).get(0).iD());
+				conceptToSuccessorIDs.put(concept.iD(), Graphs.successorListOf(treeOfConcepts, concept).get(0).iD());
 			}
 		}
 		for (IContextualizedProduction production : filteredReducedProds) {
 			int outputStateID = production.getSpecies().iD();
 			int inputStateID = conceptToSuccessorIDs.get(outputStateID);
 			if (production.isEpsilon())
-				transitions.add(new InheritanceTransition(inputStateID, outputStateID, (ContextualizedEpsilonProd) production));
+				transitions.add(
+						new InheritanceTransition(inputStateID, outputStateID, (ContextualizedEpsilonProd) production));
 			else {
 				AVariable poppedStackSymbol = production.getVariable();
 				IConceptTransitionIC inputConfig = new ConceptTransitionIC(inputStateID, production, poppedStackSymbol);
 				List<AVariable> pushedStackSymbols = production.getValue().getVariables();
 				for (AVariable pushedStackSymbol : pushedStackSymbols) {
-					IConceptTransitionOIC outputConfig =
-							new ConceptTransitionOIC(
-									outputStateID,
-									new ArrayList<>(Arrays.asList(new AVariable[] {pushedStackSymbol})));
+					IConceptTransitionOIC outputConfig = new ConceptTransitionOIC(outputStateID,
+							new ArrayList<>(Arrays.asList(new AVariable[] { pushedStackSymbol })));
 					transitions.add(new Application(inputConfig, outputConfig));
 				}
 			}
 		}
 		return transitions;
 	}
+
 	private static Set<IConceptTransition> buildClosuresFrom(Set<IConceptTransition> applications) {
 		Set<IConceptTransition> closures = new HashSet<>();
 		for (IConceptTransition application : applications)
-			closures.add(
-					new ClosureTransition(
-							application.getInputConfiguration(),
-							application.getOutputInternConfiguration().getOutputStateID()));
+			closures.add(new ClosureTransition(application.getInputConfiguration(),
+					application.getOutputInternConfiguration().getOutputStateID()));
 		return closures;
 	}
 
@@ -92,11 +87,13 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		return new InitialTransition(everything);
 	}
 
-	private static Set<IConceptTransition> buildSpontaneousTransitionsFrom(InvertedTree<IConcept, IIsA> treeOfConcepts) {
+	private static Set<IConceptTransition> buildSpontaneousTransitionsFrom(
+			InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		Set<IConceptTransition> spontaneousTransitions = new HashSet<>();
 		IConcept root = treeOfConcepts.getRoot();
 		for (IntIntPair genusToSpeciesID : getGenusToSpeciesIDs(root, treeOfConcepts)) {
-			spontaneousTransitions.add(new SpontaneousTransition(genusToSpeciesID.firstInt(), genusToSpeciesID.secondInt()));
+			spontaneousTransitions
+					.add(new SpontaneousTransition(genusToSpeciesID.firstInt(), genusToSpeciesID.secondInt()));
 		}
 		return spontaneousTransitions;
 	}
@@ -105,13 +102,13 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		Set<IConceptTransition> unclosedInheritances = new HashSet<>();
 		IConcept root = treeOfConcepts.getRoot();
 		for (IntIntPair genusToSpeciesID : getGenusToSpeciesIDs(root, treeOfConcepts)) {
-			unclosedInheritances.add(new InheritanceTransition(genusToSpeciesID.firstInt(), genusToSpeciesID.secondInt()));
+			unclosedInheritances
+					.add(new InheritanceTransition(genusToSpeciesID.firstInt(), genusToSpeciesID.secondInt()));
 		}
 		return unclosedInheritances;
 	}
 
-	private static Set<IContextualizedProduction> filterProductionsWithTree(
-			Set<IContextualizedProduction> unfiltered,
+	private static Set<IContextualizedProduction> filterProductionsWithTree(Set<IContextualizedProduction> unfiltered,
 			InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		Set<IContextualizedProduction> filtered = new HashSet<>();
 		for (IContextualizedProduction production : unfiltered) {
@@ -132,8 +129,9 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		return genusToSpeciesIDs;
 	}
 
-	private static Set<IContextualizedProduction> transitiveReduction(Set<IContextualizedProduction> unreduced){
-		DirectedAcyclicGraph<IDenotation, IContextualizedProduction> prodGraph = new DirectedAcyclicGraph<>(null, null, false);
+	private static Set<IContextualizedProduction> transitiveReduction(Set<IContextualizedProduction> unreduced) {
+		DirectedAcyclicGraph<IDenotation, IContextualizedProduction> prodGraph = new DirectedAcyclicGraph<>(null, null,
+				false);
 		for (IContextualizedProduction prod : unreduced) {
 			IDenotation source = prod.getSource();
 			IDenotation target = prod.getTarget();
@@ -163,25 +161,26 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 	abstract protected Set<IConceptTransition> filter(Set<IConceptTransition> transitions);
 
 	private IRepresentationTransitionFunction output() {
-		//declare TF constructor parameters
+		// declare TF constructor parameters
 		IConceptTransition initial;
 		Set<IConceptTransition> applications = new HashSet<>();
 		Set<IConceptTransition> closures;
 		Set<IConceptTransition> inheritances = new HashSet<>();
 		Set<IConceptTransition> spontaneous;
-		//build
+		// build
 		initial = buildInitialTransition(treeOfConcepts);
-		Set<IConceptTransition> appAndClosedInheritances =
-				buildApplicationsAndClosedInheritancesFrom(treeOfConcepts, unfilteredUnreducedProds);
+		Set<IConceptTransition> appAndClosedInheritances = buildApplicationsAndClosedInheritancesFrom(treeOfConcepts,
+				unfilteredUnreducedProds);
 		for (IConceptTransition transition : appAndClosedInheritances) {
 			if (transition.type() == TransitionType.APPLICATION)
 				applications.add(transition);
-			else inheritances.add(transition);
+			else
+				inheritances.add(transition);
 		}
 		closures = buildClosuresFrom(applications);
 		inheritances.addAll(buildUnclosedInheritancesFrom(treeOfConcepts));
 		spontaneous = buildSpontaneousTransitionsFrom(treeOfConcepts);
-		//set saliences
+		// set saliences
 		Set<IConceptTransition> transitions = new HashSet<>();
 		transitions.add(initial);
 		transitions.addAll(applications);
@@ -189,7 +188,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		transitions.addAll(inheritances);
 		transitions.addAll(spontaneous);
 		RepresentationTransFuncBuilder.transitionSalienceSetter().accept(transitions);
-		//return
+		// return
 		return new RepresentationTransitionFunction(transitions);
 	}
 

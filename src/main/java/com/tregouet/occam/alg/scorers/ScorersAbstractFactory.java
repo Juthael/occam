@@ -45,13 +45,13 @@ public class ScorersAbstractFactory {
 
 	public void setUpStrategy(ScoringStrategy overallStrategy) {
 		switch (overallStrategy) {
-			case SCORING_STRATEGY_1 :
-				similarityScorerStrategy = SimilarityScorerStrategy.DYNAMIC_FRAMING;
-				representationScorerStrategy = RepresentationScorerStrategy.LECTIC_COMPARISON_OF_RANKS;
-				problemStateScorerStrategy = ProblemStateScorerStrategy.MARKHOV_PROCESS;
-				break;
-			default :
-				break;
+		case SCORING_STRATEGY_1:
+			similarityScorerStrategy = SimilarityScorerStrategy.DYNAMIC_FRAMING;
+			representationScorerStrategy = RepresentationScorerStrategy.LECTIC_COMPARISON_OF_RANKS;
+			problemStateScorerStrategy = ProblemStateScorerStrategy.MARKHOV_PROCESS;
+			break;
+		default:
+			break;
 		}
 	}
 

@@ -11,10 +11,10 @@ public class PartitionBuilderFactory {
 
 	public PartitionBuilder apply(PartitionBuilderStrategy strategy) {
 		switch (strategy) {
-			case BUILD_GRAPH_FIRST :
-				return new BuildGraphFirst();
-			default :
-				return null;
+		case BUILD_GRAPH_FIRST:
+			return new BuildGraphFirst();
+		default:
+			return null;
 		}
 	}
 

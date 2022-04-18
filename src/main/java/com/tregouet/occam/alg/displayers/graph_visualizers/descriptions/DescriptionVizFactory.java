@@ -11,10 +11,10 @@ public class DescriptionVizFactory {
 
 	public DescriptionViz apply(DescriptionVizStrategy strategy) {
 		switch (strategy) {
-			case BASIC :
-				return BasicDescriptionViz.INSTANCE;
-			default :
-				return null;
+		case BASIC:
+			return BasicDescriptionViz.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

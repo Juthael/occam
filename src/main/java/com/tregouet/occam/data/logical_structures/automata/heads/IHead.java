@@ -10,16 +10,7 @@ import com.tregouet.occam.data.logical_structures.automata.transition_functions.
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.words.IWord;
 
-public interface IHead<
-	TransFunc extends ITransitionFunction<InputSymbol, InputConfig, OutputConfig, Transition>,
-	TapeSet extends ITapeSet<InputSymbol, TapeSet>,
-	InputSymbol extends ISymbol,
-	Word extends IWord<InputSymbol>,
-	InputConfig extends IInputConfiguration<InputSymbol>,
-	OutputConfig extends IOutputInternConfiguration,
-	Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>,
-	Head extends IHead<TransFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head>
-	>{
+public interface IHead<TransFunc extends ITransitionFunction<InputSymbol, InputConfig, OutputConfig, Transition>, TapeSet extends ITapeSet<InputSymbol, TapeSet>, InputSymbol extends ISymbol, Word extends IWord<InputSymbol>, InputConfig extends IInputConfiguration<InputSymbol>, OutputConfig extends IOutputInternConfiguration, Transition extends ITransition<InputSymbol, InputConfig, OutputConfig>, Head extends IHead<TransFunc, TapeSet, InputSymbol, Word, InputConfig, OutputConfig, Transition, Head>> {
 
 	boolean accepts();
 

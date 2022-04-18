@@ -33,7 +33,6 @@ public class UnidimensionalSorting extends AbstractConceptTreeBuilder implements
 		return output();
 	}
 
-
 	private Set<InvertedTree<IConcept, IIsA>> output() {
 		Set<InvertedTree<IConcept, IIsA>> commitedTrees = new HashSet<>();
 		while (conceptSorter.hasNext())

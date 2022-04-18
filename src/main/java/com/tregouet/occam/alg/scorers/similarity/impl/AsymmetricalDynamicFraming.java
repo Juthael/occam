@@ -11,7 +11,7 @@ import com.tregouet.occam.data.representations.descriptions.metrics.subsets.ICon
 import com.tregouet.tree_finder.utils.Functions;
 
 public class AsymmetricalDynamicFraming extends AbstractSimilarityScorer<IConceptPairIDs>
-	implements AsymmetricalSimilarityScorer {
+		implements AsymmetricalSimilarityScorer {
 
 	public AsymmetricalDynamicFraming() {
 	}
@@ -32,8 +32,7 @@ public class AsymmetricalDynamicFraming extends AbstractSimilarityScorer<IConcep
 		Iterator<Integer> genusSuccessorIte = Graphs.successorListOf(classificationTree, genusID).iterator();
 		while (targetAsGenusSpeciesID == null && genusSuccessorIte.hasNext()) {
 			Integer nextSuccessor = genusSuccessorIte.next();
-			if (nextSuccessor == targetID
-					|| classificationTree.getDescendants(nextSuccessor).contains(targetID)) {
+			if (nextSuccessor == targetID || classificationTree.getDescendants(nextSuccessor).contains(targetID)) {
 				targetAsGenusSpeciesID = nextSuccessor;
 			}
 		}

@@ -24,7 +24,7 @@ public class FigurePrinter {
 		String alineaa = alinea + "   ";
 		sB.append(alinea + "<figure>" + NL);
 		sB.append(alineaa + "<img src = \"" + "file:///" + folderPath + "\\" + fileName + "\" alt = " + fileName + ">"
-			+ NL);
+				+ NL);
 		sB.append(alineaa + "<figcaption>" + caption + "</figcaption>" + NL);
 		sB.append(alinea + "</figure>" + NL);
 		return sB.toString();

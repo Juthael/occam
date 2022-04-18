@@ -16,7 +16,7 @@ public class ContextPrinter {
 		String[] head = new String[context.size()];
 		String[] optionalSubhead = (context.get(0).getName() == null ? null : new String[context.size()]);
 		String[] body = new String[context.size()];
-		for(int i = 0 ; i < context.size() ; i++) {
+		for (int i = 0; i < context.size(); i++) {
 			IContextObject obj = context.get(i);
 			head[i] = Integer.toString(obj.getID());
 			if (optionalSubhead != null)

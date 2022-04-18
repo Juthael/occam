@@ -16,16 +16,13 @@ public class SalienceAwareFEBuilder implements FactEvaluatorBuilder {
 
 	public static final SalienceAwareFEBuilder INSTANCE = new SalienceAwareFEBuilder();
 
-	private static Set<IConceptTransition> filter(Set<IConceptTransition> transitions){
-		return transitions.stream()
-				.filter(t -> !isANonSalientApplication(t))
-				.collect(Collectors.toSet());
+	private static Set<IConceptTransition> filter(Set<IConceptTransition> transitions) {
+		return transitions.stream().filter(t -> !isANonSalientApplication(t)).collect(Collectors.toSet());
 	}
 
 	private static boolean isANonSalientApplication(IConceptTransition transition) {
 		if (transition.type() == TransitionType.APPLICATION
-				&& (transition.getSalience() == Salience.HIDDEN
-					|| transition.getSalience() == Salience.REDUNDANT))
+				&& (transition.getSalience() == Salience.HIDDEN || transition.getSalience() == Salience.REDUNDANT))
 			return true;
 		return false;
 	}
@@ -36,8 +33,8 @@ public class SalienceAwareFEBuilder implements FactEvaluatorBuilder {
 	@Override
 	public IFactEvaluator apply(IRepresentationTransitionFunction transitionFunction) {
 		IFactEvaluator factEvaluator = new FactEvaluator();
-		IRepresentationTransitionFunction filteredtransFunc =
-				new RepresentationTransitionFunction(filter(transitionFunction.getTransitions()));
+		IRepresentationTransitionFunction filteredtransFunc = new RepresentationTransitionFunction(
+				filter(transitionFunction.getTransitions()));
 		factEvaluator.set(filteredtransFunc);
 		return factEvaluator;
 	}

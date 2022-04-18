@@ -22,7 +22,9 @@ public class Production implements IProduction {
 	}
 
 	/**
-	 * Given as an example to show what a Production is meant to be. No real utility.
+	 * Given as an example to show what a Production is meant to be. No real
+	 * utility.
+	 * 
 	 * @param construct
 	 * @return
 	 */
@@ -31,7 +33,8 @@ public class Production implements IProduction {
 		for (ISymbol symbol : construct.asList()) {
 			if (symbol.equals(variable))
 				returned.addAll(value.asList());
-			else returned.add(symbol);
+			else
+				returned.add(symbol);
 		}
 		return new Construct(returned);
 	}
@@ -42,7 +45,9 @@ public class Production implements IProduction {
 	}
 
 	/**
-	 * Given as an example to show what a Production is meant to be. No real utility.
+	 * Given as an example to show what a Production is meant to be. No real
+	 * utility.
+	 * 
 	 * @param construct
 	 * @return
 	 */
@@ -58,13 +63,11 @@ public class Production implements IProduction {
 				if (valueIdx == valueList.size() - 1) {
 					returned.add(variable);
 					constructIte.forEachRemaining(s -> returned.add(s));
-				}
-				else {
+				} else {
 					buffer.add(nextSymbol);
 					valueIdx++;
 				}
-			}
-			else {
+			} else {
 				if (!buffer.isEmpty()) {
 					returned.addAll(buffer);
 					buffer.clear();

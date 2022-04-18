@@ -25,15 +25,9 @@ public class ConceptLattice implements IConceptLattice {
 	private final List<IConcept> particulars;
 	private final IConcept absurdity;
 
-	public ConceptLattice(
-			List<IContextObject> objects,
-			DirectedAcyclicGraph<IConcept, IIsA> lattice,
-			InvertedUpperSemilattice<IConcept, IIsA> upperSemilattice,
-			List<IConcept> topologicalOrder,
-			IConcept ontologicalCommitment,
-			IConcept truism,
-			List<IConcept> particulars,
-			IConcept absurdity) {
+	public ConceptLattice(List<IContextObject> objects, DirectedAcyclicGraph<IConcept, IIsA> lattice,
+			InvertedUpperSemilattice<IConcept, IIsA> upperSemilattice, List<IConcept> topologicalOrder,
+			IConcept ontologicalCommitment, IConcept truism, List<IConcept> particulars, IConcept absurdity) {
 		this.objects = objects;
 		this.lattice = lattice;
 		this.invertedUpperSemilattice = upperSemilattice;
@@ -135,8 +129,8 @@ public class ConceptLattice implements IConceptLattice {
 	public boolean isA(IConcept denotationSet1, IConcept denotationSet2) {
 		boolean isA = false;
 		if (topologicalOrder.indexOf(denotationSet1) < topologicalOrder.indexOf(denotationSet2)) {
-			BreadthFirstIterator<IConcept, IIsA> iterator =
-					new BreadthFirstIterator<>(invertedUpperSemilattice, denotationSet1);
+			BreadthFirstIterator<IConcept, IIsA> iterator = new BreadthFirstIterator<>(invertedUpperSemilattice,
+					denotationSet1);
 			iterator.next();
 			while (!isA && iterator.hasNext())
 				isA = denotationSet2.equals(iterator.next());
@@ -151,9 +145,9 @@ public class ConceptLattice implements IConceptLattice {
 
 	private List<IConcept> removeSubCategories(Set<IConcept> concepts) {
 		List<IConcept> denotSetList = new ArrayList<>(concepts);
-		for (int i = 0 ; i < denotSetList.size() - 1 ; i++) {
+		for (int i = 0; i < denotSetList.size() - 1; i++) {
 			IConcept iDenotSet = denotSetList.get(i);
-			for (int j = i+1 ; j < denotSetList.size() ; j++) {
+			for (int j = i + 1; j < denotSetList.size(); j++) {
 				IConcept jDenotSet = denotSetList.get(j);
 				if (isA(iDenotSet, jDenotSet))
 					concepts.remove(iDenotSet);

@@ -10,11 +10,11 @@ public class PartitionGraphBuilderFactory {
 	}
 
 	public PartitionGraphBuilder apply(PartitionGraphBuilderStrategy strategy) {
-		switch(strategy) {
-			case RECURSIVE_FORK_EXPLORATION :
-				return RecursiveForkExploration.INSTANCE;
-			default :
-				return null;
+		switch (strategy) {
+		case RECURSIVE_FORK_EXPLORATION:
+			return RecursiveForkExploration.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

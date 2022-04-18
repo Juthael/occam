@@ -11,10 +11,10 @@ public class DifferentiaeWeigherFactory {
 
 	public DifferentiaeWeigher apply(DifferentiaeWeigherStrategy strategy) {
 		switch (strategy) {
-			case SUM_OF_PROPERTY_WEIGHTS :
-				return SumOfPropertyWeights.INSTANCE;
-			default :
-				return null;
+		case SUM_OF_PROPERTY_WEIGHTS:
+			return SumOfPropertyWeights.INSTANCE;
+		default:
+			return null;
 		}
 	}
 

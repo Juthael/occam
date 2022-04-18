@@ -26,7 +26,6 @@ public class LabellersAbstractFactory {
 	private ProblemStateLabellerStrategy problemStateLabellerStrategy = null;
 	private ProblemTransitionLabellerStrategy problemTransitionLabellerStrategy = null;
 
-
 	private LabellersAbstractFactory() {
 	}
 
@@ -52,15 +51,15 @@ public class LabellersAbstractFactory {
 
 	public void setUpStrategy(LabellingStrategy strategy) {
 		switch (strategy) {
-			case LABELLING_STRATEGY_1 :
-				transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.REMOVE_NON_SALIENT_APP;
-				propertyLabellerStrategy = PropertyLabellerStrategy.AS_LAMBDA;
-				differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
-				problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES;
-				problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.WEIGHT_ONLY;
-				break;
-			default :
-				break;
+		case LABELLING_STRATEGY_1:
+			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.REMOVE_NON_SALIENT_APP;
+			propertyLabellerStrategy = PropertyLabellerStrategy.AS_LAMBDA;
+			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
+			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES;
+			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.WEIGHT_ONLY;
+			break;
+		default:
+			break;
 		}
 	}
 

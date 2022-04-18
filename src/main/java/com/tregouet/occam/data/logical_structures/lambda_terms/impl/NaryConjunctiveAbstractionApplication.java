@@ -16,7 +16,6 @@ public class NaryConjunctiveAbstractionApplication extends ALambdaTerm implement
 	private List<AVariable> boundVariables = new ArrayList<>();
 	private List<Set<NaryConjunctiveAbstractionApplication>> argSets = new ArrayList<>();
 
-
 	public NaryConjunctiveAbstractionApplication(IConstruct construct) {
 		super(construct);
 	}
@@ -33,8 +32,7 @@ public class NaryConjunctiveAbstractionApplication extends ALambdaTerm implement
 				Set<NaryConjunctiveAbstractionApplication> args = new HashSet<>();
 				args.add(new NaryConjunctiveAbstractionApplication(production.getValue()));
 				argSets.add(args);
-			}
-			else {
+			} else {
 				argSets.get(varIndex).add(new NaryConjunctiveAbstractionApplication(production.getValue()));
 			}
 			return true;

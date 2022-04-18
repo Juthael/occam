@@ -21,7 +21,7 @@ public class ProblemSpacePagePrinter {
 	private ProblemSpacePagePrinter() {
 	}
 	
-	public String print(List<IContextObject> objects, IProblemSpace problemSpace, String fileName) throws IOException {
+	public String print(List<IContextObject> objects, IProblemSpace problemSpace) throws IOException {
 		String alinea = "   ";
 		String alineaa = alinea + alinea;
 		String alineaaa = alineaa + alinea;

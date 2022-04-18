@@ -17,7 +17,7 @@ import com.tregouet.occam.alg.displayers.graph_labellers.transition_functions.Tr
 import com.tregouet.occam.alg.displayers.graph_visualizers.transition_functions.TransitionFunctionViz;
 import com.tregouet.occam.data.representations.transitions.AConceptTransitionSet;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.io.output.Paths;
+import com.tregouet.occam.io.output.LocalPaths;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -53,7 +53,7 @@ public class BasicTransitionFunctionViz implements TransitionFunctionViz {
 		//display graph
 		try {
 			MutableGraph dotGraph = new Parser().read(dOTFile);
-			String filePath = Paths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
+			String filePath = LocalPaths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
 			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
 			return filePath;
 		}

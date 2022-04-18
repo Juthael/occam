@@ -29,13 +29,20 @@ public class RepresentationPagePrinter {
 		StringBuilder sB = new StringBuilder();
 		String alinea = "   ";
 		String alineaa = alinea + alinea;
+		String alineaaa = alineaa + alinea;
+		String alineaaaa = alineaaa + alinea;
 		sB.append(HeaderPrinter.INSTANCE.get() + nL)
-			.append(alineaa + "<hr>" + nL)
+			.append(alineaa + "<section>" + nL)
+			.append(alineaaa + "<header>" + nL)
+			.append(alineaaaa + "<h2> REPRESENTATION N." + Integer.toString(representation.id()) + "</h2>"  + nL)
+			.append(alineaaa + "</header>" + nL)
+			.append(alineaaa + "<hr>" + nL)
 			.append(printGeneralDescription(objects, representation, alineaa) + nL)
-			.append(alineaa + "<hr>" + nL)
+			.append(alineaaa + "<hr>" + nL)
 			.append(printGeneratedFacts(representation, alineaa) + nL)
-			.append(alineaa + "<hr>" + nL)
-			.append(printClassificationTree(representation, alineaa) + nL)
+			.append(alineaaa + "<hr>" + nL)
+			.append(printClassificationTree(representation, alineaaa) + nL)
+			.append(alineaa + "</section>" + nL)
 			.append(FootPrinter.INSTANCE.get() + nL);
 		return sB.toString();
 	}
@@ -47,7 +54,7 @@ public class RepresentationPagePrinter {
 		String alineaaaa = alineaaa + "   ";
 		sB.append(alineaa + "<section>" + nL)
 			.append(alineaaa + "<header>" + nL)
-			.append(alineaaaa + "<h2> GENERAL DESCRIPTION </h2>" + nL)
+			.append(alineaaaa + "<h3> GENERAL DESCRIPTION </h3>" + nL)
 			.append(alineaaa + "</header>" + nL)
 			.append(printContext(objects, alineaaa) + nL)
 			.append(printDescription(representation, alineaaa) + nL)
@@ -65,7 +72,7 @@ public class RepresentationPagePrinter {
 		String alineaaaa = alineaaa + "   ";
 		sB.append(alineaa + "<section>" + nL)
 			.append(alineaaa + "<header>" + nL)
-			.append(alineaaaa + "<h2> GENERATED FACTS </h2>" + nL)
+			.append(alineaaaa + "<h3> GENERATED FACTS </h3>" + nL)
 			.append(alineaaa + "</header>" + nL)
 			.append(printAutomatonGraph(representation, alineaaaa) + nL)
 			.append(printAcceptedFacts(representation, alineaaaa) + nL)

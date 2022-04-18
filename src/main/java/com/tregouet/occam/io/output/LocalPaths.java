@@ -1,11 +1,11 @@
 package com.tregouet.occam.io.output;
 
-public class Paths {
+public class LocalPaths {
 	
-	public static final Paths INSTANCE = new Paths();
+	public static final LocalPaths INSTANCE = new LocalPaths();
 	private String targetFolderPath = "C:\\Users\\TREGOUET\\Documents\\Sandbox";
 	
-	private Paths() {
+	private LocalPaths() {
 	}
 	
 	public void setTargetFolderPath(String targetFolderPath) {

@@ -16,7 +16,7 @@ import com.tregouet.occam.alg.displayers.graph_labellers.differentiae.Differenti
 import com.tregouet.occam.alg.displayers.graph_visualizers.descriptions.DescriptionViz;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
-import com.tregouet.occam.io.output.Paths;
+import com.tregouet.occam.io.output.LocalPaths;
 import com.tregouet.tree_finder.data.Tree;
 
 import guru.nidi.graphviz.engine.Format;
@@ -53,7 +53,7 @@ public class BasicDescriptionViz implements DescriptionViz {
 		//display graph
 		try {		
 			MutableGraph dotGraph = new Parser().read(dOTFile);
-			String filePath = Paths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
+			String filePath = LocalPaths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
 			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
 			return filePath;
 		}

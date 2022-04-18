@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.representations;
 
-import java.util.Set;
+import java.util.Collection;
 import java.util.function.Function;
 
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
@@ -18,7 +18,7 @@ import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 
 public interface RepresentationSortedSetBuilder
-	extends Function<Set<IContextObject>, ICompleteRepresentations> {
+	extends Function<Collection<IContextObject>, ICompleteRepresentations> {
 	
 	public static ConceptLatticeBuilder getConceptLatticeBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder();

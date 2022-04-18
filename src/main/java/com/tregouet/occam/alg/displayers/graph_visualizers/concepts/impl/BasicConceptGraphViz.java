@@ -15,7 +15,7 @@ import org.jgrapht.nio.dot.DOTExporter;
 import com.tregouet.occam.alg.displayers.graph_visualizers.concepts.ConceptGraphViz;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.occam.io.output.Paths;
+import com.tregouet.occam.io.output.LocalPaths;
 
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
@@ -49,7 +49,7 @@ public class BasicConceptGraphViz implements ConceptGraphViz {
 		//display graph
 		try {
 			MutableGraph dotGraph = new Parser().read(stringDOT);
-			String filePath = Paths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
+			String filePath = LocalPaths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
 			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
 			return filePath;
 		}

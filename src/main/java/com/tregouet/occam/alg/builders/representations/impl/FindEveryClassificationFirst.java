@@ -1,5 +1,6 @@
 package com.tregouet.occam.alg.builders.representations.impl;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -30,7 +31,7 @@ public class FindEveryClassificationFirst implements RepresentationSortedSetBuil
 	}
 
 	@Override
-	public ICompleteRepresentations apply(Set<IContextObject> particulars) {
+	public ICompleteRepresentations apply(Collection<IContextObject> particulars) {
 		SortedSet<ICompleteRepresentation> representations = new TreeSet<>();
 		IConceptLattice conceptLattice = 
 				RepresentationSortedSetBuilder.getConceptLatticeBuilder().apply(particulars);

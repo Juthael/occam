@@ -27,6 +27,9 @@ public class InferNullParameters implements PartialRepresentationLateSetter {
 
 	public static final InferNullParameters INSTANCE = new InferNullParameters();
 
+	private InferNullParameters() {
+	}
+
 	private static InvertedTree<IConcept, IIsA> buildClassification(Set<ICompleteRepresentation> completions) {
 		DirectedAcyclicGraph<IConcept, IIsA> tempClass = new DirectedAcyclicGraph<>(null, null, false);
 		IConcept ontologicalCommitment = null;
@@ -59,9 +62,6 @@ public class InferNullParameters implements PartialRepresentationLateSetter {
 		while (repIte.hasNext())
 			transitions.retainAll(repIte.next().getTransitionFunction().getTransitions());
 		return new RepresentationTransitionFunction(transitions);
-	}
-
-	private InferNullParameters() {
 	}
 
 	@Override

@@ -9,6 +9,9 @@ import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
 public interface IConceptLattice {
 
+	@Override
+	public int hashCode();
+
 	boolean areA(List<IConcept> cats, IConcept cat);
 
 	@Override
@@ -42,9 +45,6 @@ public interface IConceptLattice {
 	DirectedAcyclicGraph<IConcept, IIsA> getTransitiveReduction();
 
 	IConcept getTruism();
-
-	@Override
-	public int hashCode();
 
 	/**
 	 * Not a reflexive relation

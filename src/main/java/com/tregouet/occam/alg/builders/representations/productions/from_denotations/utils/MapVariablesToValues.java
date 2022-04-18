@@ -10,6 +10,15 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface MapVariablesToValues {
 
+	/**
+	 * @param valueProvider
+	 * @param varProvider
+	 * @return null if source is not a target's instance
+	 */
+	public static Map<AVariable, List<ISymbol>> of(List<ISymbol> valueProvider, List<ISymbol> varProvider) {
+		return continueMapping(valueProvider, varProvider, new HashMap<AVariable, List<ISymbol>>(), 0, 0);
+	}
+
 	private static Map<AVariable, List<ISymbol>> continueMapping(List<ISymbol> valueProvider, List<ISymbol> varProvider,
 			Map<AVariable, List<ISymbol>> varToValue, int srcIdx, int targetIdx) {
 		if (srcIdx == valueProvider.size() && targetIdx == varProvider.size())
@@ -46,15 +55,6 @@ public interface MapVariablesToValues {
 			mapDeepCopy.put(key, new ArrayList<>(map.get(key)));
 		}
 		return mapDeepCopy;
-	}
-
-	/**
-	 * @param valueProvider
-	 * @param varProvider
-	 * @return null if source is not a target's instance
-	 */
-	public static Map<AVariable, List<ISymbol>> of(List<ISymbol> valueProvider, List<ISymbol> varProvider) {
-		return continueMapping(valueProvider, varProvider, new HashMap<AVariable, List<ISymbol>>(), 0, 0);
 	}
 
 }

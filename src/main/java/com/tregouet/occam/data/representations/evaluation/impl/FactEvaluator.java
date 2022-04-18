@@ -90,19 +90,6 @@ public class FactEvaluator implements IFactEvaluator {
 		return this;
 	}
 
-	private IFactEvaluator proceedPrintingTransition(IContextualizedProduction nextPrint,
-			IConceptTransitionOIC outputInternConfig) {
-		IRepresentationTapeSet nextTapeSet = tapeSet.copy();
-		if (!nextPrint.isEpsilon())
-			nextTapeSet.printNext(nextPrint);
-		for (AVariable pushedDown : outputInternConfig.getPushedStackSymbols()) {
-			if (!pushedDown.equals(EpsilonDimension.INSTANCE))
-				nextTapeSet.pushDown(pushedDown);
-		}
-		int nextState = outputInternConfig.getOutputStateID();
-		return new FactEvaluator(transitionFunction, nextTapeSet, nextState);
-	}
-
 	@Override
 	public void reinitialize() {
 		tapeSet = new RepresentationTapeSet();
@@ -114,6 +101,19 @@ public class FactEvaluator implements IFactEvaluator {
 	public void set(IRepresentationTransitionFunction transitionFunction) {
 		this.transitionFunction = transitionFunction;
 		activeStateID = transitionFunction.getStartStateID();
+	}
+
+	private IFactEvaluator proceedPrintingTransition(IContextualizedProduction nextPrint,
+			IConceptTransitionOIC outputInternConfig) {
+		IRepresentationTapeSet nextTapeSet = tapeSet.copy();
+		if (!nextPrint.isEpsilon())
+			nextTapeSet.printNext(nextPrint);
+		for (AVariable pushedDown : outputInternConfig.getPushedStackSymbols()) {
+			if (!pushedDown.equals(EpsilonDimension.INSTANCE))
+				nextTapeSet.pushDown(pushedDown);
+		}
+		int nextState = outputInternConfig.getOutputStateID();
+		return new FactEvaluator(transitionFunction, nextTapeSet, nextState);
 	}
 
 }

@@ -8,11 +8,11 @@ public class TablePrinter {
 	public static final String NL = System.lineSeparator();
 	private static final DecimalFormat DF = new DecimalFormat("#.####");
 
-	private static String round(double nb) {
-		return DF.format(nb).toString();
+	private TablePrinter() {
 	}
 
-	private TablePrinter() {
+	private static String round(double nb) {
+		return DF.format(nb).toString();
 	}
 
 	public String print1DTable(String[] head, double[] table, String caption, String alinea) {

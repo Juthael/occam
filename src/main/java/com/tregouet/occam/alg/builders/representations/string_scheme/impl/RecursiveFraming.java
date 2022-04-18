@@ -25,6 +25,12 @@ public class RecursiveFraming implements StringSchemeBuilder {
 		return doFrame(partitionGraph.getRoot());
 	}
 
+	@Override
+	public StringSchemeBuilder setUp(Map<Integer, List<Integer>> conceptID2ExtentIDs) {
+		this.conceptID2ExtentIDs = conceptID2ExtentIDs;
+		return this;
+	}
+
 	private String doFrame(Integer frameConceptID) {
 		if (partitionGraph.outDegreeOf(frameConceptID) == 0) {
 			return "(" + getConceptExtensionAsString(frameConceptID) + ")";
@@ -55,12 +61,6 @@ public class RecursiveFraming implements StringSchemeBuilder {
 				sB.append(", ");
 		}
 		return sB.toString();
-	}
-
-	@Override
-	public StringSchemeBuilder setUp(Map<Integer, List<Integer>> conceptID2ExtentIDs) {
-		this.conceptID2ExtentIDs = conceptID2ExtentIDs;
-		return this;
 	}
 
 }

@@ -29,6 +29,12 @@ public class PrototypeMenu {
 
 	private static final String htmlFileName = "occam.html";
 
+	private final Scanner entry = new Scanner(System.in);
+
+	public PrototypeMenu() {
+		welcome();
+	}
+
 	private static boolean isValidPath(String path) {
 		try {
 			Paths.get(path);
@@ -36,12 +42,6 @@ public class PrototypeMenu {
 			return false;
 		}
 		return true;
-	}
-
-	private final Scanner entry = new Scanner(System.in);
-
-	public PrototypeMenu() {
-		welcome();
 	}
 
 	private void enterNewInput() throws IOException {

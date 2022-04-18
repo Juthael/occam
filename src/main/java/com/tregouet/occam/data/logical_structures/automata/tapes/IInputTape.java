@@ -4,13 +4,13 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface IInputTape<InputSymbol extends ISymbol> {
 
+	@Override
+	public int hashCode();
+
 	IInputTape<InputSymbol> copy();
 
 	@Override
 	boolean equals(Object o);
-
-	@Override
-	public int hashCode();
 
 	boolean hasNext();
 

@@ -40,6 +40,13 @@ import it.unimi.dsi.fastutil.ints.IntIntPair;
 
 public abstract class AbstractTransFuncBuilder implements RepresentationTransFuncBuilder {
 
+	private InvertedTree<IConcept, IIsA> treeOfConcepts = null;
+
+	private Set<IContextualizedProduction> unfilteredUnreducedProds = null;
+
+	public AbstractTransFuncBuilder() {
+	}
+
 	private static Set<IConceptTransition> buildApplicationsAndClosedInheritancesFrom(
 			InvertedTree<IConcept, IIsA> treeOfConcepts, Set<IContextualizedProduction> unfilteredUnreducedProds) {
 		Set<IContextualizedProduction> mutableUnfilteredUnreduced = new HashSet<>(unfilteredUnreducedProds);
@@ -141,13 +148,6 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		}
 		TransitiveReduction.INSTANCE.reduce(prodGraph);
 		return new HashSet<>(prodGraph.edgeSet());
-	}
-
-	private InvertedTree<IConcept, IIsA> treeOfConcepts = null;
-
-	private Set<IContextualizedProduction> unfilteredUnreducedProds = null;
-
-	public AbstractTransFuncBuilder() {
 	}
 
 	@Override

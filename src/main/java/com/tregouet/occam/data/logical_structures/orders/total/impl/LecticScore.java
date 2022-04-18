@@ -24,6 +24,20 @@ public class LecticScore implements IScore<LecticScore> {
 		return comparison;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sB = new StringBuilder();
+		sB.append("(");
+		Iterator<Double> valueIte = values.iterator();
+		while (valueIte.hasNext()) {
+			sB.append(IScore.round(valueIte.next()));
+			if (valueIte.hasNext())
+				sB.append(" ; ");
+		}
+		sB.append(")");
+		return sB.toString();
+	}
+
 	private int iterativelyCompareTo(Iterator<Double> thisIte, Iterator<Double> otherIte) {
 		while (thisIte.hasNext()) {
 			if (otherIte.hasNext()) {
@@ -37,20 +51,6 @@ public class LecticScore implements IScore<LecticScore> {
 		if (otherIte.hasNext())
 			return -1;
 		return 0;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder sB = new StringBuilder();
-		sB.append("(");
-		Iterator<Double> valueIte = values.iterator();
-		while (valueIte.hasNext()) {
-			sB.append(IScore.round(valueIte.next()));
-			if (valueIte.hasNext())
-				sB.append(" ; ");
-		}
-		sB.append(")");
-		return sB.toString();
 	}
 
 }

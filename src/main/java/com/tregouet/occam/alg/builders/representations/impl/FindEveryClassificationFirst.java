@@ -30,13 +30,6 @@ public class FindEveryClassificationFirst implements RepresentationSortedSetBuil
 	private FindEveryClassificationFirst() {
 	}
 
-	private void addAndTrimIfRequired(ICompleteRepresentation newRepresentation,
-			SortedSet<ICompleteRepresentation> representations) {
-		representations.add(newRepresentation);
-		if (maxSize != null & representations.size() > maxSize)
-			representations.remove(representations.first());
-	}
-
 	@Override
 	public ICompleteRepresentations apply(Collection<IContextObject> particulars) {
 		SortedSet<ICompleteRepresentation> representations = new TreeSet<>();
@@ -65,6 +58,13 @@ public class FindEveryClassificationFirst implements RepresentationSortedSetBuil
 	public RepresentationSortedSetBuilder setMaxSize(Integer maxSize) {
 		this.maxSize = maxSize;
 		return this;
+	}
+
+	private void addAndTrimIfRequired(ICompleteRepresentation newRepresentation,
+			SortedSet<ICompleteRepresentation> representations) {
+		representations.add(newRepresentation);
+		if (maxSize != null & representations.size() > maxSize)
+			representations.remove(representations.first());
 	}
 
 }

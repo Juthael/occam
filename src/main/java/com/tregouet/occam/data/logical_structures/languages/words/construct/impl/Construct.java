@@ -28,11 +28,6 @@ public class Construct implements IConstruct {
 		nbOfTerminals = setNbOfTerminals();
 	}
 
-	private Construct(List<ISymbol> symbols, int nbOfTerminals) {
-		this.symbols = symbols;
-		this.nbOfTerminals = nbOfTerminals;
-	}
-
 	public Construct(String[] progStrings) {
 		symbols = new ArrayList<>();
 		for (String symString : progStrings) {
@@ -46,6 +41,11 @@ public class Construct implements IConstruct {
 			if (symbol instanceof ITerminal)
 				nbOfTerminals++;
 		}
+		this.nbOfTerminals = nbOfTerminals;
+	}
+
+	private Construct(List<ISymbol> symbols, int nbOfTerminals) {
+		this.symbols = symbols;
 		this.nbOfTerminals = nbOfTerminals;
 	}
 
@@ -158,15 +158,6 @@ public class Construct implements IConstruct {
 		}
 	}
 
-	protected int setNbOfTerminals() {
-		int nbOfTerminals = 0;
-		for (ISymbol symbol : symbols) {
-			if (symbol instanceof ITerminal)
-				nbOfTerminals++;
-		}
-		return nbOfTerminals;
-	}
-
 	@Override
 	public List<String> toListOfStringsWithPlaceholders() {
 		List<String> list = new ArrayList<>();
@@ -188,6 +179,15 @@ public class Construct implements IConstruct {
 				sB.append(" ");
 		}
 		return sB.toString();
+	}
+
+	protected int setNbOfTerminals() {
+		int nbOfTerminals = 0;
+		for (ISymbol symbol : symbols) {
+			if (symbol instanceof ITerminal)
+				nbOfTerminals++;
+		}
+		return nbOfTerminals;
 	}
 
 }

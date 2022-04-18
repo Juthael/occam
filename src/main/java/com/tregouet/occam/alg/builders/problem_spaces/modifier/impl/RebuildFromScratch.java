@@ -56,17 +56,6 @@ public class RebuildFromScratch implements ProblemSpaceModifier {
 		return pbSpace;
 	}
 
-	private boolean remove(List<IProblemState> states, int iD) {
-		ListIterator<IProblemState> ite = states.listIterator();
-		while (ite.hasNext()) {
-			if (ite.next().id() == iD) {
-				ite.remove();
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@Override
 	public IProblemSpace restrictTo(IProblemSpace pbSpace, Set<Integer> stateIDs) {
 		List<IProblemState> topoOrderedStates = new ArrayList<>();
@@ -78,6 +67,17 @@ public class RebuildFromScratch implements ProblemSpaceModifier {
 		Set<AProblemStateTransition> transitions = ProblemSpaceModifier.getCategorizationTransitionBuilder()
 				.apply(restriction);
 		return ProblemSpaceBuilder.build(restriction, transitions);
+	}
+
+	private boolean remove(List<IProblemState> states, int iD) {
+		ListIterator<IProblemState> ite = states.listIterator();
+		while (ite.hasNext()) {
+			if (ite.next().id() == iD) {
+				ite.remove();
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

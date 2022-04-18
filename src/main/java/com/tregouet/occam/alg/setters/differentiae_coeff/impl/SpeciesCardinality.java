@@ -21,17 +21,17 @@ public class SpeciesCardinality implements DifferentiaeCoeffSetter {
 		diff.setWeightCoeff(coeff);
 	}
 
-	private int getSpeciesCardinality(Integer speciesID) {
-		if (particularIDs.contains(speciesID))
-			return 1;
-		return Sets.intersection(classification.getDescendants(speciesID), particularIDs).size();
-	}
-
 	@Override
 	public DifferentiaeCoeffSetter setContext(Tree<Integer, AbstractDifferentiae> classification) {
 		this.classification = classification;
 		this.particularIDs = classification.getLeaves();
 		return this;
+	}
+
+	private int getSpeciesCardinality(Integer speciesID) {
+		if (particularIDs.contains(speciesID))
+			return 1;
+		return Sets.intersection(classification.getDescendants(speciesID), particularIDs).size();
 	}
 
 }

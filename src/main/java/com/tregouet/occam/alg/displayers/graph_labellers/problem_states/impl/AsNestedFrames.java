@@ -27,6 +27,9 @@ public class AsNestedFrames implements ProblemStateLabeller {
 	public static final AsNestedFrames INSTANCE = new AsNestedFrames();
 	private static final String nL = System.lineSeparator();
 
+	private AsNestedFrames() {
+	}
+
 	private static Tree<Integer, AbstractDifferentiae> asTree(Set<IPartition> intent) {
 		DirectedAcyclicGraph<Integer, AbstractDifferentiae> stateDag = new DirectedAcyclicGraph<>(null, null, false);
 		for (IPartition partition : intent) {
@@ -72,9 +75,6 @@ public class AsNestedFrames implements ProblemStateLabeller {
 				maxPartitions.add(nextPart);
 		}
 		return maxPartitions;
-	}
-
-	private AsNestedFrames() {
 	}
 
 	@Override

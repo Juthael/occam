@@ -20,6 +20,11 @@ public class ConceptTree2String {
 		this.leafToLeafName = leafToLeafName;
 	}
 
+	@Override
+	public String toString() {
+		return getExtentStructure(conceptTree.getRoot());
+	}
+
 	private String getExtentStructure(IConcept concept) {
 		String extentStructure;
 		if (concept.type() == ConceptType.PARTICULAR)
@@ -41,11 +46,6 @@ public class ConceptTree2String {
 			}
 		}
 		return extentStructure;
-	}
-
-	@Override
-	public String toString() {
-		return getExtentStructure(conceptTree.getRoot());
 	}
 
 }

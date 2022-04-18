@@ -9,6 +9,9 @@ import com.tregouet.subseq_finder.ISymbolSeq;
 public interface IContextObject extends Comparable<IContextObject> {
 
 	@Override
+	public int hashCode();
+
+	@Override
 	boolean equals(Object o);
 
 	List<IConstruct> getConstructs();
@@ -18,9 +21,6 @@ public interface IContextObject extends Comparable<IContextObject> {
 	Iterator<IConstruct> getIteratorOverConstructs();
 
 	String getName();
-
-	@Override
-	public int hashCode();
 
 	@Override
 	String toString();

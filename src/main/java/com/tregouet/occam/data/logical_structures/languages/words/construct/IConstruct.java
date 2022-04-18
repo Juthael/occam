@@ -15,10 +15,13 @@ public interface IConstruct extends IWord<ISymbol> {
 	@Override
 	public IConstruct copy();
 
+	public String getFunctionType();
+
+	@Override
+	public int hashCode();
+
 	@Override
 	boolean equals(Object o);
-
-	public String getFunctionType();
 
 	Iterator<ISymbol> getIteratorOverSymbols();
 
@@ -27,9 +30,6 @@ public interface IConstruct extends IWord<ISymbol> {
 	int getNbOfTerminals();
 
 	List<AVariable> getVariables();
-
-	@Override
-	public int hashCode();
 
 	boolean isAbstract();
 

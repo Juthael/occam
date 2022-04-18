@@ -27,17 +27,6 @@ public class MarkhovProcess implements ProblemStateScorer {
 		return new Size1LecticScore(stateProbability[topoOrderedStates.indexOf(problemState)]);
 	}
 
-	private void incrementTargetScores(IProblemState source) {
-		Set<AProblemStateTransition> outgoingTransitions = problemSpace.outgoingEdgesOf(source);
-		double outgoingTransitionWeightSum = 0.0;
-		for (AProblemStateTransition transition : outgoingTransitions)
-			outgoingTransitionWeightSum += transition.weight();
-		for (AProblemStateTransition transition : outgoingTransitions) {
-			double transitionProbability = transition.weight() / outgoingTransitionWeightSum;
-			stateProbability[topoOrderedStates.indexOf(transition.getTarget())] += transitionProbability;
-		}
-	}
-
 	@Override
 	public ProblemStateScorer setUp(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemSpace) {
 		this.problemSpace = problemSpace;
@@ -48,6 +37,17 @@ public class MarkhovProcess implements ProblemStateScorer {
 		// start state
 		stateProbability[0] = 1;
 		return this;
+	}
+
+	private void incrementTargetScores(IProblemState source) {
+		Set<AProblemStateTransition> outgoingTransitions = problemSpace.outgoingEdgesOf(source);
+		double outgoingTransitionWeightSum = 0.0;
+		for (AProblemStateTransition transition : outgoingTransitions)
+			outgoingTransitionWeightSum += transition.weight();
+		for (AProblemStateTransition transition : outgoingTransitions) {
+			double transitionProbability = transition.weight() / outgoingTransitionWeightSum;
+			stateProbability[topoOrderedStates.indexOf(transition.getTarget())] += transitionProbability;
+		}
 	}
 
 }

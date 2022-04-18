@@ -17,6 +17,16 @@ import com.tregouet.occam.data.representations.transitions.productions.IProducti
 
 public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSetter {
 
+	private List<Integer> inputStateIDs;
+
+	private List<Set<Integer>> outputStateIDs;
+
+	private List<Set<IConceptTransition>> applications;
+	private Set<Integer> particularIDs;
+
+	public HiddenByDefaultThenFindSpecifics() {
+	}
+
 	private static boolean everySubConceptGivesThisVariableADistinctValue(List<Set<IProduction>> values) {
 		Set<Set<IProduction>> uniqueValues = new HashSet<>(values);
 		return uniqueValues.size() == values.size();
@@ -28,16 +38,6 @@ public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSette
 				return false;
 		}
 		return true;
-	}
-
-	private List<Integer> inputStateIDs;
-	private List<Set<Integer>> outputStateIDs;
-
-	private List<Set<IConceptTransition>> applications;
-
-	private Set<Integer> particularIDs;
-
-	public HiddenByDefaultThenFindSpecifics() {
 	}
 
 	@Override

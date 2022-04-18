@@ -3,9 +3,9 @@ package com.tregouet.occam.data.logical_structures.languages.alphabets;
 public interface ISymbol {
 
 	@Override
-	boolean equals(Object o);
+	public int hashCode();
 
 	@Override
-	public int hashCode();
+	boolean equals(Object o);
 
 }

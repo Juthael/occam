@@ -27,6 +27,12 @@ public class AsymmetricalDynamicFraming extends AbstractSimilarityScorer<IConcep
 		return new DoubleScore(genusDefinitionCost / targetDefinitionCost);
 	}
 
+	@Override
+	public AsymmetricalSimilarityScorer setAsContext(IDescription description) {
+		classificationTree = description.asGraph();
+		return this;
+	}
+
 	private Integer findTargetAsGenusSpeciesID(Integer genusID, Integer targetID) {
 		Integer targetAsGenusSpeciesID = null;
 		Iterator<Integer> genusSuccessorIte = Graphs.successorListOf(classificationTree, genusID).iterator();
@@ -37,12 +43,6 @@ public class AsymmetricalDynamicFraming extends AbstractSimilarityScorer<IConcep
 			}
 		}
 		return targetAsGenusSpeciesID;
-	}
-
-	@Override
-	public AsymmetricalSimilarityScorer setAsContext(IDescription description) {
-		classificationTree = description.asGraph();
-		return this;
 	}
 
 }

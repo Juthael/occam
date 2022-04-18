@@ -17,6 +17,17 @@ import com.tregouet.subseq_finder.impl.SubseqFinder;
 
 public class MaxSymbolSubsequences implements IDenotationBuilder {
 
+	private List<List<ISymbolSeq>> objSymbolSeqs;
+
+	private Set<IConstruct> denotations;
+	private int[] arrayDimensions = null;
+	private int[] coords = null;
+	private Map<ISymbolSeq, Set<ISymbolSeq>> subsqToMaxSubsq;
+	private Map<ISymbolSeq, IConstruct> symbolSeqToConstruct;
+
+	public MaxSymbolSubsequences() {
+	}
+
 	private static Set<ISymbolSeq> removeNonMaxSeqs(Set<ISymbolSeq> seqs) {
 		List<ISymbolSeq> seqList = new ArrayList<>(seqs);
 		int idx1 = 0;
@@ -41,17 +52,6 @@ public class MaxSymbolSubsequences implements IDenotationBuilder {
 				idx1++;
 		}
 		return new HashSet<>(seqList);
-	}
-
-	private List<List<ISymbolSeq>> objSymbolSeqs;
-	private Set<IConstruct> denotations;
-	private int[] arrayDimensions = null;
-	private int[] coords = null;
-	private Map<ISymbolSeq, Set<ISymbolSeq>> subsqToMaxSubsq;
-
-	private Map<ISymbolSeq, IConstruct> symbolSeqToConstruct;
-
-	public MaxSymbolSubsequences() {
 	}
 
 	@Override
@@ -84,16 +84,6 @@ public class MaxSymbolSubsequences implements IDenotationBuilder {
 		return denotations;
 	}
 
-	private IConstruct getConstruct(ISymbolSeq symbolSeq) {
-		IConstruct construct = symbolSeqToConstruct.get(symbolSeq);
-		if (construct == null) {
-			construct = new Construct(symbolSeq.getStringArray());
-			construct.nameVariables();
-			symbolSeqToConstruct.put(symbolSeq, construct);
-		}
-		return construct;
-	}
-
 	// for unit test use only
 	public Map<ISymbolSeq, Set<ISymbolSeq>> getSubsqToMaxSubsq(List<IContextObject> extent) {
 		arrayDimensions = new int[extent.size()];
@@ -112,6 +102,16 @@ public class MaxSymbolSubsequences implements IDenotationBuilder {
 		}
 		setSubsqToMaxSubsq();
 		return subsqToMaxSubsq;
+	}
+
+	private IConstruct getConstruct(ISymbolSeq symbolSeq) {
+		IConstruct construct = symbolSeqToConstruct.get(symbolSeq);
+		if (construct == null) {
+			construct = new Construct(symbolSeq.getStringArray());
+			construct.nameVariables();
+			symbolSeqToConstruct.put(symbolSeq, construct);
+		}
+		return construct;
 	}
 
 	private void init() {

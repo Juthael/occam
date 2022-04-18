@@ -20,6 +20,15 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 
 	private static final String nL = System.lineSeparator();
 
+	private Set<Integer> vertices = new HashSet<>();
+
+	private Map<Integer, Integer> targetIDToSourceID = new HashMap<>();
+	private Map<Integer, Set<IConceptTransition>> targetIDToApplications = new HashMap<>();
+	private Map<Integer, Set<IConceptTransition>> targetIDToOtherTransitions = new HashMap<>();
+
+	public AbstractTFLabeller() {
+	}
+
 	private static String toString(boolean application, Set<IConceptTransition> transitions) {
 		StringBuilder sB = new StringBuilder();
 		if (!transitions.isEmpty()) {
@@ -35,15 +44,6 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 			}
 		}
 		return sB.toString();
-	}
-
-	private Set<Integer> vertices = new HashSet<>();
-	private Map<Integer, Integer> targetIDToSourceID = new HashMap<>();
-	private Map<Integer, Set<IConceptTransition>> targetIDToApplications = new HashMap<>();
-
-	private Map<Integer, Set<IConceptTransition>> targetIDToOtherTransitions = new HashMap<>();
-
-	public AbstractTFLabeller() {
 	}
 
 	@Override
@@ -74,6 +74,8 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 		return transFuncGraph;
 	}
 
+	protected abstract Set<IConceptTransition> filter(Set<IConceptTransition> transitions);
+
 	private AConceptTransitionSet buildEdge(Integer targetID) {
 		Set<IConceptTransition> transitions = new HashSet<>();
 		StringBuilder sB = new StringBuilder();
@@ -88,7 +90,5 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 		Integer sourceID = targetIDToSourceID.get(targetID);
 		return new ConceptTransitionSet(sourceID, targetID, transitions, sB.toString());
 	}
-
-	protected abstract Set<IConceptTransition> filter(Set<IConceptTransition> transitions);
 
 }

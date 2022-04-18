@@ -18,6 +18,9 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 
 	public static final RecursiveForkExploration INSTANCE = new RecursiveForkExploration();
 
+	private RecursiveForkExploration() {
+	}
+
 	private static Set<Tree<Integer, AbstractDifferentiae>> convertIntoTrees(
 			Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> dagPartitions) {
 		Set<Tree<Integer, AbstractDifferentiae>> partitions = new HashSet<>();
@@ -62,9 +65,6 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 		Graphs.addAllVertices(copy, copied.vertexSet());
 		Graphs.addAllEdges(copy, copied, copied.edgeSet());
 		return copy;
-	}
-
-	private RecursiveForkExploration() {
 	}
 
 	@Override

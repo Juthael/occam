@@ -7,12 +7,12 @@ import com.tregouet.occam.data.representations.concepts.IConcept;
 public interface IDenotation extends IConstruct, PartiallyComparable<IDenotation> {
 
 	@Override
+	public int hashCode();
+
+	@Override
 	boolean equals(Object o);
 
 	IConcept getConcept();
-
-	@Override
-	public int hashCode();
 
 	boolean isRedundant();
 

@@ -15,6 +15,9 @@ public class DenotationComparator implements IDenotationComparator {
 
 	public static final DenotationComparator INSTANCE = new DenotationComparator();
 
+	private DenotationComparator() {
+	}
+
 	private static boolean strictLowerBoundOf(IDenotation d1, IDenotation d2) {
 		if (subSequenceOf(d2.getListOfTerminals(), d1.getListOfTerminals())) {
 			List<ISymbol> d1ValueProvider = d1.asList();
@@ -44,9 +47,6 @@ public class DenotationComparator implements IDenotationComparator {
 			}
 		}
 		return false;
-	}
-
-	private DenotationComparator() {
 	}
 
 	@Override

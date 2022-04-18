@@ -25,14 +25,14 @@ public interface IFactTape extends IInputTape<IContextualizedProduction>, IFact 
 	}
 
 	@Override
+	public int hashCode();
+
+	@Override
 	IFactTape copy();
 
 	@Override
 	boolean equals(Object o);
 
 	IFact getFact();
-
-	@Override
-	public int hashCode();
 
 }

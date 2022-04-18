@@ -25,6 +25,9 @@ import com.tregouet.occam.data.representations.transitions.productions.impl.Prod
 
 public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 
+	public MapTargetVarsToSourceValues() {
+	}
+
 	private static boolean subSequenceOf(List<ITerminal> targetTerminals, List<ITerminal> sourceTerminals) {
 		if (targetTerminals.isEmpty())
 			return true;
@@ -42,9 +45,6 @@ public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 			}
 		}
 		return false;
-	}
-
-	public MapTargetVarsToSourceValues() {
 	}
 
 	@Override

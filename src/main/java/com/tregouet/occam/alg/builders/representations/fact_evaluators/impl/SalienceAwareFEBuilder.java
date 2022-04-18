@@ -16,6 +16,9 @@ public class SalienceAwareFEBuilder implements FactEvaluatorBuilder {
 
 	public static final SalienceAwareFEBuilder INSTANCE = new SalienceAwareFEBuilder();
 
+	private SalienceAwareFEBuilder() {
+	}
+
 	private static Set<IConceptTransition> filter(Set<IConceptTransition> transitions) {
 		return transitions.stream().filter(t -> !isANonSalientApplication(t)).collect(Collectors.toSet());
 	}
@@ -25,9 +28,6 @@ public class SalienceAwareFEBuilder implements FactEvaluatorBuilder {
 				&& (transition.getSalience() == Salience.HIDDEN || transition.getSalience() == Salience.REDUNDANT))
 			return true;
 		return false;
-	}
-
-	private SalienceAwareFEBuilder() {
 	}
 
 	@Override

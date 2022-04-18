@@ -22,6 +22,9 @@ public class RepresentationPagePrinter {
 	public static final RepresentationPagePrinter INSTANCE = new RepresentationPagePrinter();
 	private static final String nL = System.lineSeparator();
 
+	private RepresentationPagePrinter() {
+	}
+
 	private static String printAcceptedFacts(IRepresentation representation, String alinea) {
 		Map<Integer, Set<IFact>> objID2acceptedFacts = representation.mapParticularIDsToAcceptedFacts();
 		NavigableSet<Integer> objIDs = new TreeSet<>(objID2acceptedFacts.keySet());
@@ -183,9 +186,6 @@ public class RepresentationPagePrinter {
 				.append(TablePrinter.INSTANCE.print1DTable(head, vector, "Typicality vector", alineaaa) + nL)
 				.append(alinea + "</section>" + nL);
 		return sB.toString();
-	}
-
-	private RepresentationPagePrinter() {
 	}
 
 	public String print(List<IContextObject> objects, IRepresentation representation) {

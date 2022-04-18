@@ -22,9 +22,7 @@ public abstract class GenericFileReader {
 	public static final String SEPARATOR = "/";
 	public static final char NAME_SYMBOL = '@';
 
-	private static void cardinalityTest(List<IContextObject> objects) throws IOException {
-		if (objects.size() < 2)
-			throw new IOException("Invalid input : a context should contain at least two sets of " + "constructs.");
+	private GenericFileReader() {
 	}
 
 	/**
@@ -86,6 +84,11 @@ public abstract class GenericFileReader {
 		return objects;
 	}
 
+	private static void cardinalityTest(List<IContextObject> objects) throws IOException {
+		if (objects.size() < 2)
+			throw new IOException("Invalid input : a context should contain at least two sets of " + "constructs.");
+	}
+
 	private static void unicityTest(List<IContextObject> objects) throws IOException {
 		for (int i = 0; i < objects.size() - 1; i++) {
 			Set<IConstruct> iObjConstructs = new HashSet<>(objects.get(i).getConstructs());
@@ -96,9 +99,6 @@ public abstract class GenericFileReader {
 							"Invalid input : a context should not contain two identical set of " + "constructs.");
 			}
 		}
-	}
-
-	private GenericFileReader() {
 	}
 
 }

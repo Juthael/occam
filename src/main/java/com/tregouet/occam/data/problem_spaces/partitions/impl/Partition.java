@@ -12,20 +12,12 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class Partition implements IPartition {
 
-	private static int containsAtReturnedIdx(Integer[] array, Integer element) {
-		for (int i = 0; i < array.length; i++) {
-			if (array[i].equals(element))
-				return i;
-		}
-		return -1;
-	}
-
 	private final Tree<Integer, AbstractDifferentiae> asGraph;
+
 	private final String asString;
 	private final Integer genusID;
 	private final Integer[] speciesIDs;
 	private final Map<Integer, List<Integer>> leaf2Extent;
-
 	private Double weight = null;
 
 	public Partition(Tree<Integer, AbstractDifferentiae> asGraph, String asString, Integer genusID,
@@ -35,6 +27,14 @@ public class Partition implements IPartition {
 		this.genusID = genusID;
 		this.speciesIDs = speciesIDs;
 		this.leaf2Extent = leaf2Extent;
+	}
+
+	private static int containsAtReturnedIdx(Integer[] array, Integer element) {
+		for (int i = 0; i < array.length; i++) {
+			if (array[i].equals(element))
+				return i;
+		}
+		return -1;
 	}
 
 	@Override

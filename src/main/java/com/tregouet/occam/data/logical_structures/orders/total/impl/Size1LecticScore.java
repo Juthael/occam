@@ -11,10 +11,6 @@ public class Size1LecticScore extends LecticScore implements IScore<LecticScore>
 		this.value = value;
 	}
 
-	private int compareTo(double otherValue) {
-		return Double.compare(this.value, otherValue);
-	}
-
 	@Override
 	public int compareTo(LecticScore o) {
 		int comparison;
@@ -32,6 +28,10 @@ public class Size1LecticScore extends LecticScore implements IScore<LecticScore>
 	@Override
 	public String toString() {
 		return IScore.round(value);
+	}
+
+	private int compareTo(double otherValue) {
+		return Double.compare(this.value, otherValue);
 	}
 
 }

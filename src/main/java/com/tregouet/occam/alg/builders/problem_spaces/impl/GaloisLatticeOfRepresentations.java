@@ -25,6 +25,9 @@ public class GaloisLatticeOfRepresentations implements ProblemSpaceBuilder {
 
 	public static final ProblemSpaceBuilder INSTANCE = new GaloisLatticeOfRepresentations();
 
+	private GaloisLatticeOfRepresentations() {
+	}
+
 	private static List<IProblemState> buildCategorisationStates(ICompleteRepresentations completeRepresentations,
 			LinkedHashMap<Set<Integer>, Set<IPartition>> closedSets) {
 		List<IProblemState> states = new ArrayList<>();
@@ -56,9 +59,6 @@ public class GaloisLatticeOfRepresentations implements ProblemSpaceBuilder {
 		for (ICompleteRepresentation rep : completeRepresentations.getSortedRepresentations())
 			mapping.put(rep.id(), rep.getPartitions());
 		return mapping;
-	}
-
-	private GaloisLatticeOfRepresentations() {
 	}
 
 	@Override

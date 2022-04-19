@@ -18,9 +18,9 @@ import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBu
 import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.IDenotationBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilderStrategy;
@@ -102,7 +102,7 @@ public class GeneratorsAbstractFactory {
 		return ConceptTreeBuilderFactory.INSTANCE.apply(conceptTreeBuilderStrategy);
 	}
 
-	public IDenotationBuilder getDenotationBuilder() {
+	public DenotationBuilder getDenotationBuilder() {
 		return DenotationBuilderFactory.INSTANCE.apply(denotationBuilderStrategy);
 	}
 

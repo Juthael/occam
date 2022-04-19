@@ -89,7 +89,7 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 		for (Set<IContextObject> subset : objectsPowerSet) {
 			Set<IConstruct> denotatingConstructs;
 			if (subset.size() > 1)
-				denotatingConstructs = ConceptLatticeBuilder.denotationBuilder().apply(subset);
+				denotatingConstructs = ConceptLatticeBuilder.getDenotationBuilder().apply(subset);
 			else if (subset.size() == 1)
 				denotatingConstructs = new HashSet<>(subset.iterator().next().getConstructs());
 			else {
@@ -135,6 +135,7 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 					lattice.addEdge(iDenotSet, jDenotSet);
 			}
 		}
+		TransitiveReduction.INSTANCE.reduce(lattice);
 	}
 
 	private Set<Set<IContextObject>> buildObjectsPowerSet() {

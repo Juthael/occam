@@ -43,4 +43,9 @@ public interface IConstruct extends IWord<ISymbol> {
 	void nameVariables();
 
 	List<String> toListOfStringsWithPlaceholders();
+	
+	@Override
+	String toString();
+	
+	boolean isAlphaConvertibleWith(IConstruct other);
 }

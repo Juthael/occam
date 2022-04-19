@@ -61,8 +61,7 @@ public class Concept implements IConcept {
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Concept other = (Concept) obj;
-		return iD == other.iD && type == other.type && Objects.equals(denotations, other.denotations)
-				&& Objects.equals(extent, other.extent);
+		return iD == other.iD && type == other.type && Objects.equals(extent, other.extent);
 	}
 
 	@Override
@@ -116,7 +115,7 @@ public class Concept implements IConcept {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(denotations, extent, iD, type);
+		return Objects.hash(extent, iD, type);
 	}
 
 	@Override

@@ -7,6 +7,9 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
+/*
+ * The lattice is supposed to be transitively reduced.
+ */
 public interface IConceptLattice {
 
 	@Override

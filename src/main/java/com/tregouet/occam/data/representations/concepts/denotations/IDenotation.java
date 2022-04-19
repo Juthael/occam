@@ -17,5 +17,8 @@ public interface IDenotation extends IConstruct, PartiallyComparable<IDenotation
 	boolean isRedundant();
 
 	void markAsRedundant();
+	
+	@Override
+	String toString();
 
 }

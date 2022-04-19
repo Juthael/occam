@@ -190,4 +190,20 @@ public class Construct implements IConstruct {
 		return nbOfTerminals;
 	}
 
+	@Override
+	public boolean isAlphaConvertibleWith(IConstruct other) {
+		List<ISymbol> otherSymbols = other.asList();
+		if (this.symbols.size() == otherSymbols.size()) {
+			for (int i = 0 ; i < symbols.size() ; i++) {
+				ISymbol thisSymbol = symbols.get(i);
+				ISymbol otherSymbol = otherSymbols.get(i);
+				if (!thisSymbol.equals(otherSymbol) 
+						&& !(thisSymbol instanceof AVariable && otherSymbol instanceof AVariable))
+						return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
 }

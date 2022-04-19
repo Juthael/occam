@@ -13,6 +13,9 @@ public interface IConcept extends IDichotomizable<IConcept>, IState {
 
 	public static final int WHAT_IS_THERE_ID = 9999;
 
+	/**
+	 * must not use denotation equality check (stack overflow error)
+	 */
 	@Override
 	boolean equals(Object obj);
 
@@ -24,6 +27,9 @@ public interface IConcept extends IDichotomizable<IConcept>, IState {
 
 	Set<IDenotation> getRedundantDenotations();
 
+	/**
+	 * must not use denotation.hashCode() (stack overflow error)
+	 */
 	@Override
 	int hashCode();
 

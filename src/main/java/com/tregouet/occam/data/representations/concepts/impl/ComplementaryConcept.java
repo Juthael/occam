@@ -1,6 +1,7 @@
 package com.tregouet.occam.data.representations.concepts.impl;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
+import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 
 public class ComplementaryConcept extends Concept implements IComplementaryConcept {
 
@@ -61,7 +63,16 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 
 	@Override
 	public String toString() {
-		return Integer.toString(-complementedByThis.iD());
+		StringBuilder sB = new StringBuilder();
+		String nL = System.lineSeparator();
+		sB.append(Integer.toString(-complementedByThis.iD()) + nL);
+		Iterator<IDenotation> iterator = getDenotations().iterator();
+		while (iterator.hasNext()) {
+			sB.append(iterator.next().toString());
+			if (iterator.hasNext())
+				sB.append(nL);
+		}
+		return sB.toString();
 	}
 
 }

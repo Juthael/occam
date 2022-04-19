@@ -9,7 +9,7 @@ public class DenotationBuilderFactory {
 	private DenotationBuilderFactory() {
 	}
 
-	public IDenotationBuilder apply(DenotationBuilderStrategy strategy) {
+	public DenotationBuilder apply(DenotationBuilderStrategy strategy) {
 		switch (strategy) {
 		case MAX_SYMBOL_SUBSEQUENCES:
 			return new MaxSymbolSubsequences();

@@ -53,8 +53,8 @@ public class DenotationComparator implements IDenotationComparator {
 	public Integer compare(IDenotation d1, IDenotation d2) {
 		/*
 		 * implies that alpha-conversion is either supported by equals(), or is useless
-		 * because it is guaranteed that two denotations can never vary only by the name
-		 * of their variables.
+		 * because it is guaranteed that two denotations can never vary by the name
+		 * of their variables only.
 		 */
 		if (d1.equals(d2))
 			return 0;

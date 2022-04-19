@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.IDenotationBuilder;
+import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilder;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.subseq_finder.ISymbolSeq;
 import com.tregouet.subseq_finder.impl.SubseqFinder;
 
-public class MaxSymbolSubsequences implements IDenotationBuilder {
+public class MaxSymbolSubsequences implements DenotationBuilder {
 
 	private List<List<ISymbolSeq>> objSymbolSeqs;
 
@@ -108,7 +108,6 @@ public class MaxSymbolSubsequences implements IDenotationBuilder {
 		IConstruct construct = symbolSeqToConstruct.get(symbolSeq);
 		if (construct == null) {
 			construct = new Construct(symbolSeq.getStringArray());
-			construct.nameVariables();
 			symbolSeqToConstruct.put(symbolSeq, construct);
 		}
 		return construct;

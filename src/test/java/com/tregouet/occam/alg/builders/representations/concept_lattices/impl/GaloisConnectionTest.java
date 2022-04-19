@@ -35,11 +35,11 @@ public class GaloisConnectionTest {
 	@Test
 	public void whenConceptLatticeRequestedThenReturned() {
 		IConceptLattice returned = new GaloisConnection().apply(context);
-		//HERE
+		/*
 		String path = 
 				VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(returned.getLatticeOfConcepts(), "GaloisConnectionTest");
 		System.out.println("Concept lattice graph available at " + path);
-		//HERE
+		*/
 		assertNotNull(returned);
 	}
 

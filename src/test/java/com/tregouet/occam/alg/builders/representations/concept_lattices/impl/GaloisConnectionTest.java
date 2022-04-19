@@ -17,6 +17,7 @@ import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
+@SuppressWarnings("unused")
 public class GaloisConnectionTest {
 	
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");

@@ -54,8 +54,8 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 		}
 		Set<IProperty> properties = DifferentiaeBuilder.propertyBuilder().apply(transFunc);
 		for (IProperty property : properties) {
-			IntIntPair transIDs = new IntIntImmutablePair(property.getFunction().getConcept().iD(),
-					property.getResultingValues().iterator().next().getConcept().iD());
+			IntIntPair transIDs = new IntIntImmutablePair(property.getFunction().getConceptID(),
+					property.getResultingValues().iterator().next().getConceptID());
 			transitionToProperties.get(transIDs).add(property);
 		}
 	}

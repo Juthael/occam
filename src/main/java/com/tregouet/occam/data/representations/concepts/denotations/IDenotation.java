@@ -2,7 +2,6 @@ package com.tregouet.occam.data.representations.concepts.denotations;
 
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.orders.partial.PartiallyComparable;
-import com.tregouet.occam.data.representations.concepts.IConcept;
 
 public interface IDenotation extends IConstruct, PartiallyComparable<IDenotation> {
 
@@ -12,7 +11,7 @@ public interface IDenotation extends IConstruct, PartiallyComparable<IDenotation
 	@Override
 	boolean equals(Object o);
 
-	IConcept getConcept();
+	int getConceptID();
 
 	boolean isRedundant();
 

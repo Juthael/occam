@@ -25,20 +25,20 @@ public class Concept implements IConcept {
 	private ConceptType type;
 
 	public Concept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent) {
-		for (IConstruct construct : denotatingConstructs)
-			this.denotations.add(new Denotation(construct, this));
-		this.extent = extent;
 		if (extent.size() == 1)
 			iD = extent.iterator().next().getID();
 		else
 			iD = nextID++;
+		for (IConstruct construct : denotatingConstructs)
+			this.denotations.add(new Denotation(construct, this.iD));
+		this.extent = extent;
 	}
 
 	public Concept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent, int iD) {
-		for (IConstruct construct : denotatingConstructs)
-			this.denotations.add(new Denotation(construct, this));
-		this.extent = extent;
 		this.iD = iD;
+		for (IConstruct construct : denotatingConstructs)
+			this.denotations.add(new Denotation(construct, this.iD));
+		this.extent = extent;
 	}
 
 	@Override
@@ -52,16 +52,6 @@ public class Concept implements IConcept {
 	@Override
 	public IConcept complementThisWith(IConcept complementing) {
 		return new ComplementaryConcept(this, complementing);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if ((obj == null) || (getClass() != obj.getClass()))
-			return false;
-		Concept other = (Concept) obj;
-		return iD == other.iD && type == other.type && Objects.equals(extent, other.extent);
 	}
 
 	@Override
@@ -111,11 +101,6 @@ public class Concept implements IConcept {
 				redundantDenotations.add(denotation);
 		}
 		return redundantDenotations;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(extent, iD, type);
 	}
 
 	@Override
@@ -169,6 +154,24 @@ public class Concept implements IConcept {
 	@Override
 	public ConceptType type() {
 		return type;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(denotations, extent, iD, type);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Concept other = (Concept) obj;
+		return Objects.equals(denotations, other.denotations) && Objects.equals(extent, other.extent) && iD == other.iD
+				&& type == other.type;
 	}
 
 }

@@ -6,7 +6,6 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 import com.tregouet.occam.data.representations.transitions.productions.IProduction;
@@ -43,8 +42,8 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
-	public IConcept getGenus() {
-		return genusDenotation.getConcept();
+	public int getGenusID() {
+		return genusDenotation.getConceptID();
 	}
 
 	@Override
@@ -58,8 +57,8 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
-	public IConcept getSpecies() {
-		return speciesDenotation.getConcept();
+	public int getSpeciesID() {
+		return speciesDenotation.getConceptID();
 	}
 
 	@Override

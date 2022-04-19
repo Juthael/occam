@@ -1,18 +1,19 @@
 package com.tregouet.occam.data.representations.concepts.denotations.impl;
 
+import java.util.Objects;
+
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 
 public class Denotation extends Construct implements IDenotation {
 
-	private final IConcept concept;
+	private final int conceptID;
 	private boolean isRedundant = false;
 
-	public Denotation(IConstruct construct, IConcept concept) {
+	public Denotation(IConstruct construct, int conceptID) {
 		super(construct);
-		this.concept = concept;
+		this.conceptID = conceptID;
 	}
 
 	@Override
@@ -21,29 +22,8 @@ public class Denotation extends Construct implements IDenotation {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj) || (getClass() != obj.getClass()))
-			return false;
-		Denotation other = (Denotation) obj;
-		if (concept == null) {
-			if (other.concept != null)
-				return false;
-		} else if (!concept.equals(other.concept))
-			return false;
-		return true;
-	}
-
-	@Override
-	public IConcept getConcept() {
-		return concept;
-	}
-
-	@Override
-	public int hashCode() {
-		// must not use concept hashCode(), since concept hashCode() uses this'.
-		return super.hashCode();
+	public int getConceptID() {
+		return conceptID;
 	}
 
 	@Override
@@ -54,6 +34,26 @@ public class Denotation extends Construct implements IDenotation {
 	@Override
 	public void markAsRedundant() {
 		isRedundant = true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(conceptID);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Denotation other = (Denotation) obj;
+		return conceptID == other.conceptID;
 	}
 
 }

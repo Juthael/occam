@@ -62,7 +62,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 			}
 		}
 		for (IContextualizedProduction production : filteredReducedProds) {
-			int outputStateID = production.getSpecies().iD();
+			int outputStateID = production.getSpeciesID();
 			int inputStateID = conceptToSuccessorIDs.get(outputStateID);
 			if (production.isEpsilon())
 				transitions.add(
@@ -119,8 +119,8 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 			InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		Set<IContextualizedProduction> filtered = new HashSet<>();
 		for (IContextualizedProduction production : unfiltered) {
-			if (treeOfConcepts.containsVertex(production.getGenus())
-					&& treeOfConcepts.containsVertex(production.getSpecies()))
+			if (containsVertexWithID(treeOfConcepts, production.getGenusID())
+					&& containsVertexWithID(treeOfConcepts, production.getSpeciesID()))
 				filtered.add(production);
 		}
 		return filtered;
@@ -190,6 +190,14 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		RepresentationTransFuncBuilder.transitionSalienceSetter().accept(transitions);
 		// return
 		return new RepresentationTransitionFunction(transitions);
+	}
+	
+	private static boolean containsVertexWithID(InvertedTree<IConcept, IIsA> treeOfConcepts, int iD) {
+		for (IConcept concept : treeOfConcepts) {
+			if (concept.iD() == iD)
+				return true;
+		}
+		return false;
 	}
 
 }

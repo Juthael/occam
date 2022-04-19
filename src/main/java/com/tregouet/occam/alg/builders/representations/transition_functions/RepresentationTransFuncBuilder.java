@@ -15,8 +15,9 @@ import com.tregouet.tree_finder.data.InvertedTree;
 public interface RepresentationTransFuncBuilder extends
 		BiFunction<InvertedTree<IConcept, IIsA>, Set<IContextualizedProduction>, IRepresentationTransitionFunction> {
 
-	// a transition can only occur from a concept to one of its direct subordinate
-
+	/**
+	 *  A transition can only occur from a concept to one of its direct subordinate
+	 */
 	public static TransitionSalienceSetter transitionSalienceSetter() {
 		return GeneratorsAbstractFactory.INSTANCE.getTransitionSalienceSetter();
 	}

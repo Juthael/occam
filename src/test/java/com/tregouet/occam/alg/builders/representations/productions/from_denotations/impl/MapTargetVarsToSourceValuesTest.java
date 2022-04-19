@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.Occam;
+import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Terminal;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Variable;
@@ -28,6 +30,7 @@ public class MapTargetVarsToSourceValuesTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 	@Before

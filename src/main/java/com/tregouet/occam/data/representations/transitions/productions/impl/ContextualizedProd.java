@@ -99,7 +99,7 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	@Override
 	public String toString() {
 		if (isEpsilon())
-			return "inheritance";
+			return "ε";
 		else
 			return production.toString();
 	}

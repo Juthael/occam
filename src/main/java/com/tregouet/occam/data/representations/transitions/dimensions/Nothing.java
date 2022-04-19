@@ -7,7 +7,7 @@ public class Nothing extends Variable {
 	public static final Nothing INSTANCE = new Nothing();
 
 	private Nothing() {
-		super("nothing");
+		super("ø");
 	}
 
 }

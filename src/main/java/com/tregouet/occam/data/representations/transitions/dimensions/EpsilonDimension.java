@@ -7,7 +7,7 @@ public class EpsilonDimension extends Variable {
 	public static final EpsilonDimension INSTANCE = new EpsilonDimension();
 
 	private EpsilonDimension() {
-		super("ignore");
+		super("ε");
 	}
 
 }

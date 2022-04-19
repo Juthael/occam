@@ -12,7 +12,7 @@ import com.tregouet.subseq_finder.impl.SymbolSeq;
 
 public class Particular implements IContextObject {
 
-	private static int nextID = 0;
+	private static int nextID = 1;
 	private final List<IConstruct> constructs = new ArrayList<>();
 	private final int iD;
 	private final String name;

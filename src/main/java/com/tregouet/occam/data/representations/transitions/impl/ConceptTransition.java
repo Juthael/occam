@@ -1,8 +1,10 @@
 package com.tregouet.occam.data.representations.transitions.impl;
 
+import java.util.Iterator;
 import java.util.Objects;
 
 import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.ITransition;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.representations.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.representations.transitions.IConceptTransitionOIC;
@@ -66,8 +68,16 @@ public abstract class ConceptTransition implements IConceptTransition {
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
-		sB.append("(").append(inputConfig.toString()).append(", ").append(inputConfig.getStackSymbol().toString())
-				.append(" -> ").append(outputInternConfig.getPushedStackSymbols().toString()).append(")");
+		sB.append(inputConfig.getInputSymbol().toString())
+			.append(", ")
+			.append(inputConfig.getStackSymbol().toString())
+			.append(" → ");
+		Iterator<AVariable> varIte = outputInternConfig.getPushedStackSymbols().iterator();
+		while (varIte.hasNext()) {
+			sB.append(varIte.next());
+			if (varIte.hasNext())
+				sB.append(", ");
+		}
 		return sB.toString();
 	}
 

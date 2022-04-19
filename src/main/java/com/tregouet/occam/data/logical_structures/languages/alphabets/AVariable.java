@@ -44,9 +44,6 @@ public abstract class AVariable implements ISymbol {
 		for (char curr = 'a'; curr <= 'z'; curr++) {
 			authorizedCharASCII.add(curr);
 		}
-		for (char curr = 945; curr <= 965; curr++) {
-			authorizedCharASCII.add(curr);
-		}
 		return authorizedCharASCII;
 	}
 

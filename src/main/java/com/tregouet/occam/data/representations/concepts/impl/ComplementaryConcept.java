@@ -74,5 +74,12 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 		}
 		return sB.toString();
 	}
+	
+	@Override
+	public int deepID() {
+		if (wrappedComplementing != null)
+			return wrappedComplementing.iD();
+		return super.deepID();
+	}	
 
 }

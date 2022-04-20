@@ -30,21 +30,21 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 		Set<Integer> outputStateIDs = new HashSet<>();
 		for (IConceptTransition transition : transitions) {
 			switch (transition.type()) {
-			case INITIAL:
-				initialTemp = transition;
-				break;
-			case APPLICATION:
-				applications.add((IApplication) transition);
-				break;
-			case CLOSURE:
-				closures.add(transition);
-				break;
-			case INHERITANCE:
-				inheritances.add(transition);
-				break;
-			case SPONTANEOUS:
-				spontaneous.add(transition);
-				break;
+				case INITIAL:
+					initialTemp = transition;
+					break;
+				case APPLICATION:
+					applications.add((IApplication) transition);
+					break;
+				case CLOSURE:
+					closures.add(transition);
+					break;
+				case INHERITANCE:
+					inheritances.add(transition);
+					break;
+				case SPONTANEOUS:
+					spontaneous.add(transition);
+					break;
 			}
 			inputStateIDs.add(transition.getInputConfiguration().getInputStateID());
 			outputStateIDs.add(transition.getOutputInternConfiguration().getOutputStateID());

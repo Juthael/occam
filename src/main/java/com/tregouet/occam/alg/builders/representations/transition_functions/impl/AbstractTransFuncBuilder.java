@@ -14,6 +14,11 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Terminal;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.representations.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
@@ -23,6 +28,7 @@ import com.tregouet.occam.data.representations.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.representations.transitions.IConceptTransitionOIC;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.representations.transitions.TransitionType;
+import com.tregouet.occam.data.representations.transitions.dimensions.EpsilonDimension;
 import com.tregouet.occam.data.representations.transitions.impl.Application;
 import com.tregouet.occam.data.representations.transitions.impl.ClosureTransition;
 import com.tregouet.occam.data.representations.transitions.impl.ConceptTransitionIC;
@@ -50,18 +56,54 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 	private static Set<IConceptTransition> buildApplicationsAndClosedInheritancesFrom(
 			InvertedTree<IConcept, IIsA> treeOfConcepts, Set<IContextualizedProduction> unfilteredUnreducedProds) {
 		Set<IContextualizedProduction> mutableUnfilteredUnreduced = new HashSet<>(unfilteredUnreducedProds);
+		//HERE
+		System.out.println("UNFILTERED : ");
+		for (IContextualizedProduction prod : mutableUnfilteredUnreduced) {
+			IConstruct searched = new Construct(new ArrayList<ISymbol>(Arrays.asList(new ISymbol[] {new Terminal("red")})));
+			if (!prod.isEpsilon() && prod.getValue().equals(searched)) {
+				System.out.println(prod.getSpeciesID() + " -> " + prod.getGenusID() + " : " + prod.toString());
+			}
+		}
+		System.out.println(System.lineSeparator());
+		//HERE
 		Set<IContextualizedProduction> filteredProds = filterProductionsWithTree(mutableUnfilteredUnreduced,
 				treeOfConcepts);
+		//HERE
+		System.out.println("FILTERED : ");
+		for (IContextualizedProduction prod : filteredProds) {
+			IConstruct searched = new Construct(new ArrayList<ISymbol>(Arrays.asList(new ISymbol[] {new Terminal("red")})));
+			if (!prod.isEpsilon() && prod.getValue().equals(searched)) {
+				System.out.println(prod.getSpeciesID() + " -> " + prod.getGenusID() + " : " + prod.toString());
+			}
+		}
+		System.out.println(System.lineSeparator());
+		//HERE		
 		Set<IContextualizedProduction> filteredReducedProds = transitiveReduction(filteredProds);
+		//HERE
+		System.out.println("REDUCED : ");
+		for (IContextualizedProduction prod : filteredReducedProds) {
+			IConstruct searched = new Construct(new ArrayList<ISymbol>(Arrays.asList(new ISymbol[] {new Terminal("red")})));
+			if (!prod.isEpsilon() && prod.getValue().equals(searched)) {
+				System.out.println(prod.getSpeciesID() + " -> " + prod.getGenusID() + " : " + prod.toString());
+			}
+		}
+		System.out.println(System.lineSeparator());
+		//HERE		
 		Set<IConceptTransition> transitions = new HashSet<>();
 		Map<Integer, Integer> conceptToSuccessorIDs = new HashMap<>();
 		IConcept root = treeOfConcepts.getRoot();
 		for (IConcept concept : treeOfConcepts.vertexSet()) {
 			if (!concept.equals(root)) {
-				conceptToSuccessorIDs.put(concept.iD(), Graphs.successorListOf(treeOfConcepts, concept).get(0).iD());
+				conceptToSuccessorIDs.put(concept.deepID(), Graphs.successorListOf(treeOfConcepts, concept).get(0).deepID());
 			}
 		}
 		for (IContextualizedProduction production : filteredReducedProds) {
+			//HERE
+			IConstruct searched = new Construct(new ArrayList<ISymbol>(Arrays.asList(new ISymbol[] {new Terminal("red")})));
+			if (!production.isEpsilon() && production.getValue().equals(searched)) {
+				System.out.println(production.getSpeciesID() + " -> " + production.getGenusID() + " : " + production.toString());
+			}
+			//HERE
 			int outputStateID = production.getSpeciesID();
 			int inputStateID = conceptToSuccessorIDs.get(outputStateID);
 			if (production.isEpsilon())
@@ -70,10 +112,15 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 			else {
 				AVariable poppedStackSymbol = production.getVariable();
 				IConceptTransitionIC inputConfig = new ConceptTransitionIC(inputStateID, production, poppedStackSymbol);
-				List<AVariable> pushedStackSymbols = production.getValue().getVariables();
-				for (AVariable pushedStackSymbol : pushedStackSymbols) {
+				List<AVariable> newBoundVariables = production.getValue().getVariables();
+				if (newBoundVariables.isEmpty()) {
 					IConceptTransitionOIC outputConfig = new ConceptTransitionOIC(outputStateID,
-							new ArrayList<>(Arrays.asList(new AVariable[] { pushedStackSymbol })));
+							new ArrayList<>(Arrays.asList(new AVariable[] {EpsilonDimension.INSTANCE})));
+					transitions.add(new Application(inputConfig, outputConfig));
+				}
+				else for (AVariable pushedStackSymbol : newBoundVariables) {
+					IConceptTransitionOIC outputConfig = new ConceptTransitionOIC(outputStateID,
+							new ArrayList<>(Arrays.asList(new AVariable[] {pushedStackSymbol})));
 					transitions.add(new Application(inputConfig, outputConfig));
 				}
 			}
@@ -117,11 +164,32 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 
 	private static Set<IContextualizedProduction> filterProductionsWithTree(Set<IContextualizedProduction> unfiltered,
 			InvertedTree<IConcept, IIsA> treeOfConcepts) {
+		//HERE
+		IConstruct searched = new Construct(new ArrayList<ISymbol>(Arrays.asList(new ISymbol[] {new Terminal("red")})));
+		System.out.println("FILTRATION : ");
+		//HERE
 		Set<IContextualizedProduction> filtered = new HashSet<>();
 		for (IContextualizedProduction production : unfiltered) {
+			//HERE
+			boolean tested = false;
+			if (!production.isEpsilon() && production.getValue().equals(searched)) {
+				tested = true;
+				System.out.println(production.getSpeciesID() + " -> " + production.getGenusID() + " : " + production.toString());
+			}
+			//HERE
 			if (containsVertexWithID(treeOfConcepts, production.getGenusID())
-					&& containsVertexWithID(treeOfConcepts, production.getSpeciesID()))
+					&& containsVertexWithID(treeOfConcepts, production.getSpeciesID())) {
 				filtered.add(production);
+				//HERE
+				if (tested)
+					System.out.println("accepted.");
+				//HERE
+			}
+			//HERE
+			else if (tested)
+				System.out.println("refused");
+			//HERE
+				
 		}
 		return filtered;
 	}
@@ -194,7 +262,13 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 	
 	private static boolean containsVertexWithID(InvertedTree<IConcept, IIsA> treeOfConcepts, int iD) {
 		for (IConcept concept : treeOfConcepts) {
-			if (concept.iD() == iD)
+			if (concept.isComplementary()) {
+				IComplementaryConcept compConcept = (IComplementaryConcept) concept;
+				IConcept wrappedComplementing = compConcept.getWrappedComplementing();
+				if (wrappedComplementing != null && wrappedComplementing.iD() == iD)
+					return true;
+			}
+			else if (concept.iD() == iD)
 				return true;
 		}
 		return false;

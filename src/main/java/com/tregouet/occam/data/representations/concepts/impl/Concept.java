@@ -174,4 +174,9 @@ public class Concept implements IConcept {
 				&& type == other.type;
 	}
 
+	@Override
+	public int deepID() {
+		return iD;
+	}
+
 }

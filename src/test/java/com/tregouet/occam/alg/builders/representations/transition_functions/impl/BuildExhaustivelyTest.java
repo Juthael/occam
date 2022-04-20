@@ -55,6 +55,9 @@ public class BuildExhaustivelyTest {
 		int idx = 0;
 		//HERE
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
+			//HERE
+			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(tree, "TEST");
+			//HERE
 			transFuncBldr = new BuildExhaustively();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
 			//HERE

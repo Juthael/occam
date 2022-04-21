@@ -114,4 +114,10 @@ public class Production implements IProduction {
 		return "[" + variable.toString() + " ::= " + value.toString() + "]";
 	}
 
+	@Override
+	public boolean isBlank() {
+		List<ISymbol> valueList = value.asList();
+		return ((valueList.size() == 1) && (valueList.get(0).equals(variable))); 
+	}
+
 }

@@ -39,10 +39,4 @@ public interface IConcept extends IDichotomizable<IConcept>, IState {
 	String toString();
 
 	ConceptType type();
-	
-	/**
-	 * returns the iD, except if the concept is complementary and contains a wrapped complementing concept ; 
-	 * then, returns the iD of the wrapped concept.
-	 */
-	int deepID();
 }

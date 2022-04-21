@@ -24,5 +24,11 @@ public interface IProduction extends ISymbol {
 
 	@Override
 	String toString();
+	
+	/**
+	 * 
+	 * @return true if left term and right term are the same
+	 */
+	boolean isBlank();
 
 }

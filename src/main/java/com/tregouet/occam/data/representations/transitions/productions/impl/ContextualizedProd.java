@@ -104,4 +104,9 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 			return production.toString();
 	}
 
+	@Override
+	public boolean isBlank() {
+		return production.isBlank();
+	}
+
 }

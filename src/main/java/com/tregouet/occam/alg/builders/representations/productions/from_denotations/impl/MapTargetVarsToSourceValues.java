@@ -33,6 +33,8 @@ public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 			return true;
 		if (sourceTerminals.isEmpty())
 			return false;
+		if (targetTerminals.equals(sourceTerminals))
+			return true;
 		Iterator<ITerminal> sourceIte = sourceTerminals.iterator();
 		Iterator<ITerminal> targetIte = targetTerminals.iterator();
 		ITerminal targetCurr = targetIte.next();
@@ -50,26 +52,32 @@ public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 	@Override
 	public Set<IContextualizedProduction> apply(IDenotation source, IDenotation target) {
 		Set<IContextualizedProduction> productions = new HashSet<>();
-		if (source.asList().equals(target.asList()))
-			productions.add(new ContextualizedEpsilonProd(source, target));
-		else if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals())) {
+		if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals())) {
 			// then source may be an instance of target
-			List<ISymbol> sourceSymbolSeq = source.asList();
-			List<ISymbol> targetSymbolSeq = target.asList();
-			Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(sourceSymbolSeq, targetSymbolSeq);
-			if (varToValue != null) {
-				for (AVariable variable : varToValue.keySet()) {
-					IConstruct value;
-					List<ISymbol> valueList = varToValue.get(variable);
-					if (valueList.isEmpty()) {
-						List<ISymbol> emptyString = new ArrayList<>(
-								Arrays.asList(new ISymbol[] { new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL) }));
-						value = new Construct(emptyString);
-					} else
-						value = new Construct(valueList);
-					IProduction production = new Production(variable, value);
-					productions.add(new ContextualizedProd(source, target, production));
-				}
+			if (target.getVariables().size() > 0) {
+				//since if no variable can be bound, then nothing to produce 
+				List<ISymbol> sourceSymbolSeq = source.asList();
+				List<ISymbol> targetSymbolSeq = target.asList();
+				Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(sourceSymbolSeq, targetSymbolSeq);
+				if (varToValue != null) {
+					for (AVariable variable : varToValue.keySet()) {
+						IConstruct value;
+						List<ISymbol> valueList = varToValue.get(variable);
+						if (valueList.isEmpty()) {
+							List<ISymbol> emptyString = new ArrayList<>(
+									Arrays.asList(new ISymbol[] { new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL) }));
+							value = new Construct(emptyString);
+						} 
+						else {
+							value = new Construct(valueList);
+							IProduction production = new Production(variable, value);
+							productions.add(new ContextualizedProd(source, target, production));
+						}
+					}
+				}	
+			}
+			else {
+				productions.add(new ContextualizedEpsilonProd(source, target));
 			}
 		}
 		return productions;

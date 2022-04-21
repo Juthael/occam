@@ -51,24 +51,25 @@ public class BuildExhaustivelyTest {
 	public void whenTransitionFunctionRequestedThenReturned() {
 		boolean asExpected = true;
 		BuildExhaustively transFuncBldr;
-		//HERE
+		/*
 		int idx = 0;
-		//HERE
+		*/
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
-			//HERE
+			/*
 			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(tree, "TEST");
-			//HERE
+			*/
 			transFuncBldr = new BuildExhaustively();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
-			//HERE
+			/*
 			System.out.println(report(transFunc, tree, idx++));
-			//HERE
+			*/
 			if (transFunc == null)
 				asExpected = false;
 		}
 		assertTrue(asExpected);
 	}
 	
+	@SuppressWarnings("unused")
 	private String report(IRepresentationTransitionFunction transFunc, InvertedTree<IConcept, IIsA> tree, int idx) {
 		StringBuilder sB = new StringBuilder();
 		String treePath = 

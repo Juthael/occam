@@ -23,7 +23,7 @@ public class BoundVarCounter implements PropertyWeigher {
 				varInstantiatedByNonRedundantApp.add(app.getInputConfiguration().getStackSymbol());
 			}
 		}
-		property.setWeight(varInstantiatedByNonRedundantApp.size());
+		property.setWeight((double) varInstantiatedByNonRedundantApp.size());
 	}
 
 }

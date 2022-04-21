@@ -18,5 +18,15 @@ public interface IProperty extends Weighed {
 
 	@Override
 	String toString();
+	
+	@Override
+	int hashCode();
+	
+	@Override
+	boolean equals(Object o);
+	
+	int getGenusID();
+	
+	int getSpeciesID();
 
 }

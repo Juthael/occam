@@ -1,7 +1,10 @@
 package com.tregouet.occam.alg.builders.representations.descriptions.differentiae.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,28 +22,14 @@ import it.unimi.dsi.fastutil.ints.IntIntPair;
 public class IfIsAThenDiffer implements DifferentiaeBuilder {
 
 	Map<IntIntPair, Set<IProperty>> transitionToProperties;
+	
+	public IfIsAThenDiffer() {
+	}
 
 	@Override
 	public Set<AbstractDifferentiae> apply(IRepresentationTransitionFunction transFunc) {
 		init();
-		populateMap(transFunc);
-		return output();
-	}
-
-	private void init() {
-		transitionToProperties = new HashMap<>();
-	}
-
-	private Set<AbstractDifferentiae> output() {
 		Set<AbstractDifferentiae> differentiae = new HashSet<>();
-		for (IntIntPair transition : transitionToProperties.keySet()) {
-			differentiae.add(new Differentiae(transition.firstInt(), transition.secondInt(),
-					transitionToProperties.get(transition)));
-		}
-		return differentiae;
-	}
-
-	private void populateMap(IRepresentationTransitionFunction transFunc) {
 		Set<IntIntPair> sourceToTargetIDs = new HashSet<>();
 		for (IConceptTransition transition : transFunc.getTransitions()) {
 			int inputStateID = transition.getInputConfiguration().getInputStateID();
@@ -49,15 +38,27 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 						transition.getOutputInternConfiguration().getOutputStateID()));
 			}
 		}
+		List<IProperty> properties = new ArrayList<>(DifferentiaeBuilder.propertyBuilder().apply(transFunc));
 		for (IntIntPair sourceToTargetID : sourceToTargetIDs) {
-			transitionToProperties.put(sourceToTargetID, new HashSet<>());
+			Set<IProperty> thisDiffProperties = new HashSet<>();
+			ListIterator<IProperty> propIte = properties.listIterator();
+			while (propIte.hasNext()) {
+				IProperty property = propIte.next();
+				if (property.getGenusID() == sourceToTargetID.firstInt() 
+						&& property.getSpeciesID() == sourceToTargetID.secondInt()) {
+					thisDiffProperties.add(property);
+					propIte.remove();
+				}
+			}
+			differentiae.add(
+					new Differentiae(
+							sourceToTargetID.firstInt(), sourceToTargetID.secondInt(), thisDiffProperties));
 		}
-		Set<IProperty> properties = DifferentiaeBuilder.propertyBuilder().apply(transFunc);
-		for (IProperty property : properties) {
-			IntIntPair transIDs = new IntIntImmutablePair(property.getFunction().getConceptID(),
-					property.getResultingValues().iterator().next().getConceptID());
-			transitionToProperties.get(transIDs).add(property);
-		}
+		return differentiae;
+	}
+
+	private void init() {
+		transitionToProperties = new HashMap<>();
 	}
 
 }

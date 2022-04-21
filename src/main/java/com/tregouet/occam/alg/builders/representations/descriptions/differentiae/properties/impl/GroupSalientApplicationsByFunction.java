@@ -12,10 +12,11 @@ import com.tregouet.occam.data.representations.descriptions.properties.IProperty
 import com.tregouet.occam.data.representations.descriptions.properties.impl.Property;
 import com.tregouet.occam.data.representations.transitions.IApplication;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.representations.transitions.Salience;
 
 public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 
+	private List<Integer> genusIDs;
+	private List<Integer> speciesIDs;
 	private List<IDenotation> functions;
 	private List<Set<IApplication>> applicationSets;
 	private List<Set<IDenotation>> valueSets;
@@ -27,25 +28,26 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 	public Set<IProperty> apply(IRepresentationTransitionFunction transFunction) {
 		init();
 		for (IApplication application : transFunction.getSalientApplications()) {
-			Salience salience = application.getSalience();
-			if (salience == Salience.COMMON_FEATURE || salience == Salience.TRANSITION_RULE) {
-				IDenotation function = application.getInputConfiguration().getInputSymbol().getTarget();
-				int functionIdx = functions.indexOf(function);
-				if (functionIdx == -1) {
-					functions.add(function);
-					applicationSets.add(new HashSet<>(Arrays.asList(new IApplication[] { application })));
-					valueSets.add(new HashSet<>(Arrays.asList(
-							new IDenotation[] { application.getInputConfiguration().getInputSymbol().getSource() })));
-				} else {
-					applicationSets.get(functionIdx).add(application);
-					valueSets.get(functionIdx).add(application.getInputConfiguration().getInputSymbol().getSource());
-				}
+			IDenotation function = application.getInputConfiguration().getInputSymbol().getTarget();
+			int functionIdx = functions.indexOf(function);
+			if (functionIdx == -1) {
+				genusIDs.add(application.getInputConfiguration().getInputStateID());
+				speciesIDs.add(application.getOutputInternConfiguration().getOutputStateID());
+				functions.add(function);
+				applicationSets.add(new HashSet<>(Arrays.asList(new IApplication[] { application })));
+				valueSets.add(new HashSet<>(Arrays.asList(
+						new IDenotation[] { application.getInputConfiguration().getInputSymbol().getSource() })));
+			} else {
+				applicationSets.get(functionIdx).add(application);
+				valueSets.get(functionIdx).add(application.getInputConfiguration().getInputSymbol().getSource());
 			}
 		}
 		return output();
 	}
 
 	private void init() {
+		genusIDs = new ArrayList<>();
+		speciesIDs = new ArrayList<>();
 		functions = new ArrayList<>();
 		applicationSets = new ArrayList<>();
 		valueSets = new ArrayList<>();
@@ -54,7 +56,8 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 	private Set<IProperty> output() {
 		Set<IProperty> properties = new HashSet<>();
 		for (int i = 0; i < functions.size(); i++) {
-			properties.add(new Property(functions.get(i), applicationSets.get(i), valueSets.get(i)));
+			properties.add(new Property(genusIDs.get(i), speciesIDs.get(i), functions.get(i), applicationSets.get(i), 
+					valueSets.get(i)));
 		}
 		for (IProperty property : properties)
 			PropertyBuilder.propertyWeigher().accept(property);

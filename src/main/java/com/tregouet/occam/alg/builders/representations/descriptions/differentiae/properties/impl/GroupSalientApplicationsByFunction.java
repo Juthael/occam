@@ -32,8 +32,11 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 			if (!clustered)
 				appClusters.add(new AppCluster(application));
 		}
-		for (AppCluster cluster : appClusters)
-			properties.add(cluster.asProperty());
+		for (AppCluster cluster : appClusters) {
+			IProperty property = cluster.asProperty();
+			PropertyBuilder.propertyWeigher().accept(property);
+			properties.add(property);
+		}
 		return properties;
 	}
 

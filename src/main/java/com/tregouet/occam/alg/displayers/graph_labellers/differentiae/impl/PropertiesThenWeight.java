@@ -17,13 +17,14 @@ public class PropertiesThenWeight implements DifferentiaeLabeller {
 	public String apply(AbstractDifferentiae differentiae) {
 		StringBuilder sB = new StringBuilder();
 		String nL = System.lineSeparator();
+		sB.append(differentiae.weight().toString() + nL);
 		Iterator<IProperty> propIte = differentiae.getProperties().iterator();
 		while (propIte.hasNext()) {
 			sB.append(DifferentiaeLabeller.getPropertyDisplayer().apply(propIte.next()));
-			sB.append(nL);
+			if (propIte.hasNext())
+				sB.append(nL);
 		}
-		sB.append(differentiae.weight().toString());
-		return null;
+		return sB.toString();
 	}
 
 }

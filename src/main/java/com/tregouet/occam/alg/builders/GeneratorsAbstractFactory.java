@@ -36,9 +36,6 @@ import com.tregouet.occam.alg.builders.representations.descriptions.differentiae
 import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetter;
-import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetterFactory;
-import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetterStrategy;
 import com.tregouet.occam.alg.builders.representations.fact_evaluators.FactEvaluatorBuilder;
 import com.tregouet.occam.alg.builders.representations.fact_evaluators.FactEvaluatorBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.fact_evaluators.FactEvaluatorBuilderStrategy;
@@ -79,7 +76,6 @@ public class GeneratorsAbstractFactory {
 	private DifferentiaeBuilderStrategy differentiaeBuilderStrategy = null;
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
 	private DescriptionBuilderStrategy descriptionBuilderStrategy = null;
-	private DifferentiaeRankSetterStrategy differentiaeRankSetterStrategy = null;
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
 	private StringSchemeBuilderStrategy stringSchemeBuilderStrategy = null;
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
@@ -112,10 +108,6 @@ public class GeneratorsAbstractFactory {
 
 	public DifferentiaeBuilder getDifferentiaeBuilder() {
 		return DifferentiaeBuilderFactory.INSTANCE.apply(differentiaeBuilderStrategy);
-	}
-
-	public DifferentiaeRankSetter getDifferentiaeRankSetter() {
-		return DifferentiaeRankSetterFactory.INSTANCE.apply(differentiaeRankSetterStrategy);
 	}
 
 	public FactEvaluatorBuilder getFactEvaluatorBuilder() {
@@ -193,7 +185,6 @@ public class GeneratorsAbstractFactory {
 			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.DEFERRED_MATRICES_INSTANTIATION;
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
-			differentiaeRankSetterStrategy = DifferentiaeRankSetterStrategy.DEPTH_FIRST;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 			stringSchemeBuilderStrategy = StringSchemeBuilderStrategy.RECURSIVE_FRAMING;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;

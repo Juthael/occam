@@ -1,14 +1,15 @@
-package com.tregouet.occam.alg.builders.representations.descriptions.ranks.impl;
+package com.tregouet.occam.alg.builders.representations.descriptions.utils;
 
-import com.tregouet.occam.alg.builders.representations.descriptions.ranks.DifferentiaeRankSetter;
+import java.util.function.Consumer;
+
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
-public class DepthFirstRankSetter implements DifferentiaeRankSetter {
+public class DifferentiaeRankSetter implements Consumer<Tree<Integer, AbstractDifferentiae>> {
 
-	public static final DepthFirstRankSetter INSTANCE = new DepthFirstRankSetter();
+	public static final DifferentiaeRankSetter INSTANCE = new DifferentiaeRankSetter();
 
-	private DepthFirstRankSetter() {
+	private DifferentiaeRankSetter() {
 	}
 
 	@Override

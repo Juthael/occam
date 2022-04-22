@@ -8,6 +8,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.utils.DifferentiaeRankSetter;
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
@@ -29,6 +30,7 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 		Set<AbstractDifferentiae> differentiae;
 		Tree<Integer, AbstractDifferentiae> classification;
 		differentiae = DescriptionBuilder.differentiaeBuilder().apply(transFunc);
+		//build parameter graph for the tree constructor
 		DirectedAcyclicGraph<Integer, AbstractDifferentiae> paramTree = new DirectedAcyclicGraph<>(null, null, false);
 		for (AbstractDifferentiae diff : differentiae) {
 			Integer genusID = diff.getSource();
@@ -37,12 +39,16 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 			paramTree.addVertex(speciesID);
 			paramTree.addEdge(genusID, speciesID, diff);
 		}
+		//build other parameters for the tree constructor
 		List<Integer> topoOrderOverConcepts = new ArrayList<>();
 		new TopologicalOrderIterator<>(paramTree).forEachRemaining(topoOrderOverConcepts::add);
 		Integer ontologicalCommitmentID = topoOrderOverConcepts.get(0);
 		Set<Integer> particularIDs = transFunc.getAcceptStateIDs();
+		//build classification tree
 		classification = new Tree<>(paramTree, ontologicalCommitmentID, particularIDs, topoOrderOverConcepts);
-		DescriptionBuilder.differentiaeRankSetter().accept(classification);
+		//rank differentiae in tree
+		DifferentiaeRankSetter.INSTANCE.accept(classification);
+		//weigh differentiae
 		DifferentiaeCoeffSetter differentiaeCoeffSetter = DescriptionBuilder.differentiaeCoeffSetter()
 				.setContext(classification);
 		DifferentiaeWeigher differentiaeWeigher = DescriptionBuilder.differentiaeWeigher();

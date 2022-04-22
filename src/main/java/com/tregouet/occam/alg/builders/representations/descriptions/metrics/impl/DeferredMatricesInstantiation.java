@@ -1,7 +1,6 @@
 package com.tregouet.occam.alg.builders.representations.descriptions.metrics.impl;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilder;
@@ -19,9 +18,7 @@ public class DeferredMatricesInstantiation implements SimilarityMetricsBuilder {
 
 	@Override
 	public ISimilarityMetrics apply(Tree<Integer, AbstractDifferentiae> descriptionTree) {
-		List<Integer> topologicalOrder = descriptionTree.getTopologicalOrder();
-		TreeSet<Integer> particulars = new TreeSet<>(
-				(e1, e2) -> topologicalOrder.indexOf(e1) - topologicalOrder.indexOf(e2));
+		TreeSet<Integer> particulars = new TreeSet<>();
 		particulars.addAll(descriptionTree.getLeaves());
 		int nbOfParticulars = particulars.size();
 		int[] particularArray = new int[nbOfParticulars];

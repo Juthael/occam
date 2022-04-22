@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.representations.transition_functions.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -51,22 +51,18 @@ public class BuildExhaustivelyTest {
 	public void whenTransitionFunctionRequestedThenReturned() {
 		boolean asExpected = true;
 		BuildExhaustively transFuncBldr;
-		/*
-		int idx = 0;
-		*/
+		int nbOfChecks = 0;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
-			/*
-			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(tree, "TEST");
-			*/
 			transFuncBldr = new BuildExhaustively();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
 			/*
-			System.out.println(report(transFunc, tree, idx++));
+			System.out.println(report(transFunc, tree, nbOfChecks));
 			*/
+			nbOfChecks++;
 			if (transFunc == null)
 				asExpected = false;
 		}
-		assertTrue(asExpected);
+		assertTrue(nbOfChecks > 0 && asExpected);
 	}
 	
 	@SuppressWarnings("unused")
@@ -82,5 +78,6 @@ public class BuildExhaustivelyTest {
 			.append("Transition function n." + Integer.toString(idx) + " is available at : " + tfPath);
 		return sB.toString();
 	}
+
 
 }

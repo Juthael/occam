@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.representations.transition_functions.transition_saliences.TransitionSalienceSetter;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
@@ -20,6 +21,10 @@ public interface RepresentationTransFuncBuilder extends
 	 */
 	public static TransitionSalienceSetter transitionSalienceSetter() {
 		return GeneratorsAbstractFactory.INSTANCE.getTransitionSalienceSetter();
+	}
+	
+	public static ProdBuilderFromDenotations getProdBuilderFromDenotations() {
+		return GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromDenotations();
 	}
 
 }

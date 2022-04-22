@@ -27,7 +27,6 @@ import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.displayers.graph_labellers.LabellersAbstractFactory;
-import com.tregouet.occam.alg.displayers.graph_labellers.differentiae.DifferentiaeLabeller;
 import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
@@ -47,6 +46,7 @@ import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
 
+@SuppressWarnings("unused")
 public class IfIsAThenDifferTest {
 	
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
@@ -89,7 +89,7 @@ public class IfIsAThenDifferTest {
 				graph.addVertex(diff.getTarget());
 				graph.addEdge(diff.getSource(), diff.getTarget(), diff);
 			}
-			//HERE
+			/*
 			String transFuncFullPath = 
 					VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz().apply(
 							transFunc, "IfIsAThenDifferTest_TF_" + Integer.toString(nbOfChecks));
@@ -98,7 +98,7 @@ public class IfIsAThenDifferTest {
 			+ transFuncFullPath);
 			System.out.println("Description graph n." + Integer.toString(nbOfChecks) + " is available at " 
 			+ descFullPath);
-			//HERE
+			*/
 			if (!StructureInspector.isATree(graph))
 				asExpected = false;
 			nbOfChecks++;
@@ -108,7 +108,6 @@ public class IfIsAThenDifferTest {
 	
 	private String visualize(DirectedAcyclicGraph<Integer, AbstractDifferentiae> description, int idx) {
 		String fileName = "IfIsAThenDifferTest_Desc_" + Integer.toString(idx);
-		DifferentiaeLabeller diffDisplayer = LabellersAbstractFactory.INSTANCE.getDifferentiaeDisplayer();
 		// convert in DOT format
 		DOTExporter<Integer, AbstractDifferentiae> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {

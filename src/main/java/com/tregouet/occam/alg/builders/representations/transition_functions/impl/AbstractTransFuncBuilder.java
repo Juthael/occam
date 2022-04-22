@@ -53,13 +53,22 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 
 	private static Set<IConceptTransition> buildApplicationsAndUnclosedInheritancesFrom(
 			InvertedTree<IConcept, IIsA> treeOfConcepts, Set<IContextualizedProduction> unfilteredUnreducedProds) {
+		//every production generated from the concept lattice. New set to prevent side effects. 
 		Set<IContextualizedProduction> mutableUnfilteredUnreduced = new HashSet<>(unfilteredUnreducedProds);
-		Set<IContextualizedProduction> updated = updateProductionsWithComplementaryConceptsIDs(
-				mutableUnfilteredUnreduced, treeOfConcepts);
+		/* if the genus or species concept of a production has been wrapped in a complementary concept while building 
+		 * the tree, then change IDs accordingly */
+		Set<IContextualizedProduction> updatedUnfilteredUnreduced = 
+				updateProductionsWithComplementaryConceptsIDs(mutableUnfilteredUnreduced, treeOfConcepts);
+		//restrict the previous set to the subset of productions relevant for this tree
 		Set<IContextualizedProduction> filteredProds = filterProductionsWithTree(
-				updated, treeOfConcepts);
-		Set<IContextualizedProduction> filteredReducedProds = transitiveReduction(filteredProds);
+				updatedUnfilteredUnreduced, treeOfConcepts);
+		/* add productions generated out of the tree's specific concepts (i.i., complementary unwrapping concepts 
+		 * that were not in the concept lattice and aren't wrapping any lattice concept. */
+		Set<IContextualizedProduction> filteredUpdatedProds = addProductionsWithUnwrappingComplementaryConcepts(
+				filteredProds, treeOfConcepts);
+		Set<IContextualizedProduction> filteredUpdatedReducedProds = transitiveReduction(filteredUpdatedProds);
 		Set<IConceptTransition> transitions = new HashSet<>();
+		//map each concept to its unique successor
 		Map<Integer, Integer> conceptToSuccessorIDs = new HashMap<>();
 		IConcept root = treeOfConcepts.getRoot();
 		for (IConcept concept : treeOfConcepts.vertexSet()) {
@@ -67,12 +76,12 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 				conceptToSuccessorIDs.put(concept.iD(), Graphs.successorListOf(treeOfConcepts, concept).get(0).iD());
 			}
 		}
-		for (IContextualizedProduction production : filteredReducedProds) {
+		for (IContextualizedProduction production : filteredUpdatedReducedProds) {
 			if (!production.isEpsilon()) {
 				int outputStateID = production.getSpeciesID();
 				int inputStateID = conceptToSuccessorIDs.get(outputStateID);
 				if (production.isBlank()) {
-					//blank : substitution of a variable by itself. Instead, ε-transition with same variable remaining active
+					//blank : substitution of a variable by itself. Instead, ε-transition with same variable remaining on top
 					transitions.add(new InheritanceTransition(inputStateID, outputStateID, production.getSource(), 
 							production.getTarget(), production.getVariable()));
 				}
@@ -144,9 +153,14 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 			InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		Set<IContextualizedProduction> filtered = new HashSet<>();
 		for (IContextualizedProduction production : unfiltered) {
-			if (containsVertexWithID(treeOfConcepts, production.getGenusID())
-					&& containsVertexWithID(treeOfConcepts, production.getSpeciesID()))
-				filtered.add(production);				
+			IConcept genus = getVertexWithID(treeOfConcepts, production.getGenusID());
+			if (genus != null) {
+				IConcept species = getVertexWithID(treeOfConcepts, production.getSpeciesID());
+				if (species != null) {
+					if (treeOfConcepts.isStrictLowerBoundOf(species, genus))
+						filtered.add(production);
+				}
+			}
 		}
 		return filtered;
 	}
@@ -217,18 +231,51 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		return new RepresentationTransitionFunction(transitions);
 	}
 	
-	private static boolean containsVertexWithID(InvertedTree<IConcept, IIsA> treeOfConcepts, int iD) {
+	private static IConcept getVertexWithID(InvertedTree<IConcept, IIsA> treeOfConcepts, int iD) {
 		for (IConcept concept : treeOfConcepts) {
 			if (concept.iD() == iD)
-				return true;
+				return concept;
 		}
-		return false;
+		return null;
+	}
+	
+	private static Set<IContextualizedProduction> addProductionsWithUnwrappingComplementaryConcepts(
+			Set<IContextualizedProduction> productions, 
+			InvertedTree<IConcept, IIsA> treeOfConcepts) {
+		Set<IIsA> adjacentEdgeToUnwrappingComplementary = new HashSet<>();
+		/*find out transitions to or from unwrapping complementary concepts, since they haven't been taken 
+		 *into account during the generation of productions from the concept lattice)
+		 */
+		for (IIsA edge : treeOfConcepts.edgeSet()) {
+			IConcept species = treeOfConcepts.getEdgeSource(edge);
+			if (species.isComplementary() && ((IComplementaryConcept) species).getWrappedComplementing() == null)
+				adjacentEdgeToUnwrappingComplementary.add(edge);
+			else {
+				IConcept genus = treeOfConcepts.getEdgeTarget(edge);
+				if (genus.isComplementary() && ((IComplementaryConcept) genus).getWrappedComplementing() == null)
+					adjacentEdgeToUnwrappingComplementary.add(edge);
+			}
+		}
+		//build productions
+		for (IIsA edge : adjacentEdgeToUnwrappingComplementary) {
+			IConcept species = treeOfConcepts.getEdgeSource(edge);
+			IConcept genus = treeOfConcepts.getEdgeTarget(edge);
+			for (IDenotation speciesDenotation : species.getDenotations()) {
+				for (IDenotation genusDenotation : genus.getDenotations()) {
+					productions.addAll(
+							RepresentationTransFuncBuilder.getProdBuilderFromDenotations().apply(
+									speciesDenotation, genusDenotation));
+				}
+			}
+		}
+		return productions;
 	}
 	
 	private static Set<IContextualizedProduction> updateProductionsWithComplementaryConceptsIDs(
 			Set<IContextualizedProduction> productions, 
 			InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		Set<IContextualizedProduction> updatedProductions = new HashSet<>();
+		//map wrapped concepts to complementary wrapping concepts
 		Map<Integer, Integer> wrappedConceptIDToComplementaryConceptID = new HashMap<>();
 		for (IConcept concept : treeOfConcepts) {
 			if (concept.isComplementary()) {
@@ -237,13 +284,14 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 					wrappedConceptIDToComplementaryConceptID.put(wrapped.iD(), concept.iD());
 			}
 		}
+		//update production IDs
 		for (IContextualizedProduction prod : productions) {
 			Integer newGenusID = wrappedConceptIDToComplementaryConceptID.get(prod.getGenusID());
 			Integer newSpeciesID = wrappedConceptIDToComplementaryConceptID.get(prod.getSpeciesID());
 			updatedProductions.add(updateOrReturnUnchanged(prod, newGenusID, newSpeciesID));
 		}
 		return updatedProductions;
-	}
+	}	
 	
 	private static IContextualizedProduction updateOrReturnUnchanged(IContextualizedProduction production, 
 			Integer newGenusID, Integer newSpeciesID) {
@@ -258,6 +306,6 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 			speciesDenotation = new Denotation(production.getSource(), newSpeciesID);
 		else speciesDenotation = production.getSource();
 		return new ContextualizedProd(speciesDenotation, genusDenotation, production);
-	}
+	}	
 
 }

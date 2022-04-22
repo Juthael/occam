@@ -53,7 +53,7 @@ public class LabellersAbstractFactory {
 		switch (strategy) {
 		case LABELLING_STRATEGY_1:
 			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.REMOVE_NON_SALIENT_APP;
-			propertyLabellerStrategy = PropertyLabellerStrategy.AS_LAMBDA;
+			propertyLabellerStrategy = PropertyLabellerStrategy.AS_PRODUCTIONS;
 			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
 			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES;
 			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.WEIGHT_ONLY;

@@ -1,25 +1,20 @@
 package com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilder;
-import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.util.AppCluster;
 import com.tregouet.occam.data.representations.descriptions.properties.IProperty;
-import com.tregouet.occam.data.representations.descriptions.properties.impl.Property;
 import com.tregouet.occam.data.representations.transitions.IApplication;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 
 public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 
-	private List<Integer> genusIDs;
-	private List<Integer> speciesIDs;
-	private List<IDenotation> functions;
-	private List<Set<IApplication>> applicationSets;
-	private List<Set<IDenotation>> valueSets;
+	private List<AppCluster> appClusters;
 
 	public GroupSalientApplicationsByFunction() {
 	}
@@ -27,41 +22,23 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 	@Override
 	public Set<IProperty> apply(IRepresentationTransitionFunction transFunction) {
 		init();
+		Set<IProperty> properties = new HashSet<>();
 		for (IApplication application : transFunction.getSalientApplications()) {
-			IDenotation function = application.getInputConfiguration().getInputSymbol().getTarget();
-			int functionIdx = functions.indexOf(function);
-			if (functionIdx == -1) {
-				genusIDs.add(application.getInputConfiguration().getInputStateID());
-				speciesIDs.add(application.getOutputInternConfiguration().getOutputStateID());
-				functions.add(function);
-				applicationSets.add(new HashSet<>(Arrays.asList(new IApplication[] { application })));
-				valueSets.add(new HashSet<>(Arrays.asList(
-						new IDenotation[] { application.getInputConfiguration().getInputSymbol().getSource() })));
-			} else {
-				applicationSets.get(functionIdx).add(application);
-				valueSets.get(functionIdx).add(application.getInputConfiguration().getInputSymbol().getSource());
+			boolean clustered = false;
+			Iterator<AppCluster> clusterIte = appClusters.iterator();
+			while (!clustered && clusterIte.hasNext()) {
+				clustered = clusterIte.next().add(application);
 			}
+			if (!clustered)
+				appClusters.add(new AppCluster(application));
 		}
-		return output();
+		for (AppCluster cluster : appClusters)
+			properties.add(cluster.asProperty());
+		return properties;
 	}
 
 	private void init() {
-		genusIDs = new ArrayList<>();
-		speciesIDs = new ArrayList<>();
-		functions = new ArrayList<>();
-		applicationSets = new ArrayList<>();
-		valueSets = new ArrayList<>();
-	}
-
-	private Set<IProperty> output() {
-		Set<IProperty> properties = new HashSet<>();
-		for (int i = 0; i < functions.size(); i++) {
-			properties.add(new Property(genusIDs.get(i), speciesIDs.get(i), functions.get(i), applicationSets.get(i), 
-					valueSets.get(i)));
-		}
-		for (IProperty property : properties)
-			PropertyBuilder.propertyWeigher().accept(property);
-		return properties;
+		appClusters = new ArrayList<>();
 	}
 
 }

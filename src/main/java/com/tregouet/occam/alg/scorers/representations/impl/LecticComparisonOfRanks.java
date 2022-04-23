@@ -25,6 +25,7 @@ public class LecticComparisonOfRanks implements RepresentationScorer {
 				maxRank = diff.rank();
 		}
 		Double[] valuesArray = new Double[maxRank + 1];
+		Arrays.fill(valuesArray, 0.0);
 		for (AbstractDifferentiae diff : differentiae) {
 			valuesArray[diff.rank()] += diff.weight();
 		}

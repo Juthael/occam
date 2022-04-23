@@ -48,7 +48,7 @@ public interface RepresentationSortedSetBuilder extends Function<Collection<ICon
 	}
 
 	public static StringPatternBuilder getStringSchemeBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getStringSchemeBuilder();
+		return GeneratorsAbstractFactory.INSTANCE.getStringPatternBuilder();
 	}
 
 	public static RepresentationTransFuncBuilder getTransFuncBuilder() {

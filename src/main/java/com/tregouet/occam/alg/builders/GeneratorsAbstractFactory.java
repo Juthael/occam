@@ -163,7 +163,7 @@ public class GeneratorsAbstractFactory {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
 	}
 
-	public StringPatternBuilder getStringSchemeBuilder() {
+	public StringPatternBuilder getStringPatternBuilder() {
 		return StringPatternBuilderFactory.INSTANCE.apply(stringPatternBuilderStrategy);
 	}
 
@@ -190,7 +190,7 @@ public class GeneratorsAbstractFactory {
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 			factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_BLIND;
 			representationSortedSetBuilderStrategy = RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
-			representationSortedSetMaxSize = 50;
+			representationSortedSetMaxSize = 500;
 			partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
 			transitionBuilderStrategy = TransitionBuilderStrategy.USE_PARTIAL_ORDER;
 			problemSpaceBuilderStrategy = ProblemSpaceBuilderStrategy.GALOIS_LATTICE_OF_REPRESENTATIONS;

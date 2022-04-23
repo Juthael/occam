@@ -59,7 +59,7 @@ public interface ProblemSpaceBuilder extends Function<ICompleteRepresentations, 
 	}
 
 	public static StringPatternBuilder getStringSchemeBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getStringSchemeBuilder();
+		return GeneratorsAbstractFactory.INSTANCE.getStringPatternBuilder();
 	}
 
 }

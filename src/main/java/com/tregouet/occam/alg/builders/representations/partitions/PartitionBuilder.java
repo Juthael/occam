@@ -1,8 +1,8 @@
 package com.tregouet.occam.alg.builders.representations.partitions;
 
 import java.util.Set;
+import java.util.function.BiFunction;
 
-import com.google.common.base.Function;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilder;
 import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilder;
@@ -14,20 +14,18 @@ import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public interface PartitionBuilder extends Function<IDescription, Set<IPartition>> {
+public interface PartitionBuilder extends BiFunction<IDescription, InvertedTree<IConcept, IIsA>, Set<IPartition>> {
 
 	public static PartitionGraphBuilder getPartitionGraphBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getPartitionGraphBuilder();
 	}
 
 	public static StringPatternBuilder getPartitionStringBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getStringSchemeBuilder();
+		return GeneratorsAbstractFactory.INSTANCE.getStringPatternBuilder();
 	}
 
 	public static PartitionWeigher getPartitionWeigher() {
 		return SettersAbstractFactory.INSTANCE.getPartitionWeigher();
 	}
-
-	public PartitionBuilder setUp(InvertedTree<IConcept, IIsA> treeOfConcepts);
 
 }

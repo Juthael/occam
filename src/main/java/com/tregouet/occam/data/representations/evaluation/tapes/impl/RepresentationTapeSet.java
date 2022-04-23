@@ -14,6 +14,7 @@ public class RepresentationTapeSet implements IRepresentationTapeSet {
 	private IVarBinder stack = null;
 
 	public RepresentationTapeSet() {
+		inputTape = new FactTape();
 		stack = new VarBinder();
 	}
 

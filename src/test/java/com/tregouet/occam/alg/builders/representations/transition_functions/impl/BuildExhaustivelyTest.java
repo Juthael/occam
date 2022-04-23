@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.representations.transition_functions.impl.BuildExhaustively;
 import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;

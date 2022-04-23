@@ -47,6 +47,7 @@ public class LecticScore implements IScore<LecticScore> {
 				else
 					return localComparison;
 			}
+			return 1;
 		}
 		if (otherIte.hasNext())
 			return -1;

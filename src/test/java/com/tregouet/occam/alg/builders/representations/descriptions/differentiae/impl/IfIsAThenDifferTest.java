@@ -25,6 +25,7 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.impl.IfIsAThenDiffer;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.displayers.graph_labellers.LabellersAbstractFactory;
 import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizersAbstractFactory;

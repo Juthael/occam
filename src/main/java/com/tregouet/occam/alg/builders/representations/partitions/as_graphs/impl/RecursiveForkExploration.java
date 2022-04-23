@@ -52,6 +52,7 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 			DirectedAcyclicGraph<Integer, AbstractDifferentiae> forked = shallowCopyOf(partedSoFar);
 			Set<AbstractDifferentiae> fork = tree.outgoingEdgesOf(activeNode);
 			Graphs.addAllEdges(forked, tree, fork);
+			partedNext.add(forked);
 			for (AbstractDifferentiae path : fork) {
 				partedNext.addAll(part(tree, forked, path.getTarget()));
 			}
@@ -69,9 +70,9 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 
 	@Override
 	public Set<Tree<Integer, AbstractDifferentiae>> apply(Tree<Integer, AbstractDifferentiae> tree) {
-		DirectedAcyclicGraph<Integer, AbstractDifferentiae> builtSoFar = new DirectedAcyclicGraph<>(null, null, false);
-		builtSoFar.addVertex(tree.getRoot());
-		Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> dagPartitions = part(tree, builtSoFar, tree.getRoot());
+		DirectedAcyclicGraph<Integer, AbstractDifferentiae> partedSoFar = new DirectedAcyclicGraph<>(null, null, false);
+		partedSoFar.addVertex(tree.getRoot());
+		Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> dagPartitions = part(tree, partedSoFar, tree.getRoot());
 		return convertIntoTrees(dagPartitions);
 	}
 

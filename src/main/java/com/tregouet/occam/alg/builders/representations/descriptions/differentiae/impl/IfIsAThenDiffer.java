@@ -51,8 +51,7 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 				}
 			}
 			differentiae.add(
-					new Differentiae(
-							sourceToTargetID.firstInt(), sourceToTargetID.secondInt(), thisDiffProperties));
+					new Differentiae(sourceToTargetID.firstInt(), sourceToTargetID.secondInt(), thisDiffProperties));
 		}
 		return differentiae;
 	}

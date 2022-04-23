@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
 import com.tregouet.occam.data.problem_spaces.IGoalState;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
@@ -136,6 +137,9 @@ public abstract class Representation implements IRepresentation {
 
 	@Override
 	public Map<IConcept, Set<IFact>> mapAcceptStateToAcceptedWords() {
+		//HERE
+		VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz().apply(getTransitionFunction(), "TEST");
+		//HERE
 		Map<IConcept, Set<IFact>> acceptStateToAcceptedWords = new HashMap<>();
 		Map<Integer, IConcept> particularIDToParticular = new HashMap<>();
 		Map<Integer, Set<IFact>> particularIDToFacts = new HashMap<>();

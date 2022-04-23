@@ -72,8 +72,7 @@ public class Partition implements IPartition {
 		for (AbstractDifferentiae diff : asGraph.edgeSet()) {
 			int speciesIdx = containsAtReturnedIdx(speciesIDs, diff.getTarget());
 			if (speciesIdx != -1)
-				;
-			diffArray[speciesIdx] = diff;
+				diffArray[speciesIdx] = diff;
 		}
 		return diffArray;
 	}

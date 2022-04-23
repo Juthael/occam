@@ -10,7 +10,7 @@ import com.tregouet.tree_finder.data.Tree;
 public interface StringPatternBuilder extends Function<Tree<Integer, AbstractDifferentiae>, String> {
 
 	// only required if the function is applied to the graph of a partial
-	// representation
+	// representation or of a partition
 	public StringPatternBuilder setUp(Map<Integer, List<Integer>> conceptID2ExtentIDs);
 
 }

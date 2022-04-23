@@ -62,7 +62,7 @@ public class RecursiveFramingTest {
 		boolean asExpected = true;
 		RecursiveFraming patternBldr;
 		Set<String> patterns = new HashSet<>();
-		int idx = 0;
+		int checkIdx = 0;
 		for (IDescription description : descriptions) {
 			patternBldr = new RecursiveFraming();
 			String pattern = patternBldr.apply(description.asGraph());
@@ -71,9 +71,9 @@ public class RecursiveFramingTest {
 			*/
 			if (!patterns.add(pattern))
 				asExpected = false;
-			idx++;
+			checkIdx++;
 		}
-		assertTrue(asExpected);
+		assertTrue(checkIdx > 0 && asExpected);
 	}
 
 }

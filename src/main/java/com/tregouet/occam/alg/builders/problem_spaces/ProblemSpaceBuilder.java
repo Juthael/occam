@@ -11,7 +11,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
 import com.tregouet.occam.alg.builders.problem_spaces.transitions.TransitionBuilder;
-import com.tregouet.occam.alg.builders.representations.string_scheme.StringSchemeBuilder;
+import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilder;
 import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
@@ -58,7 +58,7 @@ public interface ProblemSpaceBuilder extends Function<ICompleteRepresentations, 
 		return ScorersAbstractFactory.INSTANCE.getProblemStateScorer();
 	}
 
-	public static StringSchemeBuilder getStringSchemeBuilder() {
+	public static StringPatternBuilder getStringSchemeBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getStringSchemeBuilder();
 	}
 

@@ -50,7 +50,6 @@ import guru.nidi.graphviz.parse.Parser;
 public class IfIsAThenDifferTest {
 	
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
-	@SuppressWarnings("unused")
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
 	private IConceptLattice conceptLattice;	

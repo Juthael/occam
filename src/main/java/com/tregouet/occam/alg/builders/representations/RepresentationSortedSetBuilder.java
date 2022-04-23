@@ -10,7 +10,7 @@ import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionB
 import com.tregouet.occam.alg.builders.representations.fact_evaluators.FactEvaluatorBuilder;
 import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
-import com.tregouet.occam.alg.builders.representations.string_scheme.StringSchemeBuilder;
+import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
 import com.tregouet.occam.alg.scorers.representations.RepresentationScorer;
@@ -47,7 +47,7 @@ public interface RepresentationSortedSetBuilder extends Function<Collection<ICon
 		return ScorersAbstractFactory.INSTANCE.getRepresentationScorer();
 	}
 
-	public static StringSchemeBuilder getStringSchemeBuilder() {
+	public static StringPatternBuilder getStringSchemeBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getStringSchemeBuilder();
 	}
 

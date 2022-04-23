@@ -13,7 +13,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilder;
-import com.tregouet.occam.alg.builders.representations.string_scheme.StringSchemeBuilder;
+import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilder;
 import com.tregouet.occam.alg.displayers.graph_labellers.problem_states.ProblemStateLabeller;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
@@ -79,7 +79,7 @@ public class AsNestedFrames implements ProblemStateLabeller {
 
 	@Override
 	public String apply(IProblemState problemState) {
-		StringSchemeBuilder stringBldr = ProblemSpaceBuilder.getStringSchemeBuilder();
+		StringPatternBuilder stringBldr = ProblemSpaceBuilder.getStringSchemeBuilder();
 		if (problemState instanceof IPartialRepresentation) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<>();
 			Set<IPartition> statePartitions = problemState.getPartitions();

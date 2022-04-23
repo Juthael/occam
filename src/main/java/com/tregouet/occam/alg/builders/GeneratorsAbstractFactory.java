@@ -51,9 +51,9 @@ import com.tregouet.occam.alg.builders.representations.productions.ProductionBui
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBldrFromDenotationsFactory;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotationsStrategy;
-import com.tregouet.occam.alg.builders.representations.string_scheme.StringSchemeBuilder;
-import com.tregouet.occam.alg.builders.representations.string_scheme.StringSchemeBuilderFactory;
-import com.tregouet.occam.alg.builders.representations.string_scheme.StringSchemeBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilder;
+import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
@@ -77,7 +77,7 @@ public class GeneratorsAbstractFactory {
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
 	private DescriptionBuilderStrategy descriptionBuilderStrategy = null;
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
-	private StringSchemeBuilderStrategy stringSchemeBuilderStrategy = null;
+	private StringPatternBuilderStrategy stringPatternBuilderStrategy = null;
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private FactEvaluatorBuilderStrategy factEvaluatorBuilderStrategy = null;
 	private RepresentationSortedSetBuilderStrategy representationSortedSetBuilderStrategy = null;
@@ -163,8 +163,8 @@ public class GeneratorsAbstractFactory {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
 	}
 
-	public StringSchemeBuilder getStringSchemeBuilder() {
-		return StringSchemeBuilderFactory.INSTANCE.apply(stringSchemeBuilderStrategy);
+	public StringPatternBuilder getStringSchemeBuilder() {
+		return StringPatternBuilderFactory.INSTANCE.apply(stringPatternBuilderStrategy);
 	}
 
 	public TransitionSalienceSetter getTransitionSalienceSetter() {
@@ -186,7 +186,7 @@ public class GeneratorsAbstractFactory {
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.DEFERRED_MATRICES_INSTANTIATION;
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
-			stringSchemeBuilderStrategy = StringSchemeBuilderStrategy.RECURSIVE_FRAMING;
+			stringPatternBuilderStrategy = StringPatternBuilderStrategy.RECURSIVE_FRAMING;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 			factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
 			representationSortedSetBuilderStrategy = RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;

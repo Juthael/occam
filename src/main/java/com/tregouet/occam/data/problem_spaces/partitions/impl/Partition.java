@@ -38,7 +38,7 @@ public class Partition implements IPartition {
 	}
 
 	@Override
-	public DirectedAcyclicGraph<Integer, AbstractDifferentiae> asGraph() {
+	public Tree<Integer, AbstractDifferentiae> asGraph() {
 		return asGraph;
 	}
 

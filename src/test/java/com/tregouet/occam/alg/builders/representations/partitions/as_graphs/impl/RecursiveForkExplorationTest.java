@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.builders.representations.string_pattern.impl;
+package com.tregouet.occam.alg.builders.representations.partitions.as_graphs.impl;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,25 +16,31 @@ import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizersAbstractFactory;
+import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
+import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.utils.StructureInspector;
 
-public class RecursiveFramingTest {
+public class RecursiveForkExplorationTest {
 	
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
+	private static final String NL = System.lineSeparator();
 	private List<IContextObject> context;
 	private IConceptLattice conceptLattice;	
 	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
 	private Set<IRepresentationTransitionFunction> transFunctions = new HashSet<>();
-	private Set<IDescription> descriptions = new HashSet<>();
+	private Set<IDescription> descriptions = new HashSet<>();	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -58,22 +64,24 @@ public class RecursiveFramingTest {
 	}
 
 	@Test
-	public void whenStringPatternRequestedThenEachDescriptionOfContextGeneratesDistinctPattern() {
+	public void whenPartitionsRequestedThenReturned() {
 		boolean asExpected = true;
-		RecursiveFraming patternBldr;
-		Set<String> patterns = new HashSet<>();
-		int idx = 0;
+		int nbOfChecks = 0;
 		for (IDescription description : descriptions) {
-			patternBldr = new RecursiveFraming();
-			String pattern = patternBldr.apply(description.asGraph());
-			/*
-			System.out.println("Pattern n." + Integer.toString(idx) + " : " + pattern);
-			*/
-			if (!patterns.add(pattern))
+			Set<Tree<Integer, AbstractDifferentiae>> partitionGraphs = RecursiveForkExploration.INSTANCE.apply(description.asGraph());
+			if (partitionGraphs == null || partitionGraphs.isEmpty())
 				asExpected = false;
-			idx++;
+			for (Tree<Integer, AbstractDifferentiae> graph : partitionGraphs) {
+				try {
+					graph.validate();
+				}
+				catch (Exception e) {
+					asExpected = false;
+				}
+			}
+			nbOfChecks++;
 		}
-		assertTrue(asExpected);
+		assertTrue(nbOfChecks > 0 && asExpected);
 	}
 
 }

@@ -3,11 +3,10 @@ package com.tregouet.occam.data.problem_spaces.partitions;
 import java.util.List;
 import java.util.Map;
 
-import org.jgrapht.graph.DirectedAcyclicGraph;
-
 import com.tregouet.occam.alg.setters.weighs.Weighed;
 import com.tregouet.occam.data.logical_structures.orders.partial.PartiallyComparable;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.tree_finder.data.Tree;
 
 public interface IPartition extends Weighed, PartiallyComparable<IPartition> {
 
@@ -27,7 +26,7 @@ public interface IPartition extends Weighed, PartiallyComparable<IPartition> {
 		return ordered;
 	}
 
-	DirectedAcyclicGraph<Integer, AbstractDifferentiae> asGraph();
+	Tree<Integer, AbstractDifferentiae> asGraph();
 
 	@Override
 	boolean equals(Object o);

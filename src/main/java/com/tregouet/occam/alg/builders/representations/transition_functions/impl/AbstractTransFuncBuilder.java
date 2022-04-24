@@ -45,7 +45,6 @@ import it.unimi.dsi.fastutil.ints.IntIntPair;
 public abstract class AbstractTransFuncBuilder implements RepresentationTransFuncBuilder {
 
 	private InvertedTree<IConcept, IIsA> treeOfConcepts = null;
-
 	private Set<IContextualizedProduction> unfilteredUnreducedProds = null;
 
 	public AbstractTransFuncBuilder() {
@@ -62,7 +61,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		//restrict the previous set to the subset of productions relevant for this tree
 		Set<IContextualizedProduction> filteredProds = filterProductionsWithTree(
 				updatedUnfilteredUnreduced, treeOfConcepts);
-		/* add productions generated out of the tree's specific concepts (i.i., complementary unwrapping concepts 
+		/* add productions generated out of the tree's specific concepts (i.e., complementary concepts 
 		 * that were not in the concept lattice and aren't wrapping any lattice concept. */
 		Set<IContextualizedProduction> filteredUpdatedProds = addProductionsWithUnwrappingComplementaryConcepts(
 				filteredProds, treeOfConcepts);
@@ -105,7 +104,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		return transitions;
 	}
 
-	private static Set<IConceptTransition> buildClosuresFrom(Set<IConceptTransition> applications) {
+	private static Set<IConceptTransition> buildClosures(Set<IConceptTransition> applications) {
 		Set<IConceptTransition> closures = new HashSet<>();
 		for (IConceptTransition application : applications) {
 			IConceptTransitionIC inputConfig = application.getInputConfiguration();
@@ -121,7 +120,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		return new InitialTransition(everything);
 	}
 
-	private static Set<IConceptTransition> buildSpontaneousTransitionsFrom(
+	private static Set<IConceptTransition> buildSpontaneousTransitions(
 			InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		Set<IConceptTransition> spontaneousTransitions = new HashSet<>();
 		IConcept root = treeOfConcepts.getRoot();
@@ -132,7 +131,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		return spontaneousTransitions;
 	}
 
-	private static Set<IConceptTransition> buildClosedInheritancesFrom(InvertedTree<IConcept, IIsA> treeOfConcepts) {
+	private static Set<IConceptTransition> buildClosedInheritances(InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		Set<IConceptTransition> unclosedInheritances = new HashSet<>();
 		IConcept truism = null;
 		List<IConcept> topoOrder = treeOfConcepts.getTopologicalOrder();
@@ -216,9 +215,9 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 			else
 				inheritances.add(transition);
 		}
-		closures = buildClosuresFrom(applications);
-		inheritances.addAll(buildClosedInheritancesFrom(treeOfConcepts));
-		spontaneous = buildSpontaneousTransitionsFrom(treeOfConcepts);
+		closures = buildClosures(applications);
+		inheritances.addAll(buildClosedInheritances(treeOfConcepts));
+		spontaneous = buildSpontaneousTransitions(treeOfConcepts);
 		// set saliences
 		Set<IConceptTransition> transitions = new HashSet<>();
 		transitions.add(initial);

@@ -188,7 +188,7 @@ public class GeneratorsAbstractFactory {
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 			stringPatternBuilderStrategy = StringPatternBuilderStrategy.RECURSIVE_FRAMING;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
-			factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_BLIND;
+			factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
 			representationSortedSetBuilderStrategy = RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
 			representationSortedSetMaxSize = 500;
 			partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;

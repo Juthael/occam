@@ -5,6 +5,7 @@ import java.util.List;
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.representations.transitions.productions.IProduction;
 
 public class BasicAbstractionApplication extends ALambdaTerm implements ILambdaExpression {
@@ -25,6 +26,8 @@ public class BasicAbstractionApplication extends ALambdaTerm implements ILambdaE
 			} else
 				abstractAndApplyAccordingTo(iProduction);
 		}
+		if (term == null)
+			term = new Construct(new String[] {"ε"});
 	}
 
 	@Override
@@ -69,7 +72,7 @@ public class BasicAbstractionApplication extends ALambdaTerm implements ILambdaE
 		sB.append(boundVariable.toString());
 		sB.append(".");
 		sB.append(shorter ? term.getFunctionType() : term.toString());
-		sB.append(")");
+		sB.append(") ");
 		if (argument.isAnApplication()) {
 			sB.append("(");
 			sB.append(argument.toString());

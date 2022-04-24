@@ -2,10 +2,10 @@ package com.tregouet.occam.alg;
 
 import com.tregouet.occam.alg.builders.GenerationStrategy;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.displayers.graph_labellers.LabellersAbstractFactory;
-import com.tregouet.occam.alg.displayers.graph_labellers.LabellingStrategy;
-import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizationStrategy;
-import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizersAbstractFactory;
+import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
+import com.tregouet.occam.alg.displayers.formatters.FormattingStrategy;
+import com.tregouet.occam.alg.displayers.visualizers.VisualizationStrategy;
+import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
 import com.tregouet.occam.alg.scorers.ScoringStrategy;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
@@ -18,7 +18,7 @@ public class OverallAbstractFactory {
 	private GenerationStrategy generationStrategy = null;
 	private ScoringStrategy scoringStrategy = null;
 	private SettingStrategy settingStrategy = null;
-	private LabellingStrategy labellingStrategy = null;
+	private FormattingStrategy formattingStrategy = null;
 	private VisualizationStrategy visualizationStrategy = null;
 
 	private OverallAbstractFactory() {
@@ -30,7 +30,7 @@ public class OverallAbstractFactory {
 			generationStrategy = GenerationStrategy.GENERATION_STRATEGY_1;
 			scoringStrategy = ScoringStrategy.SCORING_STRATEGY_1;
 			settingStrategy = SettingStrategy.SETTING_STRATEGY_1;
-			labellingStrategy = LabellingStrategy.LABELLING_STRATEGY_1;
+			formattingStrategy = FormattingStrategy.LABELLING_STRATEGY_1;
 			visualizationStrategy = VisualizationStrategy.VISUALIZATION_STRATEGY_1;
 			break;
 		default:
@@ -43,7 +43,7 @@ public class OverallAbstractFactory {
 		GeneratorsAbstractFactory.INSTANCE.setUpStrategy(generationStrategy);
 		ScorersAbstractFactory.INSTANCE.setUpStrategy(scoringStrategy);
 		SettersAbstractFactory.INSTANCE.setUpStrategy(settingStrategy);
-		LabellersAbstractFactory.INSTANCE.setUpStrategy(labellingStrategy);
+		FormattersAbstractFactory.INSTANCE.setUpStrategy(formattingStrategy);
 		VisualizersAbstractFactory.INSTANCE.setUpStrategy(visualizationStrategy);
 	}
 

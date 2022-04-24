@@ -7,7 +7,7 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizersAbstractFactory;
+import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.evaluation.facts.IFact;

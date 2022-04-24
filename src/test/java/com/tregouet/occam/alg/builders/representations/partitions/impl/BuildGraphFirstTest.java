@@ -16,7 +16,7 @@ import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.partitions.impl.BuildGraphFirst;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
-import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizersAbstractFactory;
+import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;

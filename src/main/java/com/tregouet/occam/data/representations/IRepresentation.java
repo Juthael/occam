@@ -3,6 +3,7 @@ package com.tregouet.occam.data.representations;
 import java.util.Map;
 import java.util.Set;
 
+import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.alg.scorers.Scored;
 import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
@@ -36,5 +37,7 @@ public interface IRepresentation extends
 	int hashCode();
 
 	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
+	
+	Map<Integer, String> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer);
 
 }

@@ -27,8 +27,8 @@ import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.impl.IfIsAThenDiffer;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
-import com.tregouet.occam.alg.displayers.graph_labellers.LabellersAbstractFactory;
-import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizersAbstractFactory;
+import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
+import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
@@ -138,7 +138,7 @@ public class IfIsAThenDifferTest {
 	private String label(AbstractDifferentiae differentiae) {
 		StringBuilder sB = new StringBuilder();
 		for (IProperty prop : differentiae.getProperties()) {
-			sB.append(LabellersAbstractFactory.INSTANCE.getPropertyDisplayer().apply(prop) + nL);
+			sB.append(FormattersAbstractFactory.INSTANCE.getPropertyDisplayer().apply(prop) + nL);
 		}
 		return sB.toString();
 	}

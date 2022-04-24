@@ -1,0 +1,69 @@
+package com.tregouet.occam.alg.displayers.formatters.facts.impl;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
+import com.tregouet.occam.data.representations.evaluation.facts.IFact;
+import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
+
+public class NonTrivialMaximalFacts implements FactDisplayer {
+	
+	public static final NonTrivialMaximalFacts INSTANCE = new NonTrivialMaximalFacts();
+	private static final String nL = System.lineSeparator(); 
+	
+	private NonTrivialMaximalFacts() {
+	}
+
+	@Override
+	public String apply(Set<IFact> facts) {
+		TreeSet<String> stringFacts = new TreeSet<>();
+		List<IFact> nonTrivialMaxFacts = new ArrayList<>();
+		for (IFact fact : facts) {
+			if (!isTrivial(fact)) {
+				boolean isMaximal = true;
+				ListIterator<IFact> nonTrivialMaxFactsIte = nonTrivialMaxFacts.listIterator();
+				while (isMaximal && nonTrivialMaxFactsIte.hasNext()) {
+					Integer comparison = fact.compareTo(nonTrivialMaxFactsIte.next());
+					if (comparison != null) {
+						if (comparison > 0)
+							nonTrivialMaxFactsIte.remove();
+						else if (comparison < 0)
+							isMaximal = false;
+					}
+				}
+				if (isMaximal)
+					nonTrivialMaxFacts.add(fact);
+			}
+		}
+		for (IFact fact : nonTrivialMaxFacts) {
+			stringFacts.add(fact.asLambda().toString());
+		}
+		return print(stringFacts);
+	}
+	
+	private String print(Set<String> stringFacts) {
+		StringBuilder sB = new StringBuilder();
+		Iterator<String> factIte = stringFacts.iterator();
+		while (factIte.hasNext()) {
+			sB.append(factIte.next());
+			if (factIte.hasNext())
+				sB.append(nL);
+		}
+		return sB.toString();
+	}
+	
+	private boolean isTrivial(IFact fact) {
+		if (fact.asList().size() == 1) {
+			IContextualizedProduction prod = fact.asList().get(0);
+			if (prod.isEpsilon())
+				return true;
+		}
+		return false;
+	}
+
+}

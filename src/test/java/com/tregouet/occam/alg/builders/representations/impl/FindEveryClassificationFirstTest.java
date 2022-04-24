@@ -15,7 +15,8 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.displayers.graph_visualizers.VisualizersAbstractFactory;
+import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
+import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -58,19 +59,20 @@ public class FindEveryClassificationFirstTest {
 				.append("REPRESENTATION n. " + Integer.toString(idx) + " : ")
 				.append(completeRepresentation.getDescription().toString() + NL)
 				.append("Score : " + completeRepresentation.score().toString() + NL + NL)
-				.append("Facts : " + NL);
-			Map<IConcept, Set<IFact>> acceptStateToAcceptedWords = completeRepresentation.mapAcceptStateToAcceptedWords();
-			TreeSet<IConcept> sortedParticulars = new TreeSet<>((x, y) -> x.iD() - y.iD());
-			sortedParticulars.addAll(acceptStateToAcceptedWords.keySet());
-			for (IConcept particular : sortedParticulars) {
-				sB.append("***Object n." + Integer.toString(particular.iD()) + NL);
-				for (IFact fact : acceptStateToAcceptedWords.get(particular)) {
-					sB.append("   " + fact.asLambda() + NL);
-				}
-				sB.append(NL);
+				.append("Facts : " + NL + NL);
+			Map<Integer, String> acceptStateIDToFactualDesc = 
+					completeRepresentation.mapParticularIDsToFactualDescription(
+							FormattersAbstractFactory.INSTANCE.getFactDisplayer());
+			TreeSet<Integer> sortedParticularIDs = new TreeSet<>();
+			sortedParticularIDs.addAll(acceptStateIDToFactualDesc.keySet());
+			for (Integer particularID : sortedParticularIDs) {
+				sB.append("***Object n." + Integer.toString(particularID) 
+					+ NL
+					+ acceptStateIDToFactualDesc.get(particularID)
+					+ NL + NL);
 			}
 			idx++;
-			sB.append(NL + NL);
+			sB.append(NL);
 		}
 		System.out.println(sB.toString());
 	}

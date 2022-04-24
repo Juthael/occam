@@ -12,6 +12,8 @@ import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuild
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
+import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
 import com.tregouet.occam.alg.scorers.representations.RepresentationScorer;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
@@ -53,6 +55,10 @@ public interface RepresentationSortedSetBuilder extends Function<Collection<ICon
 
 	public static RepresentationTransFuncBuilder getTransFuncBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
+	}
+	
+	public static FactDisplayer getFactDisplayer() {
+		return FormattersAbstractFactory.INSTANCE.getFactDisplayer();
 	}
 
 	RepresentationSortedSetBuilder setMaxSize(Integer maxSize);

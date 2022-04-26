@@ -12,7 +12,6 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilder;
 import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilder;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabeller;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
@@ -34,7 +33,7 @@ public class AsNestedFrames implements ProblemStateLabeller {
 		DirectedAcyclicGraph<Integer, AbstractDifferentiae> stateDag = new DirectedAcyclicGraph<>(null, null, false);
 		for (IPartition partition : intent) {
 			DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph = partition.asGraph();
-			// uses addEdgeWithVertices(), so no need of vertex addition
+			Graphs.addAllVertices(stateDag, partitionGraph.vertexSet());
 			Graphs.addAllEdges(stateDag, partitionGraph, partitionGraph.edgeSet());
 		}
 		Integer root = null;
@@ -79,19 +78,31 @@ public class AsNestedFrames implements ProblemStateLabeller {
 
 	@Override
 	public String apply(IProblemState problemState) {
-		StringPatternBuilder stringBldr = ProblemSpaceBuilder.getStringSchemeBuilder();
+		StringBuilder sB = new StringBuilder();
+		sB.append(Integer.toString(problemState.id()) + nL);
+		StringPatternBuilder stringPatternBldr = ProblemStateLabeller.getStringPatternBuilder();
 		if (problemState instanceof IPartialRepresentation) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<>();
 			Set<IPartition> statePartitions = problemState.getPartitions();
 			for (IPartition maxPart : getMaxPartitions(statePartitions))
 				conceptID2ExtentIDs.putAll(maxPart.getLeaf2ExtentMap());
-			stringBldr.setUp(conceptID2ExtentIDs);
-			return stringBldr.apply(asTree(statePartitions)) + nL + problemState.score().toString();
+			stringPatternBldr.setUp(conceptID2ExtentIDs);
+			sB.append(stringPatternBldr.apply(asTree(statePartitions)))
+				.append(nL)
+				.append(problemState.score().toString());
+			return sB.toString();
 		} else if (problemState instanceof ICompleteRepresentation) {
 			ICompleteRepresentation completeRep = (ICompleteRepresentation) problemState;
-			return stringBldr.apply(completeRep.getDescription().asGraph()) + nL + problemState.score().toString();
-		} else // there is nothing else
-			return problemState.toString() + nL + problemState.score().toString();
+			sB.append(stringPatternBldr.apply(completeRep.getDescription().asGraph()))
+				.append(nL)
+				.append(problemState.score().toString());
+			return sB.toString();
+		} else {	// there is nothing else
+			sB.append(problemState.toString())
+				.append(nL)
+				.append(problemState.score().toString());
+			return sB.toString();
+		}
 	}
 
 }

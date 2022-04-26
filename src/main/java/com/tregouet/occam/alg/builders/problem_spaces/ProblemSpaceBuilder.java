@@ -37,7 +37,7 @@ public interface ProblemSpaceBuilder extends Function<ICompleteRepresentations, 
 			weigher.accept(transition);
 		ProblemStateScorer scorer = ProblemSpaceBuilder.getProblemStateScorer().setUp(problemGraph);
 		for (IProblemState state : problemGraph)
-			scorer.apply(state);
+			state.setScore(scorer.apply(state));
 		PartialRepresentationLateSetter partialRepLateSetter = ProblemSpaceBuilder.getPartialRepresentationLateSetter();
 		return new ProblemSpace(problemGraph, partialRepLateSetter);
 	}
@@ -58,7 +58,7 @@ public interface ProblemSpaceBuilder extends Function<ICompleteRepresentations, 
 		return ScorersAbstractFactory.INSTANCE.getProblemStateScorer();
 	}
 
-	public static StringPatternBuilder getStringSchemeBuilder() {
+	public static StringPatternBuilder getStringPatternBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getStringPatternBuilder();
 	}
 

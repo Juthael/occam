@@ -50,5 +50,7 @@ public interface IPartition extends Weighed, PartiallyComparable<IPartition> {
 
 	@Override
 	String toString();
+	
+	int rank();
 
 }

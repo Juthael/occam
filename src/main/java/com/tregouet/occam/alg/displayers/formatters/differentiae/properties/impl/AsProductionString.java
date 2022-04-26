@@ -12,6 +12,7 @@ import com.tregouet.occam.data.representations.transitions.productions.IProducti
 public class AsProductionString implements PropertyLabeller {
 
 	public static final AsProductionString INSTANCE = new AsProductionString();
+	private static final String nL = System.lineSeparator();
 
 	private AsProductionString() {
 	}
@@ -27,7 +28,7 @@ public class AsProductionString implements PropertyLabeller {
 		while (prodIte.hasNext()) {
 			sB.append(prodIte.next());
 			if (prodIte.hasNext())
-				sB.append(", ");
+				sB.append(", " + nL);
 		}
 		sB.append("}");
 		return sB.toString();

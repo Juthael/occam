@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
 import org.junit.Before;
@@ -19,9 +18,7 @@ import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
-import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
-import com.tregouet.occam.data.representations.evaluation.facts.IFact;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class FindEveryClassificationFirstTest {
@@ -43,12 +40,13 @@ public class FindEveryClassificationFirstTest {
 	@Test
 	public void whenCompleteRepresentationsRequestedThenReturned() {
 		ICompleteRepresentations representations = FindEveryClassificationFirst.INSTANCE.apply(context);
-		//HERE
+		/*
 		display(representations);
-		//HERE
+		*/
 		assertTrue(representations != null);
 	}
 	
+	@SuppressWarnings("unused")
 	private void display(ICompleteRepresentations representations) {
 		int idx = 0;
 		StringBuilder sB = new StringBuilder();

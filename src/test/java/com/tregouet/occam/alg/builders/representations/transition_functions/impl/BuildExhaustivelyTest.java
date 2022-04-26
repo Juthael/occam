@@ -27,7 +27,6 @@ import com.tregouet.tree_finder.data.InvertedTree;
 public class BuildExhaustivelyTest {
 	
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
-	@SuppressWarnings("unused")
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
 	private IConceptLattice conceptLattice;	
@@ -55,9 +54,9 @@ public class BuildExhaustivelyTest {
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = new BuildExhaustively();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
-			
+			/*
 			System.out.println(report(transFunc, tree, nbOfChecks));
-			
+			*/
 			nbOfChecks++;
 			if (transFunc == null)
 				asExpected = false;

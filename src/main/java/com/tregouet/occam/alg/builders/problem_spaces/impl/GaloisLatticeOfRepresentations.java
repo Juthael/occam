@@ -68,6 +68,8 @@ public class GaloisLatticeOfRepresentations implements ProblemSpaceBuilder {
 		IClosedSetsFinder<Integer, IPartition> closedSetsFinder = new NextClosure<>();
 		LinkedHashMap<Set<Integer>, Set<IPartition>> lecticallyOrderedClosedSets = closedSetsFinder
 				.apply(completeRepIdx2Partitions);
+		//remove absurdity
+		lecticallyOrderedClosedSets.remove(new HashSet<>());
 		List<IProblemState> topoOrderedStates = buildCategorisationStates(completeRepresentations,
 				lecticallyOrderedClosedSets);
 		TransitionBuilder transBldr = ProblemSpaceBuilder.getCategorizationTransitionBuilder();

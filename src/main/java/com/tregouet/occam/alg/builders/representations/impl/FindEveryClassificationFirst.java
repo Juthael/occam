@@ -6,7 +6,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
@@ -39,25 +38,11 @@ public class FindEveryClassificationFirst implements RepresentationSortedSetBuil
 				.apply(conceptLattice);
 		Set<IContextualizedProduction> productions = RepresentationSortedSetBuilder.getProductionBuilder()
 				.apply(conceptLattice);
-		//HERE
-		for (IContextualizedProduction prod : productions) {
-			System.out.println(
-					prod.getSource().getConceptID() + " -> " + prod.getTarget().getConceptID() + " : " + prod.toString());
-		}
-		int idx = 0;
-		//HERE
 		for (InvertedTree<IConcept, IIsA> classification : classifications) {
 			IRepresentationTransitionFunction transFunc = RepresentationSortedSetBuilder.getTransFuncBuilder()
 					.apply(classification, productions);
-			//HERE
-			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(classification, "FindEveryClass_CT_" + idx);
-			VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz().apply(transFunc, "FindEveryClass_TF_" + idx++);
-			//HERE
 			IFactEvaluator factEvaluator = RepresentationSortedSetBuilder.getFactEvaluatorBuilder().apply(transFunc);
 			IDescription description = RepresentationSortedSetBuilder.getDescriptionBuilder().apply(transFunc);
-			//HERE
-			
-			//HERE
 			Set<IPartition> partitions = RepresentationSortedSetBuilder.getPartitionBuilder().apply(description, classification);
 			ICompleteRepresentation representation = new CompleteRepresentation(classification, description,
 					factEvaluator, partitions);

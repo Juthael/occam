@@ -1,13 +1,11 @@
 package com.tregouet.occam.alg.builders.representations.descriptions.metrics.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -16,22 +14,14 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.builders.representations.descriptions.impl.BuildTreeThenCalculateMetrics;
-import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.data.problem_spaces.IProblemSpace;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.IPartialRepresentation;
 import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
-import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.descriptions.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
-import com.tregouet.tree_finder.data.InvertedTree;
 
 public class DeferredMatricesInstantiationTest {
 	
@@ -109,7 +99,6 @@ public class DeferredMatricesInstantiationTest {
 	
 	private String toString(double[][] array) {
 		StringBuilder sB = new StringBuilder();
-		String nL = System.lineSeparator();
 		sB.append("{" + nL);
 		for (double[] row : array) {
 			sB.append(Arrays.toString(row) + nL);

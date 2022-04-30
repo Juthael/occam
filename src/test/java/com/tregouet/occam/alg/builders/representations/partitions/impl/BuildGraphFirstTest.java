@@ -59,7 +59,7 @@ public class BuildGraphFirstTest {
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
-			IDescription description = GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc);
+			IDescription description = GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc, null);
 			BuildGraphFirst partitionBuilder = new BuildGraphFirst();
 			Set<IPartition> partitions = partitionBuilder.apply(description, tree);
 			if (partitions == null || partitions.isEmpty())

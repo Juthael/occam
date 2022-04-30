@@ -53,7 +53,7 @@ public class RecursiveFramingTest {
 			transFunctions.add(transFuncBldr.apply(tree, productions));
 		}
 		for (IRepresentationTransitionFunction transFunc : transFunctions) {
-			descriptions.add(GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc));
+			descriptions.add(GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc, null));
 		}
 	}
 

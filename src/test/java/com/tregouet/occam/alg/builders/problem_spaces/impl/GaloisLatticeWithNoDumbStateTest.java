@@ -20,6 +20,7 @@ import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
+@SuppressWarnings("unused")
 public class GaloisLatticeWithNoDumbStateTest {
 	
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");

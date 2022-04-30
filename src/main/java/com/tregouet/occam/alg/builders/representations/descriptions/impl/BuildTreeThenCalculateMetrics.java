@@ -57,11 +57,13 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 			differentiaeCoeffSetter.accept(diff);
 			differentiaeWeigher.accept(diff);
 		}
+		//build metrics
 		ISimilarityMetrics similarityMetrics;
 		if (particular2MostSpecificGenus == null)
 			similarityMetrics = DescriptionBuilder.similarityMetricsBuilder().apply(classification);
 		else similarityMetrics = 
 				DescriptionBuilder.similarityPartialMetricsBuilder().apply(classification, particular2MostSpecificGenus);
+		//instantiate
 		IDescription description = new Description(classification, similarityMetrics);
 		return description;
 	}

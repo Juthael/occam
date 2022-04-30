@@ -62,7 +62,7 @@ public class BuildTreeThenCalculateMetricsTest {
 		Set<IDescription> descriptions = new HashSet<>();
 		int checkIdx = 0;
 		for (IRepresentationTransitionFunction transFunc : transFunctions) {
-			IDescription description = BuildTreeThenCalculateMetrics.INSTANCE.apply(transFunc);
+			IDescription description = BuildTreeThenCalculateMetrics.INSTANCE.apply(transFunc, null);
 			/*
 			String descriptionPath = 
 					VisualizersAbstractFactory.INSTANCE.getDescriptionViz().apply(

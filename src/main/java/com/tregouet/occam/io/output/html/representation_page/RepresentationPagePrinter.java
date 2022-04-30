@@ -7,7 +7,9 @@ import java.util.NavigableSet;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
+import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.evaluation.facts.IFact;
@@ -26,27 +28,16 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printAcceptedFacts(IRepresentation representation, String alinea) {
-		//HERE
-		System.out.println("printAcceptedFacts.");
-		//HERE
-		Map<Integer, Set<IFact>> objID2acceptedFacts = representation.mapParticularIDsToAcceptedFacts();
+		Map<Integer, List<String>> objID2acceptedFacts = representation.mapParticularIDsToFactualDescription(FormattersAbstractFactory.INSTANCE.getFactDisplayer());
 		NavigableSet<Integer> objIDs = new TreeSet<>(objID2acceptedFacts.keySet());
 		String[] head = new String[objIDs.size()];
 		String[] facts = new String[objIDs.size()];
 		int idx = 0;
 		for (Integer iD : objIDs) {
-			head[idx] = iD.toString();
+			head[idx] = setHeadOfAcceptedFactsArray(representation, iD);
 			StringBuilder sB = new StringBuilder();
-			NavigableSet<String> orderedFacts = new TreeSet<>();
-			for (IFact fact : objID2acceptedFacts.get(iD)) {
-				orderedFacts.add(fact.asLambda().toString());
-			}
-			Iterator<String> stringIte = orderedFacts.descendingIterator();
-			while (stringIte.hasNext()) {
-				sB.append(stringIte.next());
-				if (stringIte.hasNext())
-					sB.append(nL);
-			}
+			for (String factString : objID2acceptedFacts.get(iD))
+				sB.append(factString + " <br> " + nL);
 			facts[idx] = sB.toString();
 			idx++;
 		}
@@ -60,12 +51,31 @@ public class RepresentationPagePrinter {
 				.append(alinea + "</section>" + nL);
 		return sB.toString();
 	}
+	
+	private static String setHeadOfAcceptedFactsArray(IRepresentation representation, Integer conceptID) {
+		if (representation instanceof ICompleteRepresentation)
+			return conceptID.toString();
+		else {
+			TreeSet<Integer> extent = new TreeSet<>(representation.getExtent(conceptID));
+			if (extent.size() == 1)
+				return conceptID.toString();
+			else {
+				StringBuilder sB = new StringBuilder();
+				sB.append(conceptID.toString() + " = { ");
+				Iterator<Integer> extentIte = extent.iterator();
+				while (extentIte.hasNext()) {
+					sB.append(extentIte.next().toString());
+					if (extentIte.hasNext())
+						sB.append(", ");
+				}
+				sB.append(" }");
+				return sB.toString();
+			}
+		}
+	}
 
 	private static String printAsymetricalSimilarityMatrix(List<IContextObject> objects, IRepresentation representation,
 			String alinea) {
-		//HERE
-		System.out.println("printAsymetricalSimilarityMatrix.");
-		//HERE
 		String[] head = new String[objects.size()];
 		int idx = 0;
 		for (IContextObject obj : objects)
@@ -83,9 +93,6 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printAutomatonGraph(IRepresentation representation, String alinea) {
-		//HERE
-		System.out.println("printAutomatonGraph.");
-		//HERE
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz()
 				.apply(representation.getTransitionFunction(), "trans_func");
 		StringBuilder sB = new StringBuilder();
@@ -100,9 +107,6 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printClassificationTree(IRepresentation representation, String alinea) {
-		//HERE
-		System.out.println("printClassificationTree.");
-		//HERE
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
 				.apply(representation.getTreeOfConcepts(), "classification_tree");
 		StringBuilder sB = new StringBuilder();
@@ -116,9 +120,6 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printContext(List<IContextObject> objects, String alinea) {
-		//HERE
-		System.out.println("printContext.");
-		//HERE
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
 		String alineaaa = alineaa + "   ";
@@ -129,9 +130,6 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printDescription(IRepresentation representation, String alinea) {
-		//HERE
-		System.out.println("printDescription.");
-		//HERE
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getDescriptionViz()
 				.apply(representation.getDescription(), "description");
 		StringBuilder sB = new StringBuilder();
@@ -147,9 +145,6 @@ public class RepresentationPagePrinter {
 
 	private static String printGeneralDescription(List<IContextObject> objects, IRepresentation representation,
 			String alinea) {
-		//HERE
-		System.out.println("printGeneralDescription.");
-		//HERE
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
 		String alineaaa = alineaa + "   ";
@@ -164,9 +159,6 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printGeneratedFacts(IRepresentation representation, String alinea) {
-		//HERE
-		System.out.println("printGeneratedFacts.");
-		//HERE
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
 		String alineaaa = alineaa + "   ";
@@ -180,17 +172,11 @@ public class RepresentationPagePrinter {
 
 	private static String printSimilarityMatrix(List<IContextObject> objects, IRepresentation representation,
 			String alinea) {
-		//HERE
-		System.out.println("printSimilarityMatrix.");
-		//HERE
 		String[] head = new String[objects.size()];
 		int idx = 0;
 		for (IContextObject obj : objects)
 			head[idx++] = Integer.toString(obj.getID());
 		double[][] matrix = representation.getDescription().getSimilarityMetrics().getSimilarityMatrix();
-		//HERE
-		System.out.println("printSimilarityMatrix : returned.");
-		//HERE
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
 		String alineaaa = alineaa + "   ";
@@ -203,9 +189,6 @@ public class RepresentationPagePrinter {
 
 	private static String printTypicalityVector(List<IContextObject> objects, IRepresentation representation,
 			String alinea) {
-		//HERE
-		System.out.println("printTypicalityVector.");
-		//HERE
 		String[] head = new String[objects.size()];
 		int idx = 0;
 		for (IContextObject obj : objects)
@@ -222,9 +205,6 @@ public class RepresentationPagePrinter {
 	}
 
 	public String print(List<IContextObject> objects, IRepresentation representation) {
-		//HERE
-		System.out.println("Representation page print.");
-		//HERE
 		StringBuilder sB = new StringBuilder();
 		String alinea = "   ";
 		String alineaa = alinea + alinea;

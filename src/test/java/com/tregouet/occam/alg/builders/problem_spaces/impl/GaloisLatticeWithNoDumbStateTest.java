@@ -48,7 +48,9 @@ public class GaloisLatticeWithNoDumbStateTest {
 		}
 		*/
 		IProblemSpace problemSpace = new GaloisLatticeWithNoDumbState().apply(completeRepresentations);
+		/*
 		VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(problemSpace.asGraph(), "Problem_Space");
+		*/
 		assertNotNull(problemSpace);
 	}
 

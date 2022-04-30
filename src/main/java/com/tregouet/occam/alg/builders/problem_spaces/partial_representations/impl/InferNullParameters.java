@@ -14,6 +14,7 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
+import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.IPartialRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -42,19 +43,28 @@ public class InferNullParameters implements PartialRepresentationLateSetter {
 		List<IConcept> topoOrderedSet = new ArrayList<>();
 		Iterator<ICompleteRepresentation> repIte = completions.iterator();
 		if (repIte.hasNext()) {
-			InvertedTree<IConcept, IIsA> nextCompleteClass = repIte.next().getTreeOfConcepts();
+			ICompleteRepresentation firstCompletion = repIte.next();
+			InvertedTree<IConcept, IIsA> nextCompleteClass = firstCompletion.getTreeOfConcepts();
 			Graphs.addAllVertices(tempClass, nextCompleteClass.vertexSet());
 			Graphs.addAllEdges(tempClass, nextCompleteClass, nextCompleteClass.edgeSet());
 			ontologicalCommitment = nextCompleteClass.getRoot();
 		}
 		while (repIte.hasNext()) {
-			tempClass.removeAllVertices(
-					new HashSet<>(
-							Sets.difference(tempClass.vertexSet(), repIte.next().getTreeOfConcepts().vertexSet())));
+			ICompleteRepresentation nextCompletion = repIte.next();
+			Set<IIsA> edgesToBeRemoved = new HashSet<>(tempClass.edgeSet());
+			edgesToBeRemoved.removeAll(nextCompletion.getTreeOfConcepts().edgeSet());
+			tempClass.removeAllEdges(edgesToBeRemoved);
+			Set<IConcept> verticesToBeRemoved = new HashSet<>(tempClass.vertexSet());
+			verticesToBeRemoved.removeAll(nextCompletion.getTreeOfConcepts().vertexSet());
+			tempClass.removeAllVertices(verticesToBeRemoved);
 		}
-		for (IConcept concept : tempClass.vertexSet()) {
-			if (tempClass.inDegreeOf(concept) == 0)
-				leaves.add(concept);
+		Set<IConcept> tempClassVertices = new HashSet<>(tempClass.vertexSet());
+		for (IConcept concept : tempClassVertices) {
+			if (tempClass.inDegreeOf(concept) == 0) {
+				if (tempClass.outDegreeOf(concept) == 0)
+					tempClass.removeVertex(concept);
+				else leaves.add(concept);
+			}
 		}
 		new TopologicalOrderIterator<>(tempClass).forEachRemaining(topoOrderedSet::add);
 		return new InvertedTree<>(tempClass, ontologicalCommitment, leaves, topoOrderedSet);
@@ -87,26 +97,40 @@ public class InferNullParameters implements PartialRepresentationLateSetter {
 	
 	private static Map<Integer, Integer> mapParticularToMostSpecificGenus(IPartialRepresentation partialRepresentation) {
 		Map<Integer, Integer> particular2MostSpecificGenus = new HashMap<>();
-		Tree<Integer, AbstractDifferentiae> partialTree = partialRepresentation.getDescription().asGraph();
+		Set<Integer> partialRepresentationMostSpecificElements = 
+				getPartialRepresentationMostSpecificElements(partialRepresentation);
 		Tree<Integer, AbstractDifferentiae> anyCompletion = 
 				partialRepresentation.getRepresentationCompletions().iterator().next().getDescription().asGraph();
-		for (Integer particular : anyCompletion.getLeaves())
+		for (Integer particularID : anyCompletion.getLeaves())
 			particular2MostSpecificGenus.put(
-					particular, 
-					mostSpecificGenusInPartialClassification(particular, partialTree, anyCompletion));
+					particularID, 
+					mostSpecificGenusInPartialClassification(particularID, partialRepresentationMostSpecificElements, anyCompletion));
 		return particular2MostSpecificGenus;		
 	}
 	
 	private static Integer mostSpecificGenusInPartialClassification(Integer particularID, 
-			Tree<Integer, AbstractDifferentiae> partialTree, Tree<Integer, AbstractDifferentiae> anyCompletion) {
+			Set<Integer> partialRepresentationMostSpecificElements, Tree<Integer, AbstractDifferentiae> anyCompletion) {
 		Integer mostSpecificGenus = null;
-		Iterator<Integer> leafIte = partialTree.getLeaves().iterator();
+		Iterator<Integer> leafIte = partialRepresentationMostSpecificElements.iterator();
 		while (mostSpecificGenus == null) {
 			Integer nextLeaf = leafIte.next();
-			if (Functions.upperSet(partialTree, nextLeaf).contains(particularID))
+			if (Functions.upperSet(anyCompletion, nextLeaf).contains(particularID))
 				mostSpecificGenus = nextLeaf;
 		}
 		return mostSpecificGenus;
+	}
+	
+	private static Set<Integer> getPartialRepresentationMostSpecificElements(IPartialRepresentation partialRepresentation) {
+		Set<Integer> genera = new HashSet<>();
+		Set<Integer> species = new HashSet<>();
+		Set<AbstractDifferentiae> differentiae = new HashSet<>();
+		for (IPartition partition : partialRepresentation.getPartitions())
+			differentiae.addAll(partition.asGraph().edgeSet());
+		for (AbstractDifferentiae diff : differentiae) {
+			genera.add(diff.getSource());
+			species.add(diff.getTarget());
+		}
+		return new HashSet<>(Sets.difference(species, genera));
 	}
 
 }

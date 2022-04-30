@@ -33,9 +33,9 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 		StringBuilder sB = new StringBuilder();
 		if (!transitions.isEmpty()) {
 			if (application) {
-				sB.append("applications : " + nL);
+				sB.append("APPLICATIONS : " + nL);
 			} else
-				sB.append("others : " + nL);
+				sB.append("OTHERS : " + nL);
 			Iterator<IConceptTransition> transIte = transitions.iterator();
 			while (transIte.hasNext()) {
 				sB.append(transIte.next().toString());

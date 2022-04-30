@@ -146,9 +146,6 @@ public class PrototypeMenu {
 		switch (choice) {
 		case 1:
 			IRepresentation representation = selectARepresentation(objects, problemSpace);
-			//HERE
-			System.out.println("Rep returned");
-			//HERE
 			representationMenu(objects, problemSpace, representation);
 			break;
 		case 2:
@@ -169,9 +166,6 @@ public class PrototypeMenu {
 			IRepresentation representation) {
 		try {
 			String htmlPage = RepresentationPagePrinter.INSTANCE.print(objects, representation);
-			//HERE
-			System.out.println("Rep page printed");
-			//
 			generate(htmlPage);
 		} catch (IOException e) {
 			e.printStackTrace();

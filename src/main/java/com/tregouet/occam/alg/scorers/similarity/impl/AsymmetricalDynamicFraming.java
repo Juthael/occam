@@ -1,8 +1,8 @@
 package com.tregouet.occam.alg.scorers.similarity.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-
-import org.jgrapht.Graphs;
+import java.util.List;
 
 import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
 import com.tregouet.occam.data.logical_structures.orders.total.impl.DoubleScore;
@@ -38,14 +38,22 @@ public class AsymmetricalDynamicFraming extends AbstractSimilarityScorer<IConcep
 		if (genusID.equals(targetID))
 			return genusID;
 		Integer targetAsGenusSpeciesID = null;
-		Iterator<Integer> genusSuccessorIte = Graphs.successorListOf(classificationTree, genusID).iterator();
+		List<Integer> genusSuccessors = new ArrayList<>(successorListOf(classificationTree, genusID));
+		Iterator<Integer> genusSuccessorIte = genusSuccessors.iterator();
 		while (targetAsGenusSpeciesID == null && genusSuccessorIte.hasNext()) {
 			Integer nextSuccessor = genusSuccessorIte.next();
-			if (nextSuccessor == targetID || classificationTree.getDescendants(nextSuccessor).contains(targetID)) {
+			if (nextSuccessor.equals(targetID) || classificationTree.getDescendants(nextSuccessor).contains(targetID)) {
 				targetAsGenusSpeciesID = nextSuccessor;
 			}
 		}
 		return targetAsGenusSpeciesID;
+	}
+	
+	private List<Integer> successorListOf(Tree<Integer, AbstractDifferentiae> classificationTree, Integer genusID) {
+		List<Integer> successors = new ArrayList<>();
+		for (AbstractDifferentiae diff : classificationTree.outgoingEdgesOf(genusID))
+			successors.add(diff.getTarget());
+		return successors;
 	}
 
 }

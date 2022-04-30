@@ -1,7 +1,8 @@
 package com.tregouet.occam.data.representations.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.HashSet;import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -170,11 +171,11 @@ public abstract class Representation implements IRepresentation {
 	}
 	
 	@Override
-	public Map<Integer, String> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer) {
-		Map<Integer, String> particularIDToFactualDesc = new HashMap<>();
+	public Map<Integer, List<String>> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer) {
+		Map<Integer, List<String>> particularIDToFactualDesc = new HashMap<>();
 		Map<Integer, Set<IFact>> particularIDToFacts = mapParticularIDsToAcceptedFacts();
 		for (Entry<Integer, Set<IFact>> entry : particularIDToFacts.entrySet())
-			particularIDToFactualDesc.put(entry.getKey(), factDisplayer.apply(entry.getValue()));
+			particularIDToFactualDesc.put(entry.getKey(), new ArrayList<>(factDisplayer.apply(entry.getValue())));
 		return particularIDToFactualDesc;
 	}
 

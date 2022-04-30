@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.representations;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,6 +39,8 @@ public interface IRepresentation extends
 
 	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
 	
-	Map<Integer, String> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer);
+	Map<Integer, List<String>> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer);
+	
+	Set<Integer> getExtent(Integer conceptID);
 
 }

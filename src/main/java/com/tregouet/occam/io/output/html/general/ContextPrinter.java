@@ -2,6 +2,7 @@ package com.tregouet.occam.io.output.html.general;
 
 import java.util.List;
 
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 
 public class ContextPrinter {
@@ -21,9 +22,17 @@ public class ContextPrinter {
 			head[i] = Integer.toString(obj.getID());
 			if (optionalSubhead != null)
 				optionalSubhead[i] = obj.getName();
-			body[i] = obj.toString();
+			body[i] = toString(obj);
 		}
 		return TablePrinter.INSTANCE.printStringTableWithOptionalSubHead(head, optionalSubhead, body, caption, alinea);
+	}
+	
+	private String toString(IContextObject object) {
+		StringBuilder sB = new StringBuilder();
+		for (IConstruct construct : object.getConstructs()) {
+			sB.append(construct.toString() + "<br>");
+		}
+		return sB.toString();
 	}
 
 }

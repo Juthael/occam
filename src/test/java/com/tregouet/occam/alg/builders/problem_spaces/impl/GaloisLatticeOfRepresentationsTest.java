@@ -20,6 +20,7 @@ import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
+@SuppressWarnings("unused")
 public class GaloisLatticeOfRepresentationsTest {
 	
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
@@ -39,15 +40,17 @@ public class GaloisLatticeOfRepresentationsTest {
 
 	@Test
 	public void whenProblemSpaceRequestedThenReturned() {
-		//HERE
+		/*
 		for (ICompleteRepresentation representation : completeRepresentations.getSortedRepresentations()) {
 			VisualizersAbstractFactory.INSTANCE.getDescriptionViz().apply(
 					representation.getDescription(), 
 					"GaloisLatt_Desc" + Integer.toString(representation.id()));
 		}
-		//HERE
+		*/
 		IProblemSpace problemSpace = new GaloisLatticeOfRepresentations().apply(completeRepresentations);
+		/*
 		VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(problemSpace.asGraph(), "Problem_Space");
+		*/
 		assertNotNull(problemSpace);
 	}
 

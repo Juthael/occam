@@ -58,9 +58,9 @@ public class DeferredMatricesInstantiationTest {
 			double[][] similarityMatrix = metrics.getSimilarityMatrix();
 			if (similarityMatrix == null)
 				asExpected = false;
-			
+			/*
 			System.out.println(toString(similarityMatrix) + System.lineSeparator());
-			
+			*/
 		}
 		assertTrue(asExpected);
 	}
@@ -74,9 +74,9 @@ public class DeferredMatricesInstantiationTest {
 			double[][] asymmetricalSimilarityMatrix = metrics.getAsymmetricalSimilarityMatrix();
 			if (asymmetricalSimilarityMatrix == null)
 				asExpected = false;
-			
+			/*
 			System.out.println(toString(asymmetricalSimilarityMatrix) + System.lineSeparator());
-			
+			*/
 		}
 		assertTrue(asExpected);
 	}
@@ -90,9 +90,9 @@ public class DeferredMatricesInstantiationTest {
 			double[] typicalityVector = metrics.getTypicalityVector();
 			if (typicalityVector == null)
 				asExpected = false;
-			
+			/*
 			System.out.println(Arrays.toString(typicalityVector) + System.lineSeparator());
-			
+			*/
 		}
 		assertTrue(asExpected);
 	}	

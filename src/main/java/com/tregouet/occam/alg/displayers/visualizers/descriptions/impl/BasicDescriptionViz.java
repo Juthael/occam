@@ -55,7 +55,7 @@ public class BasicDescriptionViz implements DescriptionViz {
 			MutableGraph dotGraph = new Parser().read(dOTFile);
 			String filePath = LocalPaths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
 			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
-			return filePath;
+			return filePath + ".png";
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

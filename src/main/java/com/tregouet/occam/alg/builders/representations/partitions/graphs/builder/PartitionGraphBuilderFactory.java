@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.builders.representations.partitions.as_graphs;
+package com.tregouet.occam.alg.builders.representations.partitions.graphs.builder;
 
-import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.impl.RecursiveForkExploration;
+import com.tregouet.occam.alg.builders.representations.partitions.graphs.builder.impl.RecursiveForkExploration;
 
 public class PartitionGraphBuilderFactory {
 

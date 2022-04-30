@@ -1,6 +1,7 @@
 package com.tregouet.occam.alg.scorers.problem_states.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
 import com.tregouet.occam.data.logical_structures.orders.total.impl.Size1LecticScore;
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
+import com.tregouet.tree_finder.utils.Functions;
 
 public class MarkhovProcess implements ProblemStateScorer {
 
@@ -32,21 +34,24 @@ public class MarkhovProcess implements ProblemStateScorer {
 		this.problemSpace = problemSpace;
 		new TopologicalOrderIterator<>(problemSpace).forEachRemaining(topoOrderedStates::add);
 		stateProbability = new double[topoOrderedStates.size()];
+		Arrays.fill(stateProbability, 1.0);
 		for (IProblemState problemState : problemSpace)
-			incrementTargetScores(problemState);
-		// start state
-		stateProbability[0] = 1;
+			updateSuccessors(problemState);
 		return this;
 	}
 
-	private void incrementTargetScores(IProblemState source) {
+	private void updateSuccessors(IProblemState source) {
 		Set<AProblemStateTransition> outgoingTransitions = problemSpace.outgoingEdgesOf(source);
 		double outgoingTransitionWeightSum = 0.0;
 		for (AProblemStateTransition transition : outgoingTransitions)
 			outgoingTransitionWeightSum += transition.weight();
 		for (AProblemStateTransition transition : outgoingTransitions) {
 			double transitionProbability = transition.weight() / outgoingTransitionWeightSum;
-			stateProbability[topoOrderedStates.indexOf(transition.getTarget())] += transitionProbability;
+			IProblemState successor = transition.getTarget();
+			Set<IProblemState> upperSet = Functions.upperSet(problemSpace, successor);
+			for (IProblemState upperBound : upperSet) {
+				stateProbability[topoOrderedStates.indexOf(upperBound)] *= transitionProbability;
+			}
 		}
 	}
 

@@ -13,6 +13,7 @@ public class ProblemStateTransition extends AProblemStateTransition {
 	private final IProblemState source;
 	private final IProblemState target;
 	private final Set<IPartition> partitions;
+	private int rank;
 	private Double weight = null;
 
 	public ProblemStateTransition(IProblemState sourceID, IProblemState targetID, Set<IPartition> partitions) {
@@ -44,6 +45,16 @@ public class ProblemStateTransition extends AProblemStateTransition {
 	@Override
 	public Double weight() {
 		return weight;
+	}
+
+	@Override
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	@Override
+	public int rank() {
+		return rank;
 	}
 
 }

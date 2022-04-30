@@ -1,6 +1,7 @@
 package com.tregouet.occam.io.output.html.general;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 public class TablePrinter {
 
@@ -33,6 +34,10 @@ public class TablePrinter {
 		sB.append(alineaa + "</thead>" + NL);
 		sB.append(alineaa + "<tbody>" + NL);
 		sB.append(alineaaa + "<tr>" + NL);
+		//HERE
+		System.out.println(Arrays.toString(head));
+		System.out.println(Arrays.toString(table));
+		//HERE
 		for (int i = 0; i < head.length; i++)
 			sB.append(alineaaaa + "<td>" + round(table[i]) + "</td>" + NL);
 		sB.append(alineaaa + "</tr>" + NL);
@@ -51,9 +56,14 @@ public class TablePrinter {
 		sB.append(alineaa + "<thead>" + NL);
 		sB.append(alineaaa + "<tr>" + NL);
 		for (int i = 0; i <= head.length; i++) {
-			sB.append(alineaaaa + "<th> ");
-			sB.append(head[i]);
-			sB.append(" </th>" + NL);
+			if (i == 0) {
+				sB.append(alineaaaa + "<th> </th> " + NL);
+			}
+			else {
+				sB.append(alineaaaa + "<th> ");
+				sB.append(head[i - 1]);
+				sB.append(" </th>" + NL);	
+			}
 		}
 		sB.append(alineaaa + "</tr>" + NL);
 		sB.append(alineaa + "</thead>" + NL);
@@ -63,8 +73,17 @@ public class TablePrinter {
 			for (int i = 0; i <= head.length; i++) {
 				if (i == 0)
 					sB.append(alineaaaa + "<th> " + head[j - 1] + " </th>" + NL);
-				else
-					sB.append(alineaaaa + "<td>" + round(table[i - 1][j - 1]) + "</td>" + NL);
+				else {
+					//HERE
+					try {
+						sB.append(alineaaaa + "<td>" + round(table[i - 1][j - 1]) + "</td>" + NL);
+					}
+					catch (Exception e) {
+						System.out.println(head.toString());
+					}
+					//HERE
+				}
+					
 			}
 			sB.append(alineaaa + "</tr>" + NL);
 		}

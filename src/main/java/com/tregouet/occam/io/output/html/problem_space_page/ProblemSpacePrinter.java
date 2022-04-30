@@ -16,7 +16,7 @@ public class ProblemSpacePrinter {
 
 	public String print(IProblemSpace problemSpace, String fileName, String alinea) throws IOException {
 		String filePath = VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(problemSpace.asGraph(),
-				alinea);
+				fileName);
 		String alineaa = alinea + "   ";
 		String alineaaa = alineaa + "   ";
 		StringBuilder sB = new StringBuilder();

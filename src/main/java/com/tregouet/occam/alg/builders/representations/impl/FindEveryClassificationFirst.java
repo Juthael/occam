@@ -42,7 +42,7 @@ public class FindEveryClassificationFirst implements RepresentationSortedSetBuil
 			IRepresentationTransitionFunction transFunc = RepresentationSortedSetBuilder.getTransFuncBuilder()
 					.apply(classification, productions);
 			IFactEvaluator factEvaluator = RepresentationSortedSetBuilder.getFactEvaluatorBuilder().apply(transFunc);
-			IDescription description = RepresentationSortedSetBuilder.getDescriptionBuilder().apply(transFunc);
+			IDescription description = RepresentationSortedSetBuilder.getDescriptionBuilder().apply(transFunc, null);
 			Set<IPartition> partitions = RepresentationSortedSetBuilder.getPartitionBuilder().apply(description, classification);
 			ICompleteRepresentation representation = new CompleteRepresentation(classification, description,
 					factEvaluator, partitions);

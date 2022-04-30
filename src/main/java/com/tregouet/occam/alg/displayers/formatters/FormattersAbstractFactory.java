@@ -64,7 +64,7 @@ public class FormattersAbstractFactory {
 			propertyLabellerStrategy = PropertyLabellerStrategy.AS_PRODUCTIONS;
 			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
 			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES;
-			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.WEIGHT_ONLY;
+			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.PROBABILITY;
 			factDisplayerStrategy = FactDisplayerStrategy.NON_TRIVIAL_MAXIMAL_FACTS;
 			break;
 		default:

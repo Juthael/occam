@@ -9,9 +9,15 @@ import com.tregouet.occam.alg.builders.problem_spaces.modifier.ProblemSpaceModif
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterStrategy;
-import com.tregouet.occam.alg.builders.problem_spaces.transitions.TransitionBuilder;
-import com.tregouet.occam.alg.builders.problem_spaces.transitions.TransitionBuilderFactory;
-import com.tregouet.occam.alg.builders.problem_spaces.transitions.TransitionBuilderStrategy;
+import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.metrics.SimilarityPartialMetricsBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.metrics.SimilarityPartialMetricsBuilderFactory;
+import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.metrics.SimilarityPartialMetricsBuilderStrategy;
+import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRanker;
+import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRankerFactory;
+import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRankerStrategy;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilderFactory;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderStrategy;
@@ -42,9 +48,9 @@ import com.tregouet.occam.alg.builders.representations.fact_evaluators.FactEvalu
 import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilder;
-import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilderFactory;
-import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.partitions.graphs.builder.PartitionGraphBuilder;
+import com.tregouet.occam.alg.builders.representations.partitions.graphs.builder.PartitionGraphBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.partitions.graphs.builder.PartitionGraphBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.productions.ProductionBuilderStrategy;
@@ -82,8 +88,10 @@ public class GeneratorsAbstractFactory {
 	private FactEvaluatorBuilderStrategy factEvaluatorBuilderStrategy = null;
 	private RepresentationSortedSetBuilderStrategy representationSortedSetBuilderStrategy = null;
 	private Integer representationSortedSetMaxSize = null;
+	private SimilarityPartialMetricsBuilderStrategy similarityPartialMetricsBuilderStrategy = null;
 	private PartialRepresentationLateSetterStrategy partialRepresentationLateSetterStrategy = null;
-	private TransitionBuilderStrategy transitionBuilderStrategy = null;
+	private ProblemTransitionRankerStrategy problemTransitionRankerStrategy = null;
+	private ProblemTransitionBuilderStrategy problemTransitionBuilderStrategy = null;
 	private ProblemSpaceBuilderStrategy problemSpaceBuilderStrategy = null;
 	private ProblemSpaceModifierStrategy problemSpaceModifierStrategy = null;
 
@@ -113,6 +121,10 @@ public class GeneratorsAbstractFactory {
 	public FactEvaluatorBuilder getFactEvaluatorBuilder() {
 		return FactEvaluatorBuilderFactory.INSTANCE.apply(factEvaluatorBuilderStrategy);
 	}
+	
+	public SimilarityPartialMetricsBuilder getSimilarityPartialMetricsBuilder() {
+		return SimilarityPartialMetricsBuilderFactory.INSTANCE.apply(similarityPartialMetricsBuilderStrategy);
+	}
 
 	public PartialRepresentationLateSetter getPartialRepresentationLateSetter() {
 		return PartialRepresentationLateSetterFactory.INSTANCE.apply(partialRepresentationLateSetterStrategy);
@@ -134,8 +146,8 @@ public class GeneratorsAbstractFactory {
 		return ProblemSpaceModifierFactory.INSTANCE.apply(problemSpaceModifierStrategy);
 	}
 
-	public TransitionBuilder getProblemTransitionBuilder() {
-		return TransitionBuilderFactory.INSTANCE.apply(transitionBuilderStrategy);
+	public ProblemTransitionBuilder getProblemTransitionBuilder() {
+		return ProblemTransitionBuilderFactory.INSTANCE.apply(problemTransitionBuilderStrategy);
 	}
 
 	public ProductionBuilder getProdBuilderFromConceptLattice() {
@@ -170,6 +182,10 @@ public class GeneratorsAbstractFactory {
 	public TransitionSalienceSetter getTransitionSalienceSetter() {
 		return TransitionSalienceSetterFactory.INSTANCE.apply(transitionSalienceSetterStrategy);
 	}
+	
+	public ProblemTransitionRanker getProblemTransitionRanker() {
+		return ProblemTransitionRankerFactory.INSTANCE.apply(problemTransitionRankerStrategy);
+	}
 
 	public void setUpStrategy(GenerationStrategy overallStrategy) {
 		switch (overallStrategy) {
@@ -191,9 +207,11 @@ public class GeneratorsAbstractFactory {
 			factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
 			representationSortedSetBuilderStrategy = RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
 			representationSortedSetMaxSize = 500;
+			similarityPartialMetricsBuilderStrategy = SimilarityPartialMetricsBuilderStrategy.MOST_SPECIFIC_GENUS;
 			partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
-			transitionBuilderStrategy = TransitionBuilderStrategy.USE_PARTIAL_ORDER;
-			problemSpaceBuilderStrategy = ProblemSpaceBuilderStrategy.GALOIS_LATTICE_OF_REPRESENTATIONS;
+			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;
+			problemTransitionRankerStrategy = ProblemTransitionRankerStrategy.TOP_DOWN_RANKER;
+			problemSpaceBuilderStrategy = ProblemSpaceBuilderStrategy.GALOIS_LATTICE_WITH_NO_DUMB_STATE;
 			problemSpaceModifierStrategy = ProblemSpaceModifierStrategy.REBUILD_FROM_SCRATCH;
 			break;
 		default:

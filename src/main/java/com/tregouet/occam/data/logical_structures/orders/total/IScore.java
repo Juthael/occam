@@ -12,5 +12,11 @@ public interface IScore<S extends IScore<S>> extends Comparable<S> {
 
 	@Override
 	String toString();
+	
+	@Override
+	int hashCode();
+	
+	@Override
+	boolean equals(Object o);
 
 }

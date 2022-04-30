@@ -73,6 +73,12 @@
 	    <artifactId>logback-classic</artifactId>
 	    <version>1.2.3</version>
 	</dependency>
+
+	<dependency>
+		<groupId>org.graalvm.js</groupId>
+		<artifactId>js</artifactId>
+		<version>22.0.0.2</version>
+	</dependency>
 	
 	<!--  utils -->
 	

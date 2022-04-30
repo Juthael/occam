@@ -57,7 +57,7 @@ public class BasicProblemSpaceViz implements ProblemSpaceViz {
 			MutableGraph dotGraph = new Parser().read(stringDOT);
 			String filePath = LocalPaths.INSTANCE.getTargetFolderPath() + "\\" + fileName;
 			Graphviz.fromGraph(dotGraph).render(Format.PNG).toFile(new File(filePath));
-			return filePath;
+			return filePath + ".png";
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

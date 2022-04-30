@@ -3,11 +3,11 @@ package com.tregouet.occam.alg.displayers.formatters.problem_transitions.impl;
 import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemTransitionLabeller;
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 
-public class WeightOnly implements ProblemTransitionLabeller {
+public class Weight implements ProblemTransitionLabeller {
 
-	public static final WeightOnly INSTANCE = new WeightOnly();
+	public static final Weight INSTANCE = new Weight();
 
-	private WeightOnly() {
+	private Weight() {
 	}
 
 	@Override

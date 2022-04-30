@@ -10,6 +10,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilder;
+import com.tregouet.occam.alg.builders.representations.partitions.utils.PartitionRanker;
 import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilder;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.problem_spaces.partitions.impl.Partition;
@@ -57,13 +58,14 @@ public class BuildGraphFirst implements PartitionBuilder {
 					speciesIDList.add(diff.getTarget());
 				}
 			}
-			// set leaf2Extent
+			// set leaf2Extent and rank
 			Map<Integer, List<Integer>> leaf2Extent = new HashMap<>();
 			for (Integer leafID : partitionAsGraph.getLeaves())
 				leaf2Extent.put(leafID, conceptID2ExtentIDs.get(leafID));
 			speciesIDs = IPartition.orderOverIDs(speciesIDList);
+			int partitionRank = PartitionRanker.INSTANCE.rank(partitionAsGraph);
 			// instantiate
-			IPartition partition = new Partition(partitionAsGraph, partitionAsString, genusID, speciesIDs, leaf2Extent);
+			IPartition partition = new Partition(partitionAsGraph, partitionAsString, genusID, speciesIDs, leaf2Extent, partitionRank);
 			PartitionBuilder.getPartitionWeigher().accept(partition);
 			partitions.add(partition);
 		}

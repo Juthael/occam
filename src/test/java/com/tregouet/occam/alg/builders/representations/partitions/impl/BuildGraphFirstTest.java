@@ -70,9 +70,6 @@ public class BuildGraphFirstTest {
 			System.out.println("DESCRIPTION n." + Integer.toString(nbOfChecks) + " : " 
 					+ GeneratorsAbstractFactory.INSTANCE.getStringPatternBuilder().apply(description.asGraph()));
 			System.out.println("Partitions : ");
-			for (IPartition partition : partitions) {
-				System.out.println("   " + partition.toString());
-			}
 			System.out.println("**********" + NL);
 			*/
 			nbOfChecks++;

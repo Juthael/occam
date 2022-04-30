@@ -1,9 +1,11 @@
 package com.tregouet.occam.alg.builders.problem_spaces.partial_representations.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.Graphs;
@@ -17,11 +19,14 @@ import com.tregouet.occam.data.representations.IPartialRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.occam.data.representations.evaluation.IFactEvaluator;
 import com.tregouet.occam.data.representations.transitions.IConceptTransition;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.representations.transitions.impl.RepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.InvertedTree;
+import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.utils.Functions;
 
 public class InferNullParameters implements PartialRepresentationLateSetter {
 
@@ -44,7 +49,8 @@ public class InferNullParameters implements PartialRepresentationLateSetter {
 		}
 		while (repIte.hasNext()) {
 			tempClass.removeAllVertices(
-					Sets.difference(tempClass.vertexSet(), repIte.next().getTreeOfConcepts().vertexSet()));
+					new HashSet<>(
+							Sets.difference(tempClass.vertexSet(), repIte.next().getTreeOfConcepts().vertexSet())));
 		}
 		for (IConcept concept : tempClass.vertexSet()) {
 			if (tempClass.inDegreeOf(concept) == 0)
@@ -71,10 +77,36 @@ public class InferNullParameters implements PartialRepresentationLateSetter {
 		IFactEvaluator factEvaluator = PartialRepresentationLateSetter.getfactEvaluatorBuilder().apply(transFunc);
 		InvertedTree<IConcept, IIsA> classification = buildClassification(
 				partialRepresentation.getRepresentationCompletions());
-		IDescription description = PartialRepresentationLateSetter.descriptionBuilder().apply(transFunc);
+		Map<Integer, Integer> particular2MostSpecificGenus = mapParticularToMostSpecificGenus(partialRepresentation);
+		IDescription description = 
+				PartialRepresentationLateSetter.descriptionBuilder().apply(transFunc, particular2MostSpecificGenus);
 		partialRepresentation.setClassification(classification);
 		partialRepresentation.setFactEvaluator(factEvaluator);
 		partialRepresentation.setDescription(description);
+	}
+	
+	private static Map<Integer, Integer> mapParticularToMostSpecificGenus(IPartialRepresentation partialRepresentation) {
+		Map<Integer, Integer> particular2MostSpecificGenus = new HashMap<>();
+		Tree<Integer, AbstractDifferentiae> partialTree = partialRepresentation.getDescription().asGraph();
+		Tree<Integer, AbstractDifferentiae> anyCompletion = 
+				partialRepresentation.getRepresentationCompletions().iterator().next().getDescription().asGraph();
+		for (Integer particular : anyCompletion.getLeaves())
+			particular2MostSpecificGenus.put(
+					particular, 
+					mostSpecificGenusInPartialClassification(particular, partialTree, anyCompletion));
+		return particular2MostSpecificGenus;		
+	}
+	
+	private static Integer mostSpecificGenusInPartialClassification(Integer particularID, 
+			Tree<Integer, AbstractDifferentiae> partialTree, Tree<Integer, AbstractDifferentiae> anyCompletion) {
+		Integer mostSpecificGenus = null;
+		Iterator<Integer> leafIte = partialTree.getLeaves().iterator();
+		while (mostSpecificGenus == null) {
+			Integer nextLeaf = leafIte.next();
+			if (Functions.upperSet(partialTree, nextLeaf).contains(particularID))
+				mostSpecificGenus = nextLeaf;
+		}
+		return mostSpecificGenus;
 	}
 
 }

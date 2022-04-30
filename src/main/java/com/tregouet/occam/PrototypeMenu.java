@@ -145,7 +145,10 @@ public class PrototypeMenu {
 		}
 		switch (choice) {
 		case 1:
-			IRepresentation representation = selectARepresentation(problemSpace);
+			IRepresentation representation = selectARepresentation(objects, problemSpace);
+			//HERE
+			System.out.println("Rep returned");
+			//HERE
 			representationMenu(objects, problemSpace, representation);
 			break;
 		case 2:
@@ -166,6 +169,9 @@ public class PrototypeMenu {
 			IRepresentation representation) {
 		try {
 			String htmlPage = RepresentationPagePrinter.INSTANCE.print(objects, representation);
+			//HERE
+			System.out.println("Rep page printed");
+			//
 			generate(htmlPage);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -174,7 +180,7 @@ public class PrototypeMenu {
 		System.out.println("**********REPRESENTATION MENU**********");
 		System.out.println(NL);
 		System.out.println("1 : display next representation (score descending order)" + NL);
-		System.out.println("2 : display previous representation (score descending order)" + NL);
+		System.out.println("2 : display previous representation (score ascending order)" + NL);
 		System.out.println("3 : back to main menu" + NL);
 		int choice = 0;
 		try {
@@ -212,21 +218,21 @@ public class PrototypeMenu {
 		}
 	}
 
-	private IRepresentation selectARepresentation(IProblemSpace problemSpace) {
+	private IRepresentation selectARepresentation(List<IContextObject> objects, IProblemSpace problemSpace) {
 		System.out.println(NL);
 		System.out.println("Please enter a representation ID : " + NL);
-		int iD;
+		Integer iD = null;
 		try {
 			iD = entry.nextInt();
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return selectARepresentation(problemSpace);
+			return selectARepresentation(objects, problemSpace);
 		}
 		IRepresentation representation = (IRepresentation) problemSpace.getStateWithID(iD);
 		if (representation == null) {
 			System.out.println("No representation has this ID. " + NL);
-			return selectARepresentation(problemSpace);
+			return selectARepresentation(objects, problemSpace);
 		}
 		return representation;
 	}

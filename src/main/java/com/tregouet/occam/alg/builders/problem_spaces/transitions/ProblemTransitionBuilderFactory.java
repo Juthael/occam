@@ -2,14 +2,14 @@ package com.tregouet.occam.alg.builders.problem_spaces.transitions;
 
 import com.tregouet.occam.alg.builders.problem_spaces.transitions.impl.UsePartialOrder;
 
-public class TransitionBuilderFactory {
+public class ProblemTransitionBuilderFactory {
 
-	public static final TransitionBuilderFactory INSTANCE = new TransitionBuilderFactory();
+	public static final ProblemTransitionBuilderFactory INSTANCE = new ProblemTransitionBuilderFactory();
 
-	private TransitionBuilderFactory() {
+	private ProblemTransitionBuilderFactory() {
 	}
 
-	public TransitionBuilder apply(TransitionBuilderStrategy strategy) {
+	public ProblemTransitionBuilder apply(ProblemTransitionBuilderStrategy strategy) {
 		switch (strategy) {
 		case USE_PARTIAL_ORDER:
 			return UsePartialOrder.INSTANCE;

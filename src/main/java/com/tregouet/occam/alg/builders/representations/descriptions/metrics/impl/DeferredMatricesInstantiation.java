@@ -26,8 +26,9 @@ public class DeferredMatricesInstantiation implements SimilarityMetricsBuilder {
 		Iterator<Integer> particularIte = particulars.iterator();
 		while (particularIte.hasNext())
 			particularArray[arrayIdx++] = particularIte.next();
-		return new SimilarityMetrics(particularArray, SimilarityMetricsBuilder.pairSimilarityScorer(),
-				SimilarityMetricsBuilder.asymmetricalSimilarityScorer());
+		return new SimilarityMetrics(particularArray, 
+				SimilarityMetricsBuilder.pairSimilarityScorer().setAsContext(descriptionTree),
+				SimilarityMetricsBuilder.asymmetricalSimilarityScorer().setAsContext(descriptionTree));
 	}
 
 }

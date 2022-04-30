@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.representations.partitions.as_graphs;
+package com.tregouet.occam.alg.builders.representations.partitions.graphs.builder;
 
 import java.util.Set;
 import java.util.function.Function;

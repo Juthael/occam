@@ -26,6 +26,9 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printAcceptedFacts(IRepresentation representation, String alinea) {
+		//HERE
+		System.out.println("printAcceptedFacts.");
+		//HERE
 		Map<Integer, Set<IFact>> objID2acceptedFacts = representation.mapParticularIDsToAcceptedFacts();
 		NavigableSet<Integer> objIDs = new TreeSet<>(objID2acceptedFacts.keySet());
 		String[] head = new String[objIDs.size()];
@@ -60,6 +63,9 @@ public class RepresentationPagePrinter {
 
 	private static String printAsymetricalSimilarityMatrix(List<IContextObject> objects, IRepresentation representation,
 			String alinea) {
+		//HERE
+		System.out.println("printAsymetricalSimilarityMatrix.");
+		//HERE
 		String[] head = new String[objects.size()];
 		int idx = 0;
 		for (IContextObject obj : objects)
@@ -77,6 +83,9 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printAutomatonGraph(IRepresentation representation, String alinea) {
+		//HERE
+		System.out.println("printAutomatonGraph.");
+		//HERE
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz()
 				.apply(representation.getTransitionFunction(), "trans_func");
 		StringBuilder sB = new StringBuilder();
@@ -91,6 +100,9 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printClassificationTree(IRepresentation representation, String alinea) {
+		//HERE
+		System.out.println("printClassificationTree.");
+		//HERE
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
 				.apply(representation.getTreeOfConcepts(), "classification_tree");
 		StringBuilder sB = new StringBuilder();
@@ -104,6 +116,9 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printContext(List<IContextObject> objects, String alinea) {
+		//HERE
+		System.out.println("printContext.");
+		//HERE
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
 		String alineaaa = alineaa + "   ";
@@ -114,6 +129,9 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printDescription(IRepresentation representation, String alinea) {
+		//HERE
+		System.out.println("printDescription.");
+		//HERE
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getDescriptionViz()
 				.apply(representation.getDescription(), "description");
 		StringBuilder sB = new StringBuilder();
@@ -129,6 +147,9 @@ public class RepresentationPagePrinter {
 
 	private static String printGeneralDescription(List<IContextObject> objects, IRepresentation representation,
 			String alinea) {
+		//HERE
+		System.out.println("printGeneralDescription.");
+		//HERE
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
 		String alineaaa = alineaa + "   ";
@@ -143,6 +164,9 @@ public class RepresentationPagePrinter {
 	}
 
 	private static String printGeneratedFacts(IRepresentation representation, String alinea) {
+		//HERE
+		System.out.println("printGeneratedFacts.");
+		//HERE
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
 		String alineaaa = alineaa + "   ";
@@ -156,11 +180,17 @@ public class RepresentationPagePrinter {
 
 	private static String printSimilarityMatrix(List<IContextObject> objects, IRepresentation representation,
 			String alinea) {
+		//HERE
+		System.out.println("printSimilarityMatrix.");
+		//HERE
 		String[] head = new String[objects.size()];
 		int idx = 0;
 		for (IContextObject obj : objects)
 			head[idx++] = Integer.toString(obj.getID());
 		double[][] matrix = representation.getDescription().getSimilarityMetrics().getSimilarityMatrix();
+		//HERE
+		System.out.println("printSimilarityMatrix : returned.");
+		//HERE
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
 		String alineaaa = alineaa + "   ";
@@ -173,6 +203,9 @@ public class RepresentationPagePrinter {
 
 	private static String printTypicalityVector(List<IContextObject> objects, IRepresentation representation,
 			String alinea) {
+		//HERE
+		System.out.println("printTypicalityVector.");
+		//HERE
 		String[] head = new String[objects.size()];
 		int idx = 0;
 		for (IContextObject obj : objects)
@@ -189,6 +222,9 @@ public class RepresentationPagePrinter {
 	}
 
 	public String print(List<IContextObject> objects, IRepresentation representation) {
+		//HERE
+		System.out.println("Representation page print.");
+		//HERE
 		StringBuilder sB = new StringBuilder();
 		String alinea = "   ";
 		String alineaa = alinea + alinea;

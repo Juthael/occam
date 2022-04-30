@@ -2,6 +2,7 @@ package com.tregouet.occam.data.logical_structures.orders.total.impl;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import com.tregouet.occam.data.logical_structures.orders.total.IScore;
 
@@ -52,6 +53,23 @@ public class LecticScore implements IScore<LecticScore> {
 		if (otherIte.hasNext())
 			return -1;
 		return 0;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(values);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (!(obj instanceof LecticScore))
+			return false;
+		LecticScore other = (LecticScore) obj;
+		return this.compareTo(other) == 0;
 	}
 
 }

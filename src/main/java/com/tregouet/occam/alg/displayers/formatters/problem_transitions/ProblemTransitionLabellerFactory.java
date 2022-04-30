@@ -1,6 +1,7 @@
 package com.tregouet.occam.alg.displayers.formatters.problem_transitions;
 
-import com.tregouet.occam.alg.displayers.formatters.problem_transitions.impl.WeightOnly;
+import com.tregouet.occam.alg.displayers.formatters.problem_transitions.impl.Probability;
+import com.tregouet.occam.alg.displayers.formatters.problem_transitions.impl.Weight;
 
 public class ProblemTransitionLabellerFactory {
 
@@ -11,8 +12,10 @@ public class ProblemTransitionLabellerFactory {
 
 	public ProblemTransitionLabeller apply(ProblemTransitionLabellerStrategy strategy) {
 		switch (strategy) {
-		case WEIGHT_ONLY:
-			return WeightOnly.INSTANCE;
+		case WEIGHT:
+			return Weight.INSTANCE;
+		case PROBABILITY : 
+			return Probability.INSTANCE;
 		default:
 			return null;
 		}

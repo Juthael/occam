@@ -46,7 +46,7 @@ public class GaloisLatticeOfRepresentationsTest {
 					"GaloisLatt_Desc" + Integer.toString(representation.id()));
 		}
 		//HERE
-		IProblemSpace problemSpace = GaloisLatticeOfRepresentations.INSTANCE.apply(completeRepresentations);
+		IProblemSpace problemSpace = new GaloisLatticeOfRepresentations().apply(completeRepresentations);
 		VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(problemSpace.asGraph(), "Problem_Space");
 		assertNotNull(problemSpace);
 	}

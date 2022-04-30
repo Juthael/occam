@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.representations.partitions.as_graphs.impl;
+package com.tregouet.occam.alg.builders.representations.partitions.graphs.builder.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.tregouet.occam.alg.builders.representations.partitions.as_graphs.PartitionGraphBuilder;
+import com.tregouet.occam.alg.builders.representations.partitions.graphs.builder.PartitionGraphBuilder;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 

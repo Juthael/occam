@@ -13,20 +13,21 @@ import com.tregouet.tree_finder.data.Tree;
 public class Partition implements IPartition {
 
 	private final Tree<Integer, AbstractDifferentiae> asGraph;
-
 	private final String asString;
 	private final Integer genusID;
 	private final Integer[] speciesIDs;
 	private final Map<Integer, List<Integer>> leaf2Extent;
+	private final int rank;
 	private Double weight = null;
 
 	public Partition(Tree<Integer, AbstractDifferentiae> asGraph, String asString, Integer genusID,
-			Integer[] speciesIDs, Map<Integer, List<Integer>> leaf2Extent) {
+			Integer[] speciesIDs, Map<Integer, List<Integer>> leaf2Extent, int rank) {
 		this.asGraph = asGraph;
 		this.asString = asString;
 		this.genusID = genusID;
 		this.speciesIDs = speciesIDs;
 		this.leaf2Extent = leaf2Extent;
+		this.rank = rank;
 	}
 
 	private static int containsAtReturnedIdx(Integer[] array, Integer element) {
@@ -110,6 +111,11 @@ public class Partition implements IPartition {
 	@Override
 	public Double weight() {
 		return weight;
+	}
+
+	@Override
+	public int rank() {
+		return rank;
 	}
 
 }

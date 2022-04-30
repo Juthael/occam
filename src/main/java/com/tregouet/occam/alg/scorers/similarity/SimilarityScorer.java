@@ -3,10 +3,11 @@ package com.tregouet.occam.alg.scorers.similarity;
 import com.tregouet.occam.alg.scorers.Scored;
 import com.tregouet.occam.alg.scorers.Scorer;
 import com.tregouet.occam.data.logical_structures.orders.total.impl.DoubleScore;
-import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.tree_finder.data.Tree;
 
 public interface SimilarityScorer<R extends Scored<DoubleScore>> extends Scorer<R, DoubleScore> {
 
-	Scorer<R, DoubleScore> setAsContext(IDescription description);
+	SimilarityScorer<R> setAsContext(Tree<Integer, AbstractDifferentiae> classificationTree);
 
 }

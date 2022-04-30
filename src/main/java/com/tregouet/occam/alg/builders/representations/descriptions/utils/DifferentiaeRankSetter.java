@@ -12,6 +12,9 @@ public class DifferentiaeRankSetter implements Consumer<Tree<Integer, AbstractDi
 	private DifferentiaeRankSetter() {
 	}
 
+	/**
+	 * Root is ontological commitment ID
+	 */
 	@Override
 	public void accept(Tree<Integer, AbstractDifferentiae> classification) {
 		setEdgeRank(classification, 0, classification.getRoot());

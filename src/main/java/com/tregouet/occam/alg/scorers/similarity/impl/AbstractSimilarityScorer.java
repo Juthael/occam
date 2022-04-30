@@ -21,7 +21,7 @@ public abstract class AbstractSimilarityScorer<R extends Scored<DoubleScore>> im
 			while (currentConceptID != frameConceptID) {
 				AbstractDifferentiae currentConceptDefinition = classificationTree.incomingEdgeOf(currentConceptID);
 				definitionCost += currentConceptDefinition.weight();
-				currentConceptID = classificationTree.getEdgeTarget(currentConceptDefinition);
+				currentConceptID = classificationTree.getEdgeSource(currentConceptDefinition);
 			}
 			return definitionCost;
 		}
@@ -35,7 +35,7 @@ public abstract class AbstractSimilarityScorer<R extends Scored<DoubleScore>> im
 		while (currentConceptID != ontologicalCommitmentID) {
 			AbstractDifferentiae currentConceptDefinition = classificationTree.incomingEdgeOf(currentConceptID);
 			definitionCost += currentConceptDefinition.weight();
-			currentConceptID = classificationTree.getEdgeTarget(currentConceptDefinition);
+			currentConceptID = classificationTree.getEdgeSource(currentConceptDefinition);
 		}
 		return definitionCost;
 	}

@@ -3,9 +3,9 @@ package com.tregouet.occam.alg.setters;
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetterFactory;
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetterStrategy;
-import com.tregouet.occam.alg.setters.weighs.categorization_transitions.CategorizationTransitionWeigher;
-import com.tregouet.occam.alg.setters.weighs.categorization_transitions.CategorizationTransitionWeigherFactory;
-import com.tregouet.occam.alg.setters.weighs.categorization_transitions.CategorizationTransitionWeigherStrategy;
+import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
+import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigherFactory;
+import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigherStrategy;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigherFactory;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigherStrategy;
@@ -24,13 +24,13 @@ public class SettersAbstractFactory {
 	private DifferentiaeCoeffSetterStrategy differentiaeCoeffSetterStrategy = null;
 	private DifferentiaeWeigherStrategy differentiaeWeigherStrategy = null;
 	private PartitionWeigherStrategy partitionWeigherStrategy = null;
-	private CategorizationTransitionWeigherStrategy categorizationTransitionWeigherStrategy = null;
+	private ProblemTransitionWeigherStrategy problemTransitionWeigherStrategy = null;
 
 	private SettersAbstractFactory() {
 	}
 
-	public CategorizationTransitionWeigher getCategorizationTransitionWeigher() {
-		return CategorizationTransitionWeigherFactory.INSTANCE.apply(categorizationTransitionWeigherStrategy);
+	public ProblemTransitionWeigher getCategorizationTransitionWeigher() {
+		return ProblemTransitionWeigherFactory.INSTANCE.apply(problemTransitionWeigherStrategy);
 	}
 
 	public DifferentiaeCoeffSetter getDifferentiaeCoeffSetter() {
@@ -56,7 +56,7 @@ public class SettersAbstractFactory {
 			differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.SPECIES_CARDINALITY;
 			differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.SUM_OF_PROPERTY_WEIGHTS;
 			partitionWeigherStrategy = PartitionWeigherStrategy.SUM_PARTITION_DIFFERENTIAE;
-			categorizationTransitionWeigherStrategy = CategorizationTransitionWeigherStrategy.PARTITIONS_WEIGHT;
+			problemTransitionWeigherStrategy = ProblemTransitionWeigherStrategy.RANKED_PARTITIONS_WEIGHT;
 			break;
 		default:
 			break;

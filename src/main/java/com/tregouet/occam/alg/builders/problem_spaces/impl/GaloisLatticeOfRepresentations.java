@@ -9,13 +9,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jgrapht.graph.DirectedAcyclicGraph;
+
 import com.tregouet.next_closure.IClosedSetsFinder;
 import com.tregouet.next_closure.impl.NextClosure;
 import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilder;
-import com.tregouet.occam.alg.builders.problem_spaces.transitions.TransitionBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
+import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilder;
+import com.tregouet.occam.alg.builders.problem_spaces.utils.ProblemSpaceGraphInstantiator;
+import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.problem_spaces.IProblemSpace;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
+import com.tregouet.occam.data.problem_spaces.impl.ProblemSpace;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
@@ -23,9 +29,7 @@ import com.tregouet.occam.data.representations.impl.PartialRepresentation;
 
 public class GaloisLatticeOfRepresentations implements ProblemSpaceBuilder {
 
-	public static final ProblemSpaceBuilder INSTANCE = new GaloisLatticeOfRepresentations();
-
-	private GaloisLatticeOfRepresentations() {
+	public GaloisLatticeOfRepresentations() {
 	}
 
 	private static List<IProblemState> buildCategorisationStates(ICompleteRepresentations completeRepresentations,
@@ -72,9 +76,19 @@ public class GaloisLatticeOfRepresentations implements ProblemSpaceBuilder {
 		lecticallyOrderedClosedSets.remove(new HashSet<>());
 		List<IProblemState> topoOrderedStates = buildCategorisationStates(completeRepresentations,
 				lecticallyOrderedClosedSets);
-		TransitionBuilder transBldr = ProblemSpaceBuilder.getCategorizationTransitionBuilder();
+		ProblemTransitionBuilder transBldr = ProblemSpaceBuilder.getCategorizationTransitionBuilder();
 		Set<AProblemStateTransition> transitions = transBldr.apply(topoOrderedStates);
-		return ProblemSpaceBuilder.build(topoOrderedStates, transitions);
+		return instantiate(topoOrderedStates, transitions);
 	}
+	
+	protected IProblemSpace instantiate(List<IProblemState> topoOrderedStates, Set<AProblemStateTransition> transitions) {
+		DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemGraph = 
+				ProblemSpaceGraphInstantiator.INSTANCE.apply(topoOrderedStates, transitions);
+		ProblemStateScorer scorer = ProblemSpaceBuilder.getProblemStateScorer().setUp(problemGraph);
+		for (IProblemState state : problemGraph)
+			state.setScore(scorer.apply(state));
+		PartialRepresentationLateSetter partialRepLateSetter = ProblemSpaceBuilder.getPartialRepresentationLateSetter();
+		return new ProblemSpace(problemGraph, partialRepLateSetter);
+	}	
 
 }

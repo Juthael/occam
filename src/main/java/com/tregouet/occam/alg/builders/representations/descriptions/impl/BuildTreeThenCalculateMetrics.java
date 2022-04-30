@@ -2,6 +2,7 @@ package com.tregouet.occam.alg.builders.representations.descriptions.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -26,7 +27,7 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 	}
 
 	@Override
-	public IDescription apply(IRepresentationTransitionFunction transFunc) {
+	public IDescription apply(IRepresentationTransitionFunction transFunc, Map<Integer, Integer> particular2MostSpecificGenus) {
 		Set<AbstractDifferentiae> differentiae;
 		Tree<Integer, AbstractDifferentiae> classification;
 		differentiae = DescriptionBuilder.differentiaeBuilder().apply(transFunc);
@@ -56,7 +57,11 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 			differentiaeCoeffSetter.accept(diff);
 			differentiaeWeigher.accept(diff);
 		}
-		ISimilarityMetrics similarityMetrics = DescriptionBuilder.similarityMetricsBuilder().apply(classification);
+		ISimilarityMetrics similarityMetrics;
+		if (particular2MostSpecificGenus == null)
+			similarityMetrics = DescriptionBuilder.similarityMetricsBuilder().apply(classification);
+		else similarityMetrics = 
+				DescriptionBuilder.similarityPartialMetricsBuilder().apply(classification, particular2MostSpecificGenus);
 		IDescription description = new Description(classification, similarityMetrics);
 		return description;
 	}

@@ -25,9 +25,9 @@ public class TopDownRanker implements ProblemTransitionRanker {
 
 	@Override
 	public ProblemTransitionRanker setUp(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemSpace) {
-		int nbOfStates = problemSpace.vertexSet().size();
-		transitions = new ArrayList<>(nbOfStates);
-		ranks = new int[nbOfStates];
+		int nbOfEdges = problemSpace.edgeSet().size();
+		transitions = new ArrayList<>(nbOfEdges);
+		ranks = new int[nbOfEdges];
 		//find start state
 		IProblemState startState = null;
 		Iterator<IProblemState> stateIte = problemSpace.vertexSet().iterator();
@@ -44,11 +44,17 @@ public class TopDownRanker implements ProblemTransitionRanker {
 	private void setRank(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemSpace, 
 			IProblemState problemState, int rank) {
 		for (AProblemStateTransition transition : problemSpace.outgoingEdgesOf(problemState)) {
-			transitions.add(transition);
-			ranks[transitions.size() - 1] = rank;
+			int transIdx = transitions.indexOf(transition);
+			if (transIdx == -1) {
+				transitions.add(transition);
+				ranks[transitions.size() - 1] = rank;
+			}
+			else {
+				if (ranks[transIdx] < rank)
+					ranks[transIdx] = rank;
+			}
 			setRank(problemSpace, problemSpace.getEdgeTarget(transition), rank + 1);
 		}
-			
 	}
 	
 	

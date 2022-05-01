@@ -20,6 +20,7 @@ public class VisualizersAbstractFactory {
 	private ConceptGraphVizStrategy conceptGraphVizStrategy = null;
 	private DescriptionVizStrategy descriptionVizStrategy = null;
 	private ProblemSpaceVizStrategy problemSpaceVizStrategy = null;
+	private int maxNbOfProblemStatesDisplayed;
 	private TransitionFunctionVizStrategy transitionFunctionVizStrategy = null;
 
 	private VisualizersAbstractFactory() {
@@ -40,12 +41,17 @@ public class VisualizersAbstractFactory {
 	public TransitionFunctionViz getTransitionFunctionViz() {
 		return TransitionFunctionVizFactory.INSTANCE.apply(transitionFunctionVizStrategy);
 	}
+	
+	public int getMaxNbOfProblemStatesDisplayed() {
+		return maxNbOfProblemStatesDisplayed;
+	}
 
 	public void setUpStrategy(VisualizationStrategy strategy) {
 		switch (strategy) {
 		case VISUALIZATION_STRATEGY_1:
 			conceptGraphVizStrategy = ConceptGraphVizStrategy.BASIC;
 			descriptionVizStrategy = DescriptionVizStrategy.BASIC;
+			maxNbOfProblemStatesDisplayed = 200;
 			problemSpaceVizStrategy = ProblemSpaceVizStrategy.BASIC;
 			transitionFunctionVizStrategy = TransitionFunctionVizStrategy.BASIC;
 			break;

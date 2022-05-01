@@ -58,16 +58,15 @@ public class FindEveryClassificationFirstTest {
 				.append(completeRepresentation.getDescription().toString() + NL)
 				.append("Score : " + completeRepresentation.score().toString() + NL + NL)
 				.append("Facts : " + NL + NL);
-			Map<Integer, String> acceptStateIDToFactualDesc = 
+			Map<Integer, List<String>> acceptStateIDToFactualDesc = 
 					completeRepresentation.mapParticularIDsToFactualDescription(
 							FormattersAbstractFactory.INSTANCE.getFactDisplayer());
 			TreeSet<Integer> sortedParticularIDs = new TreeSet<>();
 			sortedParticularIDs.addAll(acceptStateIDToFactualDesc.keySet());
 			for (Integer particularID : sortedParticularIDs) {
-				sB.append("***Object n." + Integer.toString(particularID) 
-					+ NL
-					+ acceptStateIDToFactualDesc.get(particularID)
-					+ NL + NL);
+				sB.append("***Object n." + Integer.toString(particularID) + NL);
+				for (String property : acceptStateIDToFactualDesc.get(particularID))
+					sB.append(property + NL);
 			}
 			idx++;
 			sB.append(NL);

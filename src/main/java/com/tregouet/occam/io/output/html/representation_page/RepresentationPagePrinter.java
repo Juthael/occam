@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
-import java.util.Set;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
@@ -12,7 +11,6 @@ import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
-import com.tregouet.occam.data.representations.evaluation.facts.IFact;
 import com.tregouet.occam.io.output.html.general.ContextPrinter;
 import com.tregouet.occam.io.output.html.general.FigurePrinter;
 import com.tregouet.occam.io.output.html.general.FootPrinter;

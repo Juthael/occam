@@ -97,6 +97,7 @@ public class DeferredMatricesInstantiationTest {
 		assertTrue(asExpected);
 	}	
 	
+	@SuppressWarnings("unused")
 	private String toString(double[][] array) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("{" + nL);

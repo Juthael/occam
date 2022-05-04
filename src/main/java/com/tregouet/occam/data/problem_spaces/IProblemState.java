@@ -14,8 +14,6 @@ public interface IProblemState extends PartiallyComparable<IProblemState>, Score
 
 	Set<IPartition> getPartitions();
 
-	Set<IGoalState> getReachableGoalStates();
-
 	@Override
 	int hashCode();
 

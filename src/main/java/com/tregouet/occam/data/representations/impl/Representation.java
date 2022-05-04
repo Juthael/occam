@@ -13,6 +13,7 @@ import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
 import com.tregouet.occam.data.problem_spaces.IGoalState;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
+import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
@@ -24,7 +25,7 @@ import com.tregouet.occam.data.representations.evaluation.tapes.impl.FactTape;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public abstract class Representation implements IRepresentation {
+public class Representation implements IRepresentation {
 
 	private static int nextID = 1;
 
@@ -187,6 +188,18 @@ public abstract class Representation implements IRepresentation {
 	@Override
 	public void setScore(LecticScore score) {
 		this.score = score;
+	}
+
+	@Override
+	public Set<ICompleteRepresentation> getRepresentationCompletions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<Integer> getExtent(Integer conceptID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

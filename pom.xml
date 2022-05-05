@@ -25,16 +25,22 @@
     	<artifactId>subseq_finder</artifactId>
     	<version>0.0.1-SNAPSHOT</version>
     </dependency> 
-    
-   	<dependency>
+
+	<dependency>
 		<groupId>com.tregouet</groupId>
-		<artifactId>tree-finder</artifactId>
+		<artifactId>partitioner</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
 
 	<dependency>
 		<groupId>com.tregouet</groupId>
 		<artifactId>next-closure</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+
+	<dependency>
+		<groupId>com.tregouet</groupId>
+		<artifactId>tree-finder</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
     

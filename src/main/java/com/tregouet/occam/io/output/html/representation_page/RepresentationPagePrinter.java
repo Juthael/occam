@@ -77,7 +77,7 @@ public class RepresentationPagePrinter {
 		String[] head = new String[objects.size()];
 		int idx = 0;
 		for (IContextObject obj : objects)
-			head[idx++] = Integer.toString(obj.getID());
+			head[idx++] = Integer.toString(obj.iD());
 		double[][] matrix = representation.getDescription().getSimilarityMetrics().getAsymmetricalSimilarityMatrix();
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
@@ -173,7 +173,7 @@ public class RepresentationPagePrinter {
 		String[] head = new String[objects.size()];
 		int idx = 0;
 		for (IContextObject obj : objects)
-			head[idx++] = Integer.toString(obj.getID());
+			head[idx++] = Integer.toString(obj.iD());
 		double[][] matrix = representation.getDescription().getSimilarityMetrics().getSimilarityMatrix();
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";
@@ -190,7 +190,7 @@ public class RepresentationPagePrinter {
 		String[] head = new String[objects.size()];
 		int idx = 0;
 		for (IContextObject obj : objects)
-			head[idx++] = Integer.toString(obj.getID());
+			head[idx++] = Integer.toString(obj.iD());
 		double[] vector = representation.getDescription().getSimilarityMetrics().getTypicalityVector();
 		StringBuilder sB = new StringBuilder();
 		String alineaa = alinea + "   ";

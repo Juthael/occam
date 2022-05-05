@@ -1,14 +1,13 @@
 package com.tregouet.occam.alg.builders.representations.concept_trees;
 
 import java.util.Set;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-@FunctionalInterface
-public interface ConceptTreeBuilder extends Function<IConceptLattice, Set<InvertedTree<IConcept, IIsA>>> {
+public interface ConceptTreeGrower extends BiFunction<IConceptLattice, InvertedTree<IConcept, IIsA>, Set<InvertedTree<IConcept, IIsA>>> {
 
 }

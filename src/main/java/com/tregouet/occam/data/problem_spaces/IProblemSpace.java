@@ -4,14 +4,13 @@ import java.util.NavigableSet;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.IRepresentation;
 
 public interface IProblemSpace {
 
 	DirectedAcyclicGraph<IProblemState, AProblemStateTransition> asGraph();
 
-	ICompleteRepresentation getCompleteRepresentationWithID(int iD);
+	IRepresentation getRepresentationWithID(int iD);
 
 	/**
 	 *

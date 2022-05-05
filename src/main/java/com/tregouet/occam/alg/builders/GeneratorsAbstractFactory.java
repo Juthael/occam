@@ -1,11 +1,8 @@
 package com.tregouet.occam.alg.builders;
 
-import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilder;
-import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilderFactory;
-import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilderStrategy;
-import com.tregouet.occam.alg.builders.problem_spaces.modifier.ProblemSpaceModifier;
-import com.tregouet.occam.alg.builders.problem_spaces.modifier.ProblemSpaceModifierFactory;
-import com.tregouet.occam.alg.builders.problem_spaces.modifier.ProblemSpaceModifierStrategy;
+import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceExplorer;
+import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceExplorerFactory;
+import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceExplorerStrategy;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterStrategy;
@@ -27,9 +24,9 @@ import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptL
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilder;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilder;
-import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilderFactory;
-import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeGrower;
+import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeGrowerFactory;
+import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeGrowerStrategy;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderStrategy;
@@ -73,7 +70,7 @@ public class GeneratorsAbstractFactory {
 
 	private DenotationBuilderStrategy denotationBuilderStrategy = null;
 	private ConceptLatticeBuilderStrategy conceptLatticeBuilderStrategy = null;
-	private ConceptTreeBuilderStrategy conceptTreeBuilderStrategy = null;
+	private ConceptTreeGrowerStrategy conceptTreeGrowerStrategy = null;
 	private ProdBuilderFromDenotationsStrategy prodBuilderFromDenotationsStrategy = null;
 	private ProductionBuilderStrategy productionBuilderStrategy = null;
 	private TransitionSalienceSetterStrategy transitionSalienceSetterStrategy = null;
@@ -92,8 +89,7 @@ public class GeneratorsAbstractFactory {
 	private PartialRepresentationLateSetterStrategy partialRepresentationLateSetterStrategy = null;
 	private ProblemTransitionRankerStrategy problemTransitionRankerStrategy = null;
 	private ProblemTransitionBuilderStrategy problemTransitionBuilderStrategy = null;
-	private ProblemSpaceBuilderStrategy problemSpaceBuilderStrategy = null;
-	private ProblemSpaceModifierStrategy problemSpaceModifierStrategy = null;
+	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
 
 	private GeneratorsAbstractFactory() {
 	}
@@ -102,8 +98,8 @@ public class GeneratorsAbstractFactory {
 		return ConceptLatticeBuilderFactory.INSTANCE.apply(conceptLatticeBuilderStrategy);
 	}
 
-	public ConceptTreeBuilder getConceptTreeBuilder() {
-		return ConceptTreeBuilderFactory.INSTANCE.apply(conceptTreeBuilderStrategy);
+	public ConceptTreeGrower getConceptTreeBuilder() {
+		return ConceptTreeGrowerFactory.INSTANCE.apply(conceptTreeGrowerStrategy);
 	}
 
 	public DenotationBuilder getDenotationBuilder() {
@@ -138,12 +134,8 @@ public class GeneratorsAbstractFactory {
 		return PartitionGraphBuilderFactory.INSTANCE.apply(partitionGraphBuilderStrategy);
 	}
 
-	public ProblemSpaceBuilder getProblemSpaceBuilder() {
-		return ProblemSpaceBuilderFactory.INSTANCE.apply(problemSpaceBuilderStrategy);
-	}
-
-	public ProblemSpaceModifier getProblemSpaceModifier() {
-		return ProblemSpaceModifierFactory.INSTANCE.apply(problemSpaceModifierStrategy);
+	public ProblemSpaceExplorer getProblemSpaceBuilder() {
+		return ProblemSpaceExplorerFactory.INSTANCE.apply(problemSpaceExplorerStrategy);
 	}
 
 	public ProblemTransitionBuilder getProblemTransitionBuilder() {
@@ -192,7 +184,7 @@ public class GeneratorsAbstractFactory {
 		case GENERATION_STRATEGY_1:
 			denotationBuilderStrategy = DenotationBuilderStrategy.MAX_SYMBOL_SUBSEQUENCES;
 			conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
-			conceptTreeBuilderStrategy = ConceptTreeBuilderStrategy.UNIDIMENSIONAL_SORTING;
+			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.PARTITION_UNSORTED_UNIVERSALS;
 			prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.MAP_TARGET_VARS_TO_SOURCE_VALUES;
 			productionBuilderStrategy = ProductionBuilderStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
 			transitionSalienceSetterStrategy = TransitionSalienceSetterStrategy.HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS;
@@ -211,8 +203,7 @@ public class GeneratorsAbstractFactory {
 			partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
 			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;
 			problemTransitionRankerStrategy = ProblemTransitionRankerStrategy.TOP_DOWN_RANKER;
-			problemSpaceBuilderStrategy = ProblemSpaceBuilderStrategy.GALOIS_LATTICE_WITH_NO_DUMB_STATE;
-			problemSpaceModifierStrategy = ProblemSpaceModifierStrategy.REBUILD_FROM_SCRATCH;
+			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.NO_DUMB_STATE;
 			break;
 		default:
 			break;

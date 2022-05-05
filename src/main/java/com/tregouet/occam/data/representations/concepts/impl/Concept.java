@@ -26,7 +26,7 @@ public class Concept implements IConcept {
 
 	public Concept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent) {
 		if (extent.size() == 1)
-			iD = extent.iterator().next().getID();
+			iD = extent.iterator().next().iD();
 		else
 			iD = nextID++;
 		for (IConstruct construct : denotatingConstructs)

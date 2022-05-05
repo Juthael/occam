@@ -37,7 +37,7 @@ public interface IConceptLattice {
 	IConcept getLeastCommonSuperordinate(Set<IConcept> concepts);
 
 	// it is guaranteed that the order is the same as getContextObjects();
-	List<IConcept> getObjectConcepts();
+	List<IConcept> getParticulars();
 
 	IConcept getOntologicalCommitment();
 

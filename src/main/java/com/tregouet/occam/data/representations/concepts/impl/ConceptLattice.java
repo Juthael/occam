@@ -96,7 +96,7 @@ public class ConceptLattice implements IConceptLattice {
 	}
 
 	@Override
-	public List<IConcept> getObjectConcepts() {
+	public List<IConcept> getParticulars() {
 		return particulars;
 	}
 

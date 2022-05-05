@@ -16,7 +16,7 @@ public interface IContextObject extends Comparable<IContextObject> {
 
 	List<IConstruct> getConstructs();
 
-	int getID();
+	int iD();
 
 	Iterator<IConstruct> getIteratorOverConstructs();
 

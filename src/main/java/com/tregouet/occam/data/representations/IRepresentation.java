@@ -30,8 +30,6 @@ public interface IRepresentation extends
 
 	IDescription getDescription();
 
-	Set<ICompleteRepresentation> getRepresentationCompletions();
-
 	InvertedTree<IConcept, IIsA> getTreeOfConcepts();
 
 	@Override

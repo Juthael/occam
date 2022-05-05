@@ -33,7 +33,7 @@ public class Particular implements IContextObject {
 
 	@Override
 	public int compareTo(IContextObject o) {
-		return this.iD - o.getID();
+		return this.iD - o.iD();
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class Particular implements IContextObject {
 	}
 
 	@Override
-	public int getID() {
+	public int iD() {
 		return iD;
 	}
 

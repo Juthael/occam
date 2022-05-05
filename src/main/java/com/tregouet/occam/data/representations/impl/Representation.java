@@ -2,7 +2,9 @@ package com.tregouet.occam.data.representations.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -10,17 +12,15 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
-import com.tregouet.occam.data.problem_spaces.IGoalState;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
-import com.tregouet.occam.data.representations.ICompleteRepresentation;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.evaluation.IFactEvaluator;
 import com.tregouet.occam.data.representations.evaluation.facts.IFact;
-import com.tregouet.occam.data.representations.evaluation.impl.FactEvaluator;
 import com.tregouet.occam.data.representations.evaluation.tapes.impl.FactTape;
 import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.InvertedTree;
@@ -31,7 +31,7 @@ public class Representation implements IRepresentation {
 
 	protected final int iD;
 	protected InvertedTree<IConcept, IIsA> classification;
-	protected IFactEvaluator factEvaluator = new FactEvaluator();
+	protected IFactEvaluator factEvaluator;
 	protected IDescription description;
 	protected final Set<IPartition> partitions;
 	protected LecticScore score = null;
@@ -43,7 +43,7 @@ public class Representation implements IRepresentation {
 		this.partitions = partitions;
 		this.factEvaluator = factEvaluator;
 		iD = nextID++;
-	}
+	}	
 
 	@Override
 	public Integer compareTo(IProblemState other) {
@@ -104,9 +104,6 @@ public class Representation implements IRepresentation {
 	public Set<IPartition> getPartitions() {
 		return partitions;
 	}
-
-	@Override
-	abstract public Set<IGoalState> getReachableGoalStates();
 
 	@Override
 	public Set<IConcept> getStates() {
@@ -191,15 +188,18 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
-	public Set<ICompleteRepresentation> getRepresentationCompletions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Set<Integer> getExtent(Integer conceptID) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Integer> extent = new HashSet<>();
+		IConcept concept = null;
+		Iterator<IConcept> conceptIte = classification.vertexSet().iterator();
+		while (concept == null) {
+			IConcept nextConcept = conceptIte.next();
+			if (nextConcept.iD() == conceptID.intValue())
+				concept = nextConcept;
+		}
+		for (IContextObject object : concept.getExtent())
+			extent.add(object.iD());
+		return extent;
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.representations.concept_trees;
 
-import com.tregouet.occam.alg.builders.representations.concept_trees.impl.PartitionUnsortedUniversals;
+import com.tregouet.occam.alg.builders.representations.concept_trees.impl.IfLeafIsUniversalThenSort;
 
 public class ConceptTreeGrowerFactory {
 	
@@ -12,7 +12,7 @@ public class ConceptTreeGrowerFactory {
 	public ConceptTreeGrower apply(ConceptTreeGrowerStrategy strategy) {
 		switch(strategy) {
 		case PARTITION_UNSORTED_UNIVERSALS : 
-			return PartitionUnsortedUniversals.INSTANCE;
+			return IfLeafIsUniversalThenSort.INSTANCE;
 		default : 
 			return null;		
 		}

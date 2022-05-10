@@ -41,6 +41,7 @@ public class IfLeafIsUniversalThenSortTest {
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		conceptLattice = GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
+		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(conceptLattice.getOntologicalUpperSemilattice(), "IfLeafIsUniversal_lattice");
 	}
 
 	@Test
@@ -49,14 +50,17 @@ public class IfLeafIsUniversalThenSortTest {
 		assertTrue(!expansions.isEmpty());
 	}
 	
-	private static Set<InvertedTree<IConcept, IIsA>> visualizeThenBuild(IConceptLattice conceptLattice, InvertedTree<IConcept, IIsA> tree, String name) {
+	private static Set<InvertedTree<IConcept, IIsA>> visualizeThenBuild(IConceptLattice conceptLattice, 
+			InvertedTree<IConcept, IIsA> tree, String name) {
 		Set<InvertedTree<IConcept, IIsA>> recursivelyExpandedTrees = new HashSet<>();
 		IfLeafIsUniversalThenSort sorter = new IfLeafIsUniversalThenSort();
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = sorter.apply(conceptLattice, tree);
 		recursivelyExpandedTrees.addAll(expandedTrees);
 		for (InvertedTree<IConcept, IIsA> expandedTree : expandedTrees) {
-			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(expandedTree, name + Integer.toString(count));
-			recursivelyExpandedTrees.addAll(visualizeThenBuild(conceptLattice, expandedTree, Integer.toString(count++)));
+			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(expandedTree, name + Integer.toString(count++));
+		}
+		for (InvertedTree<IConcept, IIsA> expandedTree : expandedTrees) {
+			recursivelyExpandedTrees.addAll(visualizeThenBuild(conceptLattice, expandedTree, name));
 		}
 		return recursivelyExpandedTrees;
 	}

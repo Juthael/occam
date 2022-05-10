@@ -9,12 +9,13 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
 import org.jgrapht.alg.util.Pair;
 import org.jgrapht.graph.DefaultDirectedGraph;
@@ -26,7 +27,6 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeGrower;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -50,14 +50,7 @@ import guru.nidi.graphviz.parse.Parser;
 public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 	
 	private static final Comparator<IConcept> iDComparator = (x, y) -> x.iD() - y.iD();
-	private IConceptLattice conceptLattice;
 	private InvertedUpperSemilattice<IConcept, IIsA> conceptUSL;
-	private List<IConcept> topoOrder;
-	private List<Set<IConcept>> lowerSets;
-	
-	//HERE
-	private static int count = 0;
-	//HERE
 	
 	public IfLeafIsUniversalThenSort() {
 	}
@@ -70,7 +63,7 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 			initial.add(initialTree(conceptLattice));
 			return initial;
 		}
-		initialize(conceptLattice);
+		conceptUSL = conceptLattice.getOntologicalUpperSemilattice();
 		Set<IConcept> leaves = currentTree.getLeaves();
 		List<IConcept> unsorted = new ArrayList<>();
 		for (IConcept leaf : leaves) {
@@ -79,47 +72,62 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 		}
 		for (IConcept genus : unsorted) {
 			//build search space
-			List<IConcept> sortedParticulars = getSortedParticulars(genus);
+			Set<IComplementaryConcept> complementaryUpperBounds = getComplementaryStrictUpperBounds(currentTree, genus);
+			List<IConcept> sortedParticulars = getSortedParticulars(genus, complementaryUpperBounds);
 			Set<IConcept> particulars = new HashSet<>(sortedParticulars);
-			InvertedUpperSemilattice<IConcept, IIsA> searchSpace = buildSearchUSL(genus, particulars);
+			InvertedUpperSemilattice<IConcept, IIsA> searchSpace = buildSearchUSL(genus, particulars, complementaryUpperBounds);
 			Map<List<IConcept>, IConcept> closedSubsetsOfParticulars2Supremum = 
 					mapClosedSubsetsOfParticulars2Supremum(searchSpace, particulars);
 			//classify genus extent
 			List<List<IConcept>> genusSortings = 
 					classify(genus, sortedParticulars, closedSubsetsOfParticulars2Supremum);
 			for (List<IConcept> speciesSet : genusSortings) {
-				InvertedTree<IConcept, IIsA> classTree = shallowCopyOf(currentTree);
-				Graphs.addAllVertices(classTree, speciesSet);
+				DirectedAcyclicGraph<IConcept, IIsA> treeDAG = new DirectedAcyclicGraph<>(null, IsA::new, false);
+				Graphs.addAllVertices(treeDAG, currentTree.vertexSet());
+				Graphs.addAllEdges(treeDAG, currentTree, currentTree.edgeSet());
+				Graphs.addAllVertices(treeDAG, speciesSet);
 				for (IConcept species : speciesSet)
-					classTree.addEdge(species, genus);
-				expandedTrees.add(classTree);
+					treeDAG.addEdge(species, genus);
+				expandedTrees.add(asInvertedTree(treeDAG, currentTree.getRoot()));
 			}
 			//dichotomize genus extent
 			List<Pair<IConcept, IComplementaryConcept>> dichotomies = 
 					dichotomize(genus, sortedParticulars, closedSubsetsOfParticulars2Supremum, searchSpace);
 			for (Pair<IConcept, IComplementaryConcept> dichotomy : dichotomies) {
-				InvertedTree<IConcept, IIsA> dichoTree = shallowCopyOf(currentTree);
+				DirectedAcyclicGraph<IConcept, IIsA> treeDAG = new DirectedAcyclicGraph<>(null, IsA::new, false);
+				Graphs.addAllVertices(treeDAG, currentTree.vertexSet());
+				Graphs.addAllEdges(treeDAG, currentTree, currentTree.edgeSet());			
 				IConcept unidimensionalSpecies = dichotomy.getFirst();
-				dichoTree.addVertex(unidimensionalSpecies);
-				dichoTree.addEdge(unidimensionalSpecies, genus);
+				treeDAG.addVertex(unidimensionalSpecies);
+				treeDAG.addEdge(unidimensionalSpecies, genus);
 				IConcept complementarySpecies = dichotomy.getSecond();
-				dichoTree.addVertex(complementarySpecies);
-				dichoTree.addEdge(complementarySpecies, genus);
-				expandedTrees.add(dichoTree);
+				treeDAG.addVertex(complementarySpecies);
+				treeDAG.addEdge(complementarySpecies, genus);
+				expandedTrees.add(asInvertedTree(treeDAG, currentTree.getRoot()));
 			}
 		}
 		return expandedTrees;
 	}
 	
+	private static Set<IComplementaryConcept> getComplementaryStrictUpperBounds(
+			DirectedAcyclicGraph<IConcept, IIsA> currentTree, IConcept genus){
+		Set<IComplementaryConcept> complementarySUB = new HashSet<>();
+		Set<IConcept> sUBs = currentTree.getDescendants(genus);
+		for (IConcept sUB : sUBs)
+			if (sUB.isComplementary())
+				complementarySUB.add((IComplementaryConcept)sUB);
+		return complementarySUB;
+	}
+	
 	private static List<List<IConcept>> classify(IConcept genus, List<IConcept> sortedParticulars, 
 			Map<List<IConcept>, IConcept> closedSubsetsOfParticulars2Supremum) {
 		List<List<IConcept>> genusSortings = new ArrayList<>();
-		List<List<List<IConcept>>> cleanPartitionsOfParticulars;
+		List<List<List<IConcept>>> partitionsOfParticulars;
 		Set<List<IConcept>> closedSubsetsOfParticulars = closedSubsetsOfParticulars2Supremum.keySet();
-		IPartitioner<IConcept> cleanPartitioner = 
+		IPartitioner<IConcept> partitioner = 
 				new ConstrainedPartitioner<>(sortedParticulars, closedSubsetsOfParticulars, null);
-		cleanPartitionsOfParticulars = cleanPartitioner.getAllPartitions();
-		for (List<List<IConcept>> partition : cleanPartitionsOfParticulars) {
+		partitionsOfParticulars = partitioner.getAllPartitions();
+		for (List<List<IConcept>> partition : partitionsOfParticulars) {
 			List<IConcept> species = new ArrayList<>();
 			for (List<IConcept> subset : partition)
 				species.add(closedSubsetsOfParticulars2Supremum.get(subset));
@@ -132,13 +140,11 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 			List<IConcept> sortedParticulars, Map<List<IConcept>, IConcept> closedSubsetsOfParticulars2Supremum, 
 			InvertedUpperSemilattice<IConcept, IIsA> searchUSL) {
 		List<Pair<IConcept, IComplementaryConcept>> dichotomies = new ArrayList<>();
-		List<List<List<IConcept>>> size2Partitions = new ArrayList<>();
 		IPartitioner<IConcept> maxSize2Partitioner = new ConstrainedPartitioner<>(sortedParticulars, null, 2);
-		List<List<List<IConcept>>> maxSize2Partitions = maxSize2Partitioner.getAllPartitions();
-		for (List<List<IConcept>> partition : maxSize2Partitions) {
-			if (partition.size() == 2)
-				size2Partitions.add(partition);
-		}
+		List<List<List<IConcept>>> size2Partitions = maxSize2Partitioner.getAllPartitions()
+				.stream()
+				.filter(p -> p.size() == 2)
+				.collect(Collectors.toList());
 		for (List<List<IConcept>> size2Partition : size2Partitions) {
 			IConcept c = null;
 			List<IConcept> cParticulars = null;
@@ -179,15 +185,6 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 		return dichotomies; 
 	}
 	
-	private void initialize(IConceptLattice conceptLattice) {
-		this.conceptLattice = conceptLattice;
-		conceptUSL = conceptLattice.getOntologicalUpperSemilattice();
-		topoOrder = conceptUSL.getTopologicalOrder();
-		lowerSets = new ArrayList<>();
-		for (IConcept concept : topoOrder)
-			lowerSets.add(Functions.lowerSet(conceptUSL, concept));
-	}
-	
 	private static InvertedTree<IConcept, IIsA> initialTree(IConceptLattice conceptLattice) {
 		DirectedAcyclicGraph<IConcept, IIsA> initialGraph = new DirectedAcyclicGraph<>(null, IsA::new, false);
 		IConcept ontologicalCommitment = conceptLattice.getOntologicalCommitment();
@@ -205,48 +202,52 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 	
 
 	
-	private InvertedUpperSemilattice<IConcept, IIsA> buildSearchUSL(IConcept genus, Set<IConcept> particulars) {
+	private InvertedUpperSemilattice<IConcept, IIsA> buildSearchUSL(IConcept genus, Set<IConcept> particulars, 
+			Set<IComplementaryConcept> complementaryStrictUpperBounds) {
 		DirectedAcyclicGraph<IConcept, IIsA> searchSpace = new DirectedAcyclicGraph<>(null, IsA::new, false);
 		List<IConcept> topoOrder = new ArrayList<>();
 		if (genus.isComplementary()) {
+			IComplementaryConcept complementaryGenus = (IComplementaryConcept) genus;
 			//build search space without genus
-			IConcept supremumOfParticulars = Functions.supremum(conceptUSL, particulars);
-			Set<IConcept> supremumLowerSet = Functions.lowerSet(conceptUSL, supremumOfParticulars);
-			Set<IConcept> unionOfParticularUpperSets = new HashSet<>();
-			for (IConcept particular : particulars)
-				unionOfParticularUpperSets.addAll(Functions.upperSet(conceptUSL, particular));
-			Set<IConcept> searchSpaceSet = new HashSet<>(Sets.intersection(supremumLowerSet, unionOfParticularUpperSets));
-			Graphs.addAllVertices(searchSpace, searchSpaceSet);
-			for (IIsA isA : conceptUSL.edgeSet()) {
-				IConcept source = conceptUSL.getEdgeSource(isA);
-				IConcept target = conceptUSL.getEdgeTarget(isA);
-				if (searchSpaceSet.contains(source) && searchSpaceSet.contains(target))
-					searchSpace.addEdge(source, target, isA);
-			}
-			//make search space atomistic
-			List<Set<IConcept>> lowerSets = new ArrayList<>();
-			List<Set<IConcept>> lowerBoundParticulars = new ArrayList<>();
-			new TopologicalOrderIterator<>(searchSpace).forEachRemaining(topoOrder::add);
-			for (int i = 0 ; i < topoOrder.size() ; i++) {
-				IConcept iConcept = topoOrder.get(i);
-				Set<IConcept> iLowerSet = Functions.lowerSet(searchSpace, iConcept);
-				Set<IConcept> iParticulars = new HashSet<>(Sets.intersection(iLowerSet, particulars));
-				if (lowerBoundParticulars.contains(iParticulars)) {
-					topoOrder.remove(i);
-					Functions.removeVertexAndPreserveConnectivity(searchSpace, iConcept);
-					i--;
-				}
-				else {
-					lowerSets.add(iLowerSet);
-					lowerBoundParticulars.add(iParticulars);
+			if (complementaryGenus.getWrappedComplementing() == null) {
+				IConcept supremumOfParticulars = Functions.supremum(conceptUSL, particulars);
+				Set<IConcept> supremumLowerSet = Functions.lowerSet(conceptUSL, supremumOfParticulars);
+				Set<IConcept> unionOfParticularUpperSets = new HashSet<>();
+				for (IConcept particular : particulars)
+					unionOfParticularUpperSets.addAll(Functions.upperSet(conceptUSL, particular));
+				Set<IConcept> searchSpaceSet = new HashSet<>(Sets.intersection(supremumLowerSet, unionOfParticularUpperSets));
+				Graphs.addAllVertices(searchSpace, searchSpaceSet);
+				for (IIsA isA : conceptUSL.edgeSet()) {
+					IConcept source = conceptUSL.getEdgeSource(isA);
+					IConcept target = conceptUSL.getEdgeTarget(isA);
+					if (searchSpaceSet.contains(source) && searchSpaceSet.contains(target))
+						searchSpace.addEdge(source, target, isA);
 				}
 			}
-			List<IConcept> supremumPredecessors = new ArrayList<>();
-			for (IIsA incomingEdge : searchSpace.incomingEdgesOf(supremumOfParticulars))
-				supremumPredecessors.add(searchSpace.getEdgeSource(incomingEdge));
-			searchSpace.removeVertex(supremumOfParticulars);
+			else {
+				Set<IConcept> genusLowerSet = Functions.lowerSet(conceptUSL, complementaryGenus.getWrappedComplementing());
+				Graphs.addAllVertices(searchSpace, genusLowerSet);
+				for (IIsA isA : conceptUSL.edgeSet()) {
+					IConcept target = conceptUSL.getEdgeTarget(isA); 
+					if (genusLowerSet.contains(target)) //then it contains edge source
+						searchSpace.addEdge(conceptUSL.getEdgeSource(isA), target, isA);
+				}
+			}
+			//remove concepts discarded by upper bound complementary concepts
+			for (IComplementaryConcept complementarySUB : complementaryStrictUpperBounds) {
+				IConcept complemented = complementarySUB.getComplemented();
+				searchSpace.removeAllVertices(conceptUSL.getAncestors(complemented));
+			}
+			//make atomistic
+			makeAtomistic(searchSpace);
+			//replace search space root by genus
+			IConcept searchSpaceRoot = getRoot(searchSpace);
+			List<IConcept> rootPredecessors = new ArrayList<>();
+			for (IIsA incomingEdge : searchSpace.incomingEdgesOf(searchSpaceRoot))
+				rootPredecessors.add(searchSpace.getEdgeSource(incomingEdge));
+			searchSpace.removeVertex(searchSpaceRoot);
 			searchSpace.addVertex(genus);
-			for (IConcept predecessor : supremumPredecessors)
+			for (IConcept predecessor : rootPredecessors)
 				searchSpace.addEdge(predecessor, genus);
 			
 		}
@@ -258,24 +259,86 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 				if (genusLowerSet.contains(target)) //then it contains edge source
 					searchSpace.addEdge(conceptUSL.getEdgeSource(isA), target, isA);
 			}
-			new TopologicalOrderIterator<>(searchSpace).forEachRemaining(topoOrder::add);
+			//remove concepts discarded by upper bound complementary concepts
+			for (IComplementaryConcept complementarySUB : complementaryStrictUpperBounds) {
+				IConcept complemented = complementarySUB.getComplemented();
+				searchSpace.removeAllVertices(conceptUSL.getAncestors(complemented));
+			}
+			//make atomistic
+			makeAtomistic(searchSpace);
 		}
+		//populate topo order
+		new TopologicalOrderIterator<>(searchSpace).forEachRemaining(topoOrder::add);
+		//instantiate and return
 		InvertedUpperSemilattice<IConcept, IIsA> searchUSL = 
 				new InvertedUpperSemilattice<IConcept, IIsA>(searchSpace, genus, particulars, topoOrder);
 		return searchUSL;
 	}
 	
-	private List<IConcept> getSortedParticulars(IConcept genus) {
-		Set<Integer> extentIDs = new HashSet<>();
-		for (IContextObject obj : genus.getExtent())
-			extentIDs.add(obj.iD());
-		List<IConcept> particulars = new ArrayList<>();
-		for (IConcept particular : conceptLattice.getParticulars()) {
-			if (extentIDs.contains(particular.iD()))
-				particulars.add(particular);
+	private static void makeAtomistic(DirectedAcyclicGraph<IConcept, IIsA> searchSpace) {
+		List<IConcept> topoOrder = new ArrayList<>();
+		Set<IConcept> leaves = getLeaves(searchSpace);
+		List<Set<IConcept>> lowerSets = new ArrayList<>();
+		List<Set<IConcept>> lowerBoundLeaves = new ArrayList<>();
+		new TopologicalOrderIterator<>(searchSpace).forEachRemaining(topoOrder::add);
+		for (int i = 0 ; i < topoOrder.size() ; i++) {
+			IConcept iConcept = topoOrder.get(i);
+			Set<IConcept> iLowerSet = Functions.lowerSet(searchSpace, iConcept);
+			Set<IConcept> iLeaves = new HashSet<>(Sets.intersection(iLowerSet, leaves));
+			if (lowerBoundLeaves.contains(iLeaves)) {
+				topoOrder.remove(i);
+				Functions.removeVertexAndPreserveConnectivity(searchSpace, iConcept);
+				i--;
+			}
+			else {
+				lowerSets.add(iLowerSet);
+				lowerBoundLeaves.add(iLeaves);
+			}
 		}
-		particulars.sort(iDComparator);
-		return particulars;
+	}
+	
+	private static Set<IConcept> getLeaves(DirectedAcyclicGraph<IConcept, IIsA> dag){
+		Set<IConcept> leaves = new HashSet<>();
+		for (IConcept concept : dag) {
+			if (dag.inDegreeOf(concept) == 0)
+				leaves.add(concept);
+		}
+		return leaves;
+	}
+	
+	private static IConcept getRoot(DirectedAcyclicGraph<IConcept, IIsA> dag){
+		IConcept root = null;
+		Iterator<IConcept> conceptIte = dag.vertexSet().iterator();
+		while (root == null) {
+			IConcept nextConcept = conceptIte.next();
+			if (dag.outDegreeOf(root) == 0)
+				root = nextConcept;
+		}
+		return root;
+	}	
+	
+	private List<IConcept> getSortedParticulars(IConcept genus, Set<IComplementaryConcept> complementaryUpperBounds) {
+		List<IConcept> sortedParticulars;
+		Set<IConcept> unsortedParticulars = 
+				new HashSet<>(Sets.intersection(conceptUSL.getLeaves(), conceptUSL.getDescendants(genus)));
+		if (genus.isComplementary()) {
+			List<Integer> particularIDs = new ArrayList<>();
+			for (IContextObject obj : genus.getExtent())
+				particularIDs.add(obj.iD());
+			for (IConcept concept : conceptUSL.getLeaves()) {
+				if (particularIDs.contains(concept.iD()))
+					unsortedParticulars.add(concept);
+			}
+		}
+		else {
+			unsortedParticulars.addAll(conceptUSL.getLeaves());
+			unsortedParticulars.retainAll(conceptUSL.getAncestors(genus));
+			for (IComplementaryConcept compUB : complementaryUpperBounds)
+				unsortedParticulars.removeAll(conceptUSL.getAncestors(compUB.getComplemented()));	
+		}
+		sortedParticulars = new ArrayList<>(unsortedParticulars);
+		sortedParticulars.sort(iDComparator);
+		return sortedParticulars;
 	}
 	
 	private static Map<List<IConcept>, IConcept> mapClosedSubsetsOfParticulars2Supremum(
@@ -296,12 +359,16 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 		return closedSubset2Supremum;
 	}
 	
-	private static InvertedTree<IConcept, IIsA> shallowCopyOf(InvertedTree<IConcept, IIsA> tree) {
-		DirectedAcyclicGraph<IConcept, IIsA> copy = new DirectedAcyclicGraph<>(null, IsA::new, false);
-		Graphs.addAllVertices(copy, tree.vertexSet());
-		Graphs.addAllEdges(copy, tree, tree.edgeSet());
-		return new InvertedTree<IConcept, IIsA>(copy, tree.getRoot(), tree.getLeaves(), tree.getTopologicalOrder());
-	}
+	private static InvertedTree<IConcept, IIsA> asInvertedTree(DirectedAcyclicGraph<IConcept, IIsA> treeDAG, IConcept root) {
+		List<IConcept> topoOrder = new ArrayList<>();
+		new TopologicalOrderIterator<>(treeDAG).forEachRemaining(topoOrder::add);
+		Set<IConcept> leaves = new HashSet<>();
+		for (IConcept concept : topoOrder) {
+			if (treeDAG.inDegreeOf(concept) == 0)
+				leaves.add(concept);
+		}
+		return new InvertedTree<IConcept, IIsA>(treeDAG, root, leaves, topoOrder);
+	}	
 	
 	//HERE
 	public String visualize(DefaultDirectedGraph<IConcept, IIsA> graph, String fileName) {

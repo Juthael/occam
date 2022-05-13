@@ -20,6 +20,7 @@ public class WithClusteringComesMeaning implements ProblemSpaceExplorer {
 	
 	private IConceptLattice conceptLattice;
 	private Set<IContextualizedProduction> productions;
+	private 
 	
 	public WithClusteringComesMeaning() {
 	}

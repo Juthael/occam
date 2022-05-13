@@ -16,8 +16,7 @@ import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateL
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
-import com.tregouet.occam.data.representations.ICompleteRepresentation;
-import com.tregouet.occam.data.representations.IPartialRepresentation;
+import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -80,29 +79,23 @@ public class AsNestedFrames implements ProblemStateLabeller {
 	public String apply(IProblemState problemState) {
 		StringBuilder sB = new StringBuilder();
 		sB.append(Integer.toString(problemState.id()) + nL);
-		Sorting2StringConverter stringPatternBldr = ProblemStateLabeller.getStringPatternBuilder();
-		if (problemState instanceof IPartialRepresentation) {
-			Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<>();
-			Set<IPartition> statePartitions = problemState.getPartitions();
-			for (IPartition maxPart : getMaxPartitions(statePartitions))
-				conceptID2ExtentIDs.putAll(maxPart.getLeaf2ExtentMap());
-			stringPatternBldr.setUp(conceptID2ExtentIDs);
-			sB.append(stringPatternBldr.apply(asTree(statePartitions)))
+		Sorting2StringConverter stringPatternBldr = ProblemStateLabeller.getSorting2StringConverter();
+		if (problemState.isGoalState()) {
+			IRepresentation representation = (IRepresentation) problemState;
+			sB.append(stringPatternBldr.apply(representation.getDescription().asGraph()))
 				.append(nL)
 				.append(problemState.score().toString());
 			return sB.toString();
-		} else if (problemState instanceof ICompleteRepresentation) {
-			ICompleteRepresentation completeRep = (ICompleteRepresentation) problemState;
-			sB.append(stringPatternBldr.apply(completeRep.getDescription().asGraph()))
-				.append(nL)
-				.append(problemState.score().toString());
-			return sB.toString();
-		} else {	// there is nothing else
-			sB.append(problemState.toString())
-				.append(nL)
-				.append(problemState.score().toString());
-			return sB.toString();
-		}
+		} 
+		Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<>();
+		Set<IPartition> statePartitions = problemState.getPartitions();
+		for (IPartition maxPart : getMaxPartitions(statePartitions))
+			conceptID2ExtentIDs.putAll(maxPart.getLeaf2ExtentMap());
+		stringPatternBldr.setUp(conceptID2ExtentIDs);
+		sB.append(stringPatternBldr.apply(asTree(statePartitions)))
+			.append(nL)
+			.append(problemState.score().toString());
+		return sB.toString();
 	}
 
 }

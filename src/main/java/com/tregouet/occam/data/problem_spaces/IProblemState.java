@@ -20,5 +20,7 @@ public interface IProblemState extends PartiallyComparable<IProblemState>, Score
 	int id();
 
 	void initializeIDGenerator();
+	
+	boolean isGoalState();
 
 }

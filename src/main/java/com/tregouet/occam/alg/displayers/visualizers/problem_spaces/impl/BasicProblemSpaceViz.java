@@ -15,7 +15,6 @@ import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 import org.jgrapht.traverse.DepthFirstIterator;
 
-import com.google.common.graph.Graphs;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabeller;
 import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemTransitionLabeller;

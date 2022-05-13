@@ -15,6 +15,7 @@ import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.IIsA;
@@ -200,6 +201,15 @@ public class Representation implements IRepresentation {
 		for (IContextObject object : concept.getExtent())
 			extent.add(object.iD());
 		return extent;
+	}
+
+	@Override
+	public boolean isGoalState() {
+		for (IConcept concept : classification.getLeaves()) {
+			if (concept.type() != ConceptType.PARTICULAR)
+				return false;
+		}
+		return true;
 	}
 
 }

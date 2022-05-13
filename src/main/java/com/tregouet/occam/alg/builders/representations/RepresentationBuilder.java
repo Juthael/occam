@@ -16,7 +16,7 @@ import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public interface IRepresentationBuilder 
+public interface RepresentationBuilder 
 	extends BiFunction<
 		InvertedTree<IConcept, IIsA>, 
 		Set<IContextualizedProduction>, 

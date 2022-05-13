@@ -24,6 +24,9 @@ import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRa
 import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilder;
 import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilderFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.RepresentationBuilder;
+import com.tregouet.occam.alg.builders.representations.RepresentationBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.RepresentationBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderStrategy;
@@ -76,6 +79,7 @@ public class GeneratorsAbstractFactory {
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private FactEvaluatorBuilderStrategy factEvaluatorBuilderStrategy = null;
+	private RepresentationBuilderStrategy representationBuilderStrategy = null;
 	private SimilarityPartialMetricsBuilderStrategy similarityPartialMetricsBuilderStrategy = null;
 	private PartialRepresentationLateSetterStrategy partialRepresentationLateSetterStrategy = null;
 	private ProblemTransitionRankerStrategy problemTransitionRankerStrategy = null;
@@ -148,6 +152,10 @@ public class GeneratorsAbstractFactory {
 	public RepresentationTransFuncBuilder getRepresentationTransFuncBuilder() {
 		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
 	}
+	
+	public RepresentationBuilder getRepresentationBuilder() {
+		return RepresentationBuilderFactory.INSTANCE.apply(representationBuilderStrategy);
+	}
 
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
@@ -178,6 +186,7 @@ public class GeneratorsAbstractFactory {
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 			factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
+			representationBuilderStrategy = RepresentationBuilderStrategy.FIRST_BUILD_TRANSITION_FUNC;
 			similarityPartialMetricsBuilderStrategy = SimilarityPartialMetricsBuilderStrategy.MOST_SPECIFIC_GENUS;
 			partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
 			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;

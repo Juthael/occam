@@ -37,7 +37,7 @@ public class BuildGraphFirst implements PartitionBuilder {
 		Set<IPartition> partitions = new HashSet<>();
 		Set<Tree<Integer, AbstractDifferentiae>> partitionsAsGraph = PartitionBuilder.getPartitionGraphBuilder()
 				.apply(classification);
-		Sorting2StringConverter stringBuilder = PartitionBuilder.getPartitionStringBuilder().setUp(conceptID2ExtentIDs);
+		Sorting2StringConverter stringBuilder = PartitionBuilder.getSorting2StringConverter().setUp(conceptID2ExtentIDs);
 		for (Tree<Integer, AbstractDifferentiae> partitionAsGraph : partitionsAsGraph) {
 			// set partitionAsString
 			String partitionAsString = stringBuilder.apply(partitionAsGraph);

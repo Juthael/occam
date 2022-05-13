@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.problem_spaces;
 
-import java.util.NavigableSet;
+import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
@@ -11,11 +11,7 @@ public interface IProblemSpace {
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> asGraph();
 
 	IRepresentation getRepresentationWithID(int iD);
-
-	/**
-	 *
-	 * @return states sorted by decreasing score (and hashCode if score is equal)
-	 */
-	NavigableSet<IRepresentation> getSortedSetOfStates();
+	
+	Set<IRepresentation> sort(int representationID);
 
 }

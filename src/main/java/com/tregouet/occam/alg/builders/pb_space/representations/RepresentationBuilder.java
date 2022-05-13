@@ -8,8 +8,6 @@ import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.Des
 import com.tregouet.occam.alg.builders.pb_space.representations.fact_evaluators.FactEvaluatorBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
-import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
-import com.tregouet.occam.alg.scorers.representations.RepresentationScorer;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
@@ -37,9 +35,5 @@ public interface RepresentationBuilder
 	public static PartitionBuilder getPartitionBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getPartitionBuilder();
 	}
-	
-	public static RepresentationScorer getRepresentationHeuristicScorer() {
-		return ScorersAbstractFactory.INSTANCE.getRepresentationScorer();
-	}	
 
 }

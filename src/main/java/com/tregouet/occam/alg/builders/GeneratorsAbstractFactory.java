@@ -1,14 +1,20 @@
 package com.tregouet.occam.alg.builders;
 
-import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilder;
-import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilderFactory;
-import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilderStrategy;
-import com.tregouet.occam.alg.builders.concept_lattices.denotations.DenotationBuilder;
-import com.tregouet.occam.alg.builders.concept_lattices.denotations.DenotationBuilderFactory;
-import com.tregouet.occam.alg.builders.concept_lattices.denotations.DenotationBuilderStrategy;
-import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrower;
-import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrowerFactory;
-import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrowerStrategy;
+import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
+import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorerFactory;
+import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorerStrategy;
+import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilder;
+import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.concept_lattices.denotations.DenotationBuilder;
+import com.tregouet.occam.alg.builders.pb_space.concept_lattices.denotations.DenotationBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.concept_lattices.denotations.DenotationBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
+import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrowerFactory;
+import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrowerStrategy;
+import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilder;
+import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilderStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderStrategy;
@@ -45,9 +51,6 @@ import com.tregouet.occam.alg.builders.pb_space.representations.transition_funct
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetter;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetterFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetterStrategy;
-import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceExplorer;
-import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceExplorerFactory;
-import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceExplorerStrategy;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterStrategy;
@@ -57,9 +60,6 @@ import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.me
 import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRanker;
 import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRankerFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRankerStrategy;
-import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilder;
-import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilderFactory;
-import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilderStrategy;
 
 public class GeneratorsAbstractFactory {
 
@@ -129,7 +129,7 @@ public class GeneratorsAbstractFactory {
 		return PartitionGraphBuilderFactory.INSTANCE.apply(partitionGraphBuilderStrategy);
 	}
 
-	public ProblemSpaceExplorer getProblemSpaceBuilder() {
+	public ProblemSpaceExplorer getProblemSpaceExplorer() {
 		return ProblemSpaceExplorerFactory.INSTANCE.apply(problemSpaceExplorerStrategy);
 	}
 
@@ -191,7 +191,7 @@ public class GeneratorsAbstractFactory {
 			partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
 			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;
 			problemTransitionRankerStrategy = ProblemTransitionRankerStrategy.TOP_DOWN_RANKER;
-			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.NO_DUMB_STATE;
+			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.WITH_CLUSTERING_COMES_MEANING;
 			break;
 		default:
 			break;

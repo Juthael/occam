@@ -29,7 +29,6 @@ public class FirstBuildTransitionFunction implements RepresentationBuilder {
 		IDescription description = RepresentationBuilder.getDescriptionBuilder().apply(transFunc, null);
 		Set<IPartition> partitions = RepresentationBuilder.getPartitionBuilder().apply(description, conceptTree);
 		IRepresentation representation = new Representation(conceptTree, description, factEvaluator, partitions);
-		representation.setScore(RepresentationBuilder.getRepresentationHeuristicScorer().apply(representation));
 		return representation;
 	}
 

@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
+import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.metrics.SimilarityPartialMetricsBuilder;
-import com.tregouet.occam.alg.builders.representations.descriptions.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.data.representations.descriptions.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.representations.descriptions.metrics.impl.SimilarityMetrics;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;

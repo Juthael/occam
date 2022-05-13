@@ -16,6 +16,7 @@ import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.concepts_trees.impl.IfLeafIsUniversalThenSort;
+import com.tregouet.occam.alg.builders.pb_space.representations.impl.FirstBuildTransitionFunction;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;

@@ -11,8 +11,8 @@ import java.util.NavigableSet;
 import java.util.Scanner;
 
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationSortedSetBuilder;
 import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilder;
-import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
 import com.tregouet.occam.data.problem_spaces.IProblemSpace;
 import com.tregouet.occam.data.representations.ICompleteRepresentations;
 import com.tregouet.occam.data.representations.IRepresentation;

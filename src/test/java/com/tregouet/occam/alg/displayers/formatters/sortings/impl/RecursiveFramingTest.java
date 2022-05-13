@@ -15,7 +15,7 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.displayers.formatters.sortings.impl.RecursiveFraming;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;

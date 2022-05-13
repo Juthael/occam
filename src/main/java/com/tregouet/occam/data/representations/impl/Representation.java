@@ -12,8 +12,6 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.data.logical_structures.orders.total.impl.DoubleScore;
-import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
-import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.ConceptType;
@@ -48,7 +46,7 @@ public class Representation implements IRepresentation {
 	}	
 
 	@Override
-	public Integer compareTo(IProblemState other) {
+	public Integer compareTo(IRepresentation other) {
 		if (this.equals(other))
 			return 0;
 		if (this.partitions.containsAll(other.getPartitions()))
@@ -56,14 +54,6 @@ public class Representation implements IRepresentation {
 		if (other.getPartitions().containsAll(this.partitions))
 			return -1;
 		return null;
-	}
-
-	@Override
-	public int compareTo(IRepresentation other) {
-		int scoreComparison = this.score.compareTo(other.score());
-		if (scoreComparison == 0 && !this.equals(other))
-			return System.identityHashCode(this) - System.identityHashCode(other);
-		return scoreComparison;
 	}
 
 	@Override

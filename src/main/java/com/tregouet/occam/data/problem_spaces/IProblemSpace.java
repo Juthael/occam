@@ -8,7 +8,7 @@ import com.tregouet.occam.data.representations.IRepresentation;
 
 public interface IProblemSpace {
 
-	DirectedAcyclicGraph<IProblemState, AProblemStateTransition> asGraph();
+	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> asGraph();
 
 	IRepresentation getRepresentationWithID(int iD);
 
@@ -17,7 +17,5 @@ public interface IProblemSpace {
 	 * @return states sorted by decreasing score (and hashCode if score is equal)
 	 */
 	NavigableSet<IRepresentation> getSortedSetOfStates();
-
-	IProblemState getStateWithID(int iD);
 
 }

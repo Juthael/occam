@@ -10,6 +10,7 @@ import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.orders.partial.PartiallyComparable;
 import com.tregouet.occam.data.logical_structures.orders.total.impl.DoubleScore;
+import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
@@ -54,5 +55,7 @@ public interface IRepresentation extends
 	void initializeIDGenerator();
 	
 	boolean isGoalState();	
+	
+	Set<IPartition> getPartitions();
 
 }

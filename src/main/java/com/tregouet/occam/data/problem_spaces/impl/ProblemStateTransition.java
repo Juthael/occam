@@ -3,20 +3,20 @@ package com.tregouet.occam.data.problem_spaces.impl;
 import java.util.Set;
 
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
-import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
+import com.tregouet.occam.data.representations.IRepresentation;
 
 public class ProblemStateTransition extends AProblemStateTransition {
 
 	private static final long serialVersionUID = -8705069997158945728L;
 
-	private final IProblemState source;
-	private final IProblemState target;
+	private final IRepresentation source;
+	private final IRepresentation target;
 	private final Set<IPartition> partitions;
 	private int rank;
 	private Double weight = null;
 
-	public ProblemStateTransition(IProblemState sourceID, IProblemState targetID, Set<IPartition> partitions) {
+	public ProblemStateTransition(IRepresentation sourceID, IRepresentation targetID, Set<IPartition> partitions) {
 		this.source = sourceID;
 		this.target = targetID;
 		this.partitions = partitions;
@@ -28,12 +28,12 @@ public class ProblemStateTransition extends AProblemStateTransition {
 	}
 
 	@Override
-	public IProblemState getSource() {
+	public IRepresentation getSource() {
 		return source;
 	}
 
 	@Override
-	public IProblemState getTarget() {
+	public IRepresentation getTarget() {
 		return target;
 	}
 

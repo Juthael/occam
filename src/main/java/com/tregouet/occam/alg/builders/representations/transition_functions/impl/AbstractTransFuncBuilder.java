@@ -46,6 +46,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 
 	private InvertedTree<IConcept, IIsA> treeOfConcepts = null;
 	private Set<IContextualizedProduction> unfilteredUnreducedProds = null;
+	private Set<Integer> particularIDs;
 
 	public AbstractTransFuncBuilder() {
 	}
@@ -193,6 +194,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 			Set<IContextualizedProduction> unfilteredUnreducedProds) {
 		this.treeOfConcepts = treeOfConcepts;
 		this.unfilteredUnreducedProds = unfilteredUnreducedProds;
+		this.particularIDs = getIDsOfParticulars(treeOfConcepts);
 		return output();
 	}
 
@@ -225,7 +227,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		transitions.addAll(closures);
 		transitions.addAll(inheritances);
 		transitions.addAll(spontaneous);
-		RepresentationTransFuncBuilder.transitionSalienceSetter().accept(transitions);
+		RepresentationTransFuncBuilder.transitionSalienceSetter().setSaliencesOf(transitions, particularIDs);
 		// return
 		return new RepresentationTransitionFunction(transitions);
 	}
@@ -306,5 +308,14 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		else speciesDenotation = production.getSource();
 		return new ContextualizedProd(speciesDenotation, genusDenotation, production);
 	}	
+	
+	private static Set<Integer> getIDsOfParticulars(InvertedTree<IConcept, IIsA> treeOfConcepts) {
+		Set<Integer> particularIDs = new HashSet<>();
+		for (IConcept leaf : treeOfConcepts.getLeaves()) {
+			if (leaf.type() == ConceptType.PARTICULAR)
+				particularIDs.add(leaf.iD());
+		}
+		return particularIDs;
+	}
 
 }

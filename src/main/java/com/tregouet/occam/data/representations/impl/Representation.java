@@ -36,7 +36,7 @@ public class Representation implements IRepresentation {
 	protected final Set<IPartition> partitions;
 	protected LecticScore score = null;
 
-	Representation(InvertedTree<IConcept, IIsA> classification, IDescription description, IFactEvaluator factEvaluator,
+	public Representation(InvertedTree<IConcept, IIsA> classification, IDescription description, IFactEvaluator factEvaluator,
 			Set<IPartition> partitions) {
 		this.classification = classification;
 		this.description = description;

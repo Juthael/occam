@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.representations.concept_trees.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,7 +15,8 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
+import com.tregouet.occam.alg.builders.concepts_trees.impl.IfLeafIsUniversalThenSort;
+import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
@@ -41,28 +42,94 @@ public class IfLeafIsUniversalThenSortTest {
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		conceptLattice = GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(conceptLattice.getOntologicalUpperSemilattice(), "IfLeafIsUniversal_lattice");
-	}
-
-	@Test
-	public void whenTreeExpansionRequestedThenProceeded() {
-		Set<InvertedTree<IConcept, IIsA>> expansions = visualizeThenBuild(conceptLattice, null, "IfLeafIsUniversalTest_");
-		assertTrue(!expansions.isEmpty());
+		/*
+		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
+			.apply(conceptLattice.getOntologicalUpperSemilattice(), "IfLeafIsUniversal_lattice");
+		*/
 	}
 	
-	private static Set<InvertedTree<IConcept, IIsA>> visualizeThenBuild(IConceptLattice conceptLattice, 
-			InvertedTree<IConcept, IIsA> tree, String name) {
-		Set<InvertedTree<IConcept, IIsA>> recursivelyExpandedTrees = new HashSet<>();
-		IfLeafIsUniversalThenSort sorter = new IfLeafIsUniversalThenSort();
-		Set<InvertedTree<IConcept, IIsA>> expandedTrees = sorter.apply(conceptLattice, tree);
-		recursivelyExpandedTrees.addAll(expandedTrees);
-		for (InvertedTree<IConcept, IIsA> expandedTree : expandedTrees) {
-			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(expandedTree, name + Integer.toString(count++));
+	@Test
+	public void whenTreeExpansionRequestedThenTheSameTreeCanBeBuiltManyTimes() {
+		boolean asExpected = false;
+		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
+		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
+		expandedTreesFromLastIteration = IfLeafIsUniversalThenSort.INSTANCE.apply(conceptLattice, null);
+		do {
+			expandedTrees.addAll(expandedTreesFromLastIteration);
+			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
+			expandedTreesFromLastIteration.clear();
+			for (InvertedTree<IConcept, IIsA> tree : expandable) {
+				for (InvertedTree<IConcept, IIsA> returned : IfLeafIsUniversalThenSort.INSTANCE.apply(conceptLattice, tree)) {
+					boolean newTree = expandedTreesFromLastIteration.add(returned);
+					if (!newTree)
+						asExpected = true;
+				} 
+			}
 		}
-		for (InvertedTree<IConcept, IIsA> expandedTree : expandedTrees) {
-			recursivelyExpandedTrees.addAll(visualizeThenBuild(conceptLattice, expandedTree, name));
+		while (!expandedTreesFromLastIteration.isEmpty());
+		/*
+		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
+			.apply(conceptLattice.getOntologicalUpperSemilattice(), "IfLeafIsUniversal_lattice");
+		int count = 0;
+		for (InvertedTree<IConcept, IIsA> expTree : expandedTrees) {
+			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
+				.apply(expTree, "IfLeafIsUniversal_tree" + Integer.toString(count++));
 		}
-		return recursivelyExpandedTrees;
+		*/
+		assertTrue(asExpected);
+	}	
+	
+	@Test
+	public void whenTreeExpansionRequestedThenProceeded() {
+		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
+		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
+		expandedTreesFromLastIteration = IfLeafIsUniversalThenSort.INSTANCE.apply(conceptLattice, null);
+		do {
+			expandedTrees.addAll(expandedTreesFromLastIteration);
+			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
+			expandedTreesFromLastIteration.clear();
+			for (InvertedTree<IConcept, IIsA> tree : expandable) {
+				expandedTreesFromLastIteration.addAll(IfLeafIsUniversalThenSort.INSTANCE.apply(conceptLattice, tree)); 
+			}
+		}
+		while (!expandedTreesFromLastIteration.isEmpty());
+		/*
+		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
+			.apply(conceptLattice.getOntologicalUpperSemilattice(), "IfLeafIsUniversal_lattice");
+		int count = 0;
+		for (InvertedTree<IConcept, IIsA> expTree : expandedTrees) {
+			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
+				.apply(expTree, "IfLeafIsUniversal_tree" + Integer.toString(count++));
+		}
+		*/
+		assertTrue(!expandedTrees.isEmpty());
+	}
+	
+	@Test
+	public void whenTreeHasALeafWhichIsNotParticularThenCanBeExpandedOtherwiseCannot() {
+		boolean asExpected = true;
+		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
+		expandedTreesFromLastIteration = IfLeafIsUniversalThenSort.INSTANCE.apply(conceptLattice, null);
+		int nbOfChecks = 0;
+		do {
+			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
+			expandedTreesFromLastIteration.clear();
+			for (InvertedTree<IConcept, IIsA> iTree : expandable) {
+				boolean expectedExpansion = false;
+				for (IConcept leaf : iTree.getLeaves()) {
+					if (leaf.type() != ConceptType.PARTICULAR)
+						expectedExpansion = true;
+				}
+				Set<InvertedTree<IConcept, IIsA>> iExpandedTrees = 
+						IfLeafIsUniversalThenSort.INSTANCE.apply(conceptLattice, iTree);
+				if (expectedExpansion == iExpandedTrees.isEmpty())
+					asExpected = false;
+				expandedTreesFromLastIteration.addAll(iExpandedTrees);
+				nbOfChecks++;
+			}
+		}
+		while (!expandedTreesFromLastIteration.isEmpty());
+		assertTrue(asExpected && nbOfChecks > 0);
 	}
 
 }

@@ -11,7 +11,7 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.representations.partitions.utils.PartitionRanker;
-import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilder;
+import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.problem_spaces.partitions.impl.Partition;
 import com.tregouet.occam.data.representations.concepts.ConceptType;
@@ -37,7 +37,7 @@ public class BuildGraphFirst implements PartitionBuilder {
 		Set<IPartition> partitions = new HashSet<>();
 		Set<Tree<Integer, AbstractDifferentiae>> partitionsAsGraph = PartitionBuilder.getPartitionGraphBuilder()
 				.apply(classification);
-		StringPatternBuilder stringBuilder = PartitionBuilder.getPartitionStringBuilder().setUp(conceptID2ExtentIDs);
+		Sorting2StringConverter stringBuilder = PartitionBuilder.getPartitionStringBuilder().setUp(conceptID2ExtentIDs);
 		for (Tree<Integer, AbstractDifferentiae> partitionAsGraph : partitionsAsGraph) {
 			// set partitionAsString
 			String partitionAsString = stringBuilder.apply(partitionAsGraph);

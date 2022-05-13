@@ -5,7 +5,7 @@ import java.util.function.BiFunction;
 
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.partitions.graphs.builder.PartitionGraphBuilder;
-import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilder;
+import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.weighs.partitions.PartitionWeigher;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
@@ -20,8 +20,8 @@ public interface PartitionBuilder extends BiFunction<IDescription, InvertedTree<
 		return GeneratorsAbstractFactory.INSTANCE.getPartitionGraphBuilder();
 	}
 
-	public static StringPatternBuilder getPartitionStringBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getStringPatternBuilder();
+	public static Sorting2StringConverter getPartitionStringBuilder() {
+		return GeneratorsAbstractFactory.INSTANCE.getSorting2StringConverter();
 	}
 
 	public static PartitionWeigher getPartitionWeigher() {

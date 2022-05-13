@@ -18,11 +18,8 @@ import com.tregouet.occam.data.representations.transitions.productions.IProducti
 public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSetter {
 
 	private List<Integer> inputStateIDs;
-
 	private List<Set<Integer>> outputStateIDs;
-
 	private List<Set<IConceptTransition>> applications;
-	private Set<Integer> particularIDs;
 
 	public HiddenByDefaultThenFindSpecifics() {
 	}
@@ -41,7 +38,7 @@ public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSette
 	}
 
 	@Override
-	public void accept(Set<IConceptTransition> transitions) {
+	public void setSaliencesOf(Set<IConceptTransition> transitions, Set<Integer> particularIDs) {
 		init();
 		// set salience default value as HIDDEN, group applications by input concept,
 		// find input/output relation
@@ -64,10 +61,6 @@ public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSette
 					applications.add(new HashSet<>());
 			}
 		}
-		// find IDs of particulars
-		for (Set<Integer> outputs : outputStateIDs)
-			particularIDs.addAll(outputs);
-		particularIDs.removeAll(inputStateIDs);
 		// set common features
 		for (Set<IConceptTransition> conceptApplications : applications) {
 			for (IConceptTransition application : conceptApplications) {
@@ -89,7 +82,6 @@ public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSette
 		inputStateIDs = new ArrayList<>();
 		outputStateIDs = new ArrayList<>();
 		applications = new ArrayList<>();
-		particularIDs = new HashSet<>();
 	}
 
 	private void setPartitionRuleSalienceOf(Map.Entry<AVariable, Set<IConceptTransition>> varToApplications,

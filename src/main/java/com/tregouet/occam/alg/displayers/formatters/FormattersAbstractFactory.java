@@ -15,6 +15,9 @@ import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateL
 import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemTransitionLabeller;
 import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemTransitionLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemTransitionLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
+import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverterFactory;
+import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverterStrategy;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabeller;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabellerStrategy;
@@ -26,6 +29,7 @@ public class FormattersAbstractFactory {
 	private TransitionFunctionLabellerStrategy transitionFunctionLabellerStrategy = null;
 	private PropertyLabellerStrategy propertyLabellerStrategy = null;
 	private DifferentiaeLabellerStrategy differentiaeLabellerStrategy = null;
+	private Sorting2StringConverterStrategy sorting2StringConverterStrategy = null;
 	private ProblemStateLabellerStrategy problemStateLabellerStrategy = null;
 	private ProblemTransitionLabellerStrategy problemTransitionLabellerStrategy = null;
 	private FactDisplayerStrategy factDisplayerStrategy = null;
@@ -35,6 +39,10 @@ public class FormattersAbstractFactory {
 
 	public DifferentiaeLabeller getDifferentiaeDisplayer() {
 		return DifferentiaeLabellerFactory.INSTANCE.apply(differentiaeLabellerStrategy);
+	}
+	
+	public Sorting2StringConverter getSorting2StringConverter() {
+		return Sorting2StringConverterFactory.INSTANCE.apply(sorting2StringConverterStrategy);
 	}
 
 	public ProblemStateLabeller getProblemStateDisplayer() {
@@ -63,6 +71,7 @@ public class FormattersAbstractFactory {
 			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.REMOVE_NON_SALIENT_APP;
 			propertyLabellerStrategy = PropertyLabellerStrategy.AS_PRODUCTIONS;
 			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
+			sorting2StringConverterStrategy = Sorting2StringConverterStrategy.RECURSIVE_FRAMING;
 			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES;
 			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.PROBABILITY;
 			factDisplayerStrategy = FactDisplayerStrategy.NON_TRIVIAL_MAXIMAL_FACTS;

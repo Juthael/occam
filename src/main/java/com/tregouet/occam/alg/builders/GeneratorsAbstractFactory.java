@@ -1,5 +1,14 @@
 package com.tregouet.occam.alg.builders;
 
+import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilder;
+import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilderFactory;
+import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilderStrategy;
+import com.tregouet.occam.alg.builders.concept_lattices.denotations.DenotationBuilder;
+import com.tregouet.occam.alg.builders.concept_lattices.denotations.DenotationBuilderFactory;
+import com.tregouet.occam.alg.builders.concept_lattices.denotations.DenotationBuilderStrategy;
+import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrower;
+import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrowerFactory;
+import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrowerStrategy;
 import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceExplorer;
 import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceExplorerFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceExplorerStrategy;
@@ -15,18 +24,6 @@ import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRa
 import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilder;
 import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilderFactory;
 import com.tregouet.occam.alg.builders.problem_spaces.transitions.ProblemTransitionBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilder;
-import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderFactory;
-import com.tregouet.occam.alg.builders.representations.RepresentationSortedSetBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilder;
-import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilderFactory;
-import com.tregouet.occam.alg.builders.representations.concept_lattices.ConceptLatticeBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilder;
-import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilderFactory;
-import com.tregouet.occam.alg.builders.representations.concept_lattices.denotations.DenotationBuilderStrategy;
-import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeGrower;
-import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeGrowerFactory;
-import com.tregouet.occam.alg.builders.representations.concept_trees.ConceptTreeGrowerStrategy;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderStrategy;
@@ -54,9 +51,6 @@ import com.tregouet.occam.alg.builders.representations.productions.ProductionBui
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBldrFromDenotationsFactory;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.representations.productions.from_denotations.ProdBuilderFromDenotationsStrategy;
-import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilder;
-import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilderFactory;
-import com.tregouet.occam.alg.builders.representations.string_pattern.StringPatternBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
@@ -80,11 +74,8 @@ public class GeneratorsAbstractFactory {
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
 	private DescriptionBuilderStrategy descriptionBuilderStrategy = null;
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
-	private StringPatternBuilderStrategy stringPatternBuilderStrategy = null;
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private FactEvaluatorBuilderStrategy factEvaluatorBuilderStrategy = null;
-	private RepresentationSortedSetBuilderStrategy representationSortedSetBuilderStrategy = null;
-	private Integer representationSortedSetMaxSize = null;
 	private SimilarityPartialMetricsBuilderStrategy similarityPartialMetricsBuilderStrategy = null;
 	private PartialRepresentationLateSetterStrategy partialRepresentationLateSetterStrategy = null;
 	private ProblemTransitionRankerStrategy problemTransitionRankerStrategy = null;
@@ -98,7 +89,7 @@ public class GeneratorsAbstractFactory {
 		return ConceptLatticeBuilderFactory.INSTANCE.apply(conceptLatticeBuilderStrategy);
 	}
 
-	public ConceptTreeGrower getConceptTreeBuilder() {
+	public ConceptTreeGrower getConceptTreeGrower() {
 		return ConceptTreeGrowerFactory.INSTANCE.apply(conceptTreeGrowerStrategy);
 	}
 
@@ -154,21 +145,12 @@ public class GeneratorsAbstractFactory {
 		return PropertyBuilderFactory.INSTANCE.apply(propertyBuilderStrategy);
 	}
 
-	public RepresentationSortedSetBuilder getRepresentationSortedSetBuilder() {
-		return RepresentationSortedSetBuilderFactory.INSTANCE.apply(representationSortedSetBuilderStrategy)
-				.setMaxSize(representationSortedSetMaxSize);
-	}
-
 	public RepresentationTransFuncBuilder getRepresentationTransFuncBuilder() {
 		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
 	}
 
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
-	}
-
-	public StringPatternBuilder getStringPatternBuilder() {
-		return StringPatternBuilderFactory.INSTANCE.apply(stringPatternBuilderStrategy);
 	}
 
 	public TransitionSalienceSetter getTransitionSalienceSetter() {
@@ -184,7 +166,7 @@ public class GeneratorsAbstractFactory {
 		case GENERATION_STRATEGY_1:
 			denotationBuilderStrategy = DenotationBuilderStrategy.MAX_SYMBOL_SUBSEQUENCES;
 			conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
-			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.PARTITION_UNSORTED_UNIVERSALS;
+			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.IF_LEAF_IS_UNIVERSAL_THEN_SORT;
 			prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.MAP_TARGET_VARS_TO_SOURCE_VALUES;
 			productionBuilderStrategy = ProductionBuilderStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
 			transitionSalienceSetterStrategy = TransitionSalienceSetterStrategy.HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS;
@@ -194,11 +176,8 @@ public class GeneratorsAbstractFactory {
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.DEFERRED_MATRICES_INSTANTIATION;
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
-			stringPatternBuilderStrategy = StringPatternBuilderStrategy.RECURSIVE_FRAMING;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 			factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
-			representationSortedSetBuilderStrategy = RepresentationSortedSetBuilderStrategy.FIND_EVERY_CLASSIFICATION_FIRST;
-			representationSortedSetMaxSize = 500;
 			similarityPartialMetricsBuilderStrategy = SimilarityPartialMetricsBuilderStrategy.MOST_SPECIFIC_GENUS;
 			partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
 			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;

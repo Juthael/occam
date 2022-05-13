@@ -8,8 +8,8 @@ import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.alg.scorers.Scored;
 import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
-import com.tregouet.occam.data.problem_spaces.IProblemState;
+import com.tregouet.occam.data.logical_structures.orders.partial.PartiallyComparable;
+import com.tregouet.occam.data.logical_structures.orders.total.impl.DoubleScore;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
@@ -22,8 +22,16 @@ import com.tregouet.occam.data.representations.transitions.productions.IContextu
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public interface IRepresentation extends
-		IPushdownAutomaton<IConcept, IContextualizedProduction, IFact, AVariable, IConceptTransitionIC, IConceptTransitionOIC, IConceptTransition, IRepresentationTransitionFunction>,
-		IProblemState, Scored<LecticScore>, Comparable<IRepresentation> {
+		IPushdownAutomaton<
+			IConcept, 
+			IContextualizedProduction, 
+			IFact, 
+			AVariable, 
+			IConceptTransitionIC, 
+			IConceptTransitionOIC, 
+			IConceptTransition, 
+			IRepresentationTransitionFunction>,
+		Scored<DoubleScore>, PartiallyComparable<IRepresentation> {
 
 	@Override
 	boolean equals(Object o);
@@ -40,5 +48,11 @@ public interface IRepresentation extends
 	Map<Integer, List<String>> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer);
 	
 	Set<Integer> getExtent(Integer conceptID);
+	
+	int id();
+
+	void initializeIDGenerator();
+	
+	boolean isGoalState();	
 
 }

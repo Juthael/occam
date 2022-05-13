@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
+import com.tregouet.occam.data.logical_structures.orders.total.impl.DoubleScore;
 import com.tregouet.occam.data.logical_structures.orders.total.impl.LecticScore;
 import com.tregouet.occam.data.problem_spaces.IProblemState;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
@@ -35,7 +36,7 @@ public class Representation implements IRepresentation {
 	protected IFactEvaluator factEvaluator;
 	protected IDescription description;
 	protected final Set<IPartition> partitions;
-	protected LecticScore score = null;
+	protected DoubleScore score = null;
 
 	public Representation(InvertedTree<IConcept, IIsA> classification, IDescription description, IFactEvaluator factEvaluator,
 			Set<IPartition> partitions) {
@@ -179,12 +180,12 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
-	public LecticScore score() {
+	public DoubleScore score() {
 		return score;
 	}
 
 	@Override
-	public void setScore(LecticScore score) {
+	public void setScore(DoubleScore score) {
 		this.score = score;
 	}
 

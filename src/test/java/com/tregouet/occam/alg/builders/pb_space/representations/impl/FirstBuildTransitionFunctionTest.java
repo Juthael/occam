@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.pb_space.representations.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,7 +16,6 @@ import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.impl.IfLeafIsUniversalThenSort;
-import com.tregouet.occam.alg.builders.pb_space.representations.impl.FirstBuildTransitionFunction;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -48,11 +47,11 @@ public class FirstBuildTransitionFunctionTest {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		conceptLattice = GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		productions = GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
-	
+		/*
 		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
 			.apply(conceptLattice.getOntologicalUpperSemilattice(), "FirstBuildTransitionFunctionTest_lattice");
-	
-		conceptTrees = getConceptTrees();
+		*/
+		conceptTrees = growTrees();
 	}
 
 	@Test
@@ -61,7 +60,8 @@ public class FirstBuildTransitionFunctionTest {
 		Set<IRepresentation> representations = new HashSet<>();
 		int count = 0;
 		for (InvertedTree<IConcept, IIsA> conceptTree : conceptTrees) {
-			IRepresentation representation = FirstBuildTransitionFunction.INSTANCE.apply(conceptTree, productions);
+			FirstBuildTransitionFunction bldr = new FirstBuildTransitionFunction().setUp(conceptLattice, productions);
+			IRepresentation representation = bldr.apply(conceptTree);
 			if (!representations.add(representation))
 				asExpected = false;
 			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
@@ -75,7 +75,7 @@ public class FirstBuildTransitionFunctionTest {
 		assertTrue(!representations.isEmpty() && asExpected);
 	}
 	
-	private Set<InvertedTree<IConcept, IIsA>> getConceptTrees() {
+	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
 		expandedTreesFromLastIteration = IfLeafIsUniversalThenSort.INSTANCE.apply(conceptLattice, null);

@@ -18,7 +18,7 @@ public interface IConcept extends IDichotomizable<IConcept>, IState {
 
 	Set<IDenotation> getDenotations();
 
-	Set<IContextObject> getExtent();
+	Set<Integer> getExtentIDs();
 
 	IDenotation getMatchingDenotation(List<String> constraintAsStrings) throws IOException;
 

@@ -12,7 +12,7 @@ public class RepresentationBuilderFactory {
 	public RepresentationBuilder apply(RepresentationBuilderStrategy strategy) {
 		switch (strategy) {
 		case FIRST_BUILD_TRANSITION_FUNC : 
-			return FirstBuildTransitionFunction.INSTANCE;
+			return new FirstBuildTransitionFunction();
 		default : 
 			return null;
 		}

@@ -10,7 +10,6 @@ import com.tregouet.occam.data.logical_structures.languages.words.construct.impl
 import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 
 public class ComplementaryConcept extends Concept implements IComplementaryConcept {
@@ -20,16 +19,16 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
 		super(complementing.getDenotations().stream().map(d -> new Construct(d.asList())).collect(Collectors.toSet()),
-				new HashSet<>(Sets.difference(complementing.getExtent(), toBeComplemented.getExtent())),
+				new HashSet<>(Sets.difference(complementing.getExtentIDs(), toBeComplemented.getExtentIDs())),
 				-toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
 		setType(ConceptType.UNIVERSAL);
 	}
 
-	public ComplementaryConcept(IConcept toBeComplemented, IConcept supremum, Set<IContextObject> extent) {
+	public ComplementaryConcept(IConcept toBeComplemented, IConcept supremum, Set<Integer> extentIDs) {
 		super(supremum.getDenotations().stream().map(d -> new Construct(d.asList())).collect(Collectors.toSet()),
-				extent, -toBeComplemented.iD());
+				extentIDs, -toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		setType(ConceptType.UNIVERSAL);
 	}

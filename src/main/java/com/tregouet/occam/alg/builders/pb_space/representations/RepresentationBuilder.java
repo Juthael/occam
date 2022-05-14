@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.builders.pb_space.representations;
 
 import java.util.Set;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilder;
@@ -10,15 +10,15 @@ import com.tregouet.occam.alg.builders.pb_space.representations.partitions.Parti
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public interface RepresentationBuilder 
-	extends BiFunction<
-		InvertedTree<IConcept, IIsA>, 
-		Set<IContextualizedProduction>, 
-		IRepresentation> {
+	extends Function<InvertedTree<IConcept, IIsA>, IRepresentation> {
+	
+	public RepresentationBuilder setUp(IConceptLattice conceptLattice, Set<IContextualizedProduction> productions);
 	
 	public static RepresentationTransFuncBuilder getTransFuncBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();

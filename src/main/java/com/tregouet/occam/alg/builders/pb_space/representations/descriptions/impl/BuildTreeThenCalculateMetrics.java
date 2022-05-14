@@ -27,7 +27,7 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 	}
 
 	@Override
-	public IDescription apply(IRepresentationTransitionFunction transFunc, Map<Integer, Integer> particular2MostSpecificGenus) {
+	public IDescription apply(IRepresentationTransitionFunction transFunc, Map<Integer, Integer> particularID2MostSpecificConceptID) {
 		Set<AbstractDifferentiae> differentiae;
 		Tree<Integer, AbstractDifferentiae> classification;
 		differentiae = DescriptionBuilder.differentiaeBuilder().apply(transFunc);
@@ -58,11 +58,8 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 			differentiaeWeigher.accept(diff);
 		}
 		//build metrics
-		ISimilarityMetrics similarityMetrics;
-		if (particular2MostSpecificGenus == null)
-			similarityMetrics = DescriptionBuilder.similarityMetricsBuilder().apply(classification);
-		else similarityMetrics = 
-				DescriptionBuilder.similarityPartialMetricsBuilder().apply(classification, particular2MostSpecificGenus);
+		ISimilarityMetrics similarityMetrics = 
+				DescriptionBuilder.similarityMetricsBuilder().apply(classification, particularID2MostSpecificConceptID);
 		//instantiate
 		IDescription description = new Description(classification, similarityMetrics);
 		return description;

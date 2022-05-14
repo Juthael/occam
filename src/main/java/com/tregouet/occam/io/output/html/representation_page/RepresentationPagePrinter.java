@@ -54,7 +54,7 @@ public class RepresentationPagePrinter {
 		if (representation instanceof ICompleteRepresentation)
 			return conceptID.toString();
 		else {
-			TreeSet<Integer> extent = new TreeSet<>(representation.getExtent(conceptID));
+			TreeSet<Integer> extent = new TreeSet<>(representation.getExtentIDs(conceptID));
 			if (extent.size() == 1)
 				return conceptID.toString();
 			else {

@@ -9,15 +9,14 @@ import com.tregouet.occam.data.logical_structures.languages.words.construct.ICon
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.transitions.dimensions.This;
 
 public class Everything extends Concept implements IConcept {
 
-	public Everything(Set<IContextObject> extent) {
+	public Everything(Set<Integer> extentIDs) {
 		super(new HashSet<>(
 				Arrays.asList(new IConstruct[] { new Construct(Arrays.asList(new ISymbol[] { This.INSTANCE })) })),
-				extent);
+				extentIDs);
 		setType(ConceptType.ONTOLOGICAL_COMMITMENT);
 	}
 

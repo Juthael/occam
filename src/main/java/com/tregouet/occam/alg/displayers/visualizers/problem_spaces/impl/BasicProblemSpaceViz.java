@@ -20,7 +20,7 @@ import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateL
 import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemTransitionLabeller;
 import com.tregouet.occam.alg.displayers.visualizers.problem_spaces.ProblemSpaceViz;
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
-import com.tregouet.occam.data.problem_spaces.IProblemState;
+import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.io.output.LocalPaths;
 
 import guru.nidi.graphviz.engine.Format;
@@ -36,11 +36,11 @@ public class BasicProblemSpaceViz implements ProblemSpaceViz {
 	}
 
 	@Override
-	public String apply(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> graph, String fileName) {
+	public String apply(DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph, String fileName) {
 		// trim if needed
-		DirectedAcyclicGraph<IProblemState, AProblemStateTransition> trimmedGraph = trimIfNeeded(graph);
+		DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> trimmedGraph = trimIfNeeded(graph);
 		// convert in DOT format
-		DOTExporter<IProblemState, AProblemStateTransition> exporter = new DOTExporter<>();
+		DOTExporter<IRepresentation, AProblemStateTransition> exporter = new DOTExporter<>();
 		ProblemStateLabeller stateDisplayer = FormattersAbstractFactory.INSTANCE.getProblemStateDisplayer();
 		ProblemTransitionLabeller transitionDisplayer = FormattersAbstractFactory.INSTANCE
 				.getProblemTransitionDisplayer();
@@ -69,13 +69,13 @@ public class BasicProblemSpaceViz implements ProblemSpaceViz {
 		}
 	}
 	
-	private DirectedAcyclicGraph<IProblemState, AProblemStateTransition> trimIfNeeded(
-			DirectedAcyclicGraph<IProblemState, AProblemStateTransition> graph){
+	private DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> trimIfNeeded(
+			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph){
 		int maxNb = ProblemSpaceViz.getMaxNbOfProblemStatesDisplayed();
 		if (graph.vertexSet().size() > maxNb) {
-			Set<IProblemState> retainedStates = new HashSet<>();
+			Set<IRepresentation> retainedStates = new HashSet<>();
 			Set<AProblemStateTransition> retainedTransitions = new HashSet<>();
-			DepthFirstIterator<IProblemState, AProblemStateTransition> dfIte = new DepthFirstIterator<>(graph);
+			DepthFirstIterator<IRepresentation, AProblemStateTransition> dfIte = new DepthFirstIterator<>(graph);
 			int idx = 0;
 			while (idx < maxNb) {
 				retainedStates.add(dfIte.next());
@@ -85,8 +85,9 @@ public class BasicProblemSpaceViz implements ProblemSpaceViz {
 				if (retainedStates.contains(transition.getSource()) && retainedStates.contains(transition.getTarget()))
 					retainedTransitions.add(transition);
 			}
-			DirectedAcyclicGraph<IProblemState, AProblemStateTransition> trimmedGraph = new DirectedAcyclicGraph<>(null, null, false);
-			for (IProblemState retainedState : retainedStates)
+			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> trimmedGraph = 
+					new DirectedAcyclicGraph<>(null, null, false);
+			for (IRepresentation retainedState : retainedStates)
 				trimmedGraph.addVertex(retainedState);
 			for (AProblemStateTransition retainedTransition : retainedTransitions) {
 				trimmedGraph.addEdge(retainedTransition.getSource(), retainedTransition.getTarget(), retainedTransition);

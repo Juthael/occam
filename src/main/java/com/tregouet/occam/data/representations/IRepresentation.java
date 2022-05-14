@@ -48,13 +48,13 @@ public interface IRepresentation extends
 	
 	Map<Integer, List<String>> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer);
 	
-	Set<Integer> getExtent(Integer conceptID);
+	Set<Integer> getExtentIDs(Integer conceptID);
 	
 	int id();
 
 	void initializeIDGenerator();
 	
-	boolean isGoalState();	
+	boolean isFullyDeveloped();	
 	
 	Set<IPartition> getPartitions();
 

@@ -1,7 +1,6 @@
 package com.tregouet.occam.alg.scorers.problem_states.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +11,6 @@ import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.data.logical_structures.orders.total.impl.DoubleScore;
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.tree_finder.utils.Functions;
 
 public class MarkhovProcess implements ProblemStateScorer {
 
@@ -33,13 +31,14 @@ public class MarkhovProcess implements ProblemStateScorer {
 		this.problemSpace = problemSpace;
 		new TopologicalOrderIterator<>(problemSpace).forEachRemaining(topoOrderedStates::add);
 		stateProbability = new double[topoOrderedStates.size()];
-		Arrays.fill(stateProbability, 1.0);
-		for (IRepresentation problemState : problemSpace)
+		stateProbability[0] = 1.0;
+		for (IRepresentation problemState : topoOrderedStates)
 			updateSuccessors(problemState);
 		return this;
 	}
 
 	private void updateSuccessors(IRepresentation source) {
+		double sourceProbability = stateProbability[topoOrderedStates.indexOf(source)];
 		Set<AProblemStateTransition> outgoingTransitions = problemSpace.outgoingEdgesOf(source);
 		double outgoingTransitionWeightSum = 0.0;
 		for (AProblemStateTransition transition : outgoingTransitions)
@@ -47,10 +46,8 @@ public class MarkhovProcess implements ProblemStateScorer {
 		for (AProblemStateTransition transition : outgoingTransitions) {
 			double transitionProbability = transition.weight() / outgoingTransitionWeightSum;
 			IRepresentation successor = transition.getTarget();
-			Set<IRepresentation> upperSet = Functions.upperSet(problemSpace, successor);
-			for (IRepresentation upperBound : upperSet) {
-				stateProbability[topoOrderedStates.indexOf(upperBound)] *= transitionProbability;
-			}
+			int succIdx = topoOrderedStates.indexOf(successor);
+			stateProbability[succIdx] += sourceProbability * transitionProbability;
 		}
 	}
 

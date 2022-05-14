@@ -22,7 +22,6 @@ import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.concepts.impl.ComplementaryConcept;
 import com.tregouet.occam.data.representations.concepts.impl.IsA;
@@ -147,10 +146,10 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 				IComplementaryConcept complementary;				
 				IConcept nonCSupremum = Functions.supremum(searchUSL, new HashSet<>(nonCParticulars));
 				if (genus.equals(nonCSupremum)) {
-					Set<IContextObject> compExtent = new HashSet<>();
+					Set<Integer> compExtentIDs = new HashSet<>();
 					for (IConcept particular : nonCParticulars)
-						compExtent.addAll(particular.getExtent());
-					complementary = new ComplementaryConcept(c, genus, compExtent);
+						compExtentIDs.addAll(particular.getExtentIDs());
+					complementary = new ComplementaryConcept(c, genus, compExtentIDs);
 				}
 				else {
 					complementary = new ComplementaryConcept(c, nonCSupremum);

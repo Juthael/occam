@@ -1,6 +1,7 @@
 package com.tregouet.occam.data.representations.concepts.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +12,6 @@ import com.tregouet.occam.data.logical_structures.languages.words.construct.ICon
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.representations.concepts.denotations.impl.Denotation;
 
@@ -20,32 +20,32 @@ public class Concept implements IConcept {
 	protected static int nextID = 100;
 
 	private final Set<IDenotation> denotations = new HashSet<>();
-	private final Set<IContextObject> extent;
+	private final Set<Integer> extentIDs;
 	private final int iD;
 	private ConceptType type;
 
-	public Concept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent) {
-		if (extent.size() == 1)
-			iD = extent.iterator().next().iD();
+	public Concept(Set<IConstruct> denotatingConstructs, Set<Integer> extentIDs) {
+		if (extentIDs.size() == 1)
+			iD = new ArrayList<>(extentIDs).get(0);
 		else
 			iD = nextID++;
 		for (IConstruct construct : denotatingConstructs)
 			this.denotations.add(new Denotation(construct, this.iD));
-		this.extent = extent;
+		this.extentIDs = extentIDs;
 	}
 
-	public Concept(Set<IConstruct> denotatingConstructs, Set<IContextObject> extent, int iD) {
+	public Concept(Set<IConstruct> denotatingConstructs, Set<Integer> extentIDs, int iD) {
 		this.iD = iD;
 		for (IConstruct construct : denotatingConstructs)
 			this.denotations.add(new Denotation(construct, this.iD));
-		this.extent = extent;
+		this.extentIDs = extentIDs;
 	}
 
 	@Override
 	public IConcept buildComplementOfThis(Set<IConcept> complementMinimalLowerBounds, IConcept supremum) {
-		Set<IContextObject> complementExtent = new HashSet<>();
-		for (IConcept rebutterMinLowerBound : complementMinimalLowerBounds)
-			complementExtent.addAll(rebutterMinLowerBound.getExtent());
+		Set<Integer> complementExtent = new HashSet<>();
+		for (IConcept complementMinLowerBound : complementMinimalLowerBounds)
+			complementExtent.addAll(complementMinLowerBound.getExtentIDs());
 		return new ComplementaryConcept(this, supremum, complementExtent);
 	}
 
@@ -65,8 +65,8 @@ public class Concept implements IConcept {
 	}
 
 	@Override
-	public Set<IContextObject> getExtent() {
-		return extent;
+	public Set<Integer> getExtentIDs() {
+		return extentIDs;
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class Concept implements IConcept {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(denotations, extent, iD, type);
+		return Objects.hash(denotations, extentIDs, iD, type);
 	}
 
 	@Override
@@ -170,8 +170,8 @@ public class Concept implements IConcept {
 		if (getClass() != obj.getClass())
 			return false;
 		Concept other = (Concept) obj;
-		return Objects.equals(denotations, other.denotations) && Objects.equals(extent, other.extent) && iD == other.iD
-				&& type == other.type;
+		return iD == other.iD && type == other.type && Objects.equals(denotations, other.denotations) 
+				&& Objects.equals(extentIDs, other.extentIDs);
 	}
 
 }

@@ -23,6 +23,7 @@ import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.IIsA;
+import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.representations.concepts.impl.Concept;
 import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
 import com.tregouet.occam.data.representations.concepts.impl.Everything;
@@ -38,6 +39,7 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 	private List<IConcept> topologicalOrder = null;
 	private IConcept truism = null;
 	private List<IConcept> particulars = null;
+	private List<Integer> particularIDs = null;
 	private IConcept absurdity = null;
 
 	public GaloisConnection() {
@@ -48,6 +50,7 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 		AVariable.resetVarNaming();
 		this.objects = new ArrayList<>(objects);
 		particulars = new ArrayList<>(Arrays.asList(new IConcept[objects.size()]));
+		particularIDs = new ArrayList<>(Arrays.asList(new Integer[objects.size()]));
 		lattice = new DirectedAcyclicGraph<>(null, IsA::new, false);
 		buildLattice();
 		IConcept truism = null;
@@ -61,7 +64,9 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 				absurdity = concept;
 				break;
 			case PARTICULAR:
-				particulars.set(this.objects.indexOf(concept.getExtent().iterator().next()), concept);
+				int idx = getParticularIdx(concept);
+				particulars.set(idx, concept);
+				particularIDs.set(idx, concept.iD());
 				break;
 			default:
 				break;
@@ -69,7 +74,7 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 		}
 		this.truism = truism;
 		this.absurdity = absurdity;
-		ontologicalCommitment = new Everything(new HashSet<>(objects));
+		ontologicalCommitment = new Everything(new HashSet<>(particularIDs));
 		@SuppressWarnings("unchecked")
 		DirectedAcyclicGraph<IConcept, IIsA> upperSemilattice = (DirectedAcyclicGraph<IConcept, IIsA>) lattice.clone();
 		upperSemilattice.removeVertex(absurdity);
@@ -83,8 +88,8 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 		return output();
 	}
 
-	private Map<Set<IConstruct>, Set<IContextObject>> buildIntentToExtentRel() {
-		Map<Set<IConstruct>, Set<IContextObject>> denotatingConstructsToExtents = new HashMap<>();
+	private Map<Set<IConstruct>, Set<Integer>> buildIntentToExtentRel() {
+		Map<Set<IConstruct>, Set<Integer>> denotatingConstructsToExtents = new HashMap<>();
 		Set<Set<IContextObject>> objectsPowerSet = buildObjectsPowerSet();
 		for (Set<IContextObject> subset : objectsPowerSet) {
 			Set<IConstruct> denotatingConstructs;
@@ -98,9 +103,9 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 					denotatingConstructs.addAll(obj.getConstructs());
 			}
 			if (denotatingConstructsToExtents.containsKey(denotatingConstructs))
-				denotatingConstructsToExtents.get(denotatingConstructs).addAll(subset);
+				denotatingConstructsToExtents.get(denotatingConstructs).addAll(getIDsOf(subset));
 			else
-				denotatingConstructsToExtents.put(denotatingConstructs, subset);
+				denotatingConstructsToExtents.put(denotatingConstructs, getIDsOf(subset));
 		}
 		denotatingConstructsToExtents = replaceEqualConstructsByUniqueInstanceAndNameVariables(
 				denotatingConstructsToExtents);
@@ -108,13 +113,13 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 	}
 
 	private void buildLattice() {
-		Map<Set<IConstruct>, Set<IContextObject>> denotatingConstructsToExtents = buildIntentToExtentRel();
-		for (Entry<Set<IConstruct>, Set<IContextObject>> entry : denotatingConstructsToExtents.entrySet()) {
+		Map<Set<IConstruct>, Set<Integer>> denotatingConstructsToExtents = buildIntentToExtentRel();
+		for (Entry<Set<IConstruct>, Set<Integer>> entry : denotatingConstructsToExtents.entrySet()) {
 			IConcept concept = new Concept(entry.getKey(), entry.getValue());
-			if (!concept.getExtent().isEmpty()) {
-				if (concept.getExtent().size() == 1)
+			if (!concept.getExtentIDs().isEmpty()) {
+				if (concept.getExtentIDs().size() == 1)
 					concept.setType(ConceptType.PARTICULAR);
-				else if (concept.getExtent().size() == objects.size()) {
+				else if (concept.getExtentIDs().size() == objects.size()) {
 					concept.setType(ConceptType.TRUISM);
 				} else {
 					concept.setType(ConceptType.UNIVERSAL);
@@ -129,9 +134,9 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 			IConcept iDenotSet = denotSetList.get(i);
 			for (int j = i + 1; j < denotSetList.size(); j++) {
 				IConcept jDenotSet = denotSetList.get(j);
-				if (iDenotSet.getExtent().containsAll(jDenotSet.getExtent()))
+				if (iDenotSet.getExtentIDs().containsAll(jDenotSet.getExtentIDs()))
 					lattice.addEdge(jDenotSet, iDenotSet);
-				else if (jDenotSet.getExtent().containsAll(iDenotSet.getExtent()))
+				else if (jDenotSet.getExtentIDs().containsAll(iDenotSet.getExtentIDs()))
 					lattice.addEdge(iDenotSet, jDenotSet);
 			}
 		}
@@ -162,8 +167,8 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 				truism, particulars, absurdity);
 	}
 
-	private Map<Set<IConstruct>, Set<IContextObject>> replaceEqualConstructsByUniqueInstanceAndNameVariables(
-			Map<Set<IConstruct>, Set<IContextObject>> denotatingConstructsToExtents) {
+	private Map<Set<IConstruct>, Set<Integer>> replaceEqualConstructsByUniqueInstanceAndNameVariables(
+			Map<Set<IConstruct>, Set<Integer>> denotatingConstructsToExtents) {
 		// reset variable name provider
 		AVariable.resetVarNaming();
 		/*
@@ -171,7 +176,7 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 		 * instance (that will therefore be the reference instance).
 		 */
 		int nbOfMappings = denotatingConstructsToExtents.size();
-		Map<Set<IConstruct>, Set<IContextObject>> paramCopyWithRefInstancesAndNamedVars = new HashMap<>(nbOfMappings);
+		Map<Set<IConstruct>, Set<Integer>> paramCopyWithRefInstancesAndNamedVars = new HashMap<>(nbOfMappings);
 		Map<IConstruct, IConstruct> constructToRefInstance = new HashMap<>();
 		for (Set<IConstruct> constructSet : denotatingConstructsToExtents.keySet()) {
 			for (IConstruct construct : constructSet) {
@@ -187,8 +192,8 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 		 * will modify hashcodes.
 		 */
 		List<List<IConstruct>> setsOfReferenceConstrInstances = new ArrayList<>();
-		List<Set<IContextObject>> listOfExtents = new ArrayList<>();
-		for (Entry<Set<IConstruct>, Set<IContextObject>> entry : denotatingConstructsToExtents.entrySet()) {
+		List<Set<Integer>> listOfExtents = new ArrayList<>();
+		for (Entry<Set<IConstruct>, Set<Integer>> entry : denotatingConstructsToExtents.entrySet()) {
 			List<IConstruct> withReferenceInstances = new ArrayList<>();
 			for (IConstruct construct : entry.getKey()) {
 				withReferenceInstances.add(constructToRefInstance.get(construct));
@@ -208,6 +213,28 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 					listOfExtents.get(i));
 		}
 		return paramCopyWithRefInstancesAndNamedVars;
+	}
+	
+	private int getParticularIdx(IConcept particular) {
+		Set<IConstruct> particularConstructs = new HashSet<>();
+		for (IDenotation denotation : particular.getDenotations())
+			particularConstructs.add(denotation);
+		for (int i = 0 ; i < objects.size() ; i++) {
+			IContextObject iObject = objects.get(i);
+			Set<IConstruct> objectConstructs = new HashSet<>(iObject.getConstructs());
+			if (particularConstructs.equals(objectConstructs))
+				return i;
+		}
+		return -1; //never happens
+	}
+	
+	private Set<Integer> getIDsOf(Set<IContextObject> objectSet) {
+		Set<Integer> iDs = new HashSet<>();
+		for (IContextObject object : objectSet) {
+			int idx = objects.indexOf(object);
+			iDs.add(particularIDs.get(idx));
+		}
+		return iDs;
 	}
 
 }

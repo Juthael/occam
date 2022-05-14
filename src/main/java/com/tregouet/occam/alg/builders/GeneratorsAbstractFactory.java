@@ -15,6 +15,9 @@ import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower
 import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRanker;
+import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRankerFactory;
+import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRankerStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderStrategy;
@@ -51,15 +54,6 @@ import com.tregouet.occam.alg.builders.pb_space.representations.transition_funct
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetter;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetterFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetterStrategy;
-import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetter;
-import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterFactory;
-import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.PartialRepresentationLateSetterStrategy;
-import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.metrics.SimilarityPartialMetricsBuilder;
-import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.metrics.SimilarityPartialMetricsBuilderFactory;
-import com.tregouet.occam.alg.builders.problem_spaces.partial_representations.metrics.SimilarityPartialMetricsBuilderStrategy;
-import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRanker;
-import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRankerFactory;
-import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRankerStrategy;
 
 public class GeneratorsAbstractFactory {
 
@@ -74,14 +68,12 @@ public class GeneratorsAbstractFactory {
 	private RepresentationTransFuncBuilderStrategy representationTransFuncBuilderStrategy = null;
 	private PropertyBuilderStrategy propertyBuilderStrategy = null;
 	private DifferentiaeBuilderStrategy differentiaeBuilderStrategy = null;
-	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
 	private DescriptionBuilderStrategy descriptionBuilderStrategy = null;
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private FactEvaluatorBuilderStrategy factEvaluatorBuilderStrategy = null;
 	private RepresentationBuilderStrategy representationBuilderStrategy = null;
-	private SimilarityPartialMetricsBuilderStrategy similarityPartialMetricsBuilderStrategy = null;
-	private PartialRepresentationLateSetterStrategy partialRepresentationLateSetterStrategy = null;
+	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
 	private ProblemTransitionRankerStrategy problemTransitionRankerStrategy = null;
 	private ProblemTransitionBuilderStrategy problemTransitionBuilderStrategy = null;
 	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
@@ -113,12 +105,8 @@ public class GeneratorsAbstractFactory {
 		return FactEvaluatorBuilderFactory.INSTANCE.apply(factEvaluatorBuilderStrategy);
 	}
 	
-	public SimilarityPartialMetricsBuilder getSimilarityPartialMetricsBuilder() {
-		return SimilarityPartialMetricsBuilderFactory.INSTANCE.apply(similarityPartialMetricsBuilderStrategy);
-	}
-
-	public PartialRepresentationLateSetter getPartialRepresentationLateSetter() {
-		return PartialRepresentationLateSetterFactory.INSTANCE.apply(partialRepresentationLateSetterStrategy);
+	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
+		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
 	}
 
 	public PartitionBuilder getPartitionBuilder() {
@@ -157,10 +145,6 @@ public class GeneratorsAbstractFactory {
 		return RepresentationBuilderFactory.INSTANCE.apply(representationBuilderStrategy);
 	}
 
-	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
-		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
-	}
-
 	public TransitionSalienceSetter getTransitionSalienceSetter() {
 		return TransitionSalienceSetterFactory.INSTANCE.apply(transitionSalienceSetterStrategy);
 	}
@@ -181,14 +165,12 @@ public class GeneratorsAbstractFactory {
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.BUILD_EXHAUSTIVELY;
 			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
 			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
-			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.DEFERRED_MATRICES_INSTANTIATION;
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 			factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
 			representationBuilderStrategy = RepresentationBuilderStrategy.FIRST_BUILD_TRANSITION_FUNC;
-			similarityPartialMetricsBuilderStrategy = SimilarityPartialMetricsBuilderStrategy.MOST_SPECIFIC_GENUS;
-			partialRepresentationLateSetterStrategy = PartialRepresentationLateSetterStrategy.INFER_NULL_MEMBERS;
+			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
 			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;
 			problemTransitionRankerStrategy = ProblemTransitionRankerStrategy.TOP_DOWN_RANKER;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.WITH_CLUSTERING_COMES_MEANING;

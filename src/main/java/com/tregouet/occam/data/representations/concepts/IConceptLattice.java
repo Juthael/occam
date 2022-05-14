@@ -28,7 +28,7 @@ public interface IConceptLattice {
 	 * @param extent
 	 * @return
 	 */
-	IConcept getConceptWithExtent(Set<IContextObject> extent);
+	IConcept getConceptWithExtentIDs(Set<Integer> extentIDs);
 
 	List<IContextObject> getContextObjects();
 

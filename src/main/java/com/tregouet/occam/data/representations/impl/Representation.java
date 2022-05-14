@@ -16,7 +16,6 @@ import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.evaluation.IFactEvaluator;
@@ -180,22 +179,21 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
-	public Set<Integer> getExtent(Integer conceptID) {
-		Set<Integer> extent = new HashSet<>();
+	public Set<Integer> getExtentIDs(Integer conceptID) {
 		IConcept concept = null;
 		Iterator<IConcept> conceptIte = classification.vertexSet().iterator();
-		while (concept == null) {
+		while (concept == null && conceptIte.hasNext()) {
 			IConcept nextConcept = conceptIte.next();
 			if (nextConcept.iD() == conceptID.intValue())
 				concept = nextConcept;
 		}
-		for (IContextObject object : concept.getExtent())
-			extent.add(object.iD());
-		return extent;
+		if (concept == null)
+			return null;
+		return concept.getExtentIDs();
 	}
 
 	@Override
-	public boolean isGoalState() {
+	public boolean isFullyDeveloped() {
 		for (IConcept concept : classification.getLeaves()) {
 			if (concept.type() != ConceptType.PARTICULAR)
 				return false;

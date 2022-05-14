@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.problem_spaces.ranker.impl;
+package com.tregouet.occam.alg.builders.pb_space.ranker.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.builders.problem_spaces.ranker.ProblemTransitionRanker;
+import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRanker;
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
-import com.tregouet.occam.data.problem_spaces.IProblemState;
+import com.tregouet.occam.data.representations.IRepresentation;
 
 public class TopDownRanker implements ProblemTransitionRanker {
 	
@@ -24,15 +24,15 @@ public class TopDownRanker implements ProblemTransitionRanker {
 	}
 
 	@Override
-	public ProblemTransitionRanker setUp(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemSpace) {
+	public ProblemTransitionRanker setUp(DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemSpace) {
 		int nbOfEdges = problemSpace.edgeSet().size();
 		transitions = new ArrayList<>(nbOfEdges);
 		ranks = new int[nbOfEdges];
 		//find start state
-		IProblemState startState = null;
-		Iterator<IProblemState> stateIte = problemSpace.vertexSet().iterator();
+		IRepresentation startState = null;
+		Iterator<IRepresentation> stateIte = problemSpace.vertexSet().iterator();
 		while (startState == null) {
-			IProblemState nextState = stateIte.next();
+			IRepresentation nextState = stateIte.next();
 			if (problemSpace.incomingEdgesOf(nextState).size() == 0)
 				startState = nextState;
 		}
@@ -41,8 +41,8 @@ public class TopDownRanker implements ProblemTransitionRanker {
 		return this;
 	}
 	
-	private void setRank(DirectedAcyclicGraph<IProblemState, AProblemStateTransition> problemSpace, 
-			IProblemState problemState, int rank) {
+	private void setRank(DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemSpace, 
+			IRepresentation problemState, int rank) {
 		for (AProblemStateTransition transition : problemSpace.outgoingEdgesOf(problemState)) {
 			int transIdx = transitions.indexOf(transition);
 			if (transIdx == -1) {

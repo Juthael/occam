@@ -55,11 +55,9 @@ public class ConceptLattice implements IConceptLattice {
 	}
 
 	@Override
-	public IConcept getConceptWithExtent(Set<IContextObject> extent) {
-		if (extent.containsAll(objects))
-			return truism;
+	public IConcept getConceptWithExtentIDs(Set<Integer> extentIDs) {
 		for (IConcept concept : topologicalOrder) {
-			if (concept.getExtent().equals(extent))
+			if (concept.getExtentIDs().equals(extentIDs))
 				return concept;
 		}
 		return null;

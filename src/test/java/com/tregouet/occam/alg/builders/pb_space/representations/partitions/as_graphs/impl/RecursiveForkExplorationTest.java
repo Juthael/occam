@@ -49,7 +49,7 @@ public class RecursiveForkExplorationTest {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		conceptLattice = GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		productions = GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
-		trees = GeneratorsAbstractFactory.INSTANCE.getConceptTreeBuilder().apply(conceptLattice);
+		growTrees();
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
@@ -80,5 +80,20 @@ public class RecursiveForkExplorationTest {
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}
+	
+	private void growTrees() {
+		trees = GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
+		boolean newTreesBuilt = true;
+		Set<InvertedTree<IConcept, IIsA>> previouslyFoundTrees = new HashSet<>();
+		previouslyFoundTrees.addAll(trees);
+		while (newTreesBuilt) {
+			Set<InvertedTree<IConcept, IIsA>> foundTrees = new HashSet<>();
+			for (InvertedTree<IConcept, IIsA> tree : previouslyFoundTrees)
+				foundTrees.addAll(GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
+			newTreesBuilt = !(foundTrees.isEmpty());
+			trees.addAll(foundTrees);
+			previouslyFoundTrees = foundTrees;
+		}
+	}	
 
 }

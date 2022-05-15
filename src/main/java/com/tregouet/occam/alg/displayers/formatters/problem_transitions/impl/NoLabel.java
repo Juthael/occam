@@ -4,11 +4,15 @@ import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemT
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 
 public class NoLabel implements ProblemTransitionLabeller {
+	
+	public static final NoLabel INSTANCE = new NoLabel();
+	
+	private NoLabel() {
+	}
 
 	@Override
-	public String apply(AProblemStateTransition t) {
-		// TODO Auto-generated method stub
-		return null;
+	public String apply(AProblemStateTransition transitions) {
+		return new String();
 	}
 
 }

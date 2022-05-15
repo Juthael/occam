@@ -93,7 +93,7 @@ public class RebuildFromScratch implements ProblemSpaceExplorer {
 		}
 		ProblemStateScorer scorer = ProblemSpaceExplorer.getProblemStateScorer().setUp(problemGraph);
 		for (IRepresentation problemState : problemGraph)
-			scorer.apply(problemState);
+			problemState.setScore(scorer.apply(problemState));
 		filter(problemGraph);
 	}
 	

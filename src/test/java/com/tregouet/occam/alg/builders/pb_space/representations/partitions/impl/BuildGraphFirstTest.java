@@ -4,8 +4,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -61,7 +63,10 @@ public class BuildGraphFirstTest {
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
-			IDescription description = GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc, null);
+			Map<Integer, Integer> contextParticular2MostSpecificConcept = 
+					mapContextParticularID2MostSpecificConceptID(tree);
+			IDescription description = GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder().apply(
+					transFunc, contextParticular2MostSpecificConcept);
 			BuildGraphFirst partitionBuilder = new BuildGraphFirst();
 			Set<IPartition> partitions = partitionBuilder.apply(description, tree);
 			if (partitions == null || partitions.isEmpty())
@@ -96,5 +101,23 @@ public class BuildGraphFirstTest {
 			previouslyFoundTrees = foundTrees;
 		}
 	}
+	
+	private Map<Integer, Integer> mapContextParticularID2MostSpecificConceptID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> particularID2MostSpecificConceptID = new HashMap<>();
+		for (IConcept particular : conceptLattice.getOntologicalUpperSemilattice().getLeaves())
+			particularID2MostSpecificConceptID.put(particular.iD(), mostSpecificConceptInTree(particular, conceptTree));
+		return particularID2MostSpecificConceptID;
+	}
+	
+	private Integer mostSpecificConceptInTree(IConcept particular, InvertedTree<IConcept, IIsA> conceptTree) {
+		if (conceptTree.containsVertex(particular))
+			return particular.iD();
+		Integer particularID = particular.iD();
+		for (IConcept leaf : conceptTree.getLeaves()) {
+			if (leaf.getExtentIDs().contains(particularID))
+				return leaf.iD();
+		}
+		return null; //never happens
+	}	
 
 }

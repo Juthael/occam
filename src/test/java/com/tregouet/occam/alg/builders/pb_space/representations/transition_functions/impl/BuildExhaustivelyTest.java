@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +15,6 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.impl.BuildExhaustively;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
@@ -44,7 +44,7 @@ public class BuildExhaustivelyTest {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		conceptLattice = GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		productions = GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
-		trees = GeneratorsAbstractFactory.INSTANCE.getConceptTreeBuilder().apply(conceptLattice);
+		trees = growTrees();
 	}
 
 	@Test
@@ -78,6 +78,22 @@ public class BuildExhaustivelyTest {
 			.append("Transition function n." + Integer.toString(idx) + " is available at : " + tfPath);
 		return sB.toString();
 	}
-
+	
+	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
+		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
+		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
+		expandedTreesFromLastIteration = GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
+		do {
+			expandedTrees.addAll(expandedTreesFromLastIteration);
+			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
+			expandedTreesFromLastIteration.clear();
+			for (InvertedTree<IConcept, IIsA> tree : expandable) {
+				expandedTreesFromLastIteration.addAll(
+						GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree)); 
+			}
+		}
+		while (!expandedTreesFromLastIteration.isEmpty());
+		return expandedTrees;
+	}	
 
 }

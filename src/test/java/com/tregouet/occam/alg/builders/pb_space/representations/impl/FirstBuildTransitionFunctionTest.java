@@ -15,7 +15,6 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.concepts_trees.impl.IfLeafIsUniversalThenSort;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.concepts.IConcept;
@@ -78,13 +77,14 @@ public class FirstBuildTransitionFunctionTest {
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
-		expandedTreesFromLastIteration = IfLeafIsUniversalThenSort.INSTANCE.apply(conceptLattice, null);
+		expandedTreesFromLastIteration = GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
 		do {
 			expandedTrees.addAll(expandedTreesFromLastIteration);
 			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
-				expandedTreesFromLastIteration.addAll(IfLeafIsUniversalThenSort.INSTANCE.apply(conceptLattice, tree)); 
+				expandedTreesFromLastIteration.addAll(
+						GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree)); 
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());

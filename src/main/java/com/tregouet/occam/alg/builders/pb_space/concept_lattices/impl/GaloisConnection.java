@@ -14,10 +14,12 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
+import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.utils.MarkRedundantDenotations;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
@@ -96,7 +98,7 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 			if (subset.size() > 1)
 				denotatingConstructs = ConceptLatticeBuilder.getDenotationBuilder().apply(subset);
 			else if (subset.size() == 1)
-				denotatingConstructs = new HashSet<>(subset.iterator().next().getConstructs());
+				denotatingConstructs = new HashSet<>(new ArrayList<>(subset).get(0).getConstructs());
 			else {
 				denotatingConstructs = new HashSet<>();
 				for (IContextObject obj : objects)
@@ -218,7 +220,7 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 	private int getParticularIdx(IConcept particular) {
 		Set<IConstruct> particularConstructs = new HashSet<>();
 		for (IDenotation denotation : particular.getDenotations())
-			particularConstructs.add(denotation);
+			particularConstructs.add(new Construct(denotation.asList()));
 		for (int i = 0 ; i < objects.size() ; i++) {
 			IContextObject iObject = objects.get(i);
 			Set<IConstruct> objectConstructs = new HashSet<>(iObject.getConstructs());
@@ -231,8 +233,7 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 	private Set<Integer> getIDsOf(Set<IContextObject> objectSet) {
 		Set<Integer> iDs = new HashSet<>();
 		for (IContextObject object : objectSet) {
-			int idx = objects.indexOf(object);
-			iDs.add(particularIDs.get(idx));
+			iDs.add(object.iD());
 		}
 		return iDs;
 	}

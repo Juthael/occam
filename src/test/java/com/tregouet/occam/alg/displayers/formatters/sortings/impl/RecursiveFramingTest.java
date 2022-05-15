@@ -16,7 +16,6 @@ import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
-import com.tregouet.occam.alg.displayers.formatters.sortings.impl.RecursiveFraming;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
@@ -47,7 +46,7 @@ public class RecursiveFramingTest {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		conceptLattice = GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		productions = GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
-		trees = GeneratorsAbstractFactory.INSTANCE.getConceptTreeBuilder().apply(conceptLattice);
+		trees = growTrees();
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
@@ -76,5 +75,22 @@ public class RecursiveFramingTest {
 		}
 		assertTrue(checkIdx > 0 && asExpected);
 	}
+	
+	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
+		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
+		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
+		expandedTreesFromLastIteration = GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
+		do {
+			expandedTrees.addAll(expandedTreesFromLastIteration);
+			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
+			expandedTreesFromLastIteration.clear();
+			for (InvertedTree<IConcept, IIsA> tree : expandable) {
+				expandedTreesFromLastIteration.addAll(
+						GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree)); 
+			}
+		}
+		while (!expandedTreesFromLastIteration.isEmpty());
+		return expandedTrees;
+	}		
 
 }

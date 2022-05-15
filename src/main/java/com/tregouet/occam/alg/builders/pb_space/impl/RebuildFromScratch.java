@@ -2,6 +2,7 @@ package com.tregouet.occam.alg.builders.pb_space.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -13,6 +14,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRanker;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
+import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.representations.IRepresentation;
@@ -57,7 +59,7 @@ public class RebuildFromScratch implements ProblemSpaceExplorer {
 		for (AProblemStateTransition transition : transitions) {
 			newProblemGraph.addEdge(transition.getSource(), transition.getTarget(), transition);
 		}
-		reduceThenRankThenWeightThenFilter(newProblemGraph);
+		reduceThenRankThenWeightThenScoreThenFilter(newProblemGraph);
 		if (!(newProblemGraph.vertexSet().size() > problemGraph.vertexSet().size()))
 			return false;
 		this.problemGraph = newProblemGraph;
@@ -76,11 +78,11 @@ public class RebuildFromScratch implements ProblemSpaceExplorer {
 		IRepresentation initialRepresentation = repBldr.apply(initialTree);
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
 		problemGraph.addVertex(initialRepresentation);
-		reduceThenRankThenWeightThenFilter(problemGraph);
+		reduceThenRankThenWeightThenScoreThenFilter(problemGraph);
 		return this;
 	}
 	
-	private void reduceThenRankThenWeightThenFilter(
+	private void reduceThenRankThenWeightThenScoreThenFilter(
 			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
 		TransitiveReduction.INSTANCE.reduce(problemGraph);
 		ProblemTransitionRanker ranker = ProblemSpaceExplorer.getProblemTransitionRanker().setUp(problemGraph);
@@ -89,12 +91,15 @@ public class RebuildFromScratch implements ProblemSpaceExplorer {
 			ranker.accept(transition);
 			weigher.accept(transition);
 		}
+		ProblemStateScorer scorer = ProblemSpaceExplorer.getProblemStateScorer().setUp(problemGraph);
+		for (IRepresentation problemState : problemGraph)
+			scorer.apply(problemState);
 		filter(problemGraph);
 	}
 	
 	private IRepresentation getRepresentationWithID(int iD) {
 		for (IRepresentation representation : problemGraph.vertexSet()) {
-			if (representation.id() == iD)
+			if (representation.iD() == iD)
 				return representation;
 		}
 		return null;
@@ -108,6 +113,16 @@ public class RebuildFromScratch implements ProblemSpaceExplorer {
 	protected void filter(
 			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph) {
 		//do nothing
+	}
+
+	@Override
+	public Set<Integer> getIDsOfRepresentationsWithIncompleteSorting() {
+		Set<Integer> iDs = new HashSet<>();
+		for (IRepresentation representation : problemGraph.vertexSet()) {
+			if (!representation.isFullyDeveloped())
+				iDs.add(representation.iD());
+		}
+		return iDs;
 	}
 
 }

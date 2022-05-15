@@ -20,11 +20,10 @@ import com.tregouet.occam.data.representations.descriptions.properties.AbstractD
 import com.tregouet.tree_finder.data.Tree;
 
 public class AsNestedFrames implements ProblemStateLabeller {
-
-	public static final AsNestedFrames INSTANCE = new AsNestedFrames();
+	
 	private static final String nL = System.lineSeparator();
-
-	private AsNestedFrames() {
+	
+	public AsNestedFrames() {
 	}
 
 	private static Tree<Integer, AbstractDifferentiae> asTree(Set<IPartition> intent) {
@@ -77,12 +76,10 @@ public class AsNestedFrames implements ProblemStateLabeller {
 	@Override
 	public String apply(IRepresentation representation) {
 		StringBuilder sB = new StringBuilder();
-		sB.append(Integer.toString(representation.id()) + nL);
+		sB.append(Integer.toString(representation.iD()) + nL);
 		Sorting2StringConverter stringPatternBldr = ProblemStateLabeller.getSorting2StringConverter();
 		if (representation.isFullyDeveloped()) {
-			sB.append(stringPatternBldr.apply(representation.getDescription().asGraph()))
-				.append(nL)
-				.append(representation.score().toString());
+			sB.append(stringPatternBldr.apply(representation.getDescription().asGraph()));
 			return sB.toString();
 		} 
 		Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<>();
@@ -90,9 +87,7 @@ public class AsNestedFrames implements ProblemStateLabeller {
 		for (IPartition maxPart : getMaxPartitions(statePartitions))
 			conceptID2ExtentIDs.putAll(maxPart.getLeaf2ExtentMap());
 		stringPatternBldr.setUp(conceptID2ExtentIDs);
-		sB.append(stringPatternBldr.apply(asTree(statePartitions)))
-			.append(nL)
-			.append(representation.score().toString());
+		sB.append(stringPatternBldr.apply(asTree(statePartitions)));
 		return sB.toString();
 	}
 

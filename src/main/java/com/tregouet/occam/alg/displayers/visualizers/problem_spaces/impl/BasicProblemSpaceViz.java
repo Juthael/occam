@@ -4,16 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
-import org.jgrapht.traverse.DepthFirstIterator;
 
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabeller;
@@ -37,8 +34,6 @@ public class BasicProblemSpaceViz implements ProblemSpaceViz {
 
 	@Override
 	public String apply(DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph, String fileName) {
-		// trim if needed
-		DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> trimmedGraph = trimIfNeeded(graph);
 		// convert in DOT format
 		DOTExporter<IRepresentation, AProblemStateTransition> exporter = new DOTExporter<>();
 		ProblemStateLabeller stateDisplayer = FormattersAbstractFactory.INSTANCE.getProblemStateDisplayer();
@@ -55,7 +50,7 @@ public class BasicProblemSpaceViz implements ProblemSpaceViz {
 			return map;
 		});
 		Writer writer = new StringWriter();
-		exporter.exportGraph(trimmedGraph, writer);
+		exporter.exportGraph(graph, writer);
 		String stringDOT = writer.toString();
 		// display graph
 		try {
@@ -67,34 +62,6 @@ public class BasicProblemSpaceViz implements ProblemSpaceViz {
 			e.printStackTrace();
 			return null;
 		}
-	}
-	
-	private DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> trimIfNeeded(
-			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph){
-		int maxNb = ProblemSpaceViz.getMaxNbOfProblemStatesDisplayed();
-		if (graph.vertexSet().size() > maxNb) {
-			Set<IRepresentation> retainedStates = new HashSet<>();
-			Set<AProblemStateTransition> retainedTransitions = new HashSet<>();
-			DepthFirstIterator<IRepresentation, AProblemStateTransition> dfIte = new DepthFirstIterator<>(graph);
-			int idx = 0;
-			while (idx < maxNb) {
-				retainedStates.add(dfIte.next());
-				idx++;
-			}
-			for (AProblemStateTransition transition : graph.edgeSet()) {
-				if (retainedStates.contains(transition.getSource()) && retainedStates.contains(transition.getTarget()))
-					retainedTransitions.add(transition);
-			}
-			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> trimmedGraph = 
-					new DirectedAcyclicGraph<>(null, null, false);
-			for (IRepresentation retainedState : retainedStates)
-				trimmedGraph.addVertex(retainedState);
-			for (AProblemStateTransition retainedTransition : retainedTransitions) {
-				trimmedGraph.addEdge(retainedTransition.getSource(), retainedTransition.getTarget(), retainedTransition);
-			}
-			return trimmedGraph;
-		}
-		else return graph;
 	}
 
 }

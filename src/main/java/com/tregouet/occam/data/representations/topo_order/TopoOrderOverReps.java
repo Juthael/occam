@@ -16,7 +16,7 @@ public class TopoOrderOverReps implements Comparator<IRepresentation> {
 		Integer partialComparison = r1.compareTo(r2);
 		if (partialComparison != null)
 			return partialComparison;
-		else return r1.id() - r2.id();
+		else return r1.iD() - r2.iD();
 	}
 
 }

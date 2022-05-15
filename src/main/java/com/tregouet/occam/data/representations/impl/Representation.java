@@ -117,7 +117,7 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
-	public int id() {
+	public int iD() {
 		return iD;
 	}
 

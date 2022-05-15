@@ -1,6 +1,7 @@
 package com.tregouet.occam.alg.builders.pb_space;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.function.Function;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -33,6 +34,8 @@ public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
 	ProblemSpaceExplorer initialize(Collection<IContextObject> context);
 	
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
+	
+	Set<Integer> getIDsOfRepresentationsWithIncompleteSorting();
 	
 	public static ConceptLatticeBuilder getConceptLatticeBuilder() {
 		return GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder();

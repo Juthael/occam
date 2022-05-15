@@ -53,7 +53,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		conceptLattice = GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		productions = GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
-		trees = GeneratorsAbstractFactory.INSTANCE.getConceptTreeBuilder().apply(conceptLattice);
+		trees = growTrees();
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
@@ -149,5 +149,22 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}
+	
+	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
+		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
+		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
+		expandedTreesFromLastIteration = GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
+		do {
+			expandedTrees.addAll(expandedTreesFromLastIteration);
+			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
+			expandedTreesFromLastIteration.clear();
+			for (InvertedTree<IConcept, IIsA> tree : expandable) {
+				expandedTreesFromLastIteration.addAll(
+						GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree)); 
+			}
+		}
+		while (!expandedTreesFromLastIteration.isEmpty());
+		return expandedTrees;
+	}		
 
 }

@@ -210,7 +210,7 @@ public class RepresentationPagePrinter {
 		String alineaaaa = alineaaa + alinea;
 		sB.append(HeaderPrinter.INSTANCE.get() + nL).append(alineaa + "<section>" + nL)
 				.append(alineaaa + "<header>" + nL)
-				.append(alineaaaa + "<h2> REPRESENTATION N." + Integer.toString(representation.id()) + "</h2>" + nL)
+				.append(alineaaaa + "<h2> REPRESENTATION N." + Integer.toString(representation.iD()) + "</h2>" + nL)
 				.append(alineaaa + "</header>" + nL).append(alineaaa + "<hr>" + nL)
 				.append(printGeneralDescription(objects, representation, alineaa) + nL).append(alineaaa + "<hr>" + nL)
 				.append(printGeneratedFacts(representation, alineaa) + nL).append(alineaaa + "<hr>" + nL)

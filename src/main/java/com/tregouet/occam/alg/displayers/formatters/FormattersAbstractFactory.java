@@ -72,7 +72,7 @@ public class FormattersAbstractFactory {
 			propertyLabellerStrategy = PropertyLabellerStrategy.AS_PRODUCTIONS;
 			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
 			sorting2StringConverterStrategy = Sorting2StringConverterStrategy.RECURSIVE_FRAMING;
-			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES;
+			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES_WITH_SCORE;
 			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.PROBABILITY;
 			factDisplayerStrategy = FactDisplayerStrategy.NON_TRIVIAL_MAXIMAL_FACTS;
 			break;

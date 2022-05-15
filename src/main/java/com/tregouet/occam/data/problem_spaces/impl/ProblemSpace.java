@@ -28,7 +28,7 @@ public class ProblemSpace implements IProblemSpace {
 	@Override
 	public IRepresentation getRepresentationWithID(int iD) {
 		for (IRepresentation problemState : problemSpaceExplorer.getProblemSpaceGraph().vertexSet()) {
-			if (problemState.id() == iD) {
+			if (problemState.iD() == iD) {
 				return (IRepresentation) problemState;
 			}
 		}

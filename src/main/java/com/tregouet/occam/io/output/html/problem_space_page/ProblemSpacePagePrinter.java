@@ -49,7 +49,7 @@ public class ProblemSpacePagePrinter {
 		Iterator<IRepresentation> descendingIte = sortedRep.descendingIterator();
 		while (descendingIte.hasNext()) {
 			IRepresentation next = descendingIte.next();
-			head[idx] = Integer.toString(next.id());
+			head[idx] = Integer.toString(next.iD());
 			table[idx] = next.score().toString();
 			idx++;
 		}

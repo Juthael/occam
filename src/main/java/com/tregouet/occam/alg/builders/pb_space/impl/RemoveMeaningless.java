@@ -10,6 +10,9 @@ import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.representations.IRepresentation;
 
 public class RemoveMeaningless extends RebuildFromScratch implements ProblemSpaceExplorer {
+	
+	public RemoveMeaningless() {
+	}
 
 	@Override
 	protected void filter(

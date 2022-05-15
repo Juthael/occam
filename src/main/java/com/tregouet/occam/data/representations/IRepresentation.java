@@ -50,7 +50,7 @@ public interface IRepresentation extends
 	
 	Set<Integer> getExtentIDs(Integer conceptID);
 	
-	int id();
+	int iD();
 
 	void initializeIDGenerator();
 	

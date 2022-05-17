@@ -73,7 +73,7 @@ public class FormattersAbstractFactory {
 			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
 			sorting2StringConverterStrategy = Sorting2StringConverterStrategy.RECURSIVE_FRAMING;
 			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES_WITH_SCORE;
-			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.PROBABILITY;
+			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.WEIGHT;
 			factDisplayerStrategy = FactDisplayerStrategy.NON_TRIVIAL_MAXIMAL_FACTS;
 			break;
 		default:

@@ -14,6 +14,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRanker;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
+import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
 import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
@@ -31,6 +32,10 @@ public class RebuildFromScratch implements ProblemSpaceExplorer {
 	private IConceptLattice conceptLattice;
 	private Set<IContextualizedProduction> productions;
 	private DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph;
+	
+	//HERE
+	private static int count = 0;
+	//HERE
 	
 	public RebuildFromScratch() {
 	}
@@ -79,6 +84,9 @@ public class RebuildFromScratch implements ProblemSpaceExplorer {
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
 		problemGraph.addVertex(initialRepresentation);
 		reduceThenRankThenWeightThenScoreThenFilter(problemGraph);
+		//HERE
+		VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(problemGraph, "RebuildFromScratch_" + count++);
+		//HERE
 		return this;
 	}
 	

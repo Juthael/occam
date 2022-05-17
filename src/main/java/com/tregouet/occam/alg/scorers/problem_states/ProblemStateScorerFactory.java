@@ -1,6 +1,7 @@
 package com.tregouet.occam.alg.scorers.problem_states;
 
 import com.tregouet.occam.alg.scorers.problem_states.impl.MarkhovProcess;
+import com.tregouet.occam.alg.scorers.problem_states.impl.SourcesProbabilitiesTimesTransitionsProbabilities;
 
 public class ProblemStateScorerFactory {
 
@@ -13,6 +14,8 @@ public class ProblemStateScorerFactory {
 		switch (strategy) {
 		case MARKHOV_PROCESS:
 			return new MarkhovProcess();
+		case SOURCE_PROB_TIMES_TRANSITION_PROB : 
+			return new SourcesProbabilitiesTimesTransitionsProbabilities();
 		default:
 			return null;
 		}

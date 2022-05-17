@@ -44,7 +44,10 @@ public class MarkhovProcess implements ProblemStateScorer {
 		for (AProblemStateTransition transition : outgoingTransitions)
 			outgoingTransitionWeightSum += transition.weight();
 		for (AProblemStateTransition transition : outgoingTransitions) {
-			double transitionProbability = transition.weight() / outgoingTransitionWeightSum;
+			double transitionProbability;
+			if (outgoingTransitionWeightSum == 0)
+				transitionProbability = 0;
+			else transitionProbability = transition.weight() / outgoingTransitionWeightSum;
 			IRepresentation successor = transition.getTarget();
 			int succIdx = topoOrderedStates.indexOf(successor);
 			stateProbability[succIdx] += sourceProbability * transitionProbability;

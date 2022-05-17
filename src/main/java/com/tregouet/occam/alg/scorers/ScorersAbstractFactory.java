@@ -39,7 +39,7 @@ public class ScorersAbstractFactory {
 		switch (overallStrategy) {
 		case SCORING_STRATEGY_1:
 			similarityScorerStrategy = SimilarityScorerStrategy.DYNAMIC_FRAMING;
-			problemStateScorerStrategy = ProblemStateScorerStrategy.MARKHOV_PROCESS;
+			problemStateScorerStrategy = ProblemStateScorerStrategy.SOURCE_PROB_TIMES_TRANSITION_PROB;
 			break;
 		default:
 			break;

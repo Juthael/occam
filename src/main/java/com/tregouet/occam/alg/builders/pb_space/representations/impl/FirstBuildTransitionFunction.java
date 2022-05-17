@@ -57,7 +57,7 @@ public class FirstBuildTransitionFunction implements RepresentationBuilder {
 		return particularID2MostSpecificConceptID;
 	}
 	
-	private Integer mostSpecificConceptInTree(IConcept particular, InvertedTree<IConcept, IIsA> conceptTree) {
+	private static Integer mostSpecificConceptInTree(IConcept particular, InvertedTree<IConcept, IIsA> conceptTree) {
 		if (conceptTree.containsVertex(particular))
 			return particular.iD();
 		Integer particularID = particular.iD();

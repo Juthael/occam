@@ -4,8 +4,10 @@ import static org.junit.Assert.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -38,7 +40,8 @@ public class BuildTreeThenCalculateMetricsTest {
 	private IConceptLattice conceptLattice;	
 	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
-	private Set<IRepresentationTransitionFunction> transFunctions = new HashSet<>();		
+	private Map<IRepresentationTransitionFunction, InvertedTree<IConcept, IIsA>> transFunc2Tree = 
+			new HashMap<IRepresentationTransitionFunction, InvertedTree<IConcept,IIsA>>();	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -54,7 +57,8 @@ public class BuildTreeThenCalculateMetricsTest {
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
-			transFunctions.add(transFuncBldr.apply(tree, productions));
+			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
+			transFunc2Tree.put(transFunc, tree);
 		}
 	}
 
@@ -62,8 +66,11 @@ public class BuildTreeThenCalculateMetricsTest {
 	public void whenDescriptionsRequestedThenReturned() {
 		Set<IDescription> descriptions = new HashSet<>();
 		int checkIdx = 0;
-		for (IRepresentationTransitionFunction transFunc : transFunctions) {
-			IDescription description = BuildTreeThenCalculateMetrics.INSTANCE.apply(transFunc, null);
+		for (IRepresentationTransitionFunction transFunc : transFunc2Tree.keySet()) {
+			Map<Integer, Integer> contextParticularID2MostSpecificConceptID = 
+					mapContextParticularID2MostSpecificConceptID(transFunc2Tree.get(transFunc));
+			IDescription description = 
+					BuildTreeThenCalculateMetrics.INSTANCE.apply(transFunc, contextParticularID2MostSpecificConceptID);
 			/*
 			String descriptionPath = 
 					VisualizersAbstractFactory.INSTANCE.getDescriptionViz().apply(
@@ -73,7 +80,7 @@ public class BuildTreeThenCalculateMetricsTest {
 			descriptions.add(description);
 			checkIdx++;
 		}
-		assertTrue(descriptions.size() == transFunctions.size());
+		assertTrue(descriptions.size() == transFunc2Tree.size());
 	}
 	
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
@@ -92,5 +99,23 @@ public class BuildTreeThenCalculateMetricsTest {
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
 	}	
+	
+	private Map<Integer, Integer> mapContextParticularID2MostSpecificConceptID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> particularID2MostSpecificConceptID = new HashMap<>();
+		for (IConcept particular : conceptLattice.getOntologicalUpperSemilattice().getLeaves())
+			particularID2MostSpecificConceptID.put(particular.iD(), mostSpecificConceptInTree(particular, conceptTree));
+		return particularID2MostSpecificConceptID;
+	}
+	
+	private static Integer mostSpecificConceptInTree(IConcept particular, InvertedTree<IConcept, IIsA> conceptTree) {
+		if (conceptTree.containsVertex(particular))
+			return particular.iD();
+		Integer particularID = particular.iD();
+		for (IConcept leaf : conceptTree.getLeaves()) {
+			if (leaf.getExtentIDs().contains(particularID))
+				return leaf.iD();
+		}
+		return null; //never happens
+	}		
 
 }

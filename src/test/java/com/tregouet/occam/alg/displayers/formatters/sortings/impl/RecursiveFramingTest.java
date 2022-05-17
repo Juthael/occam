@@ -4,8 +4,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -33,7 +35,8 @@ public class RecursiveFramingTest {
 	private IConceptLattice conceptLattice;	
 	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
-	private Set<IRepresentationTransitionFunction> transFunctions = new HashSet<>();
+	private Map<IRepresentationTransitionFunction, InvertedTree<IConcept, IIsA>> transFunc2Tree = 
+			new HashMap<IRepresentationTransitionFunction, InvertedTree<IConcept,IIsA>>();
 	private Set<IDescription> descriptions = new HashSet<>();
 
 	@BeforeClass
@@ -50,11 +53,15 @@ public class RecursiveFramingTest {
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
-			transFunctions.add(transFuncBldr.apply(tree, productions));
+			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
+			transFunc2Tree.put(transFunc, tree);
 		}
-		for (IRepresentationTransitionFunction transFunc : transFunctions) {
-			descriptions.add(GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc, null));
-		}
+		for (IRepresentationTransitionFunction transFunc : transFunc2Tree.keySet()) {
+			Map<Integer, Integer> contextParticularID2MostSpecificConceptID = 
+					mapContextParticularID2MostSpecificConceptID(transFunc2Tree.get(transFunc));
+			descriptions.add(GeneratorsAbstractFactory.INSTANCE
+					.getDescriptionBuilder().apply(transFunc, contextParticularID2MostSpecificConceptID));
+		}		
 	}
 
 	@Test
@@ -92,5 +99,23 @@ public class RecursiveFramingTest {
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
 	}		
+	
+	private Map<Integer, Integer> mapContextParticularID2MostSpecificConceptID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> particularID2MostSpecificConceptID = new HashMap<>();
+		for (IConcept particular : conceptLattice.getOntologicalUpperSemilattice().getLeaves())
+			particularID2MostSpecificConceptID.put(particular.iD(), mostSpecificConceptInTree(particular, conceptTree));
+		return particularID2MostSpecificConceptID;
+	}
+	
+	private static Integer mostSpecificConceptInTree(IConcept particular, InvertedTree<IConcept, IIsA> conceptTree) {
+		if (conceptTree.containsVertex(particular))
+			return particular.iD();
+		Integer particularID = particular.iD();
+		for (IConcept leaf : conceptTree.getLeaves()) {
+			if (leaf.getExtentIDs().contains(particularID))
+				return leaf.iD();
+		}
+		return null; //never happens
+	}	
 
 }

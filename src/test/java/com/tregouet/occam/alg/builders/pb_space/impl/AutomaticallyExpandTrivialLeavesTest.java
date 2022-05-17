@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,10 +17,15 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
+import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
 import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IContextObject;
+import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.tree_finder.data.InvertedTree;
 
+@SuppressWarnings("unused")
 public class AutomaticallyExpandTrivialLeavesTest {
 	
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
@@ -38,27 +44,31 @@ public class AutomaticallyExpandTrivialLeavesTest {
 	}
 	
 	@Test
-	public void whenPbSpaceExplorationRequestedThenBuildNoMeaninglessState() {
+	public void whenPbSpaceExplorationProceededThenNoLeafStateIsTrivial() {
 		boolean asExpected = true;
 		pbSpaceExplorer.initialize(context);
 		randomlyExpandPbSpace();
-		Set<IRepresentation> pbStates = pbSpaceExplorer.getProblemSpaceGraph().vertexSet();
+		DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> pbSpaceGraph = pbSpaceExplorer.getProblemSpaceGraph();
+		Set<IRepresentation> pbStates = pbSpaceGraph.vertexSet();
 		for (IRepresentation representation : pbStates) {
-			//HERE
-			System.out.println("score " + Integer.toString(representation.iD()) + " : " + Double.toString(representation.score().value()));
-			//HERE
-			if (representation.score().value() == 0.0)
-				asExpected = false;
+			if (pbSpaceGraph.outDegreeOf(representation) == 0) {
+				InvertedTree<IConcept, IIsA> conceptTree = representation.getTreeOfConcepts();
+				Set<IConcept> conceptLeaves = conceptTree.getLeaves();
+				for (IConcept leaf : conceptLeaves) {
+					if (leaf.getExtentIDs().size() == 2)
+						asExpected = false;
+				}
+			}
 		}
-		//HERE
+		/*
 		VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(pbSpaceExplorer.getProblemSpaceGraph(), "AutomaticallyExpandTrivialLeaves");
-		//HERE
+		*/
 		assertTrue(!pbStates.isEmpty() && asExpected);
 	}		
 
 	private void randomlyExpandPbSpace() {
 		int maxNbOfIterations = 5;
-		int maxNbOfSortingsAtEachIteration = 15;
+		int maxNbOfSortingsAtEachIteration = 8;
 		int iterationIdx = 0;
 		while (iterationIdx < maxNbOfIterations) {
 			Set<IRepresentation> leaves = new HashSet<>();
@@ -75,10 +85,6 @@ public class AutomaticallyExpandTrivialLeavesTest {
 					nbOfSortings ++;
 				}
 			}
-			/*
-			String path = visualize(pbSpaceExplorer.getProblemSpaceGraph(), "RebuildFromScratchTest_pb_graph");
-			System.out.println("Problem space graph available at : " + path);
-			*/
 			iterationIdx++;
 		}
 	}	

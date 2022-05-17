@@ -56,7 +56,7 @@ public class SettersAbstractFactory {
 			differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.SPECIES_CARDINALITY;
 			differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.SUM_OF_PROPERTY_WEIGHTS;
 			partitionWeigherStrategy = PartitionWeigherStrategy.SUM_PARTITION_DIFFERENTIAE;
-			problemTransitionWeigherStrategy = ProblemTransitionWeigherStrategy.PARTITION_PROBABILITY;
+			problemTransitionWeigherStrategy = ProblemTransitionWeigherStrategy.PART_PROB_WITH_TRIVIAL_TRANSITIONS_MANDATORY;
 			break;
 		default:
 			break;

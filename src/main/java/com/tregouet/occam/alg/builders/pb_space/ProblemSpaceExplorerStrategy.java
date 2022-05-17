@@ -2,6 +2,8 @@ package com.tregouet.occam.alg.builders.pb_space;
 
 public enum ProblemSpaceExplorerStrategy {
 	
-	WITH_CLUSTERING_COMES_MEANING
+	REMOVE_MEANINGLESS, 
+	REMOVE_UNINFORMATIVE, 
+	EXPAND_TRIVIAL_LEAVES
 
 }

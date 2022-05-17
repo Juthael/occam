@@ -33,10 +33,9 @@ import com.tregouet.tree_finder.utils.Functions;
 
 public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 	
-	public static final IfLeafIsUniversalThenSort INSTANCE = new IfLeafIsUniversalThenSort();
 	private static final Comparator<IConcept> iDComparator = (x, y) -> x.iD() - y.iD();
 	
-	private IfLeafIsUniversalThenSort() {
+	public IfLeafIsUniversalThenSort() {
 	}
 
 	@Override
@@ -71,6 +70,8 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 				Graphs.addAllVertices(treeDAG, speciesSet);
 				for (IConcept species : speciesSet)
 					treeDAG.addEdge(species, genus);
+				//overloadable protected method ; does nothing in this implementation
+				complyToAdditionalConstraints(treeDAG, searchSpace);
 				expandedTrees.add(asInvertedTree(treeDAG, currentTree.getRoot()));
 			}
 			//dichotomize genus extent
@@ -86,6 +87,8 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 				IConcept complementarySpecies = dichotomy.getSecond();
 				treeDAG.addVertex(complementarySpecies);
 				treeDAG.addEdge(complementarySpecies, genus);
+				//overloadable protected method ; does nothing in this implementation
+				complyToAdditionalConstraints(treeDAG, searchSpace);				
 				expandedTrees.add(asInvertedTree(treeDAG, currentTree.getRoot()));
 			}
 		}
@@ -313,6 +316,11 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 				leaves.add(nextConcept);
 		}
 		return new InvertedUpperSemilattice<IConcept, IIsA>(lowerSet, root, leaves, topoOrder);
+	}
+	
+	protected void complyToAdditionalConstraints(DirectedAcyclicGraph<IConcept, IIsA> treeDAG, 
+			InvertedUpperSemilattice<IConcept, IIsA> searchSpace) {
+		//no additional constraint
 	}
 
 }

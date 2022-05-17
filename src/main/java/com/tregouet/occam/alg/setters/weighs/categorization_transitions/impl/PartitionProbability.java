@@ -14,8 +14,8 @@ import com.tregouet.occam.data.representations.descriptions.properties.AbstractD
 
 public class PartitionProbability implements ProblemTransitionWeigher {
 	
-	private DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph;
-	private Map<AProblemStateTransition, Double> transition2Informativity;
+	protected DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph;
+	protected Map<AProblemStateTransition, Double> transition2Informativity;
 	
 	public PartitionProbability() {
 	}
@@ -24,16 +24,28 @@ public class PartitionProbability implements ProblemTransitionWeigher {
 	public void accept(AProblemStateTransition transition) {
 		if (transition.weight() == null) {
 			double transitionProbability;
+			// always false in this impl
+			boolean transitionIsMandatory = isMandatory(transition);
 			IRepresentation transitionSource = problemGraph.getEdgeSource(transition);
 			Set<AProblemStateTransition> concurrentTransitions = problemGraph.outgoingEdgesOf(transitionSource);
-			double summedInformativities = 0.0;
-			for (AProblemStateTransition concurrentTransition : concurrentTransitions)
-				summedInformativities += transition2Informativity.get(concurrentTransition);
-			if (summedInformativities == 0.0)
-				transitionProbability = 0.0;
+			// always 0 in this impl
+			int nbOfMandatoryConcurrentTransitions = howManyTransitionsAreMandatory(concurrentTransitions);
+			if (transitionIsMandatory)
+				transitionProbability = 1.0 / nbOfMandatoryConcurrentTransitions;				
 			else {
-				double transitionInformativity = transition2Informativity.get(transition);
-				transitionProbability = transitionInformativity / summedInformativities;
+				if (nbOfMandatoryConcurrentTransitions > 0) 
+					transitionProbability = 0.0;
+				else {
+					double summedInformativities = 0.0;
+					for (AProblemStateTransition concurrentTransition : concurrentTransitions)
+						summedInformativities += transition2Informativity.get(concurrentTransition);
+					if (summedInformativities == 0.0)
+						transitionProbability = 0.0;
+					else {
+						double transitionInformativity = transition2Informativity.get(transition);
+						transitionProbability = transitionInformativity / summedInformativities;
+					}
+				}
 			}
 			transition.setWeight(transitionProbability);
 		}		
@@ -58,6 +70,14 @@ public class PartitionProbability implements ProblemTransitionWeigher {
 				informativity += differentia.weight();
 		}
 		return informativity;
+	}
+	
+	protected int howManyTransitionsAreMandatory(Set<AProblemStateTransition> transitions) {
+		return 0;
+	}
+	
+	protected boolean isMandatory(AProblemStateTransition transition) {
+		return false;
 	}
 
 }

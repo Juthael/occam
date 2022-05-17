@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.pb_space.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +9,6 @@ import java.io.Writer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,7 +47,7 @@ public class RemoveMeaninglessTest {
 	
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private List<IContextObject> context;
-	private RemoveMeaningless pbSpaceExplorer;	
+	private RemoveMeaningless pbSpaceExplorer;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -62,40 +61,31 @@ public class RemoveMeaninglessTest {
 	}
 
 	@Test
-	public void whenPbSpaceExplorationRequestedThenBuildNoMeaninglessState() {
-		boolean asExpected = true;
+	public void whenPbStatesRequestedThenReturned() {
 		pbSpaceExplorer.initialize(context);
 		randomlyExpandPbSpace();
 		Set<IRepresentation> pbStates = pbSpaceExplorer.getProblemSpaceGraph().vertexSet();
-		for (IRepresentation representation : pbStates) {
-			//HERE
-			System.out.println("score " + Integer.toString(representation.iD()) + " : " + Double.toString(representation.score().value()));
-			//HERE
-			if (representation.score().value() == 0.0)
-				asExpected = false;
-		}
-		//HERE
-		VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(pbSpaceExplorer.getProblemSpaceGraph(), "RemoveMeaninglessTest");
-		//HERE
-		assertTrue(!pbStates.isEmpty() && asExpected);
-	}	
+		
+		VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(pbSpaceExplorer.getProblemSpaceGraph(), "RebuildFromScratchTest");
+		
+		assertTrue(!pbStates.isEmpty());
+	}
 	
 	private void randomlyExpandPbSpace() {
 		int maxNbOfIterations = 5;
-		int maxNbOfSortingsAtEachIteration = 15;
+		int maxNbOfSortingsAtEachIteration = 8;
 		int iterationIdx = 0;
 		while (iterationIdx < maxNbOfIterations) {
-			Set<IRepresentation> leaves = new HashSet<>();
-			for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph().vertexSet()) {
-				if (pbSpaceExplorer.getProblemSpaceGraph().outDegreeOf(representation) == 0)
-					leaves.add(representation);
-			}
-			Iterator<IRepresentation> leafIte = leaves.iterator();
+			List<IRepresentation> topoOrderOverStates = new ArrayList<>();
+			new TopologicalOrderIterator<>(pbSpaceExplorer.getProblemSpaceGraph())
+				.forEachRemaining(topoOrderOverStates::add);
+			topoOrderOverStates = new ArrayList<>(Lists.reverse(topoOrderOverStates));
+			Iterator<IRepresentation> repIte = topoOrderOverStates.iterator();
 			int nbOfSortings = 0;
-			while (leafIte.hasNext() && nbOfSortings < maxNbOfSortingsAtEachIteration) {
-				IRepresentation leaf = leafIte.next();
-				if (!leaf.isFullyDeveloped()) {
-					pbSpaceExplorer.apply(leaf.iD());
+			while (repIte.hasNext() && nbOfSortings < maxNbOfSortingsAtEachIteration) {
+				IRepresentation rep = repIte.next();
+				if (!rep.isFullyDeveloped()) {
+					pbSpaceExplorer.apply(rep.iD());
 					nbOfSortings ++;
 				}
 			}
@@ -105,6 +95,6 @@ public class RemoveMeaninglessTest {
 			*/
 			iterationIdx++;
 		}
-	}	
+	}
 
 }

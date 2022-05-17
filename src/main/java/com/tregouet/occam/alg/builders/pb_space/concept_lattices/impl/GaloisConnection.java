@@ -14,7 +14,6 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
-import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.utils.MarkRedundantDenotations;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;

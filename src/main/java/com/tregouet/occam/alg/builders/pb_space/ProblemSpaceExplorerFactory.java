@@ -1,6 +1,8 @@
 package com.tregouet.occam.alg.builders.pb_space;
 
-import com.tregouet.occam.alg.builders.pb_space.impl.RebuildFromScratch;
+import com.tregouet.occam.alg.builders.pb_space.impl.AutomaticallyExpandTrivialLeaves;
+import com.tregouet.occam.alg.builders.pb_space.impl.RemoveMeaningless;
+import com.tregouet.occam.alg.builders.pb_space.impl.RemoveUninformative;
 
 public class ProblemSpaceExplorerFactory {
 	
@@ -11,8 +13,12 @@ public class ProblemSpaceExplorerFactory {
 	
 	public ProblemSpaceExplorer apply(ProblemSpaceExplorerStrategy strategy) {
 		switch (strategy) {
-		case WITH_CLUSTERING_COMES_MEANING : 
-			return new RebuildFromScratch();
+		case REMOVE_MEANINGLESS : 
+			return new RemoveMeaningless();
+		case REMOVE_UNINFORMATIVE : 
+			return new RemoveUninformative();
+		case EXPAND_TRIVIAL_LEAVES : 
+			return new AutomaticallyExpandTrivialLeaves();
 		default : 
 			return null;
 		}

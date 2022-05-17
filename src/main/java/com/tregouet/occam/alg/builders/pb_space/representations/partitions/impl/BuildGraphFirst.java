@@ -1,27 +1,23 @@
 package com.tregouet.occam.alg.builders.pb_space.representations.partitions.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.utils.PartitionRanker;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
 import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
 import com.tregouet.occam.data.problem_spaces.partitions.impl.Partition;
-import com.tregouet.occam.data.representations.concepts.ConceptType;
 import com.tregouet.occam.data.representations.concepts.IConcept;
 import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.IDescription;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.data.Tree;
-import com.tregouet.tree_finder.utils.Functions;
 
 public class BuildGraphFirst implements PartitionBuilder {
 
@@ -74,17 +70,9 @@ public class BuildGraphFirst implements PartitionBuilder {
 
 	private PartitionBuilder mapConceptIDToExtentIDs(InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		for (IConcept concept : treeOfConcepts) {
-			if (concept.type() == ConceptType.PARTICULAR)
-				conceptID2ExtentIDs.put(concept.iD(), new ArrayList<>(Arrays.asList(new Integer[] { concept.iD() })));
-			else {
-				List<Integer> extentIDs = new ArrayList<>();
-				Set<IConcept> extent = Sets.intersection(Functions.lowerSet(treeOfConcepts, concept),
-						treeOfConcepts.getLeaves());
-				for (IConcept particular : extent)
-					extentIDs.add(particular.iD());
-				extentIDs.sort((x, y) -> Integer.compare(x, y));
-				conceptID2ExtentIDs.put(concept.iD(), extentIDs);
-			}
+			List<Integer> extent = new ArrayList<>(concept.getExtentIDs());
+			extent.sort((x, y) -> Integer.compare(x, y));
+			conceptID2ExtentIDs.put(concept.iD(), extent);
 		}
 		return this;
 	}

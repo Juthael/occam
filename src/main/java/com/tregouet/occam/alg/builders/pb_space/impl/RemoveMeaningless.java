@@ -47,7 +47,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		Graphs.addAllVertices(newProblemGraph, problemGraph.vertexSet());
 		Set<InvertedTree<IConcept, IIsA>> grownTrees = 
 				ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, current.getTreeOfConcepts());
-		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder().setUp(conceptLattice, productions);
+		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder().setUp(productions);
 		Set<IRepresentation> newRepresentations = new HashSet<>();
 		for (InvertedTree<IConcept, IIsA> grownTree : grownTrees) {
 			IRepresentation developed = repBldr.apply(grownTree);
@@ -78,7 +78,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		InvertedTree<IConcept, IIsA> initialTree = 
 				new ArrayList<InvertedTree<IConcept, IIsA>>(
 						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null)).get(0);
-		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder().setUp(conceptLattice, productions);
+		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder().setUp(productions);
 		IRepresentation initialRepresentation = repBldr.apply(initialTree);
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
 		problemGraph.addVertex(initialRepresentation);

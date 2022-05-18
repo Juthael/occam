@@ -45,9 +45,9 @@ public class RemoveUninformativeTest {
 		randomlyExpandPbSpace();
 		Set<IRepresentation> pbStates = pbSpaceExplorer.getProblemSpaceGraph().vertexSet();
 		for (IRepresentation representation : pbStates) {
-			//HERE
+			/*
 			System.out.println("score " + Integer.toString(representation.iD()) + " : " + Double.toString(representation.score().value()));
-			//HERE
+			*/
 			if (representation.score().value() == 0.0)
 				asExpected = false;
 		}

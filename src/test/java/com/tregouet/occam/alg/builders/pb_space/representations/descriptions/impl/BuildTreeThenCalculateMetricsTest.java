@@ -67,10 +67,8 @@ public class BuildTreeThenCalculateMetricsTest {
 		Set<IDescription> descriptions = new HashSet<>();
 		int checkIdx = 0;
 		for (IRepresentationTransitionFunction transFunc : transFunc2Tree.keySet()) {
-			Map<Integer, Integer> contextParticularID2MostSpecificConceptID = 
-					mapContextParticularID2MostSpecificConceptID(transFunc2Tree.get(transFunc));
 			IDescription description = 
-					BuildTreeThenCalculateMetrics.INSTANCE.apply(transFunc, contextParticularID2MostSpecificConceptID);
+					BuildTreeThenCalculateMetrics.INSTANCE.apply(transFunc, transFunc2Tree.get(transFunc));
 			/*
 			String descriptionPath = 
 					VisualizersAbstractFactory.INSTANCE.getDescriptionViz().apply(
@@ -99,23 +97,5 @@ public class BuildTreeThenCalculateMetricsTest {
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
 	}	
-	
-	private Map<Integer, Integer> mapContextParticularID2MostSpecificConceptID(InvertedTree<IConcept, IIsA> conceptTree) {
-		Map<Integer, Integer> particularID2MostSpecificConceptID = new HashMap<>();
-		for (IConcept particular : conceptLattice.getOntologicalUpperSemilattice().getLeaves())
-			particularID2MostSpecificConceptID.put(particular.iD(), mostSpecificConceptInTree(particular, conceptTree));
-		return particularID2MostSpecificConceptID;
-	}
-	
-	private static Integer mostSpecificConceptInTree(IConcept particular, InvertedTree<IConcept, IIsA> conceptTree) {
-		if (conceptTree.containsVertex(particular))
-			return particular.iD();
-		Integer particularID = particular.iD();
-		for (IConcept leaf : conceptTree.getLeaves()) {
-			if (leaf.getExtentIDs().contains(particularID))
-				return leaf.iD();
-		}
-		return null; //never happens
-	}		
 
 }

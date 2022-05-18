@@ -1,16 +1,14 @@
 package com.tregouet.occam.alg.setters.differentiae_coeff.impl;
 
-import java.util.Set;
-
-import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 public class SpeciesCardinality implements DifferentiaeCoeffSetter {
 
-	private Tree<Integer, AbstractDifferentiae> classification = null;
-	private Set<Integer> particularIDs = null;
+	private InvertedTree<IConcept, IIsA> conceptTree = null;
 
 	public SpeciesCardinality() {
 	}
@@ -22,16 +20,17 @@ public class SpeciesCardinality implements DifferentiaeCoeffSetter {
 	}
 
 	@Override
-	public DifferentiaeCoeffSetter setContext(Tree<Integer, AbstractDifferentiae> classification) {
-		this.classification = classification;
-		this.particularIDs = classification.getLeaves();
+	public DifferentiaeCoeffSetter setContext(InvertedTree<IConcept, IIsA> conceptTree) {
+		this.conceptTree = conceptTree;
 		return this;
 	}
 
 	private int getSpeciesCardinality(Integer speciesID) {
-		if (particularIDs.contains(speciesID))
-			return 1;
-		return Sets.intersection(classification.getDescendants(speciesID), particularIDs).size();
+		for (IConcept concept : conceptTree.vertexSet()) {
+			if (concept.iD() == speciesID.intValue())
+				return concept.getExtentIDs().size();
+		}
+		return -1; //never happens
 	}
 
 }

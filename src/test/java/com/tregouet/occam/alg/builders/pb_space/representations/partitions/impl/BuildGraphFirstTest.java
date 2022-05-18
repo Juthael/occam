@@ -63,10 +63,7 @@ public class BuildGraphFirstTest {
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
-			Map<Integer, Integer> contextParticular2MostSpecificConcept = 
-					mapContextParticularID2MostSpecificConceptID(tree);
-			IDescription description = GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder().apply(
-					transFunc, contextParticular2MostSpecificConcept);
+			IDescription description = GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc, tree);
 			BuildGraphFirst partitionBuilder = new BuildGraphFirst();
 			Set<IPartition> partitions = partitionBuilder.apply(description, tree);
 			if (partitions == null || partitions.isEmpty())
@@ -81,9 +78,9 @@ public class BuildGraphFirstTest {
 			*/
 			nbOfChecks++;
 		}
-		//HERE
+		/*
 		System.out.print(nbOfChecks + " checks proceeded");
-		//HERE
+		*/
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}
 	
@@ -101,23 +98,5 @@ public class BuildGraphFirstTest {
 			previouslyFoundTrees = foundTrees;
 		}
 	}
-	
-	private Map<Integer, Integer> mapContextParticularID2MostSpecificConceptID(InvertedTree<IConcept, IIsA> conceptTree) {
-		Map<Integer, Integer> particularID2MostSpecificConceptID = new HashMap<>();
-		for (IConcept particular : conceptLattice.getOntologicalUpperSemilattice().getLeaves())
-			particularID2MostSpecificConceptID.put(particular.iD(), mostSpecificConceptInTree(particular, conceptTree));
-		return particularID2MostSpecificConceptID;
-	}
-	
-	private Integer mostSpecificConceptInTree(IConcept particular, InvertedTree<IConcept, IIsA> conceptTree) {
-		if (conceptTree.containsVertex(particular))
-			return particular.iD();
-		Integer particularID = particular.iD();
-		for (IConcept leaf : conceptTree.getLeaves()) {
-			if (leaf.getExtentIDs().contains(particularID))
-				return leaf.iD();
-		}
-		return null; //never happens
-	}	
 
 }

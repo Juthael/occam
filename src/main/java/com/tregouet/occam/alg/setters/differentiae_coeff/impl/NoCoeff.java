@@ -1,8 +1,10 @@
 package com.tregouet.occam.alg.setters.differentiae_coeff.impl;
 
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
+import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.representations.concepts.IIsA;
 import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
-import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.data.InvertedTree;
 
 public class NoCoeff implements DifferentiaeCoeffSetter {
 
@@ -17,7 +19,7 @@ public class NoCoeff implements DifferentiaeCoeffSetter {
 	}
 
 	@Override
-	public NoCoeff setContext(Tree<Integer, AbstractDifferentiae> classification) {
+	public NoCoeff setContext(InvertedTree<IConcept, IIsA> conceptTree) {
 		return this;
 	}
 

@@ -138,7 +138,9 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		boolean asExpected = true;
 		int nbOfChecks = 0;
 		for (IRepresentationTransitionFunction transFunc : transFunctions) {
-			Set<Integer> particularIDs = transFunc.getAcceptStateIDs();
+			Set<Integer> particularIDs = new HashSet<>();
+			for (IConcept particular : conceptLattice.getOntologicalUpperSemilattice().getLeaves())
+				particularIDs.add(particular.iD());
 			for (IConceptTransition transition : transFunc.getTransitions()) {
 				if (transition.getSalience() == Salience.COMMON_FEATURE) {
 					nbOfChecks++;

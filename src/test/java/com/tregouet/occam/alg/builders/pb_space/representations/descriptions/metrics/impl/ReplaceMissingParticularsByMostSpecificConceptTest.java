@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -38,27 +40,7 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		pbSpaceExplorer = GeneratorsAbstractFactory.INSTANCE.getProblemSpaceExplorer();
 		pbSpaceExplorer.initialize(context);
-		Set<Integer> incompleteSortings = pbSpaceExplorer.getIDsOfRepresentationsWithIncompleteSorting();
-		while (!incompleteSortings.isEmpty()) {
-			for (Integer repID : incompleteSortings)
-				pbSpaceExplorer.apply(repID);
-			incompleteSortings = pbSpaceExplorer.getIDsOfRepresentationsWithIncompleteSorting();
-		}
-	}
-
-	@Test
-	public void test() {
-		boolean asExpected = true;
-
-		//HERE
-		VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(pbSpaceExplorer.getProblemSpaceGraph(), "RebuildFromScratchTest");
-		//HERE
-		Set<IRepresentation> pbStates = pbSpaceExplorer.getProblemSpaceGraph().vertexSet();
-		for (IRepresentation pbState : pbStates) {
-			if (!pbState.isFullyDeveloped())
-				asExpected = false;
-		}
-		assertTrue(asExpected && !pbStates.isEmpty());
+		randomlyExpandPbSpace();
 	}
 	
 	@Test
@@ -108,5 +90,28 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		}
 		assertTrue(asExpected);
 	}	
+	
+	private void randomlyExpandPbSpace() {
+		int maxNbOfIterations = 4;
+		int maxNbOfSortingsAtEachIteration = 6;
+		int iterationIdx = 0;
+		while (iterationIdx < maxNbOfIterations) {
+			Set<IRepresentation> leaves = new HashSet<>();
+			for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph().vertexSet()) {
+				if (pbSpaceExplorer.getProblemSpaceGraph().outDegreeOf(representation) == 0)
+					leaves.add(representation);
+			}
+			Iterator<IRepresentation> leafIte = leaves.iterator();
+			int nbOfSortings = 0;
+			while (leafIte.hasNext() && nbOfSortings < maxNbOfSortingsAtEachIteration) {
+				IRepresentation leaf = leafIte.next();
+				if (!leaf.isFullyDeveloped()) {
+					pbSpaceExplorer.apply(leaf.iD());
+					nbOfSortings ++;
+				}
+			}
+			iterationIdx++;
+		}
+	}		
 
 }

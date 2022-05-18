@@ -4,8 +4,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -36,7 +38,8 @@ public class RecursiveForkExplorationTest {
 	private IConceptLattice conceptLattice;	
 	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
-	private Set<IRepresentationTransitionFunction> transFunctions = new HashSet<>();
+	private Map<IRepresentationTransitionFunction, InvertedTree<IConcept, IIsA>> transFunc2Tree = 
+			new HashMap<IRepresentationTransitionFunction, InvertedTree<IConcept,IIsA>>();
 	private Set<IDescription> descriptions = new HashSet<>();	
 
 	@BeforeClass
@@ -53,10 +56,12 @@ public class RecursiveForkExplorationTest {
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
-			transFunctions.add(transFuncBldr.apply(tree, productions));
+			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
+			transFunc2Tree.put(transFunc, tree);
 		}
-		for (IRepresentationTransitionFunction transFunc : transFunctions) {
-			descriptions.add(GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc, null));
+		for (IRepresentationTransitionFunction transFunc : transFunc2Tree.keySet()) {
+			descriptions.add(GeneratorsAbstractFactory.INSTANCE
+					.getDescriptionBuilder().apply(transFunc, transFunc2Tree.get(transFunc)));
 		}
 	}
 

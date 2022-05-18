@@ -57,12 +57,15 @@ public class FirstBuildTransitionFunctionTest {
 	public void whenRepresentationsRequestedThenSpecificReturnedForEachDifferentConceptTree() {
 		boolean asExpected = true;
 		Set<IRepresentation> representations = new HashSet<>();
+		/*
 		int count = 0;
+		*/
 		for (InvertedTree<IConcept, IIsA> conceptTree : conceptTrees) {
-			FirstBuildTransitionFunction bldr = new FirstBuildTransitionFunction().setUp(conceptLattice, productions);
+			FirstBuildTransitionFunction bldr = new FirstBuildTransitionFunction().setUp(productions);
 			IRepresentation representation = bldr.apply(conceptTree);
 			if (!representations.add(representation))
 				asExpected = false;
+			/*
 			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
 				.apply(conceptTree, "n" + Integer.toString(count) + "_concept_lattice");
 			VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz()
@@ -70,6 +73,7 @@ public class FirstBuildTransitionFunctionTest {
 			VisualizersAbstractFactory.INSTANCE.getDescriptionViz()
 				.apply(representation.getDescription(), "n" + Integer.toString(count) + "_representation");
 			count++;
+			*/
 		}
 		assertTrue(!representations.isEmpty() && asExpected);
 	}
@@ -89,6 +93,6 @@ public class FirstBuildTransitionFunctionTest {
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
-	}
+	}	
 
 }

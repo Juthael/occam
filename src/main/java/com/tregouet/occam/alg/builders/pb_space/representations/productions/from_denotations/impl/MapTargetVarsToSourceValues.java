@@ -16,12 +16,12 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Terminal;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
-import com.tregouet.occam.data.representations.transitions.productions.IProduction;
-import com.tregouet.occam.data.representations.transitions.productions.impl.ContextualizedEpsilonProd;
-import com.tregouet.occam.data.representations.transitions.productions.impl.ContextualizedProd;
-import com.tregouet.occam.data.representations.transitions.productions.impl.Production;
+import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.IProduction;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.impl.ContextualizedEpsilonProd;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.impl.ContextualizedProd;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.impl.Production;
 
 public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 

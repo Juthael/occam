@@ -8,9 +8,9 @@ import java.util.TreeSet;
 
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.representations.ICompleteRepresentation;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.ICompleteRepresentation;
+import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.general.ContextPrinter;
 import com.tregouet.occam.io.output.html.general.FigurePrinter;
 import com.tregouet.occam.io.output.html.general.FootPrinter;

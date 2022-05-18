@@ -3,10 +3,10 @@ package com.tregouet.occam.alg.builders.pb_space.representations.descriptions.di
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.representations.descriptions.properties.IProperty;
-import com.tregouet.occam.data.representations.descriptions.properties.impl.Property;
-import com.tregouet.occam.data.representations.transitions.IApplication;
+import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.impl.Property;
+import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
 
 public class AppCluster {
 	

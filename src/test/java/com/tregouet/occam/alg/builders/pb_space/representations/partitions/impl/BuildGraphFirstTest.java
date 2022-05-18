@@ -21,14 +21,14 @@ import com.tregouet.occam.alg.builders.pb_space.concepts_trees.impl.IfLeafIsUniv
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.impl.BuildGraphFirst;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
-import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
-import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.occam.data.representations.descriptions.IDescription;
-import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
+import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
 

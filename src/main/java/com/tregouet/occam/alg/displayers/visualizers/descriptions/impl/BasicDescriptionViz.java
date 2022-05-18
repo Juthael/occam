@@ -14,8 +14,8 @@ import org.jgrapht.nio.dot.DOTExporter;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
 import com.tregouet.occam.alg.displayers.visualizers.descriptions.DescriptionViz;
-import com.tregouet.occam.data.representations.descriptions.IDescription;
-import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.occam.io.output.LocalPaths;
 import com.tregouet.tree_finder.data.Tree;
 

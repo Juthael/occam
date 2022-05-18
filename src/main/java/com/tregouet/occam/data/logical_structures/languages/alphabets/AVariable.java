@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.representations.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 
 /**
  * <p>

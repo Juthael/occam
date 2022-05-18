@@ -14,8 +14,8 @@ import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.impl.GaloisConnection;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.representations.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")

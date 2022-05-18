@@ -6,10 +6,10 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilder;
-import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
-import com.tregouet.occam.data.problem_spaces.impl.ProblemStateTransition;
-import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
-import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.problem_space.transitions.impl.ProblemStateTransition;
+import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
 public class UsePartialOrder implements ProblemTransitionBuilder {
 

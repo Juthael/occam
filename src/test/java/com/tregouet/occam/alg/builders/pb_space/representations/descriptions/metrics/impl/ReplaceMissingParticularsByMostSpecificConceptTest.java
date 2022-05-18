@@ -17,11 +17,10 @@ import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
-import com.tregouet.occam.data.representations.descriptions.IDescription;
-import com.tregouet.occam.data.representations.descriptions.metrics.ISimilarityMetrics;
+import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
+import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class ReplaceMissingParticularsByMostSpecificConceptTest {

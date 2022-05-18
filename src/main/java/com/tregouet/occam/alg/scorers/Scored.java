@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.scorers;
 
-import com.tregouet.occam.data.logical_structures.orders.total.IScore;
+import com.tregouet.occam.data.logical_structures.scores.IScore;
 
 public interface Scored<S extends IScore<S>> {
 

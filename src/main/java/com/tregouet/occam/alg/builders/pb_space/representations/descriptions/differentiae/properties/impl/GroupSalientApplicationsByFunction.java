@@ -8,9 +8,9 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.PropertyBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.util.AppCluster;
-import com.tregouet.occam.data.representations.descriptions.properties.IProperty;
-import com.tregouet.occam.data.representations.transitions.IApplication;
-import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
+import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 
 public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 

@@ -19,16 +19,16 @@ import com.tregouet.occam.alg.builders.pb_space.concept_lattices.utils.MarkRedun
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.representations.concepts.ConceptType;
-import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
-import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.occam.data.representations.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.representations.concepts.impl.Concept;
-import com.tregouet.occam.data.representations.concepts.impl.ConceptLattice;
-import com.tregouet.occam.data.representations.concepts.impl.Everything;
-import com.tregouet.occam.data.representations.concepts.impl.IsA;
+import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
+import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.concepts.impl.Concept;
+import com.tregouet.occam.data.problem_space.states.concepts.impl.ConceptLattice;
+import com.tregouet.occam.data.problem_space.states.concepts.impl.Everything;
+import com.tregouet.occam.data.problem_space.states.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
 public class GaloisConnection implements ConceptLatticeBuilder {

@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.logical_structures.lambda_terms;
 
-import com.tregouet.occam.data.representations.transitions.productions.IProduction;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.IProduction;
 
 public interface ILambdaExpression {
 

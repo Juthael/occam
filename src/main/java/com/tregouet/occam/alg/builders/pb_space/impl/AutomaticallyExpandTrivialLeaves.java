@@ -3,9 +3,9 @@ package com.tregouet.occam.alg.builders.pb_space.impl;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class AutomaticallyExpandTrivialLeaves extends RemoveUninformative implements ProblemSpaceExplorer {

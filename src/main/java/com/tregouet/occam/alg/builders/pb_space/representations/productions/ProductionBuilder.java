@@ -5,8 +5,8 @@ import java.util.function.Function;
 
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.productions.from_denotations.ProdBuilderFromDenotations;
-import com.tregouet.occam.data.representations.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 
 @FunctionalInterface
 public interface ProductionBuilder extends Function<IConceptLattice, Set<IContextualizedProduction>> {

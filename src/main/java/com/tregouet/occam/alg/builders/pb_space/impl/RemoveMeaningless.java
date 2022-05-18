@@ -16,14 +16,14 @@ import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRanker;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
-import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
-import com.tregouet.occam.data.representations.concepts.IIsA;
-import com.tregouet.occam.data.representations.topo_order.TopoOrderOverReps;
-import com.tregouet.occam.data.representations.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.order.TopoOrderOverReps;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class RemoveMeaningless implements ProblemSpaceExplorer {

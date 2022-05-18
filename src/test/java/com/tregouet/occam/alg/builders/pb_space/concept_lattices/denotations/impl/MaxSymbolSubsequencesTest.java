@@ -19,8 +19,8 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Termi
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Variable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
-import com.tregouet.occam.data.representations.concepts.impl.Particular;
+import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.concepts.impl.Particular;
 
 public class MaxSymbolSubsequencesTest {
 

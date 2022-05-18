@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
-import com.tregouet.occam.data.logical_structures.orders.total.impl.DoubleScore;
-import com.tregouet.occam.data.representations.descriptions.metrics.subsets.IConceptPairIDs;
-import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
+import com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets.IConceptPairIDs;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 

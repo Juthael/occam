@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
-import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
-import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
 /**
  * Input list must be topologically ordered. No transitive reduction applied to

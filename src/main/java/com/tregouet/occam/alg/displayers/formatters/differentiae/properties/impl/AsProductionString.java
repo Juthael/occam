@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
-import com.tregouet.occam.data.representations.descriptions.properties.IProperty;
-import com.tregouet.occam.data.representations.transitions.IApplication;
-import com.tregouet.occam.data.representations.transitions.productions.IProduction;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.IProduction;
 
 public class AsProductionString implements PropertyLabeller {
 

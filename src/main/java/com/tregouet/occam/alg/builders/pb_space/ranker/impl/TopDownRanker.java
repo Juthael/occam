@@ -7,8 +7,8 @@ import java.util.List;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRanker;
-import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
-import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
 public class TopDownRanker implements ProblemTransitionRanker {
 	

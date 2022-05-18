@@ -6,8 +6,8 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
-import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
 import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
 public class NoSize2UnsortedUniversal extends IfLeafIsUniversalThenSort implements ConceptTreeGrower {

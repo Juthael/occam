@@ -4,9 +4,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabeller;
-import com.tregouet.occam.data.representations.transitions.IConceptTransition;
-import com.tregouet.occam.data.representations.transitions.Salience;
-import com.tregouet.occam.data.representations.transitions.TransitionType;
+import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
+import com.tregouet.occam.data.problem_space.states.transitions.Salience;
+import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
 
 public class RemoveNonSalientApp extends AbstractTFLabeller implements TransitionFunctionLabeller {
 

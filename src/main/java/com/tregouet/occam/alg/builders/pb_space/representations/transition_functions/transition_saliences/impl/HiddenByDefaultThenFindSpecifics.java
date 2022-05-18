@@ -10,10 +10,10 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetter;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.representations.transitions.IConceptTransition;
-import com.tregouet.occam.data.representations.transitions.Salience;
-import com.tregouet.occam.data.representations.transitions.TransitionType;
-import com.tregouet.occam.data.representations.transitions.productions.IProduction;
+import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
+import com.tregouet.occam.data.problem_space.states.transitions.Salience;
+import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.IProduction;
 
 public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSetter {
 

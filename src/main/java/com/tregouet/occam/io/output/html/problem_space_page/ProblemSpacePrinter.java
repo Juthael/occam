@@ -3,7 +3,7 @@ package com.tregouet.occam.io.output.html.problem_space_page;
 import java.io.IOException;
 
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.problem_spaces.IProblemSpace;
+import com.tregouet.occam.data.problem_space.IProblemSpace;
 import com.tregouet.occam.io.output.html.general.FigurePrinter;
 
 public class ProblemSpacePrinter {

@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
-import com.tregouet.occam.data.problem_spaces.AProblemStateTransition;
-import com.tregouet.occam.data.problem_spaces.partitions.IPartition;
+import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
 public class PartitionProbWithTrivialSortingsMandatory extends PartitionProbability
 		implements ProblemTransitionWeigher {	

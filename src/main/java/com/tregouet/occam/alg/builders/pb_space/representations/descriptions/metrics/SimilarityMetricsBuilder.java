@@ -6,8 +6,8 @@ import java.util.function.BiFunction;
 import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
 import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
 import com.tregouet.occam.alg.scorers.similarity.PairSimilarityScorer;
-import com.tregouet.occam.data.representations.descriptions.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 /**

@@ -15,8 +15,8 @@ import org.jgrapht.nio.dot.DOTExporter;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabeller;
 import com.tregouet.occam.alg.displayers.visualizers.transition_functions.TransitionFunctionViz;
-import com.tregouet.occam.data.representations.transitions.AConceptTransitionSet;
-import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.problem_space.states.transitions.AConceptTransitionSet;
+import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.io.output.LocalPaths;
 
 import guru.nidi.graphviz.engine.Format;

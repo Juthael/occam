@@ -9,12 +9,12 @@ import java.util.Map;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.DifferentiaeBuilder;
-import com.tregouet.occam.data.representations.concepts.IConcept;
-import com.tregouet.occam.data.representations.descriptions.properties.AbstractDifferentiae;
-import com.tregouet.occam.data.representations.descriptions.properties.IProperty;
-import com.tregouet.occam.data.representations.descriptions.properties.impl.Differentiae;
-import com.tregouet.occam.data.representations.transitions.IConceptTransition;
-import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.impl.Differentiae;
+import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
+import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 
 import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import it.unimi.dsi.fastutil.ints.IntIntPair;

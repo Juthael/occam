@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
 
-import com.tregouet.occam.data.problem_spaces.IProblemSpace;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.IProblemSpace;
+import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.general.ContextPrinter;
 import com.tregouet.occam.io.output.html.general.FootPrinter;
 import com.tregouet.occam.io.output.html.general.HeaderPrinter;

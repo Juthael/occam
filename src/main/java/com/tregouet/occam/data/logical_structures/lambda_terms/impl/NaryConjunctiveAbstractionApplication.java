@@ -9,7 +9,7 @@ import java.util.Set;
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.representations.transitions.productions.IProduction;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.IProduction;
 
 public class NaryConjunctiveAbstractionApplication extends ALambdaTerm implements ILambdaExpression {
 

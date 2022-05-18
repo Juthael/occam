@@ -4,13 +4,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.fact_evaluators.FactEvaluatorBuilder;
-import com.tregouet.occam.data.representations.evaluation.IFactEvaluator;
-import com.tregouet.occam.data.representations.evaluation.impl.FactEvaluator;
-import com.tregouet.occam.data.representations.transitions.IConceptTransition;
-import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.representations.transitions.Salience;
-import com.tregouet.occam.data.representations.transitions.TransitionType;
-import com.tregouet.occam.data.representations.transitions.impl.RepresentationTransitionFunction;
+import com.tregouet.occam.data.problem_space.states.evaluation.IFactEvaluator;
+import com.tregouet.occam.data.problem_space.states.evaluation.impl.FactEvaluator;
+import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
+import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.problem_space.states.transitions.Salience;
+import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.RepresentationTransitionFunction;
 
 public class SalienceAwareFEBuilder implements FactEvaluatorBuilder {
 

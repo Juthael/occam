@@ -218,5 +218,35 @@ public class RepresentationPagePrinter {
 				.append(FootPrinter.INSTANCE.get() + nL);
 		return sB.toString();
 	}
+	
+	public String printNonNullRepresentation(IRepresentation representation) {
+		StringBuilder sB = new StringBuilder();
+		String alinea = "   ";
+		String alineaa = alinea + alinea;
+		String alineaaa = alineaa + alinea;
+		String alineaaaa = alineaaa + alinea;
+		sB.append(alineaa + "<section>" + nL)
+				.append(alineaaa + "<header>" + nL)
+				.append(alineaaaa + "<h2> REPRESENTATION N." + Integer.toString(representation.iD()) + "</h2>" + nL)
+				.append(alineaaa + "</header>" + nL).append(alineaaa + "<hr>" + nL)
+				.append(printGeneralDescription(objects, representation, alineaa) + nL).append(alineaaa + "<hr>" + nL)
+				.append(printGeneratedFacts(representation, alineaa) + nL).append(alineaaa + "<hr>" + nL)
+				.append(printClassificationTree(representation, alineaaa) + nL).append(alineaa + "</section>" + nL);
+		return sB.toString();
+	}	
+	
+	public String printNullRepresentation() {
+		StringBuilder sB = new StringBuilder();
+		String alinea = "   ";
+		String alineaa = alinea + alinea;
+		String alineaaa = alineaa + alinea;
+		String alineaaaa = alineaaa + alinea;
+		sB.append(alineaa + "<section>" + nL)
+				.append(alineaaa + "<header>" + nL)
+				.append(alineaaaa + "<h2> No representation has been selected. </h2>" + nL)
+				.append(alineaaa + "</header>" + nL)
+				.append(alineaaa + "<hr>" + nL);
+		return sB.toString();
+	}
 
 }

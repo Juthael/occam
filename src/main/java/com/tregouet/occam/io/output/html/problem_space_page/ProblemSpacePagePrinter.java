@@ -27,34 +27,23 @@ public class ProblemSpacePagePrinter {
 		String alineaaa = alineaa + alinea;
 		String alineaaaa = alineaaa + alinea;
 		StringBuilder sB = new StringBuilder();
-		sB.append(HeaderPrinter.INSTANCE.get() + NL).append(alineaa + "<hr>" + NL).append(alineaa + "<section>" + NL)
-				.append(alineaaa + "<header>" + NL).append(alineaaaa + "<h2> CONTEXT </h2>" + NL)
+		sB.append(HeaderPrinter.INSTANCE.get() + NL).append(alineaa + "<hr>" + NL)
+			.append(alineaa + "<section>" + NL)
+				.append(alineaaa + "<header>" + NL)
+					.append(alineaaaa + "<h2> CONTEXT </h2>" + NL)
 				.append(alineaaa + "</header>" + NL).append(ContextPrinter.INSTANCE.print(objects, alineaaa) + NL)
-				.append(alineaa + "</section>").append(alineaa + "<hr>" + NL).append(alineaa + "<section>" + NL)
-				.append(alineaaa + "<header>" + NL).append(alineaaaa + "<h2> PROBLEM SPACE </h2>" + NL)
+			.append(alineaa + "</section>").append(alineaa + "<hr>" + NL)
+			.append(alineaa + "<section>" + NL)
+				.append(alineaaa + "<header>" + NL)
+					.append(alineaaaa + "<h2> PROBLEM SPACE </h2>" + NL)
 				.append(alineaaa + "</header>" + NL)
 				.append(ProblemSpacePrinter.INSTANCE.print(problemSpace, "problem_space", alineaaa) + NL)
-				.append(alineaa + "</section>" + NL).append(alineaa + "<hr>" + NL).append(alineaa + "<section>" + NL)
-				.append(alineaaa + "<header>" + NL).append(alineaaaa + "<h2> SCORES </h2>" + NL)
-				.append(alineaaa + "</header>" + NL).append(printRepresentationList(problemSpace, alineaaa) + NL)
-				.append(alineaa + "</section>" + NL).append(FootPrinter.INSTANCE.get());
+			.append(alineaa + "</section>" + NL).append(alineaa + "<hr>" + NL)
+			.append(alineaa + "<section>" + NL)
+			//HERE
+			.append(alineaa + "</section>" + NL)
+			.append(FootPrinter.INSTANCE.get());
 		return sB.toString();
-	}
-
-	private String printRepresentationList(IProblemSpace problemSpace, String alinea) {
-		NavigableSet<IRepresentation> sortedRep = problemSpace.getSortedSetOfStates();
-		String[] head = new String[sortedRep.size()];
-		String[] table = new String[sortedRep.size()];
-		int idx = 0;
-		Iterator<IRepresentation> descendingIte = sortedRep.descendingIterator();
-		while (descendingIte.hasNext()) {
-			IRepresentation next = descendingIte.next();
-			head[idx] = Integer.toString(next.iD());
-			table[idx] = next.score().toString();
-			idx++;
-		}
-		return TablePrinter.INSTANCE.printStringTableWithOptionalSubHead(head, null, table, "Representation scores",
-				alinea);
 	}
 
 }

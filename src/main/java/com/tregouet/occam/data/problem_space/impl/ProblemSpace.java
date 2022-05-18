@@ -3,6 +3,7 @@ package com.tregouet.occam.data.problem_space.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -12,6 +13,7 @@ import com.tregouet.occam.data.problem_space.IProblemSpace;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 import com.tregouet.occam.data.problem_space.states.transitions.AConceptTransitionSet;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.tree_finder.data.Tree;
@@ -98,7 +100,16 @@ public class ProblemSpace implements IProblemSpace {
 
 	@Override
 	public Integer getActiveRepresentationID() {
+		if (activeState == null)
+			return null;
 		return activeState.iD();
+	}
+
+	@Override
+	public Map<Integer, Set<IFact>> particularToAcceptedFactsInActiveRepresentation() {
+		if (activeState == null)
+			return null;
+		return activeState.mapParticularIDsToAcceptedFacts();
 	}
 
 }

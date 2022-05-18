@@ -3,8 +3,13 @@ package com.tregouet.occam.data.problem_space.states.transitions.impl;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jgrapht.graph.DirectedAcyclicGraph;
+
 import com.google.common.collect.Sets;
+import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabeller;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.problem_space.states.transitions.AConceptTransitionSet;
 import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
@@ -117,6 +122,12 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 		transitions.addAll(inheritances);
 		transitions.addAll(spontaneous);
 		return transitions;
+	}
+
+	@Override
+	public DirectedAcyclicGraph<Integer, AConceptTransitionSet> asGraph() {
+		TransitionFunctionLabeller displayer = FormattersAbstractFactory.INSTANCE.getTransitionFunctionDisplayer();
+		return(displayer.apply(this));
 	}
 
 }

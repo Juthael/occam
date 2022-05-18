@@ -12,8 +12,6 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
-import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
-import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabeller;
 import com.tregouet.occam.alg.displayers.visualizers.transition_functions.TransitionFunctionViz;
 import com.tregouet.occam.data.problem_space.states.transitions.AConceptTransitionSet;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
@@ -33,8 +31,7 @@ public class BasicTransitionFunctionViz implements TransitionFunctionViz {
 
 	@Override
 	public String apply(IRepresentationTransitionFunction transFunc, String fileName) {
-		TransitionFunctionLabeller displayer = FormattersAbstractFactory.INSTANCE.getTransitionFunctionDisplayer();
-		DirectedAcyclicGraph<Integer, AConceptTransitionSet> transFuncGraph = displayer.apply(transFunc);
+		DirectedAcyclicGraph<Integer, AConceptTransitionSet> transFuncGraph = transFunc.asGraph();
 		// convert in DOT format
 		DOTExporter<Integer, AConceptTransitionSet> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {

@@ -19,7 +19,7 @@ public class StartPagePrinter implements Supplier<String> {
 	public String get() {
 		StringBuilder sB = new StringBuilder();
 		sB.append(HeaderPrinter.INSTANCE.get() + nL);
-		sB.append(MenuPrinter.INSTANCE.print(MenuType.START_MENU, "") + nL);
+		sB.append(MenuPrinter.INSTANCE.print(MenuType.START_MENU, 0) + nL);
 		sB.append(FootPrinter.INSTANCE.get() + nL);
 		return sB.toString();
 	}

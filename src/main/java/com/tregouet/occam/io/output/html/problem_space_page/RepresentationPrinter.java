@@ -1,18 +1,13 @@
-package com.tregouet.occam.io.output.html.representation_page;
+package com.tregouet.occam.io.output.html.problem_space_page;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.NavigableSet;
-import java.util.TreeSet;
 
-import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.io.output.html.general.FactPrinter;
 import com.tregouet.occam.io.output.html.general.FigurePrinter;
 import com.tregouet.occam.io.output.html.general.TablePrinter;
-import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
 
 public class RepresentationPrinter {
 
@@ -21,53 +16,6 @@ public class RepresentationPrinter {
 	private static final String[] alinea = ProblemSpacePagePrinter.alinea;
 	
 	private RepresentationPrinter() {
-	}
-
-	private static String printAcceptedFacts(IRepresentation representation, int a) {
-		Map<Integer, List<String>> objID2acceptedFacts = representation.mapParticularIDsToFactualDescription(FormattersAbstractFactory.INSTANCE.getFactDisplayer());
-		NavigableSet<Integer> objIDs = new TreeSet<>(objID2acceptedFacts.keySet());
-		String[] head = new String[objIDs.size()];
-		String[] facts = new String[objIDs.size()];
-		int idx = 0;
-		for (Integer iD : objIDs) {
-			head[idx] = setHeadOfAcceptedFactsArray(representation, iD);
-			StringBuilder sB = new StringBuilder();
-			for (String factString : objID2acceptedFacts.get(iD))
-				sB.append(factString + " <br> " + nL);
-			facts[idx] = sB.toString();
-			idx++;
-		}
-		StringBuilder sB = new StringBuilder();
-		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> ACCEPTED FACTS </h3>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
-				.append(TablePrinter.INSTANCE.printStringTableWithOptionalSubHead(head, null, facts, "Accepted facts",
-							a + 1) + nL)
-			.append(alinea[a] + "</section>" + nL);
-		return sB.toString();
-	}
-	
-	private static String setHeadOfAcceptedFactsArray(IRepresentation representation, Integer conceptID) {
-		if (representation.isFullyDeveloped())
-			return conceptID.toString();
-		else {
-			TreeSet<Integer> extent = new TreeSet<>(representation.getExtentIDs(conceptID));
-			if (extent.size() == 1)
-				return conceptID.toString();
-			else {
-				StringBuilder sB = new StringBuilder();
-				sB.append(conceptID.toString() + " = { ");
-				Iterator<Integer> extentIte = extent.iterator();
-				while (extentIte.hasNext()) {
-					sB.append(extentIte.next().toString());
-					if (extentIte.hasNext())
-						sB.append(", ");
-				}
-				sB.append(" }");
-				return sB.toString();
-			}
-		}
 	}
 
 	private static String printAsymetricalSimilarityMatrix(List<IContextObject> context, IRepresentation representation,
@@ -129,7 +77,7 @@ public class RepresentationPrinter {
 		return sB.toString();
 	}
 
-	private static String printGeneralDescription(List<IContextObject> context, IRepresentation representation,
+	private static String printGeneralDescription(List<IContextObject> context, IRepresentation representation, 
 			int a) {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
@@ -145,15 +93,7 @@ public class RepresentationPrinter {
 	}
 
 	private static String printGeneratedFacts(IRepresentation representation, int a) {
-		StringBuilder sB = new StringBuilder();
-		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> GENERATED FACTS </h3>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
-				.append(printAutomatonGraph(representation, a + 1) + nL)
-				.append(printAcceptedFacts(representation, a + 1) + nL)
-			.append(alinea[a] + "</section>");
-		return sB.toString();
+		return FactPrinter.INSTANCE.print(representation, a);
 	}
 
 	private static String printSimilarityMatrix(List<IContextObject> context, IRepresentation representation,
@@ -196,23 +136,7 @@ public class RepresentationPrinter {
 		return printNonNullRepresentation(context, representation, a);
 	}
 	
-	private String printNonNullRepresentation(List<IContextObject> context, IRepresentation representation, int a) {
-		StringBuilder sB = new StringBuilder();
-		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h2> REPRESENTATION N." + Integer.toString(representation.iD()) + "</h2>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
-				.append(alinea[a + 1] + "<hr>" + nL)
-				.append(printGeneralDescription(context, representation, a + 1) + nL)
-				.append(alinea[a + 1] + "<hr>" + nL)
-				.append(printGeneratedFacts(representation, a + 1) + nL)
-				.append(alinea[a + 1] + "<hr>" + nL)
-				.append(printClassificationTree(representation, a + 1) + nL)
-			.append(alinea[a] + "</section>" + nL);
-		return sB.toString();
-	}	
-	
-	private String printNullRepresentation() {
+	private static String printNullRepresentation() {
 		StringBuilder sB = new StringBuilder();
 		String alinea = "   ";
 		String alineaa = alinea + alinea;
@@ -225,6 +149,25 @@ public class RepresentationPrinter {
 			.append(alineaa + "</section>" + nL)
 			.append(alineaaa + "<hr>" + nL);
 		return sB.toString();
-	}
+	}	
+	
+	private static String printNonNullRepresentation(List<IContextObject> context, IRepresentation representation, 
+			int a) {
+		StringBuilder sB = new StringBuilder();
+		sB.append(alinea[a] + "<section>" + nL)
+				.append(alinea[a + 1] + "<header>" + nL)
+					.append(alinea[a + 2] + "<h3> Representation n." + Integer.toString(representation.iD()) + "</h3>" + nL)
+				.append(alinea[a + 1] + "</header>" + nL)
+				.append(alinea[a + 1] + "<hr>" + nL)
+				.append(printGeneralDescription(context, representation, a + 2) + nL)
+				.append(alinea[a + 1] + "<hr>" + nL)
+				.append(printAutomatonGraph(representation, a + 2) + nL)
+				.append(alinea[a + 1] + "<hr>" + nL)
+				.append(printGeneratedFacts(representation, a + 2) + nL)
+				.append(alinea[a + 1] + "<hr>" + nL)
+				.append(printClassificationTree(representation, a + 2) + nL)
+			.append(alinea[a] + "</section>" + nL);
+		return sB.toString();
+	}	
 
 }

@@ -29,7 +29,8 @@ public class ProblemSpacePagePrinter {
 	private ProblemSpacePagePrinter() {
 	}
 
-	public String print(List<IContextObject> objects, IProblemSpace problemSpace) throws IOException {
+	public String print(IProblemSpace problemSpace) throws IOException {
+		List<IContextObject> objects = problemSpace.getContext();
 		StringBuilder sB = new StringBuilder();
 		sB.append(HeaderPrinter.INSTANCE.get() + NL)
 			.append(alinea[0] + "<hr>" + NL)
@@ -48,10 +49,13 @@ public class ProblemSpacePagePrinter {
 				.append(alinea[1] + "</section>" + NL)
 				.append(alinea[1] + "<hr>" + NL)
 				.append(alinea[1] + "<section>" + NL)
-				//HERE
+					.append(alinea[2] + "<header>" + NL)
+						.append(alinea[3] + "<h2> REPRESENTATIONS </h2>" + NL)
+					.append(alinea[2] + "</header>" + NL)
+					.append(RepresentationPrinter.INSTANCE.print(objects, problemSpace.getActiveRepresentation(), 2))
 				.append(alinea[1] + "</section>" + NL)
 			.append(FootPrinter.INSTANCE.get());
 		return sB.toString();
-	}
+	}	
 
 }

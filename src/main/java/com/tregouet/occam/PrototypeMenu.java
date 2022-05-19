@@ -6,22 +6,17 @@ import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.List;
-import java.util.NavigableSet;
 import java.util.Scanner;
 
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationSortedSetBuilder;
-import com.tregouet.occam.alg.builders.problem_spaces.ProblemSpaceBuilder;
 import com.tregouet.occam.data.problem_space.IProblemSpace;
-import com.tregouet.occam.data.problem_space.states.ICompleteRepresentations;
-import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.problem_space.impl.ProblemSpace;
 import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
 import com.tregouet.occam.io.output.html.main_menu.MainMenuPrinter;
 import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
-import com.tregouet.occam.io.output.html.representation_page.RepresentationPrinter;
 
 public class PrototypeMenu {
 
@@ -51,12 +46,8 @@ public class PrototypeMenu {
 		if (isValidPath(inputPathString)) {
 			Path inputPath = Paths.get(inputPathString);
 			List<IContextObject> objects = GenericFileReader.getContextObjects(inputPath);
-			RepresentationSortedSetBuilder completeRepBldr = GeneratorsAbstractFactory.INSTANCE
-					.getRepresentationSortedSetBuilder();
-			ICompleteRepresentations completeRepresentations = completeRepBldr.apply(objects);
-			ProblemSpaceBuilder pbSpaceBldr = GeneratorsAbstractFactory.INSTANCE.getProblemSpaceBuilder();
-			IProblemSpace pbSpace = pbSpaceBldr.apply(completeRepresentations);
-			problemSpaceMenu(objects, pbSpace);
+			ProblemSpace problemSpace = new ProblemSpace(new HashSet<>(objects));
+			problemSpaceMenu(problemSpace);
 		} else {
 			System.out.println("This path is invalid." + NL);
 			enterTargetFolder();
@@ -122,9 +113,9 @@ public class PrototypeMenu {
 		}
 	}
 
-	private void problemSpaceMenu(List<IContextObject> objects, IProblemSpace problemSpace) {
+	private void problemSpaceMenu(IProblemSpace problemSpace) {
 		try {
-			String htmlPage = ProblemSpacePagePrinter.INSTANCE.print(objects, problemSpace);
+			String htmlPage = ProblemSpacePagePrinter.INSTANCE.print(problemSpace);
 			generate(htmlPage);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -132,8 +123,8 @@ public class PrototypeMenu {
 		System.out.println(NL);
 		System.out.println("**********PROBLEM SPACE MENU**********");
 		System.out.println(NL);
-		System.out.println("1 : select a representation" + NL);
-		System.out.println("2 : add a new representation (Not implemented yet)" + NL);
+		System.out.println("1 : enter the ID of a representation to display." + NL);
+		System.out.println("2 : enter the ID of a representation to deepen." + NL);
 		System.out.println("3 : back to main menu" + NL);
 		int choice = 0;
 		try {
@@ -141,16 +132,14 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			problemSpaceMenu(objects, problemSpace);
+			problemSpaceMenu(problemSpace);
 		}
 		switch (choice) {
 		case 1:
-			IRepresentation representation = selectARepresentation(objects, problemSpace);
-			representationMenu(objects, problemSpace, representation);
+			displayRepresentation(problemSpace);
 			break;
 		case 2:
-			System.out.print("This functionality is not available yet.");
-			problemSpaceMenu(objects, problemSpace);
+			deepenRepresentation(problemSpace);
 			break;
 		case 3:
 			mainMenu();
@@ -162,57 +151,7 @@ public class PrototypeMenu {
 		}
 	}
 
-	private void representationMenu(List<IContextObject> objects, IProblemSpace problemSpace,
-			IRepresentation representation) {
-		try {
-			String htmlPage = RepresentationPrinter.INSTANCE.print(objects, representation);
-			generate(htmlPage);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println(NL);
-		System.out.println("**********REPRESENTATION MENU**********");
-		System.out.println(NL);
-		System.out.println("1 : display next representation (score descending order)" + NL);
-		System.out.println("2 : display previous representation (score ascending order)" + NL);
-		System.out.println("3 : back to main menu" + NL);
-		int choice = 0;
-		try {
-			choice = entry.nextInt();
-			entry.nextLine();
-		} catch (Exception e) {
-			e.printStackTrace();
-			problemSpaceMenu(objects, problemSpace);
-		}
-		switch (choice) {
-		case 1:
-			NavigableSet<IRepresentation> lowerRep = problemSpace.getSortedSetOfStates().tailSet(representation, false);
-			if (lowerRep.isEmpty()) {
-				System.out.println("There is no next representation.");
-				representationMenu(objects, problemSpace, representation);
-			} else
-				representationMenu(objects, problemSpace, lowerRep.first());
-			break;
-		case 2:
-			NavigableSet<IRepresentation> higherRep = problemSpace.getSortedSetOfStates().headSet(representation,
-					false);
-			if (higherRep.isEmpty()) {
-				System.out.println("There is no previous representation.");
-				representationMenu(objects, problemSpace, representation);
-			} else
-				representationMenu(objects, problemSpace, higherRep.last());
-			break;
-		case 3:
-			problemSpaceMenu(objects, problemSpace);
-			break;
-		default:
-			System.out.println("Please stay focused." + NL);
-			representationMenu(objects, problemSpace, representation);
-			break;
-		}
-	}
-
-	private IRepresentation selectARepresentation(List<IContextObject> objects, IProblemSpace problemSpace) {
+	private void displayRepresentation(IProblemSpace problemSpace) {
 		System.out.println(NL);
 		System.out.println("Please enter a representation ID : " + NL);
 		Integer iD = null;
@@ -221,15 +160,42 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return selectARepresentation(objects, problemSpace);
+			displayRepresentation(problemSpace);
 		}
-		IRepresentation representation = (IRepresentation) problemSpace.getStateWithID(iD);
-		if (representation == null) {
+		Boolean result = problemSpace.display(iD);
+		if (result == null) {
 			System.out.println("No representation has this ID. " + NL);
-			return selectARepresentation(objects, problemSpace);
+			deepenRepresentation(problemSpace);
 		}
-		return representation;
+		else {
+			if (result == false)
+				System.out.println("This representation is already displayed. " + NL);
+			problemSpaceMenu(problemSpace);
+		}
 	}
+	
+	private void deepenRepresentation(IProblemSpace problemSpace) {
+		System.out.println(NL);
+		System.out.println("Please enter a representation ID : " + NL);
+		Integer iD = null;
+		try {
+			iD = entry.nextInt();
+			entry.nextLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			displayRepresentation(problemSpace);
+		}
+		Boolean result = problemSpace.display(iD);
+		if (result == null) {
+			System.out.println("No representation has this ID. " + NL);
+			deepenRepresentation(problemSpace);
+		}
+		else {
+			if (result == false)
+				System.out.println("This representation is fully developed already. " + NL);
+			problemSpaceMenu(problemSpace);
+		}
+	}	
 
 	private void welcome() {
 		System.out.println("********************");

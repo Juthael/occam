@@ -1,32 +1,33 @@
 package com.tregouet.occam.io.output.html.general;
 
+import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
+
 public class FigurePrinter {
 
 	public static final FigurePrinter INSTANCE = new FigurePrinter();
 	public static final String NL = System.lineSeparator();
+	private static final String[] alinea = ProblemSpacePagePrinter.alinea;
 
 	private FigurePrinter() {
 	}
 
-	public String displayFigure(String fullPath, String alinea, String caption) {
+	public String displayFigure(String fullPath, int a, String caption) {
 		StringBuilder sB = new StringBuilder();
-		String alineaa = alinea + "   ";
-		sB.append(alinea + "<figure>" + NL);
-		sB.append(alineaa + "<img src = \"" + "file:///" + fullPath + "\" alt = "
-				+ fullPath.substring(fullPath.lastIndexOf("\\") + 1) + ">" + NL);
-		sB.append(alineaa + "<figcaption>" + caption + "</figcaption>" + NL);
-		sB.append(alinea + "</figure>" + NL);
+		sB.append(alinea[a] + "<figure>" + NL)
+				.append(alinea[a + 1] + "<img src = \"" + "file:///" + fullPath + "\" alt = "
+					+ fullPath.substring(fullPath.lastIndexOf("\\") + 1) + ">" + NL)
+				.append(alinea[a + 1] + "<figcaption>" + caption + "</figcaption>" + NL)
+			.append(alinea[a] + "</figure>" + NL);
 		return sB.toString();
 	}
 
-	public String displayFigure(String fileName, String folderPath, String alinea, String caption) {
+	public String displayFigure(String fileName, String folderPath, int a, String caption) {
 		StringBuilder sB = new StringBuilder();
-		String alineaa = alinea + "   ";
-		sB.append(alinea + "<figure>" + NL);
-		sB.append(alineaa + "<img src = \"" + "file:///" + folderPath + "\\" + fileName + "\" alt = " + fileName + ">"
-				+ NL);
-		sB.append(alineaa + "<figcaption>" + caption + "</figcaption>" + NL);
-		sB.append(alinea + "</figure>" + NL);
+		sB.append(alinea[a] + "<figure>" + NL)
+				.append(alinea[a + 1] + "<img src = \"" + "file:///" + folderPath + "\\" + fileName + "\" alt = " + fileName + ">"
+				+ NL)
+				.append(alinea[a + 1] + "<figcaption>" + caption + "</figcaption>" + NL)
+			.append(alinea[a] + "</figure>" + NL);
 		return sB.toString();
 	}
 

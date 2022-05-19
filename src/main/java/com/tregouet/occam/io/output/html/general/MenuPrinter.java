@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
+
 public class MenuPrinter {
 
 	public static final MenuPrinter INSTANCE = new MenuPrinter();
@@ -19,11 +21,12 @@ public class MenuPrinter {
 	private static final Path startPageMenu = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io",
 			"output", "html", "files", "startPageMenu.txt");
 	private static final String nL = System.lineSeparator();
+	private static final String[] alinea = ProblemSpacePagePrinter.alinea;
 
 	private MenuPrinter() {
 	}
 
-	public String print(MenuType menuType, String alinea) {
+	public String print(MenuType menuType, int a) {
 		Path path = null;
 		switch (menuType) {
 		case START_MENU:
@@ -43,9 +46,9 @@ public class MenuPrinter {
 		BufferedReader reader = null;
 		try {
 			reader = Files.newBufferedReader(path);
-			String line = alinea + reader.readLine();
+			String line = alinea[a] + reader.readLine();
 			while (line != null) {
-				sB.append(alinea + line + nL);
+				sB.append(alinea[a] + line + nL);
 				line = reader.readLine();
 			}
 		} catch (IOException e) {

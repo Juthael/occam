@@ -21,7 +21,7 @@ import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
 import com.tregouet.occam.io.output.html.main_menu.MainMenuPrinter;
 import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
-import com.tregouet.occam.io.output.html.representation_page.RepresentationPagePrinter;
+import com.tregouet.occam.io.output.html.representation_page.RepresentationPrinter;
 
 public class PrototypeMenu {
 
@@ -165,7 +165,7 @@ public class PrototypeMenu {
 	private void representationMenu(List<IContextObject> objects, IProblemSpace problemSpace,
 			IRepresentation representation) {
 		try {
-			String htmlPage = RepresentationPagePrinter.INSTANCE.print(objects, representation);
+			String htmlPage = RepresentationPrinter.INSTANCE.print(objects, representation);
 			generate(htmlPage);
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -1,13 +1,15 @@
 package com.tregouet.occam.io.output.html.general;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
+
+import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
 
 public class TablePrinter {
 
 	public static final TablePrinter INSTANCE = new TablePrinter();
-	public static final String NL = System.lineSeparator();
+	private static final String nL = System.lineSeparator();
 	private static final DecimalFormat DF = new DecimalFormat("#.####");
+	private static final String[] alinea = ProblemSpacePagePrinter.alinea;
 
 	private TablePrinter() {
 	}
@@ -16,111 +18,79 @@ public class TablePrinter {
 		return DF.format(nb).toString();
 	}
 
-	public String print1DTable(String[] head, double[] table, String caption, String alinea) {
+	public String print1DTable(String[] head, double[] table, String caption, int a) {
 		StringBuilder sB = new StringBuilder();
-		String alineaa = alinea + "   ";
-		String alineaaa = alineaa + "   ";
-		String alineaaaa = alineaaa + "   ";
-		sB.append(alinea + "<table>" + NL);
-		sB.append(alinea + "<caption> " + caption + "</caption>" + NL);
-		sB.append(alineaa + "<thead>" + NL);
-		sB.append(alineaaa + "<tr>" + NL);
-		for (String element : head) {
-			sB.append(alineaaaa + "<th> ");
-			sB.append(element);
-			sB.append(" </th>" + NL);
-		}
-		sB.append(alineaaa + "</tr>" + NL);
-		sB.append(alineaa + "</thead>" + NL);
-		sB.append(alineaa + "<tbody>" + NL);
-		sB.append(alineaaa + "<tr>" + NL);
-		//HERE
-		System.out.println(Arrays.toString(head));
-		System.out.println(Arrays.toString(table));
-		//HERE
-		for (int i = 0; i < head.length; i++)
-			sB.append(alineaaaa + "<td>" + round(table[i]) + "</td>" + NL);
-		sB.append(alineaaa + "</tr>" + NL);
-		sB.append(alineaa + "</tbody>" + NL);
-		sB.append(alinea + "</table>" + NL);
+		sB.append(alinea[a] + "<table>" + nL)
+				.append(alinea[a + 1] + "<caption> " + caption + "</caption>" + nL)
+				.append(alinea[a + 1] + "<thead>" + nL)
+					.append(alinea[a + 2] + "<tr>" + nL);
+						for (String element : head)
+							sB.append(alinea[a + 3] + "<th> "+ element + " </th>" + nL);
+					sB.append(alinea[a + 2] + "</tr>" + nL)
+				.append(alinea[a + 1] + "</thead>" + nL)
+				.append(alinea[a + 1] + "<tbody>" + nL)
+					.append(alinea[a + 2] + "<tr>" + nL);
+						for (int i = 0; i < head.length; i++)
+							sB.append(alinea[a + 3] + "<td>" + round(table[i]) + "</td>" + nL);
+					sB.append(alinea[a + 2] + "</tr>" + nL)
+				.append(alinea[a + 1] + "</tbody>" + nL);
+		sB.append(alinea[a] + "</table>" + nL);
 		return sB.toString();
 	}
 
-	public String print2DSquareTable(String[] head, double[][] table, String caption, String alinea) {
+	public String print2DSquareTable(String[] head, double[][] table, String caption, int a) {
 		StringBuilder sB = new StringBuilder();
-		String alineaa = alinea + "   ";
-		String alineaaa = alineaa + "   ";
-		String alineaaaa = alineaaa + "   ";
-		sB.append(alinea + "<table>" + NL);
-		sB.append(alinea + "<caption> " + caption + "</caption>" + NL);
-		sB.append(alineaa + "<thead>" + NL);
-		sB.append(alineaaa + "<tr>" + NL);
-		for (int i = 0; i <= head.length; i++) {
-			if (i == 0) {
-				sB.append(alineaaaa + "<th> </th> " + NL);
-			}
-			else {
-				sB.append(alineaaaa + "<th> ");
-				sB.append(head[i - 1]);
-				sB.append(" </th>" + NL);	
-			}
-		}
-		sB.append(alineaaa + "</tr>" + NL);
-		sB.append(alineaa + "</thead>" + NL);
-		sB.append(alineaa + "<tbody>" + NL);
-		for (int j = 1; j <= head.length; j++) {
-			sB.append(alineaaa + "<tr>" + NL);
-			for (int i = 0; i <= head.length; i++) {
-				if (i == 0)
-					sB.append(alineaaaa + "<th> " + head[j - 1] + " </th>" + NL);
-				else {
-					//HERE
-					try {
-						sB.append(alineaaaa + "<td>" + round(table[i - 1][j - 1]) + "</td>" + NL);
+		sB.append(alinea[a] + "<table>" + nL)
+			.append(alinea[a + 1] + "<caption> " + caption + "</caption>" + nL)
+			.append(alinea[a + 1] + "<thead>" + nL)
+				.append(alinea[a + 2] + "<tr>" + nL);
+					for (int i = 0; i <= head.length; i++) {
+						if (i == 0)
+							sB.append(alinea[a + 3] + "<th> </th> " + nL);
+						else sB.append(alinea[a + 3] + "<th> " + head[i - 1] + " </th>" + nL);
 					}
-					catch (Exception e) {
-						System.out.println(head.toString());
-					}
-					//HERE
+				sB.append(alinea[a + 2] + "</tr>" + nL)
+			.append(alinea[a + 1] + "</thead>" + nL)
+			.append(alinea[a + 1] + "<tbody>" + nL);
+				for (int j = 1; j <= head.length; j++) {
+					sB.append(alinea[a + 2] + "<tr>" + nL);
+						for (int i = 0; i <= head.length; i++) {
+							if (i == 0)
+								sB.append(alinea[a + 3] + "<th> " + head[j - 1] + " </th>" + nL);
+							else sB.append(alinea[a + 3] + "<td>" + round(table[i - 1][j - 1]) + "</td>" + nL);						
+						}
+					sB.append(alinea[a + 2] + "</tr>" + nL);
 				}
-					
-			}
-			sB.append(alineaaa + "</tr>" + NL);
-		}
-		sB.append(alineaa + "</tbody>" + NL);
-		sB.append(alinea + "</table>" + NL);
+			sB.append(alinea[a + 1] + "</tbody>" + nL)
+		.append(alinea + "</table>" + nL);
 		return sB.toString();
 	}
 
 	public String printStringTableWithOptionalSubHead(String[] head, String[] optionalSubHead, String[] body,
-			String caption, String alinea) {
+			String caption, int a) {
 		StringBuilder sB = new StringBuilder();
-		String alineaa = alinea + "   ";
-		String alineaaa = alineaa + "   ";
-		String alineaaaa = alineaaa + "   ";
-		sB.append(alinea + "<table>" + NL);
-		sB.append(alinea + "<caption> " + caption + "</caption>" + NL);
-		sB.append(alineaa + "<thead>" + NL);
-		sB.append(alineaaa + "<tr>" + NL);
-		for (String element : head) {
-			sB.append(alineaaaa + "<th> ");
-			sB.append(element);
-			sB.append(" </th>" + NL);
-		}
-		sB.append(alineaaa + "</tr>" + NL);
-		sB.append(alineaa + "</thead>" + NL);
-		sB.append(alineaa + "<tbody>" + NL);
-		if (optionalSubHead != null) {
-			sB.append(alineaaa + "<tr>" + NL);
-			for (int i = 0; i < head.length; i++)
-				sB.append(alineaaaa + "<td><b>" + optionalSubHead[i] + "</b></td>" + NL);
-			sB.append(alineaaa + "</tr>" + NL);
-		}
-		for (int i = 0; i < head.length; i++)
-			sB.append(alineaaaa + "<td>" + NL + body[i] + NL + "</td>" + NL);
-		sB.append(alineaaa + "</tr>" + NL);
-		sB.append(alineaa + "</tbody>" + NL);
-		sB.append(alinea + "</table>" + NL);
+		sB.append(alinea[a] + "<table>" + nL)
+				.append(alinea[a + 1] + "<caption> " + caption + "</caption>" + nL)
+				.append(alinea[a + 1] + "<thead>" + nL)
+					.append(alinea[a + 2] + "<tr>" + nL);
+					for (String element : head) {
+						sB.append(alinea[a + 3] + "<th> " + element + " </th>" + nL);
+					}
+					sB.append(alinea[a + 2] + "</tr>" + nL)
+				.append(alinea[a + 1] + "</thead>" + nL)
+				.append(alinea[a + 1] + "<tbody>" + nL);
+					if (optionalSubHead != null) {
+						sB.append(alinea[a + 2] + "<tr>" + nL);
+						for (int i = 0; i < head.length; i++)
+							sB.append(alinea[a + 3] + "<td><b>" + optionalSubHead[i] + "</b></td>" + nL);
+						sB.append(alinea[a + 2] + "</tr>" + nL);
+					}
+					sB.append(alinea[a + 2] + "<tr>" + nL);
+						for (int i = 0; i < head.length; i++)
+							sB.append(alinea[a + 3] + "<td>" + nL + body[i] + nL + "</td>" + nL);
+					sB.append(alinea[a + 2] + "</tr>" + nL)
+				.append(alinea[a + 1] + "</tbody>" + nL)
+		.append(alinea[a] + "</table>" + nL);
 		return sB.toString();
 	}
 

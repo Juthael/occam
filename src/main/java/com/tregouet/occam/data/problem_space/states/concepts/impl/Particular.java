@@ -12,7 +12,7 @@ import com.tregouet.subseq_finder.impl.SymbolSeq;
 
 public class Particular implements IContextObject {
 
-	private static int nextID = 1;
+	private static int nextID = IContextObject.OBJ_FIRST_ID;
 	private final List<IConstruct> constructs = new ArrayList<>();
 	private final int iD;
 	private final String name;
@@ -93,6 +93,10 @@ public class Particular implements IContextObject {
 		for (IConstruct construct : constructs)
 			symbolSeqs.add(new SymbolSeq(construct.toListOfStringsWithPlaceholders()));
 		return symbolSeqs;
+	}
+
+	public static void initializeIDGenerator() {
+		nextID = IContextObject.OBJ_FIRST_ID;
 	}
 
 }

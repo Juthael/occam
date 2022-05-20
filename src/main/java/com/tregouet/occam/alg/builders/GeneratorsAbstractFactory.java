@@ -173,7 +173,7 @@ public class GeneratorsAbstractFactory {
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
 			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;
 			problemTransitionRankerStrategy = ProblemTransitionRankerStrategy.TOP_DOWN_RANKER;
-			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.REMOVE_MEANINGLESS;
+			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.EXPAND_TRIVIAL_LEAVES;
 			break;
 		default:
 			break;

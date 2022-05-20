@@ -44,6 +44,7 @@ public class PrototypeMenu {
 		System.out.println("Please enter a path for the next input : " + NL);
 		String inputPathString = entry.nextLine();
 		if (isValidPath(inputPathString)) {
+			Occam.initialize();
 			Path inputPath = Paths.get(inputPathString);
 			List<IContextObject> objects = GenericFileReader.getContextObjects(inputPath);
 			ProblemSpace problemSpace = new ProblemSpace(new HashSet<>(objects));
@@ -160,12 +161,12 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			displayRepresentation(problemSpace);
+			problemSpaceMenu(problemSpace);
 		}
 		Boolean result = problemSpace.display(iD);
 		if (result == null) {
 			System.out.println("No representation has this ID. " + NL);
-			deepenRepresentation(problemSpace);
+			problemSpaceMenu(problemSpace);
 		}
 		else {
 			if (result == false)
@@ -183,12 +184,12 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			displayRepresentation(problemSpace);
+			problemSpaceMenu(problemSpace);
 		}
-		Boolean result = problemSpace.display(iD);
+		Boolean result = problemSpace.deepen(iD);
 		if (result == null) {
 			System.out.println("No representation has this ID. " + NL);
-			deepenRepresentation(problemSpace);
+			problemSpaceMenu(problemSpace);
 		}
 		else {
 			if (result == false)

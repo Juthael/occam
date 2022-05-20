@@ -26,7 +26,7 @@ import com.tregouet.tree_finder.data.InvertedTree;
 
 public class Representation implements IRepresentation {
 
-	private static int nextID = 1;
+	private static int nextID = IRepresentation.FIRST_ID;
 
 	protected final int iD;
 	protected InvertedTree<IConcept, IIsA> classification;
@@ -121,9 +121,8 @@ public class Representation implements IRepresentation {
 		return iD;
 	}
 
-	@Override
-	public void initializeIDGenerator() {
-		nextID = 1;
+	public static void initializeIDGenerator() {
+		nextID = IRepresentation.FIRST_ID;
 	}
 
 	@Override

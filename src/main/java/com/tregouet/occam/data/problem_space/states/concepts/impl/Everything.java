@@ -16,7 +16,7 @@ public class Everything extends Concept implements IConcept {
 	public Everything(Set<Integer> extentIDs) {
 		super(new HashSet<>(
 				Arrays.asList(new IConstruct[] { new Construct(Arrays.asList(new ISymbol[] { This.INSTANCE })) })),
-				extentIDs);
+				extentIDs, IConcept.ONTOLOGICAL_COMMITMENT_ID);
 		setType(ConceptType.ONTOLOGICAL_COMMITMENT);
 	}
 

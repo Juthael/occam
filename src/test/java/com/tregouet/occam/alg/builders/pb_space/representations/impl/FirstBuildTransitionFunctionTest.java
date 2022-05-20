@@ -15,7 +15,6 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;

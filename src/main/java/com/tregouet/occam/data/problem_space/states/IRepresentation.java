@@ -14,6 +14,7 @@ import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
+import com.tregouet.occam.data.problem_space.states.impl.Representation;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
@@ -33,6 +34,8 @@ public interface IRepresentation extends
 			IConceptTransition, 
 			IRepresentationTransitionFunction>,
 		Scored<DoubleScore>, PartiallyComparable<IRepresentation> {
+	
+	public static final int FIRST_ID = 1;
 
 	@Override
 	boolean equals(Object o);
@@ -52,7 +55,9 @@ public interface IRepresentation extends
 	
 	int iD();
 
-	void initializeIDGenerator();
+	public static void initializeIDGenerator() {
+		Representation.initializeIDGenerator();
+	}
 	
 	boolean isFullyDeveloped();	
 	

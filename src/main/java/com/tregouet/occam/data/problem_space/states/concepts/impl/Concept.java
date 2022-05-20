@@ -17,7 +17,7 @@ import com.tregouet.occam.data.problem_space.states.concepts.denotations.impl.De
 
 public class Concept implements IConcept {
 
-	protected static int nextID = 100;
+	protected static int nextID = IConcept.CONCEPT_FIRST_ID;
 
 	private final Set<IDenotation> denotations = new HashSet<>();
 	private final Set<Integer> extentIDs;
@@ -108,9 +108,8 @@ public class Concept implements IConcept {
 		return iD;
 	}
 
-	@Override
-	public void initializeIDGenerator() {
-		nextID = 100;
+	public static void initializeIDGenerator() {
+		nextID = IConcept.CONCEPT_FIRST_ID;
 	}
 
 	@Override

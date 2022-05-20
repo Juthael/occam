@@ -10,12 +10,12 @@ import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransiti
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
 import com.tregouet.occam.data.problem_space.states.transitions.dimensions.Nothing;
 import com.tregouet.occam.data.problem_space.states.transitions.dimensions.This;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.impl.ContextualizedEpsilonProd;
+import com.tregouet.occam.data.problem_space.states.transitions.productions.impl.ContextualizedOmegaProd;
 
 public class InitialTransition extends ConceptTransition implements IConceptTransition {
 
 	public InitialTransition(Everything everything) {
-		super(new ConceptTransitionIC(WhatIsThere.INSTANCE.iD(), new ContextualizedEpsilonProd(null, null),
+		super(new ConceptTransitionIC(WhatIsThere.INSTANCE.iD(), ContextualizedOmegaProd.INSTANCE,
 				Nothing.INSTANCE),
 				new ConceptTransitionOIC(everything.iD(),
 						new ArrayList<>(Arrays.asList(new AVariable[] { Nothing.INSTANCE, This.INSTANCE }))));

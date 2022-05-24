@@ -2,6 +2,7 @@ package com.tregouet.occam.alg.builders.pb_space.representations.descriptions.im
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +14,7 @@ import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.Des
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.utils.DifferentiaeRankSetter;
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
+import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
@@ -22,6 +24,7 @@ import com.tregouet.occam.data.problem_space.states.descriptions.properties.Abst
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.utils.Functions;
 
 public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 
@@ -74,8 +77,16 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 		Map<Integer, Integer> particularID2MostSpecificConceptID = new HashMap<>();
 		for (IConcept leaf : conceptTree.getLeaves()) {
 			Integer leafID = leaf.iD();
+			Set<Integer> alreadyClassified = new HashSet<>();
+			for (IConcept upperBound : Functions.upperSet(conceptTree, leaf)) {
+				if (upperBound.isComplementary()) {
+					IConcept complemented = ((IComplementaryConcept) upperBound).getComplemented();
+					alreadyClassified.addAll(complemented.getExtentIDs());
+				}
+			}
 			for (Integer extentID : leaf.getExtentIDs()) {
-				particularID2MostSpecificConceptID.put(extentID, leafID);
+				if (!alreadyClassified.contains(extentID))
+					particularID2MostSpecificConceptID.put(extentID, leafID);
 			}
 		}
 		return particularID2MostSpecificConceptID;

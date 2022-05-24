@@ -39,9 +39,9 @@ import com.tregouet.occam.alg.builders.pb_space.representations.fact_evaluators.
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.builder.PartitionGraphBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.builder.PartitionGraphBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.builder.PartitionGraphBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilderStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.productions.ProductionBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.productions.ProductionBuilderStrategy;

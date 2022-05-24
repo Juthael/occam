@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.builder.PartitionGraphBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilder;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;

@@ -62,7 +62,7 @@ public class TablePrinter {
 					sB.append(alinea[a + 2] + "</tr>" + nL);
 				}
 			sB.append(alinea[a + 1] + "</tbody>" + nL)
-		.append(alinea + "</table>" + nL);
+		.append(alinea[a] + "</table>" + nL);
 		return sB.toString();
 	}
 

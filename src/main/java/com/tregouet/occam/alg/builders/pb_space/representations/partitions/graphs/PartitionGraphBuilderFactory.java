@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.builder;
+package com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs;
 
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.builder.impl.RecursiveForkExploration;
+import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.impl.RecursiveForkExploration;
 
 public class PartitionGraphBuilderFactory {
 

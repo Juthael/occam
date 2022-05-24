@@ -28,7 +28,7 @@ public class RepresentationPrinter {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
 				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> ASYMMETRICAL SIMILARITY MATRIX </h3>" + nL)
+					.append(alinea[a + 2] + "<h5> ASYMMETRICAL SIMILARITY MATRIX </h5>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
 				.append(TablePrinter.INSTANCE.print2DSquareTable(head, matrix, "Asymmetrical similarity matrix",
 						a + 1) + nL)
@@ -69,28 +69,27 @@ public class RepresentationPrinter {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
 				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> GENUS/DIFFERENTIAE DESCRIPTION </h3>" + nL)
+					.append(alinea[a + 2] + "<h3> GENUS / DIFFERENTIAE DESCRIPTION </h3>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
 				.append(FigurePrinter.INSTANCE.displayFigure(figureFullPath, a + 1, "Genus/Differentiae description")
 						+ nL)
 			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();
 	}
-
-	private static String printGeneralDescription(List<IContextObject> context, IRepresentation representation, 
+	
+	private static String printSimilarity(List<IContextObject> context, IRepresentation representation, 
 			int a) {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
-			.append(alinea[a + 1] + "<header>" + nL)
-				.append(alinea[a + 2] + "<h3> GENERAL DESCRIPTION </h3>" + nL)
-			.append(alinea[a + 1] + "</header>" + nL)
-			.append(printDescription(representation, a + 1) + nL)
-			.append(printSimilarityMatrix(context, representation, a + 1) + nL)
-			.append(printAsymetricalSimilarityMatrix(context, representation, a + 1) + nL)
-			.append(printTypicalityVector(context, representation, a + 1))
-		.append(alinea[a] + "</section>");
+				.append(alinea[a + 1] + "<header>" + nL)
+					.append(alinea[a + 2] + "<h3> SIMILARITY </h3>" + nL)
+				.append(alinea[a + 1] + "</header>" + nL)
+				.append(printSimilarityMatrix(context, representation, a + 1) + nL)
+				.append(printAsymetricalSimilarityMatrix(context, representation, a + 1) + nL)
+				.append(printTypicalityVector(context, representation, a + 1))
+			.append(alinea[a] + "</section>");
 		return sB.toString();
-	}
+	}	
 
 	private static String printGeneratedFacts(IRepresentation representation, int a) {
 		return FactPrinter.INSTANCE.print(representation, a);
@@ -106,7 +105,7 @@ public class RepresentationPrinter {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
 				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> SIMILARITY MATRIX </h3>" + nL)
+					.append(alinea[a + 2] + "<h5> SIMILARITY MATRIX </h5>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
 				.append(TablePrinter.INSTANCE.print2DSquareTable(head, matrix, "Similarity matrix", a + 1) + nL)
 			.append(alinea[a] + "</section>" + nL);
@@ -123,7 +122,7 @@ public class RepresentationPrinter {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
 				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> TYPICALITY VECTOR </h3>" + nL)
+					.append(alinea[a + 2] + "<h5> TYPICALITY VECTOR </h5>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
 				.append(TablePrinter.INSTANCE.print1DTable(head, vector, "Typicality vector", a + 1) + nL)
 			.append(alinea[a] + "</section>" + nL);
@@ -146,8 +145,7 @@ public class RepresentationPrinter {
 				.append(alineaaa + "<header>" + nL)
 					.append(alineaaaa + "<h2> No representation has been selected. </h2>" + nL)
 				.append(alineaaa + "</header>" + nL)
-			.append(alineaa + "</section>" + nL)
-			.append(alineaaa + "<hr>" + nL);
+			.append(alineaa + "</section>" + nL);
 		return sB.toString();
 	}	
 	
@@ -156,15 +154,12 @@ public class RepresentationPrinter {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
 				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> Representation n." + Integer.toString(representation.iD()) + "</h3>" + nL)
+					.append(alinea[a + 2] + "<h3> <u> REPRESENTATION N." + Integer.toString(representation.iD()) + " </u> </h3>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
-				.append(alinea[a + 1] + "<hr>" + nL)
-				.append(printGeneralDescription(context, representation, a + 2) + nL)
-				.append(alinea[a + 1] + "<hr>" + nL)
+				.append(printDescription(representation, a + 2) + nL)
+				.append(printSimilarity(context, representation, a + 2) + nL)
 				.append(printAutomatonGraph(representation, a + 2) + nL)
-				.append(alinea[a + 1] + "<hr>" + nL)
 				.append(printGeneratedFacts(representation, a + 2) + nL)
-				.append(alinea[a + 1] + "<hr>" + nL)
 				.append(printClassificationTree(representation, a + 2) + nL)
 			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();

@@ -21,7 +21,7 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class BuildGraphFirst implements PartitionBuilder {
 
-	Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<>();
+	private Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<>();
 
 	public BuildGraphFirst() {
 	}

@@ -17,7 +17,7 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.builder.impl.RecursiveForkExploration;
+import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.impl.RecursiveForkExploration;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;

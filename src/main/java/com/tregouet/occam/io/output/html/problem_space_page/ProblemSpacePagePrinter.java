@@ -52,6 +52,7 @@ public class ProblemSpacePagePrinter {
 					.append(alinea[2] + "<header>" + NL)
 						.append(alinea[3] + "<h2> REPRESENTATIONS </h2>" + NL)
 					.append(alinea[2] + "</header>" + NL)
+				.append(alinea[1] + "<hr>" + NL)
 					.append(RepresentationPrinter.INSTANCE.print(objects, problemSpace.getActiveRepresentation(), 2))
 				.append(alinea[1] + "</section>" + NL)
 			.append(FootPrinter.INSTANCE.get());

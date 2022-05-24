@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jgrapht.Graphs;
-import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
@@ -14,7 +13,7 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class RecursiveFraming implements Sorting2StringConverter {
 
-	private DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph = null;
+	private Tree<Integer, AbstractDifferentiae> partitionGraph = null;
 	private Map<Integer, List<Integer>> conceptID2ExtentIDs = null;
 
 	public RecursiveFraming() {

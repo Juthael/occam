@@ -46,8 +46,8 @@ public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSette
 			// default value, may be changed later
 			transition.setSalience(Salience.HIDDEN);
 			Integer inputStateID = transition.getInputConfiguration().getInputStateID();
-			if (inputStateIDs.contains(inputStateID)) {
-				int inputStateIdx = inputStateIDs.indexOf(inputStateID);
+			int inputStateIdx = inputStateIDs.indexOf(inputStateID);
+			if (inputStateIdx != -1) {
 				outputStateIDs.get(inputStateIdx).add(transition.getOutputInternConfiguration().getOutputStateID());
 				if (transition.type() == TransitionType.APPLICATION)
 					applications.get(inputStateIdx).add(transition);

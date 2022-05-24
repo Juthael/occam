@@ -58,6 +58,12 @@ public class SettersAbstractFactory {
 			partitionWeigherStrategy = PartitionWeigherStrategy.SUM_PARTITION_DIFFERENTIAE;
 			problemTransitionWeigherStrategy = ProblemTransitionWeigherStrategy.PART_PROB_WITH_TRIVIAL_TRANSITIONS_MANDATORY;
 			break;
+		case SETTING_STRATEGY_2 : 
+			propertyWeigherStrategy = PropertyWeigherStrategy.WEIGHTLESS;
+			differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.SPECIES_CARDINALITY;
+			differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.MIN_NB_OF_INSTANTIATED_VARS;
+			partitionWeigherStrategy = PartitionWeigherStrategy.SUM_PARTITION_DIFFERENTIAE;
+			problemTransitionWeigherStrategy = ProblemTransitionWeigherStrategy.PART_PROB_WITH_TRIVIAL_TRANSITIONS_MANDATORY;
 		default:
 			break;
 		}

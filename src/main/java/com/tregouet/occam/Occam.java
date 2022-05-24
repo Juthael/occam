@@ -8,7 +8,7 @@ import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
 
 public class Occam {
 
-	public static final OverallStrategy strategy = OverallStrategy.OVERALL_STRATEGY_1;
+	public static final OverallStrategy strategy = OverallStrategy.OVERALL_STRATEGY_2;
 
 	public Occam() {
 	}

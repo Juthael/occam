@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.tregouet.occam.alg.setters.weighs.Weighed;
 import com.tregouet.occam.data.logical_structures.partial_order.PartiallyComparable;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IPartition extends Weighed, PartiallyComparable<IPartition> {
@@ -26,12 +26,12 @@ public interface IPartition extends Weighed, PartiallyComparable<IPartition> {
 		return ordered;
 	}
 
-	Tree<Integer, AbstractDifferentiae> asGraph();
+	Tree<Integer, ADifferentiae> asGraph();
 
 	@Override
 	boolean equals(Object o);
 
-	AbstractDifferentiae[] getDifferentiae();
+	ADifferentiae[] getDifferentiae();
 
 	Integer getGenusID();
 

@@ -7,7 +7,7 @@ import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter
 import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.utils.Functions;
 
@@ -19,7 +19,7 @@ public class SpeciesCardinality implements DifferentiaeCoeffSetter {
 	}
 
 	@Override
-	public void accept(AbstractDifferentiae diff) {
+	public void accept(ADifferentiae diff) {
 		double coeff = getSpeciesCardinality(diff.getTarget());
 		diff.setWeightCoeff(coeff);
 	}

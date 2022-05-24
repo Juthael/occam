@@ -7,7 +7,7 @@ import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
 import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
 import com.tregouet.occam.alg.scorers.similarity.PairSimilarityScorer;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 /**
@@ -17,7 +17,7 @@ import com.tregouet.tree_finder.data.Tree;
  */
 public interface SimilarityMetricsBuilder 
 	extends BiFunction<
-		Tree<Integer, AbstractDifferentiae>, 
+		Tree<Integer, ADifferentiae>, 
 		Map<Integer, Integer>, 
 		ISimilarityMetrics> {
 	

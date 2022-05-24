@@ -20,7 +20,7 @@ import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.descriptions.impl.Description;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.data.Tree;
@@ -35,12 +35,12 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 
 	@Override
 	public IDescription apply(IRepresentationTransitionFunction transFunc, InvertedTree<IConcept, IIsA> conceptTree) {
-		Set<AbstractDifferentiae> differentiae;
-		Tree<Integer, AbstractDifferentiae> classification;
+		Set<ADifferentiae> differentiae;
+		Tree<Integer, ADifferentiae> classification;
 		differentiae = DescriptionBuilder.differentiaeBuilder().apply(transFunc);
 		//build parameter graph for the tree constructor
-		DirectedAcyclicGraph<Integer, AbstractDifferentiae> paramTree = new DirectedAcyclicGraph<>(null, null, false);
-		for (AbstractDifferentiae diff : differentiae) {
+		DirectedAcyclicGraph<Integer, ADifferentiae> paramTree = new DirectedAcyclicGraph<>(null, null, false);
+		for (ADifferentiae diff : differentiae) {
 			Integer genusID = diff.getSource();
 			Integer speciesID = diff.getTarget();
 			paramTree.addVertex(genusID);
@@ -60,7 +60,7 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 		DifferentiaeCoeffSetter differentiaeCoeffSetter = DescriptionBuilder.differentiaeCoeffSetter()
 				.setContext(conceptTree);
 		DifferentiaeWeigher differentiaeWeigher = DescriptionBuilder.differentiaeWeigher();
-		for (AbstractDifferentiae diff : classification.edgeSet()) {
+		for (ADifferentiae diff : classification.edgeSet()) {
 			differentiaeCoeffSetter.accept(diff);
 			differentiaeWeigher.accept(diff);
 		}

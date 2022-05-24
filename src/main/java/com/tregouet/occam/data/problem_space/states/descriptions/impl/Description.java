@@ -6,21 +6,21 @@ import java.util.Objects;
 
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class Description implements IDescription {
 
-	private final Tree<Integer, AbstractDifferentiae> classification;
+	private final Tree<Integer, ADifferentiae> classification;
 	private ISimilarityMetrics similarityMetrics = null;
 
-	public Description(Tree<Integer, AbstractDifferentiae> classification, ISimilarityMetrics similarityMetrics) {
+	public Description(Tree<Integer, ADifferentiae> classification, ISimilarityMetrics similarityMetrics) {
 		this.classification = classification;
 		this.similarityMetrics = similarityMetrics;
 	}
 
 	@Override
-	public Tree<Integer, AbstractDifferentiae> asGraph() {
+	public Tree<Integer, ADifferentiae> asGraph() {
 		return classification;
 	}
 

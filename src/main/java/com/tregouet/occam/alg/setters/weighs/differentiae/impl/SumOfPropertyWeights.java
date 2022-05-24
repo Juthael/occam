@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.setters.weighs.differentiae.impl;
 
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
 
 public class SumOfPropertyWeights implements DifferentiaeWeigher {
@@ -12,7 +12,7 @@ public class SumOfPropertyWeights implements DifferentiaeWeigher {
 	}
 
 	@Override
-	public void accept(AbstractDifferentiae differentiae) {
+	public void accept(ADifferentiae differentiae) {
 		double weight = 0.0;
 		for (IProperty property : differentiae.getProperties())
 			weight += property.weight();

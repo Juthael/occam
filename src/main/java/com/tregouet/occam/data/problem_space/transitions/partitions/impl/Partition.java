@@ -6,13 +6,13 @@ import java.util.Objects;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.tree_finder.data.Tree;
 
 public class Partition implements IPartition {
 
-	private final Tree<Integer, AbstractDifferentiae> asGraph;
+	private final Tree<Integer, ADifferentiae> asGraph;
 	private final String asString;
 	private final Integer genusID;
 	private final Integer[] speciesIDs;
@@ -20,7 +20,7 @@ public class Partition implements IPartition {
 	private final int rank;
 	private Double weight = null;
 
-	public Partition(Tree<Integer, AbstractDifferentiae> asGraph, String asString, Integer genusID,
+	public Partition(Tree<Integer, ADifferentiae> asGraph, String asString, Integer genusID,
 			Integer[] speciesIDs, Map<Integer, List<Integer>> leaf2Extent, int rank) {
 		this.asGraph = asGraph;
 		this.asString = asString;
@@ -39,13 +39,13 @@ public class Partition implements IPartition {
 	}
 
 	@Override
-	public Tree<Integer, AbstractDifferentiae> asGraph() {
+	public Tree<Integer, ADifferentiae> asGraph() {
 		return asGraph;
 	}
 
 	@Override
 	public Integer compareTo(IPartition o) {
-		DirectedAcyclicGraph<Integer, AbstractDifferentiae> otherGraph = o.asGraph();
+		DirectedAcyclicGraph<Integer, ADifferentiae> otherGraph = o.asGraph();
 		if (this.asGraph.equals(otherGraph))
 			return 0;
 		if (this.asGraph.vertexSet().containsAll(otherGraph.vertexSet())
@@ -68,9 +68,9 @@ public class Partition implements IPartition {
 	}
 
 	@Override
-	public AbstractDifferentiae[] getDifferentiae() {
-		AbstractDifferentiae[] diffArray = new AbstractDifferentiae[speciesIDs.length];
-		for (AbstractDifferentiae diff : asGraph.edgeSet()) {
+	public ADifferentiae[] getDifferentiae() {
+		ADifferentiae[] diffArray = new ADifferentiae[speciesIDs.length];
+		for (ADifferentiae diff : asGraph.edgeSet()) {
 			int speciesIdx = containsAtReturnedIdx(speciesIDs, diff.getTarget());
 			if (speciesIdx != -1)
 				diffArray[speciesIdx] = diff;

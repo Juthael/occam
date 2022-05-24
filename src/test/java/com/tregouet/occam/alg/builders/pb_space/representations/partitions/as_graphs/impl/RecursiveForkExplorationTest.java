@@ -24,7 +24,7 @@ import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
 import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -70,10 +70,10 @@ public class RecursiveForkExplorationTest {
 		boolean asExpected = true;
 		int nbOfChecks = 0;
 		for (IDescription description : descriptions) {
-			Set<Tree<Integer, AbstractDifferentiae>> partitionGraphs = RecursiveForkExploration.INSTANCE.apply(description.asGraph());
+			Set<Tree<Integer, ADifferentiae>> partitionGraphs = RecursiveForkExploration.INSTANCE.apply(description.asGraph());
 			if (partitionGraphs == null || partitionGraphs.isEmpty())
 				asExpected = false;
-			for (Tree<Integer, AbstractDifferentiae> graph : partitionGraphs) {
+			for (Tree<Integer, ADifferentiae> graph : partitionGraphs) {
 				try {
 					graph.validate();
 				}

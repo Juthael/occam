@@ -15,7 +15,7 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabeller;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -26,10 +26,10 @@ public class AsNestedFrames implements ProblemStateLabeller {
 	public AsNestedFrames() {
 	}
 
-	private static Tree<Integer, AbstractDifferentiae> asTree(Set<IPartition> intent) {
-		DirectedAcyclicGraph<Integer, AbstractDifferentiae> stateDag = new DirectedAcyclicGraph<>(null, null, false);
+	private static Tree<Integer, ADifferentiae> asTree(Set<IPartition> intent) {
+		DirectedAcyclicGraph<Integer, ADifferentiae> stateDag = new DirectedAcyclicGraph<>(null, null, false);
 		for (IPartition partition : intent) {
-			DirectedAcyclicGraph<Integer, AbstractDifferentiae> partitionGraph = partition.asGraph();
+			DirectedAcyclicGraph<Integer, ADifferentiae> partitionGraph = partition.asGraph();
 			Graphs.addAllVertices(stateDag, partitionGraph.vertexSet());
 			Graphs.addAllEdges(stateDag, partitionGraph, partitionGraph.edgeSet());
 		}

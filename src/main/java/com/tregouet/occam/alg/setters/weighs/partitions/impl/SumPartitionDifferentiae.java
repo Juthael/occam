@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.setters.weighs.partitions.impl;
 
 import com.tregouet.occam.alg.setters.weighs.partitions.PartitionWeigher;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
 public class SumPartitionDifferentiae implements PartitionWeigher {
@@ -14,7 +14,7 @@ public class SumPartitionDifferentiae implements PartitionWeigher {
 	@Override
 	public void accept(IPartition partition) {
 		double weight = 0.0;
-		for (AbstractDifferentiae differentiae : partition.getDifferentiae())
+		for (ADifferentiae differentiae : partition.getDifferentiae())
 			weight += differentiae.weight();
 		partition.setWeight(weight);
 	}

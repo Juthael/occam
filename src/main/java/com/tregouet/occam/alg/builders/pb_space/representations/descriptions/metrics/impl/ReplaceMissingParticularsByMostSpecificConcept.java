@@ -7,7 +7,7 @@ import java.util.TreeSet;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.impl.SimilarityMetrics;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class ReplaceMissingParticularsByMostSpecificConcept implements SimilarityMetricsBuilder {
@@ -16,7 +16,7 @@ public class ReplaceMissingParticularsByMostSpecificConcept implements Similarit
 			new ReplaceMissingParticularsByMostSpecificConcept();
 	
 	@Override
-	public ISimilarityMetrics apply(Tree<Integer, AbstractDifferentiae> partialDescriptionTree, 
+	public ISimilarityMetrics apply(Tree<Integer, ADifferentiae> partialDescriptionTree, 
 			Map<Integer, Integer> particularID2MostSpecificConceptID) {
 		TreeSet<Integer> particularIDs = new TreeSet<>(particularID2MostSpecificConceptID.keySet());
 		Iterator<Integer> particularIte = particularIDs.iterator();

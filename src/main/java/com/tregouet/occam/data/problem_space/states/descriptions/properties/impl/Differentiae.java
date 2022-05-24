@@ -3,10 +3,10 @@ package com.tregouet.occam.data.problem_space.states.descriptions.properties.imp
 import java.util.Objects;
 import java.util.Set;
 
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
 
-public class Differentiae extends AbstractDifferentiae {
+public class Differentiae extends ADifferentiae {
 
 	private static final long serialVersionUID = 2949125748201321377L;
 

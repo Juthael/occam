@@ -7,20 +7,20 @@ import java.util.Map;
 import org.jgrapht.Graphs;
 
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.tree_finder.data.Tree;
 
 public class RecursiveFraming implements Sorting2StringConverter {
 
-	private Tree<Integer, AbstractDifferentiae> partitionGraph = null;
+	private Tree<Integer, ADifferentiae> partitionGraph = null;
 	private Map<Integer, List<Integer>> conceptID2ExtentIDs = null;
 
 	public RecursiveFraming() {
 	}
 
 	@Override
-	public String apply(Tree<Integer, AbstractDifferentiae> partitionGraph) {
+	public String apply(Tree<Integer, ADifferentiae> partitionGraph) {
 		this.partitionGraph = partitionGraph;
 		return improveReadability(doFrame(getMaximalNonTrivialElement(partitionGraph)));
 	}
@@ -63,7 +63,7 @@ public class RecursiveFraming implements Sorting2StringConverter {
 		return sB.toString();
 	}
 	
-	private Integer getMaximalNonTrivialElement(Tree<Integer, AbstractDifferentiae> partitionGraph) {
+	private Integer getMaximalNonTrivialElement(Tree<Integer, ADifferentiae> partitionGraph) {
 		Integer maxNonTrivial = partitionGraph.getRoot();
 		while (partitionGraph.outDegreeOf(maxNonTrivial) == 1) {
 			maxNonTrivial = partitionGraph.outgoingEdgesOf(maxNonTrivial).iterator().next().getTarget();

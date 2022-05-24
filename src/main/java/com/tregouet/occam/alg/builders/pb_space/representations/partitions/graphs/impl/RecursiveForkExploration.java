@@ -11,7 +11,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilder;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class RecursiveForkExploration implements PartitionGraphBuilder {
@@ -21,10 +21,10 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 	private RecursiveForkExploration() {
 	}
 
-	private static Set<Tree<Integer, AbstractDifferentiae>> convertIntoTrees(
-			Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> dagPartitions) {
-		Set<Tree<Integer, AbstractDifferentiae>> partitions = new HashSet<>();
-		for (DirectedAcyclicGraph<Integer, AbstractDifferentiae> dagPartition : dagPartitions) {
+	private static Set<Tree<Integer, ADifferentiae>> convertIntoTrees(
+			Set<DirectedAcyclicGraph<Integer, ADifferentiae>> dagPartitions) {
+		Set<Tree<Integer, ADifferentiae>> partitions = new HashSet<>();
+		for (DirectedAcyclicGraph<Integer, ADifferentiae> dagPartition : dagPartitions) {
 			Integer root = null;
 			Set<Integer> leaves = new HashSet<>();
 			List<Integer> topoOrder = new ArrayList<>();
@@ -42,37 +42,37 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 		return partitions;
 	}
 
-	private static Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> part(
-			Tree<Integer, AbstractDifferentiae> tree, DirectedAcyclicGraph<Integer, AbstractDifferentiae> partedSoFar,
+	private static Set<DirectedAcyclicGraph<Integer, ADifferentiae>> part(
+			Tree<Integer, ADifferentiae> tree, DirectedAcyclicGraph<Integer, ADifferentiae> partedSoFar,
 			Integer activeNode) {
-		Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> partedNext = new HashSet<>();
+		Set<DirectedAcyclicGraph<Integer, ADifferentiae>> partedNext = new HashSet<>();
 		if (tree.getLeaves().contains(activeNode))
 			partedNext.add(partedSoFar);
 		else {
-			DirectedAcyclicGraph<Integer, AbstractDifferentiae> forked = shallowCopyOf(partedSoFar);
-			Set<AbstractDifferentiae> fork = tree.outgoingEdgesOf(activeNode);
+			DirectedAcyclicGraph<Integer, ADifferentiae> forked = shallowCopyOf(partedSoFar);
+			Set<ADifferentiae> fork = tree.outgoingEdgesOf(activeNode);
 			Graphs.addAllEdges(forked, tree, fork);
 			partedNext.add(forked);
-			for (AbstractDifferentiae path : fork) {
+			for (ADifferentiae path : fork) {
 				partedNext.addAll(part(tree, forked, path.getTarget()));
 			}
 		}
 		return partedNext;
 	}
 
-	private static DirectedAcyclicGraph<Integer, AbstractDifferentiae> shallowCopyOf(
-			DirectedAcyclicGraph<Integer, AbstractDifferentiae> copied) {
-		DirectedAcyclicGraph<Integer, AbstractDifferentiae> copy = new DirectedAcyclicGraph<>(null, null, false);
+	private static DirectedAcyclicGraph<Integer, ADifferentiae> shallowCopyOf(
+			DirectedAcyclicGraph<Integer, ADifferentiae> copied) {
+		DirectedAcyclicGraph<Integer, ADifferentiae> copy = new DirectedAcyclicGraph<>(null, null, false);
 		Graphs.addAllVertices(copy, copied.vertexSet());
 		Graphs.addAllEdges(copy, copied, copied.edgeSet());
 		return copy;
 	}
 
 	@Override
-	public Set<Tree<Integer, AbstractDifferentiae>> apply(Tree<Integer, AbstractDifferentiae> tree) {
-		DirectedAcyclicGraph<Integer, AbstractDifferentiae> partedSoFar = new DirectedAcyclicGraph<>(null, null, false);
+	public Set<Tree<Integer, ADifferentiae>> apply(Tree<Integer, ADifferentiae> tree) {
+		DirectedAcyclicGraph<Integer, ADifferentiae> partedSoFar = new DirectedAcyclicGraph<>(null, null, false);
 		partedSoFar.addVertex(tree.getRoot());
-		Set<DirectedAcyclicGraph<Integer, AbstractDifferentiae>> dagPartitions = part(tree, partedSoFar, tree.getRoot());
+		Set<DirectedAcyclicGraph<Integer, ADifferentiae>> dagPartitions = part(tree, partedSoFar, tree.getRoot());
 		return convertIntoTrees(dagPartitions);
 	}
 

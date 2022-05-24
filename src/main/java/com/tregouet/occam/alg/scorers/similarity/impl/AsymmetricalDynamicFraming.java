@@ -7,7 +7,7 @@ import java.util.List;
 import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
 import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets.IConceptPairIDs;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 
@@ -29,7 +29,7 @@ public class AsymmetricalDynamicFraming extends AbstractSimilarityScorer<IConcep
 	}
 
 	@Override
-	public AsymmetricalSimilarityScorer setAsContext(Tree<Integer, AbstractDifferentiae> classificationTree) {
+	public AsymmetricalSimilarityScorer setAsContext(Tree<Integer, ADifferentiae> classificationTree) {
 		this.classificationTree = classificationTree;
 		return this;
 	}
@@ -49,9 +49,9 @@ public class AsymmetricalDynamicFraming extends AbstractSimilarityScorer<IConcep
 		return targetAsGenusSpeciesID;
 	}
 	
-	private List<Integer> successorListOf(Tree<Integer, AbstractDifferentiae> classificationTree, Integer genusID) {
+	private List<Integer> successorListOf(Tree<Integer, ADifferentiae> classificationTree, Integer genusID) {
 		List<Integer> successors = new ArrayList<>();
-		for (AbstractDifferentiae diff : classificationTree.outgoingEdgesOf(genusID))
+		for (ADifferentiae diff : classificationTree.outgoingEdgesOf(genusID))
 			successors.add(diff.getTarget());
 		return successors;
 	}

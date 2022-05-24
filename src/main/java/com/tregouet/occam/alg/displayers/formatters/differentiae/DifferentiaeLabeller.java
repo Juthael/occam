@@ -4,9 +4,9 @@ import java.util.function.Function;
 
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 
-public interface DifferentiaeLabeller extends Function<AbstractDifferentiae, String> {
+public interface DifferentiaeLabeller extends Function<ADifferentiae, String> {
 
 	public static PropertyLabeller getPropertyDisplayer() {
 		return FormattersAbstractFactory.INSTANCE.getPropertyDisplayer();

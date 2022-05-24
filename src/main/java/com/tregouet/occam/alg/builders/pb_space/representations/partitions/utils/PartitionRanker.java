@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class PartitionRanker {
@@ -14,17 +14,17 @@ public class PartitionRanker {
 	private PartitionRanker() {
 	}
 	
-	public int rank(Tree<Integer, AbstractDifferentiae> partitionGraph) {
+	public int rank(Tree<Integer, ADifferentiae> partitionGraph) {
 		return rank(partitionGraph, partitionGraph.getRoot(), 0);
 	}
 	
-	private int rank(Tree<Integer, AbstractDifferentiae> partitionGraph, Integer vertex, int rank) {
-		Set<AbstractDifferentiae> vertexOutgoingEdges = partitionGraph.outgoingEdgesOf(vertex);
+	private int rank(Tree<Integer, ADifferentiae> partitionGraph, Integer vertex, int rank) {
+		Set<ADifferentiae> vertexOutgoingEdges = partitionGraph.outgoingEdgesOf(vertex);
 		if (vertexOutgoingEdges.isEmpty())
 			return rank;
 		else {
 			List<Integer> successors = new ArrayList<>(vertexOutgoingEdges.size());
-			for (AbstractDifferentiae edge : vertexOutgoingEdges)
+			for (ADifferentiae edge : vertexOutgoingEdges)
 				successors.add(partitionGraph.getEdgeTarget(edge));
 			int maxRank = 0;
 			for (Integer successor : successors) {

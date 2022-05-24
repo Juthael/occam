@@ -10,7 +10,7 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.DifferentiaeBuilder;
 import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.impl.Differentiae;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
@@ -27,9 +27,9 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 	}
 
 	@Override
-	public Set<AbstractDifferentiae> apply(IRepresentationTransitionFunction transFunc) {
+	public Set<ADifferentiae> apply(IRepresentationTransitionFunction transFunc) {
 		init();
-		Set<AbstractDifferentiae> differentiae = new HashSet<>();
+		Set<ADifferentiae> differentiae = new HashSet<>();
 		Set<IntIntPair> sourceToTargetIDs = new HashSet<>();
 		for (IConceptTransition transition : transFunc.getTransitions()) {
 			int inputStateID = transition.getInputConfiguration().getInputStateID();

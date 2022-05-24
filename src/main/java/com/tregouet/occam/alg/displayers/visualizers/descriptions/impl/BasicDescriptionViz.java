@@ -15,7 +15,7 @@ import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
 import com.tregouet.occam.alg.displayers.visualizers.descriptions.DescriptionViz;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.io.output.LocalPaths;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -34,9 +34,9 @@ public class BasicDescriptionViz implements DescriptionViz {
 	@Override
 	public String apply(IDescription description, String fileName) {
 		DifferentiaeLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeDisplayer();
-		Tree<Integer, AbstractDifferentiae> descGraph = description.asGraph();
+		Tree<Integer, ADifferentiae> descGraph = description.asGraph();
 		// convert in DOT format
-		DOTExporter<Integer, AbstractDifferentiae> exporter = new DOTExporter<>();
+		DOTExporter<Integer, ADifferentiae> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(v.toString()));

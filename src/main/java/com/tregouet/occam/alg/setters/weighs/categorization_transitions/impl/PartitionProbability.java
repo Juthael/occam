@@ -8,7 +8,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
@@ -66,7 +66,7 @@ public class PartitionProbability implements ProblemTransitionWeigher {
 	private static double informativity(AProblemStateTransition transition) {
 		double informativity = 0.0;
 		for (IPartition transitionPartition : transition.getPartitions()) {
-			for (AbstractDifferentiae differentia : transitionPartition.getDifferentiae())
+			for (ADifferentiae differentia : transitionPartition.getDifferentiae())
 				informativity += differentia.weight();
 		}
 		return informativity;

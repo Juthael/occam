@@ -34,7 +34,7 @@ import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
 import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
@@ -83,9 +83,9 @@ public class IfIsAThenDifferTest {
 		int nbOfChecks = 0;
 		for (IRepresentationTransitionFunction transFunc : transFunctions) {
 			IfIsAThenDiffer diffBldr = new IfIsAThenDiffer();
-			Set<AbstractDifferentiae> differentiae = diffBldr.apply(transFunc);
-			DirectedAcyclicGraph<Integer, AbstractDifferentiae> graph = new DirectedAcyclicGraph<>(null, null, false);
-			for (AbstractDifferentiae diff : differentiae) {
+			Set<ADifferentiae> differentiae = diffBldr.apply(transFunc);
+			DirectedAcyclicGraph<Integer, ADifferentiae> graph = new DirectedAcyclicGraph<>(null, null, false);
+			for (ADifferentiae diff : differentiae) {
 				graph.addVertex(diff.getSource());
 				graph.addVertex(diff.getTarget());
 				graph.addEdge(diff.getSource(), diff.getTarget(), diff);
@@ -107,10 +107,10 @@ public class IfIsAThenDifferTest {
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}	
 	
-	private String visualize(DirectedAcyclicGraph<Integer, AbstractDifferentiae> description, int idx) {
+	private String visualize(DirectedAcyclicGraph<Integer, ADifferentiae> description, int idx) {
 		String fileName = "IfIsAThenDifferTest_Desc_" + Integer.toString(idx);
 		// convert in DOT format
-		DOTExporter<Integer, AbstractDifferentiae> exporter = new DOTExporter<>();
+		DOTExporter<Integer, ADifferentiae> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
 			map.put("label", DefaultAttribute.createAttribute(v.toString()));
@@ -136,7 +136,7 @@ public class IfIsAThenDifferTest {
 		}
 	}
 	
-	private String label(AbstractDifferentiae differentiae) {
+	private String label(ADifferentiae differentiae) {
 		StringBuilder sB = new StringBuilder();
 		for (IProperty prop : differentiae.getProperties()) {
 			sB.append(FormattersAbstractFactory.INSTANCE.getPropertyDisplayer().apply(prop) + nL);

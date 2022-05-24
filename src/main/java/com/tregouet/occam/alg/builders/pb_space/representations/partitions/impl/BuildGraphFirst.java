@@ -14,7 +14,7 @@ import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConce
 import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.AbstractDifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.occam.data.problem_space.transitions.partitions.impl.Partition;
 import com.tregouet.tree_finder.data.InvertedTree;
@@ -31,12 +31,12 @@ public class BuildGraphFirst implements PartitionBuilder {
 	@Override
 	public Set<IPartition> apply(IDescription description, InvertedTree<IConcept, IIsA> conceptTree) {
 		mapConceptIDToExtentIDs(conceptTree);
-		Tree<Integer, AbstractDifferentiae> classification = description.asGraph();
+		Tree<Integer, ADifferentiae> classification = description.asGraph();
 		Set<IPartition> partitions = new HashSet<>();
-		Set<Tree<Integer, AbstractDifferentiae>> partitionsAsGraph = PartitionBuilder.getPartitionGraphBuilder()
+		Set<Tree<Integer, ADifferentiae>> partitionsAsGraph = PartitionBuilder.getPartitionGraphBuilder()
 				.apply(classification);
 		Sorting2StringConverter stringBuilder = PartitionBuilder.getSorting2StringConverter().setUp(conceptID2ExtentIDs);
-		for (Tree<Integer, AbstractDifferentiae> partitionAsGraph : partitionsAsGraph) {
+		for (Tree<Integer, ADifferentiae> partitionAsGraph : partitionsAsGraph) {
 			// set partitionAsString
 			String partitionAsString = stringBuilder.apply(partitionAsGraph);
 			// set genusID and edgeIDs
@@ -44,7 +44,7 @@ public class BuildGraphFirst implements PartitionBuilder {
 			Integer[] speciesIDs;
 			List<Integer> speciesIDList = new ArrayList<>();
 			int maxRank = 0;
-			for (AbstractDifferentiae diff : partitionAsGraph.edgeSet()) {
+			for (ADifferentiae diff : partitionAsGraph.edgeSet()) {
 				if (diff.rank() > maxRank) {
 					genusID = diff.getSource();
 					speciesIDList.clear();

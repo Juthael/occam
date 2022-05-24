@@ -10,6 +10,7 @@ import java.util.Set;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.utils.PartitionRanker;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
+import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
@@ -18,6 +19,7 @@ import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.occam.data.problem_space.transitions.partitions.impl.Partition;
 import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.data.Tree;
+import com.tregouet.tree_finder.utils.Functions;
 
 public class BuildGraphFirst implements PartitionBuilder {
 
@@ -70,9 +72,22 @@ public class BuildGraphFirst implements PartitionBuilder {
 
 	private PartitionBuilder mapConceptIDToExtentIDs(InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		for (IConcept concept : treeOfConcepts) {
-			List<Integer> extent = new ArrayList<>(concept.getExtentIDs());
-			extent.sort((x, y) -> Integer.compare(x, y));
-			conceptID2ExtentIDs.put(concept.iD(), extent);
+			Set<Integer> extentIDs = new HashSet<>();
+			Set<Integer> alreadyClassified = new HashSet<>();
+			Set<IConcept> upperSet = Functions.upperSet(treeOfConcepts, concept);
+			for (IConcept upperBound : upperSet) {
+				if (upperBound.isComplementary()) {
+					IConcept complemented = ((IComplementaryConcept) upperBound).getComplemented();
+					alreadyClassified.addAll(complemented.getExtentIDs());
+				}
+			}
+			for (Integer iD : concept.getExtentIDs()) {
+				if (!alreadyClassified.contains(iD))
+					extentIDs.add(iD);
+			}
+			List<Integer> sortedExtentIDs = new ArrayList<>(extentIDs);
+			sortedExtentIDs.sort((x, y) -> Integer.compare(x, y));
+			conceptID2ExtentIDs.put(concept.iD(), sortedExtentIDs);
 		}
 		return this;
 	}

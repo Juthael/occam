@@ -13,15 +13,15 @@ public class Occam {
 	public Occam() {
 	}
 
-	public static void main(String[] args) {
-		OverallAbstractFactory.INSTANCE.apply(strategy);
-		new PrototypeMenu();
-	}
-	
 	public static void initialize() {
 		IContextObject.initializeIDGenerator();
 		IConcept.initializeIDGenerator();
 		IRepresentation.initializeIDGenerator();
+	}
+
+	public static void main(String[] args) {
+		OverallAbstractFactory.INSTANCE.apply(strategy);
+		new PrototypeMenu();
 	}
 
 }

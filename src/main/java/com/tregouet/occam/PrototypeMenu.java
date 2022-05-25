@@ -39,6 +39,50 @@ public class PrototypeMenu {
 		return true;
 	}
 
+	private void deepenRepresentation(IProblemSpace problemSpace) {
+		System.out.println(NL);
+		System.out.println("Please enter a representation ID : " + NL);
+		Integer iD = null;
+		try {
+			iD = entry.nextInt();
+			entry.nextLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			problemSpaceMenu(problemSpace);
+		}
+		Boolean result = problemSpace.deepen(iD);
+		if (result == null) {
+			System.out.println("No representation has this ID. " + NL);
+			problemSpaceMenu(problemSpace);
+		} else {
+			if (!result)
+				System.out.println("This representation is fully developed already. " + NL);
+			problemSpaceMenu(problemSpace);
+		}
+	}
+
+	private void displayRepresentation(IProblemSpace problemSpace) {
+		System.out.println(NL);
+		System.out.println("Please enter a representation ID : " + NL);
+		Integer iD = null;
+		try {
+			iD = entry.nextInt();
+			entry.nextLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			problemSpaceMenu(problemSpace);
+		}
+		Boolean result = problemSpace.display(iD);
+		if (result == null) {
+			System.out.println("No representation has this ID. " + NL);
+			problemSpaceMenu(problemSpace);
+		} else {
+			if (!result)
+				System.out.println("This representation is already displayed. " + NL);
+			problemSpaceMenu(problemSpace);
+		}
+	}
+
 	private void enterNewInput() throws IOException {
 		System.out.println(NL);
 		System.out.println("Please enter a path for the next input : " + NL);
@@ -151,52 +195,6 @@ public class PrototypeMenu {
 			break;
 		}
 	}
-
-	private void displayRepresentation(IProblemSpace problemSpace) {
-		System.out.println(NL);
-		System.out.println("Please enter a representation ID : " + NL);
-		Integer iD = null;
-		try {
-			iD = entry.nextInt();
-			entry.nextLine();
-		} catch (Exception e) {
-			e.printStackTrace();
-			problemSpaceMenu(problemSpace);
-		}
-		Boolean result = problemSpace.display(iD);
-		if (result == null) {
-			System.out.println("No representation has this ID. " + NL);
-			problemSpaceMenu(problemSpace);
-		}
-		else {
-			if (result == false)
-				System.out.println("This representation is already displayed. " + NL);
-			problemSpaceMenu(problemSpace);
-		}
-	}
-	
-	private void deepenRepresentation(IProblemSpace problemSpace) {
-		System.out.println(NL);
-		System.out.println("Please enter a representation ID : " + NL);
-		Integer iD = null;
-		try {
-			iD = entry.nextInt();
-			entry.nextLine();
-		} catch (Exception e) {
-			e.printStackTrace();
-			problemSpaceMenu(problemSpace);
-		}
-		Boolean result = problemSpace.deepen(iD);
-		if (result == null) {
-			System.out.println("No representation has this ID. " + NL);
-			problemSpaceMenu(problemSpace);
-		}
-		else {
-			if (result == false)
-				System.out.println("This representation is fully developed already. " + NL);
-			problemSpaceMenu(problemSpace);
-		}
-	}	
 
 	private void welcome() {
 		System.out.println("********************");

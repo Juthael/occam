@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.impl.RecursiveForkExploration;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
@@ -50,17 +50,17 @@ public class RecursiveForkExplorationTest {
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
-		conceptLattice = GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-		productions = GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
+		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
+		productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		growTrees();
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
-			transFuncBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
+			transFuncBldr = BuildersAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
 			transFunc2Tree.put(transFunc, tree);
 		}
 		for (IRepresentationTransitionFunction transFunc : transFunc2Tree.keySet()) {
-			descriptions.add(GeneratorsAbstractFactory.INSTANCE
+			descriptions.add(BuildersAbstractFactory.INSTANCE
 					.getDescriptionBuilder().apply(transFunc, transFunc2Tree.get(transFunc)));
 		}
 	}
@@ -87,14 +87,14 @@ public class RecursiveForkExplorationTest {
 	}
 	
 	private void growTrees() {
-		trees = GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
+		trees = BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
 		boolean newTreesBuilt = true;
 		Set<InvertedTree<IConcept, IIsA>> previouslyFoundTrees = new HashSet<>();
 		previouslyFoundTrees.addAll(trees);
 		while (newTreesBuilt) {
 			Set<InvertedTree<IConcept, IIsA>> foundTrees = new HashSet<>();
 			for (InvertedTree<IConcept, IIsA> tree : previouslyFoundTrees)
-				foundTrees.addAll(GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
+				foundTrees.addAll(BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
 			newTreesBuilt = !(foundTrees.isEmpty());
 			trees.addAll(foundTrees);
 			previouslyFoundTrees = foundTrees;

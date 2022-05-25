@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.impl.IfLeafIsUniversalThenSort;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.impl.BuildGraphFirst;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
@@ -50,8 +50,8 @@ public class BuildGraphFirstTest {
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
-		conceptLattice = GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-		productions = GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
+		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
+		productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		growTrees();
 	}
 
@@ -61,9 +61,9 @@ public class BuildGraphFirstTest {
 		int nbOfChecks = 0;
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
-			transFuncBldr = GeneratorsAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
+			transFuncBldr = BuildersAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
-			IDescription description = GeneratorsAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc, tree);
+			IDescription description = BuildersAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc, tree);
 			BuildGraphFirst partitionBuilder = new BuildGraphFirst();
 			Set<IPartition> partitions = partitionBuilder.apply(description, tree);
 			if (partitions == null || partitions.isEmpty())
@@ -85,14 +85,14 @@ public class BuildGraphFirstTest {
 	}
 	
 	private void growTrees() {
-		trees = GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
+		trees = BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
 		boolean newTreesBuilt = true;
 		Set<InvertedTree<IConcept, IIsA>> previouslyFoundTrees = new HashSet<>();
 		previouslyFoundTrees.addAll(trees);
 		while (newTreesBuilt) {
 			Set<InvertedTree<IConcept, IIsA>> foundTrees = new HashSet<>();
 			for (InvertedTree<IConcept, IIsA> tree : previouslyFoundTrees)
-				foundTrees.addAll(GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
+				foundTrees.addAll(BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
 			newTreesBuilt = !(foundTrees.isEmpty());
 			trees.addAll(foundTrees);
 			previouslyFoundTrees = foundTrees;

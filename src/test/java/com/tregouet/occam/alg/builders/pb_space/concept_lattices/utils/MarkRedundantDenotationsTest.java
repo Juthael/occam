@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
 import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
@@ -36,7 +36,7 @@ public class MarkRedundantDenotationsTest {
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES2);
-		lattice = GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
+		lattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 	}
 
 	@Test

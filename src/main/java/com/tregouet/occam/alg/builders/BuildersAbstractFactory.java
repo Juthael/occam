@@ -55,9 +55,9 @@ import com.tregouet.occam.alg.builders.pb_space.representations.transition_funct
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetterFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetterStrategy;
 
-public class GeneratorsAbstractFactory {
+public class BuildersAbstractFactory {
 
-	public static final GeneratorsAbstractFactory INSTANCE = new GeneratorsAbstractFactory();
+	public static final BuildersAbstractFactory INSTANCE = new BuildersAbstractFactory();
 
 	private DenotationBuilderStrategy denotationBuilderStrategy = null;
 	private ConceptLatticeBuilderStrategy conceptLatticeBuilderStrategy = null;
@@ -78,7 +78,7 @@ public class GeneratorsAbstractFactory {
 	private ProblemTransitionBuilderStrategy problemTransitionBuilderStrategy = null;
 	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
 
-	private GeneratorsAbstractFactory() {
+	private BuildersAbstractFactory() {
 	}
 
 	public ConceptLatticeBuilder getConceptLatticeBuilder() {
@@ -153,7 +153,7 @@ public class GeneratorsAbstractFactory {
 		return ProblemTransitionRankerFactory.INSTANCE.apply(problemTransitionRankerStrategy);
 	}
 
-	public void setUpStrategy(GenerationStrategy overallStrategy) {
+	public void setUpStrategy(BuildStrategy overallStrategy) {
 		switch (overallStrategy) {
 		case GENERATION_STRATEGY_1:
 			denotationBuilderStrategy = DenotationBuilderStrategy.MAX_SYMBOL_SUBSEQUENCES;

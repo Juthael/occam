@@ -3,7 +3,7 @@ package com.tregouet.occam.alg.builders.pb_space.representations.partitions;
 import java.util.Set;
 import java.util.function.BiFunction;
 
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilder;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
@@ -18,7 +18,7 @@ import com.tregouet.tree_finder.data.InvertedTree;
 public interface PartitionBuilder extends BiFunction<IDescription, InvertedTree<IConcept, IIsA>, Set<IPartition>> {
 
 	public static PartitionGraphBuilder getPartitionGraphBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getPartitionGraphBuilder();
+		return BuildersAbstractFactory.INSTANCE.getPartitionGraphBuilder();
 	}
 
 	public static Sorting2StringConverter getSorting2StringConverter() {

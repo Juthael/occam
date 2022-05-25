@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
@@ -37,7 +37,7 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
-		pbSpaceExplorer = GeneratorsAbstractFactory.INSTANCE.getProblemSpaceExplorer();
+		pbSpaceExplorer = BuildersAbstractFactory.INSTANCE.getProblemSpaceExplorer();
 		pbSpaceExplorer.initialize(context);
 		randomlyExpandPbSpace();
 	}

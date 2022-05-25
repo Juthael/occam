@@ -2,7 +2,7 @@ package com.tregouet.occam.alg.builders.pb_space.representations.descriptions;
 
 import java.util.function.BiFunction;
 
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.DifferentiaeBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
@@ -23,7 +23,7 @@ public interface DescriptionBuilder
 	extends BiFunction<IRepresentationTransitionFunction, InvertedTree<IConcept, IIsA>, IDescription> {
 
 	public static DifferentiaeBuilder differentiaeBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getDifferentiaeBuilder();
+		return BuildersAbstractFactory.INSTANCE.getDifferentiaeBuilder();
 	}
 
 	public static DifferentiaeCoeffSetter differentiaeCoeffSetter() {
@@ -35,7 +35,7 @@ public interface DescriptionBuilder
 	}
 	
 	public static SimilarityMetricsBuilder similarityMetricsBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getSimilarityMetricsBuilder();
+		return BuildersAbstractFactory.INSTANCE.getSimilarityMetricsBuilder();
 	}
 
 }

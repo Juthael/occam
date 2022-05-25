@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
@@ -33,7 +33,7 @@ public interface IProblemSpace {
 	IRepresentation getActiveRepresentation();
 	
 	public static ProblemSpaceExplorer problemSpaceExplorer() {
-		return GeneratorsAbstractFactory.INSTANCE.getProblemSpaceExplorer();
+		return BuildersAbstractFactory.INSTANCE.getProblemSpaceExplorer();
 	}
 
 }

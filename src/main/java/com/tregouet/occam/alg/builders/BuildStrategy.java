@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders;
 
-public enum GenerationStrategy {
+public enum BuildStrategy {
 
 	GENERATION_STRATEGY_1
 

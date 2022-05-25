@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.builders.GeneratorsAbstractFactory;
+import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
 import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilder;
@@ -38,23 +38,23 @@ public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
 	Set<Integer> getIDsOfRepresentationsWithIncompleteSorting();
 	
 	public static ConceptLatticeBuilder getConceptLatticeBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getConceptLatticeBuilder();
+		return BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder();
 	}
 	
 	public static ConceptTreeGrower getConceptTreeGrower() {
-		return GeneratorsAbstractFactory.INSTANCE.getConceptTreeGrower();
+		return BuildersAbstractFactory.INSTANCE.getConceptTreeGrower();
 	}
 	
 	public static ProductionBuilder getProductionBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice();
+		return BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice();
 	}
 	
 	public static RepresentationBuilder getRepresentationBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getRepresentationBuilder();
+		return BuildersAbstractFactory.INSTANCE.getRepresentationBuilder();
 	}
 	
 	public static ProblemTransitionBuilder getProblemTransitionBuilder() {
-		return GeneratorsAbstractFactory.INSTANCE.getProblemTransitionBuilder();
+		return BuildersAbstractFactory.INSTANCE.getProblemTransitionBuilder();
 	}
 
 	public static ProblemTransitionWeigher getProblemTransitionWeigher() {
@@ -70,7 +70,7 @@ public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
 	}
 	
 	public static ProblemTransitionRanker getProblemTransitionRanker() {
-		return GeneratorsAbstractFactory.INSTANCE.getProblemTransitionRanker();
+		return BuildersAbstractFactory.INSTANCE.getProblemTransitionRanker();
 	}	
 
 }

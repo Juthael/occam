@@ -1,0 +1,7 @@
+		<section>
+			<header>
+				<h2> Target folder setting : </h2>
+			</header>
+			<br />
+			<p> Please enter a path for the target folder : </p>
+		</section>

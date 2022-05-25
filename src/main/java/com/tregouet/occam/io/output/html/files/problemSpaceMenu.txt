@@ -1,0 +1,12 @@
+		<section>
+			<header>
+				<h2>Problem space menu</h2>
+			</header>
+			<p>
+				<ol>
+					<li> Enter the ID of some state to explore. </li>
+					<li> Enter the ID of some state to expand. </li>
+					<li> Back to main menu. </li>
+				</ol>
+			</p>
+		</section>

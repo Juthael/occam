@@ -1,73 +1,87 @@
 package com.tregouet.occam;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Scanner;
 
-import com.tregouet.occam.io.output.IRepresentationDisplayer;
-import com.tregouet.occam.io.output.impl.RepresentationDisplayer;
+import com.tregouet.occam.data.problem_space.IProblemSpace;
+import com.tregouet.occam.data.problem_space.impl.ProblemSpace;
+import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.io.input.impl.GenericFileReader;
+import com.tregouet.occam.io.output.LocalPaths;
+import com.tregouet.occam.io.output.html.main_menu.MainMenuPrinter;
+import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
 
 public class PrototypeMenu {
 
 	private static final String NL = System.lineSeparator();
-	private IRepresentationDisplayer representationDisplayer;
+
+	private static final String htmlFileName = "occam.html";
+
 	private final Scanner entry = new Scanner(System.in);
-	private String folderPath = null;
-	
+
 	public PrototypeMenu() {
 		welcome();
 	}
-	
+
 	private static boolean isValidPath(String path) {
-	    try {
-	        Paths.get(path);
-	    } catch (InvalidPathException | NullPointerException ex) {
-	        return false;
-	    }
-	    return true;
+		try {
+			Paths.get(path);
+		} catch (InvalidPathException | NullPointerException ex) {
+			return false;
+		}
+		return true;
 	}
-	
+
 	private void enterNewInput() throws IOException {
 		System.out.println(NL);
 		System.out.println("Please enter a path for the next input : " + NL);
 		String inputPathString = entry.nextLine();
 		if (isValidPath(inputPathString)) {
+			Occam.initialize();
 			Path inputPath = Paths.get(inputPathString);
-			representationDisplayer = new RepresentationDisplayer(folderPath);
-			try {
-				representationDisplayer.represent(inputPath);
-				representationDisplayer.generateHTML();
-				outputMenu();
-			} catch (IOException e) {
-				System.out.println("An error has occurred." + NL);
-				e.printStackTrace();
-				enterNewInput();
-			}
-		}
-		else {
+			List<IContextObject> objects = GenericFileReader.getContextObjects(inputPath);
+			ProblemSpace problemSpace = new ProblemSpace(new HashSet<>(objects));
+			problemSpaceMenu(problemSpace);
+		} else {
 			System.out.println("This path is invalid." + NL);
 			enterTargetFolder();
 		}
-		
 	}
-	
+
 	private void enterTargetFolder() {
 		System.out.println(NL);
 		System.out.println("Please enter a path for the target folder : " + NL);
 		String pathString = entry.nextLine();
 		if (isValidPath(pathString)) {
-			folderPath = pathString;
+			LocalPaths.INSTANCE.setTargetFolderPath(pathString);
 			mainMenu();
-		}
-		else {
+		} else {
 			System.out.println("This path is invalid." + NL);
 			enterTargetFolder();
 		}
 	}
-	
+
+	private void generate(String htmlPage) throws IOException {
+		String sep = File.separator;
+		File pageFile = new File(LocalPaths.INSTANCE.getTargetFolderPath() + sep + htmlFileName);
+		FileWriter writer = new FileWriter(pageFile);
+		writer.write(htmlPage);
+		writer.close();
+	}
+
 	private void mainMenu() {
+		try {
+			generate(MainMenuPrinter.INSTANCE.get());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		System.out.println(NL);
 		System.out.println("**********MAIN MENU**********");
 		System.out.println(NL);
@@ -77,125 +91,119 @@ public class PrototypeMenu {
 		int choice;
 		choice = entry.nextInt();
 		entry.nextLine();
-		switch(choice) {
-			case 1 : try {
+		switch (choice) {
+		case 1:
+			try {
 				enterNewInput();
 			} catch (IOException e) {
 				System.out.println(e.getMessage() + NL);
 				mainMenu();
-			} 
-				break;
-			case 2 : enterTargetFolder();
-				break;
-			case 3 : System.out.println("Goodbye.");
-				System.exit(0);
-				break;
-			default : 
-				System.out.println("Please stay focused." + NL);
-				mainMenu();
-				break;
+			}
+			break;
+		case 2:
+			enterTargetFolder();
+			break;
+		case 3:
+			System.out.println("Goodbye.");
+			System.exit(0);
+			break;
+		default:
+			System.out.println("Please stay focused." + NL);
+			mainMenu();
+			break;
 		}
 	}
-	
-	private void nextCategoricalStructure() {
-		System.out.println(NL);
+
+	private void problemSpaceMenu(IProblemSpace problemSpace) {
 		try {
-			representationDisplayer.nextConceptTree();
-			representationDisplayer.generateHTML();
+			String htmlPage = ProblemSpacePagePrinter.INSTANCE.print(problemSpace);
+			generate(htmlPage);
 		} catch (IOException e) {
-			System.out.println("An error has occurred." + NL);
 			e.printStackTrace();
-			outputMenu();
 		}
-		System.out.println("A new transition function based on a new categorical structure has been generated." + NL);
-		outputMenu();
-	}
-	
-	private void nextTransitionFunction() {
 		System.out.println(NL);
+		System.out.println("**********PROBLEM SPACE MENU**********");
+		System.out.println(NL);
+		System.out.println("1 : enter the ID of a representation to display." + NL);
+		System.out.println("2 : enter the ID of a representation to deepen." + NL);
+		System.out.println("3 : back to main menu" + NL);
+		int choice = 0;
 		try {
-			representationDisplayer.nextTransitionFunctionOverCurrentCategoricalStructure();
-			representationDisplayer.generateHTML();
-		} catch (IOException e) {
-			System.out.println("An error has occurred." + NL);
+			choice = entry.nextInt();
+			entry.nextLine();
+		} catch (Exception e) {
 			e.printStackTrace();
-			outputMenu();
+			problemSpaceMenu(problemSpace);
 		}
-		System.out.println("A new transition function based on the current categorical structure has been generated."
-				+ NL);
-		outputMenu();
+		switch (choice) {
+		case 1:
+			displayRepresentation(problemSpace);
+			break;
+		case 2:
+			deepenRepresentation(problemSpace);
+			break;
+		case 3:
+			mainMenu();
+			break;
+		default:
+			System.out.println("Please stay focused." + NL);
+			mainMenu();
+			break;
+		}
 	}
-	
-	private void outputMenu() {
+
+	private void displayRepresentation(IProblemSpace problemSpace) {
 		System.out.println(NL);
-		if (representationDisplayer.hasNextConceptualStructure() 
-				&& representationDisplayer.hasNextTransitionFunctionOverCurrentConceptualStructure()) {
-			System.out.println("1 : generate a new transition function based on the current categorical structure." + NL);
-			System.out.println("2 : generate a new transition function based on a new categorical structure." + NL);
-			System.out.println("3 : back to main menu." + NL);
-			int choice;
-			choice = entry.nextInt();
+		System.out.println("Please enter a representation ID : " + NL);
+		Integer iD = null;
+		try {
+			iD = entry.nextInt();
 			entry.nextLine();
-			switch (choice) {
-			case 1 : nextTransitionFunction();
-				break;
-			case 2 : nextCategoricalStructure();
-				break;
-			case 3 : mainMenu();
-				break;
-			default : System.out.println("Please stay focused." + NL);
-				outputMenu();
-				break;
-			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			problemSpaceMenu(problemSpace);
 		}
-		else if (representationDisplayer.hasNextConceptualStructure()) {
-			System.out.println("No additional transition function can be generated from the current "
-					+ "categorical structure." + NL);
-			System.out.println("1 : generate a new transition function based on a new categorical structure." + NL);
-			System.out.println("2 : back to main menu." + NL);
-			int choice;
-			choice = entry.nextInt();
-			entry.nextLine();
-			switch (choice) {
-			case 1 : nextCategoricalStructure();
-				break;
-			case 2 : mainMenu();
-				break;
-			default : System.out.println("Please stay focused." + NL);
-				outputMenu();
-				break;
-			}
-		}
-		else if (representationDisplayer.hasNextTransitionFunctionOverCurrentConceptualStructure()) {
-			System.out.println("No additional categorical structure can be generated." + NL);
-			System.out.println("1 : generate a new transition function based on the current categorical structure." 
-					+ NL);
-			System.out.println("2 : back to main menu." + NL);
-			int choice;
-			choice = entry.nextInt();
-			entry.nextLine();
-			switch (choice) {
-			case 1 : nextTransitionFunction();
-				break;
-			case 2 : mainMenu();
-				break;
-			default : System.out.println("Please stay focused." + NL);
-				outputMenu();
-				break;
-			}
+		Boolean result = problemSpace.display(iD);
+		if (result == null) {
+			System.out.println("No representation has this ID. " + NL);
+			problemSpaceMenu(problemSpace);
 		}
 		else {
-			System.out.println("No additional transition function can be generated." + NL);
-			mainMenu();
+			if (result == false)
+				System.out.println("This representation is already displayed. " + NL);
+			problemSpaceMenu(problemSpace);
 		}
 	}
 	
+	private void deepenRepresentation(IProblemSpace problemSpace) {
+		System.out.println(NL);
+		System.out.println("Please enter a representation ID : " + NL);
+		Integer iD = null;
+		try {
+			iD = entry.nextInt();
+			entry.nextLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			problemSpaceMenu(problemSpace);
+		}
+		Boolean result = problemSpace.deepen(iD);
+		if (result == null) {
+			System.out.println("No representation has this ID. " + NL);
+			problemSpaceMenu(problemSpace);
+		}
+		else {
+			if (result == false)
+				System.out.println("This representation is fully developed already. " + NL);
+			problemSpaceMenu(problemSpace);
+		}
+	}	
+
 	private void welcome() {
 		System.out.println("********************");
 		System.out.println("********OCCAM********");
 		System.out.println("********************");
 		System.out.println(NL);
 		enterTargetFolder();
-	}	
+	}
 
 }

@@ -32,7 +32,7 @@ public class RepresentationPrinter {
 				.append(alinea[a + 1] + "</header>" + nL)
 				.append(TablePrinter.INSTANCE.print2DSquareTable(head, matrix, "Asymmetrical similarity matrix",
 						a + 1) + nL)
-			.append(alinea + "</section>" + nL);
+			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();
 	}
 

@@ -133,4 +133,9 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		//do nothing
 	}
 
+	@Override
+	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
+		return conceptLattice.getLatticeOfConcepts();
+	}
+
 }

@@ -20,7 +20,9 @@ import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
 /**
@@ -36,6 +38,8 @@ public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
 	
 	Set<Integer> getIDsOfRepresentationsWithIncompleteSorting();
+	
+	DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts();
 	
 	public static ConceptLatticeBuilder getConceptLatticeBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder();

@@ -10,7 +10,9 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.data.problem_space.IProblemSpace;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
 public class ProblemSpace implements IProblemSpace {
@@ -61,6 +63,11 @@ public class ProblemSpace implements IProblemSpace {
 	@Override
 	public IRepresentation getActiveRepresentation() {
 		return activeState;
+	}
+
+	@Override
+	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
+		return problemSpaceExplorer.getLatticeOfConcepts();
 	}
 
 }

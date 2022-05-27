@@ -136,7 +136,7 @@ public class RecursiveFraming implements Sorting2StringConverter {
 		for (int i = 0 ; i < array.length ; i++) {
 			char iChar = array[i];
 			if (iChar == '(' || iChar == ')') {
-				if (!sB.isEmpty()) {
+				if (sB.length()>0) {
 					stringList.add(sB.toString());
 					sB.setLength(0);
 				}

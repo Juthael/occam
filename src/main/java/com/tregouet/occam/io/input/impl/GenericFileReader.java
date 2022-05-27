@@ -50,7 +50,7 @@ public abstract class GenericFileReader {
 	 * @throws InvalidInputException
 	 */
 	public static List<IContextObject> getContextObjects(Path path) throws IOException {
-		List<IContextObject> objects = new ArrayList<>();
+		
 		BufferedReader reader;
 		try {
 			reader = Files.newBufferedReader(path);
@@ -59,6 +59,11 @@ public abstract class GenericFileReader {
 			throw new IOException("GenericFileReader.getContextObjects(Path) : "
 					+ "BufferedReader ccannot be instantiated." + System.lineSeparator() + e.getMessage());
 		}
+		return getContextObjects(reader);
+	}
+
+	public static List<IContextObject> getContextObjects(BufferedReader reader) throws IOException {
+		List<IContextObject> objects = new ArrayList<>();
 		String line;
 		List<List<String>> currObjConstructsAsLists = new ArrayList<>();
 		String currObjName = null;

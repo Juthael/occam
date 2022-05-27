@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.jgrapht.Graphs;
 import org.jgrapht.alg.TransitiveReduction;
+import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
@@ -176,17 +177,22 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 	}
 
 	private static Set<IContextualizedProduction> transitiveReduction(Set<IContextualizedProduction> unreduced) {
-		DirectedAcyclicGraph<IDenotation, IContextualizedProduction> prodGraph = new DirectedAcyclicGraph<>(null, null,
-				false);
+		Set<IContextualizedProduction> reduced = new HashSet<>();
+		DirectedAcyclicGraph<IDenotation, DefaultEdge> sparseReducedGraph = 
+				new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
 		for (IContextualizedProduction prod : unreduced) {
 			IDenotation source = prod.getSource();
 			IDenotation target = prod.getTarget();
-			prodGraph.addVertex(source);
-			prodGraph.addVertex(target);
-			prodGraph.addEdge(source, target, prod);
+			sparseReducedGraph.addVertex(source);
+			sparseReducedGraph.addVertex(target);
+			sparseReducedGraph.addEdge(source, target);
 		}
-		TransitiveReduction.INSTANCE.reduce(prodGraph);
-		return new HashSet<>(prodGraph.edgeSet());
+		TransitiveReduction.INSTANCE.reduce(sparseReducedGraph);
+		for (IContextualizedProduction prod : unreduced) {
+			if (sparseReducedGraph.getEdge(prod.getSource(), prod.getTarget()) != null)
+				reduced.add(prod);
+		}
+		return reduced;
 	}
 
 	@Override

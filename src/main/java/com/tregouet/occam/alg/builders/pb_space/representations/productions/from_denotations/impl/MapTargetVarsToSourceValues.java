@@ -16,6 +16,7 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Terminal;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IProduction;
@@ -52,7 +53,7 @@ public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 	@Override
 	public Set<IContextualizedProduction> apply(IDenotation source, IDenotation target) {
 		Set<IContextualizedProduction> productions = new HashSet<>();
-		if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals())) {
+		if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals()) && isValid(source, target)) {
 			// then source may be an instance of target
 			if (target.getVariables().size() > 0) {
 				//since if no variable can be bound, then nothing to produce 
@@ -81,6 +82,15 @@ public class MapTargetVarsToSourceValues implements ProdBuilderFromDenotations {
 			}
 		}
 		return productions;
+	}
+	
+	protected boolean isValid(IDenotation source, IDenotation target) {
+		return true;
+	}
+
+	@Override
+	public ProdBuilderFromDenotations setUp(IConcept sourceConcept) {
+		return this;
 	}
 
 }

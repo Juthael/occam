@@ -13,6 +13,7 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 
+import com.tregouet.occam.alg.builders.pb_space.representations.productions.from_denotations.ProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
@@ -261,11 +262,16 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		for (IIsA edge : adjacentEdgeToUnwrappingComplementary) {
 			IConcept species = treeOfConcepts.getEdgeSource(edge);
 			IConcept genus = treeOfConcepts.getEdgeTarget(edge);
+			//HERE
+			if (genus.iD() == 105 && species.iD() == -4) {
+				System.out.println("here");
+			}
+			//HERE
+			ProdBuilderFromDenotations prodBuilder = 
+					RepresentationTransFuncBuilder.getProdBuilderFromDenotations().setUp(species);
 			for (IDenotation speciesDenotation : species.getDenotations()) {
 				for (IDenotation genusDenotation : genus.getDenotations()) {
-					productions.addAll(
-							RepresentationTransFuncBuilder.getProdBuilderFromDenotations().apply(
-									speciesDenotation, genusDenotation));
+					productions.addAll(prodBuilder.apply(speciesDenotation, genusDenotation));
 				}
 			}
 		}

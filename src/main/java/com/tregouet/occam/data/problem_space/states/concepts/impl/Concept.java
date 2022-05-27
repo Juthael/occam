@@ -40,6 +40,17 @@ public class Concept implements IConcept {
 			this.denotations.add(new Denotation(construct, this.iD));
 		this.extentIDs = extentIDs;
 	}
+	
+	protected Concept(List<IDenotation> denotations, Set<Integer> extentIDs, int iD) {
+		this.iD = iD;
+		for (IDenotation paramDenotation : denotations) {
+			IDenotation thisDenotation = new Denotation(paramDenotation, this.iD); 
+			if (paramDenotation.isRedundant())
+				thisDenotation.markAsRedundant();
+			this.denotations.add(thisDenotation);			
+		}
+		this.extentIDs = extentIDs;
+	}
 
 	@Override
 	public IConcept buildComplementOfThis(Set<IConcept> complementMinimalLowerBounds, IConcept supremum) {

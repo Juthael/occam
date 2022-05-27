@@ -1,12 +1,11 @@
 package com.tregouet.occam.data.problem_space.states.concepts.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
 import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
@@ -18,17 +17,15 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 	private IConcept wrappedComplementing = null;
 
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
-		super(complementing.getDenotations().stream().map(d -> new Construct(d.asList())).collect(Collectors.toSet()),
-				new HashSet<>(Sets.difference(complementing.getExtentIDs(), toBeComplemented.getExtentIDs())),
-				-toBeComplemented.iD());
+		super(new ArrayList<>(complementing.getDenotations()), new HashSet<>(Sets.difference(complementing.getExtentIDs(), 
+				toBeComplemented.getExtentIDs())), -toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
 		setType(ConceptType.UNIVERSAL);
 	}
 
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept supremum, Set<Integer> extentIDs) {
-		super(supremum.getDenotations().stream().map(d -> new Construct(d.asList())).collect(Collectors.toSet()),
-				extentIDs, -toBeComplemented.iD());
+		super(new ArrayList<IDenotation>(supremum.getDenotations()), extentIDs, -toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		setType(ConceptType.UNIVERSAL);
 	}

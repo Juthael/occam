@@ -3,6 +3,7 @@ package com.tregouet.occam.alg.builders.pb_space.representations.descriptions.di
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -21,16 +22,14 @@ import it.unimi.dsi.fastutil.ints.IntIntPair;
 
 public class IfIsAThenDiffer implements DifferentiaeBuilder {
 
-	Map<IntIntPair, Set<IProperty>> transitionToProperties;
-	
 	public IfIsAThenDiffer() {
 	}
 
 	@Override
 	public Set<ADifferentiae> apply(IRepresentationTransitionFunction transFunc) {
-		init();
 		Set<ADifferentiae> differentiae = new HashSet<>();
 		Set<IntIntPair> sourceToTargetIDs = new HashSet<>();
+		//populate sourceToTargetIDs set
 		for (IConceptTransition transition : transFunc.getTransitions()) {
 			int inputStateID = transition.getInputConfiguration().getInputStateID();
 			if (inputStateID != IConcept.WHAT_IS_THERE_ID) {
@@ -38,26 +37,27 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 						transition.getOutputInternConfiguration().getOutputStateID()));
 			}
 		}
-		List<IProperty> properties = new ArrayList<>(DifferentiaeBuilder.propertyBuilder().apply(transFunc));
+		//populate property set
+		Set<IProperty> properties = DifferentiaeBuilder.propertyBuilder().apply(transFunc);
+		//for each (source,target) pair, build a differentia 
 		for (IntIntPair sourceToTargetID : sourceToTargetIDs) {
+			//populate this differentia subset of properties
 			Set<IProperty> thisDiffProperties = new HashSet<>();
-			ListIterator<IProperty> propIte = properties.listIterator();
+			Iterator<IProperty> propIte = properties.iterator();
+			List<IProperty> toBeRemoved = new ArrayList<>();
 			while (propIte.hasNext()) {
 				IProperty property = propIte.next();
 				if (property.getGenusID() == sourceToTargetID.firstInt() 
 						&& property.getSpeciesID() == sourceToTargetID.secondInt()) {
 					thisDiffProperties.add(property);
-					propIte.remove();
+					toBeRemoved.add(property);
 				}
 			}
 			differentiae.add(
 					new Differentiae(sourceToTargetID.firstInt(), sourceToTargetID.secondInt(), thisDiffProperties));
+			properties.removeAll(toBeRemoved);
 		}
 		return differentiae;
-	}
-
-	private void init() {
-		transitionToProperties = new HashMap<>();
 	}
 
 }

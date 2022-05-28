@@ -61,12 +61,12 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		for (AProblemStateTransition transition : transitions) {
 			newProblemGraph.addEdge(transition.getSource(), transition.getTarget(), transition);
 		}
-		reduceThenRankThenWeightThenScoreThenFilter(newProblemGraph);
+		reduceThenRankThenWeightThenScoreThenComply(newProblemGraph);
 		if (!(newProblemGraph.vertexSet().size() > problemGraph.vertexSet().size()))
 			return false;
 		this.problemGraph = newProblemGraph;
 		//overloadable ; do nothing in this impl
-		expandForbiddenLeaves(newRepresentations);
+		expandTransitoryLeaves(newRepresentations);
 		return true;
 	}
 
@@ -82,11 +82,11 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		IRepresentation initialRepresentation = repBldr.apply(initialTree);
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
 		problemGraph.addVertex(initialRepresentation);
-		reduceThenRankThenWeightThenScoreThenFilter(problemGraph);
+		reduceThenRankThenWeightThenScoreThenComply(problemGraph);
 		return this;
 	}
 	
-	protected void reduceThenRankThenWeightThenScoreThenFilter(
+	protected void reduceThenRankThenWeightThenScoreThenComply(
 			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
 		TransitiveReduction.INSTANCE.reduce(problemGraph);
 		ProblemTransitionRanker ranker = ProblemSpaceExplorer.getProblemTransitionRanker().setUp(problemGraph);
@@ -98,7 +98,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		ProblemStateScorer scorer = ProblemSpaceExplorer.getProblemStateScorer().setUp(problemGraph);
 		for (IRepresentation problemState : problemGraph)
 			problemState.setScore(scorer.apply(problemState));
-		filter(problemGraph);
+		complyToAdditionalConstraint(problemGraph);
 	}
 	
 	protected IRepresentation getRepresentationWithID(int iD) {
@@ -114,7 +114,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		return problemGraph;
 	}
 	
-	protected void filter(
+	protected void complyToAdditionalConstraint(
 			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph) {
 		//do nothing
 	}
@@ -129,7 +129,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		return iDs;
 	}
 	
-	protected void expandForbiddenLeaves(Set<IRepresentation> newRepresentations) {
+	protected void expandTransitoryLeaves(Set<IRepresentation> newRepresentations) {
 		//do nothing
 	}
 

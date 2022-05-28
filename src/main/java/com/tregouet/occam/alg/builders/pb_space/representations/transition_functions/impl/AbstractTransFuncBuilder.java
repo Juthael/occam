@@ -262,11 +262,6 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		for (IIsA edge : adjacentEdgeToUnwrappingComplementary) {
 			IConcept species = treeOfConcepts.getEdgeSource(edge);
 			IConcept genus = treeOfConcepts.getEdgeTarget(edge);
-			//HERE
-			if (genus.iD() == 105 && species.iD() == -4) {
-				System.out.println("here");
-			}
-			//HERE
 			ProdBuilderFromDenotations prodBuilder = 
 					RepresentationTransFuncBuilder.getProdBuilderFromDenotations().setUp(species);
 			for (IDenotation speciesDenotation : species.getDenotations()) {

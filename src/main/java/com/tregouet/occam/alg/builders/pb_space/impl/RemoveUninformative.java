@@ -15,7 +15,7 @@ public class RemoveUninformative extends RemoveMeaningless implements ProblemSpa
 	}
 
 	@Override
-	protected void filter(
+	protected void complyToAdditionalConstraint(
 			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
 		Set<IRepresentation> representations = new HashSet<>(problemGraph.vertexSet());
 		for (IRepresentation representation : representations) {

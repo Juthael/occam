@@ -9,12 +9,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.Graphs;
-import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
-import org.jgrapht.graph.DirectedMultigraph;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.productions.from_denotations.ProdBuilderFromDenotations;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.utils.ProductionSetReducer;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
 import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConcept;
@@ -68,7 +67,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		 * that were not in the concept lattice and aren't wrapping any lattice concept. */
 		Set<IContextualizedProduction> filteredUpdatedProds = addProductionsWithUnwrappingComplementaryConcepts(
 				filteredProds, treeOfConcepts);
-		Set<IContextualizedProduction> filteredUpdatedReducedProds = transitiveReduction(filteredUpdatedProds);
+		Set<IContextualizedProduction> filteredUpdatedReducedProds = ProductionSetReducer.reduce(filteredUpdatedProds);
 		Set<IConceptTransition> transitions = new HashSet<>();
 		//map each concept to its unique successor
 		Map<Integer, Integer> conceptToSuccessorIDs = new HashMap<>();
@@ -175,19 +174,6 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 			genusToSpeciesIDs.addAll(getGenusToSpeciesIDs(species, graph));
 		}
 		return genusToSpeciesIDs;
-	}
-
-	private static Set<IContextualizedProduction> transitiveReduction(Set<IContextualizedProduction> unreduced) {
-		DirectedMultigraph<IDenotation, IContextualizedProduction> prodGraph = new DirectedMultigraph<>(null, null, false);
-		for (IContextualizedProduction prod : unreduced) {
-			IDenotation source = prod.getSource();
-			IDenotation target = prod.getTarget();
-			prodGraph.addVertex(source);
-			prodGraph.addVertex(target);
-			prodGraph.addEdge(source, target, prod);
-		}
-		TransitiveReduction.INSTANCE.reduce(prodGraph);
-		return new HashSet<>(prodGraph.edgeSet());
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public class AppCluster {
 	public boolean add(IApplication other) {
 		if (other.getInputConfiguration().getInputStateID() == genusID
 				&& other.getOutputInternConfiguration().getOutputStateID() == speciesID
-				&& other.getInputConfiguration().getInputSymbol().getTarget() == function) {
+				&& other.getInputConfiguration().getInputSymbol().getTarget().equals(function)) {
 			applications.add(other);
 			values.add(other.getInputConfiguration().getInputSymbol().getSource());
 			return true;

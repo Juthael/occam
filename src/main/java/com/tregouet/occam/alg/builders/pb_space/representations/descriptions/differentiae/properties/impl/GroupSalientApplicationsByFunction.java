@@ -14,14 +14,12 @@ import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationT
 
 public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 
-	private List<AppCluster> appClusters;
-
 	public GroupSalientApplicationsByFunction() {
 	}
 
 	@Override
 	public Set<IProperty> apply(IRepresentationTransitionFunction transFunction) {
-		init();
+		List<AppCluster> appClusters = new ArrayList<>();
 		Set<IProperty> properties = new HashSet<>();
 		for (IApplication application : transFunction.getSalientApplications()) {
 			boolean clustered = false;
@@ -38,10 +36,6 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 			properties.add(property);
 		}
 		return properties;
-	}
-
-	private void init() {
-		appClusters = new ArrayList<>();
 	}
 
 }

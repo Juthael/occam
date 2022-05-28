@@ -89,69 +89,6 @@ public class AutomaticallyExpandTrivialLeavesTest {
 		VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(pbSpaceExplorer.getProblemSpaceGraph(), "AutomaticallyExpandTrivialLeaves");
 		*/
 		assertTrue(!pbStates.isEmpty() && asExpected);
-	}	
-	
-	@Test
-	public void debuggingTest() throws IOException {
-		Path TABLETOP1B = Paths.get(".", "src", "test", "java", "files", "tabletop1b.txt");
-		List<IContextObject> context = GenericFileReader.getContextObjects(TABLETOP1B);
-		pbSpaceExplorer.initialize(context);
-		String nl = System.lineSeparator();
-		pbSpaceExplorer.apply(1);
-		VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(
-				pbSpaceExplorer.getProblemSpaceGraph(), "AutomaticallyExpandTrivialLeavesTest_debugging");
-		StringBuilder sB = new StringBuilder();
-		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph().vertexSet()) {
-			sB.append("Representation n." + representation.iD() + " : " + nl);
-			for (IPartition partition : representation.getPartitions()) {
-				sB.append(FormattersAbstractFactory.INSTANCE.getSorting2StringConverter().apply(partition.asGraph()) + nl);
-			}
-			sB.append(nl + nl);
-		}
-		IRepresentation r6 = pbSpaceExplorer.getRepresentationWithID(6);
-		IRepresentation r14 = pbSpaceExplorer.getRepresentationWithID(14);
-		IRepresentation r15 = pbSpaceExplorer.getRepresentationWithID(15);
-		IRepresentation r16 = pbSpaceExplorer.getRepresentationWithID(16);
-		Integer compare16to6 = r16.compareTo(r6);
-		Integer compare16to14 = r16.compareTo(r14);
-		Integer compare16to15 = r16.compareTo(r15);
-		sB.append("comparison 16, 6 : ");
-		sB.append(compare16to6 == null ? "uncomparable" : compare16to6);
-		sB.append(nl);
-		sB.append(nl + "*****" + nl);
-		sB.append("comparison 16, 14 : ");
-		sB.append(compare16to14 == null ? "uncomparable" : compare16to14);
-		sB.append(nl);
-		sB.append("16 / 14 : ");
-		int idx16minus14 = 0;
-		for (IPartition partition : Sets.difference(r16.getPartitions(), r14.getPartitions())) {
-			sB.append(partition.toString() + " ");
-			visualize(partition.asGraph(), "16minus14" + idx16minus14++);
-		}
-		sB.append(nl);
-		sB.append("14 / 16 : ");
-		int idx14minus16 = 0;
-		for (IPartition partition : Sets.difference(r14.getPartitions(), r16.getPartitions())) {
-			sB.append(partition.toString() + " ");
-			visualize(partition.asGraph(), "14minus16" + idx14minus16++);
-		}
-		sB.append(nl);
-		sB.append(nl + "*****" + nl);
-		sB.append("comparison 16, 15 : ");
-		sB.append(compare16to15 == null ? "uncomparable" : compare16to15);
-		sB.append(nl);
-		sB.append("16 / 15 : ");
-		for (IPartition partition : Sets.difference(r16.getPartitions(), r15.getPartitions())) {
-			sB.append(partition.toString() + " ");
-		}
-		sB.append(nl);
-		sB.append("15 / 16 : ");
-		for (IPartition partition : Sets.difference(r15.getPartitions(), r16.getPartitions())) {
-			sB.append(partition.toString() + " ");
-		}
-		sB.append(nl);
-		sB.append(nl + "*****" + nl);
-		System.out.println(sB.toString());
 	}
 
 	private void randomlyExpandPbSpace() {

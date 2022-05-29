@@ -10,7 +10,6 @@ import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
 import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilder;
-import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRanker;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.productions.ProductionBuilder;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
@@ -72,9 +71,5 @@ public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
 	public static Sorting2StringConverter getSorting2StringConverter() {
 		return FormattersAbstractFactory.INSTANCE.getSorting2StringConverter();
 	}
-	
-	public static ProblemTransitionRanker getProblemTransitionRanker() {
-		return BuildersAbstractFactory.INSTANCE.getProblemTransitionRanker();
-	}	
 
 }

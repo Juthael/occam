@@ -21,9 +21,5 @@ public abstract class AProblemStateTransition extends DefaultEdge implements Wei
 	public abstract IRepresentation getTarget();
 
 	public abstract void setWeight(Double weight);
-	
-	public abstract void setRank(int rank);
-	
-	public abstract int rank();
 
 }

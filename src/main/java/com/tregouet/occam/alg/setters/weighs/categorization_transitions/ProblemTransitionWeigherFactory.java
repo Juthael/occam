@@ -4,7 +4,6 @@ import com.tregouet.occam.alg.setters.weighs.categorization_transitions.impl.Par
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.impl.PartitionProbability;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.impl.PartitionsWeight;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.impl.PartitionsWeightInverse;
-import com.tregouet.occam.alg.setters.weighs.categorization_transitions.impl.RankedPartitionsWeight;
 
 public class ProblemTransitionWeigherFactory {
 
@@ -19,8 +18,6 @@ public class ProblemTransitionWeigherFactory {
 			return PartitionsWeight.INSTANCE;
 		case PARTITIONS_WEIGHT_INVERSE:
 			return PartitionsWeightInverse.INSTANCE;
-		case RANKED_PARTITIONS_WEIGHT : 
-			return RankedPartitionsWeight.INSTANCE;
 		case PARTITION_PROBABILITY : 
 			return new PartitionProbability();
 		case PART_PROB_WITH_TRIVIAL_TRANSITIONS_MANDATORY : 

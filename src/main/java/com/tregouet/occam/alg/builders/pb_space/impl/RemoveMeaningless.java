@@ -12,7 +12,6 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
-import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRanker;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
@@ -61,7 +60,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		for (AProblemStateTransition transition : transitions) {
 			newProblemGraph.addEdge(transition.getSource(), transition.getTarget(), transition);
 		}
-		reduceThenRankThenWeightThenScoreThenComply(newProblemGraph);
+		reduceThenWeightThenScoreThenComply(newProblemGraph);
 		if (!(newProblemGraph.vertexSet().size() > problemGraph.vertexSet().size()))
 			return false;
 		this.problemGraph = newProblemGraph;
@@ -82,19 +81,16 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		IRepresentation initialRepresentation = repBldr.apply(initialTree);
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
 		problemGraph.addVertex(initialRepresentation);
-		reduceThenRankThenWeightThenScoreThenComply(problemGraph);
+		reduceThenWeightThenScoreThenComply(problemGraph);
 		return this;
 	}
 	
-	protected void reduceThenRankThenWeightThenScoreThenComply(
+	protected void reduceThenWeightThenScoreThenComply(
 			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
 		TransitiveReduction.INSTANCE.reduce(problemGraph);
-		ProblemTransitionRanker ranker = ProblemSpaceExplorer.getProblemTransitionRanker().setUp(problemGraph);
 		ProblemTransitionWeigher weigher = ProblemSpaceExplorer.getProblemTransitionWeigher().setContext(problemGraph);
-		for (AProblemStateTransition transition : problemGraph.edgeSet()) {
-			ranker.accept(transition);
+		for (AProblemStateTransition transition : problemGraph.edgeSet())
 			weigher.accept(transition);
-		}
 		ProblemStateScorer scorer = ProblemSpaceExplorer.getProblemStateScorer().setUp(problemGraph);
 		for (IRepresentation problemState : problemGraph)
 			problemState.setScore(scorer.apply(problemState));

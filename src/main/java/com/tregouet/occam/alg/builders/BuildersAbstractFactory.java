@@ -15,9 +15,6 @@ import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower
 import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRanker;
-import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRankerFactory;
-import com.tregouet.occam.alg.builders.pb_space.ranker.ProblemTransitionRankerStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderStrategy;
@@ -74,7 +71,6 @@ public class BuildersAbstractFactory {
 	private FactEvaluatorBuilderStrategy factEvaluatorBuilderStrategy = null;
 	private RepresentationBuilderStrategy representationBuilderStrategy = null;
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
-	private ProblemTransitionRankerStrategy problemTransitionRankerStrategy = null;
 	private ProblemTransitionBuilderStrategy problemTransitionBuilderStrategy = null;
 	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
 
@@ -148,10 +144,6 @@ public class BuildersAbstractFactory {
 	public TransitionSalienceSetter getTransitionSalienceSetter() {
 		return TransitionSalienceSetterFactory.INSTANCE.apply(transitionSalienceSetterStrategy);
 	}
-	
-	public ProblemTransitionRanker getProblemTransitionRanker() {
-		return ProblemTransitionRankerFactory.INSTANCE.apply(problemTransitionRankerStrategy);
-	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
 		switch (overallStrategy) {
@@ -172,7 +164,6 @@ public class BuildersAbstractFactory {
 			representationBuilderStrategy = RepresentationBuilderStrategy.FIRST_BUILD_TRANSITION_FUNC;
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
 			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;
-			problemTransitionRankerStrategy = ProblemTransitionRankerStrategy.TOP_DOWN_RANKER;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.EXPAND_TRIVIAL_LEAVES;
 			break;
 		default:

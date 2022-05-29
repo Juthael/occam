@@ -68,7 +68,7 @@ public class FormattersAbstractFactory {
 	public void setUpStrategy(FormattingStrategy strategy) {
 		switch (strategy) {
 		case LABELLING_STRATEGY_1:
-			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.REMOVE_NON_SALIENT_APP;
+			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.DISPLAY_ALL_TRANSITIONS;
 			propertyLabellerStrategy = PropertyLabellerStrategy.AS_PRODUCTIONS;
 			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
 			sorting2StringConverterStrategy = Sorting2StringConverterStrategy.RECURSIVE_FRAMING;

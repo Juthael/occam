@@ -8,8 +8,8 @@ import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransiti
 public class BuildExhaustively extends AbstractTransFuncBuilder implements RepresentationTransFuncBuilder {
 
 	@Override
-	protected Set<IConceptTransition> filter(Set<IConceptTransition> transitions) {
-		return transitions;
+	protected void filterForComplianceToAdditionalConstraints(Set<IConceptTransition> transitions) {
+		//do nothing
 	}
 
 }

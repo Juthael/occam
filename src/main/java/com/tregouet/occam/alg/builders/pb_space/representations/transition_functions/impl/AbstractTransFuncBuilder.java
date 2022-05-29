@@ -185,7 +185,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		return output();
 	}
 
-	abstract protected Set<IConceptTransition> filter(Set<IConceptTransition> transitions);
+	abstract protected void filterForComplianceToAdditionalConstraints(Set<IConceptTransition> transitions);
 
 	private IRepresentationTransitionFunction output() {
 		// declare TF constructor parameters
@@ -214,6 +214,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		transitions.addAll(closures);
 		transitions.addAll(inheritances);
 		transitions.addAll(spontaneous);
+		filterForComplianceToAdditionalConstraints(transitions);
 		RepresentationTransFuncBuilder.transitionSalienceSetter().setSaliencesOf(transitions, particularIDs);
 		// return
 		return new RepresentationTransitionFunction(transitions);

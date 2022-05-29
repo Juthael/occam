@@ -21,7 +21,6 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 	private static final String nL = System.lineSeparator();
 
 	private Set<Integer> vertices = new HashSet<>();
-
 	private Map<Integer, Integer> targetIDToSourceID = new HashMap<>();
 	private Map<Integer, Set<IConceptTransition>> targetIDToApplications = new HashMap<>();
 	private Map<Integer, Set<IConceptTransition>> targetIDToOtherTransitions = new HashMap<>();
@@ -61,7 +60,7 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 				targetIDToOtherTransitions.put(targetID, new HashSet<>());
 			}
 		}
-		for (IConceptTransition transition : filter(transFunc.getTransitions())) {
+		for (IConceptTransition transition : complyToOptionalConstraint(transFunc.getTransitions())) {
 			Integer targetID = transition.getOutputInternConfiguration().getOutputStateID();
 			if (transition.type() == TransitionType.APPLICATION)
 				targetIDToApplications.get(targetID).add(transition);
@@ -74,7 +73,7 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 		return transFuncGraph;
 	}
 
-	protected abstract Set<IConceptTransition> filter(Set<IConceptTransition> transitions);
+	protected abstract Set<IConceptTransition> complyToOptionalConstraint(Set<IConceptTransition> transitions);
 
 	private AConceptTransitionSet buildEdge(Integer targetID) {
 		Set<IConceptTransition> transitions = new HashSet<>();

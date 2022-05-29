@@ -11,7 +11,7 @@ import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
 public class RemoveNonSalientApp extends AbstractTFLabeller implements TransitionFunctionLabeller {
 
 	@Override
-	protected Set<IConceptTransition> filter(Set<IConceptTransition> transitions) {
+	protected Set<IConceptTransition> complyToOptionalConstraint(Set<IConceptTransition> transitions) {
 		return transitions.stream().filter(t -> !isNonSalientApplication(t)).collect(Collectors.toSet());
 	}
 

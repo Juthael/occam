@@ -30,5 +30,11 @@ public interface IProduction extends ISymbol {
 	 * @return true if left term and right term are the same
 	 */
 	boolean isBlank();
+	
+	/**
+	 * 
+	 * @return true if the right term only contains a variable
+	 */
+	boolean isAlphaConversion();
 
 }

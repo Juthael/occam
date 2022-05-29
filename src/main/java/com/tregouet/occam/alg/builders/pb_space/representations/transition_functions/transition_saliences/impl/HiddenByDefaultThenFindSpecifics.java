@@ -28,10 +28,18 @@ public class HiddenByDefaultThenFindSpecifics implements TransitionSalienceSette
 		Set<Set<IProduction>> uniqueValues = new HashSet<>(values);
 		return uniqueValues.size() == values.size();
 	}
+	
+	private static boolean isSimpleAlphaConversion(Set<IProduction> value) {
+		for (IProduction production : value) {
+			if (!production.isAlphaConversion())
+				return false;
+		}
+		return true;
+	}
 
 	private static boolean everySubConceptInstantiatesThisVariable(List<Set<IProduction>> values) {
 		for (Set<IProduction> value : values) {
-			if (value.isEmpty())
+			if (value.isEmpty() || isSimpleAlphaConversion(value))
 				return false;
 		}
 		return true;

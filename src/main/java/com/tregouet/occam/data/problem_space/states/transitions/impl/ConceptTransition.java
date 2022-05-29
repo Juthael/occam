@@ -3,7 +3,6 @@ package com.tregouet.occam.data.problem_space.states.transitions.impl;
 import java.util.Iterator;
 import java.util.Objects;
 
-import com.tregouet.occam.data.logical_structures.automata.transition_functions.transitions.ITransition;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
@@ -13,13 +12,11 @@ import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
 
 public abstract class ConceptTransition implements IConceptTransition {
 
-	private final String name;
 	private final IConceptTransitionIC inputConfig;
 	private final IConceptTransitionOIC outputInternConfig;
 	private Salience salience;
 
 	public ConceptTransition(IConceptTransitionIC inputConfig, IConceptTransitionOIC outputInternConfig) {
-		name = ITransition.provideName();
 		this.inputConfig = inputConfig;
 		this.outputInternConfig = outputInternConfig;
 	}
@@ -38,11 +35,6 @@ public abstract class ConceptTransition implements IConceptTransition {
 	@Override
 	public IConceptTransitionIC getInputConfiguration() {
 		return inputConfig;
-	}
-
-	@Override
-	public String getName() {
-		return name;
 	}
 
 	@Override

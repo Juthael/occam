@@ -19,12 +19,13 @@ public class Concept implements IConcept {
 
 	protected static int nextID = IConcept.CONCEPT_FIRST_ID;
 
-	private final Set<IDenotation> denotations = new HashSet<>();
+	private final Set<IDenotation> denotations;
 	private final Set<Integer> extentIDs;
 	private final int iD;
 	private ConceptType type;
 
 	public Concept(Set<IConstruct> denotatingConstructs, Set<Integer> extentIDs) {
+		this.denotations = new HashSet<>();
 		if (extentIDs.size() == 1)
 			iD = new ArrayList<>(extentIDs).get(0);
 		else
@@ -35,6 +36,7 @@ public class Concept implements IConcept {
 	}
 
 	public Concept(Set<IConstruct> denotatingConstructs, Set<Integer> extentIDs, int iD) {
+		this.denotations = new HashSet<>();
 		this.iD = iD;
 		for (IConstruct construct : denotatingConstructs)
 			this.denotations.add(new Denotation(construct, this.iD));
@@ -42,6 +44,7 @@ public class Concept implements IConcept {
 	}
 	
 	protected Concept(List<IDenotation> denotations, Set<Integer> extentIDs, int iD) {
+		this.denotations = new HashSet<>();
 		this.iD = iD;
 		for (IDenotation paramDenotation : denotations) {
 			IDenotation thisDenotation = new Denotation(paramDenotation, this.iD); 
@@ -50,6 +53,13 @@ public class Concept implements IConcept {
 			this.denotations.add(thisDenotation);			
 		}
 		this.extentIDs = extentIDs;
+	}
+	
+	private Concept(Set<IDenotation> denotations, Set<Integer> extentIDs, int iD, ConceptType type) {
+		this.denotations = denotations;
+		this.extentIDs = extentIDs;
+		this.iD = iD;
+		this.type = type;
 	}
 
 	@Override
@@ -182,6 +192,15 @@ public class Concept implements IConcept {
 		Concept other = (Concept) obj;
 		return iD == other.iD && type == other.type && Objects.equals(denotations, other.denotations) 
 				&& Objects.equals(extentIDs, other.extentIDs);
+	}
+
+	@Override
+	public IConcept restrictExtentTo(Set<Integer> restriction) {
+		Set<Integer> extentIDs = new HashSet<>(this.extentIDs);
+		if (extentIDs.retainAll(restriction)) {
+			return new Concept(denotations, extentIDs, iD, type);
+		}
+		return this;
 	}
 
 }

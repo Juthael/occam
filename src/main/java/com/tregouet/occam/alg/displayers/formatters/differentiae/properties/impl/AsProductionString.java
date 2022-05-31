@@ -1,8 +1,8 @@
 package com.tregouet.occam.alg.displayers.formatters.differentiae.properties.impl;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
@@ -21,7 +21,8 @@ public class AsProductionString implements PropertyLabeller {
 	public String apply(IProperty input) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("{");
-		List<IProduction> productions = new ArrayList<>();
+		//need of unicity tests
+		Set<IProduction> productions = new HashSet<>();
 		for (IApplication app : input.getApplications())
 			productions.add(app.getInputConfiguration().getInputSymbol());
 		Iterator<IProduction> prodIte = productions.iterator();

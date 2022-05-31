@@ -25,7 +25,7 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 	}
 
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept supremum, Set<Integer> extentIDs) {
-		super(new ArrayList<>(supremum.getDenotations()), extentIDs, -toBeComplemented.iD());
+		super(new ArrayList<IDenotation>(supremum.getDenotations()), extentIDs, -toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		setType(ConceptType.UNIVERSAL);
 	}
@@ -69,12 +69,6 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 				sB.append(nL);
 		}
 		return sB.toString();
-	}	
-	
-	@Override
-	public IConcept restrictExtentTo(Set<Integer> restriction) {
-		//complementary concepts are already built out of a restricted search space
-		return this;
 	}	
 
 }

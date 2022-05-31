@@ -44,7 +44,5 @@ public interface IConcept extends IDichotomizable<IConcept>, IState {
 	String toString();
 
 	ConceptType type();
-	
-	IConcept restrictExtentTo(Set<Integer> restriction);
 
 }

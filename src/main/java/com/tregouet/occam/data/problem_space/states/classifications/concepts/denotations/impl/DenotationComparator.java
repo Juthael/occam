@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.problem_space.states.concepts.denotations.impl;
+package com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.impl;
 
 import java.util.Iterator;
 import java.util.List;
@@ -8,8 +8,8 @@ import com.tregouet.occam.alg.builders.pb_space.representations.productions.from
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotationComparator;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotationComparator;
 
 public class DenotationComparator implements IDenotationComparator {
 

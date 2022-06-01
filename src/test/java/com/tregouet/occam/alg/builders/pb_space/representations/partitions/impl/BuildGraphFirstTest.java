@@ -20,11 +20,14 @@ import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.impl.IfLeafIsUniversalThenSort;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.impl.BuildGraphFirst;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
@@ -61,11 +64,13 @@ public class BuildGraphFirstTest {
 		int nbOfChecks = 0;
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
+			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs);			
 			transFuncBldr = BuildersAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
-			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
-			IDescription description = BuildersAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc, tree);
+			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(classification, productions);
+			IDescription description = BuildersAbstractFactory.INSTANCE.getDescriptionBuilder().apply(transFunc, classification);
 			BuildGraphFirst partitionBuilder = new BuildGraphFirst();
-			Set<IPartition> partitions = partitionBuilder.apply(description, tree);
+			Set<IPartition> partitions = partitionBuilder.apply(description, classification);
 			if (partitions == null || partitions.isEmpty())
 				asExpected = false;
 			/*

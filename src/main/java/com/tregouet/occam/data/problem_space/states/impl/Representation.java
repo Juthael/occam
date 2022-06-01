@@ -3,7 +3,6 @@ package com.tregouet.occam.data.problem_space.states.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,29 +12,28 @@ import java.util.Set;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.evaluation.IFactEvaluator;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.impl.FactTape;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
-import com.tregouet.tree_finder.data.InvertedTree;
 
 public class Representation implements IRepresentation {
 
 	private static int nextID = IRepresentation.FIRST_ID;
 
 	protected final int iD;
-	protected InvertedTree<IConcept, IIsA> classification;
+	protected IClassification classification;
 	protected IFactEvaluator factEvaluator;
 	protected IDescription description;
 	protected final Set<IPartition> partitions;
 	protected DoubleScore score = null;
 
-	public Representation(InvertedTree<IConcept, IIsA> classification, IDescription description, IFactEvaluator factEvaluator,
+	public Representation(IClassification classification, IDescription description, IFactEvaluator factEvaluator,
 			Set<IPartition> partitions) {
 		this.classification = classification;
 		this.description = description;
@@ -98,17 +96,12 @@ public class Representation implements IRepresentation {
 
 	@Override
 	public Set<IConcept> getStates() {
-		return classification.vertexSet();
+		return classification.asGraph().vertexSet();
 	}
 
 	@Override
 	public IRepresentationTransitionFunction getTransitionFunction() {
 		return factEvaluator.getTransitionFunction();
-	}
-
-	@Override
-	public InvertedTree<IConcept, IIsA> getTreeOfConcepts() {
-		return classification;
 	}
 
 	@Override
@@ -127,44 +120,44 @@ public class Representation implements IRepresentation {
 
 	@Override
 	public Map<IConcept, Set<IFact>> mapAcceptStateToAcceptedWords() {
-		Map<IConcept, Set<IFact>> acceptStateToAcceptedWords = new HashMap<>();
-		Map<Integer, IConcept> particularIDToParticular = new HashMap<>();
-		Map<Integer, Set<IFact>> particularIDToFacts = new HashMap<>();
-		for (IConcept particular : classification.getLeaves()) {
-			int particularID = particular.iD();
-			particularIDToFacts.put(particularID, new HashSet<>());
-			particularIDToParticular.put(particularID, particular);
+		Map<IConcept, Set<IFact>> acceptedState2AcceptedWords = new HashMap<>();
+		Map<Integer, IConcept> accStID2AccSt = new HashMap<>();
+		Map<Integer, Set<IFact>> accStID2Facts = new HashMap<>();
+		for (IConcept acceptState : classification.getMostSpecificConcepts()) {
+			int accStID = acceptState.iD();
+			accStID2Facts.put(accStID, new HashSet<>());
+			accStID2AccSt.put(accStID, acceptState);
 		}
 		for (IFactEvaluator output : factEvaluator.factEnumerator()) {
-			particularIDToFacts.get(output.getActiveStateID()).add(output.getTapeSet().getInputTape().getFact());
+			accStID2Facts.get(output.getActiveStateID()).add(output.getTapeSet().getInputTape().getFact());
 		}
-		for (Integer particularID : particularIDToFacts.keySet()) {
-			acceptStateToAcceptedWords.put(particularIDToParticular.get(particularID),
-					particularIDToFacts.get(particularID));
+		for (Integer leafID : accStID2Facts.keySet()) {
+			acceptedState2AcceptedWords.put(accStID2AccSt.get(leafID),
+					accStID2Facts.get(leafID));
 		}
 		factEvaluator.reinitialize();
-		return acceptStateToAcceptedWords;
+		return acceptedState2AcceptedWords;
 	}
 
 	@Override
 	public Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts() {
-		Map<Integer, Set<IFact>> particularIDToFacts = new HashMap<>();
-		for (IConcept particular : classification.getLeaves())
-			particularIDToFacts.put(particular.iD(), new HashSet<>());
+		Map<Integer, Set<IFact>> accStateIDToFacts = new HashMap<>();
+		for (IConcept acceptState : classification.getMostSpecificConcepts())
+			accStateIDToFacts.put(acceptState.iD(), new HashSet<>());
 		for (IFactEvaluator output : factEvaluator.factEnumerator()) {
-			particularIDToFacts.get(output.getActiveStateID()).add(output.getTapeSet().getInputTape().getFact());
+			accStateIDToFacts.get(output.getActiveStateID()).add(output.getTapeSet().getInputTape().getFact());
 		}
 		factEvaluator.reinitialize();
-		return particularIDToFacts;
+		return accStateIDToFacts;
 	}
 	
 	@Override
 	public Map<Integer, List<String>> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer) {
-		Map<Integer, List<String>> particularIDToFactualDesc = new HashMap<>();
-		Map<Integer, Set<IFact>> particularIDToFacts = mapParticularIDsToAcceptedFacts();
-		for (Entry<Integer, Set<IFact>> entry : particularIDToFacts.entrySet())
-			particularIDToFactualDesc.put(entry.getKey(), new ArrayList<>(factDisplayer.apply(entry.getValue())));
-		return particularIDToFactualDesc;
+		Map<Integer, List<String>> accStateID2FactualDesc = new HashMap<>();
+		Map<Integer, Set<IFact>> accStateID2Facts = mapParticularIDsToAcceptedFacts();
+		for (Entry<Integer, Set<IFact>> entry : accStateID2Facts.entrySet())
+			accStateID2FactualDesc.put(entry.getKey(), new ArrayList<>(factDisplayer.apply(entry.getValue())));
+		return accStateID2FactualDesc;
 	}
 
 	@Override
@@ -178,26 +171,22 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
-	public Set<Integer> getExtentIDs(Integer conceptID) {
-		IConcept concept = null;
-		Iterator<IConcept> conceptIte = classification.vertexSet().iterator();
-		while (concept == null && conceptIte.hasNext()) {
-			IConcept nextConcept = conceptIte.next();
-			if (nextConcept.iD() == conceptID.intValue())
-				concept = nextConcept;
-		}
-		if (concept == null)
-			return null;
-		return concept.getExtentIDs();
+	public List<Integer> getExtentIDs(Integer conceptID) {
+		return classification.getExtentIDs(iD);
 	}
 
 	@Override
 	public boolean isFullyDeveloped() {
-		for (IConcept concept : classification.getLeaves()) {
+		for (IConcept concept : classification.asGraph().getLeaves()) {
 			if (concept.type() != ConceptType.PARTICULAR)
 				return false;
 		}
 		return true;
+	}
+
+	@Override
+	public IClassification getClassification() {
+		return classification;
 	}
 
 }

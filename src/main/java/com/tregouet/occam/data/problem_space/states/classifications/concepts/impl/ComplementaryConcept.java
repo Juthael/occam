@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.problem_space.states.concepts.impl;
+package com.tregouet.occam.data.problem_space.states.classifications.concepts.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -6,10 +6,10 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IComplementaryConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 
 public class ComplementaryConcept extends Concept implements IComplementaryConcept {
 
@@ -17,8 +17,8 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 	private IConcept wrappedComplementing = null;
 
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
-		super(new ArrayList<>(complementing.getDenotations()), new HashSet<>(Sets.difference(complementing.getExtentIDs(), 
-				toBeComplemented.getExtentIDs())), -toBeComplemented.iD());
+		super(new ArrayList<>(complementing.getDenotations()), new HashSet<>(Sets.difference(complementing.getMaxExtentIDs(), 
+				toBeComplemented.getMaxExtentIDs())), -toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
 		setType(ConceptType.UNIVERSAL);

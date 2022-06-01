@@ -9,13 +9,11 @@ import com.tregouet.occam.alg.builders.pb_space.representations.fact_evaluators.
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
-import com.tregouet.tree_finder.data.InvertedTree;
 
 public interface RepresentationBuilder 
-	extends Function<InvertedTree<IConcept, IIsA>, IRepresentation> {
+	extends Function<IClassification, IRepresentation> {
 	
 	public RepresentationBuilder setUp(Set<IContextualizedProduction> productions);
 	

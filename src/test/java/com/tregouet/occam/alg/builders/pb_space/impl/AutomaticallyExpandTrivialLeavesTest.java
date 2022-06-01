@@ -31,10 +31,11 @@ import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
@@ -77,10 +78,9 @@ public class AutomaticallyExpandTrivialLeavesTest {
 		Set<IRepresentation> pbStates = pbSpaceGraph.vertexSet();
 		for (IRepresentation representation : pbStates) {
 			if (pbSpaceGraph.outDegreeOf(representation) == 0) {
-				InvertedTree<IConcept, IIsA> conceptTree = representation.getTreeOfConcepts();
-				Set<IConcept> conceptLeaves = conceptTree.getLeaves();
-				for (IConcept leaf : conceptLeaves) {
-					if (leaf.getExtentIDs().size() == 2)
+				IClassification classification = representation.getClassification();
+				for (IConcept leaf : classification.getMostSpecificConcepts()) {
+					if (classification.getExtentIDs(leaf.iD()).size() == 2)
 						asExpected = false;
 				}
 			}

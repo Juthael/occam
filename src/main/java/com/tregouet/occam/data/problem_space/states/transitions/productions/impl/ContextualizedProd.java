@@ -6,7 +6,7 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IProduction;
 

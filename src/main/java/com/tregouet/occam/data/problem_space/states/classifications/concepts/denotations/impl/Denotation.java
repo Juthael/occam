@@ -1,10 +1,10 @@
-package com.tregouet.occam.data.problem_space.states.concepts.denotations.impl;
+package com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.impl;
 
 import java.util.Objects;
 
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 
 public class Denotation extends Construct implements IDenotation {
 

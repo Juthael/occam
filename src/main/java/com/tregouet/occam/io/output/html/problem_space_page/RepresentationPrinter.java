@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.general.FactPrinter;
 import com.tregouet.occam.io.output.html.general.FigurePrinter;
 import com.tregouet.occam.io.output.html.general.TablePrinter;
@@ -52,7 +52,7 @@ public class RepresentationPrinter {
 
 	private static String printClassificationTree(IRepresentation representation, int a) {
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
-				.apply(representation.getTreeOfConcepts(), "classification_tree");
+				.apply(representation.getClassification().asGraph(), "classification_tree");
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
 				.append(alinea[a + 1] + "<header>" + nL)

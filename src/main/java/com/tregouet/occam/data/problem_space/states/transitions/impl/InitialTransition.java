@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.Everything;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.WhatIsThere;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Everything;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.WhatIsThere;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
 import com.tregouet.occam.data.problem_space.states.transitions.dimensions.Nothing;

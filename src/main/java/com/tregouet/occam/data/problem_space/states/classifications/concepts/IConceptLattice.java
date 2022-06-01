@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.problem_space.states.concepts;
+package com.tregouet.occam.data.problem_space.states.classifications.concepts;
 
 import java.util.List;
 import java.util.Set;

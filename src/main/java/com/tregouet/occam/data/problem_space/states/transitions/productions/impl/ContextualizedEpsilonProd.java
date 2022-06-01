@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.problem_space.states.transitions.productions.impl;
 
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 
 public class ContextualizedEpsilonProd extends ContextualizedProd implements IContextualizedProduction {

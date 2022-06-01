@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.problem_space.states.concepts.impl;
+package com.tregouet.occam.data.problem_space.states.classifications.concepts.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,17 +10,17 @@ import java.util.Set;
 
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.impl.Denotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.impl.Denotation;
 
 public class Concept implements IConcept {
 
 	protected static int nextID = IConcept.CONCEPT_FIRST_ID;
 
 	private final Set<IDenotation> denotations = new HashSet<>();
-	private final Set<Integer> extentIDs;
+	private final Set<Integer> maxExtentIDs;
 	private final int iD;
 	private ConceptType type;
 
@@ -31,14 +31,14 @@ public class Concept implements IConcept {
 			iD = nextID++;
 		for (IConstruct construct : denotatingConstructs)
 			this.denotations.add(new Denotation(construct, this.iD));
-		this.extentIDs = extentIDs;
+		this.maxExtentIDs = Set.copyOf(extentIDs); //unmodifiable
 	}
 
 	public Concept(Set<IConstruct> denotatingConstructs, Set<Integer> extentIDs, int iD) {
 		this.iD = iD;
 		for (IConstruct construct : denotatingConstructs)
 			this.denotations.add(new Denotation(construct, this.iD));
-		this.extentIDs = extentIDs;
+		this.maxExtentIDs = Set.copyOf(extentIDs); //unmodifiable
 	}
 	
 	protected Concept(List<IDenotation> denotations, Set<Integer> extentIDs, int iD) {
@@ -49,14 +49,14 @@ public class Concept implements IConcept {
 				thisDenotation.markAsRedundant();
 			this.denotations.add(thisDenotation);			
 		}
-		this.extentIDs = extentIDs;
+		this.maxExtentIDs = Set.copyOf(extentIDs); //unmodifiable
 	}
 
 	@Override
 	public IConcept buildComplementOfThis(Set<IConcept> complementMinimalLowerBounds, IConcept supremum) {
 		Set<Integer> complementExtent = new HashSet<>();
 		for (IConcept complementMinLowerBound : complementMinimalLowerBounds)
-			complementExtent.addAll(complementMinLowerBound.getExtentIDs());
+			complementExtent.addAll(complementMinLowerBound.getMaxExtentIDs());
 		return new ComplementaryConcept(this, supremum, complementExtent);
 	}
 
@@ -76,8 +76,8 @@ public class Concept implements IConcept {
 	}
 
 	@Override
-	public Set<Integer> getExtentIDs() {
-		return extentIDs;
+	public Set<Integer> getMaxExtentIDs() {
+		return maxExtentIDs;
 	}
 
 	/**
@@ -168,7 +168,7 @@ public class Concept implements IConcept {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(denotations, extentIDs, iD, type);
+		return Objects.hash(denotations, maxExtentIDs, iD, type);
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class Concept implements IConcept {
 			return false;
 		Concept other = (Concept) obj;
 		return iD == other.iD && type == other.type && Objects.equals(denotations, other.denotations) 
-				&& Objects.equals(extentIDs, other.extentIDs);
+				&& Objects.equals(maxExtentIDs, other.maxExtentIDs);
 	}
 
 }

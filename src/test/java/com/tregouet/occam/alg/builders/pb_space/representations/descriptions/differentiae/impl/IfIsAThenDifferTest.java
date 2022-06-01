@@ -28,12 +28,15 @@ import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.impl.IfLeafIsUniversalThenSort;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.impl.IfIsAThenDiffer;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
@@ -73,7 +76,9 @@ public class IfIsAThenDifferTest {
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = BuildersAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
-			transFunctions.add(transFuncBldr.apply(tree, productions));
+			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs);
+			transFunctions.add(transFuncBldr.apply(classification, productions));
 		}
 	}
 	

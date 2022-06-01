@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.problem_space.states.concepts.impl;
+package com.tregouet.occam.data.problem_space.states.classifications.concepts.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +8,10 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
 
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
 public class ConceptLattice implements IConceptLattice {
@@ -57,7 +57,7 @@ public class ConceptLattice implements IConceptLattice {
 	@Override
 	public IConcept getConceptWithExtentIDs(Set<Integer> extentIDs) {
 		for (IConcept concept : topologicalOrder) {
-			if (concept.getExtentIDs().equals(extentIDs))
+			if (concept.getMaxExtentIDs().equals(extentIDs))
 				return concept;
 		}
 		return null;

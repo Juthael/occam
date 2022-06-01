@@ -9,15 +9,12 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.utils.PartitionRanker;
-import com.tregouet.occam.alg.builders.pb_space.representations.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.occam.data.problem_space.transitions.partitions.impl.Partition;
-import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.data.Tree;
 
 public class BuildGraphFirst implements PartitionBuilder {
@@ -28,12 +25,12 @@ public class BuildGraphFirst implements PartitionBuilder {
 	}
 
 	@Override
-	public Set<IPartition> apply(IDescription description, InvertedTree<IConcept, IIsA> conceptTree) {
-		conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(conceptTree);
-		Tree<Integer, ADifferentiae> classification = description.asGraph();
+	public Set<IPartition> apply(IDescription description, IClassification classification) {
+		conceptID2ExtentIDs = classification.mapConceptID2ExtentIDs();
+		Tree<Integer, ADifferentiae> descGraph = description.asGraph();
 		Set<IPartition> partitions = new HashSet<>();
 		Set<Tree<Integer, ADifferentiae>> partitionsAsGraph = PartitionBuilder.getPartitionGraphBuilder()
-				.apply(classification);
+				.apply(descGraph);
 		Sorting2StringConverter stringBuilder = PartitionBuilder.getSorting2StringConverter().setUp(conceptID2ExtentIDs);
 		for (Tree<Integer, ADifferentiae> partitionAsGraph : partitionsAsGraph) {
 			// set partitionAsString

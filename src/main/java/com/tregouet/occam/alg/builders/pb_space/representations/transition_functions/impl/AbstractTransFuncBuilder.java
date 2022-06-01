@@ -15,13 +15,14 @@ import com.tregouet.occam.alg.builders.pb_space.representations.productions.from
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.utils.ProductionSetReducer;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.impl.Denotation;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.Everything;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IComplementaryConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.impl.Denotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Everything;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
@@ -177,9 +178,9 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 	}
 
 	@Override
-	public IRepresentationTransitionFunction apply(InvertedTree<IConcept, IIsA> treeOfConcepts,
+	public IRepresentationTransitionFunction apply(IClassification classification,
 			Set<IContextualizedProduction> unfilteredUnreducedProds) {
-		this.treeOfConcepts = treeOfConcepts;
+		this.treeOfConcepts = classification.asGraph();
 		this.unfilteredUnreducedProds = unfilteredUnreducedProds;
 		this.particularIDs = getIDsOfParticulars(treeOfConcepts);
 		return output();

@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -15,11 +16,14 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
+import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -53,8 +57,10 @@ public class BuildExhaustivelyTest {
 		BuildExhaustively transFuncBldr;
 		int nbOfChecks = 0;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
+			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs);	
 			transFuncBldr = new BuildExhaustively();
-			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
+			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(classification, productions);
 			/*
 			System.out.println(report(transFunc, tree, nbOfChecks));
 			*/

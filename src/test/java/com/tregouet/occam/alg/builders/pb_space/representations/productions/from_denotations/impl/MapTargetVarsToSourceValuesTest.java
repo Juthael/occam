@@ -17,8 +17,8 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Terminal;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Variable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.impl.Denotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.impl.Denotation;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 
 public class MapTargetVarsToSourceValuesTest {

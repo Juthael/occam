@@ -18,7 +18,7 @@ import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
 import com.tregouet.occam.io.input.impl.GenericFileReader;

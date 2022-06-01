@@ -3,7 +3,7 @@ package com.tregouet.occam.data.problem_space.states.transitions.impl;
 import java.util.Arrays;
 
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
 import com.tregouet.occam.data.problem_space.states.transitions.dimensions.Nothing;

@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.problem_space.states.concepts;
+package com.tregouet.occam.data.problem_space.states.classifications.concepts;
 
 import java.io.IOException;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.Set;
 
 import com.tregouet.occam.data.logical_structures.automata.states.IState;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.Concept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Concept;
 import com.tregouet.tree_finder.alg.unidimensional_sorting.IDichotomizable;
 
 public interface IConcept extends IDichotomizable<IConcept>, IState {
@@ -21,7 +21,10 @@ public interface IConcept extends IDichotomizable<IConcept>, IState {
 
 	Set<IDenotation> getDenotations();
 
-	Set<Integer> getExtentIDs();
+	/**
+	 * A restriction may be operated on the max extent by a given classification (concept tree)
+	 */
+	Set<Integer> getMaxExtentIDs();
 
 	IDenotation getMatchingDenotation(List<String> constraintAsStrings) throws IOException;
 

@@ -20,11 +20,14 @@ import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.impl.IfLeafIsUniversalThenSort;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.impl.BuildTreeThenCalculateMetrics;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
@@ -57,7 +60,9 @@ public class BuildTreeThenCalculateMetricsTest {
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = BuildersAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
-			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(tree, productions);
+			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs);
+			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(classification, productions);
 			transFunc2Tree.put(transFunc, tree);
 		}
 	}
@@ -67,8 +72,11 @@ public class BuildTreeThenCalculateMetricsTest {
 		Set<IDescription> descriptions = new HashSet<>();
 		int checkIdx = 0;
 		for (IRepresentationTransitionFunction transFunc : transFunc2Tree.keySet()) {
+			InvertedTree<IConcept, IIsA> tree = transFunc2Tree.get(transFunc);
+			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs);
 			IDescription description = 
-					BuildTreeThenCalculateMetrics.INSTANCE.apply(transFunc, transFunc2Tree.get(transFunc));
+					BuildTreeThenCalculateMetrics.INSTANCE.apply(transFunc, classification);
 			/*
 			String descriptionPath = 
 					VisualizersAbstractFactory.INSTANCE.getDescriptionViz().apply(

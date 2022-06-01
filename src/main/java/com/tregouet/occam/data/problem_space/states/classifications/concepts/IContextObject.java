@@ -1,10 +1,10 @@
-package com.tregouet.occam.data.problem_space.states.concepts;
+package com.tregouet.occam.data.problem_space.states.classifications.concepts;
 
 import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.Particular;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Particular;
 import com.tregouet.subseq_finder.ISymbolSeq;
 
 public interface IContextObject extends Comparable<IContextObject> {

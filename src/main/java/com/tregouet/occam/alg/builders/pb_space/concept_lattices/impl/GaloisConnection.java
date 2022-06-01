@@ -19,16 +19,16 @@ import com.tregouet.occam.alg.builders.pb_space.concept_lattices.utils.MarkRedun
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.Concept;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.ConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.Everything;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.IsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Concept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.ConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Everything;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
 public class GaloisConnection implements ConceptLatticeBuilder {
@@ -117,10 +117,10 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 		Map<Set<IConstruct>, Set<Integer>> denotatingConstructsToExtents = buildIntentToExtentRel();
 		for (Entry<Set<IConstruct>, Set<Integer>> entry : denotatingConstructsToExtents.entrySet()) {
 			IConcept concept = new Concept(entry.getKey(), entry.getValue());
-			if (!concept.getExtentIDs().isEmpty()) {
-				if (concept.getExtentIDs().size() == 1)
+			if (!concept.getMaxExtentIDs().isEmpty()) {
+				if (concept.getMaxExtentIDs().size() == 1)
 					concept.setType(ConceptType.PARTICULAR);
-				else if (concept.getExtentIDs().size() == objects.size()) {
+				else if (concept.getMaxExtentIDs().size() == objects.size()) {
 					concept.setType(ConceptType.TRUISM);
 				} else {
 					concept.setType(ConceptType.UNIVERSAL);
@@ -135,9 +135,9 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 			IConcept iDenotSet = denotSetList.get(i);
 			for (int j = i + 1; j < denotSetList.size(); j++) {
 				IConcept jDenotSet = denotSetList.get(j);
-				if (iDenotSet.getExtentIDs().containsAll(jDenotSet.getExtentIDs()))
+				if (iDenotSet.getMaxExtentIDs().containsAll(jDenotSet.getMaxExtentIDs()))
 					lattice.addEdge(jDenotSet, iDenotSet);
-				else if (jDenotSet.getExtentIDs().containsAll(iDenotSet.getExtentIDs()))
+				else if (jDenotSet.getMaxExtentIDs().containsAll(iDenotSet.getMaxExtentIDs()))
 					lattice.addEdge(iDenotSet, jDenotSet);
 			}
 		}

@@ -3,8 +3,8 @@ package com.tregouet.occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.OverallStrategy;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 
 public class Occam {
 

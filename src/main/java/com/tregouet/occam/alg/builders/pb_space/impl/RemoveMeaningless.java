@@ -3,6 +3,8 @@ package com.tregouet.occam.alg.builders.pb_space.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -13,13 +15,16 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
+import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.order.TopoOrderOverReps;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
@@ -45,11 +50,13 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 				new DirectedAcyclicGraph<>(null, null, false);
 		Graphs.addAllVertices(newProblemGraph, problemGraph.vertexSet());
 		Set<InvertedTree<IConcept, IIsA>> grownTrees = 
-				ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, current.getTreeOfConcepts());
+				ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, current.getClassification().asGraph());
 		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder().setUp(productions);
 		Set<IRepresentation> newRepresentations = new HashSet<>();
 		for (InvertedTree<IConcept, IIsA> grownTree : grownTrees) {
-			IRepresentation developed = repBldr.apply(grownTree);
+			Map<Integer, List<Integer>> conceptID2ExtentID = MapConceptIDs2ExtentIDs.in(grownTree);
+			IClassification classification = new Classification(grownTree, conceptID2ExtentID);
+			IRepresentation developed = repBldr.apply(classification);
 			newRepresentations.add(developed);
 		}
 		Graphs.addAllVertices(newProblemGraph, newRepresentations);
@@ -77,8 +84,10 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		InvertedTree<IConcept, IIsA> initialTree = 
 				new ArrayList<InvertedTree<IConcept, IIsA>>(
 						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null)).get(0);
+		Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(initialTree);
+		IClassification classification = new Classification(initialTree, conceptID2ExtentIDs);
 		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder().setUp(productions);
-		IRepresentation initialRepresentation = repBldr.apply(initialTree);
+		IRepresentation initialRepresentation = repBldr.apply(classification);
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
 		problemGraph.addVertex(initialRepresentation);
 		reduceThenWeightThenScoreThenComply(problemGraph);

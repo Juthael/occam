@@ -6,7 +6,7 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
 

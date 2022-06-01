@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -17,11 +18,14 @@ import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
@@ -56,8 +60,10 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		trees = growTrees();
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
+			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs);	
 			transFuncBldr = BuildersAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
-			transFunctions.add(transFuncBldr.apply(tree, productions));
+			transFunctions.add(transFuncBldr.apply(classification, productions));
 		}
 	}
 

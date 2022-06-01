@@ -10,8 +10,8 @@ import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.partial_order.PartiallyComparable;
 import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 import com.tregouet.occam.data.problem_space.states.impl.Representation;
@@ -21,7 +21,6 @@ import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransiti
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
-import com.tregouet.tree_finder.data.InvertedTree;
 
 public interface IRepresentation extends
 		IPushdownAutomaton<
@@ -42,7 +41,7 @@ public interface IRepresentation extends
 
 	IDescription getDescription();
 
-	InvertedTree<IConcept, IIsA> getTreeOfConcepts();
+	IClassification getClassification();
 
 	@Override
 	int hashCode();
@@ -51,7 +50,7 @@ public interface IRepresentation extends
 	
 	Map<Integer, List<String>> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer);
 	
-	Set<Integer> getExtentIDs(Integer conceptID);
+	List<Integer> getExtentIDs(Integer conceptID);
 	
 	int iD();
 

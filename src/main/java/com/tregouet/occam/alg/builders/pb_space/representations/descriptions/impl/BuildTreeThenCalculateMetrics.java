@@ -2,7 +2,6 @@ package com.tregouet.occam.alg.builders.pb_space.representations.descriptions.im
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,17 +13,14 @@ import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.Des
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.utils.DifferentiaeRankSetter;
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
-import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.descriptions.impl.Description;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
-import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.data.Tree;
-import com.tregouet.tree_finder.utils.Functions;
 
 public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 
@@ -34,9 +30,9 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 	}
 
 	@Override
-	public IDescription apply(IRepresentationTransitionFunction transFunc, InvertedTree<IConcept, IIsA> conceptTree) {
+	public IDescription apply(IRepresentationTransitionFunction transFunc, IClassification classification) {
 		Set<ADifferentiae> differentiae;
-		Tree<Integer, ADifferentiae> classification;
+		Tree<Integer, ADifferentiae> descGraph;
 		differentiae = DescriptionBuilder.differentiaeBuilder().apply(transFunc);
 		//build parameter graph for the tree constructor
 		DirectedAcyclicGraph<Integer, ADifferentiae> paramTree = new DirectedAcyclicGraph<>(null, null, false);
@@ -53,43 +49,34 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 		Integer ontologicalCommitmentID = topoOrderOverConcepts.get(0);
 		Set<Integer> particularIDs = transFunc.getAcceptStateIDs();
 		//build classification tree
-		classification = new Tree<>(paramTree, ontologicalCommitmentID, particularIDs, topoOrderOverConcepts);
+		descGraph = new Tree<>(paramTree, ontologicalCommitmentID, particularIDs, topoOrderOverConcepts);
 		//rank differentiae in tree
-		DifferentiaeRankSetter.INSTANCE.accept(classification);
+		DifferentiaeRankSetter.INSTANCE.accept(descGraph);
 		//weigh differentiae
 		DifferentiaeCoeffSetter differentiaeCoeffSetter = DescriptionBuilder.differentiaeCoeffSetter()
-				.setContext(conceptTree);
+				.setContext(classification.asGraph());
 		DifferentiaeWeigher differentiaeWeigher = DescriptionBuilder.differentiaeWeigher();
-		for (ADifferentiae diff : classification.edgeSet()) {
+		for (ADifferentiae diff : descGraph.edgeSet()) {
 			differentiaeCoeffSetter.accept(diff);
 			differentiaeWeigher.accept(diff);
 		}
 		//build metrics
-		Map<Integer, Integer> particularID2MostSpecificConceptID = mapContextParticularID2MostSpecificConceptID(conceptTree);
+		Map<Integer, Integer> particularID2MostSpecificConceptID = mapContextParticularID2MostSpecificConceptID(classification);
 		ISimilarityMetrics similarityMetrics = 
-				DescriptionBuilder.similarityMetricsBuilder().apply(classification, particularID2MostSpecificConceptID);
+				DescriptionBuilder.similarityMetricsBuilder().apply(descGraph, particularID2MostSpecificConceptID);
 		//instantiate
-		IDescription description = new Description(classification, similarityMetrics);
+		IDescription description = new Description(descGraph, similarityMetrics);
 		return description;
 	}
 	
-	private Map<Integer, Integer> mapContextParticularID2MostSpecificConceptID(InvertedTree<IConcept, IIsA> conceptTree) {
+	private Map<Integer, Integer> mapContextParticularID2MostSpecificConceptID(IClassification classification) {
 		Map<Integer, Integer> particularID2MostSpecificConceptID = new HashMap<>();
-		for (IConcept leaf : conceptTree.getLeaves()) {
+		for (IConcept leaf : classification.getMostSpecificConcepts()) {
 			Integer leafID = leaf.iD();
-			Set<Integer> alreadyClassified = new HashSet<>();
-			for (IConcept upperBound : Functions.upperSet(conceptTree, leaf)) {
-				if (upperBound.isComplementary()) {
-					IConcept complemented = ((IComplementaryConcept) upperBound).getComplemented();
-					alreadyClassified.addAll(complemented.getExtentIDs());
-				}
-			}
-			for (Integer extentID : leaf.getExtentIDs()) {
-				if (!alreadyClassified.contains(extentID))
-					particularID2MostSpecificConceptID.put(extentID, leafID);
-			}
+			for (Integer extentID : classification.getExtentIDs(leafID))
+				particularID2MostSpecificConceptID.put(extentID, leafID);
 		}
 		return particularID2MostSpecificConceptID;
-	}
+	}	
 
 }

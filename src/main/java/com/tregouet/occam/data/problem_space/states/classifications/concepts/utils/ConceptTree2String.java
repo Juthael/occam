@@ -1,13 +1,13 @@
-package com.tregouet.occam.data.problem_space.states.concepts.utils;
+package com.tregouet.occam.data.problem_space.states.classifications.concepts.utils;
 
 import java.util.List;
 import java.util.Map;
 
 import org.jgrapht.Graphs;
 
-import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class ConceptTree2String {

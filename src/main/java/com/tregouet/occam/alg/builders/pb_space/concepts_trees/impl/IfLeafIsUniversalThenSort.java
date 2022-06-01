@@ -18,13 +18,13 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
-import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.ComplementaryConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.IsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IComplementaryConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.ComplementaryConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.IsA;
 import com.tregouet.partitioner.IPartitioner;
 import com.tregouet.partitioner.impl.ConstrainedPartitioner;
 import com.tregouet.tree_finder.data.InvertedTree;
@@ -151,7 +151,7 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 				if (genus.equals(nonCSupremum)) {
 					Set<Integer> compExtentIDs = new HashSet<>();
 					for (IConcept particular : nonCParticulars)
-						compExtentIDs.addAll(particular.getExtentIDs());
+						compExtentIDs.addAll(particular.getMaxExtentIDs());
 					complementary = new ComplementaryConcept(c, genus, compExtentIDs);
 				}
 				else {

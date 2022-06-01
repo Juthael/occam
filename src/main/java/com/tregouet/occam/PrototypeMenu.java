@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 import com.tregouet.occam.data.problem_space.IProblemSpace;
 import com.tregouet.occam.data.problem_space.impl.ProblemSpace;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
 import com.tregouet.occam.io.output.html.main_menu.MainMenuPrinter;

@@ -81,11 +81,12 @@ public class MaxSymbolSubsequences implements DenotationBuilder {
 			for (ISymbolSeq maxSubseq : maxSubseqs)
 				denotations.add(getConstruct(maxSubseq));
 		}
+		denotations = complyToAdditionalConstraints(denotations);
 		return denotations;
 	}
 
 	// for unit test use only
-	public Map<ISymbolSeq, Set<ISymbolSeq>> getSubsqToMaxSubsq(List<IContextObject> extent) {
+	protected Map<ISymbolSeq, Set<ISymbolSeq>> getSubsqToMaxSubsq(List<IContextObject> extent) {
 		arrayDimensions = new int[extent.size()];
 		coords = new int[extent.size()];
 		for (int i = 0; i < extent.size(); i++) {
@@ -146,6 +147,11 @@ public class MaxSymbolSubsequences implements DenotationBuilder {
 		}
 		for (ISymbolSeq seq : subsqToMaxSubsq.keySet())
 			subsqToMaxSubsq.put(seq, removeNonMaxSeqs(subsqToMaxSubsq.get(seq)));
+	}
+	
+	protected Set<IConstruct> complyToAdditionalConstraints(Set<IConstruct> denotations) {
+		//no additional constraint in this impl
+		return denotations;
 	}
 
 }

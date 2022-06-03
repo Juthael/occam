@@ -130,15 +130,15 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 			}
 			lattice.addVertex(concept);
 		}
-		List<IConcept> denotSetList = new ArrayList<>(lattice.vertexSet());
-		for (int i = 0; i < denotSetList.size() - 1; i++) {
-			IConcept iDenotSet = denotSetList.get(i);
-			for (int j = i + 1; j < denotSetList.size(); j++) {
-				IConcept jDenotSet = denotSetList.get(j);
-				if (iDenotSet.getMaxExtentIDs().containsAll(jDenotSet.getMaxExtentIDs()))
-					lattice.addEdge(jDenotSet, iDenotSet);
-				else if (jDenotSet.getMaxExtentIDs().containsAll(iDenotSet.getMaxExtentIDs()))
-					lattice.addEdge(iDenotSet, jDenotSet);
+		List<IConcept> concepts = new ArrayList<>(lattice.vertexSet());
+		for (int i = 0; i < concepts.size() - 1; i++) {
+			IConcept iConcept = concepts.get(i);
+			for (int j = i + 1; j < concepts.size(); j++) {
+				IConcept jConcept = concepts.get(j);
+				if (iConcept.getMaxExtentIDs().containsAll(jConcept.getMaxExtentIDs()))
+					lattice.addEdge(jConcept, iConcept);
+				else if (jConcept.getMaxExtentIDs().containsAll(iConcept.getMaxExtentIDs()))
+					lattice.addEdge(iConcept, jConcept);
 			}
 		}
 		TransitiveReduction.INSTANCE.reduce(lattice);

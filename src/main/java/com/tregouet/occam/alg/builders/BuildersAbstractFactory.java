@@ -148,12 +148,12 @@ public class BuildersAbstractFactory {
 	public void setUpStrategy(BuildStrategy overallStrategy) {
 		switch (overallStrategy) {
 		case GENERATION_STRATEGY_1:
-			denotationBuilderStrategy = DenotationBuilderStrategy.MAX_SYMBOL_SUBSEQUENCES;
+			denotationBuilderStrategy = DenotationBuilderStrategy.NO_REDUNDANCY;
 			conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
 			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.IF_LEAF_IS_UNIVERSAL_THEN_SORT;
 			prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.SRCE_CNCPT_CANNOT_HAVE_TGET_DENOT;
 			productionBuilderStrategy = ProductionBuilderStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
-			transitionSalienceSetterStrategy = TransitionSalienceSetterStrategy.HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS;
+			transitionSalienceSetterStrategy = TransitionSalienceSetterStrategy.EVERY_TRANSITION_IS_RULE;
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.BUILD_EXHAUSTIVELY;
 			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
 			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;

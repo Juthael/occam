@@ -2,6 +2,7 @@ package com.tregouet.occam.alg.builders.pb_space.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,16 +20,16 @@ public interface MapConceptIDs2ExtentIDs {
 		List<Set<Integer>> extents = new ArrayList<>();
 		for (IConcept concept : treeOfConcepts.vertexSet()) {
 			conceptIDs.add(concept.iD());
-			extents.add(concept.getMaxExtentIDs());
+			extents.add(new HashSet<>(concept.getMaxExtentIDs()));
 		}
 		for (IConcept concept : treeOfConcepts.vertexSet()) {
 			if (concept.isComplementary()) {
 				IComplementaryConcept complementary = (IComplementaryConcept) concept;
 				IConcept complemented = complementary.getComplemented();
 				Set<Integer> complementedExtent = complemented.getMaxExtentIDs();
-				Set<IConcept> complementaryUpperSet = Functions.upperSet(treeOfConcepts, complementary);
-				for (IConcept upperBound : complementaryUpperSet) {
-					extents.get(conceptIDs.indexOf(upperBound.iD())).removeAll(complementedExtent);
+				Set<IConcept> complementaryLowerSet = Functions.lowerSet(treeOfConcepts, complementary);
+				for (IConcept lowerBound : complementaryLowerSet) {
+					extents.get(conceptIDs.indexOf(lowerBound.iD())).removeAll(complementedExtent);
 				}
 			}
 		}

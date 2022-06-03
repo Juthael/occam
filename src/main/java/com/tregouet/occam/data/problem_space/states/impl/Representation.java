@@ -172,7 +172,7 @@ public class Representation implements IRepresentation {
 
 	@Override
 	public List<Integer> getExtentIDs(Integer conceptID) {
-		return classification.getExtentIDs(iD);
+		return classification.getExtentIDs(conceptID);
 	}
 
 	@Override

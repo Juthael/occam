@@ -1,7 +1,6 @@
 package com.tregouet.occam.alg.displayers.formatters.problem_states.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -48,31 +47,6 @@ public class AsNestedFrames implements ProblemStateLabeller {
 		return new Tree<>(stateDag, root, leaves, topoOrder);
 	}
 
-	private static List<IPartition> getMaxPartitions(Set<IPartition> partitions) {
-		List<IPartition> maxPartitions = new ArrayList<>();
-		Iterator<IPartition> partIte = partitions.iterator();
-		if (partIte.hasNext())
-			maxPartitions.add(partIte.next());
-		while (partIte.hasNext()) {
-			IPartition nextPart = partIte.next();
-			boolean isMaximal = true;
-			for (int i = 0; i < maxPartitions.size(); i++) {
-				Integer comparison = nextPart.compareTo(maxPartitions.get(i));
-				if (comparison != null) {
-					if (comparison > 0) {
-						maxPartitions.remove(i--);
-					} else {
-						isMaximal = false;
-						break;
-					}
-				}
-			}
-			if (isMaximal)
-				maxPartitions.add(nextPart);
-		}
-		return maxPartitions;
-	}
-
 	@Override
 	public String apply(IRepresentation representation) {
 		StringBuilder sB = new StringBuilder();
@@ -82,10 +56,8 @@ public class AsNestedFrames implements ProblemStateLabeller {
 			sB.append(stringPatternBldr.apply(representation.getDescription().asGraph()));
 			return sB.toString();
 		} 
-		Map<Integer, List<Integer>> conceptID2ExtentIDs = new HashMap<>();
+		Map<Integer, List<Integer>> conceptID2ExtentIDs = representation.getClassification().mapConceptID2ExtentIDs();
 		Set<IPartition> statePartitions = representation.getPartitions();
-		for (IPartition maxPart : getMaxPartitions(statePartitions))
-			conceptID2ExtentIDs.putAll(maxPart.getLeaf2ExtentMap());
 		stringPatternBldr.setUp(conceptID2ExtentIDs);
 		sB.append(stringPatternBldr.apply(asTree(statePartitions)));
 		return sB.toString();

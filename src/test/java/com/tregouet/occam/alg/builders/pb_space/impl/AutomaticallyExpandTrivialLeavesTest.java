@@ -56,7 +56,7 @@ public class AutomaticallyExpandTrivialLeavesTest {
 	
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private List<IContextObject> context;
-	private RemoveUninformative pbSpaceExplorer;	
+	private AutomaticallyExpandTrivialLeaves pbSpaceExplorer;	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {

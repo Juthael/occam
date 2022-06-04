@@ -153,7 +153,7 @@ public class BuildersAbstractFactory {
 			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.IF_LEAF_IS_UNIVERSAL_THEN_SORT;
 			prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.SRCE_CNCPT_CANNOT_HAVE_TGET_DENOT;
 			productionBuilderStrategy = ProductionBuilderStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
-			transitionSalienceSetterStrategy = TransitionSalienceSetterStrategy.EVERY_TRANSITION_IS_RULE;
+			transitionSalienceSetterStrategy = TransitionSalienceSetterStrategy.HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS;
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.BUILD_EXHAUSTIVELY;
 			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
 			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;

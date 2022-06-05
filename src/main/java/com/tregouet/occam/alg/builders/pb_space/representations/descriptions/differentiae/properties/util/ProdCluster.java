@@ -25,7 +25,7 @@ public class ProdCluster {
 	}
 	
 	public boolean add(IContextualizedProduction other) {
-		if (other.getSuperordinateID() == speciesID && other.getTarget().equals(function)) {
+		if (other.getSubordinateID() == speciesID && other.getTarget().equals(function)) {
 			applications.add(other);
 			values.add(other.getSource());
 			return true;

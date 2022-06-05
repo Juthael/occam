@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.PropertyBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.util.AppCluster;
+import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.util.ProdCluster;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
-import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 
@@ -18,19 +19,18 @@ public class GroupSalientApplicationsByFunction implements PropertyBuilder {
 	}
 
 	@Override
-	public Set<IProperty> apply(IRepresentationTransitionFunction transFunction) {
-		List<AppCluster> appClusters = new ArrayList<>();
+	public Set<IProperty> apply(IClassification classification, IClassificationProductions classificationProductions) {
+		List<ProdCluster> prodClusters = new ArrayList<>();
 		Set<IProperty> properties = new HashSet<>();
-		for (IApplication application : transFunction.getSalientApplications()) {
+		for (IContextualizedProduction production : classificationProductions.getSalientProductions()) {
 			boolean clustered = false;
-			Iterator<AppCluster> clusterIte = appClusters.iterator();
-			while (!clustered && clusterIte.hasNext()) {
-				clustered = clusterIte.next().add(application);
-			}
+			Iterator<ProdCluster> clusterIte = prodClusters.iterator();
+			while (!clustered && clusterIte.hasNext())
+				clustered = clusterIte.next().add(production);
 			if (!clustered)
-				appClusters.add(new AppCluster(application));
+				prodClusters.add(new ProdCluster(production, classification.getGenusID(production.getSubordinateID())));
 		}
-		for (AppCluster cluster : appClusters) {
+		for (ProdCluster cluster : prodClusters) {
 			IProperty property = cluster.asProperty();
 			PropertyBuilder.propertyWeigher().accept(property);
 			properties.add(property);

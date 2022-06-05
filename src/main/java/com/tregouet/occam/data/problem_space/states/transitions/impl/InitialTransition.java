@@ -6,11 +6,11 @@ import java.util.Arrays;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Everything;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.WhatIsThere;
+import com.tregouet.occam.data.problem_space.states.productions.impl.ContextualizedOmegaProd;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
 import com.tregouet.occam.data.problem_space.states.transitions.dimensions.Nothing;
 import com.tregouet.occam.data.problem_space.states.transitions.dimensions.This;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.impl.ContextualizedOmegaProd;
 
 public class InitialTransition extends ConceptTransition implements IConceptTransition {
 

@@ -4,7 +4,7 @@ import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.Prop
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.lambda_terms.impl.NaryConjunctiveAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 public class AsLambdaString implements PropertyLabeller {
 
@@ -16,8 +16,8 @@ public class AsLambdaString implements PropertyLabeller {
 	@Override
 	public String apply(IProperty input) {
 		ILambdaExpression exp = new NaryConjunctiveAbstractionApplication(input.getFunction());
-		for (IApplication application : input.getApplications())
-			exp.abstractAndApplyAccordingTo(application.getInputConfiguration().getInputSymbol());
+		for (IContextualizedProduction application : input.getApplications())
+			exp.abstractAndApplyAccordingTo(application.getUncontextualizedProduction());
 		return exp.toString();
 	}
 

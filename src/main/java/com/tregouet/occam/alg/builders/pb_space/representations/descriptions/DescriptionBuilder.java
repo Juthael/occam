@@ -10,7 +10,7 @@ import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 
 /**
  * 2nd parameter : context particular ID to most specific concept ID in first parameter
@@ -18,7 +18,7 @@ import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationT
  *
  */
 public interface DescriptionBuilder 
-	extends BiFunction<IRepresentationTransitionFunction, IClassification, IDescription> {
+	extends BiFunction<IClassification, IClassificationProductions, IDescription> {
 
 	public static DifferentiaeBuilder differentiaeBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getDifferentiaeBuilder();

@@ -9,12 +9,11 @@ import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabeller;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.AConceptTransitionSet;
 import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.problem_space.states.transitions.Salience;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 
 public class RepresentationTransitionFunction implements IRepresentationTransitionFunction {
 
@@ -75,17 +74,6 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 			inputAlphabet.add(transition.getInputConfiguration().getInputSymbol());
 		}
 		return inputAlphabet;
-	}
-
-	@Override
-	public Set<IApplication> getSalientApplications() {
-		Set<IApplication> salientApplications = new HashSet<>();
-		for (IApplication application : applications) {
-			Salience salienceVal = application.getSalience();
-			if (salienceVal == Salience.COMMON_FEATURE || salienceVal == Salience.TRANSITION_RULE)
-				salientApplications.add(application);
-		}
-		return salientApplications;
 	}
 
 	@Override

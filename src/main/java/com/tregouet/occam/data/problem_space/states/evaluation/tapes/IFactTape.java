@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.tregouet.occam.data.logical_structures.automata.tapes.IInputTape;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 public interface IFactTape extends IInputTape<IContextualizedProduction>, IFact {
 

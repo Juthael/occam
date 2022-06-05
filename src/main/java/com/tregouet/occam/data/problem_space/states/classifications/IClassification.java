@@ -14,10 +14,18 @@ public interface IClassification {
 	
 	List<Integer> getExtentIDs(int conceptID);
 	
+	Set<Integer> getParticularIDs();
+	
 	Map<Integer, List<Integer>> mapConceptID2ExtentIDs();
 	
 	Set<IConcept> getMostSpecificConcepts();
 	
 	IConcept getConceptWithSpecifiedID(int iD);
+	
+	IConcept getGenus(IConcept concept);
+	
+	IConcept getGenus(int iD);
+	
+	int getGenusID(int iD);
 
 }

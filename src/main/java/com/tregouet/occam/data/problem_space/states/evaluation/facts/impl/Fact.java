@@ -6,7 +6,7 @@ import java.util.List;
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.lambda_terms.impl.BasicAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 public class Fact implements IFact {
 

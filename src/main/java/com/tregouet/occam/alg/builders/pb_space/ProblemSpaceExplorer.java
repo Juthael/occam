@@ -11,7 +11,7 @@ import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeB
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
 import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.productions.ProductionBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.lattice_productions.ProductionBuilder;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
 import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;

@@ -3,8 +3,8 @@ package com.tregouet.occam.data.problem_space.states.transitions.impl;
 import java.util.Objects;
 
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 
 public class ConceptTransitionIC implements IConceptTransitionIC {
 

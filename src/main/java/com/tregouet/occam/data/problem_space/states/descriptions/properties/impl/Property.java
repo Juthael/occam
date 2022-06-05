@@ -5,18 +5,18 @@ import java.util.Set;
 
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 public class Property implements IProperty {
 
 	private final int genusID;
 	private final int speciesID;
 	private final IDenotation function;
-	private final Set<IApplication> applications;
+	private final Set<IContextualizedProduction> applications;
 	private final Set<IDenotation> resultingValues;
 	private Double weight = null;
 
-	public Property(int genusID, int speciesID, IDenotation function, Set<IApplication> applications, 
+	public Property(int genusID, int speciesID, IDenotation function, Set<IContextualizedProduction> applications, 
 			Set<IDenotation> resultingValues) {
 		this.genusID = genusID;
 		this.speciesID = speciesID;
@@ -26,7 +26,7 @@ public class Property implements IProperty {
 	}
 
 	@Override
-	public Set<IApplication> getApplications() {
+	public Set<IContextualizedProduction> getApplications() {
 		return applications;
 	}
 

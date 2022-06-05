@@ -6,7 +6,7 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IRepresentationTapeSet;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IVarBinder;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 public class RepresentationTapeSet implements IRepresentationTapeSet {
 

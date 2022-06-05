@@ -18,6 +18,12 @@ import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransition
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ClassificationProductionSetBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ClassificationProductionSetBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ClassificationProductionSetBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.salience_mapper.ProductionSalienceMapper;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.salience_mapper.ProductionSalienceMapperFactory;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.salience_mapper.ProductionSalienceMapperStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilderStrategy;
@@ -30,27 +36,21 @@ import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.dif
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.SimilarityMetricsBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.SimilarityMetricsBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.fact_evaluators.FactEvaluatorBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.fact_evaluators.FactEvaluatorBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.fact_evaluators.FactEvaluatorBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.representations.lattice_productions.ProductionBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.lattice_productions.ProductionBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.representations.lattice_productions.ProductionBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.representations.lattice_productions.from_denotations.ProdBldrFromDenotationsFactory;
+import com.tregouet.occam.alg.builders.pb_space.representations.lattice_productions.from_denotations.ProdBuilderFromDenotations;
+import com.tregouet.occam.alg.builders.pb_space.representations.lattice_productions.from_denotations.ProdBuilderFromDenotationsStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilderStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.productions.ProductionBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.productions.ProductionBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.productions.ProductionBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.productions.from_denotations.ProdBldrFromDenotationsFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.productions.from_denotations.ProdBuilderFromDenotations;
-import com.tregouet.occam.alg.builders.pb_space.representations.productions.from_denotations.ProdBuilderFromDenotationsStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetter;
-import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetterFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.transition_saliences.TransitionSalienceSetterStrategy;
 
 public class BuildersAbstractFactory {
 
@@ -61,14 +61,14 @@ public class BuildersAbstractFactory {
 	private ConceptTreeGrowerStrategy conceptTreeGrowerStrategy = null;
 	private ProdBuilderFromDenotationsStrategy prodBuilderFromDenotationsStrategy = null;
 	private ProductionBuilderStrategy productionBuilderStrategy = null;
-	private TransitionSalienceSetterStrategy transitionSalienceSetterStrategy = null;
+	private ProductionSalienceMapperStrategy productionSalienceMapperStrategy = null;
+	private ClassificationProductionSetBuilderStrategy classificationProductionSetBuilderStrategy = null;
 	private RepresentationTransFuncBuilderStrategy representationTransFuncBuilderStrategy = null;
 	private PropertyBuilderStrategy propertyBuilderStrategy = null;
 	private DifferentiaeBuilderStrategy differentiaeBuilderStrategy = null;
 	private DescriptionBuilderStrategy descriptionBuilderStrategy = null;
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
-	private FactEvaluatorBuilderStrategy factEvaluatorBuilderStrategy = null;
 	private RepresentationBuilderStrategy representationBuilderStrategy = null;
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
 	private ProblemTransitionBuilderStrategy problemTransitionBuilderStrategy = null;
@@ -95,10 +95,6 @@ public class BuildersAbstractFactory {
 
 	public DifferentiaeBuilder getDifferentiaeBuilder() {
 		return DifferentiaeBuilderFactory.INSTANCE.apply(differentiaeBuilderStrategy);
-	}
-
-	public FactEvaluatorBuilder getFactEvaluatorBuilder() {
-		return FactEvaluatorBuilderFactory.INSTANCE.apply(factEvaluatorBuilderStrategy);
 	}
 	
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
@@ -140,9 +136,13 @@ public class BuildersAbstractFactory {
 	public RepresentationBuilder getRepresentationBuilder() {
 		return RepresentationBuilderFactory.INSTANCE.apply(representationBuilderStrategy);
 	}
-
-	public TransitionSalienceSetter getTransitionSalienceSetter() {
-		return TransitionSalienceSetterFactory.INSTANCE.apply(transitionSalienceSetterStrategy);
+	
+	public ProductionSalienceMapper getProductionSalienceMapper() {
+		return ProductionSalienceMapperFactory.INSTANCE.apply(productionSalienceMapperStrategy);
+	}
+	
+	public ClassificationProductionSetBuilder getClassificationProductionSetBuilder() {
+		return ClassificationProductionSetBuilderFactory.INSTANCE.apply(classificationProductionSetBuilderStrategy);
 	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
@@ -153,14 +153,14 @@ public class BuildersAbstractFactory {
 			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.IF_LEAF_IS_UNIVERSAL_THEN_SORT;
 			prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.SRCE_CNCPT_CANNOT_HAVE_TGET_DENOT;
 			productionBuilderStrategy = ProductionBuilderStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
-			transitionSalienceSetterStrategy = TransitionSalienceSetterStrategy.HIDDEN_BY_DEFAULT_THEN_FIND_SPECIFICS;
-			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.BUILD_EXHAUSTIVELY;
+			productionSalienceMapperStrategy = ProductionSalienceMapperStrategy.HIDDEN_THEN_FIND_SPECIFICS;
+			classificationProductionSetBuilderStrategy = ClassificationProductionSetBuilderStrategy.FILTER_UPDATE_REDUCE_SET;
+			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.BUILD_FROM_SALIENT_APPLICATIONS;
 			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
 			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
-			factEvaluatorBuilderStrategy = FactEvaluatorBuilderStrategy.SALIENCE_AWARE;
 			representationBuilderStrategy = RepresentationBuilderStrategy.FIRST_BUILD_TRANSITION_FUNC;
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
 			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;

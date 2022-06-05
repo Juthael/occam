@@ -24,8 +24,8 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
 
@@ -54,12 +54,12 @@ public class BuildExhaustivelyTest {
 	@Test
 	public void whenTransitionFunctionRequestedThenReturned() {
 		boolean asExpected = true;
-		BuildExhaustively transFuncBldr;
+		BuildFromSalientApplications transFuncBldr;
 		int nbOfChecks = 0;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			IClassification classification = new Classification(tree, conceptID2ExtentIDs);	
-			transFuncBldr = new BuildExhaustively();
+			transFuncBldr = new BuildFromSalientApplications();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(classification, productions);
 			/*
 			System.out.println(report(transFunc, tree, nbOfChecks));

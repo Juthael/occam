@@ -5,7 +5,7 @@ import java.util.Iterator;
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.languages.words.IWord;
 import com.tregouet.occam.data.logical_structures.partial_order.PartiallyComparable;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 public interface IFact extends IWord<IContextualizedProduction>, PartiallyComparable<IFact> {
 

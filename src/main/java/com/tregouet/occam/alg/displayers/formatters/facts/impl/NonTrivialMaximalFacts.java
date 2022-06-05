@@ -9,7 +9,7 @@ import java.util.TreeSet;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 public class NonTrivialMaximalFacts implements FactDisplayer {
 	

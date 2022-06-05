@@ -2,9 +2,11 @@ package com.tregouet.occam.alg.builders.pb_space.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -26,13 +28,14 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.order.TopoOrderOverReps;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class RemoveMeaningless implements ProblemSpaceExplorer {
 	
 	protected IConceptLattice conceptLattice;
+	protected Set<Integer> extentIDs;
 	protected Set<IContextualizedProduction> productions;
 	protected DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph;
 	
@@ -55,7 +58,8 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		Set<IRepresentation> newRepresentations = new HashSet<>();
 		for (InvertedTree<IConcept, IIsA> grownTree : grownTrees) {
 			Map<Integer, List<Integer>> conceptID2ExtentID = MapConceptIDs2ExtentIDs.in(grownTree);
-			IClassification classification = new Classification(grownTree, conceptID2ExtentID);
+			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(grownTree);
+			IClassification classification = new Classification(grownTree, conceptID2ExtentID, speciesID2GenusID, extentIDs);
 			IRepresentation developed = repBldr.apply(classification);
 			newRepresentations.add(developed);
 		}
@@ -80,12 +84,16 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 	public RemoveMeaningless initialize(
 			Collection<IContextObject> context) {
 		conceptLattice = ProblemSpaceExplorer.getConceptLatticeBuilder().apply(context);
+		extentIDs = new HashSet<>();
+		for (IContextObject object : conceptLattice.getContextObjects())
+			extentIDs.add(object.iD());
 		productions = ProblemSpaceExplorer.getProductionBuilder().apply(conceptLattice);
 		InvertedTree<IConcept, IIsA> initialTree = 
 				new ArrayList<InvertedTree<IConcept, IIsA>>(
 						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null)).get(0);
 		Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(initialTree);
-		IClassification classification = new Classification(initialTree, conceptID2ExtentIDs);
+		Map<Integer, Integer> species2Genus = mapSpeciesID2GenusID(initialTree);
+		IClassification classification = new Classification(initialTree, conceptID2ExtentIDs, species2Genus, extentIDs);
 		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder().setUp(productions);
 		IRepresentation initialRepresentation = repBldr.apply(classification);
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
@@ -141,6 +149,27 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 	@Override
 	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
 		return conceptLattice.getLatticeOfConcepts();
+	}
+	
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<IConcept, IConcept> species2Genus;
+		IConcept treeRoot = conceptTree.getRoot();
+		species2Genus = species2GenusRecursiveMapping(conceptTree, treeRoot);
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (Entry<IConcept, IConcept> mapEntry : species2Genus.entrySet())
+			speciesID2GenusID.put(mapEntry.getKey().iD(), mapEntry.getValue().iD());
+		return speciesID2GenusID;
+	}
+	
+	private static Map<IConcept, IConcept> species2GenusRecursiveMapping(InvertedTree<IConcept, IIsA> conceptTree, IConcept genus) {
+		Map<IConcept, IConcept> species2Genus = new HashMap<>();
+		Set<IIsA> incomingEdges = conceptTree.incomingEdgesOf(genus);
+		for (IIsA incomingEdge : incomingEdges) {
+			IConcept species = conceptTree.getEdgeSource(incomingEdge);
+			species2Genus.put(species, genus);
+			species2Genus.putAll(species2GenusRecursiveMapping(conceptTree, species));
+		}
+		return species2Genus;
 	}
 
 }

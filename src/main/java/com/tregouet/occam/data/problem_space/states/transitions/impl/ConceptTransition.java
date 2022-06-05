@@ -7,14 +7,12 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
-import com.tregouet.occam.data.problem_space.states.transitions.Salience;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
 
 public abstract class ConceptTransition implements IConceptTransition {
 
 	private final IConceptTransitionIC inputConfig;
 	private final IConceptTransitionOIC outputInternConfig;
-	private Salience salience;
 
 	public ConceptTransition(IConceptTransitionIC inputConfig, IConceptTransitionOIC outputInternConfig) {
 		this.inputConfig = inputConfig;
@@ -43,18 +41,8 @@ public abstract class ConceptTransition implements IConceptTransition {
 	}
 
 	@Override
-	public Salience getSalience() {
-		return salience;
-	}
-
-	@Override
 	public int hashCode() {
 		return Objects.hash(inputConfig, outputInternConfig);
-	}
-
-	@Override
-	public void setSalience(Salience salience) {
-		this.salience = salience;
 	}
 
 	@Override

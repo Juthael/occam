@@ -7,9 +7,11 @@ import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.evaluation.IFactEvaluator;
+import com.tregouet.occam.data.problem_space.states.evaluation.impl.FactEvaluator;
 import com.tregouet.occam.data.problem_space.states.impl.Representation;
+import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
 public class FirstBuildTransitionFunction implements RepresentationBuilder {
@@ -21,11 +23,14 @@ public class FirstBuildTransitionFunction implements RepresentationBuilder {
 
 	@Override
 	public IRepresentation apply(IClassification classification) {
-		IRepresentationTransitionFunction transFunc = RepresentationBuilder.getTransFuncBuilder()
-				.apply(classification, productions);
-		IFactEvaluator factEvaluator = RepresentationBuilder.getFactEvaluatorBuilder().apply(transFunc);
-		IDescription description = RepresentationBuilder.getDescriptionBuilder().apply(transFunc, classification);
-		Set<IPartition> partitions = RepresentationBuilder.getPartitionBuilder().apply(description, classification);
+		IClassificationProductions classProd = 
+				RepresentationBuilder.classificationProductionSetBuilder().apply(classification, productions);
+		IDescription description = RepresentationBuilder.descriptionBuilder().apply(classification, classProd);
+		IRepresentationTransitionFunction transFunc = RepresentationBuilder.transFuncBuilder()
+				.apply(classification, classProd);
+		IFactEvaluator factEvaluator = new FactEvaluator();
+		factEvaluator.set(transFunc);
+		Set<IPartition> partitions = RepresentationBuilder.partitionBuilder().apply(description, classification);
 		IRepresentation representation = new Representation(classification, description, factEvaluator, partitions);
 		return representation;
 	}

@@ -2,6 +2,7 @@ package com.tregouet.occam.alg.builders.pb_space.representations.descriptions.im
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,7 +20,7 @@ import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.descriptions.impl.Description;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 import com.tregouet.tree_finder.data.Tree;
 
 public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
@@ -30,10 +31,10 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 	}
 
 	@Override
-	public IDescription apply(IRepresentationTransitionFunction transFunc, IClassification classification) {
+	public IDescription apply(IClassification classification, IClassificationProductions classificationProductions) {
 		Set<ADifferentiae> differentiae;
 		Tree<Integer, ADifferentiae> descGraph;
-		differentiae = DescriptionBuilder.differentiaeBuilder().apply(transFunc);
+		differentiae = DescriptionBuilder.differentiaeBuilder().apply(classification, classificationProductions);
 		//build parameter graph for the tree constructor
 		DirectedAcyclicGraph<Integer, ADifferentiae> paramTree = new DirectedAcyclicGraph<>(null, null, false);
 		for (ADifferentiae diff : differentiae) {
@@ -47,9 +48,9 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 		List<Integer> topoOrderOverConcepts = new ArrayList<>();
 		new TopologicalOrderIterator<>(paramTree).forEachRemaining(topoOrderOverConcepts::add);
 		Integer ontologicalCommitmentID = topoOrderOverConcepts.get(0);
-		Set<Integer> particularIDs = transFunc.getAcceptStateIDs();
+		Set<Integer> mostSpecificConceptIDs = getMostSpecificConceptIDs(classification);
 		//build classification tree
-		descGraph = new Tree<>(paramTree, ontologicalCommitmentID, particularIDs, topoOrderOverConcepts);
+		descGraph = new Tree<>(paramTree, ontologicalCommitmentID, mostSpecificConceptIDs, topoOrderOverConcepts);
 		//rank differentiae in tree
 		DifferentiaeRankSetter.INSTANCE.accept(descGraph);
 		//weigh differentiae
@@ -67,6 +68,13 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 		//instantiate
 		IDescription description = new Description(descGraph, similarityMetrics);
 		return description;
+	}
+	
+	private Set<Integer> getMostSpecificConceptIDs(IClassification classification){
+		Set<Integer> mostSpecificConceptIDs = new HashSet<>();
+		for (IConcept leaf : classification.asGraph().getLeaves())
+			mostSpecificConceptIDs.add(leaf.iD());
+		return mostSpecificConceptIDs;
 	}
 	
 	private Map<Integer, Integer> mapContextParticularID2MostSpecificConceptID(IClassification classification) {

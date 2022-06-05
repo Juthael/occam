@@ -6,8 +6,8 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class AsProductionString implements PropertyLabeller {
 
@@ -23,8 +23,8 @@ public class AsProductionString implements PropertyLabeller {
 		sB.append("{");
 		//need of unicity tests
 		Set<IProduction> productions = new HashSet<>();
-		for (IApplication app : input.getApplications())
-			productions.add(app.getInputConfiguration().getInputSymbol());
+		for (IContextualizedProduction app : input.getApplications())
+			productions.add(app.getUncontextualizedProduction());
 		Iterator<IProduction> prodIte = productions.iterator();
 		while (prodIte.hasNext()) {
 			sB.append(prodIte.next());

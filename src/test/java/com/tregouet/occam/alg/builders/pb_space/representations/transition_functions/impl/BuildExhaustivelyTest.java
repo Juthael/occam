@@ -59,7 +59,7 @@ public class BuildExhaustivelyTest {
 	@Test
 	public void whenTransitionFunctionRequestedThenReturned() {
 		boolean asExpected = true;
-		BuildFromSalientApplications transFuncBldr;
+		FromBlankAndSalientProductions transFuncBldr;
 		int nbOfChecks = 0;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
@@ -67,7 +67,7 @@ public class BuildExhaustivelyTest {
 			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
 			IClassificationProductions classProds = 
 					BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder().apply(classification, productions);
-			transFuncBldr = new BuildFromSalientApplications();
+			transFuncBldr = new FromBlankAndSalientProductions();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(classification, classProds);
 			/*
 			System.out.println(report(transFunc, tree, nbOfChecks));

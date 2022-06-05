@@ -49,7 +49,8 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 				}
 				else {
 					AVariable poppedStackSymbol = production.getVariable();
-					IConceptTransitionIC inputConfig = new ConceptTransitionIC(genusID, production, poppedStackSymbol);
+					IConceptTransitionIC inputConfig = 
+							new ConceptTransitionIC(genusID, production.getUncontextualizedProduction(), poppedStackSymbol);
 					List<AVariable> newBoundVariables = production.getValue().getVariables();
 					if (newBoundVariables.isEmpty()) {
 						IConceptTransitionOIC outputConfig = new ConceptTransitionOIC(speciesID,
@@ -105,7 +106,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		return closedInheritances;
 	}
 	
-	abstract protected Set<IContextualizedProduction> selectRelevantApplications(IClassificationProductions classificationProductions);
+	abstract protected Set<IContextualizedProduction> selectRelevantProductions(IClassificationProductions classificationProductions);
 
 	abstract protected void filterForComplianceToAdditionalConstraints(Set<IConceptTransition> transitions);
 
@@ -120,7 +121,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		Set<IConceptTransition> spontaneous;
 		// build
 		initial = buildInitialTransition(classification);
-		Set<IContextualizedProduction> relevantApplications = selectRelevantApplications(classificationProductions);
+		Set<IContextualizedProduction> relevantApplications = selectRelevantProductions(classificationProductions);
 		Set<IConceptTransition> appAndUnclosedInheritances = buildApplicationsAndUnclosedInheritances(classification,
 				relevantApplications);
 		for (IConceptTransition transition : appAndUnclosedInheritances) {

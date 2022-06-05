@@ -12,11 +12,6 @@ public class Application extends ConceptTransition implements IApplication {
 	}
 
 	@Override
-	public boolean isRedundant() {
-		return getInputConfiguration().getInputSymbol().isRedundant();
-	}
-
-	@Override
 	public TransitionType type() {
 		return TransitionType.APPLICATION;
 	}

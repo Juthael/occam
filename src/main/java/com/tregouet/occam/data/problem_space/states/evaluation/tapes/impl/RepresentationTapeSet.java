@@ -6,7 +6,7 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IRepresentationTapeSet;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IVarBinder;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class RepresentationTapeSet implements IRepresentationTapeSet {
 
@@ -64,7 +64,7 @@ public class RepresentationTapeSet implements IRepresentationTapeSet {
 	}
 
 	@Override
-	public void printNext(IContextualizedProduction symbol) {
+	public void printNext(IProduction symbol) {
 		inputTape.print(symbol);
 	}
 
@@ -74,7 +74,7 @@ public class RepresentationTapeSet implements IRepresentationTapeSet {
 	}
 
 	@Override
-	public IContextualizedProduction readNextInputSymbol() {
+	public IProduction readNextInputSymbol() {
 		return inputTape.read();
 	}
 

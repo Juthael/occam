@@ -8,11 +8,11 @@ import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.impl.Fact;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class FactTape implements IFactTape {
 
-	private final List<IContextualizedProduction> fact;
+	private final List<IProduction> fact;
 	private int index;
 
 	public FactTape() {
@@ -25,7 +25,7 @@ public class FactTape implements IFactTape {
 		this.index = 0;
 	}
 
-	public FactTape(List<IContextualizedProduction> fact, int index) {
+	public FactTape(List<IProduction> fact, int index) {
 		this.fact = fact;
 		this.index = index;
 	}
@@ -36,7 +36,7 @@ public class FactTape implements IFactTape {
 	}
 
 	@Override
-	public List<IContextualizedProduction> asList() {
+	public List<IProduction> asList() {
 		return fact;
 	}
 
@@ -71,12 +71,12 @@ public class FactTape implements IFactTape {
 	}
 
 	@Override
-	public void print(IContextualizedProduction symbol) {
+	public void print(IProduction symbol) {
 		fact.add(symbol);
 	}
 
 	@Override
-	public IContextualizedProduction read() {
+	public IProduction read() {
 		if (!hasNext())
 			return null;
 		return fact.get(index++);

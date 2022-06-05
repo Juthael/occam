@@ -6,13 +6,13 @@ import java.util.List;
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.lambda_terms.impl.BasicAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class Fact implements IFact {
 
-	private final List<IContextualizedProduction> productionList;
+	private final List<IProduction> productionList;
 
-	public Fact(List<IContextualizedProduction> productionList) {
+	public Fact(List<IProduction> productionList) {
 		this.productionList = productionList;
 	}
 
@@ -22,7 +22,7 @@ public class Fact implements IFact {
 	}
 
 	@Override
-	public List<IContextualizedProduction> asList() {
+	public List<IProduction> asList() {
 		return new ArrayList<>(productionList);
 	}
 

@@ -7,9 +7,7 @@ import java.util.NavigableSet;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
 
 public class FactPrinter {
@@ -17,9 +15,6 @@ public class FactPrinter {
 	public static final FactPrinter INSTANCE = new FactPrinter();
 	private static final String nL = System.lineSeparator();
 	private static final String[] alinea = ProblemSpacePagePrinter.alinea;
-	//HERE
-	private static int count = 0;
-	//HERE
 	
 	private FactPrinter() {
 	}
@@ -54,21 +49,6 @@ public class FactPrinter {
 		if (representation.isFullyDeveloped())
 			return conceptID.toString();
 		else {
-			//HERE
-			try {
-				TreeSet<Integer> test = new TreeSet<>(representation.getExtentIDs(conceptID));
-			}
-			catch (Exception e) {
-				System.out.println("concept not found (" + count + ") : " + conceptID.toString());
-				System.out.println("Extent map : ");
-				Map<Integer, List<Integer>> extentMap = representation.getClassification().mapConceptID2ExtentIDs();
-				for (Integer iD : extentMap.keySet()) 
-					System.out.println(iD.toString() + " : " + extentMap.get(iD));
-				VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(representation.getClassification().asGraph(), "FactPrinter_error" + count++);
-				System.out.println(System.lineSeparator());
-				System.exit(0);
-			}
-			//HERE
 			TreeSet<Integer> extent = new TreeSet<>(representation.getExtentIDs(conceptID));
 			if (extent.size() == 1)
 				return conceptID.toString();

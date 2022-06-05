@@ -8,7 +8,7 @@ import com.tregouet.occam.data.problem_space.states.evaluation.IFactEvaluator;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IRepresentationTapeSet;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.impl.RepresentationTapeSet;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
@@ -105,7 +105,7 @@ public class FactEvaluator implements IFactEvaluator {
 		activeStateID = transitionFunction.getStartStateID();
 	}
 
-	private IFactEvaluator proceedPrintingTransition(IContextualizedProduction nextPrint,
+	private IFactEvaluator proceedPrintingTransition(IProduction nextPrint,
 			IConceptTransitionOIC outputInternConfig) {
 		IRepresentationTapeSet nextTapeSet = tapeSet.copy();
 		if (!nextPrint.isEpsilon())

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -152,24 +151,10 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 	}
 	
 	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
-		Map<IConcept, IConcept> species2Genus;
-		IConcept treeRoot = conceptTree.getRoot();
-		species2Genus = species2GenusRecursiveMapping(conceptTree, treeRoot);
 		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
-		for (Entry<IConcept, IConcept> mapEntry : species2Genus.entrySet())
-			speciesID2GenusID.put(mapEntry.getKey().iD(), mapEntry.getValue().iD());
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
-	}
-	
-	private static Map<IConcept, IConcept> species2GenusRecursiveMapping(InvertedTree<IConcept, IIsA> conceptTree, IConcept genus) {
-		Map<IConcept, IConcept> species2Genus = new HashMap<>();
-		Set<IIsA> incomingEdges = conceptTree.incomingEdgesOf(genus);
-		for (IIsA incomingEdge : incomingEdges) {
-			IConcept species = conceptTree.getEdgeSource(incomingEdge);
-			species2Genus.put(species, genus);
-			species2Genus.putAll(species2GenusRecursiveMapping(conceptTree, species));
-		}
-		return species2Genus;
 	}
 
 }

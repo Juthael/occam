@@ -29,6 +29,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
+import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -40,11 +41,11 @@ public class BuildTreeThenCalculateMetricsTest {
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
+	private Set<Integer> extentIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;	
 	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
-	private Map<IRepresentationTransitionFunction, InvertedTree<IConcept, IIsA>> transFunc2Tree = 
-			new HashMap<IRepresentationTransitionFunction, InvertedTree<IConcept,IIsA>>();	
+	private Map<IClassificationProductions, IClassification> classProd2Classification = new HashMap<>();	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -57,13 +58,17 @@ public class BuildTreeThenCalculateMetricsTest {
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		trees = growTrees();
+		for (IContextObject obj : context)
+			extentIDs.add(obj.iD());
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = BuildersAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
-			IClassification classification = new Classification(tree, conceptID2ExtentIDs);
-			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(classification, productions);
-			transFunc2Tree.put(transFunc, tree);
+			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
+			IClassificationProductions classificationProductions = 
+					BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder().apply(classification, productions);
+			classProd2Classification.put(classificationProductions, classification);
 		}
 	}
 
@@ -71,12 +76,10 @@ public class BuildTreeThenCalculateMetricsTest {
 	public void whenDescriptionsRequestedThenReturned() {
 		Set<IDescription> descriptions = new HashSet<>();
 		int checkIdx = 0;
-		for (IRepresentationTransitionFunction transFunc : transFunc2Tree.keySet()) {
-			InvertedTree<IConcept, IIsA> tree = transFunc2Tree.get(transFunc);
-			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
-			IClassification classification = new Classification(tree, conceptID2ExtentIDs);
+		for (IClassificationProductions classProd : classProd2Classification.keySet()) {
+			IClassification classification = classProd2Classification.get(classProd);
 			IDescription description = 
-					BuildTreeThenCalculateMetrics.INSTANCE.apply(transFunc, classification);
+					BuildTreeThenCalculateMetrics.INSTANCE.apply(classification, classProd);
 			/*
 			String descriptionPath = 
 					VisualizersAbstractFactory.INSTANCE.getDescriptionViz().apply(
@@ -86,7 +89,7 @@ public class BuildTreeThenCalculateMetricsTest {
 			descriptions.add(description);
 			checkIdx++;
 		}
-		assertTrue(descriptions.size() == transFunc2Tree.size());
+		assertTrue(descriptions.size() == classProd2Classification.size());
 	}
 	
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
@@ -104,6 +107,13 @@ public class BuildTreeThenCalculateMetricsTest {
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
+	}	
+	
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
+		return speciesID2GenusID;
 	}	
 
 }

@@ -38,6 +38,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIs
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
@@ -151,7 +152,7 @@ public class AutomaticallyExpandTrivialLeavesTest {
 			sB.append("*Property : " + nl);
 			sB.append("*function : " + prop.getFunction().toString() + nl);
 			sB.append("*applications :" + nl);
-			for (IApplication application : prop.getApplications()) {
+			for (IContextualizedProduction application : prop.getApplications()) {
 				sB.append(application.toString() + nl);
 			}
 			sB.append("*values : " + nl);

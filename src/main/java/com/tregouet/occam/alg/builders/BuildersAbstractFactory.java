@@ -161,7 +161,7 @@ public class BuildersAbstractFactory {
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
-			representationBuilderStrategy = RepresentationBuilderStrategy.FIRST_BUILD_TRANSITION_FUNC;
+			representationBuilderStrategy = RepresentationBuilderStrategy.TREE_SPECIFIC_PRODUCTION_SET_FIRST;
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
 			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.EXPAND_TRIVIAL_LEAVES;

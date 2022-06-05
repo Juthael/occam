@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
+import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -34,6 +36,7 @@ public class BuildExhaustivelyTest {
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
+	private Set<Integer> extentIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;	
 	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> trees;	
@@ -46,6 +49,8 @@ public class BuildExhaustivelyTest {
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
+		for (IContextObject obj : context)
+			extentIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		trees = growTrees();
@@ -58,9 +63,12 @@ public class BuildExhaustivelyTest {
 		int nbOfChecks = 0;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
-			IClassification classification = new Classification(tree, conceptID2ExtentIDs);	
+			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
+			IClassificationProductions classProds = 
+					BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder().apply(classification, productions);
 			transFuncBldr = new BuildFromSalientApplications();
-			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(classification, productions);
+			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(classification, classProds);
 			/*
 			System.out.println(report(transFunc, tree, nbOfChecks));
 			*/
@@ -100,6 +108,13 @@ public class BuildExhaustivelyTest {
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
-	}	
+	}
+	
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
+		return speciesID2GenusID;
+	}		
 
 }

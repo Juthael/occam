@@ -34,4 +34,11 @@ public class ClassificationProductions implements IClassificationProductions {
 		return new HashSet<>(production2Salience.keySet());
 	}
 
+	@Override
+	public Salience salienceOf(IContextualizedProduction production) {
+		if (!production2Salience.containsKey(production))
+			return null;
+		return production2Salience.get(production);
+	}
+
 }

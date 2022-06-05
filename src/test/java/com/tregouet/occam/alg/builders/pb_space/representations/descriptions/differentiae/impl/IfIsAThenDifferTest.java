@@ -8,6 +8,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -39,6 +40,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIs
 import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -57,10 +59,11 @@ public class IfIsAThenDifferTest {
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
+	private Set<Integer> extentIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;	
 	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
-	private Set<IRepresentationTransitionFunction> transFunctions = new HashSet<>();	
+	private Map<IClassificationProductions, IClassification> classProd2Classification = new HashMap<>();	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -73,12 +76,17 @@ public class IfIsAThenDifferTest {
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		trees = growTrees();
+		for (IContextObject obj : context)
+			extentIDs.add(obj.iD());		
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = BuildersAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
-			IClassification classification = new Classification(tree, conceptID2ExtentIDs);
-			transFunctions.add(transFuncBldr.apply(classification, productions));
+			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
+			IClassificationProductions classificationProductions = 
+					BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder().apply(classification, productions);
+			classProd2Classification.put(classificationProductions, classification);
 		}
 	}
 	
@@ -86,9 +94,10 @@ public class IfIsAThenDifferTest {
 	public void whenDifferentiaeRequestedThenDifferentiaeGraphIsTree() {
 		boolean asExpected = true;
 		int nbOfChecks = 0;
-		for (IRepresentationTransitionFunction transFunc : transFunctions) {
+		for (IClassificationProductions classProds : classProd2Classification.keySet()) {
+			IClassification classification = classProd2Classification.get(classProds);
 			IfIsAThenDiffer diffBldr = new IfIsAThenDiffer();
-			Set<ADifferentiae> differentiae = diffBldr.apply(transFunc);
+			Set<ADifferentiae> differentiae = diffBldr.apply(classification, classProds);
 			DirectedAcyclicGraph<Integer, ADifferentiae> graph = new DirectedAcyclicGraph<>(null, null, false);
 			for (ADifferentiae diff : differentiae) {
 				graph.addVertex(diff.getSource());
@@ -165,5 +174,12 @@ public class IfIsAThenDifferTest {
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
 	}	
+	
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
+		return speciesID2GenusID;
+	}		
 
 }

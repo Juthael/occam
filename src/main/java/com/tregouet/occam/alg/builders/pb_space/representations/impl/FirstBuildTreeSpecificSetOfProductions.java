@@ -14,11 +14,11 @@ import com.tregouet.occam.data.problem_space.states.productions.IContextualizedP
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
-public class FirstBuildTransitionFunction implements RepresentationBuilder {
+public class FirstBuildTreeSpecificSetOfProductions implements RepresentationBuilder {
 	
 	private Set<IContextualizedProduction> productions;
 	
-	public FirstBuildTransitionFunction() {
+	public FirstBuildTreeSpecificSetOfProductions() {
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class FirstBuildTransitionFunction implements RepresentationBuilder {
 	}
 
 	@Override
-	public FirstBuildTransitionFunction setUp(Set<IContextualizedProduction> productions) {
+	public FirstBuildTreeSpecificSetOfProductions setUp(Set<IContextualizedProduction> productions) {
 		this.productions = productions;
 		return this;
 	}	

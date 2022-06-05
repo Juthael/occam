@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -28,13 +29,14 @@ import com.tregouet.occam.data.problem_space.states.productions.IContextualizedP
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class FirstBuildTransitionFunctionTest {
+public class FirstBuildTreeSpecificSetOfProductionsTest {
 	
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	public static int count = 0;
 	@SuppressWarnings("unused")
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
+	private Set<Integer> extentIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;	
 	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
@@ -47,6 +49,8 @@ public class FirstBuildTransitionFunctionTest {
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
+		for (IContextObject obj : context)
+			extentIDs.add(obj.iD());		
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		/*
@@ -63,10 +67,11 @@ public class FirstBuildTransitionFunctionTest {
 		/*
 		int count = 0;
 		*/
+		FirstBuildTreeSpecificSetOfProductions bldr = new FirstBuildTreeSpecificSetOfProductions().setUp(productions);
 		for (InvertedTree<IConcept, IIsA> conceptTree : conceptTrees) {
-			FirstBuildTransitionFunction bldr = new FirstBuildTransitionFunction().setUp(productions);
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(conceptTree);
-			IClassification classification = new Classification(conceptTree, conceptID2ExtentIDs);
+			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(conceptTree);
+			IClassification classification = new Classification(conceptTree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
 			IRepresentation representation = bldr.apply(classification);
 			if (!representations.add(representation))
 				asExpected = false;
@@ -98,6 +103,13 @@ public class FirstBuildTransitionFunctionTest {
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
+	}	
+	
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
+		return speciesID2GenusID;
 	}	
 
 }

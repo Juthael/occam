@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.lattice_productions.from_denotations.impl.MapTargetVarsToSourceValues;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Terminal;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Variable;

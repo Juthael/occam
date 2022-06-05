@@ -7,5 +7,7 @@ public interface IClassificationProductions {
 	Set<IContextualizedProduction> getSalientProductions();
 	
 	Set<IContextualizedProduction> getProductions();
+	
+	Salience salienceOf(IContextualizedProduction production);
 
 }

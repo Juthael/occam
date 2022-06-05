@@ -42,14 +42,14 @@ public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceMappe
 			int genusIdx = genusIDs.indexOf(genusID);
 			if (genusIdx != -1) {
 				setsOfSpeciesIDs.get(genusIdx).add(speciesStateID);
-				if (!production.isBlank() && !production.isEpsilon()) {
+				if (!production.isEpsilon() && !production.isBlank()) {
 					setsOfApplications.get(genusIdx).add(production);
 				}
 			}
 			else {
 				genusIDs.add(genusID);
 				setsOfSpeciesIDs.add(new HashSet<>(Arrays.asList(new Integer[] {speciesStateID})));
-				if (!production.isBlank() && !production.isEpsilon())
+				if (!production.isEpsilon() && !production.isBlank())
 					setsOfApplications.add(new HashSet<>(Arrays.asList(new IContextualizedProduction[] {production})));
 				else setsOfApplications.add(new HashSet<>());
 			}

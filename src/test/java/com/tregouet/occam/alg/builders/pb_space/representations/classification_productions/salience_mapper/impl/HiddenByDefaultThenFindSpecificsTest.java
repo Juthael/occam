@@ -41,7 +41,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	@SuppressWarnings("unused")
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
-	private Set<Integer> extentIDs = new HashSet<>();
+	private Set<Integer> particularIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;	
 	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
@@ -56,7 +56,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		for (IContextObject obj : context)
-			extentIDs.add(obj.iD());		
+			particularIDs.add(obj.iD());		
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		/*
@@ -68,7 +68,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		for (InvertedTree<IConcept, IIsA> tree : conceptTrees) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
-			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, particularIDs);
 			bldr = BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder();
 			IClassificationProductions classProds = bldr.apply(classification, productions);
 			classProd2Classification.put(classProds, classification);
@@ -84,9 +84,9 @@ public class HiddenByDefaultThenFindSpecificsTest {
 			Set<IContextualizedProduction> allProds = classProd.getProductions();
 			Set<IContextualizedProduction> hiddenProds = new HashSet<>(Sets.difference(allProds, salientProds));
 			for (IContextualizedProduction production : hiddenProds) {
-				if (!production.isBlank() && !production.isEpsilon()) {
+				if (!production.isEpsilon() && !production.isBlank()) {
 					Integer speciesID = production.getSubordinateID();
-					if (!extentIDs.contains(speciesID))
+					if (!particularIDs.contains(speciesID))
 						asExpected = false;
 					nbOfChecks ++;
 				}
@@ -128,10 +128,11 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		int nbOfChecks = 0;
 		for (IClassificationProductions classProds : classProd2Classification.keySet()) {
 			for (IContextualizedProduction prod : classProds.getProductions()) {
-				if (classProds.salienceOf(prod) == Salience.COMMON_FEATURE)
+				if (classProds.salienceOf(prod) == Salience.COMMON_FEATURE) {
 					nbOfChecks++;
-					if (extentIDs.contains(prod.getSubordinateID()))
+					if (particularIDs.contains(prod.getSubordinateID()))
 						asExpected = false;
+				}
 			}
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);

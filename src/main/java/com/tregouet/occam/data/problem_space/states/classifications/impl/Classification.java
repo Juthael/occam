@@ -16,15 +16,16 @@ public class Classification implements IClassification {
 	private Map<Integer, IConcept> iD2Concept = new HashMap<>();
 	private Map<Integer, List<Integer>> conceptID2ExtentIDs;
 	private Map<Integer, Integer> speciesID2GenusID;
-	private Set<Integer> extentIDs;
+	private Set<Integer> particularIDs;
 	
 	public Classification(InvertedTree<IConcept, IIsA> graph, Map<Integer, List<Integer>> conceptID2ExtentIDs, 
-			Map<Integer, Integer> speciesID2GenusID, Set<Integer> extentIDs) {
+			Map<Integer, Integer> speciesID2GenusID, Set<Integer> particularIDs) {
 		this.graph = graph;
 		for (IConcept concept : graph.vertexSet())
 			iD2Concept.put(concept.iD(), concept);
 		this.conceptID2ExtentIDs = conceptID2ExtentIDs;
 		this.speciesID2GenusID = speciesID2GenusID;
+		this.particularIDs = particularIDs;
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class Classification implements IClassification {
 
 	@Override
 	public Set<Integer> getParticularIDs() {
-		return extentIDs;
+		return particularIDs;
 	}
 
 }

@@ -21,7 +21,6 @@ public class AsProductionString implements PropertyLabeller {
 	public String apply(IProperty input) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("{");
-		//need of unicity tests
 		Set<IProduction> productions = new HashSet<>();
 		for (IContextualizedProduction app : input.getApplications())
 			productions.add(app.getUncontextualizedProduction());

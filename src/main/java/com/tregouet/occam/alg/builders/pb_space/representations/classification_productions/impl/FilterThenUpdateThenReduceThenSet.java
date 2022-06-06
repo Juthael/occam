@@ -53,9 +53,9 @@ public class FilterThenUpdateThenReduceThenSet implements ClassificationProducti
 		Map<Integer, Integer> wrappedConceptIDToComplementaryConceptID = new HashMap<>();
 		for (IConcept concept : treeOfConcepts) {
 			if (concept.isComplementary()) {
-				IConcept wrapped = ((IComplementaryConcept) concept).getWrappedComplementing();
-				if (wrapped != null)
-					wrappedConceptIDToComplementaryConceptID.put(wrapped.iD(), concept.iD());
+				Integer wrappedID = ((IComplementaryConcept) concept).getWrappedComplementingID();
+				if (wrappedID != null)
+					wrappedConceptIDToComplementaryConceptID.put(wrappedID, concept.iD());
 			}
 		}
 		//update production IDs
@@ -108,11 +108,11 @@ public class FilterThenUpdateThenReduceThenSet implements ClassificationProducti
 		InvertedTree<IConcept, IIsA> treeOfConcepts = classification.asGraph();
 		for (IIsA edge : treeOfConcepts.edgeSet()) {
 			IConcept species = treeOfConcepts.getEdgeSource(edge);
-			if (species.isComplementary() && ((IComplementaryConcept) species).getWrappedComplementing() == null)
+			if (species.isComplementary() && ((IComplementaryConcept) species).getWrappedComplementingID() == null)
 				adjacentEdgeToUnwrappingComplementary.add(edge);
 			else {
 				IConcept genus = treeOfConcepts.getEdgeTarget(edge);
-				if (genus.isComplementary() && ((IComplementaryConcept) genus).getWrappedComplementing() == null)
+				if (genus.isComplementary() && ((IComplementaryConcept) genus).getWrappedComplementingID() == null)
 					adjacentEdgeToUnwrappingComplementary.add(edge);
 			}
 		}

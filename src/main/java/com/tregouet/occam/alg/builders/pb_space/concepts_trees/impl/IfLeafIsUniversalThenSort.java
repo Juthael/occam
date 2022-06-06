@@ -62,7 +62,7 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 					mapClosedSubsetsOfParticulars2Supremum(searchSpace, particulars);
 			//classify genus extent
 			List<List<IConcept>> genusSortings = 
-					classify(genus, sortedParticulars, closedSubsetsOfParticulars2Supremum);
+					classify(sortedParticulars, closedSubsetsOfParticulars2Supremum);
 			for (List<IConcept> speciesSet : genusSortings) {
 				DirectedAcyclicGraph<IConcept, IIsA> treeDAG = new DirectedAcyclicGraph<>(null, IsA::new, false);
 				Graphs.addAllVertices(treeDAG, currentTree.vertexSet());
@@ -95,7 +95,7 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 		return expandedTrees;
 	}
 	
-	private static List<List<IConcept>> classify(IConcept genus, List<IConcept> sortedParticulars, 
+	private static List<List<IConcept>> classify(List<IConcept> sortedParticulars, 
 			Map<List<IConcept>, IConcept> closedSubsetsOfParticulars2Supremum) {
 		List<List<IConcept>> genusSortings = new ArrayList<>();
 		List<List<List<IConcept>>> partitionsOfParticulars;
@@ -187,8 +187,9 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 		while (!currentConcept.equals(root)) {
 			if (currentConcept.isComplementary()) {
 				IComplementaryConcept currentCompConcept = (IComplementaryConcept) currentConcept;
-				IConcept wrappedComplementing = currentCompConcept.getWrappedComplementing();
-				if (!uslConceptHasBeenVisited && wrappedComplementing != null) {
+				Integer wrappedComplementingID = currentCompConcept.getWrappedComplementingID();
+				if (!uslConceptHasBeenVisited && wrappedComplementingID != null) {
+					IConcept wrappedComplementing = getConceptWithID(wrappedComplementingID, conceptUSL);
 					searchSpaceConcepts.retainAll(conceptUSL.getAncestors(wrappedComplementing));
 					uslConceptHasBeenVisited = true;
 				}
@@ -321,6 +322,14 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 	protected void complyToAdditionalConstraints(DirectedAcyclicGraph<IConcept, IIsA> treeDAG, 
 			InvertedUpperSemilattice<IConcept, IIsA> searchSpace) {
 		//no additional constraint
+	}
+	
+	private static IConcept getConceptWithID(int iD, InvertedUpperSemilattice<IConcept, IIsA> conceptUSL) {
+		for (IConcept concept : conceptUSL.vertexSet()) {
+			if (concept.iD() == iD)
+				return concept;
+		}
+		return null;
 	}
 
 }

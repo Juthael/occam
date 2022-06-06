@@ -13,7 +13,7 @@ public interface MapVariablesToValues {
 	/**
 	 * @param valueProvider
 	 * @param varProvider
-	 * @return null if source is not a target's instance
+	 * @return null if valueProvider is not an instance of varProvider
 	 */
 	public static Map<AVariable, List<ISymbol>> of(List<ISymbol> valueProvider, List<ISymbol> varProvider) {
 		return continueMapping(valueProvider, varProvider, new HashMap<AVariable, List<ISymbol>>(), 0, 0);

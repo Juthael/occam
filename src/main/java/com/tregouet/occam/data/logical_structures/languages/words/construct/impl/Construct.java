@@ -25,7 +25,7 @@ public class Construct implements IConstruct {
 
 	public Construct(List<ISymbol> prog) {
 		this.symbols = prog;
-		nbOfTerminals = setNbOfTerminals();
+		nbOfTerminals = nbOfTerminals();
 	}
 
 	public Construct(String[] progStrings) {
@@ -181,7 +181,7 @@ public class Construct implements IConstruct {
 		return sB.toString();
 	}
 
-	protected int setNbOfTerminals() {
+	protected int nbOfTerminals() {
 		int nbOfTerminals = 0;
 		for (ISymbol symbol : symbols) {
 			if (symbol instanceof ITerminal)

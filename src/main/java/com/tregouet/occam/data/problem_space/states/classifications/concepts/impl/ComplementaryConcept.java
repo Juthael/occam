@@ -14,13 +14,13 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.den
 public class ComplementaryConcept extends Concept implements IComplementaryConcept {
 
 	private final IConcept complementedByThis;
-	private IConcept wrappedComplementing = null;
+	private Integer wrappedComplementingID = null;
 
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
 		super(new ArrayList<>(complementing.getDenotations()), new HashSet<>(Sets.difference(complementing.getMaxExtentIDs(), 
 				toBeComplemented.getMaxExtentIDs())), -toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
-		wrappedComplementing = complementing;
+		wrappedComplementingID = complementing.iD();
 		setType(ConceptType.UNIVERSAL);
 	}
 
@@ -48,8 +48,8 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 	}
 
 	@Override
-	public IConcept getWrappedComplementing() {
-		return wrappedComplementing;
+	public Integer getWrappedComplementingID() {
+		return wrappedComplementingID;
 	}
 
 	@Override

@@ -48,4 +48,5 @@ public interface IConstruct extends IWord<ISymbol> {
 	String toString();
 	
 	boolean isAlphaConvertibleWith(IConstruct other);
+	
 }

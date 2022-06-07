@@ -73,7 +73,7 @@ public class BuildGraphFirstTest {
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);		
 			classProdBldr = BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder();
-			IClassificationProductions classProds = classProdBldr.apply(classification, productions);
+			IClassificationProductions classProds = classProdBldr.setUp(productions).apply(classification);
 			IDescription description = BuildersAbstractFactory.INSTANCE.getDescriptionBuilder().apply(classification, classProds);
 			BuildGraphFirst partitionBuilder = new BuildGraphFirst();
 			Set<IPartition> partitions = partitionBuilder.apply(description, classification);

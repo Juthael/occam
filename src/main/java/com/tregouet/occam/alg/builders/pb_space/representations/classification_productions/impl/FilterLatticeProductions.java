@@ -21,11 +21,15 @@ import com.tregouet.occam.data.problem_space.states.productions.impl.Contextuali
 import com.tregouet.occam.data.problem_space.states.productions.impl.ClassificationProductions;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class FilterThenUpdateThenReduceThenSet implements ClassificationProductionSetBuilder {
+public class FilterLatticeProductions implements ClassificationProductionSetBuilder {
+	
+	private Set<IContextualizedProduction> unfilteredUnreducedProds;
+	
+	public FilterLatticeProductions() {
+	}
 
 	@Override
-	public ClassificationProductions apply(IClassification classification, 
-			Set<IContextualizedProduction> unfilteredUnreducedProds) {
+	public ClassificationProductions apply(IClassification classification) {
 		//every production generated from the concept lattice. New set to prevent side effects. 
 		Set<IContextualizedProduction> mutableUnfilteredUnreduced = new HashSet<>(unfilteredUnreducedProds);
 		/* if the genus or species concept of a production has been wrapped in a complementary concept while building 
@@ -53,9 +57,9 @@ public class FilterThenUpdateThenReduceThenSet implements ClassificationProducti
 		Map<Integer, Integer> wrappedConceptIDToComplementaryConceptID = new HashMap<>();
 		for (IConcept concept : treeOfConcepts) {
 			if (concept.isComplementary()) {
-				Integer wrappedID = ((IComplementaryConcept) concept).getWrappedComplementingID();
-				if (wrappedID != null)
-					wrappedConceptIDToComplementaryConceptID.put(wrappedID, concept.iD());
+				IConcept wrapped = ((IComplementaryConcept) concept).getWrappedComplementing();
+				if (wrapped != null)
+					wrappedConceptIDToComplementaryConceptID.put(wrapped.iD(), concept.iD());
 			}
 		}
 		//update production IDs
@@ -108,11 +112,11 @@ public class FilterThenUpdateThenReduceThenSet implements ClassificationProducti
 		InvertedTree<IConcept, IIsA> treeOfConcepts = classification.asGraph();
 		for (IIsA edge : treeOfConcepts.edgeSet()) {
 			IConcept species = treeOfConcepts.getEdgeSource(edge);
-			if (species.isComplementary() && ((IComplementaryConcept) species).getWrappedComplementingID() == null)
+			if (species.isComplementary() && ((IComplementaryConcept) species).getWrappedComplementing() == null)
 				adjacentEdgeToUnwrappingComplementary.add(edge);
 			else {
 				IConcept genus = treeOfConcepts.getEdgeTarget(edge);
-				if (genus.isComplementary() && ((IComplementaryConcept) genus).getWrappedComplementingID() == null)
+				if (genus.isComplementary() && ((IComplementaryConcept) genus).getWrappedComplementing() == null)
 					adjacentEdgeToUnwrappingComplementary.add(edge);
 			}
 		}
@@ -129,6 +133,12 @@ public class FilterThenUpdateThenReduceThenSet implements ClassificationProducti
 			}
 		}
 		return productions;
+	}
+
+	@Override
+	public ClassificationProductionSetBuilder setUp(Set<IContextualizedProduction> latticeProductions) {
+		this.unfilteredUnreducedProds = latticeProductions;
+		return this;
 	}	
 
 }

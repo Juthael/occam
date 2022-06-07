@@ -67,7 +67,7 @@ public class FirstBuildTreeSpecificSetOfProductionsTest {
 		/*
 		int count = 0;
 		*/
-		FirstBuildTreeSpecificSetOfProductions bldr = new FirstBuildTreeSpecificSetOfProductions().setUp(productions);
+		FilterTreeSpecificSetOfProductions bldr = new FilterTreeSpecificSetOfProductions().setUp(productions);
 		for (InvertedTree<IConcept, IIsA> conceptTree : conceptTrees) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(conceptTree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(conceptTree);

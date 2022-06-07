@@ -64,7 +64,7 @@ public class RecursiveForkExplorationTest {
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
 			bldr = BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder();
-			IClassificationProductions classProds = bldr.apply(classification, productions);
+			IClassificationProductions classProds = bldr.setUp(productions).apply(classification);
 			classProd2Classification.put(classProds, classification);
 		}
 		for (IClassificationProductions classProd : classProd2Classification.keySet()) {

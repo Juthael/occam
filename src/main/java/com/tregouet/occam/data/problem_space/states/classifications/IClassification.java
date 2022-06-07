@@ -18,6 +18,8 @@ public interface IClassification {
 	
 	Map<Integer, List<Integer>> mapConceptID2ExtentIDs();
 	
+	Map<Integer, Integer> mapSpeciesID2GenusID();
+	
 	Set<IConcept> getMostSpecificConcepts();
 	
 	IConcept getConceptWithSpecifiedID(int iD);

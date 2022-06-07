@@ -31,4 +31,9 @@ public class Fact implements IFact {
 		return new Fact(asList());
 	}
 
+	@Override
+	public int size() {
+		return productionList.size();
+	}
+
 }

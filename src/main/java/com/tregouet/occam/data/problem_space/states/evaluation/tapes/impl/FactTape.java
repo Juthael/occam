@@ -82,4 +82,9 @@ public class FactTape implements IFactTape {
 		return fact.get(index++);
 	}
 
+	@Override
+	public int size() {
+		return fact.size();
+	}
+
 }

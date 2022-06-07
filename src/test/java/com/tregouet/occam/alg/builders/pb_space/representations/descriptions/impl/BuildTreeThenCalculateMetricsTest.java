@@ -67,7 +67,7 @@ public class BuildTreeThenCalculateMetricsTest {
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
 			IClassificationProductions classificationProductions = 
-					BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder().apply(classification, productions);
+					BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder().setUp(productions).apply(classification);
 			classProd2Classification.put(classificationProductions, classification);
 		}
 	}

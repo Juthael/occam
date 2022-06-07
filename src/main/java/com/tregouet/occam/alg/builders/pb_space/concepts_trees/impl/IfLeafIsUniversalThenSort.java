@@ -187,9 +187,8 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 		while (!currentConcept.equals(root)) {
 			if (currentConcept.isComplementary()) {
 				IComplementaryConcept currentCompConcept = (IComplementaryConcept) currentConcept;
-				Integer wrappedComplementingID = currentCompConcept.getWrappedComplementingID();
-				if (!uslConceptHasBeenVisited && wrappedComplementingID != null) {
-					IConcept wrappedComplementing = getConceptWithID(wrappedComplementingID, conceptUSL);
+				IConcept wrappedComplementing = currentCompConcept.getWrappedComplementing();
+				if (!uslConceptHasBeenVisited && wrappedComplementing != null) {
 					searchSpaceConcepts.retainAll(conceptUSL.getAncestors(wrappedComplementing));
 					uslConceptHasBeenVisited = true;
 				}
@@ -322,14 +321,6 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 	protected void complyToAdditionalConstraints(DirectedAcyclicGraph<IConcept, IIsA> treeDAG, 
 			InvertedUpperSemilattice<IConcept, IIsA> searchSpace) {
 		//no additional constraint
-	}
-	
-	private static IConcept getConceptWithID(int iD, InvertedUpperSemilattice<IConcept, IIsA> conceptUSL) {
-		for (IConcept concept : conceptUSL.vertexSet()) {
-			if (concept.iD() == iD)
-				return concept;
-		}
-		return null;
 	}
 
 }

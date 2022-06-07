@@ -7,6 +7,7 @@ import java.util.function.Function;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
+import com.tregouet.occam.alg.builders.pb_space.classifications.ClassificationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
 import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilder;
@@ -70,6 +71,10 @@ public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
 
 	public static Sorting2StringConverter getSorting2StringConverter() {
 		return FormattersAbstractFactory.INSTANCE.getSorting2StringConverter();
+	}
+	
+	public static ClassificationBuilder classificationBuilder() {
+		return BuildersAbstractFactory.INSTANCE.getClassificationBuilder();
 	}
 
 }

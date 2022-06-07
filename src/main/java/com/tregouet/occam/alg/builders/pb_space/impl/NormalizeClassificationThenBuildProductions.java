@@ -22,18 +22,16 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.order.TopoOrderOverReps;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class RemoveMeaningless implements ProblemSpaceExplorer {
+public class NormalizeClassificationThenBuildProductions implements ProblemSpaceExplorer {
 	
 	protected IConceptLattice conceptLattice;
 	protected Set<Integer> extentIDs;
-	protected Set<IContextualizedProduction> productions;
 	protected DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph;
 	
-	public RemoveMeaningless() {
+	public NormalizeClassificationThenBuildProductions() {
 	}
 
 	@Override
@@ -48,7 +46,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		Graphs.addAllVertices(newProblemGraph, problemGraph.vertexSet());
 		Set<InvertedTree<IConcept, IIsA>> grownTrees = 
 				ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, current.getClassification().asGraph());
-		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder().setUp(productions);
+		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder();
 		Set<IRepresentation> newRepresentations = new HashSet<>();
 		for (InvertedTree<IConcept, IIsA> grownTree : grownTrees) {
 			IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(grownTree, extentIDs);
@@ -73,53 +71,26 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 	}
 
 	@Override
-	public RemoveMeaningless initialize(
+	public NormalizeClassificationThenBuildProductions initialize(
 			Collection<IContextObject> context) {
 		conceptLattice = ProblemSpaceExplorer.getConceptLatticeBuilder().apply(context);
 		extentIDs = new HashSet<>();
 		for (IContextObject object : conceptLattice.getContextObjects())
 			extentIDs.add(object.iD());
-		productions = ProblemSpaceExplorer.getProductionBuilder().apply(conceptLattice);
 		InvertedTree<IConcept, IIsA> initialTree = 
 				new ArrayList<InvertedTree<IConcept, IIsA>>(
 						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null)).get(0);
 		IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(initialTree, extentIDs);
-		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder().setUp(productions);
-		IRepresentation initialRepresentation = repBldr.apply(classification);
+		IRepresentation initialRepresentation = ProblemSpaceExplorer.getRepresentationBuilder().apply(classification);
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
 		problemGraph.addVertex(initialRepresentation);
 		reduceThenWeightThenScoreThenComply(problemGraph);
 		return this;
 	}
-	
-	protected void reduceThenWeightThenScoreThenComply(
-			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
-		TransitiveReduction.INSTANCE.reduce(problemGraph);
-		ProblemTransitionWeigher weigher = ProblemSpaceExplorer.getProblemTransitionWeigher().setContext(problemGraph);
-		for (AProblemStateTransition transition : problemGraph.edgeSet())
-			weigher.accept(transition);
-		ProblemStateScorer scorer = ProblemSpaceExplorer.getProblemStateScorer().setUp(problemGraph);
-		for (IRepresentation problemState : problemGraph)
-			problemState.setScore(scorer.apply(problemState));
-		complyToAdditionalConstraint(problemGraph);
-	}
-	
-	protected IRepresentation getRepresentationWithID(int iD) {
-		for (IRepresentation representation : problemGraph.vertexSet()) {
-			if (representation.iD() == iD)
-				return representation;
-		}
-		return null;
-	}
 
 	@Override
 	public DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph() {
 		return problemGraph;
-	}
-	
-	protected void complyToAdditionalConstraint(
-			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph) {
-		//do nothing
 	}
 
 	@Override
@@ -131,16 +102,55 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		}
 		return iDs;
 	}
-	
-	protected void expandTransitoryLeaves(Set<IRepresentation> newRepresentations) {
-		//do nothing
-	}
 
 	@Override
 	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
 		return conceptLattice.getLatticeOfConcepts();
 	}
 	
-
+	private void reduceThenWeightThenScoreThenComply(
+			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
+		TransitiveReduction.INSTANCE.reduce(problemGraph);
+		ProblemTransitionWeigher weigher = ProblemSpaceExplorer.getProblemTransitionWeigher().setContext(problemGraph);
+		for (AProblemStateTransition transition : problemGraph.edgeSet())
+			weigher.accept(transition);
+		ProblemStateScorer scorer = ProblemSpaceExplorer.getProblemStateScorer().setUp(problemGraph);
+		for (IRepresentation problemState : problemGraph)
+			problemState.setScore(scorer.apply(problemState));
+		removeUninformative(problemGraph);
+	}	
+	
+	private void removeUninformative(
+			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph) {
+		Set<IRepresentation> representations = new HashSet<>(problemGraph.vertexSet());
+		for (IRepresentation representation : representations) {
+			if (representation.score().value() == 0.0)
+				problemGraph.removeVertex(representation);
+		}
+	}	
+	
+	private void expandTransitoryLeaves(Set<IRepresentation> newRepresentations) {
+		for (IRepresentation representation : newRepresentations) {
+			if (isATrivialLeaf(representation))
+				apply(representation.iD());
+		}
+	}	
+	
+	private IRepresentation getRepresentationWithID(int iD) {
+		for (IRepresentation representation : problemGraph.vertexSet()) {
+			if (representation.iD() == iD)
+				return representation;
+		}
+		return null;
+	}	
+	
+	private static boolean isATrivialLeaf(IRepresentation representation) {
+		IClassification classification = representation.getClassification();
+		for(IConcept leaf : classification.getMostSpecificConcepts()) {
+			if (classification.getExtentIDs(leaf.iD()).size() == 2)
+				return true;
+		}
+		return false;
+	}	
 
 }

@@ -3,6 +3,9 @@ package com.tregouet.occam.alg.builders;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorerFactory;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorerStrategy;
+import com.tregouet.occam.alg.builders.pb_space.classifications.ClassificationBuilder;
+import com.tregouet.occam.alg.builders.pb_space.classifications.ClassificationBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.classifications.ClassificationBuilderStrategy;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilderStrategy;
@@ -59,6 +62,7 @@ public class BuildersAbstractFactory {
 	private DenotationBuilderStrategy denotationBuilderStrategy = null;
 	private ConceptLatticeBuilderStrategy conceptLatticeBuilderStrategy = null;
 	private ConceptTreeGrowerStrategy conceptTreeGrowerStrategy = null;
+	private ClassificationBuilderStrategy classificationBuilderStrategy = null;
 	private ProdBuilderFromDenotationsStrategy prodBuilderFromDenotationsStrategy = null;
 	private ProductionBuilderStrategy productionBuilderStrategy = null;
 	private ProductionSalienceMapperStrategy productionSalienceMapperStrategy = null;
@@ -144,6 +148,10 @@ public class BuildersAbstractFactory {
 	public ClassificationProductionSetBuilder getClassificationProductionSetBuilder() {
 		return ClassificationProductionSetBuilderFactory.INSTANCE.apply(classificationProductionSetBuilderStrategy);
 	}
+	
+	public ClassificationBuilder getClassificationBuilder() {
+		return ClassificationBuilderFactory.INSTANCE.apply(classificationBuilderStrategy);
+	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
 		switch (overallStrategy) {
@@ -151,6 +159,7 @@ public class BuildersAbstractFactory {
 			denotationBuilderStrategy = DenotationBuilderStrategy.NO_REDUNDANCY;
 			conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
 			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.IF_LEAF_IS_UNIVERSAL_THEN_SORT;
+			classificationBuilderStrategy = ClassificationBuilderStrategy.BUILD_PARAM_THEN_INST;
 			prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.SRCE_CNCPT_CANNOT_HAVE_TGET_DENOT;
 			productionBuilderStrategy = ProductionBuilderStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
 			productionSalienceMapperStrategy = ProductionSalienceMapperStrategy.HIDDEN_THEN_FIND_SPECIFICS;
@@ -161,11 +170,30 @@ public class BuildersAbstractFactory {
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
-			representationBuilderStrategy = RepresentationBuilderStrategy.TREE_SPECIFIC_PRODUCTION_SET_FIRST;
+			representationBuilderStrategy = RepresentationBuilderStrategy.FILTER_TREE_SPECIFIC_PRODUCTION_SET;
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
 			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.EXPAND_TRIVIAL_LEAVES;
 			break;
+		case GENERATION_STRATEGY_2 : 
+			denotationBuilderStrategy = DenotationBuilderStrategy.NO_REDUNDANCY;
+			conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
+			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.IF_LEAF_IS_UNIVERSAL_THEN_SORT;
+			classificationBuilderStrategy = ClassificationBuilderStrategy.BUILD_PARAM_THEN_INST;
+			prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.SRCE_CNCPT_CANNOT_HAVE_TGET_DENOT;
+			productionBuilderStrategy = null;
+			productionSalienceMapperStrategy = ProductionSalienceMapperStrategy.HIDDEN_THEN_FIND_SPECIFICS;
+			classificationProductionSetBuilderStrategy = ClassificationProductionSetBuilderStrategy.BUILD_FROM_SCRATCH;
+			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.BUILD_FROM_SALIENT_APPLICATIONS;
+			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_APPLICATIONS_BY_FUNCTION;
+			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
+			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
+			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
+			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
+			representationBuilderStrategy = RepresentationBuilderStrategy.BUILD_TREE_SPECIFIC_PRODUCTION_SET;
+			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
+			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;
+			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.NORMALIZE_CLASS_THEN_BUILD;
 		default:
 			break;
 		}

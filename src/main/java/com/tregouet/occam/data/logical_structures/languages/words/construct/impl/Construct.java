@@ -16,15 +16,18 @@ import com.tregouet.subseq_finder.ISymbolSeq;
 public class Construct implements IConstruct {
 
 	protected final List<ISymbol> symbols;
+	private int size;
 	private int nbOfTerminals;
 
 	public Construct(IConstruct construct) {
 		symbols = new ArrayList<>(construct.asList());
+		size = construct.size();
 		nbOfTerminals = construct.getNbOfTerminals();
 	}
 
 	public Construct(List<ISymbol> prog) {
 		this.symbols = prog;
+		size = symbols.size();
 		nbOfTerminals = nbOfTerminals();
 	}
 
@@ -36,6 +39,7 @@ public class Construct implements IConstruct {
 			else
 				symbols.add(new Terminal(symString));
 		}
+		size = symbols.size();
 		int nbOfTerminals = 0;
 		for (ISymbol symbol : symbols) {
 			if (symbol instanceof ITerminal)
@@ -46,6 +50,7 @@ public class Construct implements IConstruct {
 
 	private Construct(List<ISymbol> symbols, int nbOfTerminals) {
 		this.symbols = symbols;
+		size = symbols.size();
 		this.nbOfTerminals = nbOfTerminals;
 	}
 
@@ -127,11 +132,7 @@ public class Construct implements IConstruct {
 
 	@Override
 	public boolean isAbstract() {
-		boolean isAbstract = false;
-		Iterator<ISymbol> ite = symbols.iterator();
-		while (!isAbstract && ite.hasNext())
-			isAbstract = (ite.next() instanceof AVariable);
-		return isAbstract;
+		return (nbOfTerminals < size);
 	}
 
 	@Override
@@ -204,6 +205,11 @@ public class Construct implements IConstruct {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public int size() {
+		return size;
 	}
 
 }

@@ -73,4 +73,9 @@ public class Classification implements IClassification {
 		return particularIDs;
 	}
 
+	@Override
+	public Map<Integer, Integer> mapSpeciesID2GenusID() {
+		return speciesID2GenusID;
+	}
+
 }

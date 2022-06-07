@@ -2,6 +2,7 @@ package com.tregouet.occam.alg.builders.pb_space.representations.classification_
 
 public enum ClassificationProductionSetBuilderStrategy {
 	
-	FILTER_UPDATE_REDUCE_SET
+	FILTER_UPDATE_REDUCE_SET, 
+	BUILD_FROM_SCRATCH
 
 }

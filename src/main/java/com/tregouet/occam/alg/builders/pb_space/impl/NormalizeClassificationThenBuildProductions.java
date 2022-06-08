@@ -108,7 +108,7 @@ public class NormalizeClassificationThenBuildProductions implements ProblemSpace
 		return conceptLattice.getLatticeOfConcepts();
 	}
 	
-	private void reduceThenWeightThenScoreThenComply(
+	private static void reduceThenWeightThenScoreThenComply(
 			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
 		TransitiveReduction.INSTANCE.reduce(problemGraph);
 		ProblemTransitionWeigher weigher = ProblemSpaceExplorer.getProblemTransitionWeigher().setContext(problemGraph);
@@ -120,8 +120,8 @@ public class NormalizeClassificationThenBuildProductions implements ProblemSpace
 		removeUninformative(problemGraph);
 	}	
 	
-	private void removeUninformative(
-			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph) {
+	private static void removeUninformative(
+			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
 		Set<IRepresentation> representations = new HashSet<>(problemGraph.vertexSet());
 		for (IRepresentation representation : representations) {
 			if (representation.score().value() == 0.0)

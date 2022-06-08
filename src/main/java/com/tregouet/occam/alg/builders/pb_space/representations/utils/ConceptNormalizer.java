@@ -18,7 +18,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.imp
 public interface ConceptNormalizer {
 	
 	public static IConcept normalize(IConcept concept, Map<AVariable, AVariable> replaced2Substitute) {
-		if (concept.type() == ConceptType.PARTICULAR)
+		if (concept.type() == ConceptType.PARTICULAR || concept.type() == ConceptType.ONTOLOGICAL_COMMITMENT)
 			return concept;
 		Set<IConstruct> normalizedConstructs = new HashSet<>();
 		for (IDenotation denotation : concept.getDenotations()) {

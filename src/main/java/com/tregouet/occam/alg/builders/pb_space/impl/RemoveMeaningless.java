@@ -11,6 +11,8 @@ import org.jgrapht.Graphs;
 import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
+import com.tregouet.occam.Occam;
+import com.tregouet.occam.alg.OverallStrategy;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
@@ -79,7 +81,8 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		extentIDs = new HashSet<>();
 		for (IContextObject object : conceptLattice.getContextObjects())
 			extentIDs.add(object.iD());
-		productions = ProblemSpaceExplorer.getProductionBuilder().apply(conceptLattice);
+		if (Occam.strategy == OverallStrategy.OVERALL_STRATEGY_1 || Occam.strategy == OverallStrategy.OVERALL_STRATEGY_2)
+			productions = ProblemSpaceExplorer.getProductionBuilder().apply(conceptLattice);
 		InvertedTree<IConcept, IIsA> initialTree = 
 				new ArrayList<InvertedTree<IConcept, IIsA>>(
 						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null)).get(0);

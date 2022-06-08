@@ -39,7 +39,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.den
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
-import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
+import com.tregouet.occam.data.problem_space.states.transitions.IConceptProductiveTransition;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -151,9 +151,9 @@ public class AutomaticallyExpandTrivialLeavesTest {
 			sB.append("***" + nl);
 			sB.append("*Property : " + nl);
 			sB.append("*function : " + prop.getFunction().toString() + nl);
-			sB.append("*applications :" + nl);
-			for (IContextualizedProduction application : prop.getApplications()) {
-				sB.append(application.toString() + nl);
+			sB.append("*production :" + nl);
+			for (IContextualizedProduction production : prop.getProductions()) {
+				sB.append(production.toString() + nl);
 			}
 			sB.append("*values : " + nl);
 			for (IDenotation denotation : prop.getResultingValues()) {

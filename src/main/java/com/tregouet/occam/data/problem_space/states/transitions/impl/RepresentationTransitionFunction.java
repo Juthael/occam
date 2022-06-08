@@ -11,14 +11,14 @@ import com.tregouet.occam.alg.displayers.formatters.transition_functions.Transit
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.AConceptTransitionSet;
-import com.tregouet.occam.data.problem_space.states.transitions.IApplication;
+import com.tregouet.occam.data.problem_space.states.transitions.IConceptProductiveTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 
 public class RepresentationTransitionFunction implements IRepresentationTransitionFunction {
 
 	private final IConceptTransition initial;
-	private final Set<IApplication> applications;
+	private final Set<IConceptProductiveTransition> conceptProductiveTransitions;
 	private final Set<IConceptTransition> closures;
 	private final Set<IConceptTransition> inheritances;
 	private final Set<IConceptTransition> spontaneous;
@@ -26,7 +26,7 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 
 	public RepresentationTransitionFunction(Set<IConceptTransition> transitions) {
 		IConceptTransition initialTemp = null;
-		applications = new HashSet<>();
+		conceptProductiveTransitions = new HashSet<>();
 		closures = new HashSet<>();
 		inheritances = new HashSet<>();
 		spontaneous = new HashSet<>();
@@ -37,8 +37,8 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 				case INITIAL:
 					initialTemp = transition;
 					break;
-				case APPLICATION:
-					applications.add((IApplication) transition);
+				case PRODUCTIVE_TRANS:
+					conceptProductiveTransitions.add((IConceptProductiveTransition) transition);
 					break;
 				case CLOSURE:
 					closures.add(transition);
@@ -105,7 +105,7 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 	public Set<IConceptTransition> getTransitions() {
 		Set<IConceptTransition> transitions = new HashSet<>();
 		transitions.add(initial);
-		transitions.addAll(applications);
+		transitions.addAll(conceptProductiveTransitions);
 		transitions.addAll(closures);
 		transitions.addAll(inheritances);
 		transitions.addAll(spontaneous);

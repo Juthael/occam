@@ -123,9 +123,9 @@ public class UsePartialOrderTest {
 		for (ADifferentiae diff : partition.asGraph().edgeSet()) {
 			for (IProperty property : diff.getProperties()) {
 				sB.append("   function : " + property.getFunction().toString() + nl);
-				sB.append("   applications : " + nl);
-				for (IContextualizedProduction application : property.getApplications()) {
-					sB.append("      " + application.toString() + nl);
+				sB.append("   productions : " + nl);
+				for (IContextualizedProduction production : property.getProductions()) {
+					sB.append("      " + production.toString() + nl);
 				}
 				sB.append("   values : " + nl);
 				for (IDenotation denotation : property.getResultingValues())

@@ -16,8 +16,8 @@ public class AsLambdaShorterString implements PropertyLabeller {
 	@Override
 	public String apply(IProperty input) {
 		ILambdaExpression exp = new NaryConjunctiveAbstractionApplication(input.getFunction());
-		for (IContextualizedProduction application : input.getApplications())
-			exp.abstractAndApplyAccordingTo(application.getUncontextualizedProduction());
+		for (IContextualizedProduction production : input.getProductions())
+			exp.abstractAndApplyAccordingTo(production.getUncontextualizedProduction());
 		return exp.toShorterString();
 	}
 

@@ -8,7 +8,7 @@ import com.tregouet.occam.data.problem_space.states.productions.IContextualizedP
 
 public interface IProperty extends Weighed {
 
-	Set<IContextualizedProduction> getApplications();
+	Set<IContextualizedProduction> getProductions();
 
 	IDenotation getFunction();
 

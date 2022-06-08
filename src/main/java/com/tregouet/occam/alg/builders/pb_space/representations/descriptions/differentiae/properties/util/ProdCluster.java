@@ -13,20 +13,20 @@ public class ProdCluster {
 	private final int genusID;
 	private final int speciesID;
 	private IDenotation function;
-	private Set<IContextualizedProduction> applications = new HashSet<>();
+	private Set<IContextualizedProduction> productions = new HashSet<>();
 	private Set<IDenotation> values = new HashSet<>();
 	
 	public ProdCluster(IContextualizedProduction production, int genusID) {
 		this.genusID = genusID;
 		speciesID = production.getSubordinateID();
 		function = production.getTarget();
-		applications.add(production);
+		productions.add(production);
 		values.add(production.getSource());
 	}
 	
 	public boolean add(IContextualizedProduction other) {
 		if (other.getSubordinateID() == speciesID && other.getTarget().equals(function)) {
-			applications.add(other);
+			productions.add(other);
 			values.add(other.getSource());
 			return true;
 		}
@@ -34,7 +34,7 @@ public class ProdCluster {
 	}
 	
 	public IProperty asProperty() {
-		return new Property(genusID, speciesID, function, applications, values);
+		return new Property(genusID, speciesID, function, productions, values);
 	}
 
 }

@@ -13,9 +13,9 @@ import com.tregouet.occam.data.problem_space.states.descriptions.properties.IPro
 import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
-public class GroupSalientApplicationsByFunction implements PropertyBuilder {
+public class GroupSalientProductionsByFunction implements PropertyBuilder {
 
-	public GroupSalientApplicationsByFunction() {
+	public GroupSalientProductionsByFunction() {
 	}
 
 	@Override

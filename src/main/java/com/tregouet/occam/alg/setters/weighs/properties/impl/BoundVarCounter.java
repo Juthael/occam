@@ -18,7 +18,7 @@ public class BoundVarCounter implements PropertyWeigher {
 	@Override
 	public void accept(IProperty property) {
 		Set<AVariable> varInstantiatedByNonRedundantApp = new HashSet<>();
-		for (IContextualizedProduction app : property.getApplications()) {
+		for (IContextualizedProduction app : property.getProductions()) {
 			if (!app.isAlphaConversion()) {
 				varInstantiatedByNonRedundantApp.add(app.getVariable());
 			}

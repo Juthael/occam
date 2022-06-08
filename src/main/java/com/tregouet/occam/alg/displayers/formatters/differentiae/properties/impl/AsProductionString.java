@@ -22,7 +22,7 @@ public class AsProductionString implements PropertyLabeller {
 		StringBuilder sB = new StringBuilder();
 		sB.append("{");
 		Set<IProduction> productions = new HashSet<>();
-		for (IContextualizedProduction app : input.getApplications())
+		for (IContextualizedProduction app : input.getProductions())
 			productions.add(app.getUncontextualizedProduction());
 		Iterator<IProduction> prodIte = productions.iterator();
 		while (prodIte.hasNext()) {

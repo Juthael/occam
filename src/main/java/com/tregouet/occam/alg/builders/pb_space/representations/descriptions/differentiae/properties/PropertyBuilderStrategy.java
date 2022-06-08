@@ -2,6 +2,6 @@ package com.tregouet.occam.alg.builders.pb_space.representations.descriptions.di
 
 public enum PropertyBuilderStrategy {
 
-	GROUP_APPLICATIONS_BY_FUNCTION
+	GROUP_PRODUCTIONS_BY_FUNCTION
 
 }

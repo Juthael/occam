@@ -12,22 +12,22 @@ public class Property implements IProperty {
 	private final int genusID;
 	private final int speciesID;
 	private final IDenotation function;
-	private final Set<IContextualizedProduction> applications;
+	private final Set<IContextualizedProduction> productions;
 	private final Set<IDenotation> resultingValues;
 	private Double weight = null;
 
-	public Property(int genusID, int speciesID, IDenotation function, Set<IContextualizedProduction> applications, 
+	public Property(int genusID, int speciesID, IDenotation function, Set<IContextualizedProduction> productions, 
 			Set<IDenotation> resultingValues) {
 		this.genusID = genusID;
 		this.speciesID = speciesID;
 		this.function = function;
-		this.applications = applications;
+		this.productions = productions;
 		this.resultingValues = resultingValues;
 	}
 
 	@Override
-	public Set<IContextualizedProduction> getApplications() {
-		return applications;
+	public Set<IContextualizedProduction> getProductions() {
+		return productions;
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class Property implements IProperty {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(applications, function, genusID, resultingValues, speciesID);
+		return Objects.hash(productions, function, genusID, resultingValues, speciesID);
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class Property implements IProperty {
 		if (getClass() != obj.getClass())
 			return false;
 		Property other = (Property) obj;
-		return Objects.equals(applications, other.applications) && Objects.equals(function, other.function)
+		return Objects.equals(productions, other.productions) && Objects.equals(function, other.function)
 				&& genusID == other.genusID && Objects.equals(resultingValues, other.resultingValues)
 				&& speciesID == other.speciesID;
 	}

@@ -27,7 +27,6 @@ import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.OverallStrategy;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
@@ -145,9 +144,9 @@ public class NormalizeClassificationThenBuildProductionsTest {
 			sB.append("***" + nl);
 			sB.append("*Property : " + nl);
 			sB.append("*function : " + prop.getFunction().toString() + nl);
-			sB.append("*applications :" + nl);
-			for (IContextualizedProduction application : prop.getApplications()) {
-				sB.append(application.toString() + nl);
+			sB.append("*productions :" + nl);
+			for (IContextualizedProduction production : prop.getProductions()) {
+				sB.append(production.toString() + nl);
 			}
 			sB.append("*values : " + nl);
 			for (IDenotation denotation : prop.getResultingValues()) {

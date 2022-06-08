@@ -11,7 +11,7 @@ public class RepresentationTransFuncBuilderFactory {
 
 	public RepresentationTransFuncBuilder apply(RepresentationTransFuncBuilderStrategy strategy) {
 		switch (strategy) {
-		case BUILD_FROM_SALIENT_APPLICATIONS:
+		case FROM_BLANK_AND_SALIENT_PRODS:
 			return new FromBlankAndSalientProductions();
 		default:
 			return null;

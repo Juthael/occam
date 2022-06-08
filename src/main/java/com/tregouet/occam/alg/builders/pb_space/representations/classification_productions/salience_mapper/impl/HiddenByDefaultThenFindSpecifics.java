@@ -20,7 +20,7 @@ public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceMappe
 	
 	private List<Integer> genusIDs;
 	private List<Set<Integer>> setsOfSpeciesIDs;
-	private List<Set<IContextualizedProduction>> setsOfApplications;
+	private List<Set<IContextualizedProduction>> setsOfProductionss;
 	private Map<IContextualizedProduction, Salience> production2Salience = new HashMap<>();
 	private Set<Integer> particularIDs;
 	
@@ -32,7 +32,7 @@ public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceMappe
 			Set<IContextualizedProduction> classificationProductions) {
 		init();
 		particularIDs.addAll(classification.getParticularIDs());
-		// set salience default value as HIDDEN, group applications by input concept,
+		// set salience default value as HIDDEN, group productions by input concept,
 		// find input/output relation
 		for (IContextualizedProduction production : classificationProductions) {
 			// default value, may be changed later
@@ -43,22 +43,22 @@ public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceMappe
 			if (genusIdx != -1) {
 				setsOfSpeciesIDs.get(genusIdx).add(speciesStateID);
 				if (!production.isEpsilon() && !production.isBlank()) {
-					setsOfApplications.get(genusIdx).add(production);
+					setsOfProductionss.get(genusIdx).add(production);
 				}
 			}
 			else {
 				genusIDs.add(genusID);
 				setsOfSpeciesIDs.add(new HashSet<>(Arrays.asList(new Integer[] {speciesStateID})));
 				if (!production.isEpsilon() && !production.isBlank())
-					setsOfApplications.add(new HashSet<>(Arrays.asList(new IContextualizedProduction[] {production})));
-				else setsOfApplications.add(new HashSet<>());
+					setsOfProductionss.add(new HashSet<>(Arrays.asList(new IContextualizedProduction[] {production})));
+				else setsOfProductionss.add(new HashSet<>());
 			}
 		}
 		// set common features
-		for (Set<IContextualizedProduction> applications : setsOfApplications) {
-			for (IContextualizedProduction application : applications) {
-				if (!particularIDs.contains(application.getSubordinateID()))
-					production2Salience.put(application, Salience.COMMON_FEATURE);
+		for (Set<IContextualizedProduction> productions : setsOfProductionss) {
+			for (IContextualizedProduction production : productions) {
+				if (!particularIDs.contains(production.getSubordinateID()))
+					production2Salience.put(production, Salience.COMMON_FEATURE);
 			}
 		}
 		// set partition rules
@@ -71,34 +71,34 @@ public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceMappe
 	private void init() {
 		genusIDs = new ArrayList<>();
 		setsOfSpeciesIDs = new ArrayList<>();
-		setsOfApplications = new ArrayList<>();
+		setsOfProductionss = new ArrayList<>();
 		production2Salience = new HashMap<>();
 		particularIDs = new HashSet<>();
 	}
 	
 	private void setPartitionRulesSalience(int genusIdx) {
-		Map<AVariable, Set<IContextualizedProduction>> var2Applications = new HashMap<>();
-		for (IContextualizedProduction application : setsOfApplications.get(genusIdx)) {
-			AVariable instantiatedVar = application.getVariable();
-			if (var2Applications.containsKey(instantiatedVar))
-				var2Applications.get(instantiatedVar).add(application);
-			else var2Applications.put(instantiatedVar, new HashSet<>(Arrays.asList(new IContextualizedProduction[] {application})));
+		Map<AVariable, Set<IContextualizedProduction>> var2Productions = new HashMap<>();
+		for (IContextualizedProduction production : setsOfProductionss.get(genusIdx)) {
+			AVariable instantiatedVar = production.getVariable();
+			if (var2Productions.containsKey(instantiatedVar))
+				var2Productions.get(instantiatedVar).add(production);
+			else var2Productions.put(instantiatedVar, new HashSet<>(Arrays.asList(new IContextualizedProduction[] {production})));
 		}
-		for (Entry<AVariable, Set<IContextualizedProduction>> entry : var2Applications.entrySet())
+		for (Entry<AVariable, Set<IContextualizedProduction>> entry : var2Productions.entrySet())
 			setPartitionRuleSalienceOf(entry, genusIdx);
 	}
 	
-	private void setPartitionRuleSalienceOf(Entry<AVariable, Set<IContextualizedProduction>> var2Applications, int genusIdx) {
+	private void setPartitionRuleSalienceOf(Entry<AVariable, Set<IContextualizedProduction>> var2Productions, int genusIdx) {
 		List<Integer> speciesIDs = new ArrayList<>(setsOfSpeciesIDs.get(genusIdx));
 		List<Set<IProduction>> productions = new ArrayList<>(speciesIDs.size());
 		for (int i = 0 ; i < speciesIDs.size() ; i++)
 			productions.add(new HashSet<>());
-		for (IContextualizedProduction application : var2Applications.getValue())
-			productions.get(speciesIDs.indexOf(application.getSubordinateID())).add(application.getUncontextualizedProduction());
+		for (IContextualizedProduction production : var2Productions.getValue())
+			productions.get(speciesIDs.indexOf(production.getSubordinateID())).add(production.getUncontextualizedProduction());
 		if (everySubConceptInstantiatesThisVariable(productions) 
 				&& everySubConceptGivesThisVariableADistinctValue(productions)) {
-			for (IContextualizedProduction application : var2Applications.getValue())
-				production2Salience.put(application, Salience.TRANSITION_RULE);
+			for (IContextualizedProduction production : var2Productions.getValue())
+				production2Salience.put(production, Salience.TRANSITION_RULE);
 		}
 	}
 	

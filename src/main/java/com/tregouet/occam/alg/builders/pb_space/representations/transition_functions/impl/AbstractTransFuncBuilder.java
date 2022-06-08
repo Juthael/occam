@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
@@ -21,7 +20,7 @@ import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransiti
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
 import com.tregouet.occam.data.problem_space.states.transitions.dimensions.EpsilonDimension;
-import com.tregouet.occam.data.problem_space.states.transitions.impl.Application;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.ConceptProductiveTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.ClosureTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.ConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.ConceptTransitionOIC;
@@ -36,10 +35,10 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 	public AbstractTransFuncBuilder() {
 	}
 
-	private static Set<IConceptTransition> buildApplicationsAndUnclosedInheritances(IClassification classification,
-			Set<IContextualizedProduction> relevantApplications) {
+	private static Set<IConceptTransition> buildProductiveTransAndUnclosedInheritances(IClassification classification,
+			Set<IContextualizedProduction> relevantProductions) {
 		Set<IConceptTransition> transitions = new HashSet<>();
-		for (IContextualizedProduction production : relevantApplications) {
+		for (IContextualizedProduction production : relevantProductions) {
 			if (!production.isEpsilon()) {
 				int speciesID = production.getSubordinateID();
 				int genusID = classification.getGenusID(speciesID);
@@ -56,12 +55,12 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 					if (newBoundVariables.isEmpty()) {
 						IConceptTransitionOIC outputConfig = new ConceptTransitionOIC(speciesID,
 								new ArrayList<>(Arrays.asList(new AVariable[] {EpsilonDimension.INSTANCE})));
-						transitions.add(new Application(inputConfig, outputConfig));
+						transitions.add(new ConceptProductiveTransition(inputConfig, outputConfig));
 					}
 					else for (AVariable pushedStackSymbol : newBoundVariables) {
 						IConceptTransitionOIC outputConfig = new ConceptTransitionOIC(speciesID,
 								new ArrayList<>(Arrays.asList(new AVariable[] {pushedStackSymbol})));
-						transitions.add(new Application(inputConfig, outputConfig));
+						transitions.add(new ConceptProductiveTransition(inputConfig, outputConfig));
 					}
 				}
 			}
@@ -69,13 +68,13 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		return transitions;
 	}
 
-	private static Set<IConceptTransition> buildClosures(Set<IConceptTransition> applications) {
+	private static Set<IConceptTransition> buildClosures(Set<IConceptTransition> transitions) {
 		Set<IConceptTransition> closures = new HashSet<>();
-		for (IConceptTransition application : applications) {
-			IConceptTransitionIC inputConfig = application.getInputConfiguration();
+		for (IConceptTransition transition : transitions) {
+			IConceptTransitionIC inputConfig = transition.getInputConfiguration();
 			if (inputConfig.getInputSymbol().getValue().getVariables().size() > 0)
 				closures.add(new ClosureTransition(inputConfig,
-					application.getOutputInternConfiguration().getOutputStateID()));
+					transition.getOutputInternConfiguration().getOutputStateID()));
 		}
 		return closures;
 	}
@@ -116,28 +115,28 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 			IClassificationProductions classificationProductions) {
 		// declare TF constructor parameters
 		IConceptTransition initial;
-		Set<IConceptTransition> applications = new HashSet<>();
+		Set<IConceptTransition> productiveTrans = new HashSet<>();
 		Set<IConceptTransition> closures;
 		Set<IConceptTransition> inheritances = new HashSet<>();
 		Set<IConceptTransition> spontaneous;
 		// build
 		initial = buildInitialTransition(classification);
-		Set<IContextualizedProduction> relevantApplications = selectRelevantProductions(classificationProductions);
-		Set<IConceptTransition> appAndUnclosedInheritances = buildApplicationsAndUnclosedInheritances(classification,
-				relevantApplications);
-		for (IConceptTransition transition : appAndUnclosedInheritances) {
-			if (transition.type() == TransitionType.APPLICATION)
-				applications.add(transition);
+		Set<IContextualizedProduction> relevantProductions = selectRelevantProductions(classificationProductions);
+		Set<IConceptTransition> prodTransAndUnclosedInheritances = buildProductiveTransAndUnclosedInheritances(classification,
+				relevantProductions);
+		for (IConceptTransition transition : prodTransAndUnclosedInheritances) {
+			if (transition.type() == TransitionType.PRODUCTIVE_TRANS)
+				productiveTrans.add(transition);
 			else
 				inheritances.add(transition);
 		}
-		closures = buildClosures(applications);
+		closures = buildClosures(productiveTrans);
 		inheritances.addAll(buildClosedInheritances(classification));
 		spontaneous = buildSpontaneousTransitions(classification);
 		// gather, filter, return
 		Set<IConceptTransition> transitions = new HashSet<>();
 		transitions.add(initial);
-		transitions.addAll(applications);
+		transitions.addAll(productiveTrans);
 		transitions.addAll(closures);
 		transitions.addAll(inheritances);
 		transitions.addAll(spontaneous);

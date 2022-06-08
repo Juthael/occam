@@ -78,7 +78,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	}
 
 	@Test
-	public void ifTransitionIsHiddenApplicationThenSpeciesIsParticular() {
+	public void ifTransitionIsHiddenProductionThenSpeciesIsParticular() {
 		boolean asExpected = true;
 		int nbOfChecks = 0;
 		for (IClassificationProductions classProd : classProd2Classification.keySet()) {
@@ -115,7 +115,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 						}
 					}
 					List<Set<IContextualizedProduction>> rules = 
-							findApplicationsWithSpecifiedInputStateAndStackSymbol(classProds, speciesID, prod.getVariable());
+							findProductionsWithSpecifiedInputStateAndStackSymbol(classProds, speciesID, prod.getVariable());
 					if (rules.size() != speciesID.size())
 						asExpected = false;
 				}
@@ -164,7 +164,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		return speciesID2GenusID;
 	}
 	
-	private List<Set<IContextualizedProduction>> findApplicationsWithSpecifiedInputStateAndStackSymbol(
+	private List<Set<IContextualizedProduction>> findProductionsWithSpecifiedInputStateAndStackSymbol(
 			IClassificationProductions classProds, List<Integer> speciesIDs, AVariable variable) {
 		List<Set<IContextualizedProduction>> assumedRules = new ArrayList<>();
 		for (int i = 0 ; i < speciesIDs.size() ; i++)

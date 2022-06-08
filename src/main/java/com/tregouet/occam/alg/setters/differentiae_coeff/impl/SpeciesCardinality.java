@@ -7,7 +7,7 @@ import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.utils.Functions;
 

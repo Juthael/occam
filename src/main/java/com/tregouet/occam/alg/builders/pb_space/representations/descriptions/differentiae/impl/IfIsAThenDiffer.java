@@ -10,9 +10,9 @@ import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.dif
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.impl.Differentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.impl.Differentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 import com.tregouet.tree_finder.data.InvertedTree;
 

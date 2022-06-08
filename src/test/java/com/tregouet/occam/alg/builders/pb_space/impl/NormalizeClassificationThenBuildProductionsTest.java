@@ -32,8 +32,8 @@ import com.tregouet.occam.data.problem_space.states.classifications.IClassificat
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -143,7 +143,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 		for (IProperty prop : differentiae.getProperties()) {
 			sB.append("***" + nl);
 			sB.append("*Property : " + nl);
-			sB.append("*function : " + prop.getFunction().toString() + nl);
+			sB.append("*function : " + prop.function().toString() + nl);
 			sB.append("*productions :" + nl);
 			for (IContextualizedProduction production : prop.getProductions()) {
 				sB.append(production.toString() + nl);

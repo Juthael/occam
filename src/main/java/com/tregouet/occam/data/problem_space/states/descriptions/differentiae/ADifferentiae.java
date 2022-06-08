@@ -1,10 +1,11 @@
-package com.tregouet.occam.data.problem_space.states.descriptions.properties;
+package com.tregouet.occam.data.problem_space.states.descriptions.differentiae;
 
 import java.util.Set;
 
 import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.alg.setters.weighs.Weighed;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 
 public abstract class ADifferentiae extends DefaultEdge implements Weighed {
 

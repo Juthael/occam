@@ -21,8 +21,8 @@ import com.tregouet.occam.data.problem_space.impl.ProblemSpace;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -122,7 +122,7 @@ public class UsePartialOrderTest {
 			.append("differentiae : " + nl);
 		for (ADifferentiae diff : partition.asGraph().edgeSet()) {
 			for (IProperty property : diff.getProperties()) {
-				sB.append("   function : " + property.getFunction().toString() + nl);
+				sB.append("   function : " + property.function().toString() + nl);
 				sB.append("   productions : " + nl);
 				for (IContextualizedProduction production : property.getProductions()) {
 					sB.append("      " + production.toString() + nl);

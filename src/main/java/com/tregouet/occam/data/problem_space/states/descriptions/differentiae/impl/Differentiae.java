@@ -1,10 +1,10 @@
-package com.tregouet.occam.data.problem_space.states.descriptions.properties.impl;
+package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.impl;
 
 import java.util.Objects;
 import java.util.Set;
 
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 
 public class Differentiae extends ADifferentiae {
 

@@ -3,8 +3,8 @@ package com.tregouet.occam.alg.displayers.formatters.differentiae.impl;
 import java.util.Iterator;
 
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 
 public class PropertiesThenWeight implements DifferentiaeLabeller {
 

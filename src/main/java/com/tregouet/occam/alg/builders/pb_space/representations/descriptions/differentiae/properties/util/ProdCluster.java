@@ -4,37 +4,32 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.impl.Property;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.impl.Application;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 public class ProdCluster {
 	
-	private final int genusID;
-	private final int speciesID;
 	private IDenotation function;
 	private Set<IContextualizedProduction> productions = new HashSet<>();
-	private Set<IDenotation> values = new HashSet<>();
+	private IDenotation value;
 	
-	public ProdCluster(IContextualizedProduction production, int genusID) {
-		this.genusID = genusID;
-		speciesID = production.getSubordinateID();
+	public ProdCluster(IContextualizedProduction production) {
 		function = production.getTarget();
 		productions.add(production);
-		values.add(production.getSource());
+		value = production.getSource();
 	}
 	
-	public boolean add(IContextualizedProduction other) {
-		if (other.getSubordinateID() == speciesID && other.getTarget().equals(function)) {
+	public boolean add(IContextualizedProduction other, boolean unsafe) {
+		if ((unsafe || other.getTarget().equals(function)) && other.getSource().equals(value)) {
 			productions.add(other);
-			values.add(other.getSource());
 			return true;
 		}
 		return false;
 	}
 	
-	public IProperty asProperty() {
-		return new Property(genusID, speciesID, function, productions, values);
+	public IApplication asApplication() {
+		return new Application(function, productions, value);
 	}
 
 }

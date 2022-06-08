@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.setters.weighs.properties.impl;
 
 import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigher;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 
 public class Weightless implements PropertyWeigher {
 	

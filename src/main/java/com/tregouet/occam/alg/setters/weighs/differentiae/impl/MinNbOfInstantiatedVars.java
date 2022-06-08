@@ -7,8 +7,8 @@ import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 
 public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 	
@@ -55,7 +55,7 @@ public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 			if (calculatedValues.equals(values)) {
 				Set<AVariable> instantiatedVars = new HashSet<>();
 				for (IProperty property : propSubset)
-					instantiatedVars.addAll(property.getFunction().getVariables());
+					instantiatedVars.addAll(property.function().getVariables());
 				int nbOfInstantiatedVars = instantiatedVars.size();
 				if (minNbOfInstantiatedVar > nbOfInstantiatedVars || minNbOfInstantiatedVar == -1)
 					minNbOfInstantiatedVar = nbOfInstantiatedVars;

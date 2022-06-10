@@ -9,7 +9,7 @@ import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabeller;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_space.states.productions.IProduction;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
 import com.tregouet.occam.data.problem_space.states.transitions.AConceptTransitionSet;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptProductiveTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
@@ -68,8 +68,8 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 	}
 
 	@Override
-	public Set<IProduction> getInputAlphabet() {
-		Set<IProduction> inputAlphabet = new HashSet<>();
+	public Set<IApplication> getInputAlphabet() {
+		Set<IApplication> inputAlphabet = new HashSet<>();
 		for (IConceptTransition transition : getTransitions()) {
 			inputAlphabet.add(transition.getInputConfiguration().getInputSymbol());
 		}

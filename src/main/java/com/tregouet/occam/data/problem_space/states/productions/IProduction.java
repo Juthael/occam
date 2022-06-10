@@ -1,10 +1,9 @@
 package com.tregouet.occam.data.problem_space.states.productions;
 
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 
-public interface IProduction extends ISymbol {
+public interface IProduction {
 
 	boolean derives(AVariable var);
 

@@ -7,22 +7,23 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.den
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.impl.Application;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class ProdCluster {
 	
 	private IDenotation function;
-	private Set<IContextualizedProduction> productions = new HashSet<>();
+	private Set<IProduction> productions = new HashSet<>();
 	private IDenotation value;
 	
 	public ProdCluster(IContextualizedProduction production) {
 		function = production.getTarget();
-		productions.add(production);
+		productions.add(production.getUncontextualizedProduction());
 		value = production.getSource();
 	}
 	
 	public boolean add(IContextualizedProduction other, boolean unsafe) {
 		if ((unsafe || other.getTarget().equals(function)) && other.getSource().equals(value)) {
-			productions.add(other);
+			productions.add(other.getUncontextualizedProduction());
 			return true;
 		}
 		return false;

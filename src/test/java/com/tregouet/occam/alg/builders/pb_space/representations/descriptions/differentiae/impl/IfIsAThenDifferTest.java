@@ -107,12 +107,7 @@ public class IfIsAThenDifferTest {
 				graph.addEdge(diff.getSource(), diff.getTarget(), diff);
 			}
 			/*
-			String transFuncFullPath = 
-					VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz().apply(
-							transFunc, "IfIsAThenDifferTest_TF_" + Integer.toString(nbOfChecks));
 			String descFullPath = visualize(graph, nbOfChecks);
-			System.out.println("Transition function graph n." + Integer.toString(nbOfChecks) + " is available at " 
-			+ transFuncFullPath);
 			System.out.println("Description graph n." + Integer.toString(nbOfChecks) + " is available at " 
 			+ descFullPath);
 			*/

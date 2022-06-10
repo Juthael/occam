@@ -13,9 +13,9 @@ import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 import com.tregouet.occam.data.problem_space.states.impl.Representation;
-import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
@@ -25,7 +25,7 @@ import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 public interface IRepresentation extends
 		IPushdownAutomaton<
 			IConcept, 
-			IProduction, 
+			IApplication, 
 			IFact, 
 			AVariable, 
 			IConceptTransitionIC, 

@@ -37,7 +37,7 @@ public class AppCluster {
 		return false;
 	}
 	
-	IProperty asProperty() {
+	public IProperty asProperty() {
 		Set<IApplication> applications = new HashSet<>();
 		for (ProdCluster prodCluster : prodClusters)
 			applications.add(prodCluster.asApplication());

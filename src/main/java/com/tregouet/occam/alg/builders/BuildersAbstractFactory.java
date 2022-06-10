@@ -165,7 +165,7 @@ public class BuildersAbstractFactory {
 			productionSalienceMapperStrategy = ProductionSalienceMapperStrategy.HIDDEN_THEN_FIND_SPECIFICS;
 			classificationProductionSetBuilderStrategy = ClassificationProductionSetBuilderStrategy.FILTER_UPDATE_REDUCE_SET;
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.FROM_BLANK_AND_SALIENT_PRODS;
-			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_FUNCTION;
+			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_APPLICATION;
 			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
@@ -185,7 +185,7 @@ public class BuildersAbstractFactory {
 			productionSalienceMapperStrategy = ProductionSalienceMapperStrategy.HIDDEN_THEN_FIND_SPECIFICS;
 			classificationProductionSetBuilderStrategy = ClassificationProductionSetBuilderStrategy.BUILD_FROM_SCRATCH;
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.FROM_BLANK_AND_SALIENT_PRODS;
-			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_FUNCTION;
+			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_APPLICATION;
 			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;

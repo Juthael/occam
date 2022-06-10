@@ -8,8 +8,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
-import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class NonTrivialMaximalFacts implements FactDisplayer {
 	
@@ -47,8 +47,8 @@ public class NonTrivialMaximalFacts implements FactDisplayer {
 	
 	private boolean isTrivial(IFact fact) {
 		if (fact.asList().size() == 1) {
-			IProduction prod = fact.asList().get(0);
-			if (prod.isEpsilon())
+			IApplication app = fact.asList().get(0);
+			if (app.isEpsilon())
 				return true;
 		}
 		return false;

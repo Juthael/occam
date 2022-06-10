@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.IFactEvaluator;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IRepresentationTapeSet;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.impl.RepresentationTapeSet;
-import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
@@ -105,7 +105,7 @@ public class FactEvaluator implements IFactEvaluator {
 		activeStateID = transitionFunction.getStartStateID();
 	}
 
-	private IFactEvaluator proceedPrintingTransition(IProduction nextPrint,
+	private IFactEvaluator proceedPrintingTransition(IApplication nextPrint,
 			IConceptTransitionOIC outputInternConfig) {
 		IRepresentationTapeSet nextTapeSet = tapeSet.copy();
 		if (!nextPrint.isEpsilon())

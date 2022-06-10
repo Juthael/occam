@@ -3,14 +3,15 @@ package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.p
 import java.util.Set;
 
 import com.tregouet.occam.alg.setters.weighs.Weighed;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
-public interface IApplication extends Weighed {
+public interface IApplication extends ISymbol, Weighed {
 	
 	IDenotation function();
 
-	Set<IContextualizedProduction> arguments();
+	Set<IProduction> arguments();
 
 	IDenotation value();
 
@@ -21,5 +22,7 @@ public interface IApplication extends Weighed {
 	boolean equals(Object o);
 	
 	void setWeight(double weight);
+	
+	boolean isEpsilon();
 
 }

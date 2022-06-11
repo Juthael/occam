@@ -4,26 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IVarBinder;
-import com.tregouet.occam.data.problem_space.states.transitions.dimensions.Nothing;
+import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
+import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IBinder;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.NothingBinding;
 
-public class VarBinder implements IVarBinder {
+public class Binder implements IBinder {
 
-	private List<AVariable> dimensionStack;
+	private List<IBindings> dimensionStack;
 
-	public VarBinder() {
+	public Binder() {
 		dimensionStack = new ArrayList<>();
-		dimensionStack.add(Nothing.INSTANCE);
+		dimensionStack.add(NothingBinding.INSTANCE);
 	}
 
-	public VarBinder(List<AVariable> dimensionStack) {
+	public Binder(List<IBindings> dimensionStack) {
 		this.dimensionStack = dimensionStack;
 	}
 
 	@Override
-	public IVarBinder copy() {
-		return new VarBinder(new ArrayList<>(dimensionStack));
+	public IBinder copy() {
+		return new Binder(new ArrayList<>(dimensionStack));
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class VarBinder implements IVarBinder {
 			return true;
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
-		VarBinder other = (VarBinder) obj;
+		Binder other = (Binder) obj;
 		return Objects.equals(dimensionStack, other.dimensionStack);
 	}
 
@@ -47,14 +47,14 @@ public class VarBinder implements IVarBinder {
 	}
 
 	@Override
-	public AVariable popOff() {
+	public IBindings popOff() {
 		if (hasNext())
 			return dimensionStack.remove(dimensionStack.size() - 1);
 		return null;
 	}
 
 	@Override
-	public void pushDown(AVariable symbol) {
+	public void pushDown(IBindings symbol) {
 		dimensionStack.add(symbol);
 	}
 

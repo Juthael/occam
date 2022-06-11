@@ -14,18 +14,18 @@ public class AppCluster {
 	
 	private int genusID;
 	private int speciesID;
-	private IDenotation function;
+	private IDenotation denotation;
 	private Set<ProdCluster> prodClusters = new HashSet<>();
 	
 	public AppCluster(IContextualizedProduction production, int genusID) {
 		this.genusID = genusID;
 		speciesID = production.getSubordinateID();
-		function = production.getTarget();
+		denotation = production.getTarget();
 		prodClusters.add(new ProdCluster(production));
 	}
 	
 	public boolean add(IContextualizedProduction production) {
-		if (production.getSubordinateID() == speciesID && production.getTarget().equals(function)) {
+		if (production.getSubordinateID() == speciesID && production.getTarget().equals(denotation)) {
 			boolean clustered = false;
 			Iterator<ProdCluster> prodClusterIte = prodClusters.iterator();
 			while (!clustered && prodClusterIte.hasNext())
@@ -41,7 +41,7 @@ public class AppCluster {
 		Set<IApplication> applications = new HashSet<>();
 		for (ProdCluster prodCluster : prodClusters)
 			applications.add(prodCluster.asApplication());
-		return new Property(genusID, speciesID, function, applications);
+		return new Property(genusID, speciesID, denotation, applications);
 	}
 
 }

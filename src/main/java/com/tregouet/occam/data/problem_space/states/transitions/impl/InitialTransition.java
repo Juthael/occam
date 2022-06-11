@@ -1,19 +1,15 @@
 package com.tregouet.occam.data.problem_space.states.transitions.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Everything;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.WhatIsThere;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.impl.Application;
-import com.tregouet.occam.data.problem_space.states.productions.IProduction;
-import com.tregouet.occam.data.problem_space.states.productions.impl.OmegaProd;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.impl.OmegaApplication;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
-import com.tregouet.occam.data.problem_space.states.transitions.dimensions.Nothing;
-import com.tregouet.occam.data.problem_space.states.transitions.dimensions.This;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.NothingBinding;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.ThisBinding;
 
 public class InitialTransition extends ConceptTransition implements IConceptTransition {
 
@@ -21,13 +17,11 @@ public class InitialTransition extends ConceptTransition implements IConceptTran
 		super(
 				new ConceptTransitionIC(
 						WhatIsThere.INSTANCE.iD(),
-						new Application(
-								null, 
-								new HashSet<IProduction>(Arrays.asList(new IProduction[] {OmegaProd.INSTANCE})), 
-								null),
-				Nothing.INSTANCE),
+						OmegaApplication.INSTANCE,
+						NothingBinding.INSTANCE),
 				new ConceptTransitionOIC(everything.iD(),
-						new ArrayList<>(Arrays.asList(new AVariable[] { Nothing.INSTANCE, This.INSTANCE }))));
+						Arrays.asList(new IBindings[] { NothingBinding.INSTANCE, ThisBinding.INSTANCE }))
+				);
 	}
 
 	@Override

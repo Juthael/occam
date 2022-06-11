@@ -1,5 +1,6 @@
 package com.tregouet.occam.alg.builders.pb_space.representations.descriptions;
 
+import java.util.Set;
 import java.util.function.BiFunction;
 
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
@@ -10,7 +11,7 @@ import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 /**
  * 2nd parameter : context particular ID to most specific concept ID in first parameter
@@ -18,7 +19,7 @@ import com.tregouet.occam.data.problem_space.states.productions.IClassificationP
  *
  */
 public interface DescriptionBuilder 
-	extends BiFunction<IClassification, IClassificationProductions, IDescription> {
+	extends BiFunction<IClassification, Set<IContextualizedProduction>, IDescription> {
 
 	public static DifferentiaeBuilder differentiaeBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getDifferentiaeBuilder();

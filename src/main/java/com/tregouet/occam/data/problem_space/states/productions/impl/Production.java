@@ -10,11 +10,13 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
+import com.tregouet.occam.data.problem_space.states.productions.Salience;
 
 public class Production implements IProduction {
 
 	private final AVariable variable;
 	private final IConstruct value;
+	private Salience salience = null;
 
 	public Production(AVariable variable, IConstruct value) {
 		this.variable = variable;
@@ -125,5 +127,15 @@ public class Production implements IProduction {
 		List<ISymbol> valueList = value.asList();
 		return ((valueList.size() == 1) && (valueList.get(0) instanceof AVariable)); 
 	}
+	
+	@Override
+	public void setSalience(Salience salience) {
+		this.salience = salience;
+	}
+
+	@Override
+	public Salience getSalience() {
+		return salience;
+	}	
 
 }

@@ -6,8 +6,8 @@ import java.util.Arrays;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
-import com.tregouet.occam.data.problem_space.states.transitions.dimensions.Nothing;
-import com.tregouet.occam.data.problem_space.states.transitions.dimensions.This;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.vars.Nothing;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.vars.This;
 
 public class OmegaProd extends Production implements IProduction {
 	

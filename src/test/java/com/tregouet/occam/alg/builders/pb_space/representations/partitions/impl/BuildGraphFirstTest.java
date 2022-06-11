@@ -19,7 +19,7 @@ import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.OverallStrategy;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.impl.IfLeafIsUniversalThenSort;
-import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ClassificationProductionSetBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ProductionsBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.impl.BuildGraphFirst;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
@@ -69,7 +69,7 @@ public class BuildGraphFirstTest {
 	public void whenPartitionsRequestedThenReturned() {
 		boolean asExpected = true;
 		int nbOfChecks = 0;
-		ClassificationProductionSetBuilder classProdBldr;
+		ProductionsBuilder classProdBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);

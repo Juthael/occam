@@ -9,6 +9,7 @@ import com.tregouet.occam.data.logical_structures.languages.words.construct.ICon
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
+import com.tregouet.occam.data.problem_space.states.productions.Salience;
 
 public class ContextualizedProd extends DefaultEdge implements IContextualizedProduction {
 
@@ -112,6 +113,16 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	@Override
 	public boolean isAlphaConversion() {
 		return production.isAlphaConversion();
+	}
+
+	@Override
+	public void setSalience(Salience salience) {
+		production.setSalience(salience);
+	}
+
+	@Override
+	public Salience getSalience() {
+		return production.getSalience();
 	}
 
 }

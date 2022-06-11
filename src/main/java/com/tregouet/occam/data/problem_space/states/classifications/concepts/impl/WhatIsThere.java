@@ -8,7 +8,7 @@ import com.tregouet.occam.data.logical_structures.languages.words.construct.ICon
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.transitions.dimensions.Nothing;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.NothingBinding;
 
 public class WhatIsThere extends Concept implements IConcept {
 
@@ -16,7 +16,7 @@ public class WhatIsThere extends Concept implements IConcept {
 
 	private WhatIsThere() {
 		super(new HashSet<>(
-				Arrays.asList(new IConstruct[] { new Construct(Arrays.asList(new ISymbol[] { Nothing.INSTANCE })) })),
+				Arrays.asList(new IConstruct[] { new Construct(Arrays.asList(new ISymbol[] { NothingBinding.INSTANCE })) })),
 				new HashSet<Integer>(), IConcept.WHAT_IS_THERE_ID);
 		setType(ConceptType.WHAT_IS_THERE);
 	}

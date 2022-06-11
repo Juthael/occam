@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ClassificationProductionSetBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ProductionsBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
@@ -17,7 +17,7 @@ public interface RepresentationBuilder
 	
 	public RepresentationBuilder setUp(Set<IContextualizedProduction> productions);
 	
-	public static ClassificationProductionSetBuilder classificationProductionSetBuilder() {
+	public static ProductionsBuilder productionsBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder();
 	}
 	

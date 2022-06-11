@@ -21,12 +21,12 @@ import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransition
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ClassificationProductionSetBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ProductionsBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ClassificationProductionSetBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ClassificationProductionSetBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.salience_mapper.ProductionSalienceMapper;
-import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.salience_mapper.ProductionSalienceMapperFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.salience_mapper.ProductionSalienceMapperStrategy;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.salience_mapper.ProductionSalienceSetter;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.salience_mapper.ProductionSalienceSetterFactory;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.salience_mapper.ProductionSalienceSetterStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilderStrategy;
@@ -65,7 +65,7 @@ public class BuildersAbstractFactory {
 	private ClassificationBuilderStrategy classificationBuilderStrategy = null;
 	private ProdBuilderFromDenotationsStrategy prodBuilderFromDenotationsStrategy = null;
 	private ProductionBuilderStrategy productionBuilderStrategy = null;
-	private ProductionSalienceMapperStrategy productionSalienceMapperStrategy = null;
+	private ProductionSalienceSetterStrategy productionSalienceSetterStrategy = null;
 	private ClassificationProductionSetBuilderStrategy classificationProductionSetBuilderStrategy = null;
 	private RepresentationTransFuncBuilderStrategy representationTransFuncBuilderStrategy = null;
 	private PropertyBuilderStrategy propertyBuilderStrategy = null;
@@ -141,11 +141,11 @@ public class BuildersAbstractFactory {
 		return RepresentationBuilderFactory.INSTANCE.apply(representationBuilderStrategy);
 	}
 	
-	public ProductionSalienceMapper getProductionSalienceMapper() {
-		return ProductionSalienceMapperFactory.INSTANCE.apply(productionSalienceMapperStrategy);
+	public ProductionSalienceSetter getProductionSalienceSetter() {
+		return ProductionSalienceSetterFactory.INSTANCE.apply(productionSalienceSetterStrategy);
 	}
 	
-	public ClassificationProductionSetBuilder getClassificationProductionSetBuilder() {
+	public ProductionsBuilder getClassificationProductionSetBuilder() {
 		return ClassificationProductionSetBuilderFactory.INSTANCE.apply(classificationProductionSetBuilderStrategy);
 	}
 	
@@ -155,26 +155,6 @@ public class BuildersAbstractFactory {
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
 		switch (overallStrategy) {
-		case GENERATION_STRATEGY_1:
-			denotationBuilderStrategy = DenotationBuilderStrategy.NO_REDUNDANCY;
-			conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
-			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.IF_LEAF_IS_UNIVERSAL_THEN_SORT;
-			classificationBuilderStrategy = ClassificationBuilderStrategy.BUILD_PARAM_THEN_INST;
-			prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.SRCE_CNCPT_CANNOT_HAVE_TGET_DENOT;
-			productionBuilderStrategy = ProductionBuilderStrategy.IF_SUBORDINATE_THEN_BUILD_PRODUCTIONS;
-			productionSalienceMapperStrategy = ProductionSalienceMapperStrategy.HIDDEN_THEN_FIND_SPECIFICS;
-			classificationProductionSetBuilderStrategy = ClassificationProductionSetBuilderStrategy.FILTER_UPDATE_REDUCE_SET;
-			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.FROM_BLANK_AND_SALIENT_PRODS;
-			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_APPLICATION;
-			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
-			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
-			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
-			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
-			representationBuilderStrategy = RepresentationBuilderStrategy.FILTER_TREE_SPECIFIC_PRODUCTION_SET;
-			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
-			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;
-			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.EXPAND_TRIVIAL_LEAVES;
-			break;
 		case GENERATION_STRATEGY_2 : 
 			denotationBuilderStrategy = DenotationBuilderStrategy.NO_REDUNDANCY;
 			conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
@@ -182,7 +162,7 @@ public class BuildersAbstractFactory {
 			classificationBuilderStrategy = ClassificationBuilderStrategy.BUILD_PARAM_THEN_INST;
 			prodBuilderFromDenotationsStrategy = ProdBuilderFromDenotationsStrategy.SRCE_CNCPT_CANNOT_HAVE_TGET_DENOT;
 			productionBuilderStrategy = null;
-			productionSalienceMapperStrategy = ProductionSalienceMapperStrategy.HIDDEN_THEN_FIND_SPECIFICS;
+			productionSalienceSetterStrategy = ProductionSalienceSetterStrategy.HIDDEN_THEN_FIND_SPECIFICS;
 			classificationProductionSetBuilderStrategy = ClassificationProductionSetBuilderStrategy.BUILD_FROM_SCRATCH;
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.FROM_BLANK_AND_SALIENT_PRODS;
 			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_APPLICATION;

@@ -12,6 +12,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.IClassificat
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Everything;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
 import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
@@ -19,7 +20,6 @@ import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransiti
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
-import com.tregouet.occam.data.problem_space.states.transitions.dimensions.EpsilonDimension;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.ConceptProductiveTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.ClosureTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.ConceptTransitionIC;
@@ -28,6 +28,7 @@ import com.tregouet.occam.data.problem_space.states.transitions.impl.Inheritance
 import com.tregouet.occam.data.problem_space.states.transitions.impl.InitialTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.RepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.SpontaneousTransition;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.EpsilonBinding;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public abstract class AbstractTransFuncBuilder implements RepresentationTransFuncBuilder {
@@ -36,25 +37,26 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 	}
 
 	private static Set<IConceptTransition> buildProductiveTransAndUnclosedInheritances(IClassification classification,
-			Set<IContextualizedProduction> relevantProductions) {
+			Set<IApplication> applications) {
 		Set<IConceptTransition> transitions = new HashSet<>();
-		for (IContextualizedProduction production : relevantProductions) {
-			if (!production.isEpsilon()) {
-				int speciesID = production.getSubordinateID();
+		for (IApplication application : applications) {
+			if (!application.isEpsilon()) {
+				int speciesID = application.getValue().getConceptID();
 				int genusID = classification.getGenusID(speciesID);
-				if (production.isBlank()) {
+				if (application.isBlank()) {
 					//blank : substitution of a variable by itself. Instead, ε-transition with same variable remaining on top
-					transitions.add(new InheritanceTransition(genusID, speciesID, production.getSource(), 
-							production.getTarget(), production.getVariable()));
+					//OK
+					transitions.add(new InheritanceTransition(genusID, speciesID, application.getSource(), 
+							application.getTarget(), application.getVariable()));
 				}
 				else {
-					AVariable poppedStackSymbol = production.getVariable();
+					AVariable poppedStackSymbol = application.getVariable();
 					IConceptTransitionIC inputConfig = 
-							new ConceptTransitionIC(genusID, production.getUncontextualizedProduction(), poppedStackSymbol);
-					List<AVariable> newBoundVariables = production.getValue().getVariables();
+							new ConceptTransitionIC(genusID, application.getUncontextualizedProduction(), poppedStackSymbol);
+					List<AVariable> newBoundVariables = application.getValue().getVariables();
 					if (newBoundVariables.isEmpty()) {
 						IConceptTransitionOIC outputConfig = new ConceptTransitionOIC(speciesID,
-								new ArrayList<>(Arrays.asList(new AVariable[] {EpsilonDimension.INSTANCE})));
+								new ArrayList<>(Arrays.asList(new AVariable[] {EpsilonBinding.INSTANCE})));
 						transitions.add(new ConceptProductiveTransition(inputConfig, outputConfig));
 					}
 					else for (AVariable pushedStackSymbol : newBoundVariables) {

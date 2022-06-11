@@ -2,10 +2,9 @@ package com.tregouet.occam.alg.builders.pb_space.representations.classification_
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ClassificationProductionSetBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.ProductionsBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.utils.ProductionSetReducer;
 import com.tregouet.occam.alg.builders.pb_space.representations.lattice_productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.lattice_productions.from_denotations.ProdBuilderFromDenotations;
@@ -14,11 +13,9 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
-import com.tregouet.occam.data.problem_space.states.productions.Salience;
-import com.tregouet.occam.data.problem_space.states.productions.impl.ClassificationProductions;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class BuildFromScratch implements ClassificationProductionSetBuilder {
+public class BuildFromScratch implements ProductionsBuilder {
 
 	public static final BuildFromScratch INSTANCE = new BuildFromScratch();
 	
@@ -26,17 +23,11 @@ public class BuildFromScratch implements ClassificationProductionSetBuilder {
 	}
 	
 	@Override
-	public ClassificationProductions apply(IClassification classification) {
+	public Set<IContextualizedProduction> apply(IClassification classification) {
 		Set<IContextualizedProduction> prods = buildProductions(classification);
 		Set<IContextualizedProduction> reducedProds = ProductionSetReducer.reduce(prods);
-		Map<IContextualizedProduction, Salience> prod2Salience = 
-				ClassificationProductionSetBuilder.productionSalienceMapper().apply(classification, reducedProds);
-		return new ClassificationProductions(prod2Salience);
-	}
-
-	@Override
-	public ClassificationProductionSetBuilder setUp(Set<IContextualizedProduction> latticeProductions) {
-		return this;
+		ProductionsBuilder.productionSalienceSetter().setUp(classification).accept(reducedProds);
+		return reducedProds;
 	}
 	
 	public Set<IContextualizedProduction> buildProductions(IClassification classification) {

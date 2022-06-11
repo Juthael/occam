@@ -7,7 +7,7 @@ import java.util.Set;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.alg.scorers.Scored;
 import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.logical_structures.partial_order.PartiallyComparable;
 import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
@@ -27,7 +27,7 @@ public interface IRepresentation extends
 			IConcept, 
 			IApplication, 
 			IFact, 
-			AVariable, 
+			IBindings, 
 			IConceptTransitionIC, 
 			IConceptTransitionOIC, 
 			IConceptTransition, 

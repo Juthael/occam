@@ -80,23 +80,6 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
-	public String getFunctionType() {
-		List<AVariable> vars = getVariables();
-		if (vars.isEmpty())
-			return null;
-		StringBuilder sB = new StringBuilder();
-		sB.append("τ_(");
-		Iterator<AVariable> varIte = vars.iterator();
-		while (varIte.hasNext()) {
-			sB.append(varIte.next().toString());
-			if (varIte.hasNext())
-				sB.append(", ");
-		}
-		sB.append(")");
-		return sB.toString();
-	}
-
-	@Override
 	public Iterator<ISymbol> getIteratorOverSymbols() {
 		return symbols.iterator();
 	}

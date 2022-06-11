@@ -7,10 +7,10 @@ import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigher;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 @FunctionalInterface
-public interface PropertyBuilder extends BiFunction<IClassification, IClassificationProductions, Set<IProperty>> {
+public interface PropertyBuilder extends BiFunction<IClassification, Set<IContextualizedProduction>, Set<IProperty>> {
 
 	public static PropertyWeigher propertyWeigher() {
 		return SettersAbstractFactory.INSTANCE.getPropertyWheigher();

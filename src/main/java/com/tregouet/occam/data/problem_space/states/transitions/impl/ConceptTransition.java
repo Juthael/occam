@@ -3,7 +3,7 @@ package com.tregouet.occam.data.problem_space.states.transitions.impl;
 import java.util.Iterator;
 import java.util.Objects;
 
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
@@ -52,10 +52,10 @@ public abstract class ConceptTransition implements IConceptTransition {
 			.append(", ")
 			.append(inputConfig.getStackSymbol().toString())
 			.append(" → ");
-		Iterator<AVariable> varIte = outputInternConfig.getPushedStackSymbols().iterator();
-		while (varIte.hasNext()) {
-			sB.append(varIte.next());
-			if (varIte.hasNext())
+		Iterator<IBindings> bindIte = outputInternConfig.getPushedStackSymbols().iterator();
+		while (bindIte.hasNext()) {
+			sB.append(bindIte.next().toString());
+			if (bindIte.hasNext())
 				sB.append(", ");
 		}
 		return sB.toString();

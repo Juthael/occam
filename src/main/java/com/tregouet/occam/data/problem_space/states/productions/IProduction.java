@@ -35,5 +35,9 @@ public interface IProduction {
 	 * @return true if the right term only contains a variable
 	 */
 	boolean isAlphaConversion();
+	
+	void setSalience(Salience salience);
+	
+	Salience getSalience();
 
 }

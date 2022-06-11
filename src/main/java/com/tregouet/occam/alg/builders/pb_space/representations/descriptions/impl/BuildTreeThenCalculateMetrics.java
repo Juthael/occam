@@ -20,7 +20,7 @@ import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.impl.Description;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.Tree;
 
 public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
@@ -31,10 +31,10 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 	}
 
 	@Override
-	public IDescription apply(IClassification classification, IClassificationProductions classificationProductions) {
+	public IDescription apply(IClassification classification, Set<IContextualizedProduction> productions) {
 		Set<ADifferentiae> differentiae;
 		Tree<Integer, ADifferentiae> descGraph;
-		differentiae = DescriptionBuilder.differentiaeBuilder().apply(classification, classificationProductions);
+		differentiae = DescriptionBuilder.differentiaeBuilder().apply(classification, productions);
 		//build parameter graph for the tree constructor
 		DirectedAcyclicGraph<Integer, ADifferentiae> paramTree = new DirectedAcyclicGraph<>(null, null, false);
 		for (ADifferentiae diff : differentiae) {

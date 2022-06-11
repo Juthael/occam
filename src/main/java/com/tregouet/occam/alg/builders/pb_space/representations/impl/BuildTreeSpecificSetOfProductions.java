@@ -25,8 +25,8 @@ public class BuildTreeSpecificSetOfProductions implements RepresentationBuilder 
 	@Override
 	public IRepresentation apply(IClassification classification) {
 		IClassification normalizedClass = ClassificationNormalizer.normalize(classification);
-		IClassificationProductions classProd = RepresentationBuilder.classificationProductionSetBuilder().apply(normalizedClass);
-		IDescription description = RepresentationBuilder.descriptionBuilder().apply(normalizedClass, classProd);
+		Set<IContextualizedProduction> productions = RepresentationBuilder.productionsBuilder().apply(classification);
+		IDescription description = RepresentationBuilder.descriptionBuilder().apply(classification, productions);
 		IRepresentationTransitionFunction transFunc = RepresentationBuilder.transFuncBuilder()
 				.apply(normalizedClass, classProd);
 		IFactEvaluator factEvaluator = new FactEvaluator();

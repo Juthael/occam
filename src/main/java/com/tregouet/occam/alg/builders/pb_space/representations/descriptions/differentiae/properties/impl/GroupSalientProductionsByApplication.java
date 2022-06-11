@@ -10,8 +10,8 @@ import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.dif
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.util.AppCluster;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.productions.Salience;
 
 public class GroupSalientProductionsByApplication implements PropertyBuilder {
 
@@ -19,16 +19,18 @@ public class GroupSalientProductionsByApplication implements PropertyBuilder {
 	}
 
 	@Override
-	public Set<IProperty> apply(IClassification classification, IClassificationProductions classificationProductions) {
+	public Set<IProperty> apply(IClassification classification, Set<IContextualizedProduction> productions) {
 		List<AppCluster> appClusters = new ArrayList<>();
 		Set<IProperty> properties = new HashSet<>();
-		for (IContextualizedProduction production : classificationProductions.getSalientProductions()) {
-			boolean clustered = false;
-			Iterator<AppCluster> clusterIte = appClusters.iterator();
-			while (!clustered && clusterIte.hasNext())
-				clustered = clusterIte.next().add(production);
-			if (!clustered)
-				appClusters.add(new AppCluster(production, classification.getGenusID(production.getSubordinateID())));
+		for (IContextualizedProduction production : productions) {
+			if (production.getSalience() == Salience.COMMON_FEATURE || production.getSalience() == Salience.TRANSITION_RULE) {
+				boolean clustered = false;
+				Iterator<AppCluster> clusterIte = appClusters.iterator();
+				while (!clustered && clusterIte.hasNext())
+					clustered = clusterIte.next().add(production);
+				if (!clustered)
+					appClusters.add(new AppCluster(production, classification.getGenusID(production.getSubordinateID())));
+			}
 		}
 		for (AppCluster cluster : appClusters) {
 			IProperty property = cluster.asProperty();

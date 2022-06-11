@@ -13,7 +13,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIs
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.impl.Differentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class IfIsAThenDiffer implements DifferentiaeBuilder {
@@ -22,9 +22,9 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 	}
 
 	@Override
-	public Set<ADifferentiae> apply(IClassification classification, IClassificationProductions classificationProductions) {
+	public Set<ADifferentiae> apply(IClassification classification, Set<IContextualizedProduction> productions) {
 		Set<ADifferentiae> differentiae = new HashSet<>();
-		Set<IProperty> properties = DifferentiaeBuilder.propertyBuilder().apply(classification, classificationProductions);
+		Set<IProperty> properties = DifferentiaeBuilder.propertyBuilder().apply(classification, productions);
 		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
 		for (IIsA transition : classification.asGraph().edgeSet()) {
 			int genusID = conceptTree.getEdgeTarget(transition).iD();

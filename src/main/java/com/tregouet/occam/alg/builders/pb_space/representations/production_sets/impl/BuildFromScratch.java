@@ -17,10 +17,10 @@ import com.tregouet.tree_finder.data.InvertedTree;
 public class BuildFromScratch implements ProductionSetBuilder {
 
 	public static final BuildFromScratch INSTANCE = new BuildFromScratch();
-	
+
 	private BuildFromScratch() {
 	}
-	
+
 	@Override
 	public Set<IContextualizedProduction> apply(IClassification classification) {
 		Set<IContextualizedProduction> prods = buildProductions(classification);
@@ -28,7 +28,7 @@ public class BuildFromScratch implements ProductionSetBuilder {
 		ProductionSetBuilder.productionSalienceSetter().setUp(classification).accept(reducedProds);
 		return reducedProds;
 	}
-	
+
 	public Set<IContextualizedProduction> buildProductions(IClassification classification) {
 		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
 		Set<IContextualizedProduction> productions = new HashSet<>();
@@ -49,6 +49,6 @@ public class BuildFromScratch implements ProductionSetBuilder {
 			}
 		}
 		return productions;
-	}	
+	}
 
 }

@@ -9,6 +9,17 @@ import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public interface IFactTape extends IInputTape<IApplication>, IFact {
 
+	@Override
+	public int hashCode();
+
+	@Override
+	IFactTape copy();
+
+	@Override
+	boolean equals(Object o);
+
+	IFact getFact();
+
 	public static boolean isAWellFormedFact(List<IProduction> word) {
 		if (word.isEmpty())
 			return false;
@@ -24,16 +35,5 @@ public interface IFactTape extends IInputTape<IApplication>, IFact {
 		}
 		return true;
 	}
-
-	@Override
-	public int hashCode();
-
-	@Override
-	IFactTape copy();
-
-	@Override
-	boolean equals(Object o);
-
-	IFact getFact();
 
 }

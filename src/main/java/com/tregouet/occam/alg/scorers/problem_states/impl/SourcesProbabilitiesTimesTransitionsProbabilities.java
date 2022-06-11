@@ -15,7 +15,7 @@ public class SourcesProbabilitiesTimesTransitionsProbabilities implements Proble
 
 	List<IRepresentation> topoOrder;
 	double[] scores;
-	
+
 	@Override
 	public DoubleScore apply(IRepresentation representation) {
 		return new DoubleScore(scores[topoOrder.indexOf(representation)]);

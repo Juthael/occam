@@ -17,7 +17,7 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 	private IConcept wrappedComplementing = null;
 
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept complementing) {
-		super(new ArrayList<>(complementing.getDenotations()), new HashSet<>(Sets.difference(complementing.getMaxExtentIDs(), 
+		super(new ArrayList<>(complementing.getDenotations()), new HashSet<>(Sets.difference(complementing.getMaxExtentIDs(),
 				toBeComplemented.getMaxExtentIDs())), -toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		wrappedComplementing = complementing;
@@ -25,7 +25,7 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 	}
 
 	public ComplementaryConcept(IConcept toBeComplemented, IConcept supremum, Set<Integer> extentIDs) {
-		super(new ArrayList<IDenotation>(supremum.getDenotations()), extentIDs, -toBeComplemented.iD());
+		super(new ArrayList<>(supremum.getDenotations()), extentIDs, -toBeComplemented.iD());
 		complementedByThis = toBeComplemented;
 		setType(ConceptType.UNIVERSAL);
 	}
@@ -69,6 +69,6 @@ public class ComplementaryConcept extends Concept implements IComplementaryConce
 				sB.append(nL);
 		}
 		return sB.toString();
-	}	
+	}
 
 }

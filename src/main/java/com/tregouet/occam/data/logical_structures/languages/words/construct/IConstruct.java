@@ -28,12 +28,14 @@ public interface IConstruct extends IWord<ISymbol> {
 	int getNbOfTerminals();
 
 	/**
-	 * 
+	 *
 	 * @return variables in their index order
 	 */
 	List<AVariable> getVariables();
 
 	boolean isAbstract();
+
+	boolean isAlphaConvertibleWith(IConstruct other);
 
 	/**
 	 *
@@ -45,10 +47,8 @@ public interface IConstruct extends IWord<ISymbol> {
 	void nameVariables();
 
 	List<String> toListOfStringsWithPlaceholders();
-	
+
 	@Override
 	String toString();
-	
-	boolean isAlphaConvertibleWith(IConstruct other);
-	
+
 }

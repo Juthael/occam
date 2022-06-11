@@ -41,12 +41,16 @@ public class FormattersAbstractFactory {
 	private FormattersAbstractFactory() {
 	}
 
+	public ApplicationLabeller getApplicationLabeller() {
+		return ApplicationLabellerFactory.INSTANCE.apply(applicationLabellerStrategy);
+	}
+
 	public DifferentiaeLabeller getDifferentiaeDisplayer() {
 		return DifferentiaeLabellerFactory.INSTANCE.apply(differentiaeLabellerStrategy);
 	}
-	
-	public Sorting2StringConverter getSorting2StringConverter() {
-		return Sorting2StringConverterFactory.INSTANCE.apply(sorting2StringConverterStrategy);
+
+	public FactDisplayer getFactDisplayer() {
+		return FactDisplayerFactory.INSTANCE.apply(factDisplayerStrategy);
 	}
 
 	public ProblemStateLabeller getProblemStateDisplayer() {
@@ -61,16 +65,12 @@ public class FormattersAbstractFactory {
 		return PropertyLabellerFactory.INSTANCE.apply(propertyLabellerStrategy);
 	}
 
+	public Sorting2StringConverter getSorting2StringConverter() {
+		return Sorting2StringConverterFactory.INSTANCE.apply(sorting2StringConverterStrategy);
+	}
+
 	public TransitionFunctionLabeller getTransitionFunctionDisplayer() {
 		return TransitionFunctionLabellerFactory.INSTANCE.apply(transitionFunctionLabellerStrategy);
-	}
-	
-	public FactDisplayer getFactDisplayer() {
-		return FactDisplayerFactory.INSTANCE.apply(factDisplayerStrategy);
-	}
-	
-	public ApplicationLabeller getApplicationLabeller() {
-		return ApplicationLabellerFactory.INSTANCE.apply(applicationLabellerStrategy);
 	}
 
 	public void setUpStrategy(FormattingStrategy strategy) {

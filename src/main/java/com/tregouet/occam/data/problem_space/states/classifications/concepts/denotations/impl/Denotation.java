@@ -22,18 +22,18 @@ public class Denotation extends Construct implements IDenotation {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
+			return false;
+		Denotation other = (Denotation) obj;
+		return conceptID == other.conceptID;
+	}
+
+	@Override
 	public int getConceptID() {
 		return conceptID;
-	}
-
-	@Override
-	public boolean isRedundant() {
-		return isRedundant;
-	}
-
-	@Override
-	public void markAsRedundant() {
-		isRedundant = true;
 	}
 
 	@Override
@@ -45,15 +45,13 @@ public class Denotation extends Construct implements IDenotation {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Denotation other = (Denotation) obj;
-		return conceptID == other.conceptID;
+	public boolean isRedundant() {
+		return isRedundant;
+	}
+
+	@Override
+	public void markAsRedundant() {
+		isRedundant = true;
 	}
 
 }

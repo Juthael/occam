@@ -23,18 +23,24 @@ public class Property implements IProperty {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		Property other = (Property) obj;
+		return genusID == other.genusID && speciesID == other.speciesID &&
+				Objects.equals(applications, other.applications) && Objects.equals(function, other.function);
+	}
+
+	@Override
+	public Set<IApplication> getApplications() {
+		return applications;
+	}
+
+	@Override
 	public IDenotation getFunction() {
 		return function;
-	}
-
-	@Override
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
-
-	@Override
-	public Double weight() {
-		return weight;
 	}
 
 	@Override
@@ -53,21 +59,13 @@ public class Property implements IProperty {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Property other = (Property) obj;
-		return genusID == other.genusID && speciesID == other.speciesID && 
-				Objects.equals(applications, other.applications) && Objects.equals(function, other.function);
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 
 	@Override
-	public Set<IApplication> getApplications() {
-		return applications;
+	public Double weight() {
+		return weight;
 	}
 
 }

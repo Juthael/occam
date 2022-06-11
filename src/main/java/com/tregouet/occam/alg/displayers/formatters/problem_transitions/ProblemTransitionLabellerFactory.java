@@ -13,11 +13,11 @@ public class ProblemTransitionLabellerFactory {
 
 	public ProblemTransitionLabeller apply(ProblemTransitionLabellerStrategy strategy) {
 		switch (strategy) {
-		case NO_LABEL : 
+		case NO_LABEL :
 			return NoLabel.INSTANCE;
 		case WEIGHT:
 			return Weight.INSTANCE;
-		case PROBABILITY : 
+		case PROBABILITY :
 			return Probability.INSTANCE;
 		default:
 			return null;

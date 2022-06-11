@@ -15,7 +15,7 @@ public class ContextPrinter {
 
 	private ContextPrinter() {
 	}
-	
+
 	public String print(List<IContextObject> context, int a) {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
@@ -40,7 +40,7 @@ public class ContextPrinter {
 		}
 		return TablePrinter.INSTANCE.printStringTableWithOptionalSubHead(head, optionalSubhead, body, caption, a);
 	}
-	
+
 	private static String toString(IContextObject object) {
 		StringBuilder sB = new StringBuilder();
 		for (IConstruct construct : object.getConstructs()) {

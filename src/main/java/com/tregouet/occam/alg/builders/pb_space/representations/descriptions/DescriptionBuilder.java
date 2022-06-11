@@ -18,7 +18,7 @@ import com.tregouet.occam.data.problem_space.states.productions.IContextualizedP
  * @author Gael Tregouet
  *
  */
-public interface DescriptionBuilder 
+public interface DescriptionBuilder
 	extends BiFunction<IClassification, Set<IContextualizedProduction>, IDescription> {
 
 	public static DifferentiaeBuilder differentiaeBuilder() {
@@ -32,7 +32,7 @@ public interface DescriptionBuilder
 	public static DifferentiaeWeigher differentiaeWeigher() {
 		return SettersAbstractFactory.INSTANCE.getDifferentiaeWeigher();
 	}
-	
+
 	public static SimilarityMetricsBuilder similarityMetricsBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getSimilarityMetricsBuilder();
 	}

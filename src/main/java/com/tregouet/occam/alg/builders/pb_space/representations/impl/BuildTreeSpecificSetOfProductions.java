@@ -15,9 +15,9 @@ import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationT
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
 public class BuildTreeSpecificSetOfProductions implements RepresentationBuilder {
-	
+
 	public static final BuildTreeSpecificSetOfProductions INSTANCE = new BuildTreeSpecificSetOfProductions();
-	
+
 	private BuildTreeSpecificSetOfProductions() {
 	}
 

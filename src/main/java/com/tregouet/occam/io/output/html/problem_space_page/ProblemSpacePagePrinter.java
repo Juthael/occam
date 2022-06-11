@@ -14,16 +14,16 @@ public class ProblemSpacePagePrinter {
 	public static final ProblemSpacePagePrinter INSTANCE = new ProblemSpacePagePrinter();
 	public static final String NL = System.lineSeparator();
 	public static final String[] alinea = new String[] {
-			"   ", 
-			"      ", 
-			"         ", 
-			"            ", 
-			"               ", 
-			"                  ", 
-			"                     ", 
-			"                        ", 
-			"                           ", 
-			"                              ", 
+			"   ",
+			"      ",
+			"         ",
+			"            ",
+			"               ",
+			"                  ",
+			"                     ",
+			"                        ",
+			"                           ",
+			"                              ",
 			"                                 "};
 
 	private ProblemSpacePagePrinter() {
@@ -68,6 +68,6 @@ public class ProblemSpacePagePrinter {
 				.append(alinea[1] + "</section>" + NL)
 			.append(FootPrinter.INSTANCE.get());
 		return sB.toString();
-	}	
+	}
 
 }

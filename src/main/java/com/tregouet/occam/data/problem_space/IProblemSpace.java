@@ -14,28 +14,28 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
 
 public interface IProblemSpace {
 
-	DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts();
-	
-	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
-	
-	List<IContextObject> getContext();
-	
 	/**
-	 * 
-	 * @param representationID
-	 * @return null if no representation has this iD, false if already active, true otherwise
-	 */
-	Boolean display(int representationID);
-	
-	/**
-	 * 
+	 *
 	 * @param representationID
 	 * @return null if no representation has this iD, false if not expandable, true otherwise
 	 */
 	Boolean deepen(int representationID);
-	
+
+	/**
+	 *
+	 * @param representationID
+	 * @return null if no representation has this iD, false if already active, true otherwise
+	 */
+	Boolean display(int representationID);
+
 	IRepresentation getActiveRepresentation();
-	
+
+	List<IContextObject> getContext();
+
+	DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts();
+
+	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
+
 	public static ProblemSpaceExplorer problemSpaceExplorer() {
 		return BuildersAbstractFactory.INSTANCE.getProblemSpaceExplorer();
 	}

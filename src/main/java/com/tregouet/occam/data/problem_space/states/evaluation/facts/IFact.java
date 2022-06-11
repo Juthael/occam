@@ -10,7 +10,7 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 public interface IFact extends IWord<IApplication>, PartiallyComparable<IFact> {
 
 	ILambdaExpression asLambda();
-	
+
 	@Override
 	default Integer compareTo(IFact other) {
 		Iterator<IApplication> thisIte = this.asList().iterator();
@@ -25,6 +25,6 @@ public interface IFact extends IWord<IApplication>, PartiallyComparable<IFact> {
 		if (otherIte.hasNext())
 			return -1;
 		return null;
-	}	
+	}
 
 }

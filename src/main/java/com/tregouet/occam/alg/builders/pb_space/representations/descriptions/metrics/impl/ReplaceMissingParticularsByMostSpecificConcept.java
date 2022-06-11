@@ -11,12 +11,12 @@ import com.tregouet.occam.data.problem_space.states.descriptions.metrics.impl.Si
 import com.tregouet.tree_finder.data.Tree;
 
 public class ReplaceMissingParticularsByMostSpecificConcept implements SimilarityMetricsBuilder {
-	
-	public static final ReplaceMissingParticularsByMostSpecificConcept INSTANCE = 
+
+	public static final ReplaceMissingParticularsByMostSpecificConcept INSTANCE =
 			new ReplaceMissingParticularsByMostSpecificConcept();
-	
+
 	@Override
-	public ISimilarityMetrics apply(Tree<Integer, ADifferentiae> partialDescriptionTree, 
+	public ISimilarityMetrics apply(Tree<Integer, ADifferentiae> partialDescriptionTree,
 			Map<Integer, Integer> particularID2MostSpecificConceptID) {
 		TreeSet<Integer> particularIDs = new TreeSet<>(particularID2MostSpecificConceptID.keySet());
 		Iterator<Integer> particularIte = particularIDs.iterator();
@@ -24,7 +24,7 @@ public class ReplaceMissingParticularsByMostSpecificConcept implements Similarit
 		int arrayIdx = 0;
 		while (particularIte.hasNext())
 			mostSpecificConcepts[arrayIdx++] = particularID2MostSpecificConceptID.get(particularIte.next());
-		return new SimilarityMetrics(mostSpecificConcepts, 
+		return new SimilarityMetrics(mostSpecificConcepts,
 				SimilarityMetricsBuilder.pairSimilarityScorer().setAsContext(partialDescriptionTree),
 				SimilarityMetricsBuilder.asymmetricalSimilarityScorer().setAsContext(partialDescriptionTree));
 	}

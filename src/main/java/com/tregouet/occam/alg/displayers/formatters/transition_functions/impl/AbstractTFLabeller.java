@@ -28,23 +28,6 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 	public AbstractTFLabeller() {
 	}
 
-	private static String toString(boolean productive, Set<IConceptTransition> transitions) {
-		StringBuilder sB = new StringBuilder();
-		if (!transitions.isEmpty()) {
-			if (productive) {
-				sB.append("PRODUCTIVE TRANSITIONS : " + nL);
-			} else
-				sB.append("OTHERS : " + nL);
-			Iterator<IConceptTransition> transIte = transitions.iterator();
-			while (transIte.hasNext()) {
-				sB.append(transIte.next().toString());
-				if (transIte.hasNext())
-					sB.append(nL);
-			}
-		}
-		return sB.toString();
-	}
-
 	@Override
 	public DirectedAcyclicGraph<Integer, AConceptTransitionSet> apply(IRepresentationTransitionFunction transFunc) {
 		DirectedAcyclicGraph<Integer, AConceptTransitionSet> transFuncGraph = new DirectedAcyclicGraph<>(null, null,
@@ -88,6 +71,23 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 		transitions.addAll(others);
 		Integer sourceID = targetIDToSourceID.get(targetID);
 		return new ConceptTransitionSet(sourceID, targetID, transitions, sB.toString());
+	}
+
+	private static String toString(boolean productive, Set<IConceptTransition> transitions) {
+		StringBuilder sB = new StringBuilder();
+		if (!transitions.isEmpty()) {
+			if (productive) {
+				sB.append("PRODUCTIVE TRANSITIONS : " + nL);
+			} else
+				sB.append("OTHERS : " + nL);
+			Iterator<IConceptTransition> transIte = transitions.iterator();
+			while (transIte.hasNext()) {
+				sB.append(transIte.next().toString());
+				if (transIte.hasNext())
+					sB.append(nL);
+			}
+		}
+		return sB.toString();
 	}
 
 }

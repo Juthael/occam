@@ -8,7 +8,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.IClassificat
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 
 public class AutomaticallyExpandTrivialLeaves extends RemoveUninformative implements ProblemSpaceExplorer {
-	
+
 	@Override
 	protected void expandTransitoryLeaves(Set<IRepresentation> newRepresentations) {
 		for (IRepresentation representation : newRepresentations) {
@@ -16,7 +16,7 @@ public class AutomaticallyExpandTrivialLeaves extends RemoveUninformative implem
 				apply(representation.iD());
 		}
 	}
-	
+
 	private static boolean isATrivialLeaf(IRepresentation representation) {
 		IClassification classification = representation.getClassification();
 		for(IConcept leaf : classification.getMostSpecificConcepts()) {

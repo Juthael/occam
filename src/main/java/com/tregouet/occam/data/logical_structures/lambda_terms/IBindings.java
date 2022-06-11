@@ -6,9 +6,9 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface IBindings extends ISymbol {
-	
+
 	List<AVariable> getBoundVariables();
-	
+
 	@Override
 	String toString();
 

@@ -48,7 +48,7 @@ public class AsymmetricalDynamicFraming extends AbstractSimilarityScorer<IConcep
 		}
 		return targetAsGenusSpeciesID;
 	}
-	
+
 	private List<Integer> successorListOf(Tree<Integer, ADifferentiae> classificationTree, Integer genusID) {
 		List<Integer> successors = new ArrayList<>();
 		for (ADifferentiae diff : classificationTree.outgoingEdgesOf(genusID))

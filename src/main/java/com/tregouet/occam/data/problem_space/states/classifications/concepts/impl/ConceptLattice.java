@@ -94,11 +94,6 @@ public class ConceptLattice implements IConceptLattice {
 	}
 
 	@Override
-	public List<IConcept> getParticulars() {
-		return particulars;
-	}
-
-	@Override
 	public IConcept getOntologicalCommitment() {
 		return ontologicalCommitment;
 	}
@@ -106,6 +101,11 @@ public class ConceptLattice implements IConceptLattice {
 	@Override
 	public InvertedUpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice() {
 		return invertedUpperSemilattice;
+	}
+
+	@Override
+	public List<IConcept> getParticulars() {
+		return particulars;
 	}
 
 	@Override

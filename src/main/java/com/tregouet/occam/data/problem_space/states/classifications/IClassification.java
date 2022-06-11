@@ -9,25 +9,25 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIs
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public interface IClassification {
-	
+
 	InvertedTree<IConcept, IIsA> asGraph();
-	
-	List<Integer> getExtentIDs(int conceptID);
-	
-	Set<Integer> getParticularIDs();
-	
-	Map<Integer, List<Integer>> mapConceptID2ExtentIDs();
-	
-	Map<Integer, Integer> mapSpeciesID2GenusID();
-	
-	Set<IConcept> getMostSpecificConcepts();
-	
+
 	IConcept getConceptWithSpecifiedID(int iD);
-	
+
+	List<Integer> getExtentIDs(int conceptID);
+
 	IConcept getGenus(IConcept concept);
-	
+
 	IConcept getGenus(int iD);
-	
+
 	int getGenusID(int iD);
+
+	Set<IConcept> getMostSpecificConcepts();
+
+	Set<Integer> getParticularIDs();
+
+	Map<Integer, List<Integer>> mapConceptID2ExtentIDs();
+
+	Map<Integer, Integer> mapSpeciesID2GenusID();
 
 }

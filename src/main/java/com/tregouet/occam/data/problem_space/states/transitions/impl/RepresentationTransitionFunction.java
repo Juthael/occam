@@ -58,6 +58,12 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 	}
 
 	@Override
+	public DirectedAcyclicGraph<Integer, AConceptTransitionSet> asGraph() {
+		TransitionFunctionLabeller displayer = FormattersAbstractFactory.INSTANCE.getTransitionFunctionDisplayer();
+		return(displayer.apply(this));
+	}
+
+	@Override
 	public Set<Integer> getAcceptStateIDs() {
 		return new HashSet<>(acceptStateIDs);
 	}
@@ -110,12 +116,6 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 		transitions.addAll(inheritances);
 		transitions.addAll(spontaneous);
 		return transitions;
-	}
-
-	@Override
-	public DirectedAcyclicGraph<Integer, AConceptTransitionSet> asGraph() {
-		TransitionFunctionLabeller displayer = FormattersAbstractFactory.INSTANCE.getTransitionFunctionDisplayer();
-		return(displayer.apply(this));
 	}
 
 }

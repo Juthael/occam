@@ -11,6 +11,6 @@ import com.tregouet.tree_finder.data.InvertedTree;
 public interface ConceptTreeGrower extends BiFunction<IConceptLattice, InvertedTree<IConcept, IIsA>, Set<InvertedTree<IConcept, IIsA>>> {
 
 	/**
-	 * if 2nd parameter is null returns the initial tree containing only the ontological commitment and the truism. 
+	 * if 2nd parameter is null returns the initial tree containing only the ontological commitment and the truism.
 	 */
 }

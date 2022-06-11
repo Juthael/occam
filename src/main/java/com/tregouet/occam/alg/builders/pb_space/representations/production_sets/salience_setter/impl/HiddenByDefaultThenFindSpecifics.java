@@ -17,13 +17,13 @@ import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 import com.tregouet.occam.data.problem_space.states.productions.Salience;
 
 public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceSetter {
-	
+
 	private IClassification classification;
 	private List<Integer> genusIDs;
 	private List<Set<Integer>> setsOfSpeciesIDs;
 	private List<Set<IContextualizedProduction>> setsOfProductions;
 	private Set<Integer> particularIDs;
-	
+
 	public HiddenByDefaultThenFindSpecifics(){
 	}
 
@@ -63,7 +63,31 @@ public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceSette
 			setPartitionRulesSalience(i);
 		}
 	}
-	
+
+	@Override
+	public ProductionSalienceSetter setUp(IClassification classification) {
+		this.classification = classification;
+		genusIDs = new ArrayList<>();
+		setsOfSpeciesIDs = new ArrayList<>();
+		setsOfProductions = new ArrayList<>();
+		particularIDs = new HashSet<>(classification.getParticularIDs());
+		return this;
+	}
+
+	private void setPartitionRuleSalienceOf(Entry<AVariable, Set<IContextualizedProduction>> var2Productions, int genusIdx) {
+		List<Integer> speciesIDs = new ArrayList<>(setsOfSpeciesIDs.get(genusIdx));
+		List<Set<IProduction>> productions = new ArrayList<>(speciesIDs.size());
+		for (int i = 0 ; i < speciesIDs.size() ; i++)
+			productions.add(new HashSet<>());
+		for (IContextualizedProduction production : var2Productions.getValue())
+			productions.get(speciesIDs.indexOf(production.getSubordinateID())).add(production.getUncontextualizedProduction());
+		if (everySubConceptInstantiatesThisVariable(productions)
+				&& everySubConceptGivesThisVariableADistinctValue(productions)) {
+			for (IContextualizedProduction production : var2Productions.getValue())
+				production.setSalience(Salience.TRANSITION_RULE);
+		}
+	}
+
 	private void setPartitionRulesSalience(int genusIdx) {
 		Map<AVariable, Set<IContextualizedProduction>> var2Productions = new HashMap<>();
 		for (IContextualizedProduction production : setsOfProductions.get(genusIdx)) {
@@ -75,21 +99,12 @@ public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceSette
 		for (Entry<AVariable, Set<IContextualizedProduction>> entry : var2Productions.entrySet())
 			setPartitionRuleSalienceOf(entry, genusIdx);
 	}
-	
-	private void setPartitionRuleSalienceOf(Entry<AVariable, Set<IContextualizedProduction>> var2Productions, int genusIdx) {
-		List<Integer> speciesIDs = new ArrayList<>(setsOfSpeciesIDs.get(genusIdx));
-		List<Set<IProduction>> productions = new ArrayList<>(speciesIDs.size());
-		for (int i = 0 ; i < speciesIDs.size() ; i++)
-			productions.add(new HashSet<>());
-		for (IContextualizedProduction production : var2Productions.getValue())
-			productions.get(speciesIDs.indexOf(production.getSubordinateID())).add(production.getUncontextualizedProduction());
-		if (everySubConceptInstantiatesThisVariable(productions) 
-				&& everySubConceptGivesThisVariableADistinctValue(productions)) {
-			for (IContextualizedProduction production : var2Productions.getValue())
-				production.setSalience(Salience.TRANSITION_RULE);
-		}
+
+	private static boolean everySubConceptGivesThisVariableADistinctValue(List<Set<IProduction>> values) {
+		Set<Set<IProduction>> uniqueValues = new HashSet<>(values);
+		return uniqueValues.size() == values.size();
 	}
-	
+
 	private static boolean everySubConceptInstantiatesThisVariable(List<Set<IProduction>> values) {
 		for (Set<IProduction> value : values) {
 			if (value.isEmpty() || isAlphaConversion(value))
@@ -97,28 +112,13 @@ public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceSette
 		}
 		return true;
 	}
-	
-	private static boolean everySubConceptGivesThisVariableADistinctValue(List<Set<IProduction>> values) {
-		Set<Set<IProduction>> uniqueValues = new HashSet<>(values);
-		return uniqueValues.size() == values.size();
-	}
-	
+
 	private static boolean isAlphaConversion(Set<IProduction> value) {
 		for (IProduction production : value) {
 			if (!production.isAlphaConversion())
 				return false;
 		}
 		return true;
-	}
-
-	@Override
-	public ProductionSalienceSetter setUp(IClassification classification) {
-		this.classification = classification;
-		genusIDs = new ArrayList<>();
-		setsOfSpeciesIDs = new ArrayList<>();
-		setsOfProductions = new ArrayList<>();
-		particularIDs = new HashSet<>(classification.getParticularIDs());
-		return this;
 	}
 
 }

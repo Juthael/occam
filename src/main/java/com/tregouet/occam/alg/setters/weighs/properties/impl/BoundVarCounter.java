@@ -26,7 +26,7 @@ public class BoundVarCounter implements PropertyWeigher {
 				}
 			}
 		}
-		property.setWeight((double) boundVars.size());
+		property.setWeight(boundVars.size());
 	}
 
 }

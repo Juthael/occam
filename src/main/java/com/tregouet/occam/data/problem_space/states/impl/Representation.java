@@ -40,7 +40,7 @@ public class Representation implements IRepresentation {
 		this.partitions = partitions;
 		this.factEvaluator = factEvaluator;
 		iD = nextID++;
-	}	
+	}
 
 	@Override
 	public Integer compareTo(IRepresentation other) {
@@ -85,8 +85,18 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
+	public IClassification getClassification() {
+		return classification;
+	}
+
+	@Override
 	public IDescription getDescription() {
 		return description;
+	}
+
+	@Override
+	public List<Integer> getExtentIDs(Integer conceptID) {
+		return classification.getExtentIDs(conceptID);
 	}
 
 	@Override
@@ -114,8 +124,13 @@ public class Representation implements IRepresentation {
 		return iD;
 	}
 
-	public static void initializeIDGenerator() {
-		nextID = IRepresentation.FIRST_ID;
+	@Override
+	public boolean isFullyDeveloped() {
+		for (IConcept concept : classification.asGraph().getLeaves()) {
+			if (concept.type() != ConceptType.PARTICULAR)
+				return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -150,7 +165,7 @@ public class Representation implements IRepresentation {
 		factEvaluator.reinitialize();
 		return accStateIDToFacts;
 	}
-	
+
 	@Override
 	public Map<Integer, List<String>> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer) {
 		Map<Integer, List<String>> accStateID2FactualDesc = new HashMap<>();
@@ -170,23 +185,8 @@ public class Representation implements IRepresentation {
 		this.score = score;
 	}
 
-	@Override
-	public List<Integer> getExtentIDs(Integer conceptID) {
-		return classification.getExtentIDs(conceptID);
-	}
-
-	@Override
-	public boolean isFullyDeveloped() {
-		for (IConcept concept : classification.asGraph().getLeaves()) {
-			if (concept.type() != ConceptType.PARTICULAR)
-				return false;
-		}
-		return true;
-	}
-
-	@Override
-	public IClassification getClassification() {
-		return classification;
+	public static void initializeIDGenerator() {
+		nextID = IRepresentation.FIRST_ID;
 	}
 
 }

@@ -19,10 +19,26 @@ import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.tree_finder.data.Tree;
 
 public class AsNestedFrames implements ProblemStateLabeller {
-	
+
 	private static final String nL = System.lineSeparator();
-	
+
 	public AsNestedFrames() {
+	}
+
+	@Override
+	public String apply(IRepresentation representation) {
+		StringBuilder sB = new StringBuilder();
+		sB.append(Integer.toString(representation.iD()) + nL);
+		Sorting2StringConverter stringPatternBldr = ProblemStateLabeller.getSorting2StringConverter();
+		if (representation.isFullyDeveloped()) {
+			sB.append(stringPatternBldr.apply(representation.getDescription().asGraph()));
+			return sB.toString();
+		}
+		Map<Integer, List<Integer>> conceptID2ExtentIDs = representation.getClassification().mapConceptID2ExtentIDs();
+		Set<IPartition> statePartitions = representation.getPartitions();
+		stringPatternBldr.setUp(conceptID2ExtentIDs);
+		sB.append(stringPatternBldr.apply(asTree(statePartitions)));
+		return sB.toString();
 	}
 
 	private static Tree<Integer, ADifferentiae> asTree(Set<IPartition> intent) {
@@ -45,22 +61,6 @@ public class AsNestedFrames implements ProblemStateLabeller {
 			topoOrder.add(nextID);
 		}
 		return new Tree<>(stateDag, root, leaves, topoOrder);
-	}
-
-	@Override
-	public String apply(IRepresentation representation) {
-		StringBuilder sB = new StringBuilder();
-		sB.append(Integer.toString(representation.iD()) + nL);
-		Sorting2StringConverter stringPatternBldr = ProblemStateLabeller.getSorting2StringConverter();
-		if (representation.isFullyDeveloped()) {
-			sB.append(stringPatternBldr.apply(representation.getDescription().asGraph()));
-			return sB.toString();
-		} 
-		Map<Integer, List<Integer>> conceptID2ExtentIDs = representation.getClassification().mapConceptID2ExtentIDs();
-		Set<IPartition> statePartitions = representation.getPartitions();
-		stringPatternBldr.setUp(conceptID2ExtentIDs);
-		sB.append(stringPatternBldr.apply(asTree(statePartitions)));
-		return sB.toString();
 	}
 
 }

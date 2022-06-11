@@ -119,6 +119,22 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
+	public boolean isAlphaConvertibleWith(IConstruct other) {
+		List<ISymbol> otherSymbols = other.asList();
+		if (this.symbols.size() == otherSymbols.size()) {
+			for (int i = 0 ; i < symbols.size() ; i++) {
+				ISymbol thisSymbol = symbols.get(i);
+				ISymbol otherSymbol = otherSymbols.get(i);
+				if (!thisSymbol.equals(otherSymbol)
+						&& !(thisSymbol instanceof AVariable && otherSymbol instanceof AVariable))
+						return false;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public boolean meets(IConstruct constraint) {
 		List<ISymbol> constraintSymbols = constraint.asList();
 		if (this.nbOfTerminals >= constraintSymbols.size()) {
@@ -140,6 +156,11 @@ public class Construct implements IConstruct {
 			if (symbol instanceof AVariable)
 				((AVariable) symbol).setName();
 		}
+	}
+
+	@Override
+	public int size() {
+		return size;
 	}
 
 	@Override
@@ -172,27 +193,6 @@ public class Construct implements IConstruct {
 				nbOfTerminals++;
 		}
 		return nbOfTerminals;
-	}
-
-	@Override
-	public boolean isAlphaConvertibleWith(IConstruct other) {
-		List<ISymbol> otherSymbols = other.asList();
-		if (this.symbols.size() == otherSymbols.size()) {
-			for (int i = 0 ; i < symbols.size() ; i++) {
-				ISymbol thisSymbol = symbols.get(i);
-				ISymbol otherSymbol = otherSymbols.get(i);
-				if (!thisSymbol.equals(otherSymbol) 
-						&& !(thisSymbol instanceof AVariable && otherSymbol instanceof AVariable))
-						return false;
-			}
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public int size() {
-		return size;
 	}
 
 }

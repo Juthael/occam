@@ -10,7 +10,7 @@ import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
 public class RemoveUninformative extends RemoveMeaningless implements ProblemSpaceExplorer {
-	
+
 	public RemoveUninformative() {
 	}
 

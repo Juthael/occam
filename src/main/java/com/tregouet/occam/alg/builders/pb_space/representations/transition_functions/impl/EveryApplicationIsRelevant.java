@@ -9,13 +9,13 @@ import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransiti
 public class EveryApplicationIsRelevant extends AbstractTransFuncBuilder implements RepresentationTransFuncBuilder {
 
 	@Override
-	protected Set<IApplication> selectRelevantApplications(Set<IApplication> applications) {
-		return applications;
+	protected void filterForComplianceToAdditionalConstraints(Set<IConceptTransition> transitions) {
+		//do nothing
 	}
 
 	@Override
-	protected void filterForComplianceToAdditionalConstraints(Set<IConceptTransition> transitions) {
-		//do nothing
+	protected Set<IApplication> selectRelevantApplications(Set<IApplication> applications) {
+		return applications;
 	}
 
 }

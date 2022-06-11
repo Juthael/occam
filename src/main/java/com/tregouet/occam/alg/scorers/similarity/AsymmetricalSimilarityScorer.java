@@ -5,7 +5,8 @@ import com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets
 import com.tregouet.tree_finder.data.Tree;
 
 public interface AsymmetricalSimilarityScorer extends SimilarityScorer<IConceptPairIDs> {
-	
+
+	@Override
 	AsymmetricalSimilarityScorer setAsContext(Tree<Integer, ADifferentiae> classificationTree);
 
 }

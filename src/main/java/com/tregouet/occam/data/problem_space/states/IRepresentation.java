@@ -24,42 +24,42 @@ import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
 public interface IRepresentation extends
 		IPushdownAutomaton<
-			IConcept, 
-			IApplication, 
-			IFact, 
-			IBindings, 
-			IConceptTransitionIC, 
-			IConceptTransitionOIC, 
-			IConceptTransition, 
+			IConcept,
+			IApplication,
+			IFact,
+			IBindings,
+			IConceptTransitionIC,
+			IConceptTransitionOIC,
+			IConceptTransition,
 			IRepresentationTransitionFunction>,
 		Scored<DoubleScore>, PartiallyComparable<IRepresentation> {
-	
+
 	public static final int FIRST_ID = 1;
 
 	@Override
 	boolean equals(Object o);
 
+	IClassification getClassification();
+
 	IDescription getDescription();
 
-	IClassification getClassification();
+	List<Integer> getExtentIDs(Integer conceptID);
+
+	Set<IPartition> getPartitions();
 
 	@Override
 	int hashCode();
 
-	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
-	
-	Map<Integer, List<String>> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer);
-	
-	List<Integer> getExtentIDs(Integer conceptID);
-	
 	int iD();
+
+	boolean isFullyDeveloped();
+
+	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
+
+	Map<Integer, List<String>> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer);
 
 	public static void initializeIDGenerator() {
 		Representation.initializeIDGenerator();
 	}
-	
-	boolean isFullyDeveloped();	
-	
-	Set<IPartition> getPartitions();
 
 }

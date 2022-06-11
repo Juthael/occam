@@ -10,9 +10,9 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
 
 public class NbOfCalculatedDenotations implements DifferentiaeWeigher {
-	
+
 	public static final NbOfCalculatedDenotations INSTANCE = new NbOfCalculatedDenotations();
-	
+
 	private NbOfCalculatedDenotations() {
 	}
 
@@ -23,7 +23,7 @@ public class NbOfCalculatedDenotations implements DifferentiaeWeigher {
 			for (IApplication application : property.getApplications())
 				values.add(application.getValue());
 		}
-		differentiae.setCoeffFreeWeight((double) values.size());
+		differentiae.setCoeffFreeWeight(values.size());
 	}
 
 }

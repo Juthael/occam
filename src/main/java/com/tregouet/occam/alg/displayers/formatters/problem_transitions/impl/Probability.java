@@ -6,16 +6,12 @@ import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemT
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
 public class Probability implements ProblemTransitionLabeller {
-	
+
 	public static final Probability INSTANCE = new Probability();
-	
-	private Probability() {
-	}
-	
+
 	private static final DecimalFormat df = new DecimalFormat("#.###");
 
-	private static String round(double nb) {
-		return df.format(nb).toString();
+	private Probability() {
 	}
 
 	@Override
@@ -25,6 +21,10 @@ public class Probability implements ProblemTransitionLabeller {
 		if (sourceStateScore == 0.0 || targetStateScore == 0.0)
 			return Double.toString(0.0);
 		return round(targetStateScore / sourceStateScore);
+	}
+
+	private static String round(double nb) {
+		return df.format(nb).toString();
 	}
 
 }

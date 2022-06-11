@@ -96,9 +96,9 @@ public class LambdaExpression extends ALambdaTerm implements ILambdaExpression {
 			} else
 				sB.append(" " + argument.toString());
 		}
-		return sB.toString();	
+		return sB.toString();
 	}
-	
+
 	private static boolean canBeAbstractedWithSpecifiedBindings(IConstruct term, IBindings bindings) {
 		List<AVariable> varToBind = bindings.getBoundVariables();
 		int varIdx = 0;
@@ -113,7 +113,7 @@ public class LambdaExpression extends ALambdaTerm implements ILambdaExpression {
 		}
 		return false;
 	}
-	
+
 	private static String getFunctionType(IConstruct construct) {
 		List<AVariable> vars = construct.getVariables();
 		if (vars.isEmpty())
@@ -128,6 +128,6 @@ public class LambdaExpression extends ALambdaTerm implements ILambdaExpression {
 		}
 		sB.append(")");
 		return sB.toString();
-	}	
+	}
 
 }

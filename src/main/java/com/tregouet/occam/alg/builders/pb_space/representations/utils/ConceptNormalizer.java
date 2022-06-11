@@ -16,7 +16,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.den
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Concept;
 
 public interface ConceptNormalizer {
-	
+
 	public static IConcept normalize(IConcept concept, Map<AVariable, AVariable> replaced2Substitute) {
 		if (concept.type() == ConceptType.PARTICULAR || concept.type() == ConceptType.ONTOLOGICAL_COMMITMENT)
 			return concept;
@@ -34,13 +34,13 @@ public interface ConceptNormalizer {
 					}
 					else symbolList.add(symbol);
 				}
-				normalizedConstructs.add(new Construct(symbolList));	
+				normalizedConstructs.add(new Construct(symbolList));
 			}
 			else normalizedConstructs.add(new Construct(denotation));
 		}
 		IConcept normalizedConcept = new Concept(normalizedConstructs, concept.getMaxExtentIDs(), concept.iD());
 		normalizedConcept.setType(concept.type());
 		return normalizedConcept;
-	}	
+	}
 
 }

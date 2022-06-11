@@ -54,11 +54,6 @@ public class Particular implements IContextObject {
 	}
 
 	@Override
-	public int iD() {
-		return iD;
-	}
-
-	@Override
 	public Iterator<IConstruct> getIteratorOverConstructs() {
 		return constructs.iterator();
 	}
@@ -77,6 +72,11 @@ public class Particular implements IContextObject {
 		int result = 1;
 		result = prime * result + iD;
 		return result;
+	}
+
+	@Override
+	public int iD() {
+		return iD;
 	}
 
 	@Override

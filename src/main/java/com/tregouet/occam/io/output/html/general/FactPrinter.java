@@ -11,16 +11,16 @@ import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
 
 public class FactPrinter {
-	
+
 	public static final FactPrinter INSTANCE = new FactPrinter();
 	private static final String nL = System.lineSeparator();
 	private static final String[] alinea = ProblemSpacePagePrinter.alinea;
-	
+
 	private FactPrinter() {
 	}
-	
+
 	public String print(IRepresentation representation, int a) {
-		Map<Integer, List<String>> objID2acceptedFacts = 
+		Map<Integer, List<String>> objID2acceptedFacts =
 				representation.mapParticularIDsToFactualDescription(FormattersAbstractFactory.INSTANCE.getFactDisplayer());
 		NavigableSet<Integer> objIDs = new TreeSet<>(objID2acceptedFacts.keySet());
 		String[] head = new String[objIDs.size()];
@@ -44,7 +44,7 @@ public class FactPrinter {
 			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();
 	}
-	
+
 	private static String setHeadOfAcceptedFactsArray(IRepresentation representation, Integer conceptID) {
 		if (representation.isFullyDeveloped())
 			return conceptID.toString();

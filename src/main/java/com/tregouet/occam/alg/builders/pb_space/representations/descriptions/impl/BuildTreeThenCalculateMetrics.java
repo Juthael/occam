@@ -63,20 +63,20 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 		}
 		//build metrics
 		Map<Integer, Integer> particularID2MostSpecificConceptID = mapContextParticularID2MostSpecificConceptID(classification);
-		ISimilarityMetrics similarityMetrics = 
+		ISimilarityMetrics similarityMetrics =
 				DescriptionBuilder.similarityMetricsBuilder().apply(descGraph, particularID2MostSpecificConceptID);
 		//instantiate
 		IDescription description = new Description(descGraph, similarityMetrics);
 		return description;
 	}
-	
+
 	private Set<Integer> getMostSpecificConceptIDs(IClassification classification){
 		Set<Integer> mostSpecificConceptIDs = new HashSet<>();
 		for (IConcept leaf : classification.asGraph().getLeaves())
 			mostSpecificConceptIDs.add(leaf.iD());
 		return mostSpecificConceptIDs;
 	}
-	
+
 	private Map<Integer, Integer> mapContextParticularID2MostSpecificConceptID(IClassification classification) {
 		Map<Integer, Integer> particularID2MostSpecificConceptID = new HashMap<>();
 		for (IConcept leaf : classification.getMostSpecificConcepts()) {
@@ -85,6 +85,6 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 				particularID2MostSpecificConceptID.put(extentID, leafID);
 		}
 		return particularID2MostSpecificConceptID;
-	}	
+	}
 
 }

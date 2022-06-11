@@ -8,7 +8,7 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 
 public interface IRepresentationTransitionFunction extends
 		IPushdownAutomatonTF<IApplication, IBindings, IConceptTransitionIC, IConceptTransitionOIC, IConceptTransition> {
-	
+
 	DirectedAcyclicGraph<Integer, AConceptTransitionSet> asGraph();
 
 }

@@ -21,21 +21,17 @@ public interface IConcept extends IDichotomizable<IConcept>, IState {
 
 	Set<IDenotation> getDenotations();
 
+	IDenotation getMatchingDenotation(List<String> constraintAsStrings) throws IOException;
+
 	/**
 	 * A restriction may be operated on the max extent by a given classification (concept tree)
 	 */
 	Set<Integer> getMaxExtentIDs();
 
-	IDenotation getMatchingDenotation(List<String> constraintAsStrings) throws IOException;
-
 	Set<IDenotation> getRedundantDenotations();
 
 	@Override
 	int hashCode();
-
-	public static void initializeIDGenerator() {
-		Concept.initializeIDGenerator();
-	}
 
 	boolean meets(IConstruct constraint);
 
@@ -47,5 +43,9 @@ public interface IConcept extends IDichotomizable<IConcept>, IState {
 	String toString();
 
 	ConceptType type();
+
+	public static void initializeIDGenerator() {
+		Concept.initializeIDGenerator();
+	}
 
 }

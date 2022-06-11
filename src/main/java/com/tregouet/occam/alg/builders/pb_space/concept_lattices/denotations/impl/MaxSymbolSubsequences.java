@@ -28,32 +28,6 @@ public class MaxSymbolSubsequences implements DenotationBuilder {
 	public MaxSymbolSubsequences() {
 	}
 
-	private static Set<ISymbolSeq> removeNonMaxSeqs(Set<ISymbolSeq> seqs) {
-		List<ISymbolSeq> seqList = new ArrayList<>(seqs);
-		int idx1 = 0;
-		boolean idx1SeqRemoved = false;
-		int idx2;
-		int comparison;
-		while (idx1 < seqList.size()) {
-			idx2 = idx1 + 1;
-			while (!idx1SeqRemoved && (idx2 < seqList.size())) {
-				comparison = seqList.get(idx1).compareTo(seqList.get(idx2));
-				if (comparison == ISymbolSeq.SUBSEQ_OF) {
-					seqList.remove(idx1);
-					idx1SeqRemoved = true;
-				} else if (comparison == ISymbolSeq.SUPERSEQ_OF) {
-					seqList.remove(idx2);
-				} else
-					idx2++;
-			}
-			if (idx1SeqRemoved)
-				idx1SeqRemoved = false;
-			else
-				idx1++;
-		}
-		return new HashSet<>(seqList);
-	}
-
 	@Override
 	public Set<IConstruct> apply(Collection<IContextObject> extentCollection) {
 		init();
@@ -82,6 +56,11 @@ public class MaxSymbolSubsequences implements DenotationBuilder {
 				denotations.add(getConstruct(maxSubseq));
 		}
 		denotations = complyToAdditionalConstraints(denotations);
+		return denotations;
+	}
+
+	protected Set<IConstruct> complyToAdditionalConstraints(Set<IConstruct> denotations) {
+		//no additional constraint in this impl
 		return denotations;
 	}
 
@@ -148,10 +127,31 @@ public class MaxSymbolSubsequences implements DenotationBuilder {
 		for (ISymbolSeq seq : subsqToMaxSubsq.keySet())
 			subsqToMaxSubsq.put(seq, removeNonMaxSeqs(subsqToMaxSubsq.get(seq)));
 	}
-	
-	protected Set<IConstruct> complyToAdditionalConstraints(Set<IConstruct> denotations) {
-		//no additional constraint in this impl
-		return denotations;
+
+	private static Set<ISymbolSeq> removeNonMaxSeqs(Set<ISymbolSeq> seqs) {
+		List<ISymbolSeq> seqList = new ArrayList<>(seqs);
+		int idx1 = 0;
+		boolean idx1SeqRemoved = false;
+		int idx2;
+		int comparison;
+		while (idx1 < seqList.size()) {
+			idx2 = idx1 + 1;
+			while (!idx1SeqRemoved && (idx2 < seqList.size())) {
+				comparison = seqList.get(idx1).compareTo(seqList.get(idx2));
+				if (comparison == ISymbolSeq.SUBSEQ_OF) {
+					seqList.remove(idx1);
+					idx1SeqRemoved = true;
+				} else if (comparison == ISymbolSeq.SUPERSEQ_OF) {
+					seqList.remove(idx2);
+				} else
+					idx2++;
+			}
+			if (idx1SeqRemoved)
+				idx1SeqRemoved = false;
+			else
+				idx1++;
+		}
+		return new HashSet<>(seqList);
 	}
 
 }

@@ -10,7 +10,7 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
 /**
  * Input list must be topologically ordered. No transitive reduction applied to
  * the output.
- * 
+ *
  * @author Gael Tregouet
  *
  */

@@ -28,13 +28,8 @@ public class ProblemSpace implements IProblemSpace {
 	}
 
 	@Override
-	public DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph() {
-		return problemSpaceExplorer.getProblemSpaceGraph();
-	}
-
-	@Override
-	public List<IContextObject> getContext() {
-		return context;
+	public Boolean deepen(int representationID) {
+		return problemSpaceExplorer.apply(representationID);
 	}
 
 	@Override
@@ -56,18 +51,23 @@ public class ProblemSpace implements IProblemSpace {
 	}
 
 	@Override
-	public Boolean deepen(int representationID) {
-		return problemSpaceExplorer.apply(representationID);
-	}
-
-	@Override
 	public IRepresentation getActiveRepresentation() {
 		return activeState;
 	}
 
 	@Override
+	public List<IContextObject> getContext() {
+		return context;
+	}
+
+	@Override
 	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
 		return problemSpaceExplorer.getLatticeOfConcepts();
+	}
+
+	@Override
+	public DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph() {
+		return problemSpaceExplorer.getProblemSpaceGraph();
 	}
 
 }

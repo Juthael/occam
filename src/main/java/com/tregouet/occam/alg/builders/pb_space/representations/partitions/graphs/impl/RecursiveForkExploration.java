@@ -21,6 +21,14 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 	private RecursiveForkExploration() {
 	}
 
+	@Override
+	public Set<Tree<Integer, ADifferentiae>> apply(Tree<Integer, ADifferentiae> tree) {
+		DirectedAcyclicGraph<Integer, ADifferentiae> partedSoFar = new DirectedAcyclicGraph<>(null, null, false);
+		partedSoFar.addVertex(tree.getRoot());
+		Set<DirectedAcyclicGraph<Integer, ADifferentiae>> dagPartitions = part(tree, partedSoFar, tree.getRoot());
+		return convertIntoTrees(dagPartitions);
+	}
+
 	private static Set<Tree<Integer, ADifferentiae>> convertIntoTrees(
 			Set<DirectedAcyclicGraph<Integer, ADifferentiae>> dagPartitions) {
 		Set<Tree<Integer, ADifferentiae>> partitions = new HashSet<>();
@@ -66,14 +74,6 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 		Graphs.addAllVertices(copy, copied.vertexSet());
 		Graphs.addAllEdges(copy, copied, copied.edgeSet());
 		return copy;
-	}
-
-	@Override
-	public Set<Tree<Integer, ADifferentiae>> apply(Tree<Integer, ADifferentiae> tree) {
-		DirectedAcyclicGraph<Integer, ADifferentiae> partedSoFar = new DirectedAcyclicGraph<>(null, null, false);
-		partedSoFar.addVertex(tree.getRoot());
-		Set<DirectedAcyclicGraph<Integer, ADifferentiae>> dagPartitions = part(tree, partedSoFar, tree.getRoot());
-		return convertIntoTrees(dagPartitions);
 	}
 
 }

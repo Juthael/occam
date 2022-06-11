@@ -11,14 +11,14 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIs
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class Classification implements IClassification {
-	
+
 	private InvertedTree<IConcept, IIsA> graph;
 	private Map<Integer, IConcept> iD2Concept = new HashMap<>();
 	private Map<Integer, List<Integer>> conceptID2ExtentIDs;
 	private Map<Integer, Integer> speciesID2GenusID;
 	private Set<Integer> particularIDs;
-	
-	public Classification(InvertedTree<IConcept, IIsA> graph, Map<Integer, List<Integer>> conceptID2ExtentIDs, 
+
+	public Classification(InvertedTree<IConcept, IIsA> graph, Map<Integer, List<Integer>> conceptID2ExtentIDs,
 			Map<Integer, Integer> speciesID2GenusID, Set<Integer> particularIDs) {
 		this.graph = graph;
 		for (IConcept concept : graph.vertexSet())
@@ -34,23 +34,13 @@ public class Classification implements IClassification {
 	}
 
 	@Override
-	public List<Integer> getExtentIDs(int conceptID) {
-		return conceptID2ExtentIDs.get(conceptID);
-	}
-
-	@Override
-	public Map<Integer, List<Integer>> mapConceptID2ExtentIDs() {
-		return conceptID2ExtentIDs;
-	}
-
-	@Override
-	public Set<IConcept> getMostSpecificConcepts() {
-		return graph.getLeaves();
-	}
-
-	@Override
 	public IConcept getConceptWithSpecifiedID(int iD) {
 		return iD2Concept.get(iD);
+	}
+
+	@Override
+	public List<Integer> getExtentIDs(int conceptID) {
+		return conceptID2ExtentIDs.get(conceptID);
 	}
 
 	@Override
@@ -69,8 +59,18 @@ public class Classification implements IClassification {
 	}
 
 	@Override
+	public Set<IConcept> getMostSpecificConcepts() {
+		return graph.getLeaves();
+	}
+
+	@Override
 	public Set<Integer> getParticularIDs() {
 		return particularIDs;
+	}
+
+	@Override
+	public Map<Integer, List<Integer>> mapConceptID2ExtentIDs() {
+		return conceptID2ExtentIDs;
 	}
 
 	@Override

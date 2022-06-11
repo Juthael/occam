@@ -14,7 +14,7 @@ import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public interface MapConceptIDs2ExtentIDs {
-	
+
 	public static Map<Integer, List<Integer>> in(InvertedTree<IConcept, IIsA> treeOfConcepts) {
 		List<Integer> conceptIDs = new ArrayList<>();
 		List<Set<Integer>> extents = new ArrayList<>();
@@ -40,6 +40,6 @@ public interface MapConceptIDs2ExtentIDs {
 			conceptID2ExtentIDs.put(conceptIDs.get(i), iExtent);
 		}
 		return conceptID2ExtentIDs;
-	}	
+	}
 
 }

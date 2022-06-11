@@ -26,6 +26,21 @@ public class LexicographicScore implements IScore<LexicographicScore> {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || !(obj instanceof LexicographicScore))
+			return false;
+		LexicographicScore other = (LexicographicScore) obj;
+		return this.compareTo(other) == 0;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(values);
+	}
+
+	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
 		sB.append("(");
@@ -53,23 +68,6 @@ public class LexicographicScore implements IScore<LexicographicScore> {
 		if (otherIte.hasNext())
 			return -1;
 		return 0;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(values);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof LexicographicScore))
-			return false;
-		LexicographicScore other = (LexicographicScore) obj;
-		return this.compareTo(other) == 0;
 	}
 
 }

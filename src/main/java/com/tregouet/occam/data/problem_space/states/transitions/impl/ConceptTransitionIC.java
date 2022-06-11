@@ -25,7 +25,7 @@ public class ConceptTransitionIC implements IConceptTransitionIC {
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		ConceptTransitionIC other = (ConceptTransitionIC) obj;
-		return inputStateID == other.inputStateID 
+		return inputStateID == other.inputStateID
 				&& Objects.equals(inputSymbol, other.inputSymbol)
 				&& Objects.equals(stackSymbol, other.stackSymbol);
 	}

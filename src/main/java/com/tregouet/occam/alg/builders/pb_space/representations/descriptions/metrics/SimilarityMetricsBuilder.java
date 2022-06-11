@@ -15,12 +15,12 @@ import com.tregouet.tree_finder.data.Tree;
  * @author Gael Tregouet
  *
  */
-public interface SimilarityMetricsBuilder 
+public interface SimilarityMetricsBuilder
 	extends BiFunction<
-		Tree<Integer, ADifferentiae>, 
-		Map<Integer, Integer>, 
+		Tree<Integer, ADifferentiae>,
+		Map<Integer, Integer>,
 		ISimilarityMetrics> {
-	
+
 	public static AsymmetricalSimilarityScorer asymmetricalSimilarityScorer() {
 		return ScorersAbstractFactory.INSTANCE.getAsymmetricalSimilarityScorer();
 	}

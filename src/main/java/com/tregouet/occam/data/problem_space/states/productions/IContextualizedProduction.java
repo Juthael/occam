@@ -7,13 +7,13 @@ public interface IContextualizedProduction extends IProduction {
 	@Override
 	boolean equals(Object o);
 
-	int getSuperordinateID();
-
 	String getLabel();
 
 	IDenotation getSource();
 
 	int getSubordinateID();
+
+	int getSuperordinateID();
 
 	IDenotation getTarget();
 

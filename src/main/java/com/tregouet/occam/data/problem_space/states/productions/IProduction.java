@@ -10,6 +10,8 @@ public interface IProduction {
 	@Override
 	boolean equals(Object o);
 
+	Salience getSalience();
+
 	IConstruct getValue();
 
 	AVariable getVariable();
@@ -17,27 +19,25 @@ public interface IProduction {
 	@Override
 	int hashCode();
 
+	/**
+	 *
+	 * @return true if the right term only contains a variable
+	 */
+	boolean isAlphaConversion();
+
+	/**
+	 *
+	 * @return true if left term and right term are the same
+	 */
+	boolean isBlank();
+
 	// Denotes an empty string of symbols. A symbols are productions, also denotes
 	// that no variable is derived.
 	boolean isEpsilon();
 
+	void setSalience(Salience salience);
+
 	@Override
 	String toString();
-	
-	/**
-	 * 
-	 * @return true if left term and right term are the same
-	 */
-	boolean isBlank();
-	
-	/**
-	 * 
-	 * @return true if the right term only contains a variable
-	 */
-	boolean isAlphaConversion();
-	
-	void setSalience(Salience salience);
-	
-	Salience getSalience();
 
 }

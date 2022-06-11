@@ -6,7 +6,7 @@ public class ContextualizedOmegaProd extends ContextualizedProd implements ICont
 
 	private static final long serialVersionUID = -1460009557249312841L;
 	public static final ContextualizedOmegaProd INSTANCE = new ContextualizedOmegaProd();
-	
+
 	private ContextualizedOmegaProd() {
 		super(null, null, OmegaProd.INSTANCE);
 	}

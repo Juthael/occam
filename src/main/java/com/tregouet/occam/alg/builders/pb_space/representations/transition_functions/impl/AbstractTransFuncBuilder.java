@@ -39,77 +39,6 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 	public AbstractTransFuncBuilder() {
 	}
 
-	private static Set<IConceptTransition> buildProductiveTransAndUnclosedInheritances(IClassification classification,
-			Set<IApplication> applications) {
-		Set<IConceptTransition> transitions = new HashSet<>();
-		for (IApplication application : applications) {
-			if (!application.isEpsilon()) {
-				int speciesID = application.getValue().getConceptID();
-				int genusID = classification.getGenusID(speciesID);
-				if (application.isBlank()) {
-					//blank : substitution of a variables by themselves. Instead, ε-transition with same bindings remaining on top
-					transitions.add(new InheritanceTransition(genusID, speciesID, application.getBindings()));
-				}
-				else {
-					IBindings poppedStackSymbol = application.getBindings();
-					IConceptTransitionIC inputConfig = 
-							new ConceptTransitionIC(genusID, application, poppedStackSymbol);
-					IConceptTransitionOIC outputConfig;
-					List<AVariable> newBoundVariables = application.getValue().getVariables();
-					if (newBoundVariables.isEmpty())
-						outputConfig = new ConceptTransitionOIC(speciesID,
-								new ArrayList<>(Arrays.asList(new IBindings[] {EpsilonBinding.INSTANCE})));
-					else outputConfig = new ConceptTransitionOIC(speciesID,
-								new ArrayList<>(Arrays.asList(new IBindings[] {new Bindings(newBoundVariables)})));
-					transitions.add(new ConceptProductiveTransition(inputConfig, outputConfig));
-				}
-			}
-		}
-		return transitions;
-	}
-
-	private static Set<IConceptTransition> buildClosures(Set<IConceptTransition> transitions) {
-		Set<IConceptTransition> closures = new HashSet<>();
-		for (IConceptTransition transition : transitions) {
-			IConceptTransitionIC inputConfig = transition.getInputConfiguration();
-			if (inputConfig.getInputSymbol().getValue().getVariables().size() > 0)
-				closures.add(new ClosureTransition(inputConfig,
-					transition.getOutputInternConfiguration().getOutputStateID()));
-		}
-		return closures;
-	}
-
-	private static IConceptTransition buildInitialTransition(IClassification classification) {
-		Everything everything = (Everything) classification.asGraph().getRoot();
-		return new InitialTransition(everything);
-	}
-
-	private static Set<IConceptTransition> buildSpontaneousTransitions(IClassification classification) {
-		Set<IConceptTransition> spontaneousTransitions = new HashSet<>();
-		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
-		Set<IIsA> edges = new HashSet<>(conceptTree.edgeSet());
-		for (IIsA edge : edges) {
-			spontaneousTransitions.add(
-					new SpontaneousTransition(conceptTree.getEdgeTarget(edge).iD(), conceptTree.getEdgeSource(edge).iD()));
-		}
-		return spontaneousTransitions;
-	}
-
-	private static Set<IConceptTransition> buildClosedInheritances(IClassification classification) {
-		Set<IConceptTransition> closedInheritances = new HashSet<>();
-		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
-		Set<IIsA> edges = new HashSet<>(conceptTree.edgeSet());
-		for (IIsA edge : edges) {
-			closedInheritances.add(
-					new InheritanceTransition(conceptTree.getEdgeTarget(edge).iD(), conceptTree.getEdgeSource(edge).iD()));
-		}
-		return closedInheritances;
-	}
-	
-	abstract protected Set<IApplication> selectRelevantApplications(Set<IApplication> applications);
-
-	abstract protected void filterForComplianceToAdditionalConstraints(Set<IConceptTransition> transitions);
-
 	@Override
 	public IRepresentationTransitionFunction apply(IClassification classification,
 			IDescription description) {
@@ -149,6 +78,77 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		filterForComplianceToAdditionalConstraints(transitions);
 		// return
 		return new RepresentationTransitionFunction(transitions);
+	}
+
+	abstract protected void filterForComplianceToAdditionalConstraints(Set<IConceptTransition> transitions);
+
+	abstract protected Set<IApplication> selectRelevantApplications(Set<IApplication> applications);
+
+	private static Set<IConceptTransition> buildClosedInheritances(IClassification classification) {
+		Set<IConceptTransition> closedInheritances = new HashSet<>();
+		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
+		Set<IIsA> edges = new HashSet<>(conceptTree.edgeSet());
+		for (IIsA edge : edges) {
+			closedInheritances.add(
+					new InheritanceTransition(conceptTree.getEdgeTarget(edge).iD(), conceptTree.getEdgeSource(edge).iD()));
+		}
+		return closedInheritances;
+	}
+
+	private static Set<IConceptTransition> buildClosures(Set<IConceptTransition> transitions) {
+		Set<IConceptTransition> closures = new HashSet<>();
+		for (IConceptTransition transition : transitions) {
+			IConceptTransitionIC inputConfig = transition.getInputConfiguration();
+			if (inputConfig.getInputSymbol().getValue().getVariables().size() > 0)
+				closures.add(new ClosureTransition(inputConfig,
+					transition.getOutputInternConfiguration().getOutputStateID()));
+		}
+		return closures;
+	}
+
+	private static IConceptTransition buildInitialTransition(IClassification classification) {
+		Everything everything = (Everything) classification.asGraph().getRoot();
+		return new InitialTransition(everything);
+	}
+
+	private static Set<IConceptTransition> buildProductiveTransAndUnclosedInheritances(IClassification classification,
+			Set<IApplication> applications) {
+		Set<IConceptTransition> transitions = new HashSet<>();
+		for (IApplication application : applications) {
+			if (!application.isEpsilon()) {
+				int speciesID = application.getValue().getConceptID();
+				int genusID = classification.getGenusID(speciesID);
+				if (application.isBlank()) {
+					//blank : substitution of a variables by themselves. Instead, ε-transition with same bindings remaining on top
+					transitions.add(new InheritanceTransition(genusID, speciesID, application.getBindings()));
+				}
+				else {
+					IBindings poppedStackSymbol = application.getBindings();
+					IConceptTransitionIC inputConfig =
+							new ConceptTransitionIC(genusID, application, poppedStackSymbol);
+					IConceptTransitionOIC outputConfig;
+					List<AVariable> newBoundVariables = application.getValue().getVariables();
+					if (newBoundVariables.isEmpty())
+						outputConfig = new ConceptTransitionOIC(speciesID,
+								new ArrayList<>(Arrays.asList(new IBindings[] {EpsilonBinding.INSTANCE})));
+					else outputConfig = new ConceptTransitionOIC(speciesID,
+								new ArrayList<>(Arrays.asList(new IBindings[] {new Bindings(newBoundVariables)})));
+					transitions.add(new ConceptProductiveTransition(inputConfig, outputConfig));
+				}
+			}
+		}
+		return transitions;
+	}
+
+	private static Set<IConceptTransition> buildSpontaneousTransitions(IClassification classification) {
+		Set<IConceptTransition> spontaneousTransitions = new HashSet<>();
+		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
+		Set<IIsA> edges = new HashSet<>(conceptTree.edgeSet());
+		for (IIsA edge : edges) {
+			spontaneousTransitions.add(
+					new SpontaneousTransition(conceptTree.getEdgeTarget(edge).iD(), conceptTree.getEdgeSource(edge).iD()));
+		}
+		return spontaneousTransitions;
 	}
 
 }

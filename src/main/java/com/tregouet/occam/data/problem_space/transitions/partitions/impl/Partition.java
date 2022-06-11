@@ -30,14 +30,6 @@ public class Partition implements IPartition {
 		this.rank = rank;
 	}
 
-	private static int containsAtReturnedIdx(Integer[] array, Integer element) {
-		for (int i = 0; i < array.length; i++) {
-			if (array[i].equals(element))
-				return i;
-		}
-		return -1;
-	}
-
 	@Override
 	public Tree<Integer, ADifferentiae> asGraph() {
 		return asGraph;
@@ -99,6 +91,11 @@ public class Partition implements IPartition {
 	}
 
 	@Override
+	public int rank() {
+		return rank;
+	}
+
+	@Override
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
@@ -113,9 +110,12 @@ public class Partition implements IPartition {
 		return weight;
 	}
 
-	@Override
-	public int rank() {
-		return rank;
+	private static int containsAtReturnedIdx(Integer[] array, Integer element) {
+		for (int i = 0; i < array.length; i++) {
+			if (array[i].equals(element))
+				return i;
+		}
+		return -1;
 	}
 
 }

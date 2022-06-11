@@ -26,12 +26,12 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class RemoveMeaningless implements ProblemSpaceExplorer {
-	
+
 	protected IConceptLattice conceptLattice;
 	protected Set<Integer> extentIDs;
 	protected Set<IContextualizedProduction> productions;
 	protected DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph;
-	
+
 	public RemoveMeaningless() {
 	}
 
@@ -42,10 +42,10 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 			return null;
 		if (current.isFullyDeveloped())
 			return false;
-		DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> newProblemGraph = 
+		DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> newProblemGraph =
 				new DirectedAcyclicGraph<>(null, null, false);
 		Graphs.addAllVertices(newProblemGraph, problemGraph.vertexSet());
-		Set<InvertedTree<IConcept, IIsA>> grownTrees = 
+		Set<InvertedTree<IConcept, IIsA>> grownTrees =
 				ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, current.getClassification().asGraph());
 		Set<IRepresentation> newRepresentations = new HashSet<>();
 		for (InvertedTree<IConcept, IIsA> grownTree : grownTrees) {
@@ -56,7 +56,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		Graphs.addAllVertices(newProblemGraph, newRepresentations);
 		SortedSet<IRepresentation> topoOrderedRep = new TreeSet<>(TopoOrderOverReps.INSTANCE);
 		topoOrderedRep.addAll(newProblemGraph.vertexSet());
-		Set<AProblemStateTransition> transitions = 
+		Set<AProblemStateTransition> transitions =
 				ProblemSpaceExplorer.getProblemTransitionBuilder().apply(new ArrayList<>(topoOrderedRep));
 		for (AProblemStateTransition transition : transitions) {
 			newProblemGraph.addEdge(transition.getSource(), transition.getTarget(), transition);
@@ -71,14 +71,34 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 	}
 
 	@Override
+	public Set<Integer> getIDsOfRepresentationsWithIncompleteSorting() {
+		Set<Integer> iDs = new HashSet<>();
+		for (IRepresentation representation : problemGraph.vertexSet()) {
+			if (!representation.isFullyDeveloped())
+				iDs.add(representation.iD());
+		}
+		return iDs;
+	}
+
+	@Override
+	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
+		return conceptLattice.getLatticeOfConcepts();
+	}
+
+	@Override
+	public DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph() {
+		return problemGraph;
+	}
+
+	@Override
 	public RemoveMeaningless initialize(
 			Collection<IContextObject> context) {
 		conceptLattice = ProblemSpaceExplorer.getConceptLatticeBuilder().apply(context);
 		extentIDs = new HashSet<>();
 		for (IContextObject object : conceptLattice.getContextObjects())
 			extentIDs.add(object.iD());
-		InvertedTree<IConcept, IIsA> initialTree = 
-				new ArrayList<InvertedTree<IConcept, IIsA>>(
+		InvertedTree<IConcept, IIsA> initialTree =
+				new ArrayList<>(
 						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null)).get(0);
 		IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(initialTree, extentIDs);
 		IRepresentation initialRepresentation = ProblemSpaceExplorer.getRepresentationBuilder().apply(classification);
@@ -87,7 +107,24 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		reduceThenWeightThenScoreThenComply(problemGraph);
 		return this;
 	}
-	
+
+	protected void complyToAdditionalConstraint(
+			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph) {
+		//do nothing
+	}
+
+	protected void expandTransitoryLeaves(Set<IRepresentation> newRepresentations) {
+		//do nothing
+	}
+
+	protected IRepresentation getRepresentationWithID(int iD) {
+		for (IRepresentation representation : problemGraph.vertexSet()) {
+			if (representation.iD() == iD)
+				return representation;
+		}
+		return null;
+	}
+
 	protected void reduceThenWeightThenScoreThenComply(
 			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
 		TransitiveReduction.INSTANCE.reduce(problemGraph);
@@ -99,44 +136,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 			problemState.setScore(scorer.apply(problemState));
 		complyToAdditionalConstraint(problemGraph);
 	}
-	
-	protected IRepresentation getRepresentationWithID(int iD) {
-		for (IRepresentation representation : problemGraph.vertexSet()) {
-			if (representation.iD() == iD)
-				return representation;
-		}
-		return null;
-	}
 
-	@Override
-	public DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph() {
-		return problemGraph;
-	}
-	
-	protected void complyToAdditionalConstraint(
-			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph) {
-		//do nothing
-	}
-
-	@Override
-	public Set<Integer> getIDsOfRepresentationsWithIncompleteSorting() {
-		Set<Integer> iDs = new HashSet<>();
-		for (IRepresentation representation : problemGraph.vertexSet()) {
-			if (!representation.isFullyDeveloped())
-				iDs.add(representation.iD());
-		}
-		return iDs;
-	}
-	
-	protected void expandTransitoryLeaves(Set<IRepresentation> newRepresentations) {
-		//do nothing
-	}
-
-	@Override
-	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
-		return conceptLattice.getLatticeOfConcepts();
-	}
-	
 
 
 }

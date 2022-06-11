@@ -9,29 +9,29 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.den
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public interface IApplication extends ISymbol, Weighed {
-	
-	IDenotation getConstruct();
-	
-	IBindings getBindings();
+
+	@Override
+	boolean equals(Object o);
 
 	/**
-	 * 
+	 *
 	 * @return arguments in the order of the index of their left term in the denotation's term
 	 */
 	List<IProduction> getArguments();
+
+	IBindings getBindings();
+
+	IDenotation getConstruct();
 
 	IDenotation getValue();
 
 	@Override
 	int hashCode();
 
-	@Override
-	boolean equals(Object o);
-	
-	void setWeight(double weight);
-	
-	boolean isEpsilon();
-	
 	boolean isBlank();
+
+	boolean isEpsilon();
+
+	void setWeight(double weight);
 
 }

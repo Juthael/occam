@@ -10,9 +10,9 @@ import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_defau
 import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.vars.This;
 
 public class OmegaProd extends Production implements IProduction {
-	
+
 	public static final OmegaProd INSTANCE = new OmegaProd();
-	
+
 	private OmegaProd() {
 		super(Nothing.INSTANCE, new Construct(new ArrayList<>(Arrays.asList(new ISymbol[] {This.INSTANCE}))));
 	}

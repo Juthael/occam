@@ -11,7 +11,7 @@ public class PropertyLabellerFactory {
 
 	public PropertyLabeller apply(PropertyLabellerStrategy strategy) {
 		switch (strategy) {
-		case CURLY_BRACKETS : 
+		case CURLY_BRACKETS :
 			return CurlyBrackets.INSTANCE;
 		default:
 			return null;

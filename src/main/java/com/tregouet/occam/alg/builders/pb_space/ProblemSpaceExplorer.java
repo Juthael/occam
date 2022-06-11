@@ -25,33 +25,37 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIs
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
 /**
- * Returns null if parameter is not the iD of some representation in the graph, and false if the 
+ * Returns null if parameter is not the iD of some representation in the graph, and false if the
  * representation with this id is a dead-end
  * @author Gael Tregouet
  *
  */
 public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
-	
-	ProblemSpaceExplorer initialize(Collection<IContextObject> context);
-	
-	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
-	
+
 	Set<Integer> getIDsOfRepresentationsWithIncompleteSorting();
-	
+
 	DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts();
-	
+
+	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
+
+	ProblemSpaceExplorer initialize(Collection<IContextObject> context);
+
+	public static ClassificationBuilder classificationBuilder() {
+		return BuildersAbstractFactory.INSTANCE.getClassificationBuilder();
+	}
+
 	public static ConceptLatticeBuilder getConceptLatticeBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder();
 	}
-	
+
 	public static ConceptTreeGrower getConceptTreeGrower() {
 		return BuildersAbstractFactory.INSTANCE.getConceptTreeGrower();
 	}
-	
-	public static RepresentationBuilder getRepresentationBuilder() {
-		return BuildersAbstractFactory.INSTANCE.getRepresentationBuilder();
+
+	public static ProblemStateScorer getProblemStateScorer() {
+		return ScorersAbstractFactory.INSTANCE.getProblemStateScorer();
 	}
-	
+
 	public static ProblemTransitionBuilder getProblemTransitionBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getProblemTransitionBuilder();
 	}
@@ -60,16 +64,12 @@ public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
 		return SettersAbstractFactory.INSTANCE.getCategorizationTransitionWeigher();
 	}
 
-	public static ProblemStateScorer getProblemStateScorer() {
-		return ScorersAbstractFactory.INSTANCE.getProblemStateScorer();
+	public static RepresentationBuilder getRepresentationBuilder() {
+		return BuildersAbstractFactory.INSTANCE.getRepresentationBuilder();
 	}
 
 	public static Sorting2StringConverter getSorting2StringConverter() {
 		return FormattersAbstractFactory.INSTANCE.getSorting2StringConverter();
-	}
-	
-	public static ClassificationBuilder classificationBuilder() {
-		return BuildersAbstractFactory.INSTANCE.getClassificationBuilder();
 	}
 
 }

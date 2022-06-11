@@ -18,6 +18,22 @@ public class DenotationComparator implements IDenotationComparator {
 	private DenotationComparator() {
 	}
 
+	@Override
+	public Integer compare(IDenotation d1, IDenotation d2) {
+		/*
+		 * implies that alpha-conversion is either supported by equals(), or is useless
+		 * because it is guaranteed that two denotations can never vary by the name
+		 * of their variables only.
+		 */
+		if (d1.equals(d2))
+			return 0;
+		if (strictLowerBoundOf(d1, d2))
+			return -1;
+		if (strictLowerBoundOf(d2, d1))
+			return 1;
+		return null;
+	}
+
 	private static boolean strictLowerBoundOf(IDenotation d1, IDenotation d2) {
 		if (subSequenceOf(d2.getListOfTerminals(), d1.getListOfTerminals())) {
 			List<ISymbol> d1ValueProvider = d1.asList();
@@ -47,22 +63,6 @@ public class DenotationComparator implements IDenotationComparator {
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public Integer compare(IDenotation d1, IDenotation d2) {
-		/*
-		 * implies that alpha-conversion is either supported by equals(), or is useless
-		 * because it is guaranteed that two denotations can never vary by the name
-		 * of their variables only.
-		 */
-		if (d1.equals(d2))
-			return 0;
-		if (strictLowerBoundOf(d1, d2))
-			return -1;
-		if (strictLowerBoundOf(d2, d1))
-			return 1;
-		return null;
 	}
 
 }

@@ -15,9 +15,9 @@ public class DifferentiaeWeigherFactory {
 		switch (strategy) {
 		case SUM_OF_PROPERTY_WEIGHTS:
 			return SumOfPropertyWeights.INSTANCE;
-		case MIN_NB_OF_INSTANTIATED_VARS : 
+		case MIN_NB_OF_INSTANTIATED_VARS :
 			return new MinNbOfInstantiatedVars();
-		case NB_OF_CALCULATED_DENOTATIONS : 
+		case NB_OF_CALCULATED_DENOTATIONS :
 			return NbOfCalculatedDenotations.INSTANCE;
 		default:
 			return null;

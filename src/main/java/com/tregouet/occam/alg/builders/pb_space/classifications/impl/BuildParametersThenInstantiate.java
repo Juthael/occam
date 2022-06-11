@@ -14,9 +14,9 @@ import com.tregouet.occam.data.problem_space.states.classifications.impl.Classif
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class BuildParametersThenInstantiate implements ClassificationBuilder {
-	
+
 	public static final BuildParametersThenInstantiate INSTANCE = new BuildParametersThenInstantiate();
-	
+
 	private BuildParametersThenInstantiate() {
 	}
 
@@ -26,12 +26,12 @@ public class BuildParametersThenInstantiate implements ClassificationBuilder {
 		Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(conceptTree);
 		return new Classification(conceptTree, conceptID2ExtentID, speciesID2GenusID, extentIDs);
 	}
-	
+
 	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
 		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
 		for (IIsA edge : conceptTree.edgeSet())
 			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
-	}	
+	}
 
 }

@@ -29,6 +29,49 @@ public class MapTargetVarsToSourceValues implements ProductionBuilder {
 	public MapTargetVarsToSourceValues() {
 	}
 
+	@Override
+	public Set<IContextualizedProduction> apply(IDenotation source, IDenotation target) {
+		Set<IContextualizedProduction> productions = new HashSet<>();
+		if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals()) && isValid(source, target)) {
+			// then source may be an instance of target
+			if (target.getVariables().size() > 0) {
+				//since if no variable can be bound, then nothing to produce
+				List<ISymbol> sourceSymbolSeq = source.asList();
+				List<ISymbol> targetSymbolSeq = target.asList();
+				Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(sourceSymbolSeq, targetSymbolSeq);
+				if (varToValue != null) {
+					for (AVariable variable : varToValue.keySet()) {
+						IConstruct value;
+						List<ISymbol> valueList = varToValue.get(variable);
+						if (valueList.isEmpty()) {
+							List<ISymbol> emptyString = new ArrayList<>(
+									Arrays.asList(new ISymbol[] { new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL) }));
+							value = new Construct(emptyString);
+						}
+						else {
+							value = new Construct(valueList);
+							IProduction production = new Production(variable, value);
+							productions.add(new ContextualizedProd(source, target, production));
+						}
+					}
+				}
+			}
+			else {
+				productions.add(new ContextualizedEpsilonProd(source, target));
+			}
+		}
+		return productions;
+	}
+
+	@Override
+	public ProductionBuilder setUp(IConcept sourceConcept) {
+		return this;
+	}
+
+	protected boolean isValid(IDenotation source, IDenotation target) {
+		return true;
+	}
+
 	private static boolean subSequenceOf(List<ITerminal> targetTerminals, List<ITerminal> sourceTerminals) {
 		if (targetTerminals.isEmpty())
 			return true;
@@ -48,49 +91,6 @@ public class MapTargetVarsToSourceValues implements ProductionBuilder {
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public Set<IContextualizedProduction> apply(IDenotation source, IDenotation target) {
-		Set<IContextualizedProduction> productions = new HashSet<>();
-		if (subSequenceOf(target.getListOfTerminals(), source.getListOfTerminals()) && isValid(source, target)) {
-			// then source may be an instance of target
-			if (target.getVariables().size() > 0) {
-				//since if no variable can be bound, then nothing to produce 
-				List<ISymbol> sourceSymbolSeq = source.asList();
-				List<ISymbol> targetSymbolSeq = target.asList();
-				Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(sourceSymbolSeq, targetSymbolSeq);
-				if (varToValue != null) {
-					for (AVariable variable : varToValue.keySet()) {
-						IConstruct value;
-						List<ISymbol> valueList = varToValue.get(variable);
-						if (valueList.isEmpty()) {
-							List<ISymbol> emptyString = new ArrayList<>(
-									Arrays.asList(new ISymbol[] { new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL) }));
-							value = new Construct(emptyString);
-						} 
-						else {
-							value = new Construct(valueList);
-							IProduction production = new Production(variable, value);
-							productions.add(new ContextualizedProd(source, target, production));
-						}
-					}
-				}	
-			}
-			else {
-				productions.add(new ContextualizedEpsilonProd(source, target));
-			}
-		}
-		return productions;
-	}
-	
-	protected boolean isValid(IDenotation source, IDenotation target) {
-		return true;
-	}
-
-	@Override
-	public ProductionBuilder setUp(IConcept sourceConcept) {
-		return this;
 	}
 
 }

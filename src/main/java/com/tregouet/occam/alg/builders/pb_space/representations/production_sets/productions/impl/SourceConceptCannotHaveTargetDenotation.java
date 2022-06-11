@@ -11,12 +11,21 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.den
 
 public class SourceConceptCannotHaveTargetDenotation extends MapTargetVarsToSourceValues
 		implements ProductionBuilder {
-	
+
 	private Set<List<ISymbol>> sourceRedundantConstructs;
-	
+
 	public SourceConceptCannotHaveTargetDenotation() {
 	}
-	
+
+	@Override
+	public ProductionBuilder setUp(IConcept sourceConcept) {
+		sourceRedundantConstructs = new HashSet<>();
+		for (IDenotation redundantDenotation : sourceConcept.getRedundantDenotations())
+			sourceRedundantConstructs.add(redundantDenotation.asList());
+		return this;
+	}
+
+	@Override
 	protected boolean isValid(IDenotation source, IDenotation target) {
 		if (!target.isRedundant() || sourceRedundantConstructs.isEmpty())
 			return true;
@@ -26,13 +35,5 @@ public class SourceConceptCannotHaveTargetDenotation extends MapTargetVarsToSour
 			return true;
 		else return (!sourceRedundantConstructs.contains(targetConstruct));
 	}
-
-	@Override
-	public ProductionBuilder setUp(IConcept sourceConcept) {
-		sourceRedundantConstructs = new HashSet<>();
-		for (IDenotation redundantDenotation : sourceConcept.getRedundantDenotations())
-			sourceRedundantConstructs.add(redundantDenotation.asList());
-		return this;
-	}	
 
 }

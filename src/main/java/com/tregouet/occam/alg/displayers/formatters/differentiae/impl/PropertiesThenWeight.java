@@ -26,7 +26,7 @@ public class PropertiesThenWeight implements DifferentiaeLabeller {
 		}
 		return sB.toString();
 	}
-	
+
 	private static String weightAsString(double weight) {
 		return Integer.toString((int) weight);
 	}

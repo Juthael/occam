@@ -40,14 +40,14 @@ public class Concept implements IConcept {
 			this.denotations.add(new Denotation(construct, this.iD));
 		this.maxExtentIDs = Set.copyOf(extentIDs); //unmodifiable
 	}
-	
+
 	protected Concept(List<IDenotation> denotations, Set<Integer> extentIDs, int iD) {
 		this.iD = iD;
 		for (IDenotation paramDenotation : denotations) {
-			IDenotation thisDenotation = new Denotation(paramDenotation, this.iD); 
+			IDenotation thisDenotation = new Denotation(paramDenotation, this.iD);
 			if (paramDenotation.isRedundant())
 				thisDenotation.markAsRedundant();
-			this.denotations.add(thisDenotation);			
+			this.denotations.add(thisDenotation);
 		}
 		this.maxExtentIDs = Set.copyOf(extentIDs); //unmodifiable
 	}
@@ -66,6 +66,17 @@ public class Concept implements IConcept {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		Concept other = (Concept) obj;
+		return iD == other.iD && type == other.type && Objects.equals(denotations, other.denotations)
+				&& Objects.equals(maxExtentIDs, other.maxExtentIDs);
+	}
+
+	@Override
 	public IConcept getComplemented() {
 		return null;
 	}
@@ -75,14 +86,9 @@ public class Concept implements IConcept {
 		return denotations;
 	}
 
-	@Override
-	public Set<Integer> getMaxExtentIDs() {
-		return maxExtentIDs;
-	}
-
 	/**
 	 * If many attributes meet the constraint, returns the first found.
-	 * 
+	 *
 	 * @throws PropertyTargetingException
 	 */
 	@Override
@@ -105,6 +111,11 @@ public class Concept implements IConcept {
 	}
 
 	@Override
+	public Set<Integer> getMaxExtentIDs() {
+		return maxExtentIDs;
+	}
+
+	@Override
 	public Set<IDenotation> getRedundantDenotations() {
 		Set<IDenotation> redundantDenotations = new HashSet<>();
 		for (IDenotation denotation : denotations) {
@@ -115,12 +126,13 @@ public class Concept implements IConcept {
 	}
 
 	@Override
-	public int iD() {
-		return iD;
+	public int hashCode() {
+		return Objects.hash(denotations, maxExtentIDs, iD, type);
 	}
 
-	public static void initializeIDGenerator() {
-		nextID = IConcept.CONCEPT_FIRST_ID;
+	@Override
+	public int iD() {
+		return iD;
 	}
 
 	@Override
@@ -166,22 +178,8 @@ public class Concept implements IConcept {
 		return type;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(denotations, maxExtentIDs, iD, type);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Concept other = (Concept) obj;
-		return iD == other.iD && type == other.type && Objects.equals(denotations, other.denotations) 
-				&& Objects.equals(maxExtentIDs, other.maxExtentIDs);
+	public static void initializeIDGenerator() {
+		nextID = IConcept.CONCEPT_FIRST_ID;
 	}
 
 }

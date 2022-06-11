@@ -5,9 +5,9 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
 
 public class NbOfApplications implements PropertyWeigher {
-	
+
 	public static final NbOfApplications INSTANCE = new NbOfApplications();
-	
+
 	private NbOfApplications() {
 	}
 
@@ -18,7 +18,7 @@ public class NbOfApplications implements PropertyWeigher {
 			if (!application.isBlank())
 				weight++;
 		}
-		property.setWeight((double) weight);
+		property.setWeight(weight);
 	}
 
 }

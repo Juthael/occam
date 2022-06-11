@@ -15,9 +15,9 @@ public class PropertyWeigherFactory {
 		switch (strategy) {
 		case NB_OF_BOUND_VAR:
 			return BoundVarCounter.INSTANCE;
-		case WEIGHTLESS : 
+		case WEIGHTLESS :
 			return Weightless.INSTANCE;
-		case NB_OF_APPLICATIONS : 
+		case NB_OF_APPLICATIONS :
 			return NbOfApplications.INSTANCE;
 		default:
 			return null;

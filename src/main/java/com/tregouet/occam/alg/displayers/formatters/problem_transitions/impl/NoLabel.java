@@ -4,9 +4,9 @@ import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemT
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
 public class NoLabel implements ProblemTransitionLabeller {
-	
+
 	public static final NoLabel INSTANCE = new NoLabel();
-	
+
 	private NoLabel() {
 	}
 

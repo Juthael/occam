@@ -11,7 +11,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.den
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 public interface ProductionSetReducer {
-	
+
 	public static Set<IContextualizedProduction> reduce(Set<IContextualizedProduction> productions) {
 		Set<IContextualizedProduction> transitiveReduction = new HashSet<>();
 		DirectedAcyclicGraph<IDenotation, DefaultEdge> sparseReductionGraph = buildSparseReductionGraph(productions);
@@ -21,9 +21,9 @@ public interface ProductionSetReducer {
 		}
 		return transitiveReduction;
 	}
-	
+
 	private static DirectedAcyclicGraph<IDenotation, DefaultEdge> buildSparseReductionGraph(Set<IContextualizedProduction> productions) {
-		DirectedAcyclicGraph<IDenotation, DefaultEdge> sparseReductionGraph = 
+		DirectedAcyclicGraph<IDenotation, DefaultEdge> sparseReductionGraph =
 				new DirectedAcyclicGraph<>(null, DefaultEdge::new, false);
 		for (IContextualizedProduction production : productions) {
 			IDenotation source = production.getSource();

@@ -12,17 +12,17 @@ import com.tregouet.occam.data.problem_space.states.productions.IContextualizedP
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class ProdCluster {
-	
+
 	private IDenotation denotation;
 	private List<IProduction> productions = new ArrayList<>();
 	private IDenotation value;
-	
+
 	public ProdCluster(IContextualizedProduction production) {
 		denotation = production.getTarget();
 		productions.add(production.getUncontextualizedProduction());
 		value = production.getSource();
 	}
-	
+
 	public boolean add(IContextualizedProduction other, boolean unsafe) {
 		if ((unsafe || other.getTarget().equals(denotation)) && other.getSource().equals(value)) {
 			productions.add(other.getUncontextualizedProduction());
@@ -30,7 +30,7 @@ public class ProdCluster {
 		}
 		return false;
 	}
-	
+
 	public IApplication asApplication() {
 		productions.sort((x, y) -> denotation.asList().indexOf(x.getVariable()) - denotation.asList().indexOf(y.getVariable()));
 		List<AVariable> boundVariables = new ArrayList<>();

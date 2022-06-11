@@ -19,12 +19,12 @@ public interface PartitionBuilder extends BiFunction<IDescription, IClassificati
 		return BuildersAbstractFactory.INSTANCE.getPartitionGraphBuilder();
 	}
 
-	public static Sorting2StringConverter getSorting2StringConverter() {
-		return FormattersAbstractFactory.INSTANCE.getSorting2StringConverter();
-	}
-
 	public static PartitionWeigher getPartitionWeigher() {
 		return SettersAbstractFactory.INSTANCE.getPartitionWeigher();
+	}
+
+	public static Sorting2StringConverter getSorting2StringConverter() {
+		return FormattersAbstractFactory.INSTANCE.getSorting2StringConverter();
 	}
 
 }

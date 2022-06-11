@@ -9,7 +9,7 @@ import com.tregouet.occam.data.problem_space.states.productions.IContextualizedP
 
 public interface ProductionBuilder
 		extends BiFunction<IDenotation, IDenotation, Set<IContextualizedProduction>> {
-	
+
 	ProductionBuilder setUp(IConcept targetConcept);
 
 }

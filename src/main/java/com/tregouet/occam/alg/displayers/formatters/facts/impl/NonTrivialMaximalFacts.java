@@ -12,9 +12,9 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 
 public class NonTrivialMaximalFacts implements FactDisplayer {
-	
+
 	public static final NonTrivialMaximalFacts INSTANCE = new NonTrivialMaximalFacts();
-	
+
 	private NonTrivialMaximalFacts() {
 	}
 
@@ -44,7 +44,7 @@ public class NonTrivialMaximalFacts implements FactDisplayer {
 		}
 		return stringFacts;
 	}
-	
+
 	private boolean isTrivial(IFact fact) {
 		if (fact.asList().size() == 1) {
 			IApplication app = fact.asList().get(0);

@@ -8,9 +8,9 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class AngleBrackets implements ApplicationLabeller {
-	
+
 	public static final AngleBrackets INSTANCE = new AngleBrackets();
-	
+
 	private AngleBrackets() {
 	}
 

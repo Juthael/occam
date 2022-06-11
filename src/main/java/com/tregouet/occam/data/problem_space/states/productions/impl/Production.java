@@ -26,7 +26,7 @@ public class Production implements IProduction {
 	/**
 	 * Given as an example to show what a Production is meant to be. No real
 	 * utility.
-	 * 
+	 *
 	 * @param construct
 	 * @return
 	 */
@@ -49,7 +49,7 @@ public class Production implements IProduction {
 	/**
 	 * Given as an example to show what a Production is meant to be. No real
 	 * utility.
-	 * 
+	 *
 	 * @param construct
 	 * @return
 	 */
@@ -92,6 +92,11 @@ public class Production implements IProduction {
 	}
 
 	@Override
+	public Salience getSalience() {
+		return salience;
+	}
+
+	@Override
 	public IConstruct getValue() {
 		return value;
 	}
@@ -107,35 +112,30 @@ public class Production implements IProduction {
 	}
 
 	@Override
-	public boolean isEpsilon() {
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "[" + variable.toString() + " ::= " + value.toString() + "]";
+	public boolean isAlphaConversion() {
+		List<ISymbol> valueList = value.asList();
+		return ((valueList.size() == 1) && (valueList.get(0) instanceof AVariable));
 	}
 
 	@Override
 	public boolean isBlank() {
 		List<ISymbol> valueList = value.asList();
-		return ((valueList.size() == 1) && (valueList.get(0).equals(variable))); 
+		return ((valueList.size() == 1) && (valueList.get(0).equals(variable)));
 	}
 
 	@Override
-	public boolean isAlphaConversion() {
-		List<ISymbol> valueList = value.asList();
-		return ((valueList.size() == 1) && (valueList.get(0) instanceof AVariable)); 
+	public boolean isEpsilon() {
+		return false;
 	}
-	
+
 	@Override
 	public void setSalience(Salience salience) {
 		this.salience = salience;
 	}
 
 	@Override
-	public Salience getSalience() {
-		return salience;
-	}	
+	public String toString() {
+		return "[" + variable.toString() + " ::= " + value.toString() + "]";
+	}
 
 }

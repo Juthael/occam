@@ -77,6 +77,10 @@ public class BuildersAbstractFactory {
 	private BuildersAbstractFactory() {
 	}
 
+	public ClassificationBuilder getClassificationBuilder() {
+		return ClassificationBuilderFactory.INSTANCE.apply(classificationBuilderStrategy);
+	}
+
 	public ConceptLatticeBuilder getConceptLatticeBuilder() {
 		return ConceptLatticeBuilderFactory.INSTANCE.apply(conceptLatticeBuilderStrategy);
 	}
@@ -96,10 +100,6 @@ public class BuildersAbstractFactory {
 	public DifferentiaeBuilder getDifferentiaeBuilder() {
 		return DifferentiaeBuilderFactory.INSTANCE.apply(differentiaeBuilderStrategy);
 	}
-	
-	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
-		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
-	}
 
 	public PartitionBuilder getPartitionBuilder() {
 		return PartitionBuilderFactory.INSTANCE.apply(partitionBuilderStrategy);
@@ -116,38 +116,38 @@ public class BuildersAbstractFactory {
 	public ProblemTransitionBuilder getProblemTransitionBuilder() {
 		return ProblemTransitionBuilderFactory.INSTANCE.apply(problemTransitionBuilderStrategy);
 	}
-	
+
 	public ProductionBuilder getProductionBuilder() {
 		return ProductionBuilderFactory.INSTANCE.apply(productionBuilderStrategy);
+	}
+
+	public ProductionSalienceSetter getProductionSalienceSetter() {
+		return ProductionSalienceSetterFactory.INSTANCE.apply(productionSalienceSetterStrategy);
+	}
+
+	public ProductionSetBuilder getProductionSetBuilder() {
+		return ProductionSetBuilderFactory.INSTANCE.apply(productionSetBuilderStrategy);
 	}
 
 	public PropertyBuilder getPropertyBuilder() {
 		return PropertyBuilderFactory.INSTANCE.apply(propertyBuilderStrategy);
 	}
 
-	public RepresentationTransFuncBuilder getRepresentationTransFuncBuilder() {
-		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
-	}
-	
 	public RepresentationBuilder getRepresentationBuilder() {
 		return RepresentationBuilderFactory.INSTANCE.apply(representationBuilderStrategy);
 	}
-	
-	public ProductionSalienceSetter getProductionSalienceSetter() {
-		return ProductionSalienceSetterFactory.INSTANCE.apply(productionSalienceSetterStrategy);
+
+	public RepresentationTransFuncBuilder getRepresentationTransFuncBuilder() {
+		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
 	}
-	
-	public ProductionSetBuilder getProductionSetBuilder() {
-		return ProductionSetBuilderFactory.INSTANCE.apply(productionSetBuilderStrategy);
-	}
-	
-	public ClassificationBuilder getClassificationBuilder() {
-		return ClassificationBuilderFactory.INSTANCE.apply(classificationBuilderStrategy);
+
+	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
+		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
 	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
 		switch (overallStrategy) {
-		case GENERATION_STRATEGY_2 : 
+		case GENERATION_STRATEGY_2 :
 			denotationBuilderStrategy = DenotationBuilderStrategy.NO_REDUNDANCY;
 			conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
 			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.IF_LEAF_IS_UNIVERSAL_THEN_SORT;

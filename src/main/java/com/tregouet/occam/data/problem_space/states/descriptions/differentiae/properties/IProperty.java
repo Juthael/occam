@@ -8,23 +8,23 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 
 public interface IProperty extends Weighed {
 
-	IDenotation getFunction();
+	@Override
+	boolean equals(Object o);
 
 	Set<IApplication> getApplications();
+
+	IDenotation getFunction();
+
+	int getGenusID();
+
+	int getSpeciesID();
+
+	@Override
+	int hashCode();
 
 	void setWeight(double weight);
 
 	@Override
 	String toString();
-	
-	@Override
-	int hashCode();
-	
-	@Override
-	boolean equals(Object o);
-	
-	int getGenusID();
-	
-	int getSpeciesID();
 
 }

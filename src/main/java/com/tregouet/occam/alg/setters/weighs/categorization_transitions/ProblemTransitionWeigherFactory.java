@@ -18,9 +18,9 @@ public class ProblemTransitionWeigherFactory {
 			return PartitionsWeight.INSTANCE;
 		case PARTITIONS_WEIGHT_INVERSE:
 			return PartitionsWeightInverse.INSTANCE;
-		case PARTITION_PROBABILITY : 
+		case PARTITION_PROBABILITY :
 			return new PartitionProbability();
-		case PART_PROB_WITH_TRIVIAL_TRANSITIONS_MANDATORY : 
+		case PART_PROB_WITH_TRIVIAL_TRANSITIONS_MANDATORY :
 			return new PartitionProbWithTrivialSortingsMandatory();
 		default:
 			return null;

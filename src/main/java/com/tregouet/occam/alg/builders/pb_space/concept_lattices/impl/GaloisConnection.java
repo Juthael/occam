@@ -157,6 +157,27 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 		return powerSet;
 	}
 
+	private Set<Integer> getIDsOf(Set<IContextObject> objectSet) {
+		Set<Integer> iDs = new HashSet<>();
+		for (IContextObject object : objectSet) {
+			iDs.add(object.iD());
+		}
+		return iDs;
+	}
+
+	private int getParticularIdx(IConcept particular) {
+		Set<IConstruct> particularConstructs = new HashSet<>();
+		for (IDenotation denotation : particular.getDenotations())
+			particularConstructs.add(new Construct(denotation.asList()));
+		for (int i = 0 ; i < objects.size() ; i++) {
+			IContextObject iObject = objects.get(i);
+			Set<IConstruct> objectConstructs = new HashSet<>(iObject.getConstructs());
+			if (particularConstructs.equals(objectConstructs))
+				return i;
+		}
+		return -1; //never happens
+	}
+
 	private void markRedundantDenotationsOfUSLConcepts() {
 		for (IConcept concept : invertedUpperSemilattice) {
 			MarkRedundantDenotations.of(concept);
@@ -214,27 +235,6 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 					listOfExtents.get(i));
 		}
 		return paramCopyWithRefInstancesAndNamedVars;
-	}
-	
-	private int getParticularIdx(IConcept particular) {
-		Set<IConstruct> particularConstructs = new HashSet<>();
-		for (IDenotation denotation : particular.getDenotations())
-			particularConstructs.add(new Construct(denotation.asList()));
-		for (int i = 0 ; i < objects.size() ; i++) {
-			IContextObject iObject = objects.get(i);
-			Set<IConstruct> objectConstructs = new HashSet<>(iObject.getConstructs());
-			if (particularConstructs.equals(objectConstructs))
-				return i;
-		}
-		return -1; //never happens
-	}
-	
-	private Set<Integer> getIDsOf(Set<IContextObject> objectSet) {
-		Set<Integer> iDs = new HashSet<>();
-		for (IContextObject object : objectSet) {
-			iDs.add(object.iD());
-		}
-		return iDs;
 	}
 
 }

@@ -5,7 +5,7 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Varia
 public class Epsilon extends Variable {
 
 	public static final Epsilon INSTANCE = new Epsilon();
-	
+
 	private Epsilon() {
 		super("ε");
 	}

@@ -15,7 +15,24 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 
 public class NoRedundancy extends MaxSymbolSubsequences implements DenotationBuilder {
-	
+
+	@Override
+	protected Set<IConstruct> complyToAdditionalConstraints(Set<IConstruct> constructs) {
+		return removeRedundantConstructs(constructs);
+	}
+
+	private static boolean inCodomainOf(IConstruct value, IConstruct function) {
+		if (subSequenceOf(function.getListOfTerminals(), value.getListOfTerminals())) {
+			List<ISymbol> c1ValueProvider = value.asList();
+			List<ISymbol> c2VarProvider = function.asList();
+			Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(c1ValueProvider, c2VarProvider);
+			if (varToValue != null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private static Set<IConstruct> removeRedundantConstructs(Set<IConstruct> constructs) {
 		Set<IConstruct> redundantConstructs = new HashSet<>();
 		List<IConstruct> constructList = new ArrayList<>(constructs);
@@ -36,24 +53,7 @@ public class NoRedundancy extends MaxSymbolSubsequences implements DenotationBui
 		constructs.removeAll(redundantConstructs);
 		return constructs;
 	}
-	
-	@Override
-	protected Set<IConstruct> complyToAdditionalConstraints(Set<IConstruct> constructs) {
-		return removeRedundantConstructs(constructs);
-	}
-	
-	private static boolean inCodomainOf(IConstruct value, IConstruct function) {
-		if (subSequenceOf(function.getListOfTerminals(), value.getListOfTerminals())) {
-			List<ISymbol> c1ValueProvider = value.asList();
-			List<ISymbol> c2VarProvider = function.asList();
-			Map<AVariable, List<ISymbol>> varToValue = MapVariablesToValues.of(c1ValueProvider, c2VarProvider);
-			if (varToValue != null) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
+
 	private static boolean subSequenceOf(List<ITerminal> t1, List<ITerminal> t2) {
 		if (t1.isEmpty())
 			return true;
@@ -71,6 +71,6 @@ public class NoRedundancy extends MaxSymbolSubsequences implements DenotationBui
 			}
 		}
 		return false;
-	}	
+	}
 
 }

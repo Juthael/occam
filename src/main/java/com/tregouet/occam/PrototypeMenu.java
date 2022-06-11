@@ -30,15 +30,6 @@ public class PrototypeMenu {
 		welcome();
 	}
 
-	private static boolean isValidPath(String path) {
-		try {
-			Paths.get(path);
-		} catch (InvalidPathException | NullPointerException ex) {
-			return false;
-		}
-		return true;
-	}
-
 	private void deepenRepresentation(IProblemSpace problemSpace) {
 		System.out.println(NL);
 		System.out.println("Please enter a representation ID : " + NL);
@@ -202,6 +193,15 @@ public class PrototypeMenu {
 		System.out.println("********************");
 		System.out.println(NL);
 		enterTargetFolder();
+	}
+
+	private static boolean isValidPath(String path) {
+		try {
+			Paths.get(path);
+		} catch (InvalidPathException | NullPointerException ex) {
+			return false;
+		}
+		return true;
 	}
 
 }

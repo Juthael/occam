@@ -5,9 +5,9 @@ import java.util.Comparator;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 
 public class TopoOrderOverReps implements Comparator<IRepresentation> {
-	
+
 	public static final TopoOrderOverReps INSTANCE = new TopoOrderOverReps();
-	
+
 	private TopoOrderOverReps() {
 	}
 

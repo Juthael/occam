@@ -8,7 +8,7 @@ import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 import com.tregouet.occam.data.problem_space.states.productions.impl.OmegaProd;
 
 public class OmegaApplication extends Application implements IApplication {
-	
+
 	public static final OmegaApplication INSTANCE = new OmegaApplication();
 
 	private OmegaApplication() {

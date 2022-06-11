@@ -14,7 +14,7 @@ public class ProblemStateScorerFactory {
 		switch (strategy) {
 		case MARKHOV_PROCESS:
 			return new MarkhovProcess();
-		case SOURCE_PROB_TIMES_TRANSITION_PROB : 
+		case SOURCE_PROB_TIMES_TRANSITION_PROB :
 			return new SourcesProbabilitiesTimesTransitionsProbabilities();
 		default:
 			return null;

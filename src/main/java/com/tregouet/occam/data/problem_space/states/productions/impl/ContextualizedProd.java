@@ -43,13 +43,13 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
-	public int getSuperordinateID() {
-		return genusDenotation.getConceptID();
+	public String getLabel() {
+		return toString();
 	}
 
 	@Override
-	public String getLabel() {
-		return toString();
+	public Salience getSalience() {
+		return production.getSalience();
 	}
 
 	@Override
@@ -60,6 +60,11 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	@Override
 	public int getSubordinateID() {
 		return speciesDenotation.getConceptID();
+	}
+
+	@Override
+	public int getSuperordinateID() {
+		return genusDenotation.getConceptID();
 	}
 
 	@Override
@@ -88,6 +93,16 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
+	public boolean isAlphaConversion() {
+		return production.isAlphaConversion();
+	}
+
+	@Override
+	public boolean isBlank() {
+		return production.isBlank();
+	}
+
+	@Override
 	public boolean isEpsilon() {
 		return production.isEpsilon();
 	}
@@ -98,31 +113,16 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
-	public String toString() {
-		if (isEpsilon())
-			return "ε";
-		else
-			return production.toString();
-	}
-
-	@Override
-	public boolean isBlank() {
-		return production.isBlank();
-	}
-
-	@Override
-	public boolean isAlphaConversion() {
-		return production.isAlphaConversion();
-	}
-
-	@Override
 	public void setSalience(Salience salience) {
 		production.setSalience(salience);
 	}
 
 	@Override
-	public Salience getSalience() {
-		return production.getSalience();
+	public String toString() {
+		if (isEpsilon())
+			return "ε";
+		else
+			return production.toString();
 	}
 
 }

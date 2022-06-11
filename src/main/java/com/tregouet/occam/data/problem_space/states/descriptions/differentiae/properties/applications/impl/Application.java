@@ -9,13 +9,13 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class Application implements IApplication {
-	
+
 	private final IDenotation construct;
 	private final IBindings boundVariables;
 	private final List<IProduction> arguments;
 	private final IDenotation value;
 	private Double weight = null;
-	
+
 	public Application(IDenotation construct, IBindings boundVariables, List<IProduction> arguments, IDenotation value) {
 		this.construct = construct;
 		this.boundVariables = boundVariables;
@@ -24,8 +24,29 @@ public class Application implements IApplication {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		Application other = (Application) obj;
+		return Objects.equals(arguments, other.arguments) && Objects.equals(construct, other.construct)
+				&& Objects.equals(value, other.value);
+	}
+
+	@Override
 	public List<IProduction> getArguments() {
 		return arguments;
+	}
+
+	@Override
+	public IBindings getBindings() {
+		return boundVariables;
+	}
+
+	@Override
+	public IDenotation getConstruct() {
+		return construct;
 	}
 
 	@Override
@@ -34,36 +55,8 @@ public class Application implements IApplication {
 	}
 
 	@Override
-	public Double weight() {
-		return weight;
-	}
-
-	@Override
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
-
-	@Override
 	public int hashCode() {
 		return Objects.hash(arguments, construct, value);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Application other = (Application) obj;
-		return Objects.equals(arguments, other.arguments) && Objects.equals(construct, other.construct)
-				&& Objects.equals(value, other.value);
-	}
-
-	@Override
-	public boolean isEpsilon() {
-		return false;
 	}
 
 	@Override
@@ -76,13 +69,18 @@ public class Application implements IApplication {
 	}
 
 	@Override
-	public IDenotation getConstruct() {
-		return construct;
+	public boolean isEpsilon() {
+		return false;
 	}
 
 	@Override
-	public IBindings getBindings() {
-		return boundVariables;
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	@Override
+	public Double weight() {
+		return weight;
 	}
 
 }

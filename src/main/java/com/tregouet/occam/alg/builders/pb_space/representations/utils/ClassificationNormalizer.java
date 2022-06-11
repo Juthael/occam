@@ -23,7 +23,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.impl.Classif
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public interface ClassificationNormalizer {
-	
+
 	public static IClassification normalize(IClassification classification){
 		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
 		List<Integer> topoOrderIDs = new ArrayList<>();
@@ -39,7 +39,7 @@ public interface ClassificationNormalizer {
 				}
 				topoOrderIDs.add(concept.iD());
 				topoOrderedStrictLowerSets.add(ancestorIDs);
-				topoOrderedConstructSets.add(new ArrayList<>(concept.getDenotations()));	
+				topoOrderedConstructSets.add(new ArrayList<>(concept.getDenotations()));
 			}
 		}
 		//map replaced to substitute
@@ -57,7 +57,7 @@ public interface ClassificationNormalizer {
 									updateMapIfNeeded(iConstruct, jConstruct, replaced2Substitute);
 							}
 						}
-					}	
+					}
 				}
 			}
 		}
@@ -80,13 +80,24 @@ public interface ClassificationNormalizer {
 		Set<IConcept> normalizedleaves = new HashSet<>();
 		for (IConcept leaf : conceptTree.getLeaves())
 			normalizedleaves.add(iD2NormalizedConcept.get(leaf.iD()));
-		InvertedTree<IConcept, IIsA> normalizedTree = 
+		InvertedTree<IConcept, IIsA> normalizedTree =
 				new InvertedTree<>(normalizedDAG, normalizedRoot, normalizedleaves, normalizedTopoOrder);
-		return new Classification(normalizedTree, classification.mapConceptID2ExtentIDs(), 
+		return new Classification(normalizedTree, classification.mapConceptID2ExtentIDs(),
 				classification.mapSpeciesID2GenusID(), classification.getParticularIDs());
 	}
-	
-	private static void updateMapIfNeeded(IConstruct iConstruct, IConstruct jConstruct, 
+
+	private static void doUpdateMap(AVariable replaced, AVariable substitute, Map<AVariable, AVariable> replaced2Substitute) {
+		Set<AVariable> replacedByReplaced = new HashSet<>();
+		for (Entry<AVariable, AVariable> mapEntry : replaced2Substitute.entrySet()) {
+			if (mapEntry.getValue().equals(replaced))
+				replacedByReplaced.add(mapEntry.getKey());
+		}
+		for (AVariable repByRep : replacedByReplaced)
+			replaced2Substitute.put(repByRep, substitute);
+		replaced2Substitute.put(replaced, substitute);
+	}
+
+	private static void updateMapIfNeeded(IConstruct iConstruct, IConstruct jConstruct,
 			Map<AVariable, AVariable> replaced2Substitute) {
 		Map<AVariable, List<ISymbol>> var2Values = MapVariablesToValues.of(jConstruct.asList(), iConstruct.asList());
 		if (var2Values != null) {
@@ -104,17 +115,6 @@ public interface ClassificationNormalizer {
 				}
 			}
 		}
-	}
-	
-	private static void doUpdateMap(AVariable replaced, AVariable substitute, Map<AVariable, AVariable> replaced2Substitute) {
-		Set<AVariable> replacedByReplaced = new HashSet<>();
-		for (Entry<AVariable, AVariable> mapEntry : replaced2Substitute.entrySet()) {
-			if (mapEntry.getValue().equals(replaced))
-				replacedByReplaced.add(mapEntry.getKey());
-		}
-		for (AVariable repByRep : replacedByReplaced)
-			replaced2Substitute.put(repByRep, substitute);
-		replaced2Substitute.put(replaced, substitute);
 	}
 
 }

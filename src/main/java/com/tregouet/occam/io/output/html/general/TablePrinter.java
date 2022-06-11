@@ -14,10 +14,6 @@ public class TablePrinter {
 	private TablePrinter() {
 	}
 
-	private static String round(double nb) {
-		return DF.format(nb).toString();
-	}
-
 	public String print1DTable(String[] head, double[] table, String caption, int a) {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<table>" + nL)
@@ -57,7 +53,7 @@ public class TablePrinter {
 						for (int i = 0; i <= head.length; i++) {
 							if (i == 0)
 								sB.append(alinea[a + 3] + "<th> " + head[j - 1] + " </th>" + nL);
-							else sB.append(alinea[a + 3] + "<td>" + round(table[i - 1][j - 1]) + "</td>" + nL);						
+							else sB.append(alinea[a + 3] + "<td>" + round(table[i - 1][j - 1]) + "</td>" + nL);
 						}
 					sB.append(alinea[a + 2] + "</tr>" + nL);
 				}
@@ -92,6 +88,10 @@ public class TablePrinter {
 				.append(alinea[a + 1] + "</tbody>" + nL)
 		.append(alinea[a] + "</table>" + nL);
 		return sB.toString();
+	}
+
+	private static String round(double nb) {
+		return DF.format(nb).toString();
 	}
 
 }

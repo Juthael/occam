@@ -9,7 +9,7 @@ public interface IWord<S extends ISymbol> {
 	List<S> asList();
 
 	IWord<S> copy();
-	
+
 	int size();
 
 }

@@ -12,10 +12,10 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
 
 public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
-	
+
 	private Set<IProperty> properties = null;
 	Set<IDenotation> values = null;
-	
+
 	public MinNbOfInstantiatedVars() {
 	}
 
@@ -28,9 +28,9 @@ public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 				values.add(application.getValue());
 		}
 		int weight = minNbOfInstantiatedVarsToCalculateValues();
-		differentiae.setCoeffFreeWeight((double) weight);
+		differentiae.setCoeffFreeWeight(weight);
 	}
-	
+
 	private int minNbOfInstantiatedVarsToCalculateValues(){
 		if (values.isEmpty())
 			return 0;
@@ -45,7 +45,7 @@ public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 		}
 		return minNbOfInstantiatedVarsToCalculateValues;
 	}
-	
+
 	private int valueCalculationByNProperties(int n) {
 		int minApplicationWeightSum = -1;
 		Set<Set<IProperty>> propSubsets = Sets.combinations(properties, n);

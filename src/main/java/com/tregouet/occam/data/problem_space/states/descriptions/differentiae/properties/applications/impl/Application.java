@@ -81,7 +81,7 @@ public class Application implements IApplication {
 	}
 
 	@Override
-	public IBindings getBoundVariables() {
+	public IBindings getBindings() {
 		return boundVariables;
 	}
 

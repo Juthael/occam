@@ -17,7 +17,7 @@ public class PropertiesThenWeight implements DifferentiaeLabeller {
 	public String apply(ADifferentiae differentiae) {
 		StringBuilder sB = new StringBuilder();
 		String nL = System.lineSeparator();
-		sB.append(differentiae.weight().toString() + nL);
+		sB.append("weight : " + weightAsString(differentiae.weight()) + nL);
 		Iterator<IProperty> propIte = differentiae.getProperties().iterator();
 		while (propIte.hasNext()) {
 			sB.append(DifferentiaeLabeller.getPropertyDisplayer().apply(propIte.next()));
@@ -25,6 +25,10 @@ public class PropertiesThenWeight implements DifferentiaeLabeller {
 				sB.append(nL);
 		}
 		return sB.toString();
+	}
+	
+	private static String weightAsString(double weight) {
+		return Integer.toString((int) weight);
 	}
 
 }

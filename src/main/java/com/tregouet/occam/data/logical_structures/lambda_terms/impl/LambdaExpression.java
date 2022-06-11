@@ -12,7 +12,6 @@ import com.tregouet.occam.data.logical_structures.languages.words.construct.ICon
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
-import com.tregouet.occam.data.problem_space.states.productions.impl.OmegaProd;
 
 public class LambdaExpression extends ALambdaTerm implements ILambdaExpression {
 
@@ -41,7 +40,7 @@ public class LambdaExpression extends ALambdaTerm implements ILambdaExpression {
 		if (application.isEpsilon())
 			return false;
 		if (bindings == null) {
-			IBindings bindings = application.getBoundVariables();
+			IBindings bindings = application.getBindings();
 			if (canBeAbstractedWithSpecifiedBindings(term, bindings)) {
 				this.bindings = bindings;
 				arguments = new ArrayList<>();
@@ -76,16 +75,19 @@ public class LambdaExpression extends ALambdaTerm implements ILambdaExpression {
 
 	private String toString(boolean shorter) {
 		if (bindings == null) {
-			if (term.asList().size() == 1)
-				return term.toString();
+			if (term.asList().size() == 1) {
+				return (term.isAbstract() ? "" : term.toString());
+			}
 			return "(" + term.toString() + ")";
 		}
 		StringBuilder sB = new StringBuilder();
-		sB.append("(λ");
-		sB.append(bindings.toString());
-		sB.append(".");
-		sB.append(shorter ? getFunctionType(term) : term.toString());
-		sB.append(")");
+		if (term.asList().size() > 1) { //otherwise function is identity function
+			sB.append("(λ");
+			sB.append(bindings.toString());
+			sB.append(".");
+			sB.append(shorter ? getFunctionType(term) : term.toString());
+			sB.append(")");
+		}
 		for (ILambdaExpression argument : arguments) {
 			if (argument.isAnApplication()) {
 				sB.append(" (");
@@ -94,8 +96,7 @@ public class LambdaExpression extends ALambdaTerm implements ILambdaExpression {
 			} else
 				sB.append(" " + argument.toString());
 		}
-
-		return sB.toString();
+		return sB.toString();	
 	}
 	
 	private static boolean canBeAbstractedWithSpecifiedBindings(IConstruct term, IBindings bindings) {
@@ -127,16 +128,6 @@ public class LambdaExpression extends ALambdaTerm implements ILambdaExpression {
 		}
 		sB.append(")");
 		return sB.toString();
-	}
-
-	@Override
-	public IBindings getBindings() {
-		return bindings;
-	}
-
-	@Override
-	public List<LambdaExpression> getArguments() {
-		return arguments;
 	}	
 
 }

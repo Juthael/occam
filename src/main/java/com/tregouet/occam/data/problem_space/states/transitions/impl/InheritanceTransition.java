@@ -3,7 +3,6 @@ package com.tregouet.occam.data.problem_space.states.transitions.impl;
 import java.util.Arrays;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.impl.EpsilonApplication;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
@@ -14,7 +13,7 @@ public class InheritanceTransition extends ConceptTransition implements IConcept
 	EpsilonApplication app;
 
 	// for inheritance of unclosed denotations.
-	public InheritanceTransition(int inputStateID, int outputStateID, IDenotation speciesDenotation, IDenotation genusDenotation, IBindings variable) {
+	public InheritanceTransition(int inputStateID, int outputStateID, IBindings variable) {
 		super(new ConceptTransitionIC(inputStateID, EpsilonApplication.INSTANCE, variable),
 				new ConceptTransitionOIC(outputStateID, Arrays.asList(new IBindings[] { variable })));
 	}

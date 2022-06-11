@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.pb_space.representations.transition_functions;
 
-import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.impl.FromBlankAndSalientProductions;
+import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.impl.EveryApplicationIsRelevant;
 
 public class RepresentationTransFuncBuilderFactory {
 
@@ -11,8 +11,8 @@ public class RepresentationTransFuncBuilderFactory {
 
 	public RepresentationTransFuncBuilder apply(RepresentationTransFuncBuilderStrategy strategy) {
 		switch (strategy) {
-		case FROM_BLANK_AND_SALIENT_PRODS:
-			return new FromBlankAndSalientProductions();
+		case EVERY_APP_IS_RELEVANT:
+			return new EveryApplicationIsRelevant();
 		default:
 			return null;
 		}

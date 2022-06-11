@@ -122,7 +122,7 @@ public class UsePartialOrderTest {
 			.append("differentiae : " + nl);
 		for (ADifferentiae diff : partition.asGraph().edgeSet()) {
 			for (IProperty property : diff.getProperties()) {
-				sB.append("   function : " + property.function().toString() + nl);
+				sB.append("   function : " + property.getFunction().toString() + nl);
 				sB.append("   productions : " + nl);
 				for (IContextualizedProduction production : property.getProductions()) {
 					sB.append("      " + production.toString() + nl);

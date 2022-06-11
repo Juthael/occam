@@ -23,7 +23,7 @@ public class Property implements IProperty {
 	}
 
 	@Override
-	public IDenotation function() {
+	public IDenotation getFunction() {
 		return function;
 	}
 
@@ -66,7 +66,7 @@ public class Property implements IProperty {
 	}
 
 	@Override
-	public Set<IApplication> applications() {
+	public Set<IApplication> getApplications() {
 		return applications;
 	}
 

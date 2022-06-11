@@ -143,7 +143,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 		for (IProperty prop : differentiae.getProperties()) {
 			sB.append("***" + nl);
 			sB.append("*Property : " + nl);
-			sB.append("*function : " + prop.function().toString() + nl);
+			sB.append("*function : " + prop.getFunction().toString() + nl);
 			sB.append("*productions :" + nl);
 			for (IContextualizedProduction production : prop.getProductions()) {
 				sB.append(production.toString() + nl);

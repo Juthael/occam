@@ -9,6 +9,7 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
 
 public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 	
@@ -23,7 +24,8 @@ public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 		properties = differentiae.getProperties();
 		values = new HashSet<>();
 		for (IProperty property : properties) {
-			values.addAll(property.getResultingValues());
+			for (IApplication application : property.getApplications())
+				values.add(application.getValue());
 		}
 		int weight = minNbOfInstantiatedVarsToCalculateValues();
 		differentiae.setCoeffFreeWeight((double) weight);
@@ -45,23 +47,24 @@ public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 	}
 	
 	private int valueCalculationByNProperties(int n) {
-		int minNbOfInstantiatedVar = -1;
+		int minApplicationWeightSum = -1;
 		Set<Set<IProperty>> propSubsets = Sets.combinations(properties, n);
 		for (Set<IProperty> propSubset : propSubsets) {
 			Set<IDenotation> calculatedValues = new HashSet<>();
 			for (IProperty property : propSubset) {
-				calculatedValues.addAll(property.getResultingValues());
+				for (IApplication application : property.getApplications())
+					calculatedValues.add(application.getValue());
 			}
 			if (calculatedValues.equals(values)) {
 				Set<AVariable> instantiatedVars = new HashSet<>();
 				for (IProperty property : propSubset)
-					instantiatedVars.addAll(property.function().getVariables());
+					instantiatedVars.addAll(property.getFunction().getVariables());
 				int nbOfInstantiatedVars = instantiatedVars.size();
-				if (minNbOfInstantiatedVar > nbOfInstantiatedVars || minNbOfInstantiatedVar == -1)
-					minNbOfInstantiatedVar = nbOfInstantiatedVars;
+				if (minApplicationWeightSum > nbOfInstantiatedVars || minApplicationWeightSum == -1)
+					minApplicationWeightSum = nbOfInstantiatedVars;
 			}
 		}
-		return minNbOfInstantiatedVar;
+		return minApplicationWeightSum;
 	}
 
 }

@@ -12,7 +12,7 @@ public interface IApplication extends ISymbol, Weighed {
 	
 	IDenotation getConstruct();
 	
-	IBindings getBoundVariables();
+	IBindings getBindings();
 
 	/**
 	 * 

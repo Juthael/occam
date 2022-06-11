@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.denotations.DenotationBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.lattice_productions.from_denotations.utils.MapVariablesToValues;
+import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.utils.MapVariablesToValues;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;

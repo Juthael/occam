@@ -7,21 +7,24 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
+import com.tregouet.occam.data.logical_structures.lambda_terms.impl.Bindings;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Everything;
+import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
-import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
-import com.tregouet.occam.data.problem_space.states.transitions.impl.ConceptProductiveTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.ClosureTransition;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.ConceptProductiveTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.ConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.ConceptTransitionOIC;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.InheritanceTransition;
@@ -44,26 +47,21 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 				int speciesID = application.getValue().getConceptID();
 				int genusID = classification.getGenusID(speciesID);
 				if (application.isBlank()) {
-					//blank : substitution of a variable by itself. Instead, ε-transition with same variable remaining on top
-					//OK
-					transitions.add(new InheritanceTransition(genusID, speciesID, application.getSource(), 
-							application.getTarget(), application.getVariable()));
+					//blank : substitution of a variables by themselves. Instead, ε-transition with same bindings remaining on top
+					transitions.add(new InheritanceTransition(genusID, speciesID, application.getBindings()));
 				}
 				else {
-					AVariable poppedStackSymbol = application.getVariable();
+					IBindings poppedStackSymbol = application.getBindings();
 					IConceptTransitionIC inputConfig = 
-							new ConceptTransitionIC(genusID, application.getUncontextualizedProduction(), poppedStackSymbol);
+							new ConceptTransitionIC(genusID, application, poppedStackSymbol);
+					IConceptTransitionOIC outputConfig;
 					List<AVariable> newBoundVariables = application.getValue().getVariables();
-					if (newBoundVariables.isEmpty()) {
-						IConceptTransitionOIC outputConfig = new ConceptTransitionOIC(speciesID,
-								new ArrayList<>(Arrays.asList(new AVariable[] {EpsilonBinding.INSTANCE})));
-						transitions.add(new ConceptProductiveTransition(inputConfig, outputConfig));
-					}
-					else for (AVariable pushedStackSymbol : newBoundVariables) {
-						IConceptTransitionOIC outputConfig = new ConceptTransitionOIC(speciesID,
-								new ArrayList<>(Arrays.asList(new AVariable[] {pushedStackSymbol})));
-						transitions.add(new ConceptProductiveTransition(inputConfig, outputConfig));
-					}
+					if (newBoundVariables.isEmpty())
+						outputConfig = new ConceptTransitionOIC(speciesID,
+								new ArrayList<>(Arrays.asList(new IBindings[] {EpsilonBinding.INSTANCE})));
+					else outputConfig = new ConceptTransitionOIC(speciesID,
+								new ArrayList<>(Arrays.asList(new IBindings[] {new Bindings(newBoundVariables)})));
+					transitions.add(new ConceptProductiveTransition(inputConfig, outputConfig));
 				}
 			}
 		}
@@ -108,13 +106,19 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		return closedInheritances;
 	}
 	
-	abstract protected Set<IContextualizedProduction> selectRelevantProductions(IClassificationProductions classificationProductions);
+	abstract protected Set<IApplication> selectRelevantApplications(Set<IApplication> applications);
 
 	abstract protected void filterForComplianceToAdditionalConstraints(Set<IConceptTransition> transitions);
 
 	@Override
 	public IRepresentationTransitionFunction apply(IClassification classification,
-			IClassificationProductions classificationProductions) {
+			IDescription description) {
+		//populate
+		Set<IApplication> applications = new HashSet<>();
+		for (ADifferentiae diff : description.asGraph().edgeSet()) {
+			for (IProperty prop : diff.getProperties())
+				applications.addAll(prop.getApplications());
+		}
 		// declare TF constructor parameters
 		IConceptTransition initial;
 		Set<IConceptTransition> productiveTrans = new HashSet<>();
@@ -123,9 +127,9 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		Set<IConceptTransition> spontaneous;
 		// build
 		initial = buildInitialTransition(classification);
-		Set<IContextualizedProduction> relevantProductions = selectRelevantProductions(classificationProductions);
+		Set<IApplication> relevantApplications = selectRelevantApplications(applications);
 		Set<IConceptTransition> prodTransAndUnclosedInheritances = buildProductiveTransAndUnclosedInheritances(classification,
-				relevantProductions);
+				relevantApplications);
 		for (IConceptTransition transition : prodTransAndUnclosedInheritances) {
 			if (transition.type() == TransitionType.PRODUCTIVE_TRANS)
 				productiveTrans.add(transition);

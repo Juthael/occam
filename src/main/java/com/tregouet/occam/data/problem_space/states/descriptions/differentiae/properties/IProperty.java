@@ -8,9 +8,9 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 
 public interface IProperty extends Weighed {
 
-	IDenotation function();
+	IDenotation getFunction();
 
-	Set<IApplication> applications();
+	Set<IApplication> getApplications();
 
 	void setWeight(double weight);
 

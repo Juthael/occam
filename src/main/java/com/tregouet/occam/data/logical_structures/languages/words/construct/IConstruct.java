@@ -3,7 +3,6 @@ package com.tregouet.occam.data.logical_structures.languages.words.construct;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaTerm;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
@@ -28,6 +27,10 @@ public interface IConstruct extends IWord<ISymbol> {
 
 	int getNbOfTerminals();
 
+	/**
+	 * 
+	 * @return variables in their index order
+	 */
 	List<AVariable> getVariables();
 
 	boolean isAbstract();

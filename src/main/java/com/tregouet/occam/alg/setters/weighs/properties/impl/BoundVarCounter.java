@@ -6,7 +6,8 @@ import java.util.Set;
 import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigher;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class BoundVarCounter implements PropertyWeigher {
 
@@ -17,13 +18,15 @@ public class BoundVarCounter implements PropertyWeigher {
 
 	@Override
 	public void accept(IProperty property) {
-		Set<AVariable> varInstantiatedByNonRedundantApp = new HashSet<>();
-		for (IContextualizedProduction app : property.getProductions()) {
-			if (!app.isAlphaConversion()) {
-				varInstantiatedByNonRedundantApp.add(app.getVariable());
+		Set<AVariable> boundVars = new HashSet<>();
+		for (IApplication application : property.getApplications()) {
+			for (IProduction production : application.getArguments()) {
+				if (!production.isAlphaConversion()) {
+					boundVars.add(production.getVariable());
+				}
 			}
 		}
-		property.setWeight((double) varInstantiatedByNonRedundantApp.size());
+		property.setWeight((double) boundVars.size());
 	}
 
 }

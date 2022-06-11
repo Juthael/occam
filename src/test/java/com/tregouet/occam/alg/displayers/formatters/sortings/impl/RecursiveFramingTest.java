@@ -16,9 +16,7 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.OverallStrategy;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.ProductionSetBuilder;
 import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
@@ -27,7 +25,6 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
@@ -38,9 +35,8 @@ public class RecursiveFramingTest {
 	private List<IContextObject> context;
 	private Set<Integer> extentIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;	
-	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
-	private Map<IClassificationProductions, IClassification> classProd2Classification =	new HashMap<>();
+	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
 	private Set<IDescription> descriptions = new HashSet<>();
 
 	@BeforeClass
@@ -54,19 +50,15 @@ public class RecursiveFramingTest {
 		for (IContextObject obj : context)
 			extentIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-		if (Occam.strategy == OverallStrategy.OVERALL_STRATEGY_1 || Occam.strategy == OverallStrategy.OVERALL_STRATEGY_2)
-			productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		trees = growTrees();
-		ProductionSetBuilder bldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
-			bldr = BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder();
-			IClassificationProductions classProds = bldr.setUp(productions).apply(classification);
+			Set<IContextualizedProduction> classProds = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
 			classProd2Classification.put(classProds, classification);
 		}
-		for (IClassificationProductions classProd : classProd2Classification.keySet()) {
+		for (Set<IContextualizedProduction> classProd : classProd2Classification.keySet()) {
 			IClassification classification = classProd2Classification.get(classProd);
 			descriptions.add(BuildersAbstractFactory.INSTANCE
 					.getDescriptionBuilder().apply(classification, classProd));

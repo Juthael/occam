@@ -14,7 +14,7 @@ public interface RepresentationBuilder
 	extends Function<IClassification, IRepresentation> {
 	
 	public static ProductionSetBuilder productionSetBuilder() {
-		return BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder();
+		return BuildersAbstractFactory.INSTANCE.getProductionSetBuilder();
 	}
 	
 	public static RepresentationTransFuncBuilder transFuncBuilder() {

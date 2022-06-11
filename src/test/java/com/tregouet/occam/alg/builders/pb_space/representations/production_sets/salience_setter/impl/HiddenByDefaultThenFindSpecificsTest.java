@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.pb_space.representations.classification_productions.salience_mapper.impl;
+package com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.impl;
 
 import static org.junit.Assert.assertTrue;
 
@@ -10,15 +10,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.google.common.collect.Sets;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.OverallStrategy;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.ProductionSetBuilder;
 import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
@@ -29,7 +28,6 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
-import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.productions.Salience;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -44,9 +42,8 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	private List<IContextObject> context;
 	private Set<Integer> particularIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;	
-	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
-	private Map<IClassificationProductions, IClassification> classProd2Classification =	new HashMap<>();
+	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -59,8 +56,6 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		for (IContextObject obj : context)
 			particularIDs.add(obj.iD());		
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-		if (Occam.strategy == OverallStrategy.OVERALL_STRATEGY_1 || Occam.strategy == OverallStrategy.OVERALL_STRATEGY_2)
-			productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		/*
 		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
 			.apply(conceptLattice.getOntologicalUpperSemilattice(), "FirstBuildTransitionFunctionTest_lattice");
@@ -71,8 +66,8 @@ public class HiddenByDefaultThenFindSpecificsTest {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, particularIDs);
-			bldr = BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder();
-			IClassificationProductions classProds = bldr.setUp(productions).apply(classification);
+			bldr = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder();
+			Set<IContextualizedProduction> classProds = bldr.apply(classification);
 			classProd2Classification.put(classProds, classification);
 		}		
 	}
@@ -81,17 +76,15 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	public void ifTransitionIsHiddenProductionThenSpeciesIsParticular() {
 		boolean asExpected = true;
 		int nbOfChecks = 0;
-		for (IClassificationProductions classProd : classProd2Classification.keySet()) {
-			Set<IContextualizedProduction> salientProds = classProd.getSalientProductions();
-			Set<IContextualizedProduction> allProds = classProd.getProductions();
-			Set<IContextualizedProduction> hiddenProds = new HashSet<>(Sets.difference(allProds, salientProds));
+		for (Set<IContextualizedProduction> classProd : classProd2Classification.keySet()) {
+			Set<IContextualizedProduction> hiddenProds = classProd.stream()
+					.filter(p -> p.getSalience() == Salience.HIDDEN)
+					.collect(Collectors.toSet());
 			for (IContextualizedProduction production : hiddenProds) {
-				if (!production.isEpsilon() && !production.isBlank()) {
-					Integer speciesID = production.getSubordinateID();
-					if (!particularIDs.contains(speciesID))
-						asExpected = false;
-					nbOfChecks ++;
-				}
+				Integer speciesID = production.getSubordinateID();
+				if (!particularIDs.contains(speciesID))
+					asExpected = false;
+				nbOfChecks ++;
 			}
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);
@@ -101,10 +94,10 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	public void ifTransitionIsRuleThenRulesTowardsConcurrentOutputsCanBeFound() {
 		boolean asExpected = true;
 		int nbOfChecks = 0;
-		for (IClassificationProductions classProds : classProd2Classification.keySet()) {
+		for (Set<IContextualizedProduction> classProds : classProd2Classification.keySet()) {
 			IClassification classification = classProd2Classification.get(classProds);
-			for (IContextualizedProduction prod : classProds.getSalientProductions()) {
-				if (classProds.salienceOf(prod) == Salience.TRANSITION_RULE) {
+			for (IContextualizedProduction prod : classProds) {
+				if (prod.getSalience() == Salience.TRANSITION_RULE) {
 					nbOfChecks++;
 					int genusID = classification.getGenusID(prod.getSubordinateID());
 					IConcept genus = classification.getConceptWithSpecifiedID(genusID);
@@ -115,7 +108,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 						}
 					}
 					List<Set<IContextualizedProduction>> rules = 
-							findProductionsWithSpecifiedInputStateAndStackSymbol(classProds, speciesID, prod.getVariable());
+							findRulesWithSpecifiedInputStateAndStackSymbol(classProds, speciesID, prod.getVariable());
 					if (rules.size() != speciesID.size())
 						asExpected = false;
 				}
@@ -128,9 +121,9 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	public void ifTransitionIsCommonFeatureThenOutputStateIsNotParticular() {
 		boolean asExpected = true;
 		int nbOfChecks = 0;
-		for (IClassificationProductions classProds : classProd2Classification.keySet()) {
-			for (IContextualizedProduction prod : classProds.getProductions()) {
-				if (classProds.salienceOf(prod) == Salience.COMMON_FEATURE) {
+		for (Set<IContextualizedProduction> classProds : classProd2Classification.keySet()) {
+			for (IContextualizedProduction prod : classProds) {
+				if (prod.getSalience() == Salience.COMMON_FEATURE) {
 					nbOfChecks++;
 					if (particularIDs.contains(prod.getSubordinateID()))
 						asExpected = false;
@@ -164,13 +157,13 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		return speciesID2GenusID;
 	}
 	
-	private List<Set<IContextualizedProduction>> findProductionsWithSpecifiedInputStateAndStackSymbol(
-			IClassificationProductions classProds, List<Integer> speciesIDs, AVariable variable) {
+	private List<Set<IContextualizedProduction>> findRulesWithSpecifiedInputStateAndStackSymbol(
+			Set<IContextualizedProduction> classProds, List<Integer> speciesIDs, AVariable variable) {
 		List<Set<IContextualizedProduction>> assumedRules = new ArrayList<>();
 		for (int i = 0 ; i < speciesIDs.size() ; i++)
 			assumedRules.add(new HashSet<>());
-		for (IContextualizedProduction production : classProds.getSalientProductions()) {
-			if (production.getVariable().equals(variable)) {
+		for (IContextualizedProduction production : classProds) {
+			if (production.getSalience() == Salience.TRANSITION_RULE && production.getVariable().equals(variable)) {
 				int speciesIdx = speciesIDs.indexOf(production.getSubordinateID());
 				if (speciesIdx != -1) {
 					assumedRules.get(speciesIdx).add(production);

@@ -16,7 +16,6 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.OverallStrategy;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
@@ -26,20 +25,19 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
-import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
+import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class BuildExhaustivelyTest {
-	
+public class EveryApplicationIsRelevantTest {
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
 	private Set<Integer> extentIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;	
-	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> trees;	
 
 	@BeforeClass
@@ -53,24 +51,23 @@ public class BuildExhaustivelyTest {
 		for (IContextObject obj : context)
 			extentIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-		if (Occam.strategy == OverallStrategy.OVERALL_STRATEGY_1 || Occam.strategy == OverallStrategy.OVERALL_STRATEGY_2)
-			productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		trees = growTrees();
 	}
 
 	@Test
 	public void whenTransitionFunctionRequestedThenReturned() {
 		boolean asExpected = true;
-		FromBlankAndSalientProductions transFuncBldr;
+		EveryApplicationIsRelevant transFuncBldr;
 		int nbOfChecks = 0;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
-			IClassificationProductions classProds = 
-					BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder().setUp(productions).apply(classification);
-			transFuncBldr = new FromBlankAndSalientProductions();
-			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(classification, classProds);
+			Set<IContextualizedProduction> classProds = 
+					BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
+			IDescription description = BuildersAbstractFactory.INSTANCE.getDescriptionBuilder().apply(classification, classProds);
+			transFuncBldr = new EveryApplicationIsRelevant();
+			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(classification, description);
 			/*
 			System.out.println(report(transFunc, tree, nbOfChecks));
 			*/
@@ -117,6 +114,6 @@ public class BuildExhaustivelyTest {
 		for (IIsA edge : conceptTree.edgeSet())
 			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
-	}		
+	}
 
 }

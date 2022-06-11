@@ -137,7 +137,7 @@ public class BuildersAbstractFactory {
 		return ProductionSalienceSetterFactory.INSTANCE.apply(productionSalienceSetterStrategy);
 	}
 	
-	public ProductionSetBuilder getClassificationProductionSetBuilder() {
+	public ProductionSetBuilder getProductionSetBuilder() {
 		return ProductionSetBuilderFactory.INSTANCE.apply(productionSetBuilderStrategy);
 	}
 	

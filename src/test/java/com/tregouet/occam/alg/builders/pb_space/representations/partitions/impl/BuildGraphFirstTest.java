@@ -16,14 +16,9 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.OverallStrategy;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.concepts_trees.impl.IfLeafIsUniversalThenSort;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.impl.BuildGraphFirst;
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.ProductionSetBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
@@ -31,9 +26,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.productions.IClassificationProductions;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
-import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
@@ -46,7 +39,6 @@ public class BuildGraphFirstTest {
 	private List<IContextObject> context;
 	private Set<Integer> extentIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;	
-	private Set<IContextualizedProduction> productions;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
 
 	@BeforeClass
@@ -60,8 +52,6 @@ public class BuildGraphFirstTest {
 		for (IContextObject obj : context)
 			extentIDs.add(obj.iD());		
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-		if (Occam.strategy == OverallStrategy.OVERALL_STRATEGY_1 || Occam.strategy == OverallStrategy.OVERALL_STRATEGY_2)
-			productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		growTrees();
 	}
 
@@ -74,8 +64,9 @@ public class BuildGraphFirstTest {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);		
-			classProdBldr = BuildersAbstractFactory.INSTANCE.getClassificationProductionSetBuilder();
-			IClassificationProductions classProds = classProdBldr.setUp(productions).apply(classification);
+			classProdBldr = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder();
+			Set<IContextualizedProduction> classProds = 
+					BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
 			IDescription description = BuildersAbstractFactory.INSTANCE.getDescriptionBuilder().apply(classification, classProds);
 			BuildGraphFirst partitionBuilder = new BuildGraphFirst();
 			Set<IPartition> partitions = partitionBuilder.apply(description, classification);

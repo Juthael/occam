@@ -9,7 +9,7 @@ import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransiti
 public class EveryApplicationIsRelevant extends AbstractTransFuncBuilder implements RepresentationTransFuncBuilder {
 
 	@Override
-	protected void filterForComplianceToAdditionalConstraints(Set<IConceptTransition> transitions) {
+	protected void filterForComplianceWithAdditionalConstraints(Set<IConceptTransition> transitions) {
 		//do nothing
 	}
 

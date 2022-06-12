@@ -75,12 +75,12 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		transitions.addAll(closures);
 		transitions.addAll(inheritances);
 		transitions.addAll(spontaneous);
-		filterForComplianceToAdditionalConstraints(transitions);
+		filterForComplianceWithAdditionalConstraints(transitions);
 		// return
 		return new RepresentationTransitionFunction(transitions);
 	}
 
-	abstract protected void filterForComplianceToAdditionalConstraints(Set<IConceptTransition> transitions);
+	abstract protected void filterForComplianceWithAdditionalConstraints(Set<IConceptTransition> transitions);
 
 	abstract protected Set<IApplication> selectRelevantApplications(Set<IApplication> applications);
 

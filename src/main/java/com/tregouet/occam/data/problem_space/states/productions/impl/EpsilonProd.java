@@ -14,5 +14,10 @@ public class EpsilonProd extends Production implements IProduction {
 	public boolean isEpsilon() {
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "ε";
+	}
 
 }

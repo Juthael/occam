@@ -135,14 +135,6 @@ public class Production implements IProduction {
 
 	@Override
 	public String toString() {
-		//HERE
-		try {
-			System.out.println("[" + variable.toString() + " ::= " + value.toString() + "]");
-		}
-		catch (Exception e) {
-			System.out.println("here");
-		}
-		//HERE
 		return "[" + variable.toString() + " ::= " + value.toString() + "]";
 	}
 

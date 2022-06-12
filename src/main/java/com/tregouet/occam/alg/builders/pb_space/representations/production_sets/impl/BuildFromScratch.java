@@ -16,16 +16,15 @@ import com.tregouet.tree_finder.data.InvertedTree;
 
 public class BuildFromScratch implements ProductionSetBuilder {
 
-	public static final BuildFromScratch INSTANCE = new BuildFromScratch();
-
-	private BuildFromScratch() {
+	public BuildFromScratch() {
 	}
 
 	@Override
 	public Set<IContextualizedProduction> apply(IClassification classification) {
 		Set<IContextualizedProduction> prods = buildProductions(classification);
 		Set<IContextualizedProduction> reducedProds = ProductionSetReducer.reduce(prods);
-		ProductionSetBuilder.productionSalienceSetter().setUp(classification).accept(reducedProds);
+		Set<IContextualizedProduction> filteredReducedProds = complyWithAdditionalConstraint(reducedProds);
+		ProductionSetBuilder.productionSalienceSetter().setUp(classification).accept(filteredReducedProds);
 		return reducedProds;
 	}
 
@@ -48,6 +47,10 @@ public class BuildFromScratch implements ProductionSetBuilder {
 				}
 			}
 		}
+		return productions;
+	}
+	
+	protected Set<IContextualizedProduction> complyWithAdditionalConstraint(Set<IContextualizedProduction> productions){
 		return productions;
 	}
 

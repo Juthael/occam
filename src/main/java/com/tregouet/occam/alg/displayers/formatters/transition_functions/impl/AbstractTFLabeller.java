@@ -82,7 +82,7 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 				sB.append("OTHERS : " + nL);
 			Iterator<IConceptTransition> transIte = transitions.iterator();
 			while (transIte.hasNext()) {
-				sB.append(transIte.next().toString());
+				sB.append(TransitionFunctionLabeller.transitionLabeller().apply(transIte.next()));
 				if (transIte.hasNext())
 					sB.append(nL);
 			}

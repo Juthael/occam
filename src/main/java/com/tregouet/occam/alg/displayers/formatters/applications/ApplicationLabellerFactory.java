@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.displayers.formatters.differentiae.properties.applications;
+package com.tregouet.occam.alg.displayers.formatters.applications;
 
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.applications.impl.AngleBrackets;
+import com.tregouet.occam.alg.displayers.formatters.applications.impl.AngleBrackets;
 
 public class ApplicationLabellerFactory {
 

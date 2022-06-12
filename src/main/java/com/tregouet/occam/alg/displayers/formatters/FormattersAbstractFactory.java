@@ -1,14 +1,14 @@
 package com.tregouet.occam.alg.displayers.formatters;
 
+import com.tregouet.occam.alg.displayers.formatters.applications.ApplicationLabeller;
+import com.tregouet.occam.alg.displayers.formatters.applications.ApplicationLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.applications.ApplicationLabellerStrategy;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabellerStrategy;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerStrategy;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.applications.ApplicationLabeller;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.applications.ApplicationLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.applications.ApplicationLabellerStrategy;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerFactory;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerStrategy;
@@ -24,11 +24,15 @@ import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConve
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabeller;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.TransitionLabeller;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.TransitionLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.TransitionLabellerStrategy;
 
 public class FormattersAbstractFactory {
 
 	public static final FormattersAbstractFactory INSTANCE = new FormattersAbstractFactory();
 
+	private TransitionLabellerStrategy transitionLabellerStrategy = null;
 	private TransitionFunctionLabellerStrategy transitionFunctionLabellerStrategy = null;
 	private ApplicationLabellerStrategy applicationLabellerStrategy = null;
 	private PropertyLabellerStrategy propertyLabellerStrategy = null;
@@ -72,10 +76,15 @@ public class FormattersAbstractFactory {
 	public TransitionFunctionLabeller getTransitionFunctionDisplayer() {
 		return TransitionFunctionLabellerFactory.INSTANCE.apply(transitionFunctionLabellerStrategy);
 	}
+	
+	public TransitionLabeller getTransitionLabeller() {
+		return TransitionLabellerFactory.INSTANCE.apply(transitionLabellerStrategy);
+	}
 
 	public void setUpStrategy(FormattingStrategy strategy) {
 		switch (strategy) {
 		case LABELLING_STRATEGY_1:
+			transitionLabellerStrategy = TransitionLabellerStrategy.CANONICAL_NOTATION;
 			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.DISPLAY_ALL_TRANSITIONS;
 			applicationLabellerStrategy = ApplicationLabellerStrategy.ANGLE_BRACKETS;
 			propertyLabellerStrategy = PropertyLabellerStrategy.CURLY_BRACKETS;

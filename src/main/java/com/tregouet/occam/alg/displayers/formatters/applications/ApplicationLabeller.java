@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.displayers.formatters.differentiae.properties.applications;
+package com.tregouet.occam.alg.displayers.formatters.applications;
 
 import java.util.function.Function;
 

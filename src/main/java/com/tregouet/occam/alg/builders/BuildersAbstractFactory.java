@@ -154,7 +154,7 @@ public class BuildersAbstractFactory {
 			classificationBuilderStrategy = ClassificationBuilderStrategy.BUILD_PARAM_THEN_INST;
 			productionBuilderStrategy = ProductionBuilderStrategy.SRCE_CNCPT_CANNOT_HAVE_TGET_DENOT;
 			productionSalienceSetterStrategy = ProductionSalienceSetterStrategy.HIDDEN_THEN_FIND_SPECIFICS;
-			productionSetBuilderStrategy = ProductionSetBuilderStrategy.BUILD_FROM_SCRATCH;
+			productionSetBuilderStrategy = ProductionSetBuilderStrategy.NO_EPSILON;
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.EVERY_APP_IS_RELEVANT;
 			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_APPLICATION;
 			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;

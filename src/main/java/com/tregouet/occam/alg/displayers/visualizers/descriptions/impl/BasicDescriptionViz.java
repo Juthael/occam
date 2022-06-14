@@ -33,7 +33,7 @@ public class BasicDescriptionViz implements DescriptionViz {
 
 	@Override
 	public String apply(IDescription description, String fileName) {
-		DifferentiaeLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeDisplayer();
+		DifferentiaeLabeller diffLabeller = FormattersAbstractFactory.INSTANCE.getDifferentiaeLabeller();
 		Tree<Integer, ADifferentiae> descGraph = description.asGraph();
 		// convert in DOT format
 		DOTExporter<Integer, ADifferentiae> exporter = new DOTExporter<>();
@@ -44,7 +44,7 @@ public class BasicDescriptionViz implements DescriptionViz {
 		});
 		exporter.setEdgeAttributeProvider((e) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(diffDisplayer.apply(e)));
+			map.put("label", DefaultAttribute.createAttribute(diffLabeller.apply(e)));
 			return map;
 		});
 		Writer writer = new StringWriter();

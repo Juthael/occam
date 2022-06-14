@@ -49,7 +49,7 @@ public class FormattersAbstractFactory {
 		return ApplicationLabellerFactory.INSTANCE.apply(applicationLabellerStrategy);
 	}
 
-	public DifferentiaeLabeller getDifferentiaeDisplayer() {
+	public DifferentiaeLabeller getDifferentiaeLabeller() {
 		return DifferentiaeLabellerFactory.INSTANCE.apply(differentiaeLabellerStrategy);
 	}
 

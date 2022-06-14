@@ -25,7 +25,7 @@ public class AppCluster {
 	}
 
 	public boolean add(IContextualizedProduction production) {
-		if (production.getSubordinateID() == speciesID && production.getTarget().equals(denotation)) {
+		if (production.getSubordinateID() == speciesID && production.getTarget().asList().equals(denotation.asList())) {
 			boolean clustered = false;
 			Iterator<ProdCluster> prodClusterIte = prodClusters.iterator();
 			while (!clustered && prodClusterIte.hasNext())

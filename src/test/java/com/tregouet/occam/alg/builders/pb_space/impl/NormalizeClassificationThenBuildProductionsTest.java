@@ -108,7 +108,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 	
 	@SuppressWarnings("unused")
 	private String visualize(Tree<Integer, ADifferentiae> descGraph, String fileName) {
-		DifferentiaeLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeDisplayer();
+		DifferentiaeLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeLabeller();
 		// convert in DOT format
 		DOTExporter<Integer, ADifferentiae> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {

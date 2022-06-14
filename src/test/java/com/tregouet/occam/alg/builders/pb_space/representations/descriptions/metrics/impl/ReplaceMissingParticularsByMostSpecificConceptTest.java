@@ -91,8 +91,8 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 	}	
 	
 	private void randomlyExpandPbSpace() {
-		int maxNbOfIterations = 4;
-		int maxNbOfSortingsAtEachIteration = 6;
+		int maxNbOfIterations = 3;
+		int maxNbOfSortingsAtEachIteration = 5;
 		int iterationIdx = 0;
 		while (iterationIdx < maxNbOfIterations) {
 			Set<IRepresentation> leaves = new HashSet<>();

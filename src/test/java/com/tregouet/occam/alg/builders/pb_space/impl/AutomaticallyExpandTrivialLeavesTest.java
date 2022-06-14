@@ -94,7 +94,7 @@ public class AutomaticallyExpandTrivialLeavesTest {
 	}
 
 	private void randomlyExpandPbSpace() {
-		int maxNbOfIterations = 5;
+		int maxNbOfIterations = 4;
 		int maxNbOfSortingsAtEachIteration = 8;
 		int iterationIdx = 0;
 		while (iterationIdx < maxNbOfIterations) {

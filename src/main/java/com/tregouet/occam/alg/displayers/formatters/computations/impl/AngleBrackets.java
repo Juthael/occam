@@ -1,13 +1,13 @@
-package com.tregouet.occam.alg.displayers.formatters.applications.impl;
+package com.tregouet.occam.alg.displayers.formatters.computations.impl;
 
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.alg.displayers.formatters.applications.ApplicationLabeller;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.alg.displayers.formatters.computations.ComputationLabeller;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
-public class AngleBrackets implements ApplicationLabeller {
+public class AngleBrackets implements ComputationLabeller {
 
 	public static final AngleBrackets INSTANCE = new AngleBrackets();
 
@@ -15,8 +15,8 @@ public class AngleBrackets implements ApplicationLabeller {
 	}
 
 	@Override
-	public String apply(IApplication application) {
-		List<IProduction> productions = application.getArguments();
+	public String apply(IComputation computation) {
+		List<IProduction> productions = computation.getArguments();
 		if (productions.size() == 1)
 			return "<" + productions.get(0).toString() + ">";
 		Iterator<IProduction> prodIte = productions.iterator();

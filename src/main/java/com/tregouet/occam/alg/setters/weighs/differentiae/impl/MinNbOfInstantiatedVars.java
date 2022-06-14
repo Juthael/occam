@@ -9,7 +9,7 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 
 public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 
@@ -24,8 +24,8 @@ public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 		properties = differentiae.getProperties();
 		values = new HashSet<>();
 		for (IProperty property : properties) {
-			for (IApplication application : property.getApplications())
-				values.add(application.getValue());
+			for (IComputation computation : property.getComputations())
+				values.add(computation.getValue());
 		}
 		int weight = minNbOfInstantiatedVarsToCalculateValues();
 		differentiae.setCoeffFreeWeight(weight);
@@ -47,24 +47,24 @@ public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 	}
 
 	private int valueCalculationByNProperties(int n) {
-		int minApplicationWeightSum = -1;
+		int minComputationWeightSum = -1;
 		Set<Set<IProperty>> propSubsets = Sets.combinations(properties, n);
 		for (Set<IProperty> propSubset : propSubsets) {
 			Set<IDenotation> calculatedValues = new HashSet<>();
 			for (IProperty property : propSubset) {
-				for (IApplication application : property.getApplications())
-					calculatedValues.add(application.getValue());
+				for (IComputation computation : property.getComputations())
+					calculatedValues.add(computation.getValue());
 			}
 			if (calculatedValues.equals(values)) {
 				Set<AVariable> instantiatedVars = new HashSet<>();
 				for (IProperty property : propSubset)
 					instantiatedVars.addAll(property.getFunction().getVariables());
 				int nbOfInstantiatedVars = instantiatedVars.size();
-				if (minApplicationWeightSum > nbOfInstantiatedVars || minApplicationWeightSum == -1)
-					minApplicationWeightSum = nbOfInstantiatedVars;
+				if (minComputationWeightSum > nbOfInstantiatedVars || minComputationWeightSum == -1)
+					minComputationWeightSum = nbOfInstantiatedVars;
 			}
 		}
-		return minApplicationWeightSum;
+		return minComputationWeightSum;
 	}
 
 }

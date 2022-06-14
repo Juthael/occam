@@ -1,8 +1,8 @@
 package com.tregouet.occam.alg.displayers.formatters;
 
-import com.tregouet.occam.alg.displayers.formatters.applications.ApplicationLabeller;
-import com.tregouet.occam.alg.displayers.formatters.applications.ApplicationLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.applications.ApplicationLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.computations.ComputationLabeller;
+import com.tregouet.occam.alg.displayers.formatters.computations.ComputationLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.computations.ComputationLabellerStrategy;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabellerStrategy;
@@ -34,7 +34,7 @@ public class FormattersAbstractFactory {
 
 	private TransitionLabellerStrategy transitionLabellerStrategy = null;
 	private TransitionFunctionLabellerStrategy transitionFunctionLabellerStrategy = null;
-	private ApplicationLabellerStrategy applicationLabellerStrategy = null;
+	private ComputationLabellerStrategy computationLabellerStrategy = null;
 	private PropertyLabellerStrategy propertyLabellerStrategy = null;
 	private DifferentiaeLabellerStrategy differentiaeLabellerStrategy = null;
 	private Sorting2StringConverterStrategy sorting2StringConverterStrategy = null;
@@ -45,8 +45,8 @@ public class FormattersAbstractFactory {
 	private FormattersAbstractFactory() {
 	}
 
-	public ApplicationLabeller getApplicationLabeller() {
-		return ApplicationLabellerFactory.INSTANCE.apply(applicationLabellerStrategy);
+	public ComputationLabeller getComputationLabeller() {
+		return ComputationLabellerFactory.INSTANCE.apply(computationLabellerStrategy);
 	}
 
 	public DifferentiaeLabeller getDifferentiaeLabeller() {
@@ -86,7 +86,7 @@ public class FormattersAbstractFactory {
 		case LABELLING_STRATEGY_1:
 			transitionLabellerStrategy = TransitionLabellerStrategy.CANONICAL_NOTATION;
 			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.DISPLAY_ALL_TRANSITIONS;
-			applicationLabellerStrategy = ApplicationLabellerStrategy.ANGLE_BRACKETS;
+			computationLabellerStrategy = ComputationLabellerStrategy.ANGLE_BRACKETS;
 			propertyLabellerStrategy = PropertyLabellerStrategy.CURLY_BRACKETS;
 			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
 			sorting2StringConverterStrategy = Sorting2StringConverterStrategy.RECURSIVE_FRAMING;

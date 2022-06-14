@@ -33,7 +33,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
@@ -143,13 +143,13 @@ public class NormalizeClassificationThenBuildProductionsTest {
 			sB.append("***" + nl);
 			sB.append("*Property : " + nl);
 			sB.append("*function : " + prop.getFunction().toString() + nl);
-			sB.append("*applications :" + nl);
-			for (IApplication application : prop.getApplications()) {
-				sB.append(FormattersAbstractFactory.INSTANCE.getApplicationLabeller().apply(application) + nl);
+			sB.append("*computations :" + nl);
+			for (IComputation computation : prop.getComputations()) {
+				sB.append(FormattersAbstractFactory.INSTANCE.getComputationLabeller().apply(computation) + nl);
 			}
 			sB.append("*values : " + nl);
-			for (IApplication application : prop.getApplications()) {
-				sB.append(application.getValue() + nl);
+			for (IComputation computation : prop.getComputations()) {
+				sB.append(computation.getValue() + nl);
 			}
 		}
 		return sB.toString();

@@ -7,32 +7,32 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.PropertyBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.util.AppCluster;
+import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.util.CompCluster;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.productions.Salience;
 
-public class GroupSalientProductionsByApplication implements PropertyBuilder {
+public class GroupSalientProductionsByComputation implements PropertyBuilder {
 
-	public GroupSalientProductionsByApplication() {
+	public GroupSalientProductionsByComputation() {
 	}
 
 	@Override
 	public Set<IProperty> apply(IClassification classification, Set<IContextualizedProduction> productions) {
-		List<AppCluster> appClusters = new ArrayList<>();
+		List<CompCluster> compClusters = new ArrayList<>();
 		Set<IProperty> properties = new HashSet<>();
 		for (IContextualizedProduction production : productions) {
 			if (production.getSalience() == Salience.COMMON_FEATURE || production.getSalience() == Salience.TRANSITION_RULE) {
 				boolean clustered = false;
-				Iterator<AppCluster> clusterIte = appClusters.iterator();
+				Iterator<CompCluster> clusterIte = compClusters.iterator();
 				while (!clustered && clusterIte.hasNext())
 					clustered = clusterIte.next().add(production);
 				if (!clustered)
-					appClusters.add(new AppCluster(production, classification.getGenusID(production.getSubordinateID())));
+					compClusters.add(new CompCluster(production, classification.getGenusID(production.getSubordinateID())));
 			}
 		}
-		for (AppCluster cluster : appClusters) {
+		for (CompCluster cluster : compClusters) {
 			IProperty property = cluster.asProperty();
 			PropertyBuilder.propertyWeigher().accept(property);
 			properties.add(property);

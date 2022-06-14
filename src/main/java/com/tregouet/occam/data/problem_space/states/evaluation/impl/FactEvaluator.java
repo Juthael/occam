@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.data.problem_space.states.evaluation.IFactEvaluator;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IRepresentationTapeSet;
@@ -105,7 +105,7 @@ public class FactEvaluator implements IFactEvaluator {
 		activeStateID = transitionFunction.getStartStateID();
 	}
 
-	private IFactEvaluator proceedPrintingTransition(IApplication nextPrint,
+	private IFactEvaluator proceedPrintingTransition(IComputation nextPrint,
 			IConceptTransitionOIC outputInternConfig) {
 		IRepresentationTapeSet nextTapeSet = tapeSet.copy();
 		if (!nextPrint.isEpsilon())

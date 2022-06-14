@@ -16,7 +16,7 @@ public class CanonicalNotation implements TransitionLabeller {
 	@Override
 	public String apply(IConceptTransition transition) {
 		StringBuilder sB = new StringBuilder();
-		sB.append(TransitionLabeller.getApplicationLabeller().apply(transition.getInputConfiguration().getInputSymbol()))
+		sB.append(TransitionLabeller.getComputationLabeller().apply(transition.getInputConfiguration().getInputSymbol()))
 			.append(", ")
 			.append(transition.getInputConfiguration().getStackSymbol().toString())
 			.append(" → ");

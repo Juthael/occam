@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 
 public class CurlyBrackets implements PropertyLabeller {
 
@@ -19,10 +19,10 @@ public class CurlyBrackets implements PropertyLabeller {
 	public String apply(IProperty property) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("{");
-		Set<IApplication> applications = property.getApplications();
-		Iterator<IApplication> appIte = applications.iterator();
+		Set<IComputation> computations = property.getComputations();
+		Iterator<IComputation> appIte = computations.iterator();
 		while (appIte.hasNext()) {
-			sB.append(PropertyLabeller.applicationLabeller().apply(appIte.next()));
+			sB.append(PropertyLabeller.computationLabeller().apply(appIte.next()));
 			if (appIte.hasNext())
 				sB.append("," + nL);
 		}

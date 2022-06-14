@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.pb_space.representations.transition_functions;
 
-import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.impl.EveryApplicationIsRelevant;
+import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.impl.EveryComputationIsRelevant;
 
 public class RepresentationTransFuncBuilderFactory {
 
@@ -12,7 +12,7 @@ public class RepresentationTransFuncBuilderFactory {
 	public RepresentationTransFuncBuilder apply(RepresentationTransFuncBuilderStrategy strategy) {
 		switch (strategy) {
 		case EVERY_APP_IS_RELEVANT:
-			return new EveryApplicationIsRelevant();
+			return new EveryComputationIsRelevant();
 		default:
 			return null;
 		}

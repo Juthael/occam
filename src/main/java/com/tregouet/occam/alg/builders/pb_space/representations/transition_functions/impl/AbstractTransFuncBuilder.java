@@ -17,7 +17,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.imp
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
@@ -43,10 +43,10 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 	public IRepresentationTransitionFunction apply(IClassification classification,
 			IDescription description) {
 		//populate
-		Set<IApplication> applications = new HashSet<>();
+		Set<IComputation> computations = new HashSet<>();
 		for (ADifferentiae diff : description.asGraph().edgeSet()) {
 			for (IProperty prop : diff.getProperties())
-				applications.addAll(prop.getApplications());
+				computations.addAll(prop.getComputations());
 		}
 		// declare TF constructor parameters
 		IConceptTransition initial;
@@ -56,9 +56,9 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		Set<IConceptTransition> spontaneous;
 		// build
 		initial = buildInitialTransition(classification);
-		Set<IApplication> relevantApplications = selectRelevantApplications(applications);
+		Set<IComputation> relevantComputations = selectRelevantComputations(computations);
 		Set<IConceptTransition> prodTransAndUnclosedInheritances = buildProductiveTransAndUnclosedInheritances(classification,
-				relevantApplications);
+				relevantComputations);
 		for (IConceptTransition transition : prodTransAndUnclosedInheritances) {
 			if (transition.type() == TransitionType.PRODUCTIVE_TRANS)
 				productiveTrans.add(transition);
@@ -82,7 +82,7 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 
 	abstract protected void filterForComplianceWithAdditionalConstraints(Set<IConceptTransition> transitions);
 
-	abstract protected Set<IApplication> selectRelevantApplications(Set<IApplication> applications);
+	abstract protected Set<IComputation> selectRelevantComputations(Set<IComputation> computations);
 
 	private static Set<IConceptTransition> buildClosedInheritances(IClassification classification) {
 		Set<IConceptTransition> closedInheritances = new HashSet<>();
@@ -112,22 +112,22 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 	}
 
 	private static Set<IConceptTransition> buildProductiveTransAndUnclosedInheritances(IClassification classification,
-			Set<IApplication> applications) {
+			Set<IComputation> computations) {
 		Set<IConceptTransition> transitions = new HashSet<>();
-		for (IApplication application : applications) {
-			if (!application.isEpsilon()) {
-				int speciesID = application.getValue().getConceptID();
+		for (IComputation computation : computations) {
+			if (!computation.isEpsilon()) {
+				int speciesID = computation.getValue().getConceptID();
 				int genusID = classification.getGenusID(speciesID);
-				if (application.isBlank()) {
+				if (computation.isBlank()) {
 					//blank : substitution of a variables by themselves. Instead, ε-transition with same bindings remaining on top
-					transitions.add(new InheritanceTransition(genusID, speciesID, application.getBindings()));
+					transitions.add(new InheritanceTransition(genusID, speciesID, computation.getBindings()));
 				}
 				else {
-					IBindings poppedStackSymbol = application.getBindings();
+					IBindings poppedStackSymbol = computation.getBindings();
 					IConceptTransitionIC inputConfig =
-							new ConceptTransitionIC(genusID, application, poppedStackSymbol);
+							new ConceptTransitionIC(genusID, computation, poppedStackSymbol);
 					IConceptTransitionOIC outputConfig;
-					List<AVariable> newBoundVariables = application.getValue().getVariables();
+					List<AVariable> newBoundVariables = computation.getValue().getVariables();
 					if (newBoundVariables.isEmpty())
 						outputConfig = new ConceptTransitionOIC(speciesID,
 								new ArrayList<>(Arrays.asList(new IBindings[] {EpsilonBinding.INSTANCE})));

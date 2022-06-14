@@ -3,7 +3,7 @@ package com.tregouet.occam.data.problem_space.states.evaluation.tapes.impl;
 import java.util.Objects;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IBinder;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IRepresentationTapeSet;
@@ -64,7 +64,7 @@ public class RepresentationTapeSet implements IRepresentationTapeSet {
 	}
 
 	@Override
-	public void printNext(IApplication symbol) {
+	public void printNext(IComputation symbol) {
 		inputTape.print(symbol);
 	}
 
@@ -74,7 +74,7 @@ public class RepresentationTapeSet implements IRepresentationTapeSet {
 	}
 
 	@Override
-	public IApplication readNextInputSymbol() {
+	public IComputation readNextInputSymbol() {
 		return inputTape.read();
 	}
 

@@ -31,7 +31,7 @@ import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationT
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class EveryApplicationIsRelevantTest {
+public class EveryComputationIsRelevantTest {
 
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String nL = System.lineSeparator();
@@ -57,7 +57,7 @@ public class EveryApplicationIsRelevantTest {
 	@Test
 	public void whenTransitionFunctionRequestedThenReturned() {
 		boolean asExpected = true;
-		EveryApplicationIsRelevant transFuncBldr;
+		EveryComputationIsRelevant transFuncBldr;
 		int nbOfChecks = 0;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
@@ -66,7 +66,7 @@ public class EveryApplicationIsRelevantTest {
 			Set<IContextualizedProduction> classProds = 
 					BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
 			IDescription description = BuildersAbstractFactory.INSTANCE.getDescriptionBuilder().apply(classification, classProds);
-			transFuncBldr = new EveryApplicationIsRelevant();
+			transFuncBldr = new EveryComputationIsRelevant();
 			IRepresentationTransitionFunction transFunc = transFuncBldr.apply(classification, description);
 			/*
 			System.out.println(report(transFunc, tree, nbOfChecks));

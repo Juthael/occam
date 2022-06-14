@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Objects;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.impl.Fact;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
 
 public class FactTape implements IFactTape {
 
-	private final List<IApplication> fact;
+	private final List<IComputation> fact;
 	private int index;
 
 	public FactTape() {
@@ -25,7 +25,7 @@ public class FactTape implements IFactTape {
 		this.index = 0;
 	}
 
-	public FactTape(List<IApplication> fact, int index) {
+	public FactTape(List<IComputation> fact, int index) {
 		this.fact = fact;
 		this.index = index;
 	}
@@ -36,7 +36,7 @@ public class FactTape implements IFactTape {
 	}
 
 	@Override
-	public List<IApplication> asList() {
+	public List<IComputation> asList() {
 		return fact;
 	}
 
@@ -71,12 +71,12 @@ public class FactTape implements IFactTape {
 	}
 
 	@Override
-	public void print(IApplication symbol) {
+	public void print(IComputation symbol) {
 		fact.add(symbol);
 	}
 
 	@Override
-	public IApplication read() {
+	public IComputation read() {
 		if (!hasNext())
 			return null;
 		return fact.get(index++);

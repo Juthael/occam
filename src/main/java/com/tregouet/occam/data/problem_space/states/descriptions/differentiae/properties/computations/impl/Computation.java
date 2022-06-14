@@ -1,14 +1,14 @@
-package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.impl;
+package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.impl;
 
 import java.util.List;
 import java.util.Objects;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
-public class Application implements IApplication {
+public class Computation implements IComputation {
 
 	private final IDenotation construct;
 	private final IBindings boundVariables;
@@ -16,7 +16,7 @@ public class Application implements IApplication {
 	private final IDenotation value;
 	private Double weight = null;
 
-	public Application(IDenotation construct, IBindings boundVariables, List<IProduction> arguments, IDenotation value) {
+	public Computation(IDenotation construct, IBindings boundVariables, List<IProduction> arguments, IDenotation value) {
 		this.construct = construct;
 		this.boundVariables = boundVariables;
 		this.arguments = arguments;
@@ -29,7 +29,7 @@ public class Application implements IApplication {
 			return true;
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
-		Application other = (Application) obj;
+		Computation other = (Computation) obj;
 		return Objects.equals(arguments, other.arguments) && Objects.equals(construct, other.construct)
 				&& Objects.equals(value, other.value);
 	}

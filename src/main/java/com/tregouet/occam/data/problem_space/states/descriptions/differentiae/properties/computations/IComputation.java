@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications;
+package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
-public interface IApplication extends ISymbol, Weighed {
+public interface IComputation extends ISymbol, Weighed {
 
 	@Override
 	boolean equals(Object o);

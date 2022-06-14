@@ -6,8 +6,8 @@ import java.util.List;
 import com.tregouet.occam.data.logical_structures.lambda_terms.impl.Bindings;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.impl.Application;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.impl.Computation;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
@@ -31,12 +31,12 @@ public class ProdCluster {
 		return false;
 	}
 
-	public IApplication asApplication() {
+	public IComputation asComputation() {
 		productions.sort((x, y) -> denotation.asList().indexOf(x.getVariable()) - denotation.asList().indexOf(y.getVariable()));
 		List<AVariable> boundVariables = new ArrayList<>();
 		for (IProduction production : productions)
 			boundVariables.add(production.getVariable());
-		return new Application(denotation, new Bindings(boundVariables), productions, value);
+		return new Computation(denotation, new Bindings(boundVariables), productions, value);
 	}
 
 }

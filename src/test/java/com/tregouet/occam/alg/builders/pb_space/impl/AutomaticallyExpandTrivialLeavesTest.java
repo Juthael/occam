@@ -38,7 +38,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIs
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptProductiveTransition;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
@@ -152,13 +152,13 @@ public class AutomaticallyExpandTrivialLeavesTest {
 			sB.append("***" + nl);
 			sB.append("*Property : " + nl);
 			sB.append("*function : " + prop.getFunction().toString() + nl);
-			sB.append("*applications :" + nl);
-			for (IApplication application : prop.getApplications()) {
-				sB.append(FormattersAbstractFactory.INSTANCE.getApplicationLabeller().apply(application) + nl);
+			sB.append("*computations :" + nl);
+			for (IComputation computation : prop.getComputations()) {
+				sB.append(FormattersAbstractFactory.INSTANCE.getComputationLabeller().apply(computation) + nl);
 			}
 			sB.append("*values : " + nl);
-			for (IApplication application : prop.getApplications()) {
-				sB.append(application.getValue() + nl);
+			for (IComputation computation : prop.getComputations()) {
+				sB.append(computation.getValue() + nl);
 			}
 		}
 		return sB.toString();

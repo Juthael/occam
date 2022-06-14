@@ -6,18 +6,18 @@ import java.util.Set;
 
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.impl.Property;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
-public class AppCluster {
+public class CompCluster {
 
 	private int genusID;
 	private int speciesID;
 	private IDenotation denotation;
 	private Set<ProdCluster> prodClusters = new HashSet<>();
 
-	public AppCluster(IContextualizedProduction production, int genusID) {
+	public CompCluster(IContextualizedProduction production, int genusID) {
 		this.genusID = genusID;
 		speciesID = production.getSubordinateID();
 		denotation = production.getTarget();
@@ -38,10 +38,10 @@ public class AppCluster {
 	}
 
 	public IProperty asProperty() {
-		Set<IApplication> applications = new HashSet<>();
+		Set<IComputation> computations = new HashSet<>();
 		for (ProdCluster prodCluster : prodClusters)
-			applications.add(prodCluster.asApplication());
-		return new Property(genusID, speciesID, denotation, applications);
+			computations.add(prodCluster.asComputation());
+		return new Property(genusID, speciesID, denotation, computations);
 	}
 
 }

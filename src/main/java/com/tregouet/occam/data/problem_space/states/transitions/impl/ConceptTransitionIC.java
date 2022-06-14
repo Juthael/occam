@@ -3,16 +3,16 @@ package com.tregouet.occam.data.problem_space.states.transitions.impl;
 import java.util.Objects;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 
 public class ConceptTransitionIC implements IConceptTransitionIC {
 
 	private final int inputStateID;
-	private final IApplication inputSymbol;
+	private final IComputation inputSymbol;
 	private final IBindings stackSymbol;
 
-	public ConceptTransitionIC(int inputStateID, IApplication inputSymbol, IBindings stackSymbol) {
+	public ConceptTransitionIC(int inputStateID, IComputation inputSymbol, IBindings stackSymbol) {
 		this.inputStateID = inputStateID;
 		this.inputSymbol = inputSymbol;
 		this.stackSymbol = stackSymbol;
@@ -36,7 +36,7 @@ public class ConceptTransitionIC implements IConceptTransitionIC {
 	}
 
 	@Override
-	public IApplication getInputSymbol() {
+	public IComputation getInputSymbol() {
 		return inputSymbol;
 	}
 

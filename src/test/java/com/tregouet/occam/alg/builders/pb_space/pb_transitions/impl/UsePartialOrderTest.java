@@ -25,7 +25,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.applications.IApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
@@ -79,12 +79,12 @@ public class UsePartialOrderTest {
 		for (ADifferentiae diff : partition.asGraph().edgeSet()) {
 			for (IProperty property : diff.getProperties()) {
 				sB.append("   function : " + property.getFunction().toString() + nl);
-				sB.append("   applications : " + nl);
-				for (IApplication application : property.getApplications())
-					sB.append(FormattersAbstractFactory.INSTANCE.getApplicationLabeller().apply(application));
+				sB.append("   computations : " + nl);
+				for (IComputation computation : property.getComputations())
+					sB.append(FormattersAbstractFactory.INSTANCE.getComputationLabeller().apply(computation));
 				sB.append("   values : " + nl);
-				for (IApplication application : property.getApplications())
-					sB.append(application.getValue().toString());
+				for (IComputation computation : property.getComputations())
+					sB.append(computation.getValue().toString());
 			}
 		}
 		sB.append(nl);

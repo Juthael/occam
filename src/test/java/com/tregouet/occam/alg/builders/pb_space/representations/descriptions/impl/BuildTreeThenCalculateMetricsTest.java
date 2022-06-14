@@ -32,14 +32,14 @@ import com.tregouet.tree_finder.data.InvertedTree;
 
 @SuppressWarnings("unused")
 public class BuildTreeThenCalculateMetricsTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
 	private Set<Integer> extentIDs = new HashSet<>();
-	private IConceptLattice conceptLattice;	
+	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
-	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();	
+	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -70,10 +70,10 @@ public class BuildTreeThenCalculateMetricsTest {
 		int checkIdx = 0;
 		for (Set<IContextualizedProduction> classProd : classProd2Classification.keySet()) {
 			IClassification classification = classProd2Classification.get(classProd);
-			IDescription description = 
+			IDescription description =
 					BuildTreeThenCalculateMetrics.INSTANCE.apply(classification, classProd);
 			/*
-			String descriptionPath = 
+			String descriptionPath =
 					VisualizersAbstractFactory.INSTANCE.getDescriptionViz().apply(
 							description, "BuildTreeThenCalcTest_" + Integer.toString(checkIdx));
 			System.out.println("Description graph n." + Integer.toString(checkIdx) + " available at" + descriptionPath);
@@ -83,7 +83,7 @@ public class BuildTreeThenCalculateMetricsTest {
 		}
 		assertTrue(descriptions.size() == classProd2Classification.size());
 	}
-	
+
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
@@ -94,18 +94,18 @@ public class BuildTreeThenCalculateMetricsTest {
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
 				expandedTreesFromLastIteration.addAll(
-						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree)); 
+						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
-	}	
-	
+	}
+
 	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
 		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
 		for (IIsA edge : conceptTree.edgeSet())
 			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
-	}	
+	}
 
 }

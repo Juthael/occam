@@ -7,8 +7,8 @@ import org.jgrapht.graph.DefaultEdge;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
-import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 import com.tregouet.occam.data.problem_space.states.productions.Salience;
 
 public class ContextualizedProd extends DefaultEdge implements IContextualizedProduction {
@@ -17,9 +17,9 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 
 	private final IDenotation speciesDenotation;
 	private final IDenotation genusDenotation;
-	private final IProduction production;
+	private final IBasicProduction production;
 
-	public ContextualizedProd(IDenotation speciesDenotation, IDenotation genusDenotation, IProduction production) {
+	public ContextualizedProd(IDenotation speciesDenotation, IDenotation genusDenotation, IBasicProduction production) {
 		this.speciesDenotation = speciesDenotation;
 		this.genusDenotation = genusDenotation;
 		this.production = production;
@@ -73,7 +73,7 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
-	public IProduction getUncontextualizedProduction() {
+	public IBasicProduction getUncontextualizedProduction() {
 		return production;
 	}
 
@@ -98,8 +98,8 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
-	public boolean isBlank() {
-		return production.isBlank();
+	public boolean isIdentityProd() {
+		return production.isIdentityProd();
 	}
 
 	@Override

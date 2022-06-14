@@ -37,8 +37,8 @@ public class EveryComputationIsRelevantTest {
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
 	private Set<Integer> extentIDs = new HashSet<>();
-	private IConceptLattice conceptLattice;	
-	private Set<InvertedTree<IConcept, IIsA>> trees;	
+	private IConceptLattice conceptLattice;
+	private Set<InvertedTree<IConcept, IIsA>> trees;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -63,7 +63,7 @@ public class EveryComputationIsRelevantTest {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
-			Set<IContextualizedProduction> classProds = 
+			Set<IContextualizedProduction> classProds =
 					BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
 			IDescription description = BuildersAbstractFactory.INSTANCE.getDescriptionBuilder().apply(classification, classProds);
 			transFuncBldr = new EveryComputationIsRelevant();
@@ -77,21 +77,21 @@ public class EveryComputationIsRelevantTest {
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}
-	
+
 	@SuppressWarnings("unused")
 	private String report(IRepresentationTransitionFunction transFunc, InvertedTree<IConcept, IIsA> tree, int idx) {
 		StringBuilder sB = new StringBuilder();
-		String treePath = 
+		String treePath =
 				VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(
 						tree, "BuildExhaustivelyTest_tree" + Integer.toString(idx));
-		String tfPath = 
+		String tfPath =
 				VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz().apply(
 						transFunc, "BuildExhaustivelyTest_TF" + Integer.toString(idx));
 		sB.append("Concept tree n." + Integer.toString(idx) + " is available at : " + treePath + nL)
 			.append("Transition function n." + Integer.toString(idx) + " is available at : " + tfPath);
 		return sB.toString();
 	}
-	
+
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
@@ -102,13 +102,13 @@ public class EveryComputationIsRelevantTest {
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
 				expandedTreesFromLastIteration.addAll(
-						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree)); 
+						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
 	}
-	
+
 	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
 		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
 		for (IIsA edge : conceptTree.edgeSet())

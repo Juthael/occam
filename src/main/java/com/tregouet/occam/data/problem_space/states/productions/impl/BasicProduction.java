@@ -6,16 +6,16 @@ import java.util.Objects;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.problem_space.states.productions.IProduction;
+import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
 import com.tregouet.occam.data.problem_space.states.productions.Salience;
 
-public class Production implements IProduction {
+public class BasicProduction implements IBasicProduction {
 
 	private final AVariable variable;
 	private final IConstruct value;
 	private Salience salience = null;
 
-	public Production(AVariable variable, IConstruct value) {
+	public BasicProduction(AVariable variable, IConstruct value) {
 		this.variable = variable;
 		this.value = value;
 	}
@@ -31,7 +31,7 @@ public class Production implements IProduction {
 			return true;
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
-		Production other = (Production) obj;
+		BasicProduction other = (BasicProduction) obj;
 		return Objects.equals(value, other.value) && Objects.equals(variable, other.variable);
 	}
 
@@ -62,7 +62,7 @@ public class Production implements IProduction {
 	}
 
 	@Override
-	public boolean isBlank() {
+	public boolean isIdentityProd() {
 		List<ISymbol> valueList = value.asList();
 		return ((valueList.size() == 1) && (valueList.get(0).equals(variable)));
 	}

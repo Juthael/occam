@@ -5,16 +5,16 @@ import java.util.Iterator;
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.languages.words.IWord;
 import com.tregouet.occam.data.logical_structures.partial_order.PartiallyComparable;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
 
-public interface IFact extends IWord<IComputation>, PartiallyComparable<IFact> {
+public interface IFact extends IWord<IAbstractionApplication>, PartiallyComparable<IFact> {
 
 	ILambdaExpression asLambda();
 
 	@Override
 	default Integer compareTo(IFact other) {
-		Iterator<IComputation> thisIte = this.asList().iterator();
-		Iterator<IComputation> otherIte = other.asList().iterator();
+		Iterator<IAbstractionApplication> thisIte = this.asList().iterator();
+		Iterator<IAbstractionApplication> otherIte = other.asList().iterator();
 		while (thisIte.hasNext()) {
 			if (otherIte.hasNext()) {
 				if (!thisIte.next().equals(otherIte.next()))

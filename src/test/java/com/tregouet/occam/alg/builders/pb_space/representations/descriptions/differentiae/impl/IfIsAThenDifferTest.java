@@ -50,14 +50,14 @@ import guru.nidi.graphviz.parse.Parser;
 
 @SuppressWarnings("unused")
 public class IfIsAThenDifferTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
 	private Set<Integer> extentIDs = new HashSet<>();
-	private IConceptLattice conceptLattice;	
+	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
-	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();	
+	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -70,7 +70,7 @@ public class IfIsAThenDifferTest {
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		trees = growTrees();
 		for (IContextObject obj : context)
-			extentIDs.add(obj.iD());		
+			extentIDs.add(obj.iD());
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = BuildersAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
@@ -81,7 +81,7 @@ public class IfIsAThenDifferTest {
 			classProd2Classification.put(classProds, classification);
 		}
 	}
-	
+
 	@Test
 	public void whenDifferentiaeRequestedThenDifferentiaeGraphIsTree() {
 		boolean asExpected = true;
@@ -98,7 +98,7 @@ public class IfIsAThenDifferTest {
 			}
 			/*
 			String descFullPath = visualize(graph, nbOfChecks);
-			System.out.println("Description graph n." + Integer.toString(nbOfChecks) + " is available at " 
+			System.out.println("Description graph n." + Integer.toString(nbOfChecks) + " is available at "
 			+ descFullPath);
 			*/
 			if (!StructureInspector.isATree(graph))
@@ -106,8 +106,8 @@ public class IfIsAThenDifferTest {
 			nbOfChecks++;
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);
-	}	
-	
+	}
+
 	private String visualize(DirectedAcyclicGraph<Integer, ADifferentiae> description, int idx) {
 		String fileName = "IfIsAThenDifferTest_Desc_" + Integer.toString(idx);
 		// convert in DOT format
@@ -136,7 +136,7 @@ public class IfIsAThenDifferTest {
 			return null;
 		}
 	}
-	
+
 	private String label(ADifferentiae differentiae) {
 		StringBuilder sB = new StringBuilder();
 		for (IProperty prop : differentiae.getProperties()) {
@@ -144,7 +144,7 @@ public class IfIsAThenDifferTest {
 		}
 		return sB.toString();
 	}
-	
+
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
@@ -155,18 +155,18 @@ public class IfIsAThenDifferTest {
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
 				expandedTreesFromLastIteration.addAll(
-						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree)); 
+						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
-	}	
-	
+	}
+
 	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
 		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
 		for (IIsA edge : conceptTree.edgeSet())
 			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
-	}		
+	}
 
 }

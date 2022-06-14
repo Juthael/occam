@@ -25,7 +25,7 @@ public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 		values = new HashSet<>();
 		for (IProperty property : properties) {
 			for (IComputation computation : property.getComputations())
-				values.add(computation.getValue());
+				values.add(computation.getOutput());
 		}
 		int weight = minNbOfInstantiatedVarsToCalculateValues();
 		differentiae.setCoeffFreeWeight(weight);
@@ -53,7 +53,7 @@ public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 			Set<IDenotation> calculatedValues = new HashSet<>();
 			for (IProperty property : propSubset) {
 				for (IComputation computation : property.getComputations())
-					calculatedValues.add(computation.getValue());
+					calculatedValues.add(computation.getOutput());
 			}
 			if (calculatedValues.equals(values)) {
 				Set<AVariable> instantiatedVars = new HashSet<>();

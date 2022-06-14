@@ -21,7 +21,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.den
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class MarkRedundantDenotationsTest {
-	
+
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	@SuppressWarnings("unused")
 	private static final String nL = System.lineSeparator();
@@ -69,7 +69,7 @@ public class MarkRedundantDenotationsTest {
 		}
 		assertTrue(ifUpperBoundThenRedundant);
 	}
-	
+
 	@Test
 	public void whenDenotationIsMarkedAsRedundantThenIsUpperBoundOfAnotherInTheSameConcept() {
 		boolean ifRedundantThenUpperBound = true;
@@ -93,7 +93,7 @@ public class MarkRedundantDenotationsTest {
 							*/
 						}
 					}
-					if (upperBound == false) {
+					if (!upperBound) {
 						/*
 						System.out.println("... but accepts no other denotation as lower bound in the "
 								+ "instantiation order." + nL);

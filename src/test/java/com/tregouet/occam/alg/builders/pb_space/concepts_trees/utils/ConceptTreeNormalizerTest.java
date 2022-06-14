@@ -25,12 +25,12 @@ import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class ConceptTreeNormalizerTest {
-	
+
 	private static final Path TABLETOP1B = Paths.get(".", "src", "test", "java", "files", "tabletop1b.txt");
 	private List<IContextObject> context;
 	private Set<Integer> particularIDs = new HashSet<>();
-	private IConceptLattice conceptLattice;	
-	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;	
+	private IConceptLattice conceptLattice;
+	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -41,7 +41,7 @@ public class ConceptTreeNormalizerTest {
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(TABLETOP1B);
 		for (IContextObject obj : context)
-			particularIDs.add(obj.iD());		
+			particularIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		/*
 		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
@@ -57,7 +57,7 @@ public class ConceptTreeNormalizerTest {
 		int idx = 0;
 		*/
 		for (InvertedTree<IConcept, IIsA> conceptTree : conceptTrees) {
-			IClassification classification = 
+			IClassification classification =
 					BuildersAbstractFactory.INSTANCE.getClassificationBuilder().apply(conceptTree, particularIDs);
 			/*
 			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(conceptTree, "raw" + Integer.toString(idx));
@@ -71,7 +71,7 @@ public class ConceptTreeNormalizerTest {
 		}
 		assertTrue(normalizedTrees.size() == conceptTrees.size());
 	}
-	
+
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
@@ -82,11 +82,11 @@ public class ConceptTreeNormalizerTest {
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
 				expandedTreesFromLastIteration.addAll(
-						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree)); 
+						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
-	}		
+	}
 
 }

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.logical_structures.lambda_terms.impl.Bindings;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.impl.EpsilonComputation;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.EpsilonOperator;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.vars.This;
@@ -14,8 +14,8 @@ public class SpontaneousTransition extends ConceptTransition implements IConcept
 
 	public SpontaneousTransition(int inputStateID, int outputStateID) {
 		super(
-				new ConceptTransitionIC(inputStateID, 
-						EpsilonComputation.INSTANCE, 
+				new ConceptTransitionIC(inputStateID,
+						EpsilonOperator.INSTANCE,
 						new Bindings(Arrays.asList(new AVariable[] {This.INSTANCE} ))),
 				new ConceptTransitionOIC(outputStateID, Arrays.asList(new IBindings[] { new Bindings(Arrays.asList(new AVariable[] {This.INSTANCE}))})));
 	}

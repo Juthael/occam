@@ -47,7 +47,7 @@ public class IfLeafIsUniversalThenSortTest {
 			.apply(conceptLattice.getOntologicalUpperSemilattice(), "IfLeafIsUniversal_lattice");
 		*/
 	}
-	
+
 	@Test
 	public void whenTreeExpansionRequestedThenTheSameTreeCanBeBuiltManyTimes() {
 		boolean asExpected = false;
@@ -65,7 +65,7 @@ public class IfLeafIsUniversalThenSortTest {
 					boolean newTree = expandedTreesFromLastIteration.add(returned);
 					if (!newTree)
 						asExpected = true;
-				} 
+				}
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
@@ -79,8 +79,8 @@ public class IfLeafIsUniversalThenSortTest {
 		}
 		*/
 		assertTrue(asExpected);
-	}	
-	
+	}
+
 	@Test
 	public void whenTreeExpansionRequestedThenProceeded() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
@@ -93,7 +93,7 @@ public class IfLeafIsUniversalThenSortTest {
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
 				grower = new IfLeafIsUniversalThenSort();
-				expandedTreesFromLastIteration.addAll(grower.apply(conceptLattice, tree)); 
+				expandedTreesFromLastIteration.addAll(grower.apply(conceptLattice, tree));
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
@@ -108,7 +108,7 @@ public class IfLeafIsUniversalThenSortTest {
 		*/
 		assertTrue(!expandedTrees.isEmpty());
 	}
-	
+
 	@Test
 	public void whenTreeHasALeafWhichIsNotParticularThenCanBeExpandedOtherwiseCannot() {
 		boolean asExpected = true;

@@ -34,14 +34,14 @@ import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class HiddenByDefaultThenFindSpecificsTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	public static int count = 0;
 	@SuppressWarnings("unused")
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
 	private Set<Integer> particularIDs = new HashSet<>();
-	private IConceptLattice conceptLattice;	
+	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
 	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
 
@@ -54,7 +54,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		for (IContextObject obj : context)
-			particularIDs.add(obj.iD());		
+			particularIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		/*
 		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
@@ -69,7 +69,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 			bldr = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder();
 			Set<IContextualizedProduction> classProds = bldr.apply(classification);
 			classProd2Classification.put(classProds, classification);
-		}		
+		}
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}
-	
+
 	@Test
 	public void ifTransitionIsRuleThenRulesTowardsConcurrentOutputsCanBeFound() {
 		boolean asExpected = true;
@@ -107,7 +107,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 							speciesID.add(classification.asGraph().getEdgeSource(edge).iD());
 						}
 					}
-					List<Set<IContextualizedProduction>> rules = 
+					List<Set<IContextualizedProduction>> rules =
 							findRulesWithSpecifiedInputStateAndStackSymbol(classProds, speciesID, prod.getVariable());
 					if (rules.size() != speciesID.size())
 						asExpected = false;
@@ -115,8 +115,8 @@ public class HiddenByDefaultThenFindSpecificsTest {
 			}
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);
-	}	
-	
+	}
+
 	@Test
 	public void ifTransitionIsCommonFeatureThenOutputStateIsNotParticular() {
 		boolean asExpected = true;
@@ -131,8 +131,8 @@ public class HiddenByDefaultThenFindSpecificsTest {
 			}
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);
-	}		
-	
+	}
+
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
@@ -143,20 +143,20 @@ public class HiddenByDefaultThenFindSpecificsTest {
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
 				expandedTreesFromLastIteration.addAll(
-						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree)); 
+						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
-	}	
-	
+	}
+
 	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
 		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
 		for (IIsA edge : conceptTree.edgeSet())
 			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
 	}
-	
+
 	private List<Set<IContextualizedProduction>> findRulesWithSpecifiedInputStateAndStackSymbol(
 			Set<IContextualizedProduction> classProds, List<Integer> speciesIDs, AVariable variable) {
 		List<Set<IContextualizedProduction>> assumedRules = new ArrayList<>();
@@ -171,6 +171,6 @@ public class HiddenByDefaultThenFindSpecificsTest {
 			}
 		}
 		return assumedRules;
-	}	
+	}
 
 }

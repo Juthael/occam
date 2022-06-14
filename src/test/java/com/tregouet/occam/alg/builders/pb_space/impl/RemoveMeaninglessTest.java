@@ -17,14 +17,13 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")
 public class RemoveMeaninglessTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private List<IContextObject> context;
 	private RemoveMeaningless pbSpaceExplorer;
@@ -50,7 +49,7 @@ public class RemoveMeaninglessTest {
 		*/
 		assertTrue(!pbStates.isEmpty());
 	}
-	
+
 	private void randomlyExpandPbSpace() {
 		int maxNbOfIterations = 5;
 		int maxNbOfSortingsAtEachIteration = 8;

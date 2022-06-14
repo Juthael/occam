@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.displayers.formatters.computations;
 
-import com.tregouet.occam.alg.displayers.formatters.computations.impl.AngleBrackets;
+import com.tregouet.occam.alg.displayers.formatters.computations.impl.ConjunctionNoIdentity;
 
 public class ComputationLabellerFactory {
 
@@ -11,8 +11,8 @@ public class ComputationLabellerFactory {
 
 	public ComputationLabeller apply(ComputationLabellerStrategy strategy) {
 		switch (strategy) {
-		case ANGLE_BRACKETS :
-			return AngleBrackets.INSTANCE;
+		case CONJUNCTION_NO_IDENTITY :
+			return ConjunctionNoIdentity.INSTANCE;
 		default :
 			return null;
 		}

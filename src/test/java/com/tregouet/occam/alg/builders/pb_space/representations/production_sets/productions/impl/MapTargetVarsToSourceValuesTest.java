@@ -22,7 +22,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.den
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
 public class MapTargetVarsToSourceValuesTest {
-	
+
 	private IDenotation alphaBetaGamma;
 	private IDenotation alphaDeltaEpsilonZeta;
 	private IDenotation alphaXGamma;
@@ -53,14 +53,14 @@ public class MapTargetVarsToSourceValuesTest {
 		if (howManyProductionsFor(alphaXEpsilonX, alphaDeltaEpsilonZeta) != 0)
 			asExpected = false;
 		if (howManyProductionsFor(alphaDeltaEpsilonZeta, alphaXEpsilonX) != 2)
-			asExpected = false;		
+			asExpected = false;
 		if (howManyProductionsFor(alphaXEpsilonX, alphaBetaGamma) != 0)
 			asExpected = false;
 		if (howManyProductionsFor(alphaDeltaEpsilonZeta, alphaDeltaEpsilonZeta) != 1)
 			asExpected = false;
 		assertTrue(asExpected);
 	}
-	
+
 	private int howManyProductionsFor(IDenotation source, IDenotation target) {
 		MapTargetVarsToSourceValues prodBuilder = new MapTargetVarsToSourceValues();
 		Set<IContextualizedProduction> productions = prodBuilder.apply(source, target);
@@ -69,16 +69,16 @@ public class MapTargetVarsToSourceValuesTest {
 		*/
 		return productions.size();
 	}
-	
+
 	@SuppressWarnings("unused")
 	private String report(IDenotation source, IDenotation target, Set<IContextualizedProduction> result) {
 		String nL = System.lineSeparator();
 		if (result.isEmpty())
-			return "No set of productions can generate [" + source.toString() + "]" + nL +  
+			return "No set of productions can generate [" + source.toString() + "]" + nL +
 					"out of [" + target.toString() + "]." + nL;
 		else {
 			StringBuilder sB = new StringBuilder();
-			sB.append("[" + source.toString() + "] can be generated out of [" + target.toString() + "]" 
+			sB.append("[" + source.toString() + "] can be generated out of [" + target.toString() + "]"
 				+ nL + "by application of the following productions : " + nL);
 			Iterator<IContextualizedProduction> prodIte = result.iterator();
 			while (prodIte.hasNext()) {
@@ -90,7 +90,7 @@ public class MapTargetVarsToSourceValuesTest {
 			return sB.toString();
 		}
 	}
-	
+
 	private IDenotation array2Denotation(String[] array, int conceptID) {
 		List<ISymbol> symbols = new ArrayList<>();
 		for (String string : array) {

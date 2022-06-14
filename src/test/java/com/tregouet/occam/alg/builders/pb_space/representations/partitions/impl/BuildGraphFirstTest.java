@@ -33,12 +33,12 @@ import com.tregouet.tree_finder.data.InvertedTree;
 
 @SuppressWarnings("unused")
 public class BuildGraphFirstTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String NL = System.lineSeparator();
 	private List<IContextObject> context;
 	private Set<Integer> extentIDs = new HashSet<>();
-	private IConceptLattice conceptLattice;	
+	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
 
 	@BeforeClass
@@ -50,7 +50,7 @@ public class BuildGraphFirstTest {
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		for (IContextObject obj : context)
-			extentIDs.add(obj.iD());		
+			extentIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		growTrees();
 	}
@@ -63,9 +63,9 @@ public class BuildGraphFirstTest {
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
-			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);		
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
 			classProdBldr = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder();
-			Set<IContextualizedProduction> classProds = 
+			Set<IContextualizedProduction> classProds =
 					BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
 			IDescription description = BuildersAbstractFactory.INSTANCE.getDescriptionBuilder().apply(classification, classProds);
 			BuildGraphFirst partitionBuilder = new BuildGraphFirst();
@@ -75,7 +75,7 @@ public class BuildGraphFirstTest {
 			/*
 			VisualizersAbstractFactory.INSTANCE.getDescriptionViz().apply(
 							description, "BuildGraphFirst_D" + Integer.toString(nbOfChecks));
-			System.out.println("DESCRIPTION n." + Integer.toString(nbOfChecks) + " : " 
+			System.out.println("DESCRIPTION n." + Integer.toString(nbOfChecks) + " : "
 					+ GeneratorsAbstractFactory.INSTANCE.getStringPatternBuilder().apply(description.asGraph()));
 			System.out.println("Partitions : ");
 			System.out.println("**********" + NL);
@@ -87,7 +87,7 @@ public class BuildGraphFirstTest {
 		*/
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}
-	
+
 	private void growTrees() {
 		trees = BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
 		boolean newTreesBuilt = true;
@@ -102,12 +102,12 @@ public class BuildGraphFirstTest {
 			previouslyFoundTrees = foundTrees;
 		}
 	}
-	
+
 	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
 		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
 		for (IIsA edge : conceptTree.edgeSet())
 			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
-	}	
+	}
 
 }

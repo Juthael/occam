@@ -7,7 +7,7 @@ import com.tregouet.occam.data.logical_structures.lambda_terms.impl.Bindings;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Everything;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.WhatIsThere;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.impl.OmegaComputation;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.OmegaOperator;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.NothingBinding;
@@ -19,13 +19,13 @@ public class InitialTransition extends ConceptTransition implements IConceptTran
 		super(
 				new ConceptTransitionIC(
 						WhatIsThere.INSTANCE.iD(),
-						OmegaComputation.INSTANCE,
+						OmegaOperator.INSTANCE,
 						NothingBinding.INSTANCE),
 				new ConceptTransitionOIC(
 						everything.iD(),
 						Arrays.asList(
-								new IBindings[] { 
-										NothingBinding.INSTANCE, 
+								new IBindings[] {
+										NothingBinding.INSTANCE,
 										new Bindings(Arrays.asList(new AVariable[] {This.INSTANCE}))} ))
 				);
 	}

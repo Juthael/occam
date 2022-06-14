@@ -27,11 +27,15 @@ import com.tregouet.occam.alg.displayers.formatters.transition_functions.Transit
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.TransitionLabeller;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.TransitionLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.TransitionLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.abstr_apps.AbstrAppLabeller;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.abstr_apps.AbstrAppLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.abstr_apps.AbstrAppLabellerStrategy;
 
 public class FormattersAbstractFactory {
 
 	public static final FormattersAbstractFactory INSTANCE = new FormattersAbstractFactory();
 
+	private AbstrAppLabellerStrategy abstrAppLabellerStrategy = null;
 	private TransitionLabellerStrategy transitionLabellerStrategy = null;
 	private TransitionFunctionLabellerStrategy transitionFunctionLabellerStrategy = null;
 	private ComputationLabellerStrategy computationLabellerStrategy = null;
@@ -43,6 +47,10 @@ public class FormattersAbstractFactory {
 	private FactDisplayerStrategy factDisplayerStrategy = null;
 
 	private FormattersAbstractFactory() {
+	}
+
+	public AbstrAppLabeller getAbstrAppLabeller() {
+		return AbstrAppLabellerFactory.INSTANCE.apply(abstrAppLabellerStrategy);
 	}
 
 	public ComputationLabeller getComputationLabeller() {
@@ -76,7 +84,7 @@ public class FormattersAbstractFactory {
 	public TransitionFunctionLabeller getTransitionFunctionDisplayer() {
 		return TransitionFunctionLabellerFactory.INSTANCE.apply(transitionFunctionLabellerStrategy);
 	}
-	
+
 	public TransitionLabeller getTransitionLabeller() {
 		return TransitionLabellerFactory.INSTANCE.apply(transitionLabellerStrategy);
 	}
@@ -84,9 +92,10 @@ public class FormattersAbstractFactory {
 	public void setUpStrategy(FormattingStrategy strategy) {
 		switch (strategy) {
 		case LABELLING_STRATEGY_1:
+			abstrAppLabellerStrategy = AbstrAppLabellerStrategy.CONJUNCTION;
 			transitionLabellerStrategy = TransitionLabellerStrategy.CANONICAL_NOTATION;
 			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.DISPLAY_ALL_TRANSITIONS;
-			computationLabellerStrategy = ComputationLabellerStrategy.ANGLE_BRACKETS;
+			computationLabellerStrategy = ComputationLabellerStrategy.CONJUNCTION_NO_IDENTITY;
 			propertyLabellerStrategy = PropertyLabellerStrategy.CURLY_BRACKETS;
 			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
 			sorting2StringConverterStrategy = Sorting2StringConverterStrategy.RECURSIVE_FRAMING;

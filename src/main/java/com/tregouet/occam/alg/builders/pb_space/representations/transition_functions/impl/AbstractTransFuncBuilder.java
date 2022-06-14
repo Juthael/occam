@@ -18,6 +18,8 @@ import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
@@ -98,10 +100,12 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 	private static Set<IConceptTransition> buildClosures(Set<IConceptTransition> transitions) {
 		Set<IConceptTransition> closures = new HashSet<>();
 		for (IConceptTransition transition : transitions) {
-			IConceptTransitionIC inputConfig = transition.getInputConfiguration();
-			if (inputConfig.getInputSymbol().getValue().getVariables().size() > 0)
-				closures.add(new ClosureTransition(inputConfig,
-					transition.getOutputInternConfiguration().getOutputStateID()));
+			if (outputIsFunction(transition)) {
+				closures.add(
+						new ClosureTransition(
+								transition.getInputConfiguration(),
+								transition.getOutputInternConfiguration().getOutputStateID()));
+			}
 		}
 		return closures;
 	}
@@ -116,18 +120,19 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		Set<IConceptTransition> transitions = new HashSet<>();
 		for (IComputation computation : computations) {
 			if (!computation.isEpsilon()) {
-				int speciesID = computation.getValue().getConceptID();
+				int speciesID = computation.getOutput().getConceptID();
 				int genusID = classification.getGenusID(speciesID);
-				if (computation.isBlank()) {
+				if (computation.returnsInput()) {
 					//blank : substitution of a variables by themselves. Instead, ε-transition with same bindings remaining on top
-					transitions.add(new InheritanceTransition(genusID, speciesID, computation.getBindings()));
+					transitions.add(new InheritanceTransition(genusID, speciesID, computation.getOperator().getBindings()));
 				}
 				else {
-					IBindings poppedStackSymbol = computation.getBindings();
+					IAbstractionApplication inputSymbol = computation.getOperator();
+					IBindings stackSymbol = inputSymbol.getBindings();
 					IConceptTransitionIC inputConfig =
-							new ConceptTransitionIC(genusID, computation, poppedStackSymbol);
+							new ConceptTransitionIC(genusID, inputSymbol, stackSymbol);
 					IConceptTransitionOIC outputConfig;
-					List<AVariable> newBoundVariables = computation.getValue().getVariables();
+					List<AVariable> newBoundVariables = computation.getOutput().getVariables();
 					if (newBoundVariables.isEmpty())
 						outputConfig = new ConceptTransitionOIC(speciesID,
 								new ArrayList<>(Arrays.asList(new IBindings[] {EpsilonBinding.INSTANCE})));
@@ -138,6 +143,14 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 			}
 		}
 		return transitions;
+	}
+
+	private static boolean outputIsFunction(IConceptTransition transition) {
+		for (IBasicProduction prod : transition.getInputConfiguration().getInputSymbol().getArguments()) {
+			if (prod.getValue().isAbstract())
+				return true;
+		}
+		return false;
 	}
 
 	private static Set<IConceptTransition> buildSpontaneousTransitions(IClassification classification) {

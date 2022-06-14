@@ -17,7 +17,7 @@ public interface IContextualizedProduction extends IProduction {
 
 	IDenotation getTarget();
 
-	IProduction getUncontextualizedProduction();
+	IBasicProduction getUncontextualizedProduction();
 
 	@Override
 	int hashCode();

@@ -33,14 +33,14 @@ import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.data.Tree;
 
 public class RecursiveForkExplorationTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private List<IContextObject> context;
 	private Set<Integer> extentIDs = new HashSet<>();
-	private IConceptLattice conceptLattice;	
+	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
 	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
-	private Set<IDescription> descriptions = new HashSet<>();	
+	private Set<IDescription> descriptions = new HashSet<>();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -87,7 +87,7 @@ public class RecursiveForkExplorationTest {
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}
-	
+
 	private void growTrees() {
 		trees = BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
 		boolean newTreesBuilt = true;
@@ -101,13 +101,13 @@ public class RecursiveForkExplorationTest {
 			trees.addAll(foundTrees);
 			previouslyFoundTrees = foundTrees;
 		}
-	}	
-	
+	}
+
 	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
 		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
 		for (IIsA edge : conceptTree.edgeSet())
 			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
-	}	
+	}
 
 }

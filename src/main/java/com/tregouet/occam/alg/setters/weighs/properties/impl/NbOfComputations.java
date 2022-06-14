@@ -15,7 +15,7 @@ public class NbOfComputations implements PropertyWeigher {
 	public void accept(IProperty property) {
 		int weight = 0;
 		for (IComputation computation : property.getComputations()) {
-			if (!computation.isBlank())
+			if (!computation.returnsInput())
 				weight++;
 		}
 		property.setWeight(weight);

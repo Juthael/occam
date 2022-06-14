@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.pb_space.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,29 +23,20 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.google.common.collect.Sets;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
-import com.tregouet.occam.data.problem_space.states.transitions.IConceptProductiveTransition;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
-import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
-import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.data.Tree;
 
 import guru.nidi.graphviz.engine.Format;
@@ -55,10 +46,10 @@ import guru.nidi.graphviz.parse.Parser;
 
 @SuppressWarnings("unused")
 public class AutomaticallyExpandTrivialLeavesTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private List<IContextObject> context;
-	private AutomaticallyExpandTrivialLeaves pbSpaceExplorer;	
+	private AutomaticallyExpandTrivialLeaves pbSpaceExplorer;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -70,7 +61,7 @@ public class AutomaticallyExpandTrivialLeavesTest {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		pbSpaceExplorer = new AutomaticallyExpandTrivialLeaves();
 	}
-	
+
 	@Test
 	public void whenPbSpaceExplorationProceededThenNoLeafStateIsTrivial() {
 		boolean asExpected = true;
@@ -115,7 +106,7 @@ public class AutomaticallyExpandTrivialLeavesTest {
 			iterationIdx++;
 		}
 	}
-	
+
 	private String visualize(Tree<Integer, ADifferentiae> descGraph, String fileName) {
 		DifferentiaeLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeLabeller();
 		// convert in DOT format
@@ -144,7 +135,7 @@ public class AutomaticallyExpandTrivialLeavesTest {
 			return null;
 		}
 	}
-	
+
 	private String toString(ADifferentiae differentiae) {
 		String nl = System.lineSeparator();
 		StringBuilder sB = new StringBuilder();
@@ -158,7 +149,7 @@ public class AutomaticallyExpandTrivialLeavesTest {
 			}
 			sB.append("*values : " + nl);
 			for (IComputation computation : prop.getComputations()) {
-				sB.append(computation.getValue() + nl);
+				sB.append(computation.getOutput() + nl);
 			}
 		}
 		return sB.toString();

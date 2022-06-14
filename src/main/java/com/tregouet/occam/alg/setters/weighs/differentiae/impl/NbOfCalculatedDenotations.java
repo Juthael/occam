@@ -21,7 +21,7 @@ public class NbOfCalculatedDenotations implements DifferentiaeWeigher {
 		Set<IDenotation> values = new HashSet<>();
 		for (IProperty property : differentiae.getProperties()) {
 			for (IComputation computation : property.getComputations())
-				values.add(computation.getValue());
+				values.add(computation.getOutput());
 		}
 		differentiae.setCoeffFreeWeight(values.size());
 	}

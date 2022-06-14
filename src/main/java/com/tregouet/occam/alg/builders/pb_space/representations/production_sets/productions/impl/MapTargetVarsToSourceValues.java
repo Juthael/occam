@@ -18,11 +18,11 @@ import com.tregouet.occam.data.logical_structures.languages.words.construct.ICon
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
-import com.tregouet.occam.data.problem_space.states.productions.IProduction;
+import com.tregouet.occam.data.problem_space.states.productions.impl.BasicProduction;
 import com.tregouet.occam.data.problem_space.states.productions.impl.ContextualizedEpsilonProd;
 import com.tregouet.occam.data.problem_space.states.productions.impl.ContextualizedProd;
-import com.tregouet.occam.data.problem_space.states.productions.impl.Production;
 
 public class MapTargetVarsToSourceValues implements ProductionBuilder {
 
@@ -50,7 +50,7 @@ public class MapTargetVarsToSourceValues implements ProductionBuilder {
 						}
 						else {
 							value = new Construct(valueList);
-							IProduction production = new Production(variable, value);
+							IBasicProduction production = new BasicProduction(variable, value);
 							productions.add(new ContextualizedProd(source, target, production));
 						}
 					}

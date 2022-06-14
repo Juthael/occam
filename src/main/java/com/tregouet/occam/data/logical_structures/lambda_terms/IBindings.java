@@ -12,4 +12,10 @@ public interface IBindings extends ISymbol {
 	@Override
 	String toString();
 
+	@Override
+	boolean equals(Object o);
+
+	@Override
+	int hashCode();
+
 }

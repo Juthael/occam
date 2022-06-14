@@ -5,25 +5,25 @@ import java.util.List;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.lambda_terms.impl.LambdaExpression;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 
 public class Fact implements IFact {
 
-	private final List<IComputation> computationList;
+	private final List<IAbstractionApplication> operatorList;
 
-	public Fact(List<IComputation> computationList) {
-		this.computationList = computationList;
+	public Fact(List<IAbstractionApplication> operatorList) {
+		this.operatorList = operatorList;
 	}
 
 	@Override
 	public ILambdaExpression asLambda() {
-		return new LambdaExpression(computationList);
+		return new LambdaExpression(operatorList);
 	}
 
 	@Override
-	public List<IComputation> asList() {
-		return new ArrayList<>(computationList);
+	public List<IAbstractionApplication> asList() {
+		return new ArrayList<>(operatorList);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class Fact implements IFact {
 
 	@Override
 	public int size() {
-		return computationList.size();
+		return operatorList.size();
 	}
 
 }

@@ -10,7 +10,7 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class LambdaExpression extends ALambdaTerm implements ILambdaExpression {
@@ -22,29 +22,28 @@ public class LambdaExpression extends ALambdaTerm implements ILambdaExpression {
 		super(term);
 	}
 
-	public LambdaExpression(List<IComputation> computationList) {
+	public LambdaExpression(List<IAbstractionApplication> operatorList) {
 		super(null);
-		for (IComputation computation : computationList) {
+		for (IAbstractionApplication abstrApp : operatorList) {
 			if (term == null) {
-				if (!computation.isEpsilon())
-					term = computation.getValue().copy();
+				term = abstrApp.getArguments().get(0).getValue(); //normally is OmegaProd value
 			} else
-				abstractAndApply(computation);
+				abstractAndApply(abstrApp);
 		}
 		if (term == null)
 			term = new Construct(new String[] {"ε"});
 	}
 
 	@Override
-	public boolean abstractAndApply(IComputation computation) {
-		if (computation.isEpsilon())
+	public boolean abstractAndApply(IAbstractionApplication abstrApp) {
+		if (abstrApp.isEpsilonOperator())
 			return false;
 		if (bindings == null) {
-			IBindings bindings = computation.getBindings();
+			IBindings bindings = abstrApp.getBindings();
 			if (canBeAbstractedWithSpecifiedBindings(term, bindings)) {
 				this.bindings = bindings;
 				arguments = new ArrayList<>();
-				for (IProduction production : computation.getArguments())
+				for (IProduction production : abstrApp.getArguments())
 					arguments.add(new LambdaExpression(production.getValue()));
 				return true;
 			}
@@ -52,7 +51,7 @@ public class LambdaExpression extends ALambdaTerm implements ILambdaExpression {
 		}
 		boolean abstAppProceeded =  false;
 		for (LambdaExpression argument : arguments) {
-			if (argument.abstractAndApply(computation))
+			if (argument.abstractAndApply(abstrApp))
 				abstAppProceeded = true;
 		}
 		return abstAppProceeded;

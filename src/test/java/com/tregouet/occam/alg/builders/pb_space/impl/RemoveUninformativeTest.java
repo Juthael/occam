@@ -15,17 +15,16 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")
 public class RemoveUninformativeTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private List<IContextObject> context;
-	private RemoveUninformative pbSpaceExplorer;	
+	private RemoveUninformative pbSpaceExplorer;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -55,8 +54,8 @@ public class RemoveUninformativeTest {
 		VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(pbSpaceExplorer.getProblemSpaceGraph(), "RemoveMeaninglessTest");
 		*/
 		assertTrue(!pbStates.isEmpty() && asExpected);
-	}	
-	
+	}
+
 	private void randomlyExpandPbSpace() {
 		int maxNbOfIterations = 5;
 		int maxNbOfSortingsAtEachIteration = 15;
@@ -78,6 +77,6 @@ public class RemoveUninformativeTest {
 			}
 			iterationIdx++;
 		}
-	}	
+	}
 
 }

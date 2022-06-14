@@ -29,10 +29,10 @@ public interface IProduction {
 	 *
 	 * @return true if left term and right term are the same
 	 */
-	boolean isBlank();
+	boolean isIdentityProd();
 
-	// Denotes an empty string of symbols. A symbols are productions, also denotes
-	// that no variable is derived.
+	// Denotes an empty string of symbols. As symbols here are productions,
+	// also denotes that no variable is derived.
 	boolean isEpsilon();
 
 	void setSalience(Salience salience);

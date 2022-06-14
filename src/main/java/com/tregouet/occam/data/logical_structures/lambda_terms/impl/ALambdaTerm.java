@@ -2,7 +2,7 @@ package com.tregouet.occam.data.logical_structures.lambda_terms.impl;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
 
 public abstract class ALambdaTerm implements ILambdaExpression {
 
@@ -13,7 +13,7 @@ public abstract class ALambdaTerm implements ILambdaExpression {
 	}
 
 	@Override
-	abstract public boolean abstractAndApply(IComputation computation);
+	abstract public boolean abstractAndApply(IAbstractionApplication computation);
 
 	@Override
 	abstract public boolean isAnApplication();

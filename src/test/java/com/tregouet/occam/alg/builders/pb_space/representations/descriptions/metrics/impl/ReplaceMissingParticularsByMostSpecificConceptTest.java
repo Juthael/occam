@@ -24,10 +24,10 @@ import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimila
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class ReplaceMissingParticularsByMostSpecificConceptTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private List<IContextObject> context;
-	private ProblemSpaceExplorer pbSpaceExplorer;	
+	private ProblemSpaceExplorer pbSpaceExplorer;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -41,7 +41,7 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		pbSpaceExplorer.initialize(context);
 		randomlyExpandPbSpace();
 	}
-	
+
 	@Test
 	public void whenSimilarityMatrixRequestedThenReturned() {
 		boolean asExpected = true;
@@ -57,11 +57,11 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		}
 		assertTrue(asExpected);
 	}
-	
+
 	@Test
 	public void whenAsymetricalSimilarityMatrixRequestedThenReturned() {
 		boolean asExpected = true;
-		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {			
+		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
 			IDescription description = representation.getDescription();
 			ISimilarityMetrics metrics = description.getSimilarityMetrics();
 			double[][] asymmetricalSimilarityMatrix = metrics.getAsymmetricalSimilarityMatrix();
@@ -73,11 +73,11 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		}
 		assertTrue(asExpected);
 	}
-	
+
 	@Test
 	public void whenTypicalityVectorRequestedThenReturned() {
 		boolean asExpected = true;
-		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {			
+		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
 			IDescription description = representation.getDescription();
 			ISimilarityMetrics metrics = description.getSimilarityMetrics();
 			double[] typicalityVector = metrics.getTypicalityVector();
@@ -88,8 +88,8 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 			*/
 		}
 		assertTrue(asExpected);
-	}	
-	
+	}
+
 	private void randomlyExpandPbSpace() {
 		int maxNbOfIterations = 3;
 		int maxNbOfSortingsAtEachIteration = 5;
@@ -111,6 +111,6 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 			}
 			iterationIdx++;
 		}
-	}		
+	}
 
 }

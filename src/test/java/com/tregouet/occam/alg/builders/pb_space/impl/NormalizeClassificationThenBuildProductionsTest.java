@@ -45,7 +45,7 @@ import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
 
 public class NormalizeClassificationThenBuildProductionsTest {
-	
+
 	private static final Path TABLETOP1B = Paths.get(".", "src", "test", "java", "files", "tabletop1b.txt");
 	private List<IContextObject> context;
 	private NormalizeClassificationThenBuildProductions pbSpaceExplorer;
@@ -60,7 +60,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 		context = GenericFileReader.getContextObjects(TABLETOP1B);
 		pbSpaceExplorer = new NormalizeClassificationThenBuildProductions();
 	}
-	
+
 	@Test
 	public void whenPbSpaceExplorationProceededThenNoLeafStateIsTrivial() {
 		boolean asExpected = true;
@@ -105,7 +105,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 			iterationIdx++;
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
 	private String visualize(Tree<Integer, ADifferentiae> descGraph, String fileName) {
 		DifferentiaeLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeLabeller();
@@ -135,7 +135,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 			return null;
 		}
 	}
-	
+
 	private String toString(ADifferentiae differentiae) {
 		String nl = System.lineSeparator();
 		StringBuilder sB = new StringBuilder();
@@ -149,7 +149,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 			}
 			sB.append("*values : " + nl);
 			for (IComputation computation : prop.getComputations()) {
-				sB.append(computation.getValue() + nl);
+				sB.append(computation.getOutput() + nl);
 			}
 		}
 		return sB.toString();

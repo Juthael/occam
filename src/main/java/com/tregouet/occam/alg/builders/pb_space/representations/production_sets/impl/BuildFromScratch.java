@@ -49,7 +49,7 @@ public class BuildFromScratch implements ProductionSetBuilder {
 		}
 		return productions;
 	}
-	
+
 	protected Set<IContextualizedProduction> complyWithAdditionalConstraint(Set<IContextualizedProduction> productions){
 		return productions;
 	}

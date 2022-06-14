@@ -11,7 +11,7 @@ import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationT
 
 public interface TransitionFunctionLabeller
 		extends Function<IRepresentationTransitionFunction, DirectedAcyclicGraph<Integer, AConceptTransitionSet>> {
-	
+
 	public static TransitionLabeller transitionLabeller() {
 		return FormattersAbstractFactory.INSTANCE.getTransitionLabeller();
 	}

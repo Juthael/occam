@@ -3,7 +3,6 @@ package com.tregouet.occam.alg.builders.pb_space.representations.impl;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.utils.ClassificationNormalizer;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;

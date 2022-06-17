@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.logical_structures.lambda_terms.impl.Bindings;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
@@ -33,7 +32,6 @@ import com.tregouet.occam.data.problem_space.states.transitions.impl.ConceptTran
 import com.tregouet.occam.data.problem_space.states.transitions.impl.InheritanceTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.InitialTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.RepresentationTransitionFunction;
-import com.tregouet.occam.data.problem_space.states.transitions.impl.SpontaneousTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.EpsilonBinding;
 import com.tregouet.tree_finder.data.InvertedTree;
 
@@ -56,7 +54,6 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		Set<IConceptTransition> productiveTrans = new HashSet<>();
 		Set<IConceptTransition> closures;
 		Set<IConceptTransition> inheritances = new HashSet<>();
-		Set<IConceptTransition> spontaneous;
 		// build
 		initial = buildInitialTransition(classification);
 		Set<IComputation> relevantComputations = selectRelevantComputations(computations);
@@ -70,14 +67,12 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		}
 		closures = buildClosures(productiveTrans);
 		inheritances.addAll(buildClosedInheritances(classification));
-		spontaneous = buildSpontaneousTransitions(classification);
 		// gather, filter, return
 		Set<IConceptTransition> transitions = new HashSet<>();
 		transitions.add(initial);
 		transitions.addAll(productiveTrans);
 		transitions.addAll(closures);
 		transitions.addAll(inheritances);
-		transitions.addAll(spontaneous);
 		filterForComplianceWithAdditionalConstraints(transitions);
 		// return
 		return new RepresentationTransitionFunction(transitions);
@@ -171,17 +166,6 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 				return true;
 		}
 		return false;
-	}
-
-	private static Set<IConceptTransition> buildSpontaneousTransitions(IClassification classification) {
-		Set<IConceptTransition> spontaneousTransitions = new HashSet<>();
-		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
-		Set<IIsA> edges = new HashSet<>(conceptTree.edgeSet());
-		for (IIsA edge : edges) {
-			spontaneousTransitions.add(
-					new SpontaneousTransition(conceptTree.getEdgeTarget(edge).iD(), conceptTree.getEdgeSource(edge).iD()));
-		}
-		return spontaneousTransitions;
 	}
 
 }

@@ -21,7 +21,6 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 	private final Set<IConceptProductiveTransition> conceptProductiveTransitions;
 	private final Set<IConceptTransition> closures;
 	private final Set<IConceptTransition> inheritances;
-	private final Set<IConceptTransition> spontaneous;
 	private final Set<Integer> acceptStateIDs;
 
 	public RepresentationTransitionFunction(Set<IConceptTransition> transitions) {
@@ -29,7 +28,6 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 		conceptProductiveTransitions = new HashSet<>();
 		closures = new HashSet<>();
 		inheritances = new HashSet<>();
-		spontaneous = new HashSet<>();
 		Set<Integer> inputStateIDs = new HashSet<>();
 		Set<Integer> outputStateIDs = new HashSet<>();
 		for (IConceptTransition transition : transitions) {
@@ -45,9 +43,6 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 					break;
 				case INHERITANCE:
 					inheritances.add(transition);
-					break;
-				case SPONTANEOUS:
-					spontaneous.add(transition);
 					break;
 			}
 			inputStateIDs.add(transition.getInputConfiguration().getInputStateID());
@@ -114,7 +109,6 @@ public class RepresentationTransitionFunction implements IRepresentationTransiti
 		transitions.addAll(conceptProductiveTransitions);
 		transitions.addAll(closures);
 		transitions.addAll(inheritances);
-		transitions.addAll(spontaneous);
 		return transitions;
 	}
 

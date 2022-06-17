@@ -72,4 +72,9 @@ public class Computation implements IComputation {
 				&& Objects.equals(output, other.output);
 	}
 
+	@Override
+	public boolean isIdentity() {
+		return operator.isIdentityOperator();
+	}
+
 }

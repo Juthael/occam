@@ -19,7 +19,6 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.Con
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.IsA;
-import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
 import com.tregouet.occam.data.problem_space.states.classifications.impl.NormalizedClassification;
 import com.tregouet.tree_finder.data.InvertedTree;
 

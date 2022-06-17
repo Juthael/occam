@@ -115,7 +115,7 @@ public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceSette
 
 	private static boolean isAlphaConversion(Set<IProduction> value) {
 		for (IProduction production : value) {
-			if (!production.isAlphaConversion())
+			if (!production.isAlphaConversionProd())
 				return false;
 		}
 		return true;

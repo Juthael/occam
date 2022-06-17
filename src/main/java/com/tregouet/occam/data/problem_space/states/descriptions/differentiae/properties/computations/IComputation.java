@@ -21,6 +21,8 @@ public interface IComputation extends Weighed {
 	boolean returnsInput();
 
 	boolean isEpsilon();
+	
+	boolean isIdentity();
 
 	void setWeight(double weight);
 

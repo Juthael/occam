@@ -68,4 +68,13 @@ public class Property implements IProperty {
 		return weight;
 	}
 
+	@Override
+	public boolean isBlank() {
+		for (IComputation computation : computations) {
+			if (!computation.isIdentity())
+				return false;
+		}
+		return true;
+	}
+
 }

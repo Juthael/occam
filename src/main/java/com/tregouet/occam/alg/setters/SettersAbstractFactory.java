@@ -61,7 +61,7 @@ public class SettersAbstractFactory {
 		case SETTING_STRATEGY_2 :
 			propertyWeigherStrategy = PropertyWeigherStrategy.WEIGHTLESS;
 			differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.SPECIES_CARDINALITY;
-			differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.NB_OF_CALCULATED_DENOTATIONS;
+			differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.MAX_NB_OF_NON_REDUNDANT_PROP;
 			partitionWeigherStrategy = PartitionWeigherStrategy.SUM_PARTITION_DIFFERENTIAE;
 			problemTransitionWeigherStrategy = ProblemTransitionWeigherStrategy.PART_PROB_WITH_TRIVIAL_TRANSITIONS_MANDATORY;
 		default:

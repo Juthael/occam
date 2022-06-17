@@ -56,7 +56,7 @@ public class BasicProduction implements IBasicProduction {
 	}
 
 	@Override
-	public boolean isAlphaConversion() {
+	public boolean isAlphaConversionProd() {
 		List<ISymbol> valueList = value.asList();
 		return ((valueList.size() == 1) && (valueList.get(0) instanceof AVariable));
 	}

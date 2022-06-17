@@ -16,7 +16,7 @@ public class IdentityProduction extends BasicProduction implements IBasicProduct
 	}
 
 	@Override
-	public boolean isAlphaConversion() {
+	public boolean isAlphaConversionProd() {
 		return true;
 	}
 

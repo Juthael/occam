@@ -93,8 +93,8 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
-	public boolean isAlphaConversion() {
-		return production.isAlphaConversion();
+	public boolean isAlphaConversionProd() {
+		return production.isAlphaConversionProd();
 	}
 
 	@Override

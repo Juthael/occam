@@ -26,5 +26,7 @@ public interface IProperty extends Weighed {
 
 	@Override
 	String toString();
+	
+	boolean isBlank();
 
 }

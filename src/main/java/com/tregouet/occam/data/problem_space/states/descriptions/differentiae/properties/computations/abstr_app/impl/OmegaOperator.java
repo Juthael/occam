@@ -1,4 +1,7 @@
-package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications;
+package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.impl;
+
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.OperatorType;
 
 public class OmegaOperator extends AbstractionApplication implements IAbstractionApplication {
 

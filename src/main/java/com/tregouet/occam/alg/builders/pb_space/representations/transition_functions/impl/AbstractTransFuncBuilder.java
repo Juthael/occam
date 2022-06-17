@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.logical_structures.lambda_terms.impl.Bindings;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
@@ -18,7 +19,7 @@ import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
@@ -121,7 +122,12 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		for (IComputation computation : computations) {
 			if (!computation.isEpsilon()) {
 				int speciesID = computation.getOutput().getConceptID();
+				int sourceID = computation.getInput().getConceptID();
 				int genusID = classification.getGenusID(speciesID);
+				if (sourceID != genusID) {
+					transitions.addAll(
+							maintainStackSymbolOnTop(computation.getOperator().getBindings(), sourceID, genusID, classification));
+				}
 				if (computation.returnsInput()) {
 					//blank : substitution of a variables by themselves. Instead, ε-transition with same bindings remaining on top
 					transitions.add(new InheritanceTransition(genusID, speciesID, computation.getOperator().getBindings()));
@@ -143,6 +149,20 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 			}
 		}
 		return transitions;
+	}
+	
+	private static Set<IConceptTransition> maintainStackSymbolOnTop(IBindings stackSymbol, int sourceID, int genusID, 
+			IClassification classification){
+		Set<IConceptTransition> bindingsMaintainers = new HashSet<>();
+		int subordinate = genusID;
+		int superordinate = classification.getGenusID(subordinate);
+		while (subordinate != sourceID) {
+			bindingsMaintainers.add(new InheritanceTransition(superordinate, subordinate, stackSymbol));
+			subordinate = superordinate;
+			if (subordinate != classification.asGraph().getRoot().iD())
+				superordinate = classification.getGenusID(subordinate);
+		}
+		return bindingsMaintainers;
 	}
 
 	private static boolean outputIsFunction(IConceptTransition transition) {

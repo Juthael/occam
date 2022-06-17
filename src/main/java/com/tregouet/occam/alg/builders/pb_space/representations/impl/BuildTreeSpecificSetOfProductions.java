@@ -23,14 +23,13 @@ public class BuildTreeSpecificSetOfProductions implements RepresentationBuilder 
 
 	@Override
 	public IRepresentation apply(IClassification classification) {
-		IClassification normalizedClass = ClassificationNormalizer.normalize(classification);
-		Set<IContextualizedProduction> productions = RepresentationBuilder.productionSetBuilder().apply(classification);
-		IDescription description = RepresentationBuilder.descriptionBuilder().apply(classification, productions);
+		Set<IContextualizedProduction> productions = RepresentationBuilder.productionSetBuilder().apply(classification.normalized());
+		IDescription description = RepresentationBuilder.descriptionBuilder().apply(classification.normalized(), productions);
 		IRepresentationTransitionFunction transFunc = RepresentationBuilder.transFuncBuilder()
-				.apply(normalizedClass, description);
+				.apply(classification.normalized(), description);
 		IFactEvaluator factEvaluator = new FactEvaluator();
 		factEvaluator.set(transFunc);
-		Set<IPartition> partitions = RepresentationBuilder.partitionBuilder().apply(description, classification);
+		Set<IPartition> partitions = RepresentationBuilder.partitionBuilder().apply(description, classification.normalized());
 		IRepresentation representation = new Representation(classification, description, factEvaluator, partitions);
 		return representation;
 	}

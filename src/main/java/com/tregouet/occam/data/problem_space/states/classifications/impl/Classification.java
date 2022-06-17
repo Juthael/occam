@@ -3,8 +3,10 @@ package com.tregouet.occam.data.problem_space.states.classifications.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
+import com.tregouet.occam.alg.builders.pb_space.representations.utils.ClassificationNormalizer;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
@@ -12,11 +14,12 @@ import com.tregouet.tree_finder.data.InvertedTree;
 
 public class Classification implements IClassification {
 
-	private InvertedTree<IConcept, IIsA> graph;
-	private Map<Integer, IConcept> iD2Concept = new HashMap<>();
-	private Map<Integer, List<Integer>> conceptID2ExtentIDs;
-	private Map<Integer, Integer> speciesID2GenusID;
-	private Set<Integer> particularIDs;
+	private final InvertedTree<IConcept, IIsA> graph;
+	private final Map<Integer, IConcept> iD2Concept = new HashMap<>();
+	private final Map<Integer, List<Integer>> conceptID2ExtentIDs;
+	private final Map<Integer, Integer> speciesID2GenusID;
+	private final Set<Integer> particularIDs;
+	protected NormalizedClassification normalizedClassification;
 
 	public Classification(InvertedTree<IConcept, IIsA> graph, Map<Integer, List<Integer>> conceptID2ExtentIDs,
 			Map<Integer, Integer> speciesID2GenusID, Set<Integer> particularIDs) {
@@ -26,6 +29,7 @@ public class Classification implements IClassification {
 		this.conceptID2ExtentIDs = conceptID2ExtentIDs;
 		this.speciesID2GenusID = speciesID2GenusID;
 		this.particularIDs = particularIDs;
+		this.normalizedClassification = null;
 	}
 
 	@Override
@@ -76,6 +80,30 @@ public class Classification implements IClassification {
 	@Override
 	public Map<Integer, Integer> mapSpeciesID2GenusID() {
 		return speciesID2GenusID;
+	}
+
+	@Override
+	public NormalizedClassification normalized() {
+		if (normalizedClassification == null)
+			normalizedClassification = ClassificationNormalizer.normalize(this);
+		return normalizedClassification;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(graph);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Classification other = (Classification) obj;
+		return Objects.equals(graph, other.graph);
 	}
 
 }

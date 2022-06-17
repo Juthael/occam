@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.IFactEvaluator;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IRepresentationTapeSet;

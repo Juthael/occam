@@ -1,16 +1,22 @@
 package com.tregouet.occam.data.logical_structures.languages.words.construct.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
+import com.tregouet.occam.data.logical_structures.lambda_terms.impl.LambdaAbstrApp;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Terminal;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Variable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
 import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class Construct implements IConstruct {
@@ -193,6 +199,30 @@ public class Construct implements IConstruct {
 				nbOfTerminals++;
 		}
 		return nbOfTerminals;
+	}
+
+	@Override
+	public ILambdaExpression abstractAndApply(IAbstractionApplication abstrApp, boolean safeMode) {
+		if (safeMode) {
+			List<AVariable> varToBind = new ArrayList<>();
+			for (IBasicProduction prod : abstrApp.getArguments()) {
+				if (!prod.isEpsilon() && !prod.isIdentityProd())
+					varToBind.add(prod.getVariable());
+			}
+			if (!this.getFreeVariables().containsAll(varToBind))
+				return null;
+		}
+		return new LambdaAbstrApp(this, abstrApp);
+	}
+
+	@Override
+	public Set<AVariable> getFreeVariables() {
+		return new HashSet<>(getVariables());
+	}
+
+	@Override
+	public boolean isAbstractionApplication() {
+		return false;
 	}
 
 }

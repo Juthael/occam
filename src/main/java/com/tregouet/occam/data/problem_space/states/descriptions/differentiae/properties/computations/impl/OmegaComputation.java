@@ -3,7 +3,7 @@ package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.p
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.impl.Denotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.OmegaOperator;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.impl.OmegaOperator;
 import com.tregouet.occam.data.problem_space.states.productions.impl.OmegaProd;
 
 public class OmegaComputation extends Computation implements IComputation {

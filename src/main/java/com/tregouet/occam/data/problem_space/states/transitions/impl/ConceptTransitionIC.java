@@ -3,7 +3,7 @@ package com.tregouet.occam.data.problem_space.states.transitions.impl;
 import java.util.Objects;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 
 public class ConceptTransitionIC implements IConceptTransitionIC {

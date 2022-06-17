@@ -24,7 +24,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIs
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class ConceptTreeNormalizerTest {
+public class ClassificationNormalizerTest {
 
 	private static final Path TABLETOP1B = Paths.get(".", "src", "test", "java", "files", "tabletop1b.txt");
 	private List<IContextObject> context;

@@ -3,7 +3,7 @@ package com.tregouet.occam.data.problem_space.states.evaluation.tapes.impl;
 import java.util.Objects;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IBinder;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IRepresentationTapeSet;

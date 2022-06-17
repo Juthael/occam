@@ -13,7 +13,7 @@ import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 import com.tregouet.occam.data.problem_space.states.impl.Representation;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;

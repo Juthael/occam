@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.abstr_apps.AbstrAppLabeller;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
 
 public class Conjunction implements AbstrAppLabeller {

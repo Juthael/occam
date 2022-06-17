@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.displayers.formatters.computations;
+package com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations;
 
-import com.tregouet.occam.alg.displayers.formatters.computations.impl.ConjunctionNoIdentity;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.impl.ConjunctionNoIdentity;
 
 public class ComputationLabellerFactory {
 

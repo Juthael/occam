@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.impl.Fact;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;

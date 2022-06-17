@@ -3,12 +3,13 @@ package com.tregouet.occam.data.logical_structures.languages.words.construct;
 import java.util.Iterator;
 import java.util.List;
 
+import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
 import com.tregouet.occam.data.logical_structures.languages.words.IWord;
 
-public interface IConstruct extends IWord<ISymbol> {
+public interface IConstruct extends IWord<ISymbol>, ILambdaExpression {
 
 	public static final String EMPTY_CONSTRUCT_SYMBOL = "ε";
 

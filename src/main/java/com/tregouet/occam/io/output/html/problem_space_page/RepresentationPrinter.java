@@ -58,7 +58,7 @@ public class RepresentationPrinter {
 
 	private static String printClassificationTree(IRepresentation representation, int a) {
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
-				.apply(representation.getClassification().asGraph(), "classification_tree");
+				.apply(representation.getClassification().normalized().asGraph(), "classification_tree");
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
 				.append(alinea[a + 1] + "<header>" + nL)

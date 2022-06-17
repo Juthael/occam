@@ -1,14 +1,14 @@
 package com.tregouet.occam.alg.displayers.formatters;
 
-import com.tregouet.occam.alg.displayers.formatters.computations.ComputationLabeller;
-import com.tregouet.occam.alg.displayers.formatters.computations.ComputationLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.computations.ComputationLabellerStrategy;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabellerStrategy;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabeller;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabellerStrategy;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerFactory;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerStrategy;

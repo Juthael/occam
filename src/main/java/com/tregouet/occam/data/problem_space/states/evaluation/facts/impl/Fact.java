@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
-import com.tregouet.occam.data.logical_structures.lambda_terms.impl.LambdaExpression;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
+import com.tregouet.occam.data.logical_structures.lambda_terms.impl.LambdaAbstrApp;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.impl.OmegaOperator;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 
 public class Fact implements IFact {
@@ -18,7 +20,18 @@ public class Fact implements IFact {
 
 	@Override
 	public ILambdaExpression asLambda() {
-		return new LambdaExpression(operatorList);
+		if (operatorList.isEmpty() || !operatorList.get(0).equals(OmegaOperator.INSTANCE))
+			return null;
+		IConstruct initialThis = OmegaOperator.INSTANCE.getArguments().get(0).getValue(); 
+		if (operatorList.size() == 1)
+			return initialThis; 
+		else {
+			ILambdaExpression exp = new LambdaAbstrApp(initialThis, operatorList.get(1));
+			for (int i = 2 ; i < operatorList.size() ; i++) {
+				exp = exp.abstractAndApply(operatorList.get(i), false);
+			}
+			return exp;
+		}
 	}
 
 	@Override

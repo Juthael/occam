@@ -3,7 +3,7 @@ package com.tregouet.occam.data.problem_space.states.evaluation.tapes;
 import java.util.List;
 
 import com.tregouet.occam.data.logical_structures.automata.tapes.IInputTape;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 

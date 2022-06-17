@@ -1,8 +1,10 @@
 package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.impl;
 
+import java.util.Objects;
+
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 
 public class Computation implements IComputation {
 
@@ -50,6 +52,24 @@ public class Computation implements IComputation {
 	@Override
 	public IAbstractionApplication getOperator() {
 		return operator;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(input, operator, output);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Computation other = (Computation) obj;
+		return Objects.equals(input, other.input) && Objects.equals(operator, other.operator)
+				&& Objects.equals(output, other.output);
 	}
 
 }

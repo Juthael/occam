@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.applications;
+package com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +7,8 @@ import java.util.Objects;
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.logical_structures.lambda_terms.impl.Bindings;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.OperatorType;
 import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 import com.tregouet.occam.data.problem_space.states.productions.impl.EpsilonProd;

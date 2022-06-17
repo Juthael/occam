@@ -20,11 +20,12 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.IsA;
 import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
+import com.tregouet.occam.data.problem_space.states.classifications.impl.NormalizedClassification;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public interface ClassificationNormalizer {
 
-	public static IClassification normalize(IClassification classification){
+	public static NormalizedClassification normalize(IClassification classification){
 		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
 		List<Integer> topoOrderIDs = new ArrayList<>();
 		List<List<Integer>> topoOrderedStrictLowerSets = new ArrayList<>();
@@ -39,7 +40,10 @@ public interface ClassificationNormalizer {
 				}
 				topoOrderIDs.add(concept.iD());
 				topoOrderedStrictLowerSets.add(ancestorIDs);
-				topoOrderedConstructSets.add(new ArrayList<>(concept.getDenotations()));
+				List<IConstruct> orderedConstructs = new ArrayList<>(concept.getDenotations());
+				//Need of a stable arbitrary order
+				orderedConstructs.sort((x, y) -> System.identityHashCode(x) - System.identityHashCode(y));
+				topoOrderedConstructSets.add(orderedConstructs);
 			}
 		}
 		//map replaced to substitute
@@ -82,7 +86,7 @@ public interface ClassificationNormalizer {
 			normalizedleaves.add(iD2NormalizedConcept.get(leaf.iD()));
 		InvertedTree<IConcept, IIsA> normalizedTree =
 				new InvertedTree<>(normalizedDAG, normalizedRoot, normalizedleaves, normalizedTopoOrder);
-		return new Classification(normalizedTree, classification.mapConceptID2ExtentIDs(),
+		return new NormalizedClassification(normalizedTree, classification.mapConceptID2ExtentIDs(),
 				classification.mapSpeciesID2GenusID(), classification.getParticularIDs());
 	}
 

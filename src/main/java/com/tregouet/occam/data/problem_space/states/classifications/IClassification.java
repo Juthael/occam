@@ -29,5 +29,13 @@ public interface IClassification {
 	Map<Integer, List<Integer>> mapConceptID2ExtentIDs();
 
 	Map<Integer, Integer> mapSpeciesID2GenusID();
+	
+	@Override
+	boolean equals(Object o);
+	
+	@Override
+	int hashCode();
+	
+	IClassification normalized();
 
 }

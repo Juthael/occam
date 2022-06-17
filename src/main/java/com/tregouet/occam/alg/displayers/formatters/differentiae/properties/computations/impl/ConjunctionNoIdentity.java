@@ -19,9 +19,7 @@ public class ConjunctionNoIdentity implements ComputationLabeller {
 	public String apply(IComputation computation) {
 		List<IBasicProduction> productions = new ArrayList<>();
 		for (IBasicProduction production : computation.getOperator().getArguments()) {
-			//HERE
-			//if (!production.isIdentityProd())
-			//HERE remove //
+			if (!production.isIdentityProd())
 				productions.add(production);
 		}
 		Iterator<IBasicProduction> prodIte = productions.iterator();

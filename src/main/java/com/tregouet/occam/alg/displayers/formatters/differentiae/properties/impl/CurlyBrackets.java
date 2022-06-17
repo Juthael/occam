@@ -1,5 +1,6 @@
 package com.tregouet.occam.alg.displayers.formatters.differentiae.properties.impl;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -19,7 +20,11 @@ public class CurlyBrackets implements PropertyLabeller {
 	public String apply(IProperty property) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("{");
-		Set<IComputation> computations = property.getComputations();
+		Set<IComputation> computations = new HashSet<>();
+		for (IComputation computation : property.getComputations()) {
+			if (!computation.isIdentity())
+				computations.add(computation);
+		}
 		Iterator<IComputation> appIte = computations.iterator();
 		while (appIte.hasNext()) {
 			sB.append(PropertyLabeller.computationLabeller().apply(appIte.next()));

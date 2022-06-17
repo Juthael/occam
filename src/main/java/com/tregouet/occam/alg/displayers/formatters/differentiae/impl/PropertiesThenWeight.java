@@ -15,16 +15,18 @@ public class PropertiesThenWeight implements DifferentiaeLabeller {
 
 	@Override
 	public String apply(ADifferentiae differentiae) {
-		StringBuilder sB = new StringBuilder();
 		String nL = System.lineSeparator();
-		sB.append("weight : " + weightAsString(differentiae.weight()) + nL);
 		Iterator<IProperty> propIte = differentiae.getProperties().iterator();
+		StringBuilder sBProp = new StringBuilder();
 		while (propIte.hasNext()) {
-			sB.append(DifferentiaeLabeller.getPropertyDisplayer().apply(propIte.next()));
-			if (propIte.hasNext())
-				sB.append(nL);
+			IProperty nextProp = propIte.next();
+			if (!nextProp.isBlank()) {
+				if (sBProp.length() > 0)
+					sBProp.append(nL);
+				sBProp.append(DifferentiaeLabeller.getPropertyDisplayer().apply(nextProp));
+			}
 		}
-		return sB.toString();
+		return "weight : " + weightAsString(differentiae.weight()) + nL + sBProp.toString();
 	}
 
 	private static String weightAsString(double weight) {

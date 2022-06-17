@@ -21,12 +21,6 @@ public class MaxNbOfNonRedundantProperties implements DifferentiaeWeigher {
 
 	@Override
 	public void accept(ADifferentiae differentiae) {
-		//HERE
-		/*
-		if (differentiae.getGenusID() == 104 && differentiae.getSpeciesID() == 3)
-			System.out.println("here");
-		*/
-		//HERE
 		List<IConstruct> denotations;
 		Set<IConstruct> denotationSet = new HashSet<>();
 		Set<IProperty> nonBlankProperties = new HashSet<>();

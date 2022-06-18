@@ -37,9 +37,9 @@ public class Partition implements IPartition {
 
 	@Override
 	public Integer compareTo(IPartition o) {
-		DirectedAcyclicGraph<Integer, ADifferentiae> otherGraph = o.asGraph();
-		if (this.asGraph.equals(otherGraph))
+		if (this.asString.equals(o.toString()))
 			return 0;
+		DirectedAcyclicGraph<Integer, ADifferentiae> otherGraph = o.asGraph();
 		if (this.asGraph.vertexSet().containsAll(otherGraph.vertexSet())
 				&& this.asGraph.edgeSet().containsAll(otherGraph.edgeSet()))
 			return 1;
@@ -53,10 +53,12 @@ public class Partition implements IPartition {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if ((obj == null) || (getClass() != obj.getClass()))
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
 			return false;
 		Partition other = (Partition) obj;
-		return Objects.equals(asGraph, other.asGraph);
+		return Objects.equals(asString, other.asString) && Objects.equals(asGraph, other.asGraph);
 	}
 
 	@Override
@@ -78,7 +80,26 @@ public class Partition implements IPartition {
 	@Override
 	public Map<Integer, List<Integer>> getLeaf2ExtentMap() {
 		return leaf2Extent;
+	}	
+	
+	/*
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		Partition other = (Partition) obj;
+		return Objects.equals(asGraph, other.asGraph);
+	}	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(asGraph);
 	}
+	
+	*/
 
 	@Override
 	public Integer[] getSpeciesIDs() {
@@ -87,7 +108,7 @@ public class Partition implements IPartition {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(asGraph);
+		return Objects.hash(asString);
 	}
 
 	@Override

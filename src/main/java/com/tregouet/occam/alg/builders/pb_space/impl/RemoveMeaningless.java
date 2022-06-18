@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
-import org.jgrapht.Graphs;
 import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
@@ -20,7 +17,6 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.order.TopoOrderOverReps;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.tree_finder.data.InvertedTree;
@@ -37,6 +33,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 
 	@Override
 	public Boolean apply(Integer representationID) {
+		/*
 		IRepresentation current = getRepresentationWithID(representationID);
 		if (current == null)
 			return null;
@@ -67,6 +64,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 		this.problemGraph = newProblemGraph;
 		//overloadable ; do nothing in this impl
 		expandTransitoryLeaves(newRepresentations);
+		*/
 		return true;
 	}
 
@@ -93,7 +91,7 @@ public class RemoveMeaningless implements ProblemSpaceExplorer {
 	@Override
 	public RemoveMeaningless initialize(
 			Collection<IContextObject> context) {
-		conceptLattice = ProblemSpaceExplorer.getConceptLatticeBuilder().apply(context);
+		conceptLattice = ProblemSpaceExplorer.conceptLatticeBuilder().apply(context);
 		extentIDs = new HashSet<>();
 		for (IContextObject object : conceptLattice.getContextObjects())
 			extentIDs.add(object.iD());

@@ -72,8 +72,8 @@ public class Concept implements IConcept {
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Concept other = (Concept) obj;
-		return iD == other.iD && type == other.type && Objects.equals(denotations, other.denotations)
-				&& Objects.equals(maxExtentIDs, other.maxExtentIDs);
+		return (iD == other.iD && type == other.type && Objects.equals(maxExtentIDs, other.maxExtentIDs) 
+				&& Objects.equals(denotations, other.denotations));
 	}
 
 	@Override

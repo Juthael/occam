@@ -12,6 +12,9 @@ public interface IClassification {
 
 	InvertedTree<IConcept, IIsA> asGraph();
 
+	@Override
+	boolean equals(Object o);
+
 	IConcept getConceptWithSpecifiedID(int iD);
 
 	List<Integer> getExtentIDs(int conceptID);
@@ -26,16 +29,18 @@ public interface IClassification {
 
 	Set<Integer> getParticularIDs();
 
-	Map<Integer, List<Integer>> mapConceptID2ExtentIDs();
-
-	Map<Integer, Integer> mapSpeciesID2GenusID();
-	
-	@Override
-	boolean equals(Object o);
-	
 	@Override
 	int hashCode();
 	
+	boolean isFullyDeveloped();
+	
+	Map<Integer, List<Integer>> mapConceptID2ExtentIDs();
+	
+	Map<Integer, Integer> mapSpeciesID2GenusID();
+	
 	IClassification normalized();
+	
+	@Override
+	String toString();
 
 }

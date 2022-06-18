@@ -7,15 +7,15 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 
 public interface IBindings extends ISymbol {
 
-	List<AVariable> getBoundVariables();
-
-	@Override
-	String toString();
-
 	@Override
 	boolean equals(Object o);
 
+	List<AVariable> getBoundVariables();
+
 	@Override
 	int hashCode();
+
+	@Override
+	String toString();
 
 }

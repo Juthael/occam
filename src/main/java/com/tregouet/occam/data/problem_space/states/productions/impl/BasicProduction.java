@@ -62,14 +62,14 @@ public class BasicProduction implements IBasicProduction {
 	}
 
 	@Override
-	public boolean isIdentityProd() {
-		List<ISymbol> valueList = value.asList();
-		return ((valueList.size() == 1) && (valueList.get(0).equals(variable)));
+	public boolean isEpsilon() {
+		return false;
 	}
 
 	@Override
-	public boolean isEpsilon() {
-		return false;
+	public boolean isIdentityProd() {
+		List<ISymbol> valueList = value.asList();
+		return ((valueList.size() == 1) && (valueList.get(0).equals(variable)));
 	}
 
 	@Override

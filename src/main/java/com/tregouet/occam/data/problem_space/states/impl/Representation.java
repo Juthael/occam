@@ -13,7 +13,6 @@ import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.evaluation.IFactEvaluator;
@@ -126,11 +125,7 @@ public class Representation implements IRepresentation {
 
 	@Override
 	public boolean isFullyDeveloped() {
-		for (IConcept concept : classification.asGraph().getLeaves()) {
-			if (concept.type() != ConceptType.PARTICULAR)
-				return false;
-		}
-		return true;
+		return classification.isFullyDeveloped();
 	}
 
 	@Override

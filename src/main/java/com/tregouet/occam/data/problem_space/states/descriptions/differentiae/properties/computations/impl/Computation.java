@@ -20,8 +20,26 @@ public class Computation implements IComputation {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Computation other = (Computation) obj;
+		return Objects.equals(input, other.input) && Objects.equals(output, other.output) && 
+				Objects.equals(operator, other.operator);
+	}
+
+	@Override
 	public IDenotation getInput() {
 		return input;
+	}
+
+	@Override
+	public IAbstractionApplication getOperator() {
+		return operator;
 	}
 
 	@Override
@@ -30,13 +48,23 @@ public class Computation implements IComputation {
 	}
 
 	@Override
-	public boolean returnsInput() {
-		return operator.isIdentityOperator();
+	public int hashCode() {
+		return Objects.hash(input, operator, output);
 	}
 
 	@Override
 	public boolean isEpsilon() {
 		return false;
+	}
+
+	@Override
+	public boolean isIdentity() {
+		return operator.isIdentityOperator();
+	}
+
+	@Override
+	public boolean returnsInput() {
+		return operator.isIdentityOperator();
 	}
 
 	@Override
@@ -47,34 +75,6 @@ public class Computation implements IComputation {
 	@Override
 	public Double weight() {
 		return weight;
-	}
-
-	@Override
-	public IAbstractionApplication getOperator() {
-		return operator;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(input, operator, output);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Computation other = (Computation) obj;
-		return Objects.equals(input, other.input) && Objects.equals(operator, other.operator)
-				&& Objects.equals(output, other.output);
-	}
-
-	@Override
-	public boolean isIdentity() {
-		return operator.isIdentityOperator();
 	}
 
 }

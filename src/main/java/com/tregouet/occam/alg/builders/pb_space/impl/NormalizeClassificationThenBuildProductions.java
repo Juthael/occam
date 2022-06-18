@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
-import org.jgrapht.Graphs;
-import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
@@ -21,7 +17,6 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.order.TopoOrderOverReps;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.tree_finder.data.InvertedTree;
 
@@ -41,32 +36,18 @@ public class NormalizeClassificationThenBuildProductions implements ProblemSpace
 			return null;
 		if (current.isFullyDeveloped())
 			return false;
-		DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> newProblemGraph =
-				new DirectedAcyclicGraph<>(null, null, false);
-		Graphs.addAllVertices(newProblemGraph, problemGraph.vertexSet());
 		Set<InvertedTree<IConcept, IIsA>> grownTrees =
 				ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, current.getClassification().asGraph());
 		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder();
 		Set<IRepresentation> newRepresentations = new HashSet<>();
 		for (InvertedTree<IConcept, IIsA> grownTree : grownTrees) {
 			IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(grownTree, extentIDs);
-			IRepresentation developed = repBldr.apply(classification);
-			newRepresentations.add(developed);
+			IRepresentation newRep = repBldr.apply(classification);
+			newRepresentations.add(newRep);
 		}
-		Graphs.addAllVertices(newProblemGraph, newRepresentations);
-		SortedSet<IRepresentation> topoOrderedRep = new TreeSet<>(TopoOrderOverReps.INSTANCE);
-		topoOrderedRep.addAll(newProblemGraph.vertexSet());
-		Set<AProblemStateTransition> transitions =
-				ProblemSpaceExplorer.getProblemTransitionBuilder().apply(new ArrayList<>(topoOrderedRep));
-		for (AProblemStateTransition transition : transitions) {
-			newProblemGraph.addEdge(transition.getSource(), transition.getTarget(), transition);
-		}
-		reduceThenWeightThenScoreThenComply(newProblemGraph);
-		if (!(newProblemGraph.vertexSet().size() > problemGraph.vertexSet().size()))
-			return false;
-		this.problemGraph = newProblemGraph;
-		//overloadable ; do nothing in this impl
-		expandTransitoryLeaves(newRepresentations);
+		ProblemSpaceExplorer.problemSpaceGraphUpdater().apply(problemGraph, newRepresentations);
+		weighThenScoreThenComply(problemGraph);
+		expandTrivialLeaves(newRepresentations);
 		return true;
 	}
 
@@ -93,7 +74,7 @@ public class NormalizeClassificationThenBuildProductions implements ProblemSpace
 	@Override
 	public NormalizeClassificationThenBuildProductions initialize(
 			Collection<IContextObject> context) {
-		conceptLattice = ProblemSpaceExplorer.getConceptLatticeBuilder().apply(context);
+		conceptLattice = ProblemSpaceExplorer.conceptLatticeBuilder().apply(context);
 		extentIDs = new HashSet<>();
 		for (IContextObject object : conceptLattice.getContextObjects())
 			extentIDs.add(object.iD());
@@ -104,11 +85,11 @@ public class NormalizeClassificationThenBuildProductions implements ProblemSpace
 		IRepresentation initialRepresentation = ProblemSpaceExplorer.getRepresentationBuilder().apply(classification);
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
 		problemGraph.addVertex(initialRepresentation);
-		reduceThenWeightThenScoreThenComply(problemGraph);
+		weighThenScoreThenComply(problemGraph);
 		return this;
 	}
 
-	private void expandTransitoryLeaves(Set<IRepresentation> newRepresentations) {
+	private void expandTrivialLeaves(Set<IRepresentation> newRepresentations) {
 		for (IRepresentation representation : newRepresentations) {
 			if (isATrivialLeaf(representation))
 				apply(representation.iD());
@@ -132,18 +113,6 @@ public class NormalizeClassificationThenBuildProductions implements ProblemSpace
 		return false;
 	}
 
-	private static void reduceThenWeightThenScoreThenComply(
-			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
-		TransitiveReduction.INSTANCE.reduce(problemGraph);
-		ProblemTransitionWeigher weigher = ProblemSpaceExplorer.getProblemTransitionWeigher().setContext(problemGraph);
-		for (AProblemStateTransition transition : problemGraph.edgeSet())
-			weigher.accept(transition);
-		ProblemStateScorer scorer = ProblemSpaceExplorer.getProblemStateScorer().setUp(problemGraph);
-		for (IRepresentation problemState : problemGraph)
-			problemState.setScore(scorer.apply(problemState));
-		removeUninformative(problemGraph);
-	}
-
 	private static void removeUninformative(
 			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
 		Set<IRepresentation> representations = new HashSet<>(problemGraph.vertexSet());
@@ -151,6 +120,17 @@ public class NormalizeClassificationThenBuildProductions implements ProblemSpace
 			if (representation.score().value() == 0.0)
 				problemGraph.removeVertex(representation);
 		}
+	}
+
+	private static void weighThenScoreThenComply(
+			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
+		ProblemTransitionWeigher weigher = ProblemSpaceExplorer.getProblemTransitionWeigher().setContext(problemGraph);
+		for (AProblemStateTransition transition : problemGraph.edgeSet())
+			weigher.accept(transition);
+		ProblemStateScorer scorer = ProblemSpaceExplorer.getProblemStateScorer().setUp(problemGraph);
+		for (IRepresentation problemState : problemGraph)
+			problemState.setScore(scorer.apply(problemState));
+		removeUninformative(problemGraph);
 	}
 
 }

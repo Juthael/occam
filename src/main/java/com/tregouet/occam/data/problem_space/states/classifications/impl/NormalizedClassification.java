@@ -13,8 +13,8 @@ public class NormalizedClassification extends Classification implements IClassif
 
 	public NormalizedClassification(InvertedTree<IConcept, IIsA> graph,
 			Map<Integer, List<Integer>> conceptID2ExtentIDs, Map<Integer, Integer> speciesID2GenusID,
-			Set<Integer> particularIDs) {
-		super(graph, conceptID2ExtentIDs, speciesID2GenusID, particularIDs);
+			Set<Integer> particularIDs, boolean fullyDeveloped) {
+		super(graph, conceptID2ExtentIDs, speciesID2GenusID, particularIDs, fullyDeveloped);
 	}
 	
 	@Override

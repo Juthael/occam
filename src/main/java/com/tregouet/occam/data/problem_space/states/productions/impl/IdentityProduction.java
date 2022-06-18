@@ -21,13 +21,13 @@ public class IdentityProduction extends BasicProduction implements IBasicProduct
 	}
 
 	@Override
-	public boolean isIdentityProd() {
-		return true;
+	public boolean isEpsilon() {
+		return false;
 	}
 
 	@Override
-	public boolean isEpsilon() {
-		return false;
+	public boolean isIdentityProd() {
+		return true;
 	}
 
 }

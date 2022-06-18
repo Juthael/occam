@@ -30,7 +30,7 @@ public class Differentiae extends ADifferentiae {
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Differentiae other = (Differentiae) obj;
-		return genusID == other.genusID && Objects.equals(properties, other.properties) && speciesID == other.speciesID;
+		return speciesID == other.speciesID && genusID == other.genusID && Objects.equals(properties, other.properties);
 	}
 
 	@Override

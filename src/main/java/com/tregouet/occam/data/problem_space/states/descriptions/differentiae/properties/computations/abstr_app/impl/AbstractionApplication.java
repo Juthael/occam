@@ -45,8 +45,13 @@ public class AbstractionApplication implements IAbstractionApplication {
 	}
 
 	@Override
-	public IBindings getBindings() {
-		return bindings;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		AbstractionApplication other = (AbstractionApplication) obj;
+		return Objects.equals(bindings, other.bindings) && Objects.equals(arguments, other.arguments);
 	}
 
 	@Override
@@ -55,18 +60,18 @@ public class AbstractionApplication implements IAbstractionApplication {
 	}
 
 	@Override
+	public IBindings getBindings() {
+		return bindings;
+	}
+
+	@Override
 	public int hashCode() {
 		return Objects.hash(arguments, bindings);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if ((obj == null) || (getClass() != obj.getClass()))
-			return false;
-		AbstractionApplication other = (AbstractionApplication) obj;
-		return Objects.equals(arguments, other.arguments) && Objects.equals(bindings, other.bindings);
+	public boolean isEpsilonOperator() {
+		return false;
 	}
 
 	@Override
@@ -76,11 +81,6 @@ public class AbstractionApplication implements IAbstractionApplication {
 				return false;
 		}
 		return true;
-	}
-
-	@Override
-	public boolean isEpsilonOperator() {
-		return false;
 	}
 
 }

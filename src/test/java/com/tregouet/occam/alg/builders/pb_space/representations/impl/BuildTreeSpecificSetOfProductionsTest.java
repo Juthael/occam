@@ -20,6 +20,7 @@ import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
@@ -64,10 +65,12 @@ public class BuildTreeSpecificSetOfProductionsTest {
 		/*
 		int count = 0;
 		*/
-		for (InvertedTree<IConcept, IIsA> conceptTree : conceptTrees) {
-			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(conceptTree);
-			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(conceptTree);
-			IClassification classification = new Classification(conceptTree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
+		for (InvertedTree<IConcept, IIsA> tree : conceptTrees) {
+			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
+			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
+			boolean fullyDeveloped = isFullyDeveloped(tree);
+			IClassification classification = 
+					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs, fullyDeveloped);
 			IRepresentation representation = BuildTreeSpecificSetOfProductions.INSTANCE.apply(classification);
 			if (!representations.add(representation))
 				asExpected = false;
@@ -106,6 +109,14 @@ public class BuildTreeSpecificSetOfProductionsTest {
 		for (IIsA edge : conceptTree.edgeSet())
 			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
+	}
+	
+	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
+		for (IConcept concept : conceptTree.getLeaves()) {
+			if (concept.type() != ConceptType.PARTICULAR)
+				return false;
+		}
+		return true;
 	}
 
 }

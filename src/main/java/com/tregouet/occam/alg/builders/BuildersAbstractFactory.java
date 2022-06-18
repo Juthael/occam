@@ -15,9 +15,9 @@ import com.tregouet.occam.alg.builders.pb_space.concept_lattices.denotations.Den
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrowerFactory;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrowerStrategy;
-import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilder;
-import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.graph_updater.ProblemSpaceGraphUpdater;
+import com.tregouet.occam.alg.builders.pb_space.graph_updater.ProblemSpaceGraphUpdaterFactory;
+import com.tregouet.occam.alg.builders.pb_space.graph_updater.ProblemSpaceGraphUpdaterStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderStrategy;
@@ -71,7 +71,7 @@ public class BuildersAbstractFactory {
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private RepresentationBuilderStrategy representationBuilderStrategy = null;
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
-	private ProblemTransitionBuilderStrategy problemTransitionBuilderStrategy = null;
+	private ProblemSpaceGraphUpdaterStrategy problemSpaceGraphUpdaterStrategy = null;
 	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
 
 	private BuildersAbstractFactory() {
@@ -113,8 +113,8 @@ public class BuildersAbstractFactory {
 		return ProblemSpaceExplorerFactory.INSTANCE.apply(problemSpaceExplorerStrategy);
 	}
 
-	public ProblemTransitionBuilder getProblemTransitionBuilder() {
-		return ProblemTransitionBuilderFactory.INSTANCE.apply(problemTransitionBuilderStrategy);
+	public ProblemSpaceGraphUpdater getProblemSpaceGraphUpdater() {
+		return ProblemSpaceGraphUpdaterFactory.INSTANCE.apply(problemSpaceGraphUpdaterStrategy);
 	}
 
 	public ProductionBuilder getProductionBuilder() {
@@ -140,7 +140,7 @@ public class BuildersAbstractFactory {
 	public RepresentationTransFuncBuilder getRepresentationTransFuncBuilder() {
 		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
 	}
-
+	
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
 	}
@@ -163,8 +163,9 @@ public class BuildersAbstractFactory {
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 			representationBuilderStrategy = RepresentationBuilderStrategy.BUILD_TREE_SPECIFIC_PRODUCTION_SET;
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
-			problemTransitionBuilderStrategy = ProblemTransitionBuilderStrategy.USE_PARTIAL_ORDER;
+			problemSpaceGraphUpdaterStrategy = ProblemSpaceGraphUpdaterStrategy.BUILD_NEW_TRANSITIONS;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.NORMALIZE_CLASS_THEN_BUILD;
+			break;
 		default:
 			break;
 		}

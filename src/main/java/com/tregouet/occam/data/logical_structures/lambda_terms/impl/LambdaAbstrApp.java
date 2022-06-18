@@ -59,11 +59,6 @@ public class LambdaAbstrApp implements ILambdaAbstrApp {
 	}
 
 	@Override
-	public boolean isAbstractionApplication() {
-		return true;
-	}
-
-	@Override
 	public Set<AVariable> getFreeVariables() {
 		Set<AVariable> freeVariables = new HashSet<>(term.getFreeVariables());
 		freeVariables.removeAll(bindings.getBoundVariables());
@@ -71,11 +66,12 @@ public class LambdaAbstrApp implements ILambdaAbstrApp {
 			freeVariables.addAll(argument.getVariables());
 		return freeVariables;
 	}
-		
-	private boolean checkThatVariablesToBindAreFree(IBindings bindings) {
-		return getFreeVariables().containsAll(bindings.getBoundVariables());
+
+	@Override
+	public boolean isAbstractionApplication() {
+		return true;
 	}
-	
+		
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
@@ -85,6 +81,10 @@ public class LambdaAbstrApp implements ILambdaAbstrApp {
 			sB.append(argument.size() == 1 ? " " + argument.toString() : " (" + argument.toString() + ")");
 		}
 		return sB.toString();
+	}
+	
+	private boolean checkThatVariablesToBindAreFree(IBindings bindings) {
+		return getFreeVariables().containsAll(bindings.getBoundVariables());
 	}
 
 }

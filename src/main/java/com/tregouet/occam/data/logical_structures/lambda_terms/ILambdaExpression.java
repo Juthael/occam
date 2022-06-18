@@ -9,10 +9,10 @@ public interface ILambdaExpression {
 
 	ILambdaExpression abstractAndApply(IAbstractionApplication abstrApp, boolean safeMode);
 	
-	Set<AVariable> getFreeVariables();
-
 	@Override
 	boolean equals(Object o);
+
+	Set<AVariable> getFreeVariables();
 
 	@Override
 	int hashCode();

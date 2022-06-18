@@ -10,7 +10,7 @@ import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.classifications.ClassificationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
-import com.tregouet.occam.alg.builders.pb_space.pb_transitions.ProblemTransitionBuilder;
+import com.tregouet.occam.alg.builders.pb_space.graph_updater.ProblemSpaceGraphUpdater;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
@@ -44,7 +44,7 @@ public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
 		return BuildersAbstractFactory.INSTANCE.getClassificationBuilder();
 	}
 
-	public static ConceptLatticeBuilder getConceptLatticeBuilder() {
+	public static ConceptLatticeBuilder conceptLatticeBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder();
 	}
 
@@ -55,11 +55,7 @@ public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
 	public static ProblemStateScorer getProblemStateScorer() {
 		return ScorersAbstractFactory.INSTANCE.getProblemStateScorer();
 	}
-
-	public static ProblemTransitionBuilder getProblemTransitionBuilder() {
-		return BuildersAbstractFactory.INSTANCE.getProblemTransitionBuilder();
-	}
-
+	
 	public static ProblemTransitionWeigher getProblemTransitionWeigher() {
 		return SettersAbstractFactory.INSTANCE.getCategorizationTransitionWeigher();
 	}
@@ -70,6 +66,10 @@ public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
 
 	public static Sorting2StringConverter getSorting2StringConverter() {
 		return FormattersAbstractFactory.INSTANCE.getSorting2StringConverter();
+	}
+
+	public static ProblemSpaceGraphUpdater problemSpaceGraphUpdater() {
+		return BuildersAbstractFactory.INSTANCE.getProblemSpaceGraphUpdater();
 	}
 
 }

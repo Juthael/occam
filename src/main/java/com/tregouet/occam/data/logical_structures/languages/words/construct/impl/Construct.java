@@ -61,6 +61,20 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
+	public ILambdaExpression abstractAndApply(IAbstractionApplication abstrApp, boolean safeMode) {
+		if (safeMode) {
+			List<AVariable> varToBind = new ArrayList<>();
+			for (IBasicProduction prod : abstrApp.getArguments()) {
+				if (!prod.isEpsilon() && !prod.isIdentityProd())
+					varToBind.add(prod.getVariable());
+			}
+			if (!this.getFreeVariables().containsAll(varToBind))
+				return null;
+		}
+		return new LambdaAbstrApp(this, abstrApp);
+	}
+
+	@Override
 	public List<ISymbol> asList() {
 		return symbols;
 	}
@@ -83,6 +97,11 @@ public class Construct implements IConstruct {
 		} else if (!symbols.equals(other.symbols))
 			return false;
 		return true;
+	}
+
+	@Override
+	public Set<AVariable> getFreeVariables() {
+		return new HashSet<>(getVariables());
 	}
 
 	@Override
@@ -122,6 +141,11 @@ public class Construct implements IConstruct {
 	@Override
 	public boolean isAbstract() {
 		return (nbOfTerminals < size);
+	}
+
+	@Override
+	public boolean isAbstractionApplication() {
+		return false;
 	}
 
 	@Override
@@ -199,30 +223,6 @@ public class Construct implements IConstruct {
 				nbOfTerminals++;
 		}
 		return nbOfTerminals;
-	}
-
-	@Override
-	public ILambdaExpression abstractAndApply(IAbstractionApplication abstrApp, boolean safeMode) {
-		if (safeMode) {
-			List<AVariable> varToBind = new ArrayList<>();
-			for (IBasicProduction prod : abstrApp.getArguments()) {
-				if (!prod.isEpsilon() && !prod.isIdentityProd())
-					varToBind.add(prod.getVariable());
-			}
-			if (!this.getFreeVariables().containsAll(varToBind))
-				return null;
-		}
-		return new LambdaAbstrApp(this, abstrApp);
-	}
-
-	@Override
-	public Set<AVariable> getFreeVariables() {
-		return new HashSet<>(getVariables());
-	}
-
-	@Override
-	public boolean isAbstractionApplication() {
-		return false;
 	}
 
 }

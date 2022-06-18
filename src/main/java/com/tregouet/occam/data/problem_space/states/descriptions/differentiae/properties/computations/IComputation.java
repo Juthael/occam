@@ -9,20 +9,20 @@ public interface IComputation extends Weighed {
 	@Override
 	boolean equals(Object o);
 
-	IAbstractionApplication getOperator();
-
 	IDenotation getInput();
+
+	IAbstractionApplication getOperator();
 
 	IDenotation getOutput();
 
 	@Override
 	int hashCode();
 
-	boolean returnsInput();
-
 	boolean isEpsilon();
-	
+
 	boolean isIdentity();
+	
+	boolean returnsInput();
 
 	void setWeight(double weight);
 

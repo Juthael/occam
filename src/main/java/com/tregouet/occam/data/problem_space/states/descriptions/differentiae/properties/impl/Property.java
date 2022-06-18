@@ -29,7 +29,7 @@ public class Property implements IProperty {
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Property other = (Property) obj;
-		return genusID == other.genusID && speciesID == other.speciesID &&
+		return speciesID == other.speciesID && genusID == other.genusID &&
 				Objects.equals(computations, other.computations) && Objects.equals(function, other.function);
 	}
 
@@ -59,6 +59,15 @@ public class Property implements IProperty {
 	}
 
 	@Override
+	public boolean isBlank() {
+		for (IComputation computation : computations) {
+			if (!computation.isIdentity())
+				return false;
+		}
+		return true;
+	}
+
+	@Override
 	public void setWeight(double weight) {
 		this.weight = weight;
 	}
@@ -66,15 +75,6 @@ public class Property implements IProperty {
 	@Override
 	public Double weight() {
 		return weight;
-	}
-
-	@Override
-	public boolean isBlank() {
-		for (IComputation computation : computations) {
-			if (!computation.isIdentity())
-				return false;
-		}
-		return true;
 	}
 
 }

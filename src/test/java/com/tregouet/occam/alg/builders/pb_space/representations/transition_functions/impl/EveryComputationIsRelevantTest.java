@@ -20,6 +20,7 @@ import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
@@ -62,7 +63,9 @@ public class EveryComputationIsRelevantTest {
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
-			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs);
+			boolean fullyDeveloped = isFullyDeveloped(tree);
+			IClassification classification = 
+					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs, fullyDeveloped);
 			Set<IContextualizedProduction> classProds =
 					BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
 			IDescription description = BuildersAbstractFactory.INSTANCE.getDescriptionBuilder().apply(classification, classProds);
@@ -114,6 +117,14 @@ public class EveryComputationIsRelevantTest {
 		for (IIsA edge : conceptTree.edgeSet())
 			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
+	}
+	
+	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
+		for (IConcept concept : conceptTree.getLeaves()) {
+			if (concept.type() != ConceptType.PARTICULAR)
+				return false;
+		}
+		return true;
 	}
 
 }

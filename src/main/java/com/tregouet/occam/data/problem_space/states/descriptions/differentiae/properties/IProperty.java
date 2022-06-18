@@ -22,11 +22,11 @@ public interface IProperty extends Weighed {
 	@Override
 	int hashCode();
 
-	void setWeight(double weight);
+	boolean isBlank();
 
+	void setWeight(double weight);
+	
 	@Override
 	String toString();
-	
-	boolean isBlank();
 
 }

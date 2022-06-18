@@ -45,15 +45,6 @@ public class MaxNbOfNonRedundantProperties implements DifferentiaeWeigher {
 		differentiae.setCoeffFreeWeight((double) maxNbOfNonRedundantProperties);
 	}
 	
-	private static boolean surjectiveProp2DenotRelationCanBeBuiltWithNProperties(Set<IProperty> properties, 
-			List<IConstruct> denotations, int subsetSize) {
-		for (Set<IProperty> subset : Sets.combinations(properties, subsetSize)) {
-			if(setOfAntecedentsIsSurjective(subset, denotations))
-				return true;
-		}
-		return false;
-	}
-
 	private static boolean setOfAntecedentsIsSurjective(Set<IProperty> setOfAntecedents, 
 			List<IConstruct> images) {
 		boolean[] hasAnAntecedent = new boolean[images.size()];
@@ -72,6 +63,15 @@ public class MaxNbOfNonRedundantProperties implements DifferentiaeWeigher {
 				return false;
 		}
 		return true;
+	}
+
+	private static boolean surjectiveProp2DenotRelationCanBeBuiltWithNProperties(Set<IProperty> properties, 
+			List<IConstruct> denotations, int subsetSize) {
+		for (Set<IProperty> subset : Sets.combinations(properties, subsetSize)) {
+			if(setOfAntecedentsIsSurjective(subset, denotations))
+				return true;
+		}
+		return false;
 	}
 
 }

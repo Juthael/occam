@@ -20,9 +20,10 @@ public class Classification implements IClassification {
 	private final Map<Integer, Integer> speciesID2GenusID;
 	private final Set<Integer> particularIDs;
 	protected NormalizedClassification normalizedClassification;
+	private boolean fullyDeveloped;
 
 	public Classification(InvertedTree<IConcept, IIsA> graph, Map<Integer, List<Integer>> conceptID2ExtentIDs,
-			Map<Integer, Integer> speciesID2GenusID, Set<Integer> particularIDs) {
+			Map<Integer, Integer> speciesID2GenusID, Set<Integer> particularIDs, boolean fullyDeveloped) {
 		this.graph = graph;
 		for (IConcept concept : graph.vertexSet())
 			iD2Concept.put(concept.iD(), concept);
@@ -30,11 +31,24 @@ public class Classification implements IClassification {
 		this.speciesID2GenusID = speciesID2GenusID;
 		this.particularIDs = particularIDs;
 		this.normalizedClassification = null;
+		this.fullyDeveloped = fullyDeveloped;
 	}
 
 	@Override
 	public InvertedTree<IConcept, IIsA> asGraph() {
 		return graph;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Classification other = (Classification) obj;
+		return Objects.equals(graph, other.graph);
 	}
 
 	@Override
@@ -73,6 +87,16 @@ public class Classification implements IClassification {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(graph);
+	}
+
+	@Override
+	public boolean isFullyDeveloped() {
+		return fullyDeveloped;
+	}
+	
+	@Override
 	public Map<Integer, List<Integer>> mapConceptID2ExtentIDs() {
 		return conceptID2ExtentIDs;
 	}
@@ -87,23 +111,6 @@ public class Classification implements IClassification {
 		if (normalizedClassification == null)
 			normalizedClassification = ClassificationNormalizer.normalize(this);
 		return normalizedClassification;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(graph);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Classification other = (Classification) obj;
-		return Objects.equals(graph, other.graph);
 	}
 
 }

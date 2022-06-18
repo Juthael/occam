@@ -8,7 +8,8 @@ import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction
 
 public interface IAbstractionApplication extends ISymbol {
 
-	IBindings getBindings();
+	@Override
+	boolean equals(Object o);
 
 	/**
 	 *
@@ -16,14 +17,13 @@ public interface IAbstractionApplication extends ISymbol {
 	 */
 	List<IBasicProduction> getArguments();
 
-	@Override
-	boolean equals(Object o);
+	IBindings getBindings();
 
 	@Override
 	int hashCode();
 
-	boolean isIdentityOperator();
-
 	boolean isEpsilonOperator();
+
+	boolean isIdentityOperator();
 
 }

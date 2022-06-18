@@ -98,13 +98,13 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
-	public boolean isIdentityProd() {
-		return production.isIdentityProd();
+	public boolean isEpsilon() {
+		return production.isEpsilon();
 	}
 
 	@Override
-	public boolean isEpsilon() {
-		return production.isEpsilon();
+	public boolean isIdentityProd() {
+		return production.isIdentityProd();
 	}
 
 	@Override

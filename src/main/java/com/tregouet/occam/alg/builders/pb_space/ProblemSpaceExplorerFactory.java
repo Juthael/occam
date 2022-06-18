@@ -4,6 +4,7 @@ import com.tregouet.occam.alg.builders.pb_space.impl.AutomaticallyExpandTrivialL
 import com.tregouet.occam.alg.builders.pb_space.impl.NormalizeClassificationThenBuildProductions;
 import com.tregouet.occam.alg.builders.pb_space.impl.RemoveMeaningless;
 import com.tregouet.occam.alg.builders.pb_space.impl.RemoveUninformative;
+import com.tregouet.occam.alg.builders.pb_space.impl.SparseReducer;
 
 public class ProblemSpaceExplorerFactory {
 
@@ -22,6 +23,8 @@ public class ProblemSpaceExplorerFactory {
 			return new AutomaticallyExpandTrivialLeaves();
 		case NORMALIZE_CLASS_THEN_BUILD :
 			return new NormalizeClassificationThenBuildProductions();
+		case SPARSE_REDUCER : 
+			return new SparseReducer();
 		default :
 			return null;
 		}

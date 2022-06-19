@@ -48,7 +48,6 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 
 	@Override
 	public IConceptLattice apply(Collection<IContextObject> objects) {
-		AVariable.resetVarNaming();
 		this.objects = new ArrayList<>(objects);
 		particulars = new ArrayList<>(Arrays.asList(new IConcept[objects.size()]));
 		particularIDs = new ArrayList<>(Arrays.asList(new Integer[objects.size()]));

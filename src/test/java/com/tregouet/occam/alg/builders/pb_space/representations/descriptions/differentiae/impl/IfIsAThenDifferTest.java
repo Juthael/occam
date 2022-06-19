@@ -61,7 +61,8 @@ public class IfIsAThenDifferTest {
 	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() {
+		Occam.initialize();
 		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 

@@ -43,7 +43,8 @@ public class BuildGraphFirstTest {
 	private Set<InvertedTree<IConcept, IIsA>> trees;
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() {
+		Occam.initialize();
 		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 

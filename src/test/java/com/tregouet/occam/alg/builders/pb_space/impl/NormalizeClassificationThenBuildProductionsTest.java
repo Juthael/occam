@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.OverallStrategy;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
@@ -51,7 +52,8 @@ public class NormalizeClassificationThenBuildProductionsTest {
 	private NormalizeClassificationThenBuildProductions pbSpaceExplorer;
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() {
+		Occam.initialize();
 		OverallAbstractFactory.INSTANCE.apply(OverallStrategy.OVERALL_STRATEGY_3);
 	}
 

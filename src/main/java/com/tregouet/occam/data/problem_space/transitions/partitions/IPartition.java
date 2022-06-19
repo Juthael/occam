@@ -30,8 +30,6 @@ public interface IPartition extends Weighed, PartiallyComparable<IPartition> {
 	@Override
 	int hashCode();
 
-	int rank();
-
 	void setWeight(double weight);
 
 	@Override

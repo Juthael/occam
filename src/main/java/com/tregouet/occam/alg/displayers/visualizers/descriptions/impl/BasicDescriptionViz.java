@@ -11,7 +11,6 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
-import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
 import com.tregouet.occam.alg.displayers.visualizers.descriptions.DescriptionViz;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
@@ -33,7 +32,7 @@ public class BasicDescriptionViz implements DescriptionViz {
 
 	@Override
 	public String apply(IDescription description, String fileName) {
-		DifferentiaeLabeller diffLabeller = FormattersAbstractFactory.INSTANCE.getDifferentiaeLabeller();
+		DifferentiaeLabeller diffLabeller = DescriptionViz.differentiaeLabeller();
 		Tree<Integer, ADifferentiae> descGraph = description.asGraph();
 		// convert in DOT format
 		DOTExporter<Integer, ADifferentiae> exporter = new DOTExporter<>();

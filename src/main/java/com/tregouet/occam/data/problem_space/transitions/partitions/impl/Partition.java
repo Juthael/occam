@@ -17,17 +17,15 @@ public class Partition implements IPartition {
 	private final Integer genusID;
 	private final Integer[] speciesIDs;
 	private final Map<Integer, List<Integer>> leaf2Extent;
-	private final int rank;
 	private Double weight = null;
 
 	public Partition(Tree<Integer, ADifferentiae> asGraph, String asString, Integer genusID,
-			Integer[] speciesIDs, Map<Integer, List<Integer>> leaf2Extent, int rank) {
+			Integer[] speciesIDs, Map<Integer, List<Integer>> leaf2Extent) {
 		this.asGraph = asGraph;
 		this.asString = asString;
 		this.genusID = genusID;
 		this.speciesIDs = speciesIDs;
 		this.leaf2Extent = leaf2Extent;
-		this.rank = rank;
 	}
 
 	@Override
@@ -80,26 +78,7 @@ public class Partition implements IPartition {
 	@Override
 	public Map<Integer, List<Integer>> getLeaf2ExtentMap() {
 		return leaf2Extent;
-	}	
-	
-	/*
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if ((obj == null) || (getClass() != obj.getClass()))
-			return false;
-		Partition other = (Partition) obj;
-		return Objects.equals(asGraph, other.asGraph);
-	}	
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(asGraph);
 	}
-	
-	*/
 
 	@Override
 	public Integer[] getSpeciesIDs() {
@@ -109,11 +88,6 @@ public class Partition implements IPartition {
 	@Override
 	public int hashCode() {
 		return Objects.hash(asString);
-	}
-
-	@Override
-	public int rank() {
-		return rank;
 	}
 
 	@Override

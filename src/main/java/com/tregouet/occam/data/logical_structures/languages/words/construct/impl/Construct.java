@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.lambda_terms.impl.LambdaAbstrApp;
@@ -111,8 +110,12 @@ public class Construct implements IConstruct {
 
 	@Override
 	public List<ITerminal> getListOfTerminals() {
-		return symbols.stream().filter(d -> d instanceof ITerminal).map(s -> (ITerminal) s)
-				.collect(Collectors.toList());
+		List<ITerminal> listOfTerminals = new ArrayList<>();
+		for (ISymbol symbol : symbols) {
+			if (symbol instanceof ITerminal)
+				listOfTerminals.add((ITerminal) symbol);
+		}
+		return listOfTerminals;
 	}
 
 	@Override

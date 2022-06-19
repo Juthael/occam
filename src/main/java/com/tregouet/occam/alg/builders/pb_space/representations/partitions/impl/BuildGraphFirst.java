@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.utils.PartitionRanker;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
@@ -57,9 +56,8 @@ public class BuildGraphFirst implements PartitionBuilder {
 			for (Integer leafID : partitionAsGraph.getLeaves())
 				leaf2Extent.put(leafID, conceptID2ExtentIDs.get(leafID));
 			speciesIDs = IPartition.orderOverIDs(speciesIDList);
-			int partitionRank = PartitionRanker.INSTANCE.rank(partitionAsGraph);
 			// instantiate
-			IPartition partition = new Partition(partitionAsGraph, partitionAsString, genusID, speciesIDs, leaf2Extent, partitionRank);
+			IPartition partition = new Partition(partitionAsGraph, partitionAsString, genusID, speciesIDs, leaf2Extent);
 			PartitionBuilder.getPartitionWeigher().accept(partition);
 			partitions.add(partition);
 		}

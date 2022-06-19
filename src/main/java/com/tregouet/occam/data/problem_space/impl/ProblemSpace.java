@@ -70,4 +70,9 @@ public class ProblemSpace implements IProblemSpace {
 		return problemSpaceExplorer.getProblemSpaceGraph();
 	}
 
+	@Override
+	public Boolean restrictTo(Set<Integer> representationIDs) {
+		return problemSpaceExplorer.restrictTo(representationIDs);
+	}
+
 }

@@ -9,7 +9,9 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
+import com.google.common.base.Splitter;
 import com.tregouet.occam.data.problem_space.IProblemSpace;
 import com.tregouet.occam.data.problem_space.impl.ProblemSpace;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
@@ -30,7 +32,7 @@ public class PrototypeMenu {
 		welcome();
 	}
 
-	private void deepenRepresentation(IProblemSpace problemSpace) {
+	private void developRepresentation(IProblemSpace problemSpace) {
 		System.out.println(NL);
 		System.out.println("Please enter a representation ID : " + NL);
 		Integer iD = null;
@@ -48,6 +50,41 @@ public class PrototypeMenu {
 		} else {
 			if (!result)
 				System.out.println("This representation is fully developed already. " + NL);
+			problemSpaceMenu(problemSpace);
+		}
+	}
+	
+	private void restrictProblemSpace(IProblemSpace problemSpace) {
+		System.out.println(NL);
+		System.out.println("Please enter IDs of representations to retain, separated by dots.");
+		String entryString = null;
+		try {
+			entryString = entry.next();
+			entry.nextLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			problemSpaceMenu(problemSpace);
+		}
+		Set<Integer> iDs = new HashSet<>();
+		List<String> iDStrings = Splitter.on('.').splitToList(entryString);
+		for (String iDString : iDStrings) {
+			Integer iD = null;
+			try {
+				iD = Integer.parseInt(iDString);
+			}
+			catch (NumberFormatException e) {
+				System.out.println("Entry is invalid");
+				problemSpaceMenu(problemSpace);
+			}
+			iDs.add(iD);
+		}
+		Boolean result = problemSpace.restrictTo(iDs);
+		if (result == null) {
+			System.out.println("Some ID is missing in the problem space graph. " + NL);
+			problemSpaceMenu(problemSpace);
+		} else {
+			if (!result)
+				System.out.println("The specified set is not a restriction." + NL);
 			problemSpaceMenu(problemSpace);
 		}
 	}
@@ -160,8 +197,9 @@ public class PrototypeMenu {
 		System.out.println("**********PROBLEM SPACE MENU**********");
 		System.out.println(NL);
 		System.out.println("1 : enter the ID of a representation to display." + NL);
-		System.out.println("2 : enter the ID of a representation to deepen." + NL);
-		System.out.println("3 : back to main menu" + NL);
+		System.out.println("2 : enter the ID of a representation to develop." + NL);
+		System.out.println("3 : restrict the problem space to some subset of states." + NL);
+		System.out.println("4 : back to main menu" + NL);
 		int choice = 0;
 		try {
 			choice = entry.nextInt();
@@ -175,9 +213,11 @@ public class PrototypeMenu {
 			displayRepresentation(problemSpace);
 			break;
 		case 2:
-			deepenRepresentation(problemSpace);
+			developRepresentation(problemSpace);
 			break;
-		case 3:
+		case 3 : 
+			restrictProblemSpace(problemSpace);
+		case 4:
 			mainMenu();
 			break;
 		default:

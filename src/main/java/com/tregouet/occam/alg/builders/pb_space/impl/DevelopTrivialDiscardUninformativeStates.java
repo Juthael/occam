@@ -140,10 +140,12 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 			IRepresentation rep = getRepresentationWithID(iD);
 			if (rep != null)
 				restriction.add(rep);
+			else return null;
 		}
-		if (restriction.isEmpty())
+		if (restriction.equals(problemGraph.vertexSet()))
 			return false;
 		problemGraph = ProblemSpaceExplorer.problemSpaceGraphRestrictor().apply(problemGraph, restriction);
+		weighThenScoreThenComply(problemGraph);
 		return true;
 	}
 

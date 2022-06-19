@@ -3,32 +3,32 @@ package com.tregouet.occam.alg.scorers;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorerFactory;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorerStrategy;
-import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
-import com.tregouet.occam.alg.scorers.similarity.PairSimilarityScorer;
-import com.tregouet.occam.alg.scorers.similarity.SimilarityScorerFactory;
-import com.tregouet.occam.alg.scorers.similarity.SimilarityScorerStrategy;
-import com.tregouet.occam.alg.scorers.similarity.SubsetSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.relative.RelativeAsymmetricalSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.relative.RelativePairSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.relative.RelativeSimilarityScorerFactory;
+import com.tregouet.occam.alg.scorers.similarity.relative.RelativeSimilarityScorerStrategy;
+import com.tregouet.occam.alg.scorers.similarity.relative.RelativeSubsetSimilarityScorer;
 
 public class ScorersAbstractFactory {
 
 	public static final ScorersAbstractFactory INSTANCE = new ScorersAbstractFactory();
 
-	private SimilarityScorerStrategy similarityScorerStrategy = null;
+	private RelativeSimilarityScorerStrategy relativeSimilarityScorerStrategy = null;
 	private ProblemStateScorerStrategy problemStateScorerStrategy = null;
 
 	private ScorersAbstractFactory() {
 	}
 
-	public AsymmetricalSimilarityScorer getAsymmetricalSimilarityScorer() {
-		return SimilarityScorerFactory.INSTANCE.getAsymmetricalSimilarityScorer(similarityScorerStrategy);
+	public RelativeAsymmetricalSimilarityScorer getAsymmetricalSimilarityScorer() {
+		return RelativeSimilarityScorerFactory.INSTANCE.getAsymmetricalSimilarityScorer(relativeSimilarityScorerStrategy);
 	}
 
-	public SubsetSimilarityScorer getBasicSimilarityScorer() {
-		return SimilarityScorerFactory.INSTANCE.getBasicSimilarityScorer(similarityScorerStrategy);
+	public RelativeSubsetSimilarityScorer getBasicSimilarityScorer() {
+		return RelativeSimilarityScorerFactory.INSTANCE.getBasicSimilarityScorer(relativeSimilarityScorerStrategy);
 	}
 
-	public PairSimilarityScorer getPairSimilarityScorer() {
-		return SimilarityScorerFactory.INSTANCE.getPairSimilarityScorer(similarityScorerStrategy);
+	public RelativePairSimilarityScorer getPairSimilarityScorer() {
+		return RelativeSimilarityScorerFactory.INSTANCE.getPairSimilarityScorer(relativeSimilarityScorerStrategy);
 	}
 
 	public ProblemStateScorer getProblemStateScorer() {
@@ -38,7 +38,7 @@ public class ScorersAbstractFactory {
 	public void setUpStrategy(ScoringStrategy overallStrategy) {
 		switch (overallStrategy) {
 		case SCORING_STRATEGY_1:
-			similarityScorerStrategy = SimilarityScorerStrategy.DYNAMIC_FRAMING;
+			relativeSimilarityScorerStrategy = RelativeSimilarityScorerStrategy.DYNAMIC_FRAMING;
 			problemStateScorerStrategy = ProblemStateScorerStrategy.SOURCE_PROB_TIMES_TRANSITION_PROB;
 			break;
 		default:

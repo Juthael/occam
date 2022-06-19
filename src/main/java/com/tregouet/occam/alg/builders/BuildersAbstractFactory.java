@@ -33,9 +33,9 @@ import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.dif
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.PropertyBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.PropertyBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.PropertyBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.SimilarityMetricsBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.SimilarityMetricsBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.SimilarityMetricsBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.RelativeSimilarityMetricsBuilder;
+import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.RelativeSimilarityMetricsBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.RelativeSimilarityMetricsBuilderStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilderStrategy;
@@ -73,7 +73,7 @@ public class BuildersAbstractFactory {
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private RepresentationBuilderStrategy representationBuilderStrategy = null;
-	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
+	private RelativeSimilarityMetricsBuilderStrategy relativeSimilarityMetricsBuilderStrategy = null;
 	private ProblemSpaceGraphExpanderStrategy problemSpaceGraphExpanderStrategy = null;
 	private ProblemSpaceGraphRestrictorStrategy problemSpaceGraphRestrictorStrategy = null;
 	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
@@ -145,8 +145,8 @@ public class BuildersAbstractFactory {
 		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
 	}
 	
-	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
-		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
+	public RelativeSimilarityMetricsBuilder getRelativeSimilarityMetricsBuilder() {
+		return RelativeSimilarityMetricsBuilderFactory.INSTANCE.apply(relativeSimilarityMetricsBuilderStrategy);
 	}
 	
 	public ProblemSpaceGraphRestrictor getProblemSpaceGraphRestrictor() {
@@ -170,7 +170,7 @@ public class BuildersAbstractFactory {
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 			representationBuilderStrategy = RepresentationBuilderStrategy.BUILD_TREE_SPECIFIC_PRODUCTION_SET;
-			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
+			relativeSimilarityMetricsBuilderStrategy = RelativeSimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
 			problemSpaceGraphExpanderStrategy = ProblemSpaceGraphExpanderStrategy.ADD_NEW_STATES_THEN_BUILD_TRANSITIONS;
 			problemSpaceGraphRestrictorStrategy = ProblemSpaceGraphRestrictorStrategy.BUILD_BEW_GRAPH;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.DEVELOP_TRIVIAL_DISCARD_UNINFORMATIVE;

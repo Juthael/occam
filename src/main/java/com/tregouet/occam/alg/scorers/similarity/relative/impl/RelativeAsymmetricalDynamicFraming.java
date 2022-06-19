@@ -1,20 +1,20 @@
-package com.tregouet.occam.alg.scorers.similarity.impl;
+package com.tregouet.occam.alg.scorers.similarity.relative.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.relative.RelativeAsymmetricalSimilarityScorer;
 import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets.IConceptPairIDs;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 
-public class AsymmetricalDynamicFraming extends AbstractSimilarityScorer<IConceptPairIDs>
-		implements AsymmetricalSimilarityScorer {
+public class RelativeAsymmetricalDynamicFraming extends RelativeAbstractSimilarityScorer<IConceptPairIDs>
+		implements RelativeAsymmetricalSimilarityScorer {
 
-	public AsymmetricalDynamicFraming() {
+	public RelativeAsymmetricalDynamicFraming() {
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class AsymmetricalDynamicFraming extends AbstractSimilarityScorer<IConcep
 	}
 
 	@Override
-	public AsymmetricalSimilarityScorer setAsContext(Tree<Integer, ADifferentiae> classificationTree) {
+	public RelativeAsymmetricalSimilarityScorer setAsContext(Tree<Integer, ADifferentiae> classificationTree) {
 		this.classificationTree = classificationTree;
 		return this;
 	}

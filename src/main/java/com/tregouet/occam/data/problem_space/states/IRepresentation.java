@@ -61,5 +61,7 @@ public interface IRepresentation extends
 	public static void initializeIDGenerator() {
 		Representation.initializeIDGenerator();
 	}
+	
+	double[][] getSimilarityMatrix();
 
 }

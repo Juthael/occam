@@ -19,7 +19,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.impl.Description;
-import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
+import com.tregouet.occam.data.problem_space.states.descriptions.metrics.IRelativeSimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -63,10 +63,10 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 		}
 		//build metrics
 		Map<Integer, Integer> particularID2MostSpecificConceptID = mapContextParticularID2MostSpecificConceptID(classification);
-		ISimilarityMetrics similarityMetrics =
-				DescriptionBuilder.similarityMetricsBuilder().apply(descGraph, particularID2MostSpecificConceptID);
+		IRelativeSimilarityMetrics relativeSimilarityMetrics =
+				DescriptionBuilder.relativeSimilarityMetricsBuilder().apply(descGraph, particularID2MostSpecificConceptID);
 		//instantiate
-		IDescription description = new Description(descGraph, similarityMetrics);
+		IDescription description = new Description(descGraph, relativeSimilarityMetrics);
 		return description;
 	}
 

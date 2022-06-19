@@ -1,25 +1,25 @@
 package com.tregouet.occam.data.problem_space.states.descriptions.metrics.impl;
 
-import com.tregouet.occam.alg.scorers.similarity.AsymmetricalSimilarityScorer;
-import com.tregouet.occam.alg.scorers.similarity.PairSimilarityScorer;
-import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
+import com.tregouet.occam.alg.scorers.similarity.relative.RelativeAsymmetricalSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.relative.RelativePairSimilarityScorer;
+import com.tregouet.occam.data.problem_space.states.descriptions.metrics.IRelativeSimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets.IConceptPairIDs;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets.impl.ConceptPairIDs;
 
-public class SimilarityMetrics implements ISimilarityMetrics {
+public class RelativeSimilarityMetrics implements IRelativeSimilarityMetrics {
 
 	private int[] particularIDs = null;
 	private double[][] similarityMatrix = null;
 	private double[][] asymmetricalSimilarityMatrix = null;
 	private double[] typicalityVector = null;
-	private PairSimilarityScorer pairSimilarityScorer = null;
-	private AsymmetricalSimilarityScorer asymmetricalSimilarityScorer = null;
+	private RelativePairSimilarityScorer relativePairSimilarityScorer = null;
+	private RelativeAsymmetricalSimilarityScorer relativeAsymmetricalSimilarityScorer = null;
 
-	public SimilarityMetrics(int[] particularIDs, PairSimilarityScorer pairSimilarityScorer,
-			AsymmetricalSimilarityScorer asymmetricalSimilarityScorer) {
+	public RelativeSimilarityMetrics(int[] particularIDs, RelativePairSimilarityScorer relativePairSimilarityScorer,
+			RelativeAsymmetricalSimilarityScorer relativeAsymmetricalSimilarityScorer) {
 		this.particularIDs = particularIDs;
-		this.pairSimilarityScorer = pairSimilarityScorer;
-		this.asymmetricalSimilarityScorer = asymmetricalSimilarityScorer;
+		this.relativePairSimilarityScorer = relativePairSimilarityScorer;
+		this.relativeAsymmetricalSimilarityScorer = relativeAsymmetricalSimilarityScorer;
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 				int iParticularID = particularIDs[i];
 				int jParticularID = particularIDs[j];
 				IConceptPairIDs pair = new ConceptPairIDs(iParticularID, jParticularID);
-				asymmetricalSimilarityMatrix[i][j] = asymmetricalSimilarityScorer.apply(pair).value();
+				asymmetricalSimilarityMatrix[i][j] = relativeAsymmetricalSimilarityScorer.apply(pair).value();
 			}
 		}
 	}
@@ -69,7 +69,7 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 				int iParticularID = particularIDs[i];
 				int jParticularID = particularIDs[j];
 				IConceptPairIDs pair = new ConceptPairIDs(iParticularID, jParticularID);
-				double similarityScore = pairSimilarityScorer.apply(pair).value();
+				double similarityScore = relativePairSimilarityScorer.apply(pair).value();
 				similarityMatrix[i][j] = similarityScore;
 				if (i != j)
 					similarityMatrix[j][i] = similarityScore;

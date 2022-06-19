@@ -20,7 +20,7 @@ import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
+import com.tregouet.occam.data.problem_space.states.descriptions.metrics.IRelativeSimilarityMetrics;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class ReplaceMissingParticularsByMostSpecificConceptTest {
@@ -48,7 +48,7 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		boolean asExpected = true;
 		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
 			IDescription description = representation.getDescription();
-			ISimilarityMetrics metrics = description.getSimilarityMetrics();
+			IRelativeSimilarityMetrics metrics = description.getSimilarityMetrics();
 			double[][] similarityMatrix = metrics.getSimilarityMatrix();
 			if (similarityMatrix == null)
 				asExpected = false;
@@ -64,7 +64,7 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		boolean asExpected = true;
 		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
 			IDescription description = representation.getDescription();
-			ISimilarityMetrics metrics = description.getSimilarityMetrics();
+			IRelativeSimilarityMetrics metrics = description.getSimilarityMetrics();
 			double[][] asymmetricalSimilarityMatrix = metrics.getAsymmetricalSimilarityMatrix();
 			if (asymmetricalSimilarityMatrix == null)
 				asExpected = false;
@@ -80,7 +80,7 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		boolean asExpected = true;
 		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
 			IDescription description = representation.getDescription();
-			ISimilarityMetrics metrics = description.getSimilarityMetrics();
+			IRelativeSimilarityMetrics metrics = description.getSimilarityMetrics();
 			double[] typicalityVector = metrics.getTypicalityVector();
 			if (typicalityVector == null)
 				asExpected = false;

@@ -2,14 +2,14 @@ package com.tregouet.occam.alg.builders.pb_space.representations.descriptions.me
 
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.impl.ReplaceMissingParticularsByMostSpecificConcept;
 
-public class SimilarityMetricsBuilderFactory {
+public class RelativeSimilarityMetricsBuilderFactory {
 
-	public static final SimilarityMetricsBuilderFactory INSTANCE = new SimilarityMetricsBuilderFactory();
+	public static final RelativeSimilarityMetricsBuilderFactory INSTANCE = new RelativeSimilarityMetricsBuilderFactory();
 
-	private SimilarityMetricsBuilderFactory() {
+	private RelativeSimilarityMetricsBuilderFactory() {
 	}
 
-	public SimilarityMetricsBuilder apply(SimilarityMetricsBuilderStrategy strategy) {
+	public RelativeSimilarityMetricsBuilder apply(RelativeSimilarityMetricsBuilderStrategy strategy) {
 		switch (strategy) {
 		case MOST_SPECIFIC_CONCEPT :
 			return ReplaceMissingParticularsByMostSpecificConcept.INSTANCE;

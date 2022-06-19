@@ -184,4 +184,9 @@ public class Representation implements IRepresentation {
 		nextID = IRepresentation.FIRST_ID;
 	}
 
+	@Override
+	public double[][] getSimilarityMatrix() {
+		return description.getSimilarityMetrics().getSimilarityMatrix();
+	}
+
 }

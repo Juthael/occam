@@ -59,7 +59,7 @@ public class UsePartialOrderTest {
 	public void whenDevelopmentRequestedThenProceeded() {
 		boolean asExpected = true;
 		try {
-			pbSpace.deepen(1);
+			pbSpace.develop(1);
 		}
 		catch (Exception e) {
 			asExpected = false;

@@ -41,7 +41,7 @@ public class PrototypeMenu {
 			e.printStackTrace();
 			problemSpaceMenu(problemSpace);
 		}
-		Boolean result = problemSpace.deepen(iD);
+		Boolean result = problemSpace.develop(iD);
 		if (result == null) {
 			System.out.println("No representation has this ID. " + NL);
 			problemSpaceMenu(problemSpace);

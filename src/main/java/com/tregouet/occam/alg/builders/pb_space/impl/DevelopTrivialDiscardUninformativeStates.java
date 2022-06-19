@@ -30,7 +30,7 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 	}
 
 	@Override
-	public Boolean apply(Integer representationID) {
+	public Boolean develop(int representationID) {
 		IRepresentation current = getRepresentationWithID(representationID);
 		if (current == null)
 			return null;
@@ -45,7 +45,7 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 			IRepresentation newRep = repBldr.apply(classification);
 			newRepresentations.add(newRep);
 		}
-		ProblemSpaceExplorer.problemSpaceGraphUpdater().apply(problemGraph, newRepresentations);
+		ProblemSpaceExplorer.problemSpaceGraphExpander().apply(problemGraph, newRepresentations);
 		weighThenScoreThenComply(problemGraph);
 		expandTrivialLeaves(newRepresentations);
 		return true;
@@ -92,7 +92,7 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 	private void expandTrivialLeaves(Set<IRepresentation> newRepresentations) {
 		for (IRepresentation representation : newRepresentations) {
 			if (isATrivialLeaf(representation))
-				apply(representation.iD());
+				develop(representation.iD());
 		}
 	}
 
@@ -131,6 +131,20 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 		for (IRepresentation problemState : problemGraph)
 			problemState.setScore(scorer.apply(problemState));
 		removeUninformative(problemGraph);
+	}
+
+	@Override
+	public Boolean restrictTo(Set<Integer> representationIDs) {
+		Set<IRepresentation> restriction = new HashSet<>();
+		for (Integer iD : representationIDs) {
+			IRepresentation rep = getRepresentationWithID(iD);
+			if (rep != null)
+				restriction.add(rep);
+		}
+		if (restriction.isEmpty())
+			return false;
+		problemGraph = ProblemSpaceExplorer.problemSpaceGraphRestrictor().apply(problemGraph, restriction);
+		return true;
 	}
 
 }

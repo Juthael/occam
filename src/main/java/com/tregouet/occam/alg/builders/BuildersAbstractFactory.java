@@ -15,9 +15,12 @@ import com.tregouet.occam.alg.builders.pb_space.concept_lattices.denotations.Den
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrowerFactory;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrowerStrategy;
-import com.tregouet.occam.alg.builders.pb_space.graph_updater.ProblemSpaceGraphUpdater;
-import com.tregouet.occam.alg.builders.pb_space.graph_updater.ProblemSpaceGraphUpdaterFactory;
-import com.tregouet.occam.alg.builders.pb_space.graph_updater.ProblemSpaceGraphUpdaterStrategy;
+import com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.ProblemSpaceGraphExpander;
+import com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.ProblemSpaceGraphExpanderFactory;
+import com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.ProblemSpaceGraphExpanderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictor;
+import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictorFactory;
+import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictorStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderStrategy;
@@ -71,7 +74,8 @@ public class BuildersAbstractFactory {
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private RepresentationBuilderStrategy representationBuilderStrategy = null;
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
-	private ProblemSpaceGraphUpdaterStrategy problemSpaceGraphUpdaterStrategy = null;
+	private ProblemSpaceGraphExpanderStrategy problemSpaceGraphExpanderStrategy = null;
+	private ProblemSpaceGraphRestrictorStrategy problemSpaceGraphRestrictorStrategy = null;
 	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
 
 	private BuildersAbstractFactory() {
@@ -113,8 +117,8 @@ public class BuildersAbstractFactory {
 		return ProblemSpaceExplorerFactory.INSTANCE.apply(problemSpaceExplorerStrategy);
 	}
 
-	public ProblemSpaceGraphUpdater getProblemSpaceGraphUpdater() {
-		return ProblemSpaceGraphUpdaterFactory.INSTANCE.apply(problemSpaceGraphUpdaterStrategy);
+	public ProblemSpaceGraphExpander getProblemSpaceGraphExpander() {
+		return ProblemSpaceGraphExpanderFactory.INSTANCE.apply(problemSpaceGraphExpanderStrategy);
 	}
 
 	public ProductionBuilder getProductionBuilder() {
@@ -144,6 +148,10 @@ public class BuildersAbstractFactory {
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
 	}
+	
+	public ProblemSpaceGraphRestrictor getProblemSpaceGraphRestrictor() {
+		return ProblemSpaceGraphRestrictorFactory.INSTANCE.apply(problemSpaceGraphRestrictorStrategy);
+	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
 		switch (overallStrategy) {
@@ -163,7 +171,8 @@ public class BuildersAbstractFactory {
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 			representationBuilderStrategy = RepresentationBuilderStrategy.BUILD_TREE_SPECIFIC_PRODUCTION_SET;
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
-			problemSpaceGraphUpdaterStrategy = ProblemSpaceGraphUpdaterStrategy.BUILD_NEW_TRANSITIONS;
+			problemSpaceGraphExpanderStrategy = ProblemSpaceGraphExpanderStrategy.ADD_NEW_STATES_THEN_BUILD_TRANSITIONS;
+			problemSpaceGraphRestrictorStrategy = ProblemSpaceGraphRestrictorStrategy.BUILD_BEW_GRAPH;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.DEVELOP_TRIVIAL_DISCARD_UNINFORMATIVE;
 			break;
 		default:

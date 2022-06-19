@@ -100,7 +100,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 			while (leafIte.hasNext() && nbOfSortings < maxNbOfSortingsAtEachIteration) {
 				IRepresentation leaf = leafIte.next();
 				if (!leaf.isFullyDeveloped()) {
-					pbSpaceExplorer.apply(leaf.iD());
+					pbSpaceExplorer.develop(leaf.iD());
 					nbOfSortings ++;
 				}
 			}

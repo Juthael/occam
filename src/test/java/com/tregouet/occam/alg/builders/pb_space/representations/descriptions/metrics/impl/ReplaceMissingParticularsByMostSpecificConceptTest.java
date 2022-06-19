@@ -106,7 +106,7 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 			while (leafIte.hasNext() && nbOfSortings < maxNbOfSortingsAtEachIteration) {
 				IRepresentation leaf = leafIte.next();
 				if (!leaf.isFullyDeveloped()) {
-					pbSpaceExplorer.apply(leaf.iD());
+					pbSpaceExplorer.develop(leaf.iD());
 					nbOfSortings ++;
 				}
 			}

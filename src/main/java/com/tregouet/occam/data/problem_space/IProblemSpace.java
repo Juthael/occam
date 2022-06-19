@@ -19,7 +19,7 @@ public interface IProblemSpace {
 	 * @param representationID
 	 * @return null if no representation has this iD, false if not expandable, true otherwise
 	 */
-	Boolean deepen(int representationID);
+	Boolean develop(int representationID);
 
 	/**
 	 *

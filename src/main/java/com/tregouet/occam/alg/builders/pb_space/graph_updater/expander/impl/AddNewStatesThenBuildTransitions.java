@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.pb_space.graph_updater.impl;
+package com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.impl;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,17 +11,17 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.google.common.collect.Sets;
-import com.tregouet.occam.alg.builders.pb_space.graph_updater.ProblemSpaceGraphUpdater;
+import com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.ProblemSpaceGraphExpander;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.problem_space.transitions.impl.ProblemStateTransition;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
-public class BuildNewTransitions implements ProblemSpaceGraphUpdater {
+public class AddNewStatesThenBuildTransitions implements ProblemSpaceGraphExpander {
 	
-	public static final BuildNewTransitions INSTANCE = new BuildNewTransitions();
+	public static final AddNewStatesThenBuildTransitions INSTANCE = new AddNewStatesThenBuildTransitions();
 	
-	private BuildNewTransitions() {
+	private AddNewStatesThenBuildTransitions() {
 	}
 
 	@Override

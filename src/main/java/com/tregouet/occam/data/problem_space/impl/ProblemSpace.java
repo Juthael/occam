@@ -28,8 +28,8 @@ public class ProblemSpace implements IProblemSpace {
 	}
 
 	@Override
-	public Boolean deepen(int representationID) {
-		return problemSpaceExplorer.apply(representationID);
+	public Boolean develop(int representationID) {
+		return problemSpaceExplorer.develop(representationID);
 	}
 
 	@Override

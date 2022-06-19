@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.builders.pb_space;
 
-import com.tregouet.occam.alg.builders.pb_space.impl.NormalizeClassificationThenBuildProductions;
+import com.tregouet.occam.alg.builders.pb_space.impl.DevelopTrivialDiscardUninformativeStates;
 
 public class ProblemSpaceExplorerFactory {
 
@@ -11,8 +11,8 @@ public class ProblemSpaceExplorerFactory {
 
 	public ProblemSpaceExplorer apply(ProblemSpaceExplorerStrategy strategy) {
 		switch (strategy) {
-		case NORMALIZE_CLASS_THEN_BUILD :
-			return new NormalizeClassificationThenBuildProductions();
+		case DEVELOP_TRIVIAL_DISCARD_UNINFORMATIVE :
+			return new DevelopTrivialDiscardUninformativeStates();
 		default :
 			return null;
 		}

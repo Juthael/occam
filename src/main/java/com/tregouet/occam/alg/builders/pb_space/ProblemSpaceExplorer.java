@@ -60,7 +60,7 @@ public interface ProblemSpaceExplorer extends Function<Integer, Boolean> {
 		return SettersAbstractFactory.INSTANCE.getCategorizationTransitionWeigher();
 	}
 
-	public static RepresentationBuilder getRepresentationBuilder() {
+	public static RepresentationBuilder representationBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getRepresentationBuilder();
 	}
 

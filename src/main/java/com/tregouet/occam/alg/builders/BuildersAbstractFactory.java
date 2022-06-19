@@ -164,7 +164,7 @@ public class BuildersAbstractFactory {
 			representationBuilderStrategy = RepresentationBuilderStrategy.BUILD_TREE_SPECIFIC_PRODUCTION_SET;
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
 			problemSpaceGraphUpdaterStrategy = ProblemSpaceGraphUpdaterStrategy.BUILD_NEW_TRANSITIONS;
-			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.NORMALIZE_CLASS_THEN_BUILD;
+			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.DEVELOP_TRIVIAL_DISCARD_UNINFORMATIVE;
 			break;
 		default:
 			break;

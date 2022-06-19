@@ -20,13 +20,13 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIs
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class NormalizeClassificationThenBuildProductions implements ProblemSpaceExplorer {
+public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExplorer {
 
 	protected IConceptLattice conceptLattice;
 	protected Set<Integer> extentIDs;
 	protected DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph;
 
-	public NormalizeClassificationThenBuildProductions() {
+	public DevelopTrivialDiscardUninformativeStates() {
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class NormalizeClassificationThenBuildProductions implements ProblemSpace
 			return false;
 		Set<InvertedTree<IConcept, IIsA>> grownTrees =
 				ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, current.getClassification().asGraph());
-		RepresentationBuilder repBldr = ProblemSpaceExplorer.getRepresentationBuilder();
+		RepresentationBuilder repBldr = ProblemSpaceExplorer.representationBuilder();
 		Set<IRepresentation> newRepresentations = new HashSet<>();
 		for (InvertedTree<IConcept, IIsA> grownTree : grownTrees) {
 			IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(grownTree, extentIDs);
@@ -72,7 +72,7 @@ public class NormalizeClassificationThenBuildProductions implements ProblemSpace
 	}
 
 	@Override
-	public NormalizeClassificationThenBuildProductions initialize(
+	public DevelopTrivialDiscardUninformativeStates initialize(
 			Collection<IContextObject> context) {
 		conceptLattice = ProblemSpaceExplorer.conceptLatticeBuilder().apply(context);
 		extentIDs = new HashSet<>();
@@ -82,7 +82,7 @@ public class NormalizeClassificationThenBuildProductions implements ProblemSpace
 				new ArrayList<>(
 						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null)).get(0);
 		IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(initialTree, extentIDs);
-		IRepresentation initialRepresentation = ProblemSpaceExplorer.getRepresentationBuilder().apply(classification);
+		IRepresentation initialRepresentation = ProblemSpaceExplorer.representationBuilder().apply(classification);
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
 		problemGraph.addVertex(initialRepresentation);
 		weighThenScoreThenComply(problemGraph);

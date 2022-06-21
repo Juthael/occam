@@ -1,7 +1,7 @@
 package com.tregouet.occam.data.problem_space.states.descriptions.metrics.impl;
 
-import com.tregouet.occam.alg.scorers.similarity.relative.RelativeAsymmetricalSimilarityScorer;
-import com.tregouet.occam.alg.scorers.similarity.relative.RelativePairSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.RelativeAsymmetricalSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.RelativePairSimilarityScorer;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.IRelativeSimilarityMetrics;
 
 public class RelativeSimilarityMetrics implements IRelativeSimilarityMetrics {

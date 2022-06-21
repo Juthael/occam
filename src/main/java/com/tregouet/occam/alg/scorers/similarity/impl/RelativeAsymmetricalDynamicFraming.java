@@ -1,10 +1,10 @@
-package com.tregouet.occam.alg.scorers.similarity.relative.impl;
+package com.tregouet.occam.alg.scorers.similarity.impl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.alg.scorers.similarity.relative.RelativeAsymmetricalSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.RelativeAsymmetricalSimilarityScorer;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;

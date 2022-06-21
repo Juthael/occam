@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.scorers.similarity.relative;
+package com.tregouet.occam.alg.scorers.similarity;
 
 public enum RelativeSimilarityScorerStrategy {
 

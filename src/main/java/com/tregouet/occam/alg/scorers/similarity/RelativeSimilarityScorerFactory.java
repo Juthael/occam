@@ -1,8 +1,8 @@
-package com.tregouet.occam.alg.scorers.similarity.relative;
+package com.tregouet.occam.alg.scorers.similarity;
 
-import com.tregouet.occam.alg.scorers.similarity.relative.impl.DynamicFramingForPairs;
-import com.tregouet.occam.alg.scorers.similarity.relative.impl.DynamicFramingForSubsets;
-import com.tregouet.occam.alg.scorers.similarity.relative.impl.RelativeAsymmetricalDynamicFraming;
+import com.tregouet.occam.alg.scorers.similarity.impl.DynamicFramingForPairs;
+import com.tregouet.occam.alg.scorers.similarity.impl.DynamicFramingForSubsets;
+import com.tregouet.occam.alg.scorers.similarity.impl.RelativeAsymmetricalDynamicFraming;
 
 public class RelativeSimilarityScorerFactory {
 

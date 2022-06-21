@@ -3,11 +3,11 @@ package com.tregouet.occam.alg.scorers;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorerFactory;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorerStrategy;
-import com.tregouet.occam.alg.scorers.similarity.relative.RelativeAsymmetricalSimilarityScorer;
-import com.tregouet.occam.alg.scorers.similarity.relative.RelativePairSimilarityScorer;
-import com.tregouet.occam.alg.scorers.similarity.relative.RelativeSimilarityScorerFactory;
-import com.tregouet.occam.alg.scorers.similarity.relative.RelativeSimilarityScorerStrategy;
-import com.tregouet.occam.alg.scorers.similarity.relative.RelativeSubsetSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.RelativeAsymmetricalSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.RelativePairSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity.RelativeSimilarityScorerFactory;
+import com.tregouet.occam.alg.scorers.similarity.RelativeSimilarityScorerStrategy;
+import com.tregouet.occam.alg.scorers.similarity.RelativeSubsetSimilarityScorer;
 
 public class ScorersAbstractFactory {
 

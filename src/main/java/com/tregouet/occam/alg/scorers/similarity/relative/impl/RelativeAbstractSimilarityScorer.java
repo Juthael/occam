@@ -13,21 +13,7 @@ public abstract class RelativeAbstractSimilarityScorer<R extends Scored<IDoubleS
 
 	public RelativeAbstractSimilarityScorer() {
 	}
-
-	protected Double getContextualDefinitionCostOf(Integer conceptID, Integer frameConceptID) {
-		if (Functions.lowerSet(classificationTree, conceptID).contains(frameConceptID)) {
-			double definitionCost = 0.0;
-			int currentConceptID = conceptID;
-			while (currentConceptID != frameConceptID) {
-				ADifferentiae currentConceptDefinition = classificationTree.incomingEdgeOf(currentConceptID);
-				definitionCost += currentConceptDefinition.weight();
-				currentConceptID = classificationTree.getEdgeSource(currentConceptDefinition);
-			}
-			return definitionCost;
-		}
-		return null;
-	}
-
+	
 	protected Double getDefinitionCostOf(Integer conceptID) {
 		double definitionCost = 0.0;
 		int currentConceptID = conceptID;

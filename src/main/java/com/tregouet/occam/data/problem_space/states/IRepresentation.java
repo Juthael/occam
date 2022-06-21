@@ -5,11 +5,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
-import com.tregouet.occam.alg.scorers.Scored;
 import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.logical_structures.partial_order.PartiallyComparable;
-import com.tregouet.occam.data.logical_structures.scores.IDoubleScore;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
@@ -32,7 +30,7 @@ public interface IRepresentation extends
 			IConceptTransitionOIC,
 			IConceptTransition,
 			IRepresentationTransitionFunction>,
-		Scored<IDoubleScore>, PartiallyComparable<IRepresentation> {
+		PartiallyComparable<IRepresentation> {
 
 	public static final int FIRST_ID = 1;
 
@@ -63,5 +61,9 @@ public interface IRepresentation extends
 	}
 
 	double[][] getSimilarityMatrix();
+	
+	void setScore(double score);
+	
+	double score();
 
 }

@@ -16,8 +16,8 @@ public class Probability implements ProblemTransitionLabeller {
 
 	@Override
 	public String apply(AProblemStateTransition transition) {
-		double sourceStateScore = transition.getSource().score().value();
-		double targetStateScore = transition.getTarget().score().value();
+		double sourceStateScore = transition.getSource().score();
+		double targetStateScore = transition.getTarget().score();
 		if (sourceStateScore == 0.0 || targetStateScore == 0.0)
 			return Double.toString(0.0);
 		return round(targetStateScore / sourceStateScore);

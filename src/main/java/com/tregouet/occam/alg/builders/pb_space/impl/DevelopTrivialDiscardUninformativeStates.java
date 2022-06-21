@@ -117,7 +117,7 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph) {
 		Set<IRepresentation> representations = new HashSet<>(problemGraph.vertexSet());
 		for (IRepresentation representation : representations) {
-			if (representation.score().value() == 0.0)
+			if (representation.score() == 0.0)
 				problemGraph.removeVertex(representation);
 		}
 	}
@@ -129,7 +129,7 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 			weigher.accept(transition);
 		ProblemStateScorer scorer = ProblemSpaceExplorer.getProblemStateScorer().setUp(problemGraph);
 		for (IRepresentation problemState : problemGraph)
-			problemState.setScore(scorer.apply(problemState));
+			problemState.setScore(scorer.score(problemState));
 		removeUninformative(problemGraph);
 	}
 

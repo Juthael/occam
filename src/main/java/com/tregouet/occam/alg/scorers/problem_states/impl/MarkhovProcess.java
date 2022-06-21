@@ -8,7 +8,6 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
-import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
@@ -22,8 +21,8 @@ public class MarkhovProcess implements ProblemStateScorer {
 	}
 
 	@Override
-	public DoubleScore apply(IRepresentation problemState) {
-		return new DoubleScore(stateProbability[topoOrderedStates.indexOf(problemState)]);
+	public double score(IRepresentation problemState) {
+		return stateProbability[topoOrderedStates.indexOf(problemState)];
 	}
 
 	@Override

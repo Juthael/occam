@@ -10,7 +10,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
-import com.tregouet.occam.data.logical_structures.scores.IDoubleScore;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
@@ -30,7 +29,7 @@ public class Representation implements IRepresentation {
 	protected IFactEvaluator factEvaluator;
 	protected IDescription description;
 	protected final Set<IPartition> partitions;
-	protected IDoubleScore score = null;
+	protected Double score = null;
 
 	public Representation(IClassification classification, IDescription description, IFactEvaluator factEvaluator,
 			Set<IPartition> partitions) {
@@ -171,12 +170,12 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
-	public IDoubleScore score() {
+	public double score() {
 		return score;
 	}
 
 	@Override
-	public void setScore(IDoubleScore score) {
+	public void setScore(double score) {
 		this.score = score;
 	}
 

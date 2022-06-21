@@ -5,27 +5,25 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.alg.scorers.similarity.relative.RelativeAsymmetricalSimilarityScorer;
-import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets.IConceptPairIDs;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 
-public class RelativeAsymmetricalDynamicFraming extends RelativeAbstractSimilarityScorer<IConceptPairIDs>
+public class RelativeAsymmetricalDynamicFraming extends RelativeAbstractSimilarityScorer
 		implements RelativeAsymmetricalSimilarityScorer {
 
 	public RelativeAsymmetricalDynamicFraming() {
 	}
 
 	@Override
-	public DoubleScore apply(IConceptPairIDs iDPair) {
+	public double score(Integer conceptID1, Integer conceptID2) {
 		Double genusDefinitionCost;
 		Double targetDefinitionCost;
-		Integer genusID = Functions.commonAncestor(classificationTree, iDPair.second(), iDPair.first());
-		Integer targetAsGenusSpeciesID = findTargetAsGenusSpeciesID(genusID, iDPair.first());
+		Integer genusID = Functions.commonAncestor(classificationTree, conceptID1, conceptID2);
+		Integer targetAsGenusSpeciesID = findTargetAsGenusSpeciesID(genusID, conceptID1);
 		genusDefinitionCost = getDefinitionCostOf(genusID);
 		targetDefinitionCost = getDefinitionCostOf(targetAsGenusSpeciesID);
-		return new DoubleScore(genusDefinitionCost / targetDefinitionCost);
+		return genusDefinitionCost / targetDefinitionCost;
 	}
 
 	@Override

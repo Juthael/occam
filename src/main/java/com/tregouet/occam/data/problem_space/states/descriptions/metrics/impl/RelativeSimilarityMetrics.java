@@ -3,8 +3,6 @@ package com.tregouet.occam.data.problem_space.states.descriptions.metrics.impl;
 import com.tregouet.occam.alg.scorers.similarity.relative.RelativeAsymmetricalSimilarityScorer;
 import com.tregouet.occam.alg.scorers.similarity.relative.RelativePairSimilarityScorer;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.IRelativeSimilarityMetrics;
-import com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets.IConceptPairIDs;
-import com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets.impl.ConceptPairIDs;
 
 public class RelativeSimilarityMetrics implements IRelativeSimilarityMetrics {
 
@@ -55,8 +53,7 @@ public class RelativeSimilarityMetrics implements IRelativeSimilarityMetrics {
 			for (int j = 0; j < nbOfParticulars; j++) {
 				int iParticularID = particularIDs[i];
 				int jParticularID = particularIDs[j];
-				IConceptPairIDs pair = new ConceptPairIDs(iParticularID, jParticularID);
-				asymmetricalSimilarityMatrix[i][j] = relativeAsymmetricalSimilarityScorer.apply(pair).value();
+				asymmetricalSimilarityMatrix[i][j] = relativeAsymmetricalSimilarityScorer.score(iParticularID, jParticularID);
 			}
 		}
 	}
@@ -68,8 +65,7 @@ public class RelativeSimilarityMetrics implements IRelativeSimilarityMetrics {
 			for (int j = i; j < nbOfParticulars; j++) {
 				int iParticularID = particularIDs[i];
 				int jParticularID = particularIDs[j];
-				IConceptPairIDs pair = new ConceptPairIDs(iParticularID, jParticularID);
-				double similarityScore = relativePairSimilarityScorer.apply(pair).value();
+				double similarityScore = relativePairSimilarityScorer.score(iParticularID, jParticularID);
 				similarityMatrix[i][j] = similarityScore;
 				if (i != j)
 					similarityMatrix[j][i] = similarityScore;

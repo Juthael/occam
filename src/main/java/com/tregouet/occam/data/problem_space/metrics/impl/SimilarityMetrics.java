@@ -5,13 +5,15 @@ import com.tregouet.occam.data.problem_space.metrics.ISimilarityMetrics;
 public class SimilarityMetrics implements ISimilarityMetrics {
 
 	private final double[][] similarityMatrix;
+	private final String[][] referenceMatrix;
 	private final double[][] asymmetricalSimilarityMatrix;
 	private final double[][] differenceMatrix;
 	private final double[] typicalityVector;
 
-	public SimilarityMetrics(double[][] similarityMatrix, double[][] asymmetricalSimilarityMatrix,
-			double[][] differenceMatrix, double[] typicalityVector) {
+	public SimilarityMetrics(double[][] similarityMatrix, String[][] referenceMatrix, 
+			double[][] asymmetricalSimilarityMatrix, double[][] differenceMatrix, double[] typicalityVector) {
 		this.similarityMatrix = similarityMatrix;
+		this.referenceMatrix = referenceMatrix;
 		this.asymmetricalSimilarityMatrix = asymmetricalSimilarityMatrix;
 		this.differenceMatrix = differenceMatrix;
 		this.typicalityVector = typicalityVector;
@@ -20,6 +22,11 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 	@Override
 	public double[][] getSimilarityMatrix() {
 		return similarityMatrix;
+	}
+	
+	@Override
+	public String[][] getReferenceMatrix() {
+		return referenceMatrix;
 	}
 
 	@Override

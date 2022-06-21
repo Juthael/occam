@@ -75,4 +75,29 @@ public class ProblemSpace implements IProblemSpace {
 		return problemSpaceExplorer.restrictTo(representationIDs);
 	}
 
+	@Override
+	public double[][] getSimilarityMatrix() {
+		return problemSpaceExplorer.getSimilarityMetrics().getSimilarityMatrix();
+	}
+
+	@Override
+	public String[][] getReferenceMatrix() {
+		return problemSpaceExplorer.getSimilarityMetrics().getReferenceMatrix();
+	}
+
+	@Override
+	public double[][] getAsymmetricalSimilarityMatrix() {
+		return problemSpaceExplorer.getSimilarityMetrics().getAsymmetricalSimilarityMatrix();
+	}
+
+	@Override
+	public double[][] getDifferenceMatrix() {
+		return problemSpaceExplorer.getSimilarityMetrics().getDifferenceMatrix();
+	}
+
+	@Override
+	public double[] getTypicalityVector() {
+		return problemSpaceExplorer.getSimilarityMetrics().getTypicalityVector();
+	}
+
 }

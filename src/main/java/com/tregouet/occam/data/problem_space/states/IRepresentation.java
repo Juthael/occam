@@ -9,7 +9,7 @@ import com.tregouet.occam.alg.scorers.Scored;
 import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.logical_structures.partial_order.PartiallyComparable;
-import com.tregouet.occam.data.logical_structures.scores.impl.IDoubleScore;
+import com.tregouet.occam.data.logical_structures.scores.IDoubleScore;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;

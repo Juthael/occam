@@ -1,6 +1,4 @@
-package com.tregouet.occam.data.logical_structures.scores.impl;
-
-import com.tregouet.occam.data.logical_structures.scores.IScore;
+package com.tregouet.occam.data.logical_structures.scores;
 
 public interface IDoubleScore extends IScore<IDoubleScore> {
 

@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
-import com.tregouet.occam.data.logical_structures.scores.impl.IDoubleScore;
+import com.tregouet.occam.data.logical_structures.scores.IDoubleScore;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;

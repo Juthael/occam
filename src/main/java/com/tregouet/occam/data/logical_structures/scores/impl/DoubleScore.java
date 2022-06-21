@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.logical_structures.scores.impl;
 
+import com.tregouet.occam.data.logical_structures.scores.IDoubleScore;
 import com.tregouet.occam.data.logical_structures.scores.IScore;
 
 public class DoubleScore implements IDoubleScore {

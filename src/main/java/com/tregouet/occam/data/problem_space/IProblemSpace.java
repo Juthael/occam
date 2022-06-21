@@ -42,5 +42,15 @@ public interface IProblemSpace {
 	public static ProblemSpaceExplorer problemSpaceExplorer() {
 		return BuildersAbstractFactory.INSTANCE.getProblemSpaceExplorer();
 	}
+	
+	double[][] getSimilarityMatrix();
+	
+	String[][] getReferenceMatrix();
+
+	double[][] getAsymmetricalSimilarityMatrix();
+
+	double[][] getDifferenceMatrix();
+
+	double[] getTypicalityVector();	
 
 }

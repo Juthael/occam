@@ -28,7 +28,7 @@ public interface IProblemSpace {
 	 * @return null if no representation has this iD, false if already active, true otherwise
 	 */
 	Boolean display(int representationID);
-	
+
 	Boolean restrictTo(Set<Integer> representationIDs);
 
 	IRepresentation getActiveRepresentation();

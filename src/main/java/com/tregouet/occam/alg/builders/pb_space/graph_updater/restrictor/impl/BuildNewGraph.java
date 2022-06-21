@@ -16,9 +16,9 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
 import com.tregouet.occam.data.problem_space.transitions.impl.ProblemStateTransition;
 
 public class BuildNewGraph implements ProblemSpaceGraphRestrictor {
-	
+
 	public static final BuildNewGraph INSTANCE = new BuildNewGraph();
-	
+
 	private BuildNewGraph() {
 	}
 
@@ -26,7 +26,7 @@ public class BuildNewGraph implements ProblemSpaceGraphRestrictor {
 	public DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> apply(
 			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph, Set<IRepresentation> restriction) {
 		restriction.add(getRootOf(graph)); //if no root, meaningless
-		DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> newGraph = 
+		DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> newGraph =
 				new DirectedAcyclicGraph<>(null, null, false);
 		Graphs.addAllVertices(newGraph, restriction);
 		List<IRepresentation> restrictionList = new ArrayList<>(restriction);
@@ -37,18 +37,18 @@ public class BuildNewGraph implements ProblemSpaceGraphRestrictor {
 				Integer ijComparison = iRepresentation.compareTo(jRepresentation);
 				if (ijComparison != null) {
 					if (ijComparison < 0) {
-						newGraph.addEdge(iRepresentation, jRepresentation, 
-								new ProblemStateTransition(iRepresentation, jRepresentation, 
+						newGraph.addEdge(iRepresentation, jRepresentation,
+								new ProblemStateTransition(iRepresentation, jRepresentation,
 										new HashSet<>(Sets.difference(
-												jRepresentation.getPartitions(), 
+												jRepresentation.getPartitions(),
 												iRepresentation.getPartitions()))));
 					}
 					else {
 						//ijComparison > 0
-						newGraph.addEdge(jRepresentation, iRepresentation, 
+						newGraph.addEdge(jRepresentation, iRepresentation,
 								new ProblemStateTransition(jRepresentation, iRepresentation,
 										new HashSet<>(Sets.difference(
-												iRepresentation.getPartitions(), 
+												iRepresentation.getPartitions(),
 												jRepresentation.getPartitions()))));
 					}
 				}
@@ -57,7 +57,7 @@ public class BuildNewGraph implements ProblemSpaceGraphRestrictor {
 		TransitiveReduction.INSTANCE.reduce(newGraph);
 		return newGraph;
 	}
-	
+
 	private static IRepresentation getRootOf(DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> graph) {
 		for (IRepresentation rep : graph.vertexSet()) {
 			if (graph.inDegreeOf(rep) == 0)

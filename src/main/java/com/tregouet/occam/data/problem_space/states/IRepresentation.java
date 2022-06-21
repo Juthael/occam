@@ -9,7 +9,7 @@ import com.tregouet.occam.alg.scorers.Scored;
 import com.tregouet.occam.data.logical_structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.logical_structures.partial_order.PartiallyComparable;
-import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
+import com.tregouet.occam.data.logical_structures.scores.impl.IDoubleScore;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
@@ -32,7 +32,7 @@ public interface IRepresentation extends
 			IConceptTransitionOIC,
 			IConceptTransition,
 			IRepresentationTransitionFunction>,
-		Scored<DoubleScore>, PartiallyComparable<IRepresentation> {
+		Scored<IDoubleScore>, PartiallyComparable<IRepresentation> {
 
 	public static final int FIRST_ID = 1;
 
@@ -61,7 +61,7 @@ public interface IRepresentation extends
 	public static void initializeIDGenerator() {
 		Representation.initializeIDGenerator();
 	}
-	
+
 	double[][] getSimilarityMatrix();
 
 }

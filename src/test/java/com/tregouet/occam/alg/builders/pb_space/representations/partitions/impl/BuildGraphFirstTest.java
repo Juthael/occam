@@ -66,7 +66,7 @@ public class BuildGraphFirstTest {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			boolean fullyDeveloped = isFullyDeveloped(tree);
-			IClassification classification = 
+			IClassification classification =
 					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs, fullyDeveloped);
 			classProdBldr = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder();
 			Set<IContextualizedProduction> classProds =
@@ -113,7 +113,7 @@ public class BuildGraphFirstTest {
 			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
 	}
-	
+
 	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
 		for (IConcept concept : conceptTree.getLeaves()) {
 			if (concept.type() != ConceptType.PARTICULAR)

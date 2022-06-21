@@ -145,8 +145,8 @@ public abstract class AbstractTransFuncBuilder implements RepresentationTransFun
 		}
 		return transitions;
 	}
-	
-	private static Set<IConceptTransition> maintainStackSymbolOnTop(IBindings stackSymbol, int sourceID, int genusID, 
+
+	private static Set<IConceptTransition> maintainStackSymbolOnTop(IBindings stackSymbol, int sourceID, int genusID,
 			IClassification classification){
 		Set<IConceptTransition> bindingsMaintainers = new HashSet<>();
 		int subordinate = genusID;

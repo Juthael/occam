@@ -23,12 +23,10 @@ public class Computation implements IComputation {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Computation other = (Computation) obj;
-		return Objects.equals(input, other.input) && Objects.equals(output, other.output) && 
+		return Objects.equals(input, other.input) && Objects.equals(output, other.output) &&
 				Objects.equals(operator, other.operator);
 	}
 

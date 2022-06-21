@@ -14,11 +14,11 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
 
 public class LambdaAbstrApp implements ILambdaAbstrApp {
-	
+
 	private ILambdaExpression term = null;
 	private IBindings bindings = null;
 	private List<IConstruct> arguments = null;
-	
+
 	public LambdaAbstrApp(IConstruct construct, IAbstractionApplication abstrApp) {
 		term = construct;
 		arguments = new ArrayList<>();
@@ -29,14 +29,14 @@ public class LambdaAbstrApp implements ILambdaAbstrApp {
 				arguments.add(prod.getValue());
 			}
 		}
-		bindings = new Bindings(boundVars);		
+		bindings = new Bindings(boundVars);
 	}
-	
+
 	private LambdaAbstrApp(ILambdaExpression term, IBindings bindings, List<IConstruct> arguments) {
 		this.term = term;
 		this.bindings = bindings;
 		this.arguments = arguments;
-	}	
+	}
 
 	@Override
 	public ILambdaExpression abstractAndApply(IAbstractionApplication abstrApp, boolean safeMode) {
@@ -71,7 +71,7 @@ public class LambdaAbstrApp implements ILambdaAbstrApp {
 	public boolean isAbstractionApplication() {
 		return true;
 	}
-		
+
 	@Override
 	public String toString() {
 		StringBuilder sB = new StringBuilder();
@@ -82,7 +82,7 @@ public class LambdaAbstrApp implements ILambdaAbstrApp {
 		}
 		return sB.toString();
 	}
-	
+
 	private boolean checkThatVariablesToBindAreFree(IBindings bindings) {
 		return getFreeVariables().containsAll(bindings.getBoundVariables());
 	}

@@ -31,9 +31,9 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
  *
  */
 public interface ProblemSpaceExplorer {
-	
+
 	Boolean develop(int representationID);
-	
+
 	Boolean restrictTo(Set<Integer> representationIDs);
 
 	Set<Integer> getIDsOfRepresentationsWithIncompleteSorting();
@@ -59,7 +59,7 @@ public interface ProblemSpaceExplorer {
 	public static ProblemStateScorer getProblemStateScorer() {
 		return ScorersAbstractFactory.INSTANCE.getProblemStateScorer();
 	}
-	
+
 	public static ProblemTransitionWeigher getProblemTransitionWeigher() {
 		return SettersAbstractFactory.INSTANCE.getCategorizationTransitionWeigher();
 	}
@@ -75,7 +75,7 @@ public interface ProblemSpaceExplorer {
 	public static ProblemSpaceGraphExpander problemSpaceGraphExpander() {
 		return BuildersAbstractFactory.INSTANCE.getProblemSpaceGraphExpander();
 	}
-	
+
 	public static ProblemSpaceGraphRestrictor problemSpaceGraphRestrictor() {
 		return BuildersAbstractFactory.INSTANCE.getProblemSpaceGraphRestrictor();
 	}

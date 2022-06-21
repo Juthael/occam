@@ -16,10 +16,10 @@ public class NormalizedClassification extends Classification implements IClassif
 			Set<Integer> particularIDs, boolean fullyDeveloped) {
 		super(graph, conceptID2ExtentIDs, speciesID2GenusID, particularIDs, fullyDeveloped);
 	}
-	
+
 	@Override
 	public NormalizedClassification normalized() {
 		return this;
-	}	
+	}
 
 }

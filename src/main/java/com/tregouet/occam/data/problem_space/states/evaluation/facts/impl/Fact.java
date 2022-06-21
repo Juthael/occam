@@ -22,9 +22,9 @@ public class Fact implements IFact {
 	public ILambdaExpression asLambda() {
 		if (operatorList.isEmpty() || !operatorList.get(0).equals(OmegaOperator.INSTANCE))
 			return null;
-		IConstruct initialThis = OmegaOperator.INSTANCE.getArguments().get(0).getValue(); 
+		IConstruct initialThis = OmegaOperator.INSTANCE.getArguments().get(0).getValue();
 		if (operatorList.size() == 1)
-			return initialThis; 
+			return initialThis;
 		else {
 			ILambdaExpression exp = new LambdaAbstrApp(initialThis, operatorList.get(1));
 			for (int i = 2 ; i < operatorList.size() ; i++) {

@@ -8,7 +8,7 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 public interface ILambdaExpression {
 
 	ILambdaExpression abstractAndApply(IAbstractionApplication abstrApp, boolean safeMode);
-	
+
 	@Override
 	boolean equals(Object o);
 

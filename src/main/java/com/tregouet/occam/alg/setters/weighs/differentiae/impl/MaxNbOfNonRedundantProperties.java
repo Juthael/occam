@@ -13,9 +13,9 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 
 public class MaxNbOfNonRedundantProperties implements DifferentiaeWeigher {
-	
+
 	public static final MaxNbOfNonRedundantProperties INSTANCE = new MaxNbOfNonRedundantProperties();
-	
+
 	private MaxNbOfNonRedundantProperties() {
 	}
 
@@ -42,10 +42,10 @@ public class MaxNbOfNonRedundantProperties implements DifferentiaeWeigher {
 				maxNbOfNonRedundantProperties--;
 			else maxNbFound = true;
 		}
-		differentiae.setCoeffFreeWeight((double) maxNbOfNonRedundantProperties);
+		differentiae.setCoeffFreeWeight(maxNbOfNonRedundantProperties);
 	}
-	
-	private static boolean setOfAntecedentsIsSurjective(Set<IProperty> setOfAntecedents, 
+
+	private static boolean setOfAntecedentsIsSurjective(Set<IProperty> setOfAntecedents,
 			List<IConstruct> images) {
 		boolean[] hasAnAntecedent = new boolean[images.size()];
 		//populate
@@ -53,7 +53,7 @@ public class MaxNbOfNonRedundantProperties implements DifferentiaeWeigher {
 			for (IComputation computation : property.getComputations()) {
 				if (!computation.isIdentity()) {
 					int imageIdx = images.indexOf(computation.getOutput().copy());
-					hasAnAntecedent[imageIdx] = true;					
+					hasAnAntecedent[imageIdx] = true;
 				}
 			}
 		}
@@ -65,7 +65,7 @@ public class MaxNbOfNonRedundantProperties implements DifferentiaeWeigher {
 		return true;
 	}
 
-	private static boolean surjectiveProp2DenotRelationCanBeBuiltWithNProperties(Set<IProperty> properties, 
+	private static boolean surjectiveProp2DenotRelationCanBeBuiltWithNProperties(Set<IProperty> properties,
 			List<IConstruct> denotations, int subsetSize) {
 		for (Set<IProperty> subset : Sets.combinations(properties, subsetSize)) {
 			if(setOfAntecedentsIsSurjective(subset, denotations))

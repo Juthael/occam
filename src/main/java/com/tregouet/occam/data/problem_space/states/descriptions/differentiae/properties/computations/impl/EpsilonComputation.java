@@ -15,10 +15,10 @@ public class EpsilonComputation extends Computation implements IComputation {
 	public boolean isEpsilon() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isIdentity() {
 		return false;
-	}	
+	}
 
 }

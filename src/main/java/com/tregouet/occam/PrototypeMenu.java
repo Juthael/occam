@@ -53,7 +53,7 @@ public class PrototypeMenu {
 			problemSpaceMenu(problemSpace);
 		}
 	}
-	
+
 	private void restrictProblemSpace(IProblemSpace problemSpace) {
 		System.out.println(NL);
 		System.out.println("Please enter IDs of representations to retain, separated by dots.");
@@ -215,7 +215,7 @@ public class PrototypeMenu {
 		case 2:
 			developRepresentation(problemSpace);
 			break;
-		case 3 : 
+		case 3 :
 			restrictProblemSpace(problemSpace);
 		case 4:
 			mainMenu();

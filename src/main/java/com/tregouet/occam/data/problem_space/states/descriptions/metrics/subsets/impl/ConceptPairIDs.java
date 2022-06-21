@@ -1,13 +1,13 @@
 package com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets.impl;
 
-import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
+import com.tregouet.occam.data.logical_structures.scores.impl.IDoubleScore;
 import com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets.IConceptPairIDs;
 
 public class ConceptPairIDs implements IConceptPairIDs {
 
 	private final int targetID;
 	private final int sourceID;
-	private DoubleScore asymmetricalSimilarityScore = null;
+	private IDoubleScore asymmetricalSimilarityScore = null;
 
 	public ConceptPairIDs(int targetID, int sourceID) {
 		this.targetID = targetID;
@@ -20,7 +20,7 @@ public class ConceptPairIDs implements IConceptPairIDs {
 	}
 
 	@Override
-	public DoubleScore score() {
+	public IDoubleScore score() {
 		return asymmetricalSimilarityScore;
 	}
 
@@ -30,7 +30,7 @@ public class ConceptPairIDs implements IConceptPairIDs {
 	}
 
 	@Override
-	public void setScore(DoubleScore score) {
+	public void setScore(IDoubleScore score) {
 		this.asymmetricalSimilarityScore = score;
 	}
 

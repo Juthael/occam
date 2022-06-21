@@ -144,11 +144,11 @@ public class BuildersAbstractFactory {
 	public RepresentationTransFuncBuilder getRepresentationTransFuncBuilder() {
 		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
 	}
-	
+
 	public RelativeSimilarityMetricsBuilder getRelativeSimilarityMetricsBuilder() {
 		return RelativeSimilarityMetricsBuilderFactory.INSTANCE.apply(relativeSimilarityMetricsBuilderStrategy);
 	}
-	
+
 	public ProblemSpaceGraphRestrictor getProblemSpaceGraphRestrictor() {
 		return ProblemSpaceGraphRestrictorFactory.INSTANCE.apply(problemSpaceGraphRestrictorStrategy);
 	}

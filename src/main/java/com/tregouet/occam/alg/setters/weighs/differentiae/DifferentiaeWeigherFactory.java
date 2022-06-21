@@ -20,7 +20,7 @@ public class DifferentiaeWeigherFactory {
 			return new MinNbOfInstantiatedVars();
 		case NB_OF_CALCULATED_DENOTATIONS :
 			return NbOfCalculatedDenotations.INSTANCE;
-		case MAX_NB_OF_NON_REDUNDANT_PROP : 
+		case MAX_NB_OF_NON_REDUNDANT_PROP :
 			return MaxNbOfNonRedundantProperties.INSTANCE;
 		default:
 			return null;

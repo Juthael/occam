@@ -18,9 +18,9 @@ import com.tregouet.occam.data.problem_space.transitions.impl.ProblemStateTransi
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
 public class AddNewStatesThenBuildTransitions implements ProblemSpaceGraphExpander {
-	
+
 	public static final AddNewStatesThenBuildTransitions INSTANCE = new AddNewStatesThenBuildTransitions();
-	
+
 	private AddNewStatesThenBuildTransitions() {
 	}
 
@@ -38,13 +38,13 @@ public class AddNewStatesThenBuildTransitions implements ProblemSpaceGraphExpand
 				IRepresentation jNewRep = newRepList.get(j);
 				Set<IPartition> jNewRepPartitions = jNewRep.getPartitions();
 				if (!iNewRep.isFullyDeveloped() && jNewRepPartitions.containsAll(iNewRepPartitions)) {
-					pbGraph.addEdge(iNewRep, jNewRep, 
-							new ProblemStateTransition(iNewRep, jNewRep, 
+					pbGraph.addEdge(iNewRep, jNewRep,
+							new ProblemStateTransition(iNewRep, jNewRep,
 									new HashSet<>(Sets.difference(jNewRepPartitions, iNewRepPartitions))));
 				}
 				else if (!jNewRep.isFullyDeveloped() && iNewRepPartitions.containsAll(jNewRepPartitions)) {
 					pbGraph.addEdge(jNewRep, iNewRep,
-							new ProblemStateTransition(jNewRep, iNewRep, 
+							new ProblemStateTransition(jNewRep, iNewRep,
 									new HashSet<>(Sets.difference(iNewRepPartitions, jNewRepPartitions))));
 				}
 			}
@@ -58,9 +58,9 @@ public class AddNewStatesThenBuildTransitions implements ProblemSpaceGraphExpand
 				for (IRepresentation newRep : newRepresentations) {
 					Set<IPartition> newRepPartitions = newRep.getPartitions();
 					if (!newRep.equals(previousRep) && newRepPartitions.containsAll(previousRepPartitions)) {
-						pbGraph.addEdge(previousRep, newRep, 
+						pbGraph.addEdge(previousRep, newRep,
 								new ProblemStateTransition(previousRep, newRep,
-										new HashSet<>(Sets.difference(newRepPartitions, previousRepPartitions))));	
+										new HashSet<>(Sets.difference(newRepPartitions, previousRepPartitions))));
 					}
 				}
 			}

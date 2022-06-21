@@ -3,13 +3,13 @@ package com.tregouet.occam.data.problem_space.metrics.impl;
 import com.tregouet.occam.data.problem_space.metrics.ISimilarityMetrics;
 
 public class SimilarityMetrics implements ISimilarityMetrics {
-	
+
 	private final double[][] similarityMatrix;
 	private final double[][] asymmetricalSimilarityMatrix;
 	private final double[][] differenceMatrix;
 	private final double[] typicalityVector;
-	
-	public SimilarityMetrics(double[][] similarityMatrix, double[][] asymmetricalSimilarityMatrix, 
+
+	public SimilarityMetrics(double[][] similarityMatrix, double[][] asymmetricalSimilarityMatrix,
 			double[][] differenceMatrix, double[] typicalityVector) {
 		this.similarityMatrix = similarityMatrix;
 		this.asymmetricalSimilarityMatrix = asymmetricalSimilarityMatrix;

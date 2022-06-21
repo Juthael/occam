@@ -110,7 +110,7 @@ public class RecursiveFramingTest {
 			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
 		return speciesID2GenusID;
 	}
-	
+
 	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
 		for (IConcept concept : conceptTree.getLeaves()) {
 			if (concept.type() != ConceptType.PARTICULAR)

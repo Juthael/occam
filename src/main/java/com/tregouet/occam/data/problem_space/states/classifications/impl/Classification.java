@@ -43,9 +43,7 @@ public class Classification implements IClassification {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Classification other = (Classification) obj;
 		return Objects.equals(graph, other.graph);
@@ -95,7 +93,7 @@ public class Classification implements IClassification {
 	public boolean isFullyDeveloped() {
 		return fullyDeveloped;
 	}
-	
+
 	@Override
 	public Map<Integer, List<Integer>> mapConceptID2ExtentIDs() {
 		return conceptID2ExtentIDs;

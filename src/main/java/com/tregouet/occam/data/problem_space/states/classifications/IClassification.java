@@ -31,15 +31,15 @@ public interface IClassification {
 
 	@Override
 	int hashCode();
-	
+
 	boolean isFullyDeveloped();
-	
+
 	Map<Integer, List<Integer>> mapConceptID2ExtentIDs();
-	
+
 	Map<Integer, Integer> mapSpeciesID2GenusID();
-	
+
 	IClassification normalized();
-	
+
 	@Override
 	String toString();
 

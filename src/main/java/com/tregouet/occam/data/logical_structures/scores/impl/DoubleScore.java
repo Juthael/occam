@@ -2,7 +2,7 @@ package com.tregouet.occam.data.logical_structures.scores.impl;
 
 import com.tregouet.occam.data.logical_structures.scores.IScore;
 
-public class DoubleScore implements IScore<DoubleScore> {
+public class DoubleScore implements IDoubleScore {
 
 	private final double value;
 
@@ -11,7 +11,7 @@ public class DoubleScore implements IScore<DoubleScore> {
 	}
 
 	@Override
-	public int compareTo(DoubleScore other) {
+	public int compareTo(IDoubleScore other) {
 		return Double.compare(value, other.value());
 	}
 
@@ -20,6 +20,7 @@ public class DoubleScore implements IScore<DoubleScore> {
 		return IScore.round(value);
 	}
 
+	@Override
 	public double value() {
 		return value;
 	}

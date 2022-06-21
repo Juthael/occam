@@ -36,7 +36,7 @@ public class BuildParametersThenInstantiate implements ClassificationBuilder {
 		}
 		return true;
 	}
-	
+
 	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
 		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
 		for (IIsA edge : conceptTree.edgeSet())

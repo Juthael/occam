@@ -68,7 +68,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			boolean fullyDeveloped = isFullyDeveloped(tree);
-			IClassification classification = 
+			IClassification classification =
 					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, particularIDs, fullyDeveloped);
 			bldr = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder();
 			Set<IContextualizedProduction> classProds = bldr.apply(classification);
@@ -176,7 +176,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		}
 		return assumedRules;
 	}
-	
+
 	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
 		for (IConcept concept : conceptTree.getLeaves()) {
 			if (concept.type() != ConceptType.PARTICULAR)

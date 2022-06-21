@@ -18,7 +18,6 @@ import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
-import com.tregouet.occam.data.problem_space.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
@@ -44,8 +43,6 @@ public interface ProblemSpaceExplorer {
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
 
 	ProblemSpaceExplorer initialize(Collection<IContextObject> context);
-	
-	ISimilarityMetrics getSimilarityMetrics();
 
 	public static ClassificationBuilder classificationBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getClassificationBuilder();

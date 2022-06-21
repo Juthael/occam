@@ -74,6 +74,8 @@ public class ProblemSpace implements IProblemSpace {
 	public Boolean restrictTo(Set<Integer> representationIDs) {
 		return problemSpaceExplorer.restrictTo(representationIDs);
 	}
+	
+	/*
 
 	@Override
 	public double[][] getSimilarityMatrix() {
@@ -99,5 +101,7 @@ public class ProblemSpace implements IProblemSpace {
 	public double[] getTypicalityVector() {
 		return problemSpaceExplorer.getSimilarityMetrics().getTypicalityVector();
 	}
+	
+	*/
 
 }

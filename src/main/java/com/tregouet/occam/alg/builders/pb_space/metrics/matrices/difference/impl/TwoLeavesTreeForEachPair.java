@@ -7,7 +7,12 @@ import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.difference.Diff
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
 
-public class BuildClassificationTreesWith2Leaves implements DifferenceMatrixBuilder {
+public class TwoLeavesTreeForEachPair implements DifferenceMatrixBuilder {
+	
+	public static final TwoLeavesTreeForEachPair INSTANCE = new TwoLeavesTreeForEachPair();
+	
+	private TwoLeavesTreeForEachPair() {
+	}
 
 	@Override
 	public double[][] apply(IConceptLattice lattice) {

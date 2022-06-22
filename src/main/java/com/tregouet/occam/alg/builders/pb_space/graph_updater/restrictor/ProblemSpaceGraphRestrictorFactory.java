@@ -11,7 +11,7 @@ public class ProblemSpaceGraphRestrictorFactory {
 
 	public ProblemSpaceGraphRestrictor apply (ProblemSpaceGraphRestrictorStrategy strategy) {
 		switch (strategy) {
-		case BUILD_BEW_GRAPH :
+		case BUILD_NEW_GRAPH :
 			return BuildNewGraph.INSTANCE;
 		default :
 			return null;

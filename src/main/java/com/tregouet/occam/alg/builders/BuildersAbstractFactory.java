@@ -21,6 +21,18 @@ import com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.ProblemSp
 import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictor;
 import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictorFactory;
 import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictorStrategy;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilder;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.difference.DifferenceMatrixBuilder;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.difference.DifferenceMatrixBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.difference.DifferenceMatrixBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.symmetrical_sim.SimilarityMatrixBuilder;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.symmetrical_sim.SimilarityMatrixBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.symmetrical_sim.SimilarityMatrixBuilderStrategy;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.typicality.TypicalityVectorBuilder;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.typicality.TypicalityVectorBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.typicality.TypicalityVectorBuilderStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderStrategy;
@@ -76,6 +88,10 @@ public class BuildersAbstractFactory {
 	private RelativeSimilarityMetricsBuilderStrategy relativeSimilarityMetricsBuilderStrategy = null;
 	private ProblemSpaceGraphExpanderStrategy problemSpaceGraphExpanderStrategy = null;
 	private ProblemSpaceGraphRestrictorStrategy problemSpaceGraphRestrictorStrategy = null;
+	private SimilarityMatrixBuilderStrategy similarityMatrixBuilderStrategy = null;
+	private AsymmetricalSimilarityMatrixBuilderStrategy asymmetricalSimilarityMatrixBuilderStrategy = null;
+	private DifferenceMatrixBuilderStrategy differenceMatrixBuilderStrategy = null;
+	private TypicalityVectorBuilderStrategy typicalityVectorBuilderStrategy = null;
 	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
 
 	private BuildersAbstractFactory() {
@@ -148,6 +164,22 @@ public class BuildersAbstractFactory {
 	public RelativeSimilarityMetricsBuilder getRelativeSimilarityMetricsBuilder() {
 		return RelativeSimilarityMetricsBuilderFactory.INSTANCE.apply(relativeSimilarityMetricsBuilderStrategy);
 	}
+	
+	public AsymmetricalSimilarityMatrixBuilder getAsymmetricalSimilarityMatrixBuilder() {
+		return AsymmetricalSimilarityMatrixBuilderFactory.INSTANCE.apply(asymmetricalSimilarityMatrixBuilderStrategy);
+	}
+	
+	public DifferenceMatrixBuilder getDifferenceMatrixBuilder() {
+		return DifferenceMatrixBuilderFactory.INSTANCE.apply(differenceMatrixBuilderStrategy);
+	}
+	
+	public SimilarityMatrixBuilder getSimilarityMatrixBuilder() {
+		return SimilarityMatrixBuilderFactory.INSTANCE.apply(similarityMatrixBuilderStrategy);
+	}
+	
+	public TypicalityVectorBuilder getTypicalityVectorBuilder() {
+		return TypicalityVectorBuilderFactory.INSTANCE.apply(typicalityVectorBuilderStrategy);
+	}
 
 	public ProblemSpaceGraphRestrictor getProblemSpaceGraphRestrictor() {
 		return ProblemSpaceGraphRestrictorFactory.INSTANCE.apply(problemSpaceGraphRestrictorStrategy);
@@ -172,7 +204,11 @@ public class BuildersAbstractFactory {
 			representationBuilderStrategy = RepresentationBuilderStrategy.BUILD_TREE_SPECIFIC_PRODUCTION_SET;
 			relativeSimilarityMetricsBuilderStrategy = RelativeSimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
 			problemSpaceGraphExpanderStrategy = ProblemSpaceGraphExpanderStrategy.ADD_NEW_STATES_THEN_BUILD_TRANSITIONS;
-			problemSpaceGraphRestrictorStrategy = ProblemSpaceGraphRestrictorStrategy.BUILD_BEW_GRAPH;
+			problemSpaceGraphRestrictorStrategy = ProblemSpaceGraphRestrictorStrategy.BUILD_NEW_GRAPH;
+			similarityMatrixBuilderStrategy = SimilarityMatrixBuilderStrategy.MAXIMAL_RELATIVE_SIMILARITY;
+			asymmetricalSimilarityMatrixBuilderStrategy = AsymmetricalSimilarityMatrixBuilderStrategy.SIM_DIV_BY_MAX_SIM;
+			differenceMatrixBuilderStrategy = DifferenceMatrixBuilderStrategy.TWO_LEAVES_TREE_FOR_EACH_PAIR;
+			typicalityVectorBuilderStrategy = TypicalityVectorBuilderStrategy.ASYMM_SIM_MATRIX_ROW_AVERAGE;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.DEVELOP_TRIVIAL_DISCARD_UNINFORMATIVE;
 			break;
 		default:

@@ -2,11 +2,11 @@ package com.tregouet.occam.alg.builders.pb_space.metrics.matrices.typicality.imp
 
 import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.typicality.TypicalityVectorBuilder;
 
-public class AssymetricalSimMatrixRowAverage implements TypicalityVectorBuilder {
+public class AsymmetricalSimMatrixRowAverage implements TypicalityVectorBuilder {
 	
-	public static final AssymetricalSimMatrixRowAverage INSTANCE = new AssymetricalSimMatrixRowAverage();
+	public static final AsymmetricalSimMatrixRowAverage INSTANCE = new AsymmetricalSimMatrixRowAverage();
 	
-	private AssymetricalSimMatrixRowAverage() {
+	private AsymmetricalSimMatrixRowAverage() {
 	}
 
 	@Override

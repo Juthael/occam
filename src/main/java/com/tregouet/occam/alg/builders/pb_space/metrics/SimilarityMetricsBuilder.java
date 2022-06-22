@@ -5,6 +5,11 @@ import java.util.function.BiFunction;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
+import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilder;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.difference.DifferenceMatrixBuilder;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.symmetrical_sim.SimilarityMatrixBuilder;
+import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.typicality.TypicalityVectorBuilder;
 import com.tregouet.occam.data.problem_space.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
@@ -13,5 +18,22 @@ public interface SimilarityMetricsBuilder
 	extends BiFunction<
 		Set<Integer>, 
 		DirectedAcyclicGraph<IRepresentation, AProblemStateTransition>, ISimilarityMetrics> {
+	
+	
+	public static SimilarityMatrixBuilder similarityMatrixBuilder() {
+		return BuildersAbstractFactory.INSTANCE.getSimilarityMatrixBuilder();
+	}
+	
+	public static AsymmetricalSimilarityMatrixBuilder asymmetricalSimilarityBuilder() {
+		return BuildersAbstractFactory.INSTANCE.getAsymmetricalSimilarityMatrixBuilder();
+	}
+	
+	public static DifferenceMatrixBuilder differenceMatrixBuilder() {
+		return BuildersAbstractFactory.INSTANCE.getDifferenceMatrixBuilder();
+	}
+	
+	public static TypicalityVectorBuilder typicalityVectorBuilder() {
+		return BuildersAbstractFactory.INSTANCE.getTypicalityVectorBuilder();
+	}
 
 }

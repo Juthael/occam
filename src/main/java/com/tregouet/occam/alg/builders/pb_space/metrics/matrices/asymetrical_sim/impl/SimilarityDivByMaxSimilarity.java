@@ -2,7 +2,12 @@ package com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_si
 
 import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilder;
 
-public class SimilarityByMaxSimilarity implements AsymmetricalSimilarityMatrixBuilder {
+public class SimilarityDivByMaxSimilarity implements AsymmetricalSimilarityMatrixBuilder {
+	
+	public static final SimilarityDivByMaxSimilarity INSTANCE = new SimilarityDivByMaxSimilarity();
+	
+	private SimilarityDivByMaxSimilarity() {
+	}
 
 	@Override
 	public double[][] getAsymmetricalSimilarityMatrix(double[][] similarityMatrix) {

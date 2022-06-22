@@ -1,5 +1,8 @@
 package com.tregouet.occam.alg.scorers;
 
+import com.tregouet.occam.alg.scorers.difference.DifferenceScorer;
+import com.tregouet.occam.alg.scorers.difference.DifferenceScorerFactory;
+import com.tregouet.occam.alg.scorers.difference.DifferenceScorerStrategy;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorerFactory;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorerStrategy;
@@ -14,6 +17,7 @@ public class ScorersAbstractFactory {
 	public static final ScorersAbstractFactory INSTANCE = new ScorersAbstractFactory();
 
 	private RelativeSimilarityScorerStrategy relativeSimilarityScorerStrategy = null;
+	private DifferenceScorerStrategy differenceScorerStrategy = null;
 	private ProblemStateScorerStrategy problemStateScorerStrategy = null;
 
 	private ScorersAbstractFactory() {
@@ -34,11 +38,16 @@ public class ScorersAbstractFactory {
 	public ProblemStateScorer getProblemStateScorer() {
 		return ProblemStateScorerFactory.INSTANCE.apply(problemStateScorerStrategy);
 	}
+	
+	public DifferenceScorer getDifferenceScorer() {
+		return DifferenceScorerFactory.INSTANCE.apply(differenceScorerStrategy);
+	}
 
 	public void setUpStrategy(ScoringStrategy overallStrategy) {
 		switch (overallStrategy) {
 		case SCORING_STRATEGY_1:
 			relativeSimilarityScorerStrategy = RelativeSimilarityScorerStrategy.DYNAMIC_FRAMING;
+			differenceScorerStrategy = DifferenceScorerStrategy.TWO_LEAF_TREE;
 			problemStateScorerStrategy = ProblemStateScorerStrategy.SOURCE_PROB_TIMES_TRANSITION_PROB;
 			break;
 		default:

@@ -1,17 +1,16 @@
 package com.tregouet.occam.alg.builders.pb_space.metrics.matrices.difference;
 
-import java.util.Set;
+import com.google.common.base.Function;
+import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
+import com.tregouet.occam.alg.scorers.difference.DifferenceScorer;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
 
-import org.jgrapht.graph.DirectedAcyclicGraph;
-
-import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
-
-public interface DifferenceMatrixBuilder {
+public interface DifferenceMatrixBuilder extends Function<IConceptLattice, double[][]> {
 	
-	DifferenceMatrixBuilder setUp(Set<Integer> particularIDs, 
-			DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph);
+	double[][] apply(IConceptLattice lattice);
 	
-	double[][] getDifferenceMatrix();
+	public static DifferenceScorer differenceScorer() {
+		return ScorersAbstractFactory.INSTANCE.getDifferenceScorer();
+	}
 
 }

@@ -21,6 +21,9 @@ import com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.ProblemSp
 import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictor;
 import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictorFactory;
 import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictorStrategy;
+import com.tregouet.occam.alg.builders.pb_space.metrics.SimilarityMetricsBuilder;
+import com.tregouet.occam.alg.builders.pb_space.metrics.SimilarityMetricsBuilderFactory;
+import com.tregouet.occam.alg.builders.pb_space.metrics.SimilarityMetricsBuilderStrategy;
 import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilder;
 import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilderStrategy;
@@ -92,6 +95,7 @@ public class BuildersAbstractFactory {
 	private AsymmetricalSimilarityMatrixBuilderStrategy asymmetricalSimilarityMatrixBuilderStrategy = null;
 	private DifferenceMatrixBuilderStrategy differenceMatrixBuilderStrategy = null;
 	private TypicalityVectorBuilderStrategy typicalityVectorBuilderStrategy = null;
+	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
 	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
 
 	private BuildersAbstractFactory() {
@@ -184,6 +188,10 @@ public class BuildersAbstractFactory {
 	public ProblemSpaceGraphRestrictor getProblemSpaceGraphRestrictor() {
 		return ProblemSpaceGraphRestrictorFactory.INSTANCE.apply(problemSpaceGraphRestrictorStrategy);
 	}
+	
+	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
+		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
+	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
 		switch (overallStrategy) {
@@ -209,6 +217,7 @@ public class BuildersAbstractFactory {
 			asymmetricalSimilarityMatrixBuilderStrategy = AsymmetricalSimilarityMatrixBuilderStrategy.SIM_DIV_BY_MAX_SIM;
 			differenceMatrixBuilderStrategy = DifferenceMatrixBuilderStrategy.TWO_LEAVES_TREE_FOR_EACH_PAIR;
 			typicalityVectorBuilderStrategy = TypicalityVectorBuilderStrategy.ASYMM_SIM_MATRIX_ROW_AVERAGE;
+			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.SIM_THEN_DIFF_THEN_TYPICALITY;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.DEVELOP_TRIVIAL_DISCARD_UNINFORMATIVE;
 			break;
 		default:

@@ -11,6 +11,7 @@ import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
+import com.tregouet.occam.data.problem_space.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
@@ -22,9 +23,9 @@ import com.tregouet.tree_finder.data.InvertedTree;
 
 public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExplorer {
 
-	protected IConceptLattice conceptLattice;
-	protected Set<Integer> extentIDs;
-	protected DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph;
+	private IConceptLattice conceptLattice;
+	private Set<Integer> extentIDs;
+	private DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph;
 
 	public DevelopTrivialDiscardUninformativeStates() {
 	}
@@ -147,6 +148,11 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 		problemGraph = ProblemSpaceExplorer.problemSpaceGraphRestrictor().apply(problemGraph, restriction);
 		weighThenScoreThenComply(problemGraph);
 		return true;
+	}
+
+	@Override
+	public ISimilarityMetrics getSimilarityMetrics() {
+		return ProblemSpaceExplorer.similarityMetricsBuilder().apply(conceptLattice, problemGraph);
 	}
 
 }

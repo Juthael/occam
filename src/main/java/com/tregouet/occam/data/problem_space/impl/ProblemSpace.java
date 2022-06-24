@@ -9,6 +9,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.data.problem_space.IProblemSpace;
+import com.tregouet.occam.data.problem_space.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
@@ -17,19 +18,24 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
 
 public class ProblemSpace implements IProblemSpace {
 
-	private List<IContextObject> context;
+	private final List<IContextObject> context;
 	private final ProblemSpaceExplorer problemSpaceExplorer;
+	private ISimilarityMetrics similarityMetrics = null;
 	private IRepresentation activeState = null;
 
 	public ProblemSpace(Set<IContextObject> context) {
 		this.context = new ArrayList<>(context);
 		this.context.sort((x, y) -> Integer.compare(x.iD(), y.iD()));
 		problemSpaceExplorer = IProblemSpace.problemSpaceExplorer().initialize(this.context);
+		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
 	}
 
 	@Override
 	public Boolean develop(int representationID) {
-		return problemSpaceExplorer.develop(representationID);
+		Boolean developed = problemSpaceExplorer.develop(representationID);
+		if (developed != null && developed)
+			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+		return developed;
 	}
 
 	@Override
@@ -72,36 +78,35 @@ public class ProblemSpace implements IProblemSpace {
 
 	@Override
 	public Boolean restrictTo(Set<Integer> representationIDs) {
-		return problemSpaceExplorer.restrictTo(representationIDs);
+		Boolean restricted = problemSpaceExplorer.restrictTo(representationIDs);
+		if (restricted != null && restricted)
+			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+		return restricted;
 	}
 	
-	/*
-
 	@Override
 	public double[][] getSimilarityMatrix() {
-		return problemSpaceExplorer.getSimilarityMetrics().getSimilarityMatrix();
+		return similarityMetrics.getSimilarityMatrix();
 	}
 
 	@Override
 	public String[][] getReferenceMatrix() {
-		return problemSpaceExplorer.getSimilarityMetrics().getReferenceMatrix();
+		return similarityMetrics.getReferenceMatrix();
 	}
 
 	@Override
 	public double[][] getAsymmetricalSimilarityMatrix() {
-		return problemSpaceExplorer.getSimilarityMetrics().getAsymmetricalSimilarityMatrix();
+		return similarityMetrics.getAsymmetricalSimilarityMatrix();
 	}
 
 	@Override
 	public double[][] getDifferenceMatrix() {
-		return problemSpaceExplorer.getSimilarityMetrics().getDifferenceMatrix();
+		return similarityMetrics.getDifferenceMatrix();
 	}
 
 	@Override
 	public double[] getTypicalityVector() {
-		return problemSpaceExplorer.getSimilarityMetrics().getTypicalityVector();
+		return similarityMetrics.getTypicalityVector();
 	}
-	
-	*/
 
 }

@@ -15,7 +15,7 @@ public class TwoLeavesTreeForEachPair implements DifferenceMatrixBuilder {
 	}
 
 	@Override
-	public double[][] apply(IConceptLattice lattice) {
+	public double[][] getDifferenceMatrix(IConceptLattice lattice) {
 		List<Integer> particularIDs = new ArrayList<>();
 		for (IConcept particular : lattice.getParticulars())
 			particularIDs.add(particular.iD());
@@ -23,7 +23,7 @@ public class TwoLeavesTreeForEachPair implements DifferenceMatrixBuilder {
 		int nbOfParticulars = particularIDs.size();
 		double[][] differenceMatrix = new double[nbOfParticulars][nbOfParticulars];
 		for (int i = 0 ; i < nbOfParticulars - 1 ; i++) {
-			for (int j = i + 1 ; i < nbOfParticulars ; j++) {
+			for (int j = i + 1 ; j < nbOfParticulars ; j++) {
 				differenceMatrix[i][j] = 
 						DifferenceMatrixBuilder.differenceScorer().score(particularIDs.get(i), particularIDs.get(j), lattice);
 				differenceMatrix[j][i] = differenceMatrix[i][j];

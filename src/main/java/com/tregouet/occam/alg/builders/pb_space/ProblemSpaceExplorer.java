@@ -11,6 +11,7 @@ import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeB
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
 import com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.ProblemSpaceGraphExpander;
 import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictor;
+import com.tregouet.occam.alg.builders.pb_space.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
@@ -18,6 +19,7 @@ import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
+import com.tregouet.occam.data.problem_space.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
@@ -43,6 +45,8 @@ public interface ProblemSpaceExplorer {
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
 
 	ProblemSpaceExplorer initialize(Collection<IContextObject> context);
+	
+	ISimilarityMetrics getSimilarityMetrics();
 
 	public static ClassificationBuilder classificationBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getClassificationBuilder();
@@ -78,6 +82,10 @@ public interface ProblemSpaceExplorer {
 
 	public static ProblemSpaceGraphRestrictor problemSpaceGraphRestrictor() {
 		return BuildersAbstractFactory.INSTANCE.getProblemSpaceGraphRestrictor();
+	}
+	
+	public static SimilarityMetricsBuilder similarityMetricsBuilder() {
+		return BuildersAbstractFactory.INSTANCE.getSimilarityMetricsBuilder();
 	}
 
 }

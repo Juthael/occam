@@ -18,19 +18,20 @@ import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.descriptions.metrics.ISimilarityMetrics;
+import com.tregouet.occam.data.problem_space.states.descriptions.metrics.IRelativeSimilarityMetrics;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class ReplaceMissingParticularsByMostSpecificConceptTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private List<IContextObject> context;
-	private ProblemSpaceExplorer pbSpaceExplorer;	
+	private ProblemSpaceExplorer pbSpaceExplorer;
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() {
+		Occam.initialize();
 		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
@@ -41,13 +42,13 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		pbSpaceExplorer.initialize(context);
 		randomlyExpandPbSpace();
 	}
-	
+
 	@Test
 	public void whenSimilarityMatrixRequestedThenReturned() {
 		boolean asExpected = true;
 		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
 			IDescription description = representation.getDescription();
-			ISimilarityMetrics metrics = description.getSimilarityMetrics();
+			IRelativeSimilarityMetrics metrics = description.getSimilarityMetrics();
 			double[][] similarityMatrix = metrics.getSimilarityMatrix();
 			if (similarityMatrix == null)
 				asExpected = false;
@@ -57,13 +58,13 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		}
 		assertTrue(asExpected);
 	}
-	
+
 	@Test
 	public void whenAsymetricalSimilarityMatrixRequestedThenReturned() {
 		boolean asExpected = true;
-		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {			
+		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
 			IDescription description = representation.getDescription();
-			ISimilarityMetrics metrics = description.getSimilarityMetrics();
+			IRelativeSimilarityMetrics metrics = description.getSimilarityMetrics();
 			double[][] asymmetricalSimilarityMatrix = metrics.getAsymmetricalSimilarityMatrix();
 			if (asymmetricalSimilarityMatrix == null)
 				asExpected = false;
@@ -73,13 +74,13 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		}
 		assertTrue(asExpected);
 	}
-	
+
 	@Test
 	public void whenTypicalityVectorRequestedThenReturned() {
 		boolean asExpected = true;
-		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {			
+		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
 			IDescription description = representation.getDescription();
-			ISimilarityMetrics metrics = description.getSimilarityMetrics();
+			IRelativeSimilarityMetrics metrics = description.getSimilarityMetrics();
 			double[] typicalityVector = metrics.getTypicalityVector();
 			if (typicalityVector == null)
 				asExpected = false;
@@ -88,11 +89,11 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 			*/
 		}
 		assertTrue(asExpected);
-	}	
-	
+	}
+
 	private void randomlyExpandPbSpace() {
-		int maxNbOfIterations = 4;
-		int maxNbOfSortingsAtEachIteration = 6;
+		int maxNbOfIterations = 3;
+		int maxNbOfSortingsAtEachIteration = 5;
 		int iterationIdx = 0;
 		while (iterationIdx < maxNbOfIterations) {
 			Set<IRepresentation> leaves = new HashSet<>();
@@ -105,12 +106,12 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 			while (leafIte.hasNext() && nbOfSortings < maxNbOfSortingsAtEachIteration) {
 				IRepresentation leaf = leafIte.next();
 				if (!leaf.isFullyDeveloped()) {
-					pbSpaceExplorer.apply(leaf.iD());
+					pbSpaceExplorer.develop(leaf.iD());
 					nbOfSortings ++;
 				}
 			}
 			iterationIdx++;
 		}
-	}		
+	}
 
 }

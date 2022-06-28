@@ -7,7 +7,6 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
-import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
@@ -15,10 +14,10 @@ public class SourcesProbabilitiesTimesTransitionsProbabilities implements Proble
 
 	List<IRepresentation> topoOrder;
 	double[] scores;
-	
+
 	@Override
-	public DoubleScore apply(IRepresentation representation) {
-		return new DoubleScore(scores[topoOrder.indexOf(representation)]);
+	public double score(IRepresentation representation) {
+		return scores[topoOrder.indexOf(representation)];
 	}
 
 	@Override

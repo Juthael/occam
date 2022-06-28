@@ -11,16 +11,16 @@ import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
 
 public class FactPrinter {
-	
+
 	public static final FactPrinter INSTANCE = new FactPrinter();
 	private static final String nL = System.lineSeparator();
 	private static final String[] alinea = ProblemSpacePagePrinter.alinea;
-	
+
 	private FactPrinter() {
 	}
-	
+
 	public String print(IRepresentation representation, int a) {
-		Map<Integer, List<String>> objID2acceptedFacts = 
+		Map<Integer, List<String>> objID2acceptedFacts =
 				representation.mapParticularIDsToFactualDescription(FormattersAbstractFactory.INSTANCE.getFactDisplayer());
 		NavigableSet<Integer> objIDs = new TreeSet<>(objID2acceptedFacts.keySet());
 		String[] head = new String[objIDs.size()];
@@ -39,12 +39,12 @@ public class FactPrinter {
 				.append(alinea[a + 1] + "<header>" + nL)
 					.append(alinea[a + 2] + "<h3> ACCEPTED FACTS </h3>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
-				.append(TablePrinter.INSTANCE.printStringTableWithOptionalSubHead(head, null, facts, "Accepted facts",
+				.append(TablePrinter.INSTANCE.printStringVerticalTable(head, facts, "Accepted facts",
 							a + 1) + nL)
 			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();
 	}
-	
+
 	private static String setHeadOfAcceptedFactsArray(IRepresentation representation, Integer conceptID) {
 		if (representation.isFullyDeveloped())
 			return conceptID.toString();

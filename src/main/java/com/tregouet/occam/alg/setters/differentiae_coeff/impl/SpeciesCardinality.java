@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
-import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IComplementaryConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.utils.Functions;
 
@@ -39,10 +39,10 @@ public class SpeciesCardinality implements DifferentiaeCoeffSetter {
 				for (IConcept upperBound : upperBounds) {
 					if (upperBound.isComplementary()) {
 						IConcept complemented = ((IComplementaryConcept) upperBound).getComplemented();
-						closedIDs.addAll(complemented.getExtentIDs());
+						closedIDs.addAll(complemented.getMaxExtentIDs());
 					}
 				}
-				for (Integer particularID : concept.getExtentIDs()) {
+				for (Integer particularID : concept.getMaxExtentIDs()) {
 					if (!closedIDs.contains(particularID))
 						cardinality ++;
 				}

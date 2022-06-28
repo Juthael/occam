@@ -1,18 +1,16 @@
 package com.tregouet.occam.alg.scorers.similarity.impl;
 
-import com.tregouet.occam.alg.scorers.similarity.PairSimilarityScorer;
-import com.tregouet.occam.data.logical_structures.scores.impl.DoubleScore;
-import com.tregouet.occam.data.problem_space.states.descriptions.metrics.subsets.IConceptPairIDs;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
+import com.tregouet.occam.alg.scorers.similarity.RelativePairSimilarityScorer;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 
-public class DynamicFramingForPairs extends AbstractSimilarityScorer<IConceptPairIDs> implements PairSimilarityScorer {
+public class DynamicFramingForPairs extends RelativeAbstractSimilarityScorer implements RelativePairSimilarityScorer {
 
 	@Override
-	public DoubleScore apply(IConceptPairIDs pair) {
-		Integer genus = Functions.commonAncestor(classificationTree, pair.first(), pair.second());
-		return new DoubleScore(getDefinitionCostOf(genus));
+	public double score(Integer conceptID1, Integer conceptID2) {
+		Integer genus = Functions.commonAncestor(classificationTree, conceptID1, conceptID2);
+		return getDefinitionCostOf(genus);
 	}
 
 	@Override

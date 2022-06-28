@@ -21,29 +21,11 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 	private static final String nL = System.lineSeparator();
 
 	private Set<Integer> vertices = new HashSet<>();
-
 	private Map<Integer, Integer> targetIDToSourceID = new HashMap<>();
-	private Map<Integer, Set<IConceptTransition>> targetIDToApplications = new HashMap<>();
+	private Map<Integer, Set<IConceptTransition>> targetIDToProductiveTrans = new HashMap<>();
 	private Map<Integer, Set<IConceptTransition>> targetIDToOtherTransitions = new HashMap<>();
 
 	public AbstractTFLabeller() {
-	}
-
-	private static String toString(boolean application, Set<IConceptTransition> transitions) {
-		StringBuilder sB = new StringBuilder();
-		if (!transitions.isEmpty()) {
-			if (application) {
-				sB.append("APPLICATIONS : " + nL);
-			} else
-				sB.append("OTHERS : " + nL);
-			Iterator<IConceptTransition> transIte = transitions.iterator();
-			while (transIte.hasNext()) {
-				sB.append(transIte.next().toString());
-				if (transIte.hasNext())
-					sB.append(nL);
-			}
-		}
-		return sB.toString();
 	}
 
 	@Override
@@ -57,14 +39,14 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 				Integer sourceID = transition.getInputConfiguration().getInputStateID();
 				vertices.add(sourceID);
 				targetIDToSourceID.put(targetID, sourceID);
-				targetIDToApplications.put(targetID, new HashSet<>());
+				targetIDToProductiveTrans.put(targetID, new HashSet<>());
 				targetIDToOtherTransitions.put(targetID, new HashSet<>());
 			}
 		}
-		for (IConceptTransition transition : filter(transFunc.getTransitions())) {
+		for (IConceptTransition transition : complyToOptionalConstraint(transFunc.getTransitions())) {
 			Integer targetID = transition.getOutputInternConfiguration().getOutputStateID();
-			if (transition.type() == TransitionType.APPLICATION)
-				targetIDToApplications.get(targetID).add(transition);
+			if (transition.type() == TransitionType.PRODUCTIVE_TRANS)
+				targetIDToProductiveTrans.get(targetID).add(transition);
 			else
 				targetIDToOtherTransitions.get(targetID).add(transition);
 		}
@@ -74,21 +56,38 @@ public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 		return transFuncGraph;
 	}
 
-	protected abstract Set<IConceptTransition> filter(Set<IConceptTransition> transitions);
+	protected abstract Set<IConceptTransition> complyToOptionalConstraint(Set<IConceptTransition> transitions);
 
 	private AConceptTransitionSet buildEdge(Integer targetID) {
 		Set<IConceptTransition> transitions = new HashSet<>();
 		StringBuilder sB = new StringBuilder();
-		Set<IConceptTransition> applications = targetIDToApplications.get(targetID);
-		sB.append(toString(true, applications));
+		Set<IConceptTransition> productiveTransitions = targetIDToProductiveTrans.get(targetID);
+		sB.append(toString(true, productiveTransitions));
 		Set<IConceptTransition> others = targetIDToOtherTransitions.get(targetID);
 		if (!others.isEmpty())
 			sB.append(nL);
 		sB.append(toString(false, others));
-		transitions.addAll(applications);
+		transitions.addAll(productiveTransitions);
 		transitions.addAll(others);
 		Integer sourceID = targetIDToSourceID.get(targetID);
 		return new ConceptTransitionSet(sourceID, targetID, transitions, sB.toString());
+	}
+
+	private static String toString(boolean productive, Set<IConceptTransition> transitions) {
+		StringBuilder sB = new StringBuilder();
+		if (!transitions.isEmpty()) {
+			if (productive) {
+				sB.append("PRODUCTIVE TRANSITIONS : " + nL);
+			} else
+				sB.append("IMPLICIT : " + nL);
+			Iterator<IConceptTransition> transIte = transitions.iterator();
+			while (transIte.hasNext()) {
+				sB.append(TransitionFunctionLabeller.transitionLabeller().apply(transIte.next()));
+				if (transIte.hasNext())
+					sB.append(nL);
+			}
+		}
+		return sB.toString();
 	}
 
 }

@@ -19,16 +19,16 @@ import com.tregouet.occam.alg.builders.pb_space.concept_lattices.utils.MarkRedun
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.Concept;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.ConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.Everything;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.IsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Concept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.ConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Everything;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
 public class GaloisConnection implements ConceptLatticeBuilder {
@@ -48,7 +48,6 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 
 	@Override
 	public IConceptLattice apply(Collection<IContextObject> objects) {
-		AVariable.resetVarNaming();
 		this.objects = new ArrayList<>(objects);
 		particulars = new ArrayList<>(Arrays.asList(new IConcept[objects.size()]));
 		particularIDs = new ArrayList<>(Arrays.asList(new Integer[objects.size()]));
@@ -117,10 +116,10 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 		Map<Set<IConstruct>, Set<Integer>> denotatingConstructsToExtents = buildIntentToExtentRel();
 		for (Entry<Set<IConstruct>, Set<Integer>> entry : denotatingConstructsToExtents.entrySet()) {
 			IConcept concept = new Concept(entry.getKey(), entry.getValue());
-			if (!concept.getExtentIDs().isEmpty()) {
-				if (concept.getExtentIDs().size() == 1)
+			if (!concept.getMaxExtentIDs().isEmpty()) {
+				if (concept.getMaxExtentIDs().size() == 1)
 					concept.setType(ConceptType.PARTICULAR);
-				else if (concept.getExtentIDs().size() == objects.size()) {
+				else if (concept.getMaxExtentIDs().size() == objects.size()) {
 					concept.setType(ConceptType.TRUISM);
 				} else {
 					concept.setType(ConceptType.UNIVERSAL);
@@ -130,15 +129,15 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 			}
 			lattice.addVertex(concept);
 		}
-		List<IConcept> denotSetList = new ArrayList<>(lattice.vertexSet());
-		for (int i = 0; i < denotSetList.size() - 1; i++) {
-			IConcept iDenotSet = denotSetList.get(i);
-			for (int j = i + 1; j < denotSetList.size(); j++) {
-				IConcept jDenotSet = denotSetList.get(j);
-				if (iDenotSet.getExtentIDs().containsAll(jDenotSet.getExtentIDs()))
-					lattice.addEdge(jDenotSet, iDenotSet);
-				else if (jDenotSet.getExtentIDs().containsAll(iDenotSet.getExtentIDs()))
-					lattice.addEdge(iDenotSet, jDenotSet);
+		List<IConcept> concepts = new ArrayList<>(lattice.vertexSet());
+		for (int i = 0; i < concepts.size() - 1; i++) {
+			IConcept iConcept = concepts.get(i);
+			for (int j = i + 1; j < concepts.size(); j++) {
+				IConcept jConcept = concepts.get(j);
+				if (iConcept.getMaxExtentIDs().containsAll(jConcept.getMaxExtentIDs()))
+					lattice.addEdge(jConcept, iConcept);
+				else if (jConcept.getMaxExtentIDs().containsAll(iConcept.getMaxExtentIDs()))
+					lattice.addEdge(iConcept, jConcept);
 			}
 		}
 		TransitiveReduction.INSTANCE.reduce(lattice);
@@ -155,6 +154,27 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 			powerSet.add(subset);
 		}
 		return powerSet;
+	}
+
+	private Set<Integer> getIDsOf(Set<IContextObject> objectSet) {
+		Set<Integer> iDs = new HashSet<>();
+		for (IContextObject object : objectSet) {
+			iDs.add(object.iD());
+		}
+		return iDs;
+	}
+
+	private int getParticularIdx(IConcept particular) {
+		Set<IConstruct> particularConstructs = new HashSet<>();
+		for (IDenotation denotation : particular.getDenotations())
+			particularConstructs.add(new Construct(denotation.asList()));
+		for (int i = 0 ; i < objects.size() ; i++) {
+			IContextObject iObject = objects.get(i);
+			Set<IConstruct> objectConstructs = new HashSet<>(iObject.getConstructs());
+			if (particularConstructs.equals(objectConstructs))
+				return i;
+		}
+		return -1; //never happens
 	}
 
 	private void markRedundantDenotationsOfUSLConcepts() {
@@ -214,27 +234,6 @@ public class GaloisConnection implements ConceptLatticeBuilder {
 					listOfExtents.get(i));
 		}
 		return paramCopyWithRefInstancesAndNamedVars;
-	}
-	
-	private int getParticularIdx(IConcept particular) {
-		Set<IConstruct> particularConstructs = new HashSet<>();
-		for (IDenotation denotation : particular.getDenotations())
-			particularConstructs.add(new Construct(denotation.asList()));
-		for (int i = 0 ; i < objects.size() ; i++) {
-			IContextObject iObject = objects.get(i);
-			Set<IConstruct> objectConstructs = new HashSet<>(iObject.getConstructs());
-			if (particularConstructs.equals(objectConstructs))
-				return i;
-		}
-		return -1; //never happens
-	}
-	
-	private Set<Integer> getIDsOf(Set<IContextObject> objectSet) {
-		Set<Integer> iDs = new HashSet<>();
-		for (IContextObject object : objectSet) {
-			iDs.add(object.iD());
-		}
-		return iDs;
 	}
 
 }

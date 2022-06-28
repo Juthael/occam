@@ -1,24 +1,33 @@
 package com.tregouet.occam.data.problem_space.states.transitions.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
+import com.tregouet.occam.data.logical_structures.lambda_terms.impl.Bindings;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.Everything;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.WhatIsThere;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Everything;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.WhatIsThere;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.impl.OmegaOperator;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
 import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
-import com.tregouet.occam.data.problem_space.states.transitions.dimensions.Nothing;
-import com.tregouet.occam.data.problem_space.states.transitions.dimensions.This;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.impl.ContextualizedOmegaProd;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.NothingBinding;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.vars.This;
 
 public class InitialTransition extends ConceptTransition implements IConceptTransition {
 
 	public InitialTransition(Everything everything) {
-		super(new ConceptTransitionIC(WhatIsThere.INSTANCE.iD(), ContextualizedOmegaProd.INSTANCE,
-				Nothing.INSTANCE),
-				new ConceptTransitionOIC(everything.iD(),
-						new ArrayList<>(Arrays.asList(new AVariable[] { Nothing.INSTANCE, This.INSTANCE }))));
+		super(
+				new ConceptTransitionIC(
+						WhatIsThere.INSTANCE.iD(),
+						OmegaOperator.INSTANCE,
+						NothingBinding.INSTANCE),
+				new ConceptTransitionOIC(
+						everything.iD(),
+						Arrays.asList(
+								new IBindings[] {
+										NothingBinding.INSTANCE,
+										new Bindings(Arrays.asList(new AVariable[] {This.INSTANCE}))} ))
+				);
 	}
 
 	@Override

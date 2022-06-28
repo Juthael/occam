@@ -26,15 +26,8 @@ public class OverallAbstractFactory {
 
 	public void apply(OverallStrategy strategy) {
 		switch (strategy) {
-		case OVERALL_STRATEGY_1:
-			buildStrategy = BuildStrategy.GENERATION_STRATEGY_1;
-			scoringStrategy = ScoringStrategy.SCORING_STRATEGY_1;
-			settingStrategy = SettingStrategy.SETTING_STRATEGY_1;
-			formattingStrategy = FormattingStrategy.LABELLING_STRATEGY_1;
-			visualizationStrategy = VisualizationStrategy.VISUALIZATION_STRATEGY_1;
-			break;
-		case OVERALL_STRATEGY_2 : 
-			buildStrategy = BuildStrategy.GENERATION_STRATEGY_1;
+		case OVERALL_STRATEGY_3 :
+			buildStrategy = BuildStrategy.GENERATION_STRATEGY_2;
 			scoringStrategy = ScoringStrategy.SCORING_STRATEGY_1;
 			settingStrategy = SettingStrategy.SETTING_STRATEGY_2;
 			formattingStrategy = FormattingStrategy.LABELLING_STRATEGY_1;

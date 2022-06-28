@@ -8,13 +8,13 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 
 public class NonTrivialMaximalFacts implements FactDisplayer {
-	
+
 	public static final NonTrivialMaximalFacts INSTANCE = new NonTrivialMaximalFacts();
-	
+
 	private NonTrivialMaximalFacts() {
 	}
 
@@ -44,11 +44,11 @@ public class NonTrivialMaximalFacts implements FactDisplayer {
 		}
 		return stringFacts;
 	}
-	
+
 	private boolean isTrivial(IFact fact) {
 		if (fact.asList().size() == 1) {
-			IContextualizedProduction prod = fact.asList().get(0);
-			if (prod.isEpsilon())
+			IAbstractionApplication app = fact.asList().get(0);
+			if (app.isEpsilonOperator())
 				return true;
 		}
 		return false;

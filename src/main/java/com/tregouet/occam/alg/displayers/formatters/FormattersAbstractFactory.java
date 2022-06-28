@@ -6,6 +6,9 @@ import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLab
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabeller;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabellerStrategy;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerFactory;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerStrategy;
@@ -21,12 +24,21 @@ import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConve
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabeller;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.TransitionLabeller;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.TransitionLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.TransitionLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.abstr_apps.AbstrAppLabeller;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.abstr_apps.AbstrAppLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.abstr_apps.AbstrAppLabellerStrategy;
 
 public class FormattersAbstractFactory {
 
 	public static final FormattersAbstractFactory INSTANCE = new FormattersAbstractFactory();
 
+	private AbstrAppLabellerStrategy abstrAppLabellerStrategy = null;
+	private TransitionLabellerStrategy transitionLabellerStrategy = null;
 	private TransitionFunctionLabellerStrategy transitionFunctionLabellerStrategy = null;
+	private ComputationLabellerStrategy computationLabellerStrategy = null;
 	private PropertyLabellerStrategy propertyLabellerStrategy = null;
 	private DifferentiaeLabellerStrategy differentiaeLabellerStrategy = null;
 	private Sorting2StringConverterStrategy sorting2StringConverterStrategy = null;
@@ -37,12 +49,20 @@ public class FormattersAbstractFactory {
 	private FormattersAbstractFactory() {
 	}
 
-	public DifferentiaeLabeller getDifferentiaeDisplayer() {
+	public AbstrAppLabeller getAbstrAppLabeller() {
+		return AbstrAppLabellerFactory.INSTANCE.apply(abstrAppLabellerStrategy);
+	}
+
+	public ComputationLabeller getComputationLabeller() {
+		return ComputationLabellerFactory.INSTANCE.apply(computationLabellerStrategy);
+	}
+
+	public DifferentiaeLabeller getDifferentiaeLabeller() {
 		return DifferentiaeLabellerFactory.INSTANCE.apply(differentiaeLabellerStrategy);
 	}
-	
-	public Sorting2StringConverter getSorting2StringConverter() {
-		return Sorting2StringConverterFactory.INSTANCE.apply(sorting2StringConverterStrategy);
+
+	public FactDisplayer getFactDisplayer() {
+		return FactDisplayerFactory.INSTANCE.apply(factDisplayerStrategy);
 	}
 
 	public ProblemStateLabeller getProblemStateDisplayer() {
@@ -57,19 +77,26 @@ public class FormattersAbstractFactory {
 		return PropertyLabellerFactory.INSTANCE.apply(propertyLabellerStrategy);
 	}
 
+	public Sorting2StringConverter getSorting2StringConverter() {
+		return Sorting2StringConverterFactory.INSTANCE.apply(sorting2StringConverterStrategy);
+	}
+
 	public TransitionFunctionLabeller getTransitionFunctionDisplayer() {
 		return TransitionFunctionLabellerFactory.INSTANCE.apply(transitionFunctionLabellerStrategy);
 	}
-	
-	public FactDisplayer getFactDisplayer() {
-		return FactDisplayerFactory.INSTANCE.apply(factDisplayerStrategy);
+
+	public TransitionLabeller getTransitionLabeller() {
+		return TransitionLabellerFactory.INSTANCE.apply(transitionLabellerStrategy);
 	}
 
 	public void setUpStrategy(FormattingStrategy strategy) {
 		switch (strategy) {
 		case LABELLING_STRATEGY_1:
-			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.REMOVE_NON_SALIENT_APP;
-			propertyLabellerStrategy = PropertyLabellerStrategy.AS_PRODUCTIONS;
+			abstrAppLabellerStrategy = AbstrAppLabellerStrategy.CONJUNCTION;
+			transitionLabellerStrategy = TransitionLabellerStrategy.CANONICAL_NOTATION;
+			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.DISPLAY_ALL_TRANSITIONS;
+			computationLabellerStrategy = ComputationLabellerStrategy.CONJUNCTION_NO_IDENTITY;
+			propertyLabellerStrategy = PropertyLabellerStrategy.CURLY_BRACKETS;
 			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
 			sorting2StringConverterStrategy = Sorting2StringConverterStrategy.RECURSIVE_FRAMING;
 			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES_WITH_SCORE;

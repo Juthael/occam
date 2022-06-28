@@ -8,7 +8,7 @@ import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransiti
 public class DisplayAllTransitions extends AbstractTFLabeller implements TransitionFunctionLabeller {
 
 	@Override
-	protected Set<IConceptTransition> filter(Set<IConceptTransition> transitions) {
+	protected Set<IConceptTransition> complyToOptionalConstraint(Set<IConceptTransition> transitions) {
 		return transitions;
 	}
 

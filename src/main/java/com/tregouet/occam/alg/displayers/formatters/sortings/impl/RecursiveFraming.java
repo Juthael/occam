@@ -7,7 +7,7 @@ import java.util.Map;
 import org.jgrapht.Graphs;
 
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -31,6 +31,14 @@ public class RecursiveFraming implements Sorting2StringConverter {
 		return this;
 	}
 
+	private String convert(String s, int openingDegree, int closingDegree) {
+		if (openingDegree > 0)
+			return getBracket(openingDegree, true);
+		else if (closingDegree > 0)
+			return getBracket(closingDegree, false);
+		else return s;
+	}
+
 	private String doFrame(Integer frameConceptID) {
 		if (partitionGraph.outDegreeOf(frameConceptID) == 0) {
 			return "(" + getConceptExtensionAsString(frameConceptID) + ")";
@@ -43,6 +51,34 @@ public class RecursiveFraming implements Sorting2StringConverter {
 				sB.append(doFrame(subconcept));
 			sB.append(")");
 			return sB.toString();
+		}
+	}
+
+	private String getBracket(int degree, boolean opening) {
+		switch (degree) {
+		case 0 :
+		case 1 :
+			return new String();
+		case 2 :
+			if (opening)
+				return "{";
+			else return "}";
+		case 3 :
+			if (opening)
+				return "[";
+			else return "]";
+		case 4 :
+			if (opening)
+				return "(";
+			else return ")";
+		case 5 :
+			if (opening)
+				return "<";
+			else return ">";
+		default :
+			if (opening)
+				return "'";
+			else return "'";
 		}
 	}
 
@@ -62,7 +98,7 @@ public class RecursiveFraming implements Sorting2StringConverter {
 		}
 		return sB.toString();
 	}
-	
+
 	private Integer getMaximalNonTrivialElement(Tree<Integer, ADifferentiae> partitionGraph) {
 		Integer maxNonTrivial = partitionGraph.getRoot();
 		while (partitionGraph.outDegreeOf(maxNonTrivial) == 1) {
@@ -70,7 +106,7 @@ public class RecursiveFraming implements Sorting2StringConverter {
 		}
 		return maxNonTrivial;
 	}
-	
+
 	private String improveReadability(String pattern) {
 		String[] patternArray = toArray(pattern);
 		int[] openingDegree = new int[patternArray.length];
@@ -92,49 +128,12 @@ public class RecursiveFraming implements Sorting2StringConverter {
 		}
 		return sB.toString();
 	}
-	
-	private String convert(String s, int openingDegree, int closingDegree) {
-		if (openingDegree > 0)
-			return getBracket(openingDegree, true);
-		else if (closingDegree > 0)
-			return getBracket(closingDegree, false);
-		else return s;
-	}
-	
-	private String getBracket(int degree, boolean opening) {
-		switch (degree) {
-		case 0 : 
-		case 1 : 
-			return new String();			
-		case 2 : 
-			if (opening)
-				return "{";
-			else return "}";
-		case 3 : 
-			if (opening)
-				return "[";
-			else return "]";
-		case 4 : 
-			if (opening)
-				return "(";
-			else return ")";
-		case 5 : 
-			if (opening)
-				return "<";
-			else return ">";			
-		default : 
-			if (opening)
-				return "'";
-			else return "'";
-		}
-	}
-	
+
 	private String[] toArray(String pattern) {
 		List<String> stringList = new ArrayList<>();
 		char[] array = pattern.toCharArray();
 		StringBuilder sB = new StringBuilder();
-		for (int i = 0 ; i < array.length ; i++) {
-			char iChar = array[i];
+		for (char iChar : array) {
 			if (iChar == '(' || iChar == ')') {
 				if (sB.length()>0) {
 					stringList.add(sB.toString());

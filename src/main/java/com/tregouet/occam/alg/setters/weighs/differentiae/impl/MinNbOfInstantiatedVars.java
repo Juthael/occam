@@ -6,15 +6,16 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 
 public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
-	
+
 	private Set<IProperty> properties = null;
 	Set<IDenotation> values = null;
-	
+
 	public MinNbOfInstantiatedVars() {
 	}
 
@@ -23,12 +24,13 @@ public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 		properties = differentiae.getProperties();
 		values = new HashSet<>();
 		for (IProperty property : properties) {
-			values.addAll(property.getResultingValues());
+			for (IComputation computation : property.getComputations())
+				values.add(computation.getOutput());
 		}
 		int weight = minNbOfInstantiatedVarsToCalculateValues();
-		differentiae.setCoeffFreeWeight((double) weight);
+		differentiae.setCoeffFreeWeight(weight);
 	}
-	
+
 	private int minNbOfInstantiatedVarsToCalculateValues(){
 		if (values.isEmpty())
 			return 0;
@@ -43,25 +45,26 @@ public class MinNbOfInstantiatedVars implements DifferentiaeWeigher {
 		}
 		return minNbOfInstantiatedVarsToCalculateValues;
 	}
-	
+
 	private int valueCalculationByNProperties(int n) {
-		int minNbOfInstantiatedVar = -1;
+		int minComputationWeightSum = -1;
 		Set<Set<IProperty>> propSubsets = Sets.combinations(properties, n);
 		for (Set<IProperty> propSubset : propSubsets) {
 			Set<IDenotation> calculatedValues = new HashSet<>();
 			for (IProperty property : propSubset) {
-				calculatedValues.addAll(property.getResultingValues());
+				for (IComputation computation : property.getComputations())
+					calculatedValues.add(computation.getOutput());
 			}
 			if (calculatedValues.equals(values)) {
 				Set<AVariable> instantiatedVars = new HashSet<>();
 				for (IProperty property : propSubset)
 					instantiatedVars.addAll(property.getFunction().getVariables());
 				int nbOfInstantiatedVars = instantiatedVars.size();
-				if (minNbOfInstantiatedVar > nbOfInstantiatedVars || minNbOfInstantiatedVar == -1)
-					minNbOfInstantiatedVar = nbOfInstantiatedVars;
+				if (minComputationWeightSum > nbOfInstantiatedVars || minComputationWeightSum == -1)
+					minComputationWeightSum = nbOfInstantiatedVars;
 			}
 		}
-		return minNbOfInstantiatedVar;
+		return minComputationWeightSum;
 	}
 
 }

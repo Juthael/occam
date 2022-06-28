@@ -9,32 +9,39 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
 import com.tregouet.occam.data.problem_space.IProblemSpace;
+import com.tregouet.occam.data.problem_space.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
 public class ProblemSpace implements IProblemSpace {
 
-	private List<IContextObject> context;
+	private final List<IContextObject> context;
 	private final ProblemSpaceExplorer problemSpaceExplorer;
+	private ISimilarityMetrics similarityMetrics = null;
 	private IRepresentation activeState = null;
 
 	public ProblemSpace(Set<IContextObject> context) {
 		this.context = new ArrayList<>(context);
 		this.context.sort((x, y) -> Integer.compare(x.iD(), y.iD()));
 		problemSpaceExplorer = IProblemSpace.problemSpaceExplorer().initialize(this.context);
+		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
 	}
 
 	@Override
-	public DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph() {
-		return problemSpaceExplorer.getProblemSpaceGraph();
+	public void develop() {
+		problemSpaceExplorer.develop();
+		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
 	}
 
 	@Override
-	public List<IContextObject> getContext() {
-		return context;
+	public Boolean develop(int representationID) {
+		Boolean developed = problemSpaceExplorer.develop(representationID);
+		if (developed != null && developed)
+			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+		return developed;
 	}
 
 	@Override
@@ -56,18 +63,56 @@ public class ProblemSpace implements IProblemSpace {
 	}
 
 	@Override
-	public Boolean deepen(int representationID) {
-		return problemSpaceExplorer.apply(representationID);
-	}
-
-	@Override
 	public IRepresentation getActiveRepresentation() {
 		return activeState;
 	}
 
 	@Override
+	public double[][] getAsymmetricalSimilarityMatrix() {
+		return similarityMetrics.getAsymmetricalSimilarityMatrix();
+	}
+
+	@Override
+	public List<IContextObject> getContext() {
+		return context;
+	}
+
+	@Override
+	public double[][] getDifferenceMatrix() {
+		return similarityMetrics.getDifferenceMatrix();
+	}
+
+	@Override
 	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
 		return problemSpaceExplorer.getLatticeOfConcepts();
+	}
+
+	@Override
+	public DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph() {
+		return problemSpaceExplorer.getProblemSpaceGraph();
+	}
+
+	@Override
+	public String[][] getReferenceMatrix() {
+		return similarityMetrics.getReferenceMatrix();
+	}
+
+	@Override
+	public double[][] getSimilarityMatrix() {
+		return similarityMetrics.getSimilarityMatrix();
+	}
+
+	@Override
+	public double[] getTypicalityVector() {
+		return similarityMetrics.getTypicalityVector();
+	}
+
+	@Override
+	public Boolean restrictTo(Set<Integer> representationIDs) {
+		Boolean restricted = problemSpaceExplorer.restrictTo(representationIDs);
+		if (restricted != null && restricted)
+			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+		return restricted;
 	}
 
 }

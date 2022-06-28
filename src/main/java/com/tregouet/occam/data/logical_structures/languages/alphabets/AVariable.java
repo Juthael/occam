@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 
 /**
  * <p>
@@ -33,19 +33,6 @@ public abstract class AVariable implements ISymbol {
 	private static int iterationsOverAlphabet = 0;
 	private static List<Character> charList = populateCharList();
 	private static Iterator<Character> charIte = charList.iterator();
-
-	public static void resetVarNaming() {
-		iterationsOverAlphabet = 0;
-		charIte = charList.iterator();
-	}
-
-	private static List<Character> populateCharList() {
-		List<Character> authorizedCharASCII = new ArrayList<>();
-		for (char curr = 'a'; curr <= 'z'; curr++) {
-			authorizedCharASCII.add(curr);
-		}
-		return authorizedCharASCII;
-	}
 
 	@Override
 	public abstract boolean equals(Object o);
@@ -79,6 +66,19 @@ public abstract class AVariable implements ISymbol {
 			iterationsOverAlphabet++;
 		}
 		return charIte.next();
+	}
+
+	public static void resetVarNaming() {
+		iterationsOverAlphabet = 0;
+		charIte = charList.iterator();
+	}
+
+	private static List<Character> populateCharList() {
+		List<Character> authorizedCharASCII = new ArrayList<>();
+		for (char curr = 'a'; curr <= 'z'; curr++) {
+			authorizedCharASCII.add(curr);
+		}
+		return authorizedCharASCII;
 	}
 
 }

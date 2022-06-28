@@ -10,4 +10,6 @@ public interface IWord<S extends ISymbol> {
 
 	IWord<S> copy();
 
+	int size();
+
 }

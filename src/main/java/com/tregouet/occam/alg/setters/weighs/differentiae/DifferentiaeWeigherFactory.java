@@ -1,6 +1,8 @@
 package com.tregouet.occam.alg.setters.weighs.differentiae;
 
+import com.tregouet.occam.alg.setters.weighs.differentiae.impl.MaxNbOfNonRedundantProperties;
 import com.tregouet.occam.alg.setters.weighs.differentiae.impl.MinNbOfInstantiatedVars;
+import com.tregouet.occam.alg.setters.weighs.differentiae.impl.NbOfCalculatedDenotations;
 import com.tregouet.occam.alg.setters.weighs.differentiae.impl.SumOfPropertyWeights;
 
 public class DifferentiaeWeigherFactory {
@@ -14,8 +16,12 @@ public class DifferentiaeWeigherFactory {
 		switch (strategy) {
 		case SUM_OF_PROPERTY_WEIGHTS:
 			return SumOfPropertyWeights.INSTANCE;
-		case MIN_NB_OF_INSTANTIATED_VARS : 
+		case MIN_NB_OF_INSTANTIATED_VARS :
 			return new MinNbOfInstantiatedVars();
+		case NB_OF_CALCULATED_DENOTATIONS :
+			return NbOfCalculatedDenotations.INSTANCE;
+		case MAX_NB_OF_NON_REDUNDANT_PROP :
+			return MaxNbOfNonRedundantProperties.INSTANCE;
 		default:
 			return null;
 		}

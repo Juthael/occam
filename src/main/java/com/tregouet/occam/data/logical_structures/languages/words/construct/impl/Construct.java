@@ -1,31 +1,39 @@
 package com.tregouet.occam.data.logical_structures.languages.words.construct.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
+import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
+import com.tregouet.occam.data.logical_structures.lambda_terms.impl.LambdaAbstrApp;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Terminal;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Variable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
 import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class Construct implements IConstruct {
 
 	protected final List<ISymbol> symbols;
+	private int size;
 	private int nbOfTerminals;
 
 	public Construct(IConstruct construct) {
 		symbols = new ArrayList<>(construct.asList());
+		size = construct.size();
 		nbOfTerminals = construct.getNbOfTerminals();
 	}
 
 	public Construct(List<ISymbol> prog) {
 		this.symbols = prog;
-		nbOfTerminals = setNbOfTerminals();
+		size = symbols.size();
+		nbOfTerminals = nbOfTerminals();
 	}
 
 	public Construct(String[] progStrings) {
@@ -36,6 +44,7 @@ public class Construct implements IConstruct {
 			else
 				symbols.add(new Terminal(symString));
 		}
+		size = symbols.size();
 		int nbOfTerminals = 0;
 		for (ISymbol symbol : symbols) {
 			if (symbol instanceof ITerminal)
@@ -46,7 +55,22 @@ public class Construct implements IConstruct {
 
 	private Construct(List<ISymbol> symbols, int nbOfTerminals) {
 		this.symbols = symbols;
+		size = symbols.size();
 		this.nbOfTerminals = nbOfTerminals;
+	}
+
+	@Override
+	public ILambdaExpression abstractAndApply(IAbstractionApplication abstrApp, boolean safeMode) {
+		if (safeMode) {
+			List<AVariable> varToBind = new ArrayList<>();
+			for (IBasicProduction prod : abstrApp.getArguments()) {
+				if (!prod.isEpsilon() && !prod.isIdentityProd())
+					varToBind.add(prod.getVariable());
+			}
+			if (!this.getFreeVariables().containsAll(varToBind))
+				return null;
+		}
+		return new LambdaAbstrApp(this, abstrApp);
 	}
 
 	@Override
@@ -75,20 +99,8 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
-	public String getFunctionType() {
-		List<AVariable> vars = getVariables();
-		if (vars.isEmpty())
-			return null;
-		StringBuilder sB = new StringBuilder();
-		sB.append("τ_(");
-		Iterator<AVariable> varIte = vars.iterator();
-		while (varIte.hasNext()) {
-			sB.append(varIte.next().toString());
-			if (varIte.hasNext())
-				sB.append(", ");
-		}
-		sB.append(")");
-		return sB.toString();
+	public Set<AVariable> getFreeVariables() {
+		return new HashSet<>(getVariables());
 	}
 
 	@Override
@@ -98,8 +110,12 @@ public class Construct implements IConstruct {
 
 	@Override
 	public List<ITerminal> getListOfTerminals() {
-		return symbols.stream().filter(d -> d instanceof ITerminal).map(s -> (ITerminal) s)
-				.collect(Collectors.toList());
+		List<ITerminal> listOfTerminals = new ArrayList<>();
+		for (ISymbol symbol : symbols) {
+			if (symbol instanceof ITerminal)
+				listOfTerminals.add((ITerminal) symbol);
+		}
+		return listOfTerminals;
 	}
 
 	@Override
@@ -127,11 +143,28 @@ public class Construct implements IConstruct {
 
 	@Override
 	public boolean isAbstract() {
-		boolean isAbstract = false;
-		Iterator<ISymbol> ite = symbols.iterator();
-		while (!isAbstract && ite.hasNext())
-			isAbstract = (ite.next() instanceof AVariable);
-		return isAbstract;
+		return (nbOfTerminals < size);
+	}
+
+	@Override
+	public boolean isAbstractionApplication() {
+		return false;
+	}
+
+	@Override
+	public boolean isAlphaConvertibleWith(IConstruct other) {
+		List<ISymbol> otherSymbols = other.asList();
+		if (this.symbols.size() == otherSymbols.size()) {
+			for (int i = 0 ; i < symbols.size() ; i++) {
+				ISymbol thisSymbol = symbols.get(i);
+				ISymbol otherSymbol = otherSymbols.get(i);
+				if (!thisSymbol.equals(otherSymbol)
+						&& !(thisSymbol instanceof AVariable && otherSymbol instanceof AVariable))
+						return false;
+			}
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -159,6 +192,11 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
+	public int size() {
+		return size;
+	}
+
+	@Override
 	public List<String> toListOfStringsWithPlaceholders() {
 		List<String> list = new ArrayList<>();
 		for (ISymbol sym : symbols) {
@@ -181,29 +219,13 @@ public class Construct implements IConstruct {
 		return sB.toString();
 	}
 
-	protected int setNbOfTerminals() {
+	protected int nbOfTerminals() {
 		int nbOfTerminals = 0;
 		for (ISymbol symbol : symbols) {
 			if (symbol instanceof ITerminal)
 				nbOfTerminals++;
 		}
 		return nbOfTerminals;
-	}
-
-	@Override
-	public boolean isAlphaConvertibleWith(IConstruct other) {
-		List<ISymbol> otherSymbols = other.asList();
-		if (this.symbols.size() == otherSymbols.size()) {
-			for (int i = 0 ; i < symbols.size() ; i++) {
-				ISymbol thisSymbol = symbols.get(i);
-				ISymbol otherSymbol = otherSymbols.get(i);
-				if (!thisSymbol.equals(otherSymbol) 
-						&& !(thisSymbol instanceof AVariable && otherSymbol instanceof AVariable))
-						return false;
-			}
-			return true;
-		}
-		return false;
 	}
 
 }

@@ -3,19 +3,18 @@ package com.tregouet.occam.data.logical_structures.languages.words.construct;
 import java.util.Iterator;
 import java.util.List;
 
+import com.tregouet.occam.data.logical_structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
 import com.tregouet.occam.data.logical_structures.languages.words.IWord;
 
-public interface IConstruct extends IWord<ISymbol> {
+public interface IConstruct extends IWord<ISymbol>, ILambdaExpression {
 
 	public static final String EMPTY_CONSTRUCT_SYMBOL = "ε";
 
 	@Override
 	public IConstruct copy();
-
-	public String getFunctionType();
 
 	@Override
 	public int hashCode();
@@ -29,9 +28,15 @@ public interface IConstruct extends IWord<ISymbol> {
 
 	int getNbOfTerminals();
 
+	/**
+	 *
+	 * @return variables in their index order
+	 */
 	List<AVariable> getVariables();
 
 	boolean isAbstract();
+
+	boolean isAlphaConvertibleWith(IConstruct other);
 
 	/**
 	 *
@@ -43,9 +48,8 @@ public interface IConstruct extends IWord<ISymbol> {
 	void nameVariables();
 
 	List<String> toListOfStringsWithPlaceholders();
-	
+
 	@Override
 	String toString();
-	
-	boolean isAlphaConvertibleWith(IConstruct other);
+
 }

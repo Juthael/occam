@@ -2,17 +2,17 @@ package com.tregouet.occam.data.problem_space.states.transitions.impl;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 
 public class ConceptTransitionIC implements IConceptTransitionIC {
 
 	private final int inputStateID;
-	private final IContextualizedProduction inputSymbol;
-	private final AVariable stackSymbol;
+	private final IAbstractionApplication inputSymbol;
+	private final IBindings stackSymbol;
 
-	public ConceptTransitionIC(int inputStateID, IContextualizedProduction inputSymbol, AVariable stackSymbol) {
+	public ConceptTransitionIC(int inputStateID, IAbstractionApplication inputSymbol, IBindings stackSymbol) {
 		this.inputStateID = inputStateID;
 		this.inputSymbol = inputSymbol;
 		this.stackSymbol = stackSymbol;
@@ -25,7 +25,8 @@ public class ConceptTransitionIC implements IConceptTransitionIC {
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		ConceptTransitionIC other = (ConceptTransitionIC) obj;
-		return inputStateID == other.inputStateID && Objects.equals(inputSymbol, other.inputSymbol)
+		return inputStateID == other.inputStateID
+				&& Objects.equals(inputSymbol, other.inputSymbol)
 				&& Objects.equals(stackSymbol, other.stackSymbol);
 	}
 
@@ -35,12 +36,12 @@ public class ConceptTransitionIC implements IConceptTransitionIC {
 	}
 
 	@Override
-	public IContextualizedProduction getInputSymbol() {
+	public IAbstractionApplication getInputSymbol() {
 		return inputSymbol;
 	}
 
 	@Override
-	public AVariable getStackSymbol() {
+	public IBindings getStackSymbol() {
 		return stackSymbol;
 	}
 

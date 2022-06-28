@@ -11,7 +11,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilder;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class RecursiveForkExploration implements PartitionGraphBuilder {
@@ -19,6 +19,14 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 	public static final RecursiveForkExploration INSTANCE = new RecursiveForkExploration();
 
 	private RecursiveForkExploration() {
+	}
+
+	@Override
+	public Set<Tree<Integer, ADifferentiae>> apply(Tree<Integer, ADifferentiae> tree) {
+		DirectedAcyclicGraph<Integer, ADifferentiae> partedSoFar = new DirectedAcyclicGraph<>(null, null, false);
+		partedSoFar.addVertex(tree.getRoot());
+		Set<DirectedAcyclicGraph<Integer, ADifferentiae>> dagPartitions = part(tree, partedSoFar, tree.getRoot());
+		return convertIntoTrees(dagPartitions);
 	}
 
 	private static Set<Tree<Integer, ADifferentiae>> convertIntoTrees(
@@ -66,14 +74,6 @@ public class RecursiveForkExploration implements PartitionGraphBuilder {
 		Graphs.addAllVertices(copy, copied.vertexSet());
 		Graphs.addAllEdges(copy, copied, copied.edgeSet());
 		return copy;
-	}
-
-	@Override
-	public Set<Tree<Integer, ADifferentiae>> apply(Tree<Integer, ADifferentiae> tree) {
-		DirectedAcyclicGraph<Integer, ADifferentiae> partedSoFar = new DirectedAcyclicGraph<>(null, null, false);
-		partedSoFar.addVertex(tree.getRoot());
-		Set<DirectedAcyclicGraph<Integer, ADifferentiae>> dagPartitions = part(tree, partedSoFar, tree.getRoot());
-		return convertIntoTrees(dagPartitions);
 	}
 
 }

@@ -19,8 +19,8 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Termi
 import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Variable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.impl.Particular;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Particular;
 
 public class MaxSymbolSubsequencesTest {
 
@@ -30,15 +30,16 @@ public class MaxSymbolSubsequencesTest {
 	private Set<IContextObject> context = new HashSet<>();
 	private Set<IConstruct> returned;
 	private Set<IConstruct> expected;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		Occam.initialize();
 		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		
+
 		obj1 = initializeObj1();
 		obj2 = initializeObj2();
 		obj3 = initializeObj3();
@@ -69,28 +70,28 @@ public class MaxSymbolSubsequencesTest {
 		*/
 		assertEquals(expectedWithVarPlaceHolders, returnedWithVarPlaceHolders);
 	}
-	
+
 	private static IContextObject initializeObj1() {
 		List<List<String>> constructsAsLists = new ArrayList<>();
 		constructsAsLists.add(new ArrayList<>(Arrays.asList(new String[] {"alpha", "beta", "gamma"})));
 		constructsAsLists.add(new ArrayList<>(Arrays.asList(new String[] {"alpha", "delta", "epsilon"})));
 		return new Particular(constructsAsLists);
 	}
-	
+
 	private static IContextObject initializeObj2() {
 		List<List<String>> constructsAsLists = new ArrayList<>();
 		constructsAsLists.add(new ArrayList<>(Arrays.asList(new String[] {"alpha", "beta", "epsilon"})));
 		constructsAsLists.add(new ArrayList<>(Arrays.asList(new String[] {"alpha", "delta", "zeta"})));
 		return new Particular(constructsAsLists);
 	}
-	
+
 	private static IContextObject initializeObj3() {
 		List<List<String>> constructsAsLists = new ArrayList<>();
 		constructsAsLists.add(new ArrayList<>(Arrays.asList(new String[] {"alpha", "beta", "gamma"})));
 		constructsAsLists.add(new ArrayList<>(Arrays.asList(new String[] {"alpha", "eta", "epsilon"})));
 		return new Particular(constructsAsLists);
 	}
-	
+
 	private static Set<IConstruct> initializeExpected() {
 		Set<IConstruct> expected = new HashSet<>();
 		expected.add(stringArray2Construct(new String[] {"alpha", "var"}));
@@ -98,7 +99,7 @@ public class MaxSymbolSubsequencesTest {
 		expected.add(stringArray2Construct(new String[] {"alpha", "var", "epsilon"}));
 		return expected;
 	}
-	
+
 	private static IConstruct stringArray2Construct(String[] array) {
 		List<ISymbol> symbolList = new ArrayList<>();
 		for (String s : array) {

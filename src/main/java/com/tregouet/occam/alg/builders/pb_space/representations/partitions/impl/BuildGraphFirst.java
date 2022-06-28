@@ -8,18 +8,13 @@ import java.util.Map;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.utils.PartitionRanker;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
-import com.tregouet.occam.data.problem_space.states.concepts.IComplementaryConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.occam.data.problem_space.transitions.partitions.impl.Partition;
-import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.data.Tree;
-import com.tregouet.tree_finder.utils.Functions;
 
 public class BuildGraphFirst implements PartitionBuilder {
 
@@ -29,12 +24,12 @@ public class BuildGraphFirst implements PartitionBuilder {
 	}
 
 	@Override
-	public Set<IPartition> apply(IDescription description, InvertedTree<IConcept, IIsA> conceptTree) {
-		mapConceptIDToExtentIDs(conceptTree);
-		Tree<Integer, ADifferentiae> classification = description.asGraph();
+	public Set<IPartition> apply(IDescription description, IClassification classification) {
+		conceptID2ExtentIDs = classification.mapConceptID2ExtentIDs();
+		Tree<Integer, ADifferentiae> descGraph = description.asGraph();
 		Set<IPartition> partitions = new HashSet<>();
 		Set<Tree<Integer, ADifferentiae>> partitionsAsGraph = PartitionBuilder.getPartitionGraphBuilder()
-				.apply(classification);
+				.apply(descGraph);
 		Sorting2StringConverter stringBuilder = PartitionBuilder.getSorting2StringConverter().setUp(conceptID2ExtentIDs);
 		for (Tree<Integer, ADifferentiae> partitionAsGraph : partitionsAsGraph) {
 			// set partitionAsString
@@ -61,35 +56,12 @@ public class BuildGraphFirst implements PartitionBuilder {
 			for (Integer leafID : partitionAsGraph.getLeaves())
 				leaf2Extent.put(leafID, conceptID2ExtentIDs.get(leafID));
 			speciesIDs = IPartition.orderOverIDs(speciesIDList);
-			int partitionRank = PartitionRanker.INSTANCE.rank(partitionAsGraph);
 			// instantiate
-			IPartition partition = new Partition(partitionAsGraph, partitionAsString, genusID, speciesIDs, leaf2Extent, partitionRank);
+			IPartition partition = new Partition(partitionAsGraph, partitionAsString, genusID, speciesIDs, leaf2Extent);
 			PartitionBuilder.getPartitionWeigher().accept(partition);
 			partitions.add(partition);
 		}
 		return partitions;
-	}
-
-	private PartitionBuilder mapConceptIDToExtentIDs(InvertedTree<IConcept, IIsA> treeOfConcepts) {
-		for (IConcept concept : treeOfConcepts) {
-			Set<Integer> extentIDs = new HashSet<>();
-			Set<Integer> alreadyClassified = new HashSet<>();
-			Set<IConcept> upperSet = Functions.upperSet(treeOfConcepts, concept);
-			for (IConcept upperBound : upperSet) {
-				if (upperBound.isComplementary()) {
-					IConcept complemented = ((IComplementaryConcept) upperBound).getComplemented();
-					alreadyClassified.addAll(complemented.getExtentIDs());
-				}
-			}
-			for (Integer iD : concept.getExtentIDs()) {
-				if (!alreadyClassified.contains(iD))
-					extentIDs.add(iD);
-			}
-			List<Integer> sortedExtentIDs = new ArrayList<>(extentIDs);
-			sortedExtentIDs.sort((x, y) -> Integer.compare(x, y));
-			conceptID2ExtentIDs.put(concept.iD(), sortedExtentIDs);
-		}
-		return this;
 	}
 
 }

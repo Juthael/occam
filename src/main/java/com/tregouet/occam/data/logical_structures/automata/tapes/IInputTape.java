@@ -18,7 +18,7 @@ public interface IInputTape<InputSymbol extends ISymbol> {
 
 	/**
 	 * If no next symbol, returns null
-	 * 
+	 *
 	 * @return
 	 */
 	InputSymbol read();

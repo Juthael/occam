@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -17,25 +17,15 @@ public class Partition implements IPartition {
 	private final Integer genusID;
 	private final Integer[] speciesIDs;
 	private final Map<Integer, List<Integer>> leaf2Extent;
-	private final int rank;
 	private Double weight = null;
 
 	public Partition(Tree<Integer, ADifferentiae> asGraph, String asString, Integer genusID,
-			Integer[] speciesIDs, Map<Integer, List<Integer>> leaf2Extent, int rank) {
+			Integer[] speciesIDs, Map<Integer, List<Integer>> leaf2Extent) {
 		this.asGraph = asGraph;
 		this.asString = asString;
 		this.genusID = genusID;
 		this.speciesIDs = speciesIDs;
 		this.leaf2Extent = leaf2Extent;
-		this.rank = rank;
-	}
-
-	private static int containsAtReturnedIdx(Integer[] array, Integer element) {
-		for (int i = 0; i < array.length; i++) {
-			if (array[i].equals(element))
-				return i;
-		}
-		return -1;
 	}
 
 	@Override
@@ -45,9 +35,9 @@ public class Partition implements IPartition {
 
 	@Override
 	public Integer compareTo(IPartition o) {
-		DirectedAcyclicGraph<Integer, ADifferentiae> otherGraph = o.asGraph();
-		if (this.asGraph.equals(otherGraph))
+		if (this.asString.equals(o.toString()))
 			return 0;
+		DirectedAcyclicGraph<Integer, ADifferentiae> otherGraph = o.asGraph();
 		if (this.asGraph.vertexSet().containsAll(otherGraph.vertexSet())
 				&& this.asGraph.edgeSet().containsAll(otherGraph.edgeSet()))
 			return 1;
@@ -64,7 +54,7 @@ public class Partition implements IPartition {
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Partition other = (Partition) obj;
-		return Objects.equals(asGraph, other.asGraph);
+		return Objects.equals(asString, other.asString) && Objects.equals(asGraph, other.asGraph);
 	}
 
 	@Override
@@ -95,7 +85,7 @@ public class Partition implements IPartition {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(asGraph);
+		return Objects.hash(asString);
 	}
 
 	@Override
@@ -113,9 +103,12 @@ public class Partition implements IPartition {
 		return weight;
 	}
 
-	@Override
-	public int rank() {
-		return rank;
+	private static int containsAtReturnedIdx(Integer[] array, Integer element) {
+		for (int i = 0; i < array.length; i++) {
+			if (array[i].equals(element))
+				return i;
+		}
+		return -1;
 	}
 
 }

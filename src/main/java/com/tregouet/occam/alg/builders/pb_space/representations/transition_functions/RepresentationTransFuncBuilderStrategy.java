@@ -2,5 +2,5 @@ package com.tregouet.occam.alg.builders.pb_space.representations.transition_func
 
 public enum RepresentationTransFuncBuilderStrategy {
 
-	BUILD_EXHAUSTIVELY
+	EVERY_APP_IS_RELEVANT
 }

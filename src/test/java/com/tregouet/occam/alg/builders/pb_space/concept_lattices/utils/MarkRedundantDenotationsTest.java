@@ -14,14 +14,14 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class MarkRedundantDenotationsTest {
-	
+
 	private static final Path SHAPES2 = Paths.get(".", "src", "test", "java", "files", "shapes2.txt");
 	@SuppressWarnings("unused")
 	private static final String nL = System.lineSeparator();
@@ -30,6 +30,7 @@ public class MarkRedundantDenotationsTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		Occam.initialize();
 		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
@@ -69,7 +70,7 @@ public class MarkRedundantDenotationsTest {
 		}
 		assertTrue(ifUpperBoundThenRedundant);
 	}
-	
+
 	@Test
 	public void whenDenotationIsMarkedAsRedundantThenIsUpperBoundOfAnotherInTheSameConcept() {
 		boolean ifRedundantThenUpperBound = true;
@@ -93,7 +94,7 @@ public class MarkRedundantDenotationsTest {
 							*/
 						}
 					}
-					if (upperBound == false) {
+					if (!upperBound) {
 						/*
 						System.out.println("... but accepts no other denotation as lower bound in the "
 								+ "instantiation order." + nL);

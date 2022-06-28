@@ -3,7 +3,8 @@ package com.tregouet.occam.data.problem_space.states.evaluation.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 import com.tregouet.occam.data.problem_space.states.evaluation.IFactEvaluator;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IRepresentationTapeSet;
@@ -12,8 +13,7 @@ import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransiti
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
 import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.problem_space.states.transitions.dimensions.EpsilonDimension;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.transitions.impl.stack_default.EpsilonBinding;
 
 public class FactEvaluator implements IFactEvaluator {
 
@@ -53,7 +53,7 @@ public class FactEvaluator implements IFactEvaluator {
 			acceptHeads.add(this);
 			return acceptHeads;
 		}
-		AVariable poppedStackSymbol = tapeSet.popOff();
+		IBindings poppedStackSymbol = tapeSet.popOff();
 		for (IConceptTransition transition : transitionFunction.getTransitions()) {
 			IConceptTransitionIC requiredInputConfig = transition.getInputConfiguration();
 			if (requiredInputConfig.getInputStateID() == activeStateID
@@ -105,13 +105,13 @@ public class FactEvaluator implements IFactEvaluator {
 		activeStateID = transitionFunction.getStartStateID();
 	}
 
-	private IFactEvaluator proceedPrintingTransition(IContextualizedProduction nextPrint,
+	private IFactEvaluator proceedPrintingTransition(IAbstractionApplication nextPrint,
 			IConceptTransitionOIC outputInternConfig) {
 		IRepresentationTapeSet nextTapeSet = tapeSet.copy();
-		if (!nextPrint.isEpsilon())
+		if (!nextPrint.isEpsilonOperator())
 			nextTapeSet.printNext(nextPrint);
-		for (AVariable pushedDown : outputInternConfig.getPushedStackSymbols()) {
-			if (!pushedDown.equals(EpsilonDimension.INSTANCE))
+		for (IBindings pushedDown : outputInternConfig.getPushedStackSymbols()) {
+			if (!pushedDown.equals(EpsilonBinding.INSTANCE))
 				nextTapeSet.pushDown(pushedDown);
 		}
 		int nextState = outputInternConfig.getOutputStateID();

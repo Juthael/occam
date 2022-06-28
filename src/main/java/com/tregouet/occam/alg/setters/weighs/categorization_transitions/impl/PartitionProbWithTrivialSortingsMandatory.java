@@ -8,18 +8,18 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
 public class PartitionProbWithTrivialSortingsMandatory extends PartitionProbability
-		implements ProblemTransitionWeigher {	
-	
+		implements ProblemTransitionWeigher {
+
 	@Override
 	protected int howManyTransitionsAreMandatory(Set<AProblemStateTransition> transitions) {
 		return howManyTransitionsAreTrivialSorting(transitions);
 	}
-	
+
 	@Override
 	protected boolean isMandatory(AProblemStateTransition transition) {
 		return isTrivialSortingOfUniversalWithCardinal2(transition);
-	}	
-	
+	}
+
 	private int howManyTransitionsAreTrivialSorting(Set<AProblemStateTransition> transitions) {
 		int count = 0;
 		for (AProblemStateTransition transition : transitions) {
@@ -28,7 +28,7 @@ public class PartitionProbWithTrivialSortingsMandatory extends PartitionProbabil
 		}
 		return count;
 	}
-	
+
 	private boolean isTrivialSortingOfUniversalWithCardinal2(AProblemStateTransition transition) {
 		for (IPartition partition : transition.getPartitions()) {
 			Integer[] speciesIDs = partition.getSpeciesIDs();
@@ -41,6 +41,6 @@ public class PartitionProbWithTrivialSortingsMandatory extends PartitionProbabil
 			}
 		}
 		return true;
-	}	
+	}
 
 }

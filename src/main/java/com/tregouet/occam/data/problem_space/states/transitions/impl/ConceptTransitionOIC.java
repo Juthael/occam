@@ -3,15 +3,15 @@ package com.tregouet.occam.data.problem_space.states.transitions.impl;
 import java.util.List;
 import java.util.Objects;
 
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransitionOIC;
 
 public class ConceptTransitionOIC implements IConceptTransitionOIC {
 
 	private final int outputStateID;
-	private final List<AVariable> pushedStackSymbols;
+	private final List<IBindings> pushedStackSymbols;
 
-	public ConceptTransitionOIC(int outputStateID, List<AVariable> nextStackSymbols) {
+	public ConceptTransitionOIC(int outputStateID, List<IBindings> nextStackSymbols) {
 		this.outputStateID = outputStateID;
 		this.pushedStackSymbols = nextStackSymbols;
 	}
@@ -32,7 +32,7 @@ public class ConceptTransitionOIC implements IConceptTransitionOIC {
 	}
 
 	@Override
-	public List<AVariable> getPushedStackSymbols() {
+	public List<IBindings> getPushedStackSymbols() {
 		return pushedStackSymbols;
 	}
 

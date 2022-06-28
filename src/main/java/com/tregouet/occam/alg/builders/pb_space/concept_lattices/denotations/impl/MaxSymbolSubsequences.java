@@ -11,7 +11,7 @@ import java.util.Set;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.denotations.DenotationBuilder;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.subseq_finder.ISymbolSeq;
 import com.tregouet.subseq_finder.impl.SubseqFinder;
 
@@ -26,32 +26,6 @@ public class MaxSymbolSubsequences implements DenotationBuilder {
 	private Map<ISymbolSeq, IConstruct> symbolSeqToConstruct;
 
 	public MaxSymbolSubsequences() {
-	}
-
-	private static Set<ISymbolSeq> removeNonMaxSeqs(Set<ISymbolSeq> seqs) {
-		List<ISymbolSeq> seqList = new ArrayList<>(seqs);
-		int idx1 = 0;
-		boolean idx1SeqRemoved = false;
-		int idx2;
-		int comparison;
-		while (idx1 < seqList.size()) {
-			idx2 = idx1 + 1;
-			while (!idx1SeqRemoved && (idx2 < seqList.size())) {
-				comparison = seqList.get(idx1).compareTo(seqList.get(idx2));
-				if (comparison == ISymbolSeq.SUBSEQ_OF) {
-					seqList.remove(idx1);
-					idx1SeqRemoved = true;
-				} else if (comparison == ISymbolSeq.SUPERSEQ_OF) {
-					seqList.remove(idx2);
-				} else
-					idx2++;
-			}
-			if (idx1SeqRemoved)
-				idx1SeqRemoved = false;
-			else
-				idx1++;
-		}
-		return new HashSet<>(seqList);
 	}
 
 	@Override
@@ -81,11 +55,17 @@ public class MaxSymbolSubsequences implements DenotationBuilder {
 			for (ISymbolSeq maxSubseq : maxSubseqs)
 				denotations.add(getConstruct(maxSubseq));
 		}
+		denotations = complyToAdditionalConstraints(denotations);
+		return denotations;
+	}
+
+	protected Set<IConstruct> complyToAdditionalConstraints(Set<IConstruct> denotations) {
+		//no additional constraint in this impl
 		return denotations;
 	}
 
 	// for unit test use only
-	public Map<ISymbolSeq, Set<ISymbolSeq>> getSubsqToMaxSubsq(List<IContextObject> extent) {
+	protected Map<ISymbolSeq, Set<ISymbolSeq>> getSubsqToMaxSubsq(List<IContextObject> extent) {
 		arrayDimensions = new int[extent.size()];
 		coords = new int[extent.size()];
 		for (int i = 0; i < extent.size(); i++) {
@@ -146,6 +126,32 @@ public class MaxSymbolSubsequences implements DenotationBuilder {
 		}
 		for (ISymbolSeq seq : subsqToMaxSubsq.keySet())
 			subsqToMaxSubsq.put(seq, removeNonMaxSeqs(subsqToMaxSubsq.get(seq)));
+	}
+
+	private static Set<ISymbolSeq> removeNonMaxSeqs(Set<ISymbolSeq> seqs) {
+		List<ISymbolSeq> seqList = new ArrayList<>(seqs);
+		int idx1 = 0;
+		boolean idx1SeqRemoved = false;
+		int idx2;
+		int comparison;
+		while (idx1 < seqList.size()) {
+			idx2 = idx1 + 1;
+			while (!idx1SeqRemoved && (idx2 < seqList.size())) {
+				comparison = seqList.get(idx1).compareTo(seqList.get(idx2));
+				if (comparison == ISymbolSeq.SUBSEQ_OF) {
+					seqList.remove(idx1);
+					idx1SeqRemoved = true;
+				} else if (comparison == ISymbolSeq.SUPERSEQ_OF) {
+					seqList.remove(idx2);
+				} else
+					idx2++;
+			}
+			if (idx1SeqRemoved)
+				idx1SeqRemoved = false;
+			else
+				idx1++;
+		}
+		return new HashSet<>(seqList);
 	}
 
 }

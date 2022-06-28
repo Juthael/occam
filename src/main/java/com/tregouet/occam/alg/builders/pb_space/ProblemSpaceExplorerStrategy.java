@@ -1,9 +1,7 @@
 package com.tregouet.occam.alg.builders.pb_space;
 
 public enum ProblemSpaceExplorerStrategy {
-	
-	REMOVE_MEANINGLESS, 
-	REMOVE_UNINFORMATIVE, 
-	EXPAND_TRIVIAL_LEAVES
+
+	DEVELOP_TRIVIAL_DISCARD_UNINFORMATIVE
 
 }

@@ -8,6 +8,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,19 +26,19 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.concepts_trees.impl.IfLeafIsUniversalThenSort;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.impl.IfIsAThenDiffer;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
-import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
+import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
+import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
 import com.tregouet.tree_finder.data.InvertedTree;
@@ -50,17 +51,18 @@ import guru.nidi.graphviz.parse.Parser;
 
 @SuppressWarnings("unused")
 public class IfIsAThenDifferTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
-	private IConceptLattice conceptLattice;	
-	private Set<IContextualizedProduction> productions;
+	private Set<Integer> extentIDs = new HashSet<>();
+	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
-	private Set<IRepresentationTransitionFunction> transFunctions = new HashSet<>();	
+	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() {
+		Occam.initialize();
 		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
@@ -68,22 +70,29 @@ public class IfIsAThenDifferTest {
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-		productions = BuildersAbstractFactory.INSTANCE.getProdBuilderFromConceptLattice().apply(conceptLattice);
 		trees = growTrees();
+		for (IContextObject obj : context)
+			extentIDs.add(obj.iD());
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = BuildersAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
-			transFunctions.add(transFuncBldr.apply(tree, productions));
+			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
+			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
+			boolean fullyDeveloped = isFullyDeveloped(tree);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs, fullyDeveloped);
+			Set<IContextualizedProduction> classProds = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
+			classProd2Classification.put(classProds, classification);
 		}
 	}
-	
+
 	@Test
 	public void whenDifferentiaeRequestedThenDifferentiaeGraphIsTree() {
 		boolean asExpected = true;
 		int nbOfChecks = 0;
-		for (IRepresentationTransitionFunction transFunc : transFunctions) {
+		for (Set<IContextualizedProduction> classProds : classProd2Classification.keySet()) {
+			IClassification classification = classProd2Classification.get(classProds);
 			IfIsAThenDiffer diffBldr = new IfIsAThenDiffer();
-			Set<ADifferentiae> differentiae = diffBldr.apply(transFunc);
+			Set<ADifferentiae> differentiae = diffBldr.apply(classification, classProds);
 			DirectedAcyclicGraph<Integer, ADifferentiae> graph = new DirectedAcyclicGraph<>(null, null, false);
 			for (ADifferentiae diff : differentiae) {
 				graph.addVertex(diff.getSource());
@@ -91,13 +100,8 @@ public class IfIsAThenDifferTest {
 				graph.addEdge(diff.getSource(), diff.getTarget(), diff);
 			}
 			/*
-			String transFuncFullPath = 
-					VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz().apply(
-							transFunc, "IfIsAThenDifferTest_TF_" + Integer.toString(nbOfChecks));
 			String descFullPath = visualize(graph, nbOfChecks);
-			System.out.println("Transition function graph n." + Integer.toString(nbOfChecks) + " is available at " 
-			+ transFuncFullPath);
-			System.out.println("Description graph n." + Integer.toString(nbOfChecks) + " is available at " 
+			System.out.println("Description graph n." + Integer.toString(nbOfChecks) + " is available at "
 			+ descFullPath);
 			*/
 			if (!StructureInspector.isATree(graph))
@@ -105,8 +109,8 @@ public class IfIsAThenDifferTest {
 			nbOfChecks++;
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);
-	}	
-	
+	}
+
 	private String visualize(DirectedAcyclicGraph<Integer, ADifferentiae> description, int idx) {
 		String fileName = "IfIsAThenDifferTest_Desc_" + Integer.toString(idx);
 		// convert in DOT format
@@ -135,7 +139,7 @@ public class IfIsAThenDifferTest {
 			return null;
 		}
 	}
-	
+
 	private String label(ADifferentiae differentiae) {
 		StringBuilder sB = new StringBuilder();
 		for (IProperty prop : differentiae.getProperties()) {
@@ -143,7 +147,7 @@ public class IfIsAThenDifferTest {
 		}
 		return sB.toString();
 	}
-	
+
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
@@ -154,11 +158,26 @@ public class IfIsAThenDifferTest {
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
 				expandedTreesFromLastIteration.addAll(
-						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree)); 
+						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
-	}	
+	}
+
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
+		return speciesID2GenusID;
+	}
+
+	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
+		for (IConcept concept : conceptTree.getLeaves()) {
+			if (concept.type() != ConceptType.PARTICULAR)
+				return false;
+		}
+		return true;
+	}
 
 }

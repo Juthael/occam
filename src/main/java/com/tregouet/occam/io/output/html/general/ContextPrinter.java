@@ -3,7 +3,7 @@ package com.tregouet.occam.io.output.html.general;
 import java.util.List;
 
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
 
 public class ContextPrinter {
@@ -15,13 +15,10 @@ public class ContextPrinter {
 
 	private ContextPrinter() {
 	}
-	
+
 	public String print(List<IContextObject> context, int a) {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> CONTEXT </h3>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
 				.append(printArray(context, a + 1) + nL)
 			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();
@@ -38,9 +35,9 @@ public class ContextPrinter {
 				optionalSubhead[i] = obj.getName();
 			body[i] = toString(obj);
 		}
-		return TablePrinter.INSTANCE.printStringTableWithOptionalSubHead(head, optionalSubhead, body, caption, a);
+		return TablePrinter.INSTANCE.printStringTableWithHead(head, optionalSubhead, body, caption, a);
 	}
-	
+
 	private static String toString(IContextObject object) {
 		StringBuilder sB = new StringBuilder();
 		for (IConstruct construct : object.getConstructs()) {

@@ -16,11 +16,11 @@ import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.concepts_trees.impl.IfLeafIsUniversalThenSort;
-import com.tregouet.occam.data.problem_space.states.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.concepts.IIsA;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.tree_finder.data.InvertedTree;
 
@@ -34,7 +34,8 @@ public class IfLeafIsUniversalThenSortTest {
 	private IConceptLattice conceptLattice;
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	public static void setUpBeforeClass() {
+		Occam.initialize();
 		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
@@ -47,7 +48,7 @@ public class IfLeafIsUniversalThenSortTest {
 			.apply(conceptLattice.getOntologicalUpperSemilattice(), "IfLeafIsUniversal_lattice");
 		*/
 	}
-	
+
 	@Test
 	public void whenTreeExpansionRequestedThenTheSameTreeCanBeBuiltManyTimes() {
 		boolean asExpected = false;
@@ -65,7 +66,7 @@ public class IfLeafIsUniversalThenSortTest {
 					boolean newTree = expandedTreesFromLastIteration.add(returned);
 					if (!newTree)
 						asExpected = true;
-				} 
+				}
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
@@ -79,8 +80,8 @@ public class IfLeafIsUniversalThenSortTest {
 		}
 		*/
 		assertTrue(asExpected);
-	}	
-	
+	}
+
 	@Test
 	public void whenTreeExpansionRequestedThenProceeded() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
@@ -93,7 +94,7 @@ public class IfLeafIsUniversalThenSortTest {
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
 				grower = new IfLeafIsUniversalThenSort();
-				expandedTreesFromLastIteration.addAll(grower.apply(conceptLattice, tree)); 
+				expandedTreesFromLastIteration.addAll(grower.apply(conceptLattice, tree));
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
@@ -108,7 +109,7 @@ public class IfLeafIsUniversalThenSortTest {
 		*/
 		assertTrue(!expandedTrees.isEmpty());
 	}
-	
+
 	@Test
 	public void whenTreeHasALeafWhichIsNotParticularThenCanBeExpandedOtherwiseCannot() {
 		boolean asExpected = true;

@@ -11,11 +11,10 @@ import org.jgrapht.nio.Attribute;
 import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
-import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
 import com.tregouet.occam.alg.displayers.visualizers.descriptions.DescriptionViz;
 import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.descriptions.properties.ADifferentiae;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.io.output.LocalPaths;
 import com.tregouet.tree_finder.data.Tree;
 
@@ -33,7 +32,7 @@ public class BasicDescriptionViz implements DescriptionViz {
 
 	@Override
 	public String apply(IDescription description, String fileName) {
-		DifferentiaeLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeDisplayer();
+		DifferentiaeLabeller diffLabeller = DescriptionViz.differentiaeLabeller();
 		Tree<Integer, ADifferentiae> descGraph = description.asGraph();
 		// convert in DOT format
 		DOTExporter<Integer, ADifferentiae> exporter = new DOTExporter<>();
@@ -44,7 +43,7 @@ public class BasicDescriptionViz implements DescriptionViz {
 		});
 		exporter.setEdgeAttributeProvider((e) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(diffDisplayer.apply(e)));
+			map.put("label", DefaultAttribute.createAttribute(diffLabeller.apply(e)));
 			return map;
 		});
 		Writer writer = new StringWriter();

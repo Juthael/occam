@@ -2,23 +2,23 @@ package com.tregouet.occam.data.problem_space.states.evaluation.tapes.impl;
 
 import java.util.Objects;
 
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
+import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IBinder;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IFactTape;
 import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IRepresentationTapeSet;
-import com.tregouet.occam.data.problem_space.states.evaluation.tapes.IVarBinder;
-import com.tregouet.occam.data.problem_space.states.transitions.productions.IContextualizedProduction;
 
 public class RepresentationTapeSet implements IRepresentationTapeSet {
 
 	private IFactTape inputTape = null;
-	private IVarBinder stack = null;
+	private IBinder stack = null;
 
 	public RepresentationTapeSet() {
 		inputTape = new FactTape();
-		stack = new VarBinder();
+		stack = new Binder();
 	}
 
-	public RepresentationTapeSet(IFactTape inputTape, IVarBinder stackTape) {
+	public RepresentationTapeSet(IFactTape inputTape, IBinder stackTape) {
 		this.inputTape = inputTape;
 		this.stack = stackTape;
 	}
@@ -59,22 +59,22 @@ public class RepresentationTapeSet implements IRepresentationTapeSet {
 	}
 
 	@Override
-	public AVariable popOff() {
+	public IBindings popOff() {
 		return stack.popOff();
 	}
 
 	@Override
-	public void printNext(IContextualizedProduction symbol) {
+	public void printNext(IAbstractionApplication symbol) {
 		inputTape.print(symbol);
 	}
 
 	@Override
-	public void pushDown(AVariable stackSymbol) {
+	public void pushDown(IBindings stackSymbol) {
 		stack.pushDown(stackSymbol);
 	}
 
 	@Override
-	public IContextualizedProduction readNextInputSymbol() {
+	public IAbstractionApplication readNextInputSymbol() {
 		return inputTape.read();
 	}
 

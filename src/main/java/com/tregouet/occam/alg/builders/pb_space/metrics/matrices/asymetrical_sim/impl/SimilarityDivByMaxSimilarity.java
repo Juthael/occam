@@ -3,9 +3,9 @@ package com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_si
 import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilder;
 
 public class SimilarityDivByMaxSimilarity implements AsymmetricalSimilarityMatrixBuilder {
-	
+
 	public static final SimilarityDivByMaxSimilarity INSTANCE = new SimilarityDivByMaxSimilarity();
-	
+
 	private SimilarityDivByMaxSimilarity() {
 	}
 
@@ -16,7 +16,7 @@ public class SimilarityDivByMaxSimilarity implements AsymmetricalSimilarityMatri
 		for (int i = 0 ; i < size ; i++) {
 			double iMaxSimValue = 0;
 			for (int j = 0 ; j < size ; j++) {
-				double ijSimilarity = similarityMatrix[i][j]; 
+				double ijSimilarity = similarityMatrix[i][j];
 				if (ijSimilarity > iMaxSimValue)
 					iMaxSimValue = ijSimilarity;
 			}

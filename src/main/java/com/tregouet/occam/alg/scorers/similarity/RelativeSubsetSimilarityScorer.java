@@ -6,10 +6,10 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.AD
 import com.tregouet.tree_finder.data.Tree;
 
 public interface RelativeSubsetSimilarityScorer extends RelativeSimilarityScorer {
-	
-	@Override
-	RelativeSubsetSimilarityScorer setAsContext(Tree<Integer, ADifferentiae> classificationTree);
 
 	double score(Set<Integer> conceptIDs);
+
+	@Override
+	RelativeSubsetSimilarityScorer setAsContext(Tree<Integer, ADifferentiae> classificationTree);
 
 }

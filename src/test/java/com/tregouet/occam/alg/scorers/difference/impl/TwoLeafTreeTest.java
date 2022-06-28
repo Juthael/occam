@@ -20,7 +20,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class TwoLeafTreeTest {
-	
+
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private List<IContextObject> context;
 	private List<Integer> extentIDs = new ArrayList<>();
@@ -47,7 +47,7 @@ public class TwoLeafTreeTest {
 		double[][] differenceMatrix = new double[ctxtSize][ctxtSize];
 		for (int i = 0 ; i < ctxtSize - 1 ; i++) {
 			for (int j = i + 1 ; j < ctxtSize ; j++) {
-				double difference = 
+				double difference =
 						ScorersAbstractFactory.INSTANCE.getDifferenceScorer().score(
 								extentIDs.get(i), extentIDs.get(j), conceptLattice);
 				differenceMatrix[i][j] = difference;
@@ -60,7 +60,7 @@ public class TwoLeafTreeTest {
 				if (differenceMatrix[i][j] == 0 && i != j)
 					asExpected = false;
 			}
-		}		
+		}
 		assertTrue(asExpected);
 	}
 

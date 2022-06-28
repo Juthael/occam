@@ -101,6 +101,10 @@ public class BuildersAbstractFactory {
 	private BuildersAbstractFactory() {
 	}
 
+	public AsymmetricalSimilarityMatrixBuilder getAsymmetricalSimilarityMatrixBuilder() {
+		return AsymmetricalSimilarityMatrixBuilderFactory.INSTANCE.apply(asymmetricalSimilarityMatrixBuilderStrategy);
+	}
+
 	public ClassificationBuilder getClassificationBuilder() {
 		return ClassificationBuilderFactory.INSTANCE.apply(classificationBuilderStrategy);
 	}
@@ -119,6 +123,10 @@ public class BuildersAbstractFactory {
 
 	public DescriptionBuilder getDescriptionBuilder() {
 		return DescriptionBuilderFactory.INSTANCE.apply(descriptionBuilderStrategy);
+	}
+
+	public DifferenceMatrixBuilder getDifferenceMatrixBuilder() {
+		return DifferenceMatrixBuilderFactory.INSTANCE.apply(differenceMatrixBuilderStrategy);
 	}
 
 	public DifferentiaeBuilder getDifferentiaeBuilder() {
@@ -141,6 +149,10 @@ public class BuildersAbstractFactory {
 		return ProblemSpaceGraphExpanderFactory.INSTANCE.apply(problemSpaceGraphExpanderStrategy);
 	}
 
+	public ProblemSpaceGraphRestrictor getProblemSpaceGraphRestrictor() {
+		return ProblemSpaceGraphRestrictorFactory.INSTANCE.apply(problemSpaceGraphRestrictorStrategy);
+	}
+
 	public ProductionBuilder getProductionBuilder() {
 		return ProductionBuilderFactory.INSTANCE.apply(productionBuilderStrategy);
 	}
@@ -157,6 +169,10 @@ public class BuildersAbstractFactory {
 		return PropertyBuilderFactory.INSTANCE.apply(propertyBuilderStrategy);
 	}
 
+	public RelativeSimilarityMetricsBuilder getRelativeSimilarityMetricsBuilder() {
+		return RelativeSimilarityMetricsBuilderFactory.INSTANCE.apply(relativeSimilarityMetricsBuilderStrategy);
+	}
+
 	public RepresentationBuilder getRepresentationBuilder() {
 		return RepresentationBuilderFactory.INSTANCE.apply(representationBuilderStrategy);
 	}
@@ -165,32 +181,16 @@ public class BuildersAbstractFactory {
 		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
 	}
 
-	public RelativeSimilarityMetricsBuilder getRelativeSimilarityMetricsBuilder() {
-		return RelativeSimilarityMetricsBuilderFactory.INSTANCE.apply(relativeSimilarityMetricsBuilderStrategy);
-	}
-	
-	public AsymmetricalSimilarityMatrixBuilder getAsymmetricalSimilarityMatrixBuilder() {
-		return AsymmetricalSimilarityMatrixBuilderFactory.INSTANCE.apply(asymmetricalSimilarityMatrixBuilderStrategy);
-	}
-	
-	public DifferenceMatrixBuilder getDifferenceMatrixBuilder() {
-		return DifferenceMatrixBuilderFactory.INSTANCE.apply(differenceMatrixBuilderStrategy);
-	}
-	
 	public SimilarityMatrixBuilder getSimilarityMatrixBuilder() {
 		return SimilarityMatrixBuilderFactory.INSTANCE.apply(similarityMatrixBuilderStrategy);
 	}
-	
-	public TypicalityVectorBuilder getTypicalityVectorBuilder() {
-		return TypicalityVectorBuilderFactory.INSTANCE.apply(typicalityVectorBuilderStrategy);
-	}
 
-	public ProblemSpaceGraphRestrictor getProblemSpaceGraphRestrictor() {
-		return ProblemSpaceGraphRestrictorFactory.INSTANCE.apply(problemSpaceGraphRestrictorStrategy);
-	}
-	
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
+	}
+
+	public TypicalityVectorBuilder getTypicalityVectorBuilder() {
+		return TypicalityVectorBuilderFactory.INSTANCE.apply(typicalityVectorBuilderStrategy);
 	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {

@@ -12,9 +12,9 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
 public class SimThenDiffThenTypicality implements SimilarityMetricsBuilder {
-	
+
 	public static final SimThenDiffThenTypicality INSTANCE = new SimThenDiffThenTypicality();
-	
+
 	private SimThenDiffThenTypicality() {
 	}
 
@@ -25,7 +25,7 @@ public class SimThenDiffThenTypicality implements SimilarityMetricsBuilder {
 		double[][] asymmetricalSimilarityMatrix;
 		double[][] differenceMatrix;
 		double[] typicalityVector;
-		SimilarityMatrixBuilder simMatrixBuilder = 
+		SimilarityMatrixBuilder simMatrixBuilder =
 				BuildersAbstractFactory.INSTANCE.getSimilarityMatrixBuilder().setUp(lattice.getContextObjects().size(), pbGraph);
 		similarityMatrix = simMatrixBuilder.getSimilarityMatrix();
 		referenceMatrix = simMatrixBuilder.getReferenceMatrix();

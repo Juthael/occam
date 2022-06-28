@@ -33,6 +33,11 @@ public class PrototypeMenu {
 	}
 
 	private void developRepresentation(IProblemSpace problemSpace) {
+		problemSpace.develop();
+		problemSpaceMenu(problemSpace);
+	}
+
+	private void developRepresentationWithSpecifiedID(IProblemSpace problemSpace) {
 		System.out.println(NL);
 		System.out.println("Please enter a representation ID : " + NL);
 		Integer iD = null;
@@ -50,41 +55,6 @@ public class PrototypeMenu {
 		} else {
 			if (!result)
 				System.out.println("This representation is fully developed already. " + NL);
-			problemSpaceMenu(problemSpace);
-		}
-	}
-
-	private void restrictProblemSpace(IProblemSpace problemSpace) {
-		System.out.println(NL);
-		System.out.println("Please enter IDs of representations to retain, separated by dots.");
-		String entryString = null;
-		try {
-			entryString = entry.next();
-			entry.nextLine();
-		} catch (Exception e) {
-			e.printStackTrace();
-			problemSpaceMenu(problemSpace);
-		}
-		Set<Integer> iDs = new HashSet<>();
-		List<String> iDStrings = Splitter.on('.').splitToList(entryString);
-		for (String iDString : iDStrings) {
-			Integer iD = null;
-			try {
-				iD = Integer.parseInt(iDString);
-			}
-			catch (NumberFormatException e) {
-				System.out.println("Entry is invalid");
-				problemSpaceMenu(problemSpace);
-			}
-			iDs.add(iD);
-		}
-		Boolean result = problemSpace.restrictTo(iDs);
-		if (result == null) {
-			System.out.println("Some ID is missing in the problem space graph. " + NL);
-			problemSpaceMenu(problemSpace);
-		} else {
-			if (!result)
-				System.out.println("The specified set is not a restriction." + NL);
 			problemSpaceMenu(problemSpace);
 		}
 	}
@@ -198,8 +168,9 @@ public class PrototypeMenu {
 		System.out.println(NL);
 		System.out.println("1 : enter the ID of a representation to display." + NL);
 		System.out.println("2 : enter the ID of a representation to develop." + NL);
-		System.out.println("3 : restrict the problem space to some subset of states." + NL);
-		System.out.println("4 : back to main menu" + NL);
+		System.out.println("3 : fully expand the problem space (may result in program freeze if space is too large)." + NL);
+		System.out.println("4 : restrict the problem space to some subset of states." + NL);
+		System.out.println("5 : back to main menu" + NL);
 		int choice = 0;
 		try {
 			choice = entry.nextInt();
@@ -213,17 +184,56 @@ public class PrototypeMenu {
 			displayRepresentation(problemSpace);
 			break;
 		case 2:
-			developRepresentation(problemSpace);
+			developRepresentationWithSpecifiedID(problemSpace);
 			break;
 		case 3 :
+			developRepresentation(problemSpace);
+			break;
+		case 4 :
 			restrictProblemSpace(problemSpace);
-		case 4:
+			break;
+		case 5:
 			mainMenu();
 			break;
 		default:
 			System.out.println("Please stay focused." + NL);
 			mainMenu();
 			break;
+		}
+	}
+
+	private void restrictProblemSpace(IProblemSpace problemSpace) {
+		System.out.println(NL);
+		System.out.println("Please enter IDs of representations to retain, separated by dots.");
+		String entryString = null;
+		try {
+			entryString = entry.next();
+			entry.nextLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			problemSpaceMenu(problemSpace);
+		}
+		Set<Integer> iDs = new HashSet<>();
+		List<String> iDStrings = Splitter.on('.').splitToList(entryString);
+		for (String iDString : iDStrings) {
+			Integer iD = null;
+			try {
+				iD = Integer.parseInt(iDString);
+			}
+			catch (NumberFormatException e) {
+				System.out.println("Entry is invalid");
+				problemSpaceMenu(problemSpace);
+			}
+			iDs.add(iD);
+		}
+		Boolean result = problemSpace.restrictTo(iDs);
+		if (result == null) {
+			System.out.println("Some ID is missing in the problem space graph. " + NL);
+			problemSpaceMenu(problemSpace);
+		} else {
+			if (!result)
+				System.out.println("The specified set is not a restriction." + NL);
+			problemSpaceMenu(problemSpace);
 		}
 	}
 

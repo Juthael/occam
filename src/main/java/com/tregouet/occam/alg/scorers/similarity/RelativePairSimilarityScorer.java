@@ -4,10 +4,10 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.AD
 import com.tregouet.tree_finder.data.Tree;
 
 public interface RelativePairSimilarityScorer extends RelativeSimilarityScorer {
-	
+
+	double score(Integer conceptID1, Integer conceptID2);
+
 	@Override
 	RelativePairSimilarityScorer setAsContext(Tree<Integer, ADifferentiae> classificationTree);
-	
-	double score(Integer conceptID1, Integer conceptID2);
 
 }

@@ -16,10 +16,10 @@ public class AsNestedFramesWithScore extends AsNestedFrames implements ProblemSt
 	public String apply(IRepresentation representation) {
 		return super.apply(representation) + nL + round(representation.score());
 	}
-	
+
 
 	private static String round(double nb) {
 		return df.format(nb).toString();
-	}	
+	}
 
 }

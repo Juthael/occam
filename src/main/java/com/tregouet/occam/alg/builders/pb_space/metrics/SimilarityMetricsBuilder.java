@@ -14,24 +14,24 @@ import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
-public interface SimilarityMetricsBuilder 
+public interface SimilarityMetricsBuilder
 	extends BiFunction<
-		IConceptLattice, 
+		IConceptLattice,
 		DirectedAcyclicGraph<IRepresentation, AProblemStateTransition>, ISimilarityMetrics> {
-	
-	
-	public static SimilarityMatrixBuilder similarityMatrixBuilder() {
-		return BuildersAbstractFactory.INSTANCE.getSimilarityMatrixBuilder();
-	}
-	
+
+
 	public static AsymmetricalSimilarityMatrixBuilder asymmetricalSimilarityBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getAsymmetricalSimilarityMatrixBuilder();
 	}
-	
+
 	public static DifferenceMatrixBuilder differenceMatrixBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getDifferenceMatrixBuilder();
 	}
-	
+
+	public static SimilarityMatrixBuilder similarityMatrixBuilder() {
+		return BuildersAbstractFactory.INSTANCE.getSimilarityMatrixBuilder();
+	}
+
 	public static TypicalityVectorBuilder typicalityVectorBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getTypicalityVectorBuilder();
 	}

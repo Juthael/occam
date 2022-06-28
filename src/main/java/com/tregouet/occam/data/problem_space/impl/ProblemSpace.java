@@ -31,6 +31,12 @@ public class ProblemSpace implements IProblemSpace {
 	}
 
 	@Override
+	public void develop() {
+		problemSpaceExplorer.develop();
+		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+	}
+
+	@Override
 	public Boolean develop(int representationID) {
 		Boolean developed = problemSpaceExplorer.develop(representationID);
 		if (developed != null && developed)
@@ -62,8 +68,18 @@ public class ProblemSpace implements IProblemSpace {
 	}
 
 	@Override
+	public double[][] getAsymmetricalSimilarityMatrix() {
+		return similarityMetrics.getAsymmetricalSimilarityMatrix();
+	}
+
+	@Override
 	public List<IContextObject> getContext() {
 		return context;
+	}
+
+	@Override
+	public double[][] getDifferenceMatrix() {
+		return similarityMetrics.getDifferenceMatrix();
 	}
 
 	@Override
@@ -77,36 +93,26 @@ public class ProblemSpace implements IProblemSpace {
 	}
 
 	@Override
-	public Boolean restrictTo(Set<Integer> representationIDs) {
-		Boolean restricted = problemSpaceExplorer.restrictTo(representationIDs);
-		if (restricted != null && restricted)
-			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
-		return restricted;
+	public String[][] getReferenceMatrix() {
+		return similarityMetrics.getReferenceMatrix();
 	}
-	
+
 	@Override
 	public double[][] getSimilarityMatrix() {
 		return similarityMetrics.getSimilarityMatrix();
 	}
 
 	@Override
-	public String[][] getReferenceMatrix() {
-		return similarityMetrics.getReferenceMatrix();
-	}
-
-	@Override
-	public double[][] getAsymmetricalSimilarityMatrix() {
-		return similarityMetrics.getAsymmetricalSimilarityMatrix();
-	}
-
-	@Override
-	public double[][] getDifferenceMatrix() {
-		return similarityMetrics.getDifferenceMatrix();
-	}
-
-	@Override
 	public double[] getTypicalityVector() {
 		return similarityMetrics.getTypicalityVector();
+	}
+
+	@Override
+	public Boolean restrictTo(Set<Integer> representationIDs) {
+		Boolean restricted = problemSpaceExplorer.restrictTo(representationIDs);
+		if (restricted != null && restricted)
+			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+		return restricted;
 	}
 
 }

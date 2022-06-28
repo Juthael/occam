@@ -19,9 +19,6 @@ public class ContextPrinter {
 	public String print(List<IContextObject> context, int a) {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> CONTEXT </h3>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
 				.append(printArray(context, a + 1) + nL)
 			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();
@@ -38,7 +35,7 @@ public class ContextPrinter {
 				optionalSubhead[i] = obj.getName();
 			body[i] = toString(obj);
 		}
-		return TablePrinter.INSTANCE.printStringTableWithOptionalSubHead(head, optionalSubhead, body, caption, a);
+		return TablePrinter.INSTANCE.printStringTableWithHead(head, optionalSubhead, body, caption, a);
 	}
 
 	private static String toString(IContextObject object) {

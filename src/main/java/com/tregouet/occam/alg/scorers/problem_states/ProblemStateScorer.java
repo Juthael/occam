@@ -7,8 +7,8 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
 
 public interface ProblemStateScorer {
 
-	ProblemStateScorer setUp(DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemSpace);
-	
 	double score(IRepresentation representation);
+
+	ProblemStateScorer setUp(DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemSpace);
 
 }

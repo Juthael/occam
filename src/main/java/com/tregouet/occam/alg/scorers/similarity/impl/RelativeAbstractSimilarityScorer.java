@@ -10,7 +10,7 @@ public abstract class RelativeAbstractSimilarityScorer implements RelativeSimila
 
 	public RelativeAbstractSimilarityScorer() {
 	}
-	
+
 	protected Double getDefinitionCostOf(Integer conceptID) {
 		double definitionCost = 0.0;
 		int currentConceptID = conceptID;

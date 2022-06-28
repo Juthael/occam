@@ -45,6 +45,8 @@ public interface IRepresentation extends
 
 	Set<IPartition> getPartitions();
 
+	double[][] getSimilarityMatrix();
+
 	@Override
 	int hashCode();
 
@@ -56,14 +58,12 @@ public interface IRepresentation extends
 
 	Map<Integer, List<String>> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer);
 
+	double score();
+
+	void setScore(double score);
+
 	public static void initializeIDGenerator() {
 		Representation.initializeIDGenerator();
 	}
-
-	double[][] getSimilarityMatrix();
-	
-	void setScore(double score);
-	
-	double score();
 
 }

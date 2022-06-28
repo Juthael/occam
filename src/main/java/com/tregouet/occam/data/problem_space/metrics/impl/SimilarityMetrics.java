@@ -10,23 +10,13 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 	private final double[][] differenceMatrix;
 	private final double[] typicalityVector;
 
-	public SimilarityMetrics(double[][] similarityMatrix, String[][] referenceMatrix, 
+	public SimilarityMetrics(double[][] similarityMatrix, String[][] referenceMatrix,
 			double[][] asymmetricalSimilarityMatrix, double[][] differenceMatrix, double[] typicalityVector) {
 		this.similarityMatrix = similarityMatrix;
 		this.referenceMatrix = referenceMatrix;
 		this.asymmetricalSimilarityMatrix = asymmetricalSimilarityMatrix;
 		this.differenceMatrix = differenceMatrix;
 		this.typicalityVector = typicalityVector;
-	}
-
-	@Override
-	public double[][] getSimilarityMatrix() {
-		return similarityMatrix;
-	}
-	
-	@Override
-	public String[][] getReferenceMatrix() {
-		return referenceMatrix;
 	}
 
 	@Override
@@ -37,6 +27,16 @@ public class SimilarityMetrics implements ISimilarityMetrics {
 	@Override
 	public double[][] getDifferenceMatrix() {
 		return differenceMatrix;
+	}
+
+	@Override
+	public String[][] getReferenceMatrix() {
+		return referenceMatrix;
+	}
+
+	@Override
+	public double[][] getSimilarityMatrix() {
+		return similarityMatrix;
 	}
 
 	@Override

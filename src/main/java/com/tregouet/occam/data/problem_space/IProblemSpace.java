@@ -15,6 +15,8 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
 
 public interface IProblemSpace {
 
+	void develop();
+
 	/**
 	 *
 	 * @param representationID
@@ -29,28 +31,28 @@ public interface IProblemSpace {
 	 */
 	Boolean display(int representationID);
 
-	Boolean restrictTo(Set<Integer> representationIDs);
-
 	IRepresentation getActiveRepresentation();
 
+	double[][] getAsymmetricalSimilarityMatrix();
+
 	List<IContextObject> getContext();
+
+	double[][] getDifferenceMatrix();
 
 	DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts();
 
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
 
+	String[][] getReferenceMatrix();
+
+	double[][] getSimilarityMatrix();
+
+	double[] getTypicalityVector();
+
+	Boolean restrictTo(Set<Integer> representationIDs);
+
 	public static ProblemSpaceExplorer problemSpaceExplorer() {
 		return BuildersAbstractFactory.INSTANCE.getProblemSpaceExplorer();
 	}
-	
-	double[][] getSimilarityMatrix();
-	
-	String[][] getReferenceMatrix();
-
-	double[][] getAsymmetricalSimilarityMatrix();
-
-	double[][] getDifferenceMatrix();
-
-	double[] getTypicalityVector();
 
 }

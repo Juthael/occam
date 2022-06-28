@@ -24,24 +24,6 @@ public class RepresentationPrinter {
 		return printNonNullRepresentation(context, representation, a);
 	}
 
-	private static String printAsymetricalSimilarityMatrix(List<IContextObject> context, IRepresentation representation,
-			int a) {
-		String[] head = new String[context.size()];
-		int idx = 0;
-		for (IContextObject obj : context)
-			head[idx++] = Integer.toString(obj.iD());
-		double[][] matrix = representation.getDescription().getSimilarityMetrics().getAsymmetricalSimilarityMatrix();
-		StringBuilder sB = new StringBuilder();
-		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h5> ASYMMETRICAL SIMILARITY MATRIX </h5>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
-				.append(TablePrinter.INSTANCE.print2DSquareTable(head, matrix, "Asymmetrical similarity matrix",
-						a + 1) + nL)
-			.append(alinea[a] + "</section>" + nL);
-		return sB.toString();
-	}
-
 	private static String printAutomatonGraph(IRepresentation representation, int a) {
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz()
 				.apply(representation.getTransitionFunction(), "trans_func");
@@ -125,8 +107,8 @@ public class RepresentationPrinter {
 					.append(alinea[a + 2] + "<h3> SIMILARITY </h3>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
 				.append(printSimilarityMatrix(context, representation, a + 1) + nL)
-				.append(printAsymetricalSimilarityMatrix(context, representation, a + 1) + nL)
-				.append(printTypicalityVector(context, representation, a + 1))
+				// .append(printAsymetricalSimilarityMatrix(context, representation, a + 1) + nL)
+				// .append(printTypicalityVector(context, representation, a + 1))
 			.append(alinea[a] + "</section>");
 		return sB.toString();
 	}
@@ -144,23 +126,6 @@ public class RepresentationPrinter {
 					.append(alinea[a + 2] + "<h5> SIMILARITY MATRIX </h5>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
 				.append(TablePrinter.INSTANCE.print2DSquareTable(head, matrix, "Similarity matrix", a + 1) + nL)
-			.append(alinea[a] + "</section>" + nL);
-		return sB.toString();
-	}
-
-	private static String printTypicalityVector(List<IContextObject> context, IRepresentation representation,
-			int a) {
-		String[] head = new String[context.size()];
-		int idx = 0;
-		for (IContextObject obj : context)
-			head[idx++] = Integer.toString(obj.iD());
-		double[] vector = representation.getDescription().getSimilarityMetrics().getTypicalityVector();
-		StringBuilder sB = new StringBuilder();
-		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h5> TYPICALITY VECTOR </h5>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
-				.append(TablePrinter.INSTANCE.print1DTable(head, vector, "Typicality vector", a + 1) + nL)
 			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();
 	}

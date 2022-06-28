@@ -18,9 +18,6 @@ public class ConceptLatticePrinter {
 				fileName);
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> Concept Lattice </h3>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
 				.append(alinea[a + 1] + "<p>" + nL)
 					.append(FigurePrinter.INSTANCE.displayFigure(filePath, a + 2, "Concept lattice") + nL)
 				.append(alinea[a + 1] + "</p>" + nL)

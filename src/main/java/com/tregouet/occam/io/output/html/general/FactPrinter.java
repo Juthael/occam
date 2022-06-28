@@ -39,7 +39,7 @@ public class FactPrinter {
 				.append(alinea[a + 1] + "<header>" + nL)
 					.append(alinea[a + 2] + "<h3> ACCEPTED FACTS </h3>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
-				.append(TablePrinter.INSTANCE.printStringTableWithOptionalSubHead(head, null, facts, "Accepted facts",
+				.append(TablePrinter.INSTANCE.printStringVerticalTable(head, facts, "Accepted facts",
 							a + 1) + nL)
 			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();

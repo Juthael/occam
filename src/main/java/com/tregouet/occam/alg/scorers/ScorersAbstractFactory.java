@@ -31,16 +31,16 @@ public class ScorersAbstractFactory {
 		return RelativeSimilarityScorerFactory.INSTANCE.getBasicSimilarityScorer(relativeSimilarityScorerStrategy);
 	}
 
+	public DifferenceScorer getDifferenceScorer() {
+		return DifferenceScorerFactory.INSTANCE.apply(differenceScorerStrategy);
+	}
+
 	public RelativePairSimilarityScorer getPairSimilarityScorer() {
 		return RelativeSimilarityScorerFactory.INSTANCE.getPairSimilarityScorer(relativeSimilarityScorerStrategy);
 	}
 
 	public ProblemStateScorer getProblemStateScorer() {
 		return ProblemStateScorerFactory.INSTANCE.apply(problemStateScorerStrategy);
-	}
-	
-	public DifferenceScorer getDifferenceScorer() {
-		return DifferenceScorerFactory.INSTANCE.apply(differenceScorerStrategy);
 	}
 
 	public void setUpStrategy(ScoringStrategy overallStrategy) {

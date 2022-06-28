@@ -3,9 +3,9 @@ package com.tregouet.occam.alg.builders.pb_space.metrics.matrices.typicality.imp
 import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.typicality.TypicalityVectorBuilder;
 
 public class AsymmetricalSimMatrixRowAverage implements TypicalityVectorBuilder {
-	
+
 	public static final AsymmetricalSimMatrixRowAverage INSTANCE = new AsymmetricalSimMatrixRowAverage();
-	
+
 	private AsymmetricalSimMatrixRowAverage() {
 	}
 
@@ -16,8 +16,8 @@ public class AsymmetricalSimMatrixRowAverage implements TypicalityVectorBuilder 
 		for (int i = 0 ; i < nbOfParticulars ; i++) {
 			double sum = 0.0;
 			for (int j = 0 ; j < nbOfParticulars ; j++)
-				sum += asymmetricalSimilarityMatrix[i][j];
-			typicalityVector[i] = sum / ((double) nbOfParticulars);
+				sum += asymmetricalSimilarityMatrix[j][i];
+			typicalityVector[i] = sum / (nbOfParticulars);
 		}
 		return typicalityVector;
 	}

@@ -103,6 +103,11 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
+	public double[][] getSimilarityMatrix() {
+		return description.getSimilarityMetrics().getSimilarityMatrix();
+	}
+
+	@Override
 	public Set<IConcept> getStates() {
 		return classification.asGraph().vertexSet();
 	}
@@ -181,11 +186,6 @@ public class Representation implements IRepresentation {
 
 	public static void initializeIDGenerator() {
 		nextID = IRepresentation.FIRST_ID;
-	}
-
-	@Override
-	public double[][] getSimilarityMatrix() {
-		return description.getSimilarityMetrics().getSimilarityMatrix();
 	}
 
 }

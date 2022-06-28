@@ -34,9 +34,9 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
  */
 public interface ProblemSpaceExplorer {
 
-	Boolean develop(int representationID);
+	void develop();
 
-	Boolean restrictTo(Set<Integer> representationIDs);
+	Boolean develop(int representationID);
 
 	Set<Integer> getIDsOfRepresentationsWithIncompleteSorting();
 
@@ -44,9 +44,11 @@ public interface ProblemSpaceExplorer {
 
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
 
-	ProblemSpaceExplorer initialize(Collection<IContextObject> context);
-	
 	ISimilarityMetrics getSimilarityMetrics();
+
+	ProblemSpaceExplorer initialize(Collection<IContextObject> context);
+
+	Boolean restrictTo(Set<Integer> representationIDs);
 
 	public static ClassificationBuilder classificationBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getClassificationBuilder();
@@ -68,10 +70,6 @@ public interface ProblemSpaceExplorer {
 		return SettersAbstractFactory.INSTANCE.getCategorizationTransitionWeigher();
 	}
 
-	public static RepresentationBuilder representationBuilder() {
-		return BuildersAbstractFactory.INSTANCE.getRepresentationBuilder();
-	}
-
 	public static Sorting2StringConverter getSorting2StringConverter() {
 		return FormattersAbstractFactory.INSTANCE.getSorting2StringConverter();
 	}
@@ -83,7 +81,11 @@ public interface ProblemSpaceExplorer {
 	public static ProblemSpaceGraphRestrictor problemSpaceGraphRestrictor() {
 		return BuildersAbstractFactory.INSTANCE.getProblemSpaceGraphRestrictor();
 	}
-	
+
+	public static RepresentationBuilder representationBuilder() {
+		return BuildersAbstractFactory.INSTANCE.getRepresentationBuilder();
+	}
+
 	public static SimilarityMetricsBuilder similarityMetricsBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getSimilarityMetricsBuilder();
 	}

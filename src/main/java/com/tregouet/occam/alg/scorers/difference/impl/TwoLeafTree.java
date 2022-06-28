@@ -25,9 +25,9 @@ import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public class TwoLeafTree implements DifferenceScorer {
-	
+
 	public static final TwoLeafTree INSTANCE = new TwoLeafTree();
-	
+
 	private TwoLeafTree() {
 	}
 
@@ -44,7 +44,7 @@ public class TwoLeafTree implements DifferenceScorer {
 		ADifferentiae concept1Diff = descriptionAsGraph.incomingEdgeOf(particularID1);
 		return concept1Diff.weight();
 	}
-	
+
 	private InvertedTree<IConcept, IIsA> setUpClassificationTree(int particularID1, int particularID2, IConceptLattice lattice) {
 		Set<Integer> extentIDs = new HashSet<>();
 		extentIDs.add(particularID1);
@@ -60,10 +60,10 @@ public class TwoLeafTree implements DifferenceScorer {
 		}
 		IConcept ontologicalCommitment = copyConceptWithRestrictedExtent(lattice.getOntologicalCommitment(), extentIDs);
 		IConcept genus = copyConceptWithRestrictedExtent(
-				Functions.supremum(lattice.getOntologicalUpperSemilattice(), particular1, particular2), 
+				Functions.supremum(lattice.getOntologicalUpperSemilattice(), particular1, particular2),
 				extentIDs) ;
 		//build dag
-		DirectedAcyclicGraph<IConcept, IIsA> dag = new DirectedAcyclicGraph<IConcept, IIsA>(null, IsA::new, false);
+		DirectedAcyclicGraph<IConcept, IIsA> dag = new DirectedAcyclicGraph<>(null, IsA::new, false);
 		dag.addVertex(particular1);
 		dag.addVertex(particular2);
 		dag.addVertex(genus);
@@ -77,12 +77,12 @@ public class TwoLeafTree implements DifferenceScorer {
 		topoOrder.add(particular2);
 		topoOrder.add(genus);
 		topoOrder.add(ontologicalCommitment);
-		return new InvertedTree<IConcept, IIsA>(
-				dag, ontologicalCommitment,	
-				new HashSet<>(Arrays.asList(new IConcept[] {particular1, particular2})), 
+		return new InvertedTree<>(
+				dag, ontologicalCommitment,
+				new HashSet<>(Arrays.asList(new IConcept[] {particular1, particular2})),
 				topoOrder);
 	}
-	
+
 	private static IConcept copyConceptWithRestrictedExtent(IConcept concept, Set<Integer> restrictedExtentIDs) {
 		IConcept restrictedCopy;
 		Set<IConstruct> constructs = new HashSet<>();

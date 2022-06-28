@@ -8,9 +8,9 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
 
 public class TwoLeavesTreeForEachPair implements DifferenceMatrixBuilder {
-	
+
 	public static final TwoLeavesTreeForEachPair INSTANCE = new TwoLeavesTreeForEachPair();
-	
+
 	private TwoLeavesTreeForEachPair() {
 	}
 
@@ -24,7 +24,7 @@ public class TwoLeavesTreeForEachPair implements DifferenceMatrixBuilder {
 		double[][] differenceMatrix = new double[nbOfParticulars][nbOfParticulars];
 		for (int i = 0 ; i < nbOfParticulars - 1 ; i++) {
 			for (int j = i + 1 ; j < nbOfParticulars ; j++) {
-				differenceMatrix[i][j] = 
+				differenceMatrix[i][j] =
 						DifferenceMatrixBuilder.differenceScorer().score(particularIDs.get(i), particularIDs.get(j), lattice);
 				differenceMatrix[j][i] = differenceMatrix[i][j];
 			}

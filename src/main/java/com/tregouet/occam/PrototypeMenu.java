@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
@@ -58,6 +59,45 @@ public class PrototypeMenu {
 			problemSpaceMenu(problemSpace);
 		}
 	}
+	
+	private void developRepresentationWithSpecifiedIDs(IProblemSpace problemSpace) {
+		System.out.println(NL);
+		System.out.println("Please enter representation IDs separated by commas : " + NL);
+		List<Integer> iDs = new ArrayList<>();
+		String iDString = null;
+		try {
+			iDString = entry.nextLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			problemSpaceMenu(problemSpace);
+		}
+		iDString = iDString.replaceAll(" ", "");
+		String[] idStringArray = iDString.split(",");
+		for (String iDStr : idStringArray) {
+			Integer nextID = null;
+			try {
+				nextID = Integer.parseInt(iDStr);
+			}
+			catch (NumberFormatException e) {
+				//do nothing
+			}
+			if (nextID != null)
+				iDs.add(nextID);
+		}
+		if (iDs.isEmpty()) {
+			System.out.println("No representation has been found. " + NL);
+			problemSpaceMenu(problemSpace);
+		}
+		Boolean result = problemSpace.develop(iDs);
+		if (result == null) {
+			System.out.println("No representation has been found. " + NL);
+			problemSpaceMenu(problemSpace);
+		} else {
+			if (!result)
+				System.out.println("The specified representations are fully developed already. " + NL);
+			problemSpaceMenu(problemSpace);
+		}
+	}	
 
 	private void displayRepresentation(IProblemSpace problemSpace) {
 		System.out.println(NL);
@@ -79,7 +119,7 @@ public class PrototypeMenu {
 				System.out.println("This representation is already displayed. " + NL);
 			problemSpaceMenu(problemSpace);
 		}
-	}
+	}	
 
 	private void enterNewInput() throws IOException {
 		System.out.println(NL);
@@ -167,10 +207,11 @@ public class PrototypeMenu {
 		System.out.println("**********PROBLEM SPACE MENU**********");
 		System.out.println(NL);
 		System.out.println("1 : enter the ID of a representation to display." + NL);
-		System.out.println("2 : enter the ID of a representation to develop." + NL);
-		System.out.println("3 : fully expand the problem space (may result in program freeze if space is too large)." + NL);
-		System.out.println("4 : restrict the problem space to some subset of states." + NL);
-		System.out.println("5 : back to main menu" + NL);
+		System.out.println("2 : enter the ID of a unique representation to develop." + NL);
+		System.out.println("3 : enter the IDs of representations to develop" + NL);
+		System.out.println("4 : fully expand the problem space (may result in program freeze if space is too large)." + NL);
+		System.out.println("5 : restrict the problem space to some subset of states." + NL);
+		System.out.println("6 : back to main menu" + NL);
 		int choice = 0;
 		try {
 			choice = entry.nextInt();
@@ -186,13 +227,16 @@ public class PrototypeMenu {
 		case 2:
 			developRepresentationWithSpecifiedID(problemSpace);
 			break;
-		case 3 :
-			developRepresentation(problemSpace);
+		case 3:
+			developRepresentationWithSpecifiedIDs(problemSpace);
 			break;
 		case 4 :
+			developRepresentation(problemSpace);
+			break;
+		case 5 :
 			restrictProblemSpace(problemSpace);
 			break;
-		case 5:
+		case 6:
 			mainMenu();
 			break;
 		default:
@@ -204,7 +248,7 @@ public class PrototypeMenu {
 
 	private void restrictProblemSpace(IProblemSpace problemSpace) {
 		System.out.println(NL);
-		System.out.println("Please enter IDs of representations to retain, separated by dots.");
+		System.out.println("Please enter IDs of representations to retain, separated by commas.");
 		String entryString = null;
 		try {
 			entryString = entry.next();
@@ -214,7 +258,8 @@ public class PrototypeMenu {
 			problemSpaceMenu(problemSpace);
 		}
 		Set<Integer> iDs = new HashSet<>();
-		List<String> iDStrings = Splitter.on('.').splitToList(entryString);
+		entryString = entryString.replaceAll(" ", "");
+		List<String> iDStrings = Splitter.on(',').splitToList(entryString);
 		for (String iDString : iDStrings) {
 			Integer iD = null;
 			try {

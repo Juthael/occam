@@ -3,6 +3,7 @@ package com.tregouet.occam.alg.builders.pb_space.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -109,6 +110,7 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 			return false;
 		problemGraph = ProblemSpaceExplorer.problemSpaceGraphRestrictor().apply(problemGraph, restriction);
 		weighThenScoreThenComply(problemGraph);
+		previouslyDeveloped.clear();
 		return true;
 	}
 
@@ -130,6 +132,15 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 		expandTrivialLeaves(newRepresentations);
 		return true;
 	}
+	
+	private Boolean develop(List<IRepresentation> representations) {
+		int initialNbOfStates = problemGraph.vertexSet().size();
+		for (IRepresentation representation : representations) {
+			develop(representation);
+		}
+		int finalNbOfStates = problemGraph.vertexSet().size();
+		return initialNbOfStates < finalNbOfStates;
+	}	
 
 	private void expandTrivialLeaves(Set<IRepresentation> newRepresentations) {
 		for (IRepresentation representation : newRepresentations) {
@@ -173,6 +184,17 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 		for (IRepresentation problemState : problemGraph)
 			problemState.setScore(scorer.score(problemState));
 		removeUninformative(problemGraph);
+	}
+
+	@Override
+	public Boolean develop(Set<Integer> representationIDs) {
+		List<IRepresentation> representations = new ArrayList<>();
+		for (Integer repID : representationIDs) {
+			IRepresentation current = getRepresentationWithID(repID);
+			if (current != null)
+				representations.add(current);	
+		}
+		return develop(representations);
 	}
 
 }

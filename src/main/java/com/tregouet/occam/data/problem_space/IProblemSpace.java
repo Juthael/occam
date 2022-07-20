@@ -23,6 +23,13 @@ public interface IProblemSpace {
 	 * @return null if no representation has this iD, false if not expandable, true otherwise
 	 */
 	Boolean develop(int representationID);
+	
+	/**
+	 *
+	 * @param representationID
+	 * @return null if no representation has been found, false if problem space is left unchanged, true otherwise
+	 */
+	Boolean develop(List<Integer> representationIDs);
 
 	/**
 	 *

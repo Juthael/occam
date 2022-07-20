@@ -7,7 +7,7 @@ import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemT
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
 
-public class PartitionProbWithTrivialSortingsMandatory extends PartitionProbability
+public class PartitionProbWithTrivialTransitionsMandatory extends PartitionProbability
 		implements ProblemTransitionWeigher {
 
 	@Override

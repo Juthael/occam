@@ -29,7 +29,7 @@ public class SettersAbstractFactory {
 	private SettersAbstractFactory() {
 	}
 
-	public ProblemTransitionWeigher getCategorizationTransitionWeigher() {
+	public ProblemTransitionWeigher getProblemTransitionWeigher() {
 		return ProblemTransitionWeigherFactory.INSTANCE.apply(problemTransitionWeigherStrategy);
 	}
 

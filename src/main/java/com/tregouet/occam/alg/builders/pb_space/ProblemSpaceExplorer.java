@@ -37,6 +37,8 @@ public interface ProblemSpaceExplorer {
 	void develop();
 
 	Boolean develop(int representationID);
+	
+	Boolean develop(Set<Integer> representationIDs);
 
 	Set<Integer> getIDsOfRepresentationsWithIncompleteSorting();
 
@@ -67,7 +69,7 @@ public interface ProblemSpaceExplorer {
 	}
 
 	public static ProblemTransitionWeigher getProblemTransitionWeigher() {
-		return SettersAbstractFactory.INSTANCE.getCategorizationTransitionWeigher();
+		return SettersAbstractFactory.INSTANCE.getProblemTransitionWeigher();
 	}
 
 	public static Sorting2StringConverter getSorting2StringConverter() {

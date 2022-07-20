@@ -1,6 +1,7 @@
 package com.tregouet.occam.data.problem_space.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -113,6 +114,14 @@ public class ProblemSpace implements IProblemSpace {
 		if (restricted != null && restricted)
 			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
 		return restricted;
+	}
+
+	@Override
+	public Boolean develop(List<Integer> representationIDs) {
+		Boolean developed = problemSpaceExplorer.develop(new HashSet<>(representationIDs));
+		if (developed != null && developed)
+			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+		return developed;
 	}
 
 }

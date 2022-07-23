@@ -32,9 +32,15 @@ public class ProblemSpace implements IProblemSpace {
 	}
 
 	@Override
-	public void develop() {
-		problemSpaceExplorer.develop();
+	public Boolean develop() {
+		try {
+			problemSpaceExplorer.develop();
+		}
+		catch (Exception e) {
+			return null;
+		}
 		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+		return true;
 	}
 
 	@Override

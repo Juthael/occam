@@ -15,7 +15,7 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
 
 public interface IProblemSpace {
 
-	void develop();
+	Boolean develop();
 
 	/**
 	 *

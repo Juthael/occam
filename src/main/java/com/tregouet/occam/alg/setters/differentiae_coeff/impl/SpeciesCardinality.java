@@ -20,8 +20,12 @@ public class SpeciesCardinality implements DifferentiaeCoeffSetter {
 
 	@Override
 	public void accept(ADifferentiae diff) {
-		double coeff = getSpeciesCardinality(diff.getTarget());
-		diff.setWeightCoeff(coeff);
+		if (diff.getGenusID() == IConcept.ONTOLOGICAL_COMMITMENT_ID)
+			diff.setWeightCoeff(1.0);
+		else {
+			double coeff = getSpeciesCardinality(diff.getTarget());
+			diff.setWeightCoeff(coeff);
+		}
 	}
 
 	@Override

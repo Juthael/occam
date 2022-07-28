@@ -22,5 +22,17 @@ public abstract class RelativeAbstractSimilarityScorer implements RelativeSimila
 		}
 		return definitionCost;
 	}
+	
+	protected Double getCoeffFreeDefinitionCostOf(Integer conceptID) {
+		double definitionCost = 0.0;
+		int currentConceptID = conceptID;
+		int ontologicalCommitmentID = classificationTree.getRoot();
+		while (currentConceptID != ontologicalCommitmentID) {
+			ADifferentiae currentConceptDefinition = classificationTree.incomingEdgeOf(currentConceptID);
+			definitionCost += currentConceptDefinition.getCoeffFreeWeight();
+			currentConceptID = classificationTree.getEdgeSource(currentConceptDefinition);
+		}
+		return definitionCost;
+	}	
 
 }

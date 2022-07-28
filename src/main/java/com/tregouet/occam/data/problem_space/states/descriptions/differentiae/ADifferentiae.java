@@ -30,6 +30,8 @@ public abstract class ADifferentiae extends DefaultEdge implements Weighed {
 	abstract public Integer getTarget();
 
 	abstract public Double getWeightCoeff();
+	
+	abstract public Double getCoeffFreeWeight();
 
 	/**
 	 * must not make use of rank, coeff, weigh (non-final class parameters)

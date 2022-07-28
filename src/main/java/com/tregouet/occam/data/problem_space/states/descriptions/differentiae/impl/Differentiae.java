@@ -92,5 +92,4 @@ public class Differentiae extends ADifferentiae {
 	public Double weight() {
 		return coeff * weight;
 	}
-
 }

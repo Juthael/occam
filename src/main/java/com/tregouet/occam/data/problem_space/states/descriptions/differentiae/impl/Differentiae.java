@@ -92,4 +92,10 @@ public class Differentiae extends ADifferentiae {
 	public Double weight() {
 		return coeff * weight;
 	}
+
+	@Override
+	public Double getCoeffFreeWeight() {
+		return weight;
+	}
+
 }

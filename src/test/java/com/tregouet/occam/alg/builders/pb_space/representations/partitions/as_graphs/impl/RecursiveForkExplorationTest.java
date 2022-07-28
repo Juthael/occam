@@ -37,7 +37,6 @@ public class RecursiveForkExplorationTest {
 
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private List<IContextObject> context;
-	private Set<Integer> extentIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
 	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
@@ -52,8 +51,6 @@ public class RecursiveForkExplorationTest {
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
-		for (IContextObject obj : context)
-			extentIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		growTrees();
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
@@ -61,7 +58,8 @@ public class RecursiveForkExplorationTest {
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			boolean fullyDeveloped = isFullyDeveloped(tree);
 			IClassification classification =
-					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs, fullyDeveloped);
+					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, 
+							conceptLattice.getParticularID2Particular(), fullyDeveloped);
 			Set<IContextualizedProduction> classProds = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
 			classProd2Classification.put(classProds, classification);
 		}

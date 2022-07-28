@@ -86,7 +86,8 @@ public interface ClassificationNormalizer {
 		InvertedTree<IConcept, IIsA> normalizedTree =
 				new InvertedTree<>(normalizedDAG, normalizedRoot, normalizedleaves, normalizedTopoOrder);
 		return new NormalizedClassification(normalizedTree, classification.mapConceptID2ExtentIDs(),
-				classification.mapSpeciesID2GenusID(), classification.getParticularIDs(), classification.isFullyDeveloped());
+				classification.mapSpeciesID2GenusID(), classification.getParticularID2Particular(), 
+				classification.isFullyDeveloped());
 	}
 
 	private static void doUpdateMap(AVariable replaced, AVariable substitute, Map<AVariable, AVariable> replaced2Substitute) {

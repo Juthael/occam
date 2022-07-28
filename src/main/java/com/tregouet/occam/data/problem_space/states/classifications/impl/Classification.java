@@ -18,18 +18,18 @@ public class Classification implements IClassification {
 	private final Map<Integer, IConcept> iD2Concept = new HashMap<>();
 	private final Map<Integer, List<Integer>> conceptID2ExtentIDs;
 	private final Map<Integer, Integer> speciesID2GenusID;
-	private final Set<Integer> particularIDs;
+	private final Map<Integer, IConcept> particularID2Particular;
 	protected NormalizedClassification normalizedClassification;
 	private boolean fullyDeveloped;
 
 	public Classification(InvertedTree<IConcept, IIsA> graph, Map<Integer, List<Integer>> conceptID2ExtentIDs,
-			Map<Integer, Integer> speciesID2GenusID, Set<Integer> particularIDs, boolean fullyDeveloped) {
+			Map<Integer, Integer> speciesID2GenusID, Map<Integer, IConcept> particularID2Particular, boolean fullyDeveloped) {
 		this.graph = graph;
 		for (IConcept concept : graph.vertexSet())
 			iD2Concept.put(concept.iD(), concept);
 		this.conceptID2ExtentIDs = conceptID2ExtentIDs;
 		this.speciesID2GenusID = speciesID2GenusID;
-		this.particularIDs = particularIDs;
+		this.particularID2Particular = particularID2Particular;
 		this.normalizedClassification = null;
 		this.fullyDeveloped = fullyDeveloped;
 	}
@@ -81,7 +81,7 @@ public class Classification implements IClassification {
 
 	@Override
 	public Set<Integer> getParticularIDs() {
-		return particularIDs;
+		return particularID2Particular.keySet();
 	}
 
 	@Override
@@ -109,6 +109,11 @@ public class Classification implements IClassification {
 		if (normalizedClassification == null)
 			normalizedClassification = ClassificationNormalizer.normalize(this);
 		return normalizedClassification;
+	}
+
+	@Override
+	public Map<Integer, IConcept> getParticularID2Particular() {
+		return particularID2Particular;
 	}
 
 }

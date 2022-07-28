@@ -1,6 +1,7 @@
 package com.tregouet.occam.data.problem_space.states.classifications.concepts;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -42,6 +43,8 @@ public interface IConceptLattice {
 
 	// it is guaranteed that the order is the same as getContextObjects();
 	List<IConcept> getParticulars();
+	
+	Map<Integer, IConcept> getParticularID2Particular();
 
 	List<IConcept> getTopologicalSorting();
 

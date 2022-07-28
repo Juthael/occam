@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.impl;
+package com.tregouet.occam.data.logical_structures.languages.words.construct.impl;
 
 import java.util.Iterator;
 import java.util.List;
@@ -8,33 +8,32 @@ import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotationComparator;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstructComparator;
 
-public class DenotationComparator implements IDenotationComparator {
+public class ConstructComparator implements IConstructComparator {
 
-	public static final DenotationComparator INSTANCE = new DenotationComparator();
+	public static final ConstructComparator INSTANCE = new ConstructComparator();
 
-	private DenotationComparator() {
+	private ConstructComparator() {
 	}
 
 	@Override
-	public Integer compare(IDenotation d1, IDenotation d2) {
+	public Integer compare(IConstruct c1, IConstruct c2) {
 		/*
-		 * implies that alpha-conversion is either supported by equals(), or is useless
-		 * because it is guaranteed that two denotations can never vary by the name
+		 * supposes that two denotations can never vary by the name
 		 * of their variables only.
-		 */
-		if (d1.equals(d2))
+		 */		
+		if (c1.asList().equals(c2.asList()))
 			return 0;
-		if (strictLowerBoundOf(d1, d2))
+		if (strictLowerBoundOf(c1, c2))
 			return -1;
-		if (strictLowerBoundOf(d2, d1))
+		if (strictLowerBoundOf(c2, c1))
 			return 1;
 		return null;
 	}
 
-	private static boolean strictLowerBoundOf(IDenotation d1, IDenotation d2) {
+	private static boolean strictLowerBoundOf(IConstruct d1, IConstruct d2) {
 		if (subSequenceOf(d2.getListOfTerminals(), d1.getListOfTerminals())) {
 			List<ISymbol> d1ValueProvider = d1.asList();
 			List<ISymbol> d2VarProvider = d2.asList();
@@ -49,7 +48,7 @@ public class DenotationComparator implements IDenotationComparator {
 	private static boolean subSequenceOf(List<ITerminal> t1, List<ITerminal> t2) {
 		if (t1.isEmpty())
 			return true;
-		if (t2.isEmpty())
+		if (t2.isEmpty() || t2.size() <= t1.size())
 			return false;
 		Iterator<ITerminal> sourceIte = t2.iterator();
 		Iterator<ITerminal> targetIte = t1.iterator();

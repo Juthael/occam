@@ -38,7 +38,6 @@ public class BuildGraphFirstTest {
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String NL = System.lineSeparator();
 	private List<IContextObject> context;
-	private Set<Integer> extentIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
 
@@ -51,8 +50,6 @@ public class BuildGraphFirstTest {
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
-		for (IContextObject obj : context)
-			extentIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		growTrees();
 	}
@@ -67,7 +64,8 @@ public class BuildGraphFirstTest {
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			boolean fullyDeveloped = isFullyDeveloped(tree);
 			IClassification classification =
-					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs, fullyDeveloped);
+					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, 
+							conceptLattice.getParticularID2Particular(), fullyDeveloped);
 			classProdBldr = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder();
 			Set<IContextualizedProduction> classProds =
 					BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);

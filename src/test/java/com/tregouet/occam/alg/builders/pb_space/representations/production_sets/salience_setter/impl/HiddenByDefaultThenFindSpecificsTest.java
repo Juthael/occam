@@ -41,8 +41,8 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	@SuppressWarnings("unused")
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
-	private Set<Integer> particularIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;
+	private List<Integer> particularIDs;
 	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
 	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
 
@@ -55,9 +55,8 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
-		for (IContextObject obj : context)
-			particularIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
+		particularIDs = conceptLattice.getParticulars().stream().map(p -> p.iD()).toList();
 		/*
 		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
 			.apply(conceptLattice.getOntologicalUpperSemilattice(), "FirstBuildTransitionFunctionTest_lattice");
@@ -69,7 +68,8 @@ public class HiddenByDefaultThenFindSpecificsTest {
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			boolean fullyDeveloped = isFullyDeveloped(tree);
 			IClassification classification =
-					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, particularIDs, fullyDeveloped);
+					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, 
+							conceptLattice.getParticularID2Particular(), fullyDeveloped);
 			bldr = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder();
 			Set<IContextualizedProduction> classProds = bldr.apply(classification);
 			classProd2Classification.put(classProds, classification);

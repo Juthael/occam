@@ -37,7 +37,8 @@ public class TwoLeafTree implements DifferenceScorer {
 		particularIDs.add(particularID1);
 		particularIDs.add(particularID2);
 		InvertedTree<IConcept, IIsA> twoLeafTree = setUpClassificationTree(particularID1, particularID2, lattice);
-		IClassification classification = DifferenceScorer.classificationBuilder().apply(twoLeafTree, particularIDs);
+		IClassification classification = 
+				DifferenceScorer.classificationBuilder().apply(twoLeafTree, lattice.getParticularID2Particular());
 		Set<IContextualizedProduction> productions = DifferenceScorer.productionSetBuilder().apply(classification.normalized());
 		IDescription description = DifferenceScorer.descriptionBuilder().apply(classification.normalized(), productions);
 		Tree<Integer, ADifferentiae> descriptionAsGraph = description.asGraph();

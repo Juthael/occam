@@ -28,7 +28,6 @@ public class ClassificationNormalizerTest {
 
 	private static final Path TABLETOP1B = Paths.get(".", "src", "test", "java", "files", "tabletop1b.txt");
 	private List<IContextObject> context;
-	private Set<Integer> particularIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
 
@@ -41,8 +40,6 @@ public class ClassificationNormalizerTest {
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(TABLETOP1B);
-		for (IContextObject obj : context)
-			particularIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		/*
 		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
@@ -59,7 +56,8 @@ public class ClassificationNormalizerTest {
 		*/
 		for (InvertedTree<IConcept, IIsA> conceptTree : conceptTrees) {
 			IClassification classification =
-					BuildersAbstractFactory.INSTANCE.getClassificationBuilder().apply(conceptTree, particularIDs);
+					BuildersAbstractFactory.INSTANCE.getClassificationBuilder().apply(
+							conceptTree, conceptLattice.getParticularID2Particular());
 			/*
 			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(conceptTree, "raw" + Integer.toString(idx));
 			*/

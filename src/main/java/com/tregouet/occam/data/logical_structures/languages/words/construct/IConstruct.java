@@ -8,8 +8,9 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
 import com.tregouet.occam.data.logical_structures.languages.words.IWord;
+import com.tregouet.occam.data.logical_structures.partial_order.PartiallyComparable;
 
-public interface IConstruct extends IWord<ISymbol>, ILambdaExpression {
+public interface IConstruct extends IWord<ISymbol>, ILambdaExpression, PartiallyComparable<IConstruct> {
 
 	public static final String EMPTY_CONSTRUCT_SYMBOL = "ε";
 

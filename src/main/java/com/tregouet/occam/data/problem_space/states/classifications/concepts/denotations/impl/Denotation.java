@@ -17,11 +17,6 @@ public class Denotation extends Construct implements IDenotation {
 	}
 
 	@Override
-	public Integer compareTo(IDenotation other) {
-		return DenotationComparator.INSTANCE.compare(this, other);
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

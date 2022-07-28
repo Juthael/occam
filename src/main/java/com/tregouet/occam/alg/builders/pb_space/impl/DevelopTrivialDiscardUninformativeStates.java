@@ -25,7 +25,6 @@ import com.tregouet.tree_finder.data.InvertedTree;
 public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExplorer {
 
 	private IConceptLattice conceptLattice;
-	private Set<Integer> extentIDs;
 	private DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph;
 	private Set<Integer> previouslyDeveloped = new HashSet<>();
 
@@ -83,13 +82,11 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 	public DevelopTrivialDiscardUninformativeStates initialize(
 			Collection<IContextObject> context) {
 		conceptLattice = ProblemSpaceExplorer.conceptLatticeBuilder().apply(context);
-		extentIDs = new HashSet<>();
-		for (IContextObject object : conceptLattice.getContextObjects())
-			extentIDs.add(object.iD());
 		InvertedTree<IConcept, IIsA> initialTree =
 				new ArrayList<>(
 						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null)).get(0);
-		IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(initialTree, extentIDs);
+		IClassification classification = 
+				ProblemSpaceExplorer.classificationBuilder().apply(initialTree, conceptLattice.getParticularID2Particular());
 		IRepresentation initialRepresentation = ProblemSpaceExplorer.representationBuilder().apply(classification);
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
 		problemGraph.addVertex(initialRepresentation);
@@ -123,7 +120,8 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 		RepresentationBuilder repBldr = ProblemSpaceExplorer.representationBuilder();
 		Set<IRepresentation> newRepresentations = new HashSet<>();
 		for (InvertedTree<IConcept, IIsA> grownTree : grownTrees) {
-			IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(grownTree, extentIDs);
+			IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(grownTree, 
+					conceptLattice.getParticularID2Particular());
 			IRepresentation newRep = repBldr.apply(classification);
 			newRepresentations.add(newRep);
 		}

@@ -169,17 +169,9 @@ public class Construct implements IConstruct {
 
 	@Override
 	public boolean meets(IConstruct constraint) {
-		List<ISymbol> constraintSymbols = constraint.asList();
-		if (this.nbOfTerminals >= constraintSymbols.size()) {
-			int constraintIdx = 0;
-			for (int constructIdx = 0; constructIdx < symbols.size()
-					&& constraintIdx < constraintSymbols.size(); constructIdx++) {
-				if (symbols.get(constructIdx).equals(constraintSymbols.get(constraintIdx)))
-					constraintIdx++;
-			}
-			if (constraintIdx == constraintSymbols.size())
-				return true;
-		}
+		Integer comparison = this.compareTo(constraint);
+		if (comparison != null && comparison >= 0)
+			return true;
 		return false;
 	}
 
@@ -226,6 +218,11 @@ public class Construct implements IConstruct {
 				nbOfTerminals++;
 		}
 		return nbOfTerminals;
+	}
+
+	@Override
+	public Integer compareTo(IConstruct other) {
+		return ConstructComparator.INSTANCE.compare(this, other);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.tregouet.occam.alg.displayers.formatters.differentiae.properties;
 
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.impl.CurlyBrackets;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.impl.CurlyBracketsWithWeight;
 
 public class PropertyLabellerFactory {
 
@@ -13,6 +14,8 @@ public class PropertyLabellerFactory {
 		switch (strategy) {
 		case CURLY_BRACKETS :
 			return CurlyBrackets.INSTANCE;
+		case CURLY_BRACKETS_WITH_WEIGHT : 
+			return CurlyBracketsWithWeight.INSTANCE;
 		default:
 			return null;
 		}

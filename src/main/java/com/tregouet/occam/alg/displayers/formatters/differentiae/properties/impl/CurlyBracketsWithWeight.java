@@ -8,12 +8,12 @@ import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.Prop
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 
-public class CurlyBrackets implements PropertyLabeller {
-
-	public static final CurlyBrackets INSTANCE = new CurlyBrackets();
+public class CurlyBracketsWithWeight implements PropertyLabeller {
+	
+	public static final CurlyBracketsWithWeight INSTANCE = new CurlyBracketsWithWeight();
 	private static final String nL = System.lineSeparator();
 
-	private CurlyBrackets() {
+	private CurlyBracketsWithWeight() {
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class CurlyBrackets implements PropertyLabeller {
 			if (appIte.hasNext())
 				sB.append("," + nL);
 		}
-		sB.append("}");
+		sB.append("}, " + Double.toString(property.weight()));
 		return sB.toString();
 	}
 

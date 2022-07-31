@@ -43,8 +43,6 @@ public interface IConceptLattice {
 
 	// it is guaranteed that the order is the same as getContextObjects();
 	List<IConcept> getParticulars();
-	
-	Map<Integer, IConcept> getParticularID2Particular();
 
 	List<IConcept> getTopologicalSorting();
 
@@ -62,5 +60,7 @@ public interface IConceptLattice {
 	boolean isA(IConcept cat1, IConcept cat2);
 
 	boolean isADirectSubordinateOf(IConcept cat1, IConcept cat2);
+	
+	Map<Integer, IConcept> getParticularID2Particular();
 
 }

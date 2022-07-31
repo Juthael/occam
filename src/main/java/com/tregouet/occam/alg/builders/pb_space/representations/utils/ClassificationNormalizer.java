@@ -22,6 +22,11 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.imp
 import com.tregouet.occam.data.problem_space.states.classifications.impl.NormalizedClassification;
 import com.tregouet.tree_finder.data.InvertedTree;
 
+/**
+ * Ensures that two denotations from different concepts cannot differ by the names of their variables only
+ * @author Gael Tregouet
+ *
+ */
 public interface ClassificationNormalizer {
 
 	public static NormalizedClassification normalize(IClassification classification){

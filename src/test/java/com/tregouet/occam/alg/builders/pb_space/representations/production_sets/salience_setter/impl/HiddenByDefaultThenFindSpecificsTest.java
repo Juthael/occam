@@ -42,7 +42,6 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
 	private IConceptLattice conceptLattice;
-	private List<Integer> particularIDs;
 	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
 	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
 
@@ -56,7 +55,6 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-		particularIDs = conceptLattice.getParticulars().stream().map(p -> p.iD()).toList();
 		/*
 		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
 			.apply(conceptLattice.getOntologicalUpperSemilattice(), "FirstBuildTransitionFunctionTest_lattice");
@@ -86,7 +84,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 					.collect(Collectors.toSet());
 			for (IContextualizedProduction production : hiddenProds) {
 				Integer speciesID = production.getSubordinateID();
-				if (!particularIDs.contains(speciesID))
+				if (!conceptLattice.getParticularID2Particular().containsKey(speciesID))
 					asExpected = false;
 				nbOfChecks ++;
 			}
@@ -129,7 +127,7 @@ public class HiddenByDefaultThenFindSpecificsTest {
 			for (IContextualizedProduction prod : classProds) {
 				if (prod.getSalience() == Salience.COMMON_FEATURE) {
 					nbOfChecks++;
-					if (particularIDs.contains(prod.getSubordinateID()))
+					if (conceptLattice.getParticularID2Particular().containsKey(prod.getSubordinateID()))
 						asExpected = false;
 				}
 			}

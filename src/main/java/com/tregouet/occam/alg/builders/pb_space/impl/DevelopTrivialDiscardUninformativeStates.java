@@ -86,7 +86,8 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 				new ArrayList<>(
 						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null)).get(0);
 		IClassification classification = 
-				ProblemSpaceExplorer.classificationBuilder().apply(initialTree, conceptLattice.getParticularID2Particular());
+				ProblemSpaceExplorer.classificationBuilder().apply(
+						initialTree, conceptLattice.getParticularID2Particular());
 		IRepresentation initialRepresentation = ProblemSpaceExplorer.representationBuilder().apply(classification);
 		problemGraph = new DirectedAcyclicGraph<>(null, null, true);
 		problemGraph.addVertex(initialRepresentation);
@@ -116,7 +117,8 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 			return false;
 		previouslyDeveloped.add(representation.iD());
 		Set<InvertedTree<IConcept, IIsA>> grownTrees =
-				ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, representation.getClassification().asGraph());
+				ProblemSpaceExplorer.getConceptTreeGrower().apply(
+						conceptLattice, representation.getClassification().asGraph());
 		RepresentationBuilder repBldr = ProblemSpaceExplorer.representationBuilder();
 		Set<IRepresentation> newRepresentations = new HashSet<>();
 		for (InvertedTree<IConcept, IIsA> grownTree : grownTrees) {

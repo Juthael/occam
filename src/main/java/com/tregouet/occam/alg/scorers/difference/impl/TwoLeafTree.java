@@ -33,9 +33,6 @@ public class TwoLeafTree implements DifferenceScorer {
 
 	@Override
 	public double score(int particularID1, int particularID2, IConceptLattice lattice) {
-		Set<Integer> particularIDs = new HashSet<>();
-		particularIDs.add(particularID1);
-		particularIDs.add(particularID2);
 		InvertedTree<IConcept, IIsA> twoLeafTree = setUpClassificationTree(particularID1, particularID2, lattice);
 		IClassification classification = 
 				DifferenceScorer.classificationBuilder().apply(twoLeafTree, lattice.getParticularID2Particular());
@@ -46,7 +43,8 @@ public class TwoLeafTree implements DifferenceScorer {
 		return concept1Diff.weight();
 	}
 
-	private InvertedTree<IConcept, IIsA> setUpClassificationTree(int particularID1, int particularID2, IConceptLattice lattice) {
+	private InvertedTree<IConcept, IIsA> setUpClassificationTree(
+			int particularID1, int particularID2, IConceptLattice lattice) {
 		Set<Integer> extentIDs = new HashSet<>();
 		extentIDs.add(particularID1);
 		extentIDs.add(particularID2);

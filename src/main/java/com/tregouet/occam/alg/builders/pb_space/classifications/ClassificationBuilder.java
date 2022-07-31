@@ -8,6 +8,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public interface ClassificationBuilder extends BiFunction<InvertedTree<IConcept, IIsA>, Map<Integer, IConcept>, IClassification> {
+public interface ClassificationBuilder extends BiFunction<InvertedTree<IConcept, IIsA>, Map<Integer, IConcept>, 
+	IClassification> {
 
 }

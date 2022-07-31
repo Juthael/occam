@@ -3,6 +3,7 @@ package com.tregouet.occam.alg.builders.pb_space.classifications.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.classifications.ClassificationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
@@ -25,7 +26,8 @@ public class BuildParametersThenInstantiate implements ClassificationBuilder {
 		Map<Integer, List<Integer>> conceptID2ExtentID = MapConceptIDs2ExtentIDs.in(conceptTree);
 		Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(conceptTree);
 		boolean fullyDeveloped = isFullyDeveloped(conceptTree);
-		return new Classification(conceptTree, conceptID2ExtentID, speciesID2GenusID, particularID2Particular, fullyDeveloped);
+		return new Classification(conceptTree, conceptID2ExtentID, speciesID2GenusID, particularID2Particular, 
+				fullyDeveloped);
 	}
 
 	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {

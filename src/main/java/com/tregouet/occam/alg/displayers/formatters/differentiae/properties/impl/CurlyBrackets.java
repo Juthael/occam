@@ -31,7 +31,7 @@ public class CurlyBrackets implements PropertyLabeller {
 			if (appIte.hasNext())
 				sB.append("," + nL);
 		}
-		sB.append("}");
+		sB.append("}, " + Double.toString(property.weight()));
 		return sB.toString();
 	}
 

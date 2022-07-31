@@ -1,5 +1,7 @@
 package com.tregouet.occam.alg.displayers.formatters.differentiae.impl;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Iterator;
 
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
@@ -9,6 +11,7 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 public class PropertiesThenWeight implements DifferentiaeLabeller {
 
 	public static final PropertiesThenWeight INSTANCE = new PropertiesThenWeight();
+	private static final MathContext mathContext = new MathContext(3);
 
 	private PropertiesThenWeight() {
 	}
@@ -30,7 +33,7 @@ public class PropertiesThenWeight implements DifferentiaeLabeller {
 	}
 
 	private static String weightAsString(double weight) {
-		return Integer.toString((int) weight);
+		return new BigDecimal(weight).round(mathContext).toString();
 	}
 
 }

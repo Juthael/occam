@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigher;
+import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
@@ -26,24 +27,24 @@ public class Ruleness implements PropertyWeigher {
 	public void accept(IProperty p) {
 		if (!p.isBlank()) {
 			int speciesID = p.getSpeciesID();
-			Set<Integer> speciesComplementaryExtentIDs = new HashSet<>();
 			List<IConcept> speciesComplementaryExtent = conceptID2CompExtent.get(speciesID);
-			for (Integer iD : speciesComplementaryExtentIDs)
-				speciesComplementaryExtent.add(classification.getConceptWithSpecifiedID(iD));
+			List<IConstruct> computationOutputs = new ArrayList<>();
+			for (IComputation computation : p.getComputations())
+				computationOutputs.add(computation.getOutput());
 			int propertyCardinality = classification.getExtentIDs(speciesID).size();
-			int minRuleCardinality = -1;
-			for (IComputation computation : p.getComputations()) {
-				if (!computation.isIdentity()) {
-					int ruleCardinality = propertyCardinality;
-					for (IConcept complementary : speciesComplementaryExtent) {
-						if (complementary.meets(computation.getOutput()))
-							ruleCardinality++;
+			int ruleCardinality = propertyCardinality;
+			for (IConcept complementary : speciesComplementaryExtent) {
+				boolean complies = true;
+				for (IConstruct construct : computationOutputs) {
+					if (!complementary.meets(construct)) {
+						complies = false;
+						break;
 					}
-					if (minRuleCardinality == -1 || ruleCardinality < minRuleCardinality)
-						minRuleCardinality = ruleCardinality;	
 				}
+				if (complies)
+					ruleCardinality++;
 			}
-			p.setWeight((double) propertyCardinality / (double) minRuleCardinality);	
+			p.setWeight((double) propertyCardinality / (double) ruleCardinality);	
 		}
 		else p.setWeight(0.0);
 	}

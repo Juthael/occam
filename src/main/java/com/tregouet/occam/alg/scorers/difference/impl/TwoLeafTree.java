@@ -34,7 +34,7 @@ public class TwoLeafTree implements DifferenceScorer {
 	@Override
 	public double score(int particularID1, int particularID2, IConceptLattice lattice) {
 		InvertedTree<IConcept, IIsA> twoLeafTree = setUpClassificationTree(particularID1, particularID2, lattice);
-		IClassification classification = 
+		IClassification classification =
 				DifferenceScorer.classificationBuilder().apply(twoLeafTree, lattice.getParticularID2Particular());
 		Set<IContextualizedProduction> productions = DifferenceScorer.productionSetBuilder().apply(classification.normalized());
 		IDescription description = DifferenceScorer.descriptionBuilder().apply(classification.normalized(), productions);

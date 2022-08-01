@@ -59,7 +59,7 @@ public class PrototypeMenu {
 			problemSpaceMenu(problemSpace);
 		}
 	}
-	
+
 	private void developRepresentationWithSpecifiedIDs(IProblemSpace problemSpace) {
 		System.out.println(NL);
 		System.out.println("Please enter representation IDs separated by commas : " + NL);
@@ -97,7 +97,7 @@ public class PrototypeMenu {
 				System.out.println("The specified representations are fully developed already. " + NL);
 			problemSpaceMenu(problemSpace);
 		}
-	}	
+	}
 
 	private void displayRepresentation(IProblemSpace problemSpace) {
 		System.out.println(NL);
@@ -119,7 +119,7 @@ public class PrototypeMenu {
 				System.out.println("This representation is already displayed. " + NL);
 			problemSpaceMenu(problemSpace);
 		}
-	}	
+	}
 
 	private void enterNewInput() throws IOException {
 		System.out.println(NL);

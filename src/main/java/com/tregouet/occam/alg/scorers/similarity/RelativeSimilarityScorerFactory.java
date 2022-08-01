@@ -36,7 +36,7 @@ public class RelativeSimilarityScorerFactory {
 		switch (strategy) {
 		case DYNAMIC_FRAMING:
 			return new DynamicFramingForPairs();
-		case DYNAMIC_FRAMING_NO_COEFF : 
+		case DYNAMIC_FRAMING_NO_COEFF :
 			return new DynamicFramingForPairsNoCoeff();
 		default:
 			return null;

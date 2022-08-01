@@ -28,7 +28,7 @@ public interface IClassification {
 	Set<IConcept> getMostSpecificConcepts();
 
 	Set<Integer> getParticularIDs();
-	
+
 	Map<Integer, IConcept> getParticularID2Particular();
 
 	@Override

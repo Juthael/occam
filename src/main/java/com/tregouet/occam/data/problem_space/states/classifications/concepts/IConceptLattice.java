@@ -60,7 +60,7 @@ public interface IConceptLattice {
 	boolean isA(IConcept cat1, IConcept cat2);
 
 	boolean isADirectSubordinateOf(IConcept cat1, IConcept cat2);
-	
+
 	Map<Integer, IConcept> getParticularID2Particular();
 
 }

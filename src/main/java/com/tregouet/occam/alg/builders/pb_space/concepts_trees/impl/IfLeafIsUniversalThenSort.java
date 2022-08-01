@@ -40,12 +40,12 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 
 	@Override
 	public Set<InvertedTree<IConcept, IIsA>> apply(IConceptLattice conceptLattice, InvertedTree<IConcept, IIsA> currentTree) {
-		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		if (currentTree == null) {
 			Set<InvertedTree<IConcept, IIsA>> initial = new HashSet<>();
 			initial.add(initialTree(conceptLattice));
 			return initial;
 		}
+		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<IConcept> leaves = currentTree.getLeaves();
 		List<IConcept> unsorted = new ArrayList<>();
 		for (IConcept leaf : leaves) {
@@ -259,7 +259,7 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 		return dichotomies;
 	}
 
-	private static Set<IConcept> getLeaves(DirectedAcyclicGraph<IConcept, IIsA> dag){
+	protected static Set<IConcept> getLeaves(DirectedAcyclicGraph<IConcept, IIsA> dag){
 		Set<IConcept> leaves = new HashSet<>();
 		for (IConcept concept : dag) {
 			if (dag.inDegreeOf(concept) == 0)

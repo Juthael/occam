@@ -50,7 +50,7 @@ public class ScorersAbstractFactory {
 			differenceScorerStrategy = DifferenceScorerStrategy.TWO_LEAF_TREE;
 			problemStateScorerStrategy = ProblemStateScorerStrategy.SOURCE_PROB_TIMES_TRANSITION_PROB;
 			break;
-		case SCORING_STRATEGY_2 : 
+		case SCORING_STRATEGY_2 :
 			relativeSimilarityScorerStrategy = RelativeSimilarityScorerStrategy.DYNAMIC_FRAMING_NO_COEFF;
 			differenceScorerStrategy = DifferenceScorerStrategy.TWO_LEAF_TREE;
 			problemStateScorerStrategy = ProblemStateScorerStrategy.SOURCE_PROB_TIMES_TRANSITION_PROB;

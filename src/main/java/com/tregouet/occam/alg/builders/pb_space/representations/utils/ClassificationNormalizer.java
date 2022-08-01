@@ -91,7 +91,7 @@ public interface ClassificationNormalizer {
 		InvertedTree<IConcept, IIsA> normalizedTree =
 				new InvertedTree<>(normalizedDAG, normalizedRoot, normalizedleaves, normalizedTopoOrder);
 		return new NormalizedClassification(normalizedTree, classification.mapConceptID2ExtentIDs(),
-				classification.mapSpeciesID2GenusID(), classification.getParticularID2Particular(), 
+				classification.mapSpeciesID2GenusID(), classification.getParticularID2Particular(),
 				classification.isFullyDeveloped());
 	}
 

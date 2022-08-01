@@ -37,7 +37,7 @@ public interface ProblemSpaceExplorer {
 	void develop();
 
 	Boolean develop(int representationID);
-	
+
 	Boolean develop(Set<Integer> representationIDs);
 
 	Set<Integer> getIDsOfRepresentationsWithIncompleteSorting();

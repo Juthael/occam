@@ -14,32 +14,32 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 
 public class MinNbOfWeighedProperties implements DifferentiaeWeigher {
-	
+
 	public static final MinNbOfWeighedProperties INSTANCE = new MinNbOfWeighedProperties();
-	
+
 	private MinNbOfWeighedProperties() {
 	}
-	
+
 	public static class SubsetOfProperties {
-		
+
 		private final Set<IProperty> subset;
 		private final double weightSum;
-		
+
 		public SubsetOfProperties(Set<IProperty> subset, double weightSum) {
 			this.subset = subset;
 			this.weightSum = weightSum;
 		}
-		
+
 		public Set<IProperty> getSubset(){
 			return subset;
 		}
-		
+
 		public double getWeightSum() {
 			return weightSum;
 		}
-		
+
 	}
-	
+
 	@Override
 	public void accept(ADifferentiae differentiae) {
 		if (differentiae.getGenusID() == IConcept.ONTOLOGICAL_COMMITMENT_ID)
@@ -62,7 +62,7 @@ public class MinNbOfWeighedProperties implements DifferentiaeWeigher {
 			SubsetOfProperties optimalSubset = new SubsetOfProperties(nonBlankProperties, sumWeights(nonBlankProperties));
 			while (!maxNbFound && minNbOfProperties > 1) {
 				int nbOfAntecedents = minNbOfProperties - 1;
-				SubsetOfProperties newOptimalSubset = 
+				SubsetOfProperties newOptimalSubset =
 						getSurjectiveOptimalSubsetOfProperties(nonBlankProperties, denotationList, nbOfAntecedents);
 				if (newOptimalSubset != null) {
 					optimalSubset = newOptimalSubset;
@@ -72,8 +72,8 @@ public class MinNbOfWeighedProperties implements DifferentiaeWeigher {
 			}
 			differentiae.setCoeffFreeWeight(optimalSubset.weightSum);
 		}
-	}	
-	
+	}
+
 	private static boolean setOfAntecedentsIsSurjective(Set<IProperty> setOfAntecedents,
 			List<List<ISymbol>> images) {
 		boolean[] hasAnAntecedent = new boolean[images.size()];
@@ -93,7 +93,7 @@ public class MinNbOfWeighedProperties implements DifferentiaeWeigher {
 		}
 		return true;
 	}
-	
+
 	private static SubsetOfProperties getSurjectiveOptimalSubsetOfProperties(Set<IProperty> properties,
 			List<List<ISymbol>> denotations, int subsetSize) {
 		SubsetOfProperties optimalSubset = null;
@@ -106,7 +106,7 @@ public class MinNbOfWeighedProperties implements DifferentiaeWeigher {
 		}
 		return optimalSubset;
 	}
-	
+
 	private static double sumWeights(Set<IProperty> properties) {
 		double weightSum = 0.0;
 		for (IProperty prop : properties)

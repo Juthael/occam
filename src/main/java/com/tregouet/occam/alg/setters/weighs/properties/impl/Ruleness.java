@@ -19,10 +19,10 @@ public class Ruleness implements PropertyWeigher {
 
 	private IClassification classification;
 	private Map<Integer, List<IConcept>> conceptID2CompExtent;
-	
+
 	public Ruleness() {
 	}
-	
+
 	@Override
 	public void accept(IProperty p) {
 		if (!p.isBlank()) {
@@ -44,7 +44,7 @@ public class Ruleness implements PropertyWeigher {
 				if (complies)
 					ruleCardinality++;
 			}
-			p.setWeight((double) propertyCardinality / (double) ruleCardinality);	
+			p.setWeight((double) propertyCardinality / (double) ruleCardinality);
 		}
 		else p.setWeight(0.0);
 	}

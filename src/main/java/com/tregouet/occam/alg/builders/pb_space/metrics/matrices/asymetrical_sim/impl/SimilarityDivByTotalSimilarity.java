@@ -3,9 +3,9 @@ package com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_si
 import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilder;
 
 public class SimilarityDivByTotalSimilarity implements AsymmetricalSimilarityMatrixBuilder {
-	
+
 	public static final SimilarityDivByTotalSimilarity INSTANCE = new SimilarityDivByTotalSimilarity();
-	
+
 	private SimilarityDivByTotalSimilarity() {
 	}
 

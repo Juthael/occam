@@ -49,7 +49,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 
 	private static final Path TABLETOP1B = Paths.get(".", "src", "test", "java", "files", "tabletop1b.txt");
 	private List<IContextObject> context;
-	private DevelopTrivialDiscardUninformativeStates pbSpaceExplorer;
+	private DiscardUninformativeStates pbSpaceExplorer;
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -60,7 +60,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(TABLETOP1B);
-		pbSpaceExplorer = new DevelopTrivialDiscardUninformativeStates();
+		pbSpaceExplorer = new DiscardUninformativeStates();
 	}
 
 	@Test

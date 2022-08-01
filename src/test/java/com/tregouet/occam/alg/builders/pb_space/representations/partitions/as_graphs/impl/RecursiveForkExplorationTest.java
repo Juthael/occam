@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -59,7 +58,7 @@ public class RecursiveForkExplorationTest {
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			boolean fullyDeveloped = isFullyDeveloped(tree);
 			IClassification classification =
-					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, 
+					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID,
 							conceptLattice.getParticularID2Particular(), fullyDeveloped);
 			Set<IContextualizedProduction> classProds = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
 			classProd2Classification.put(classProds, classification);

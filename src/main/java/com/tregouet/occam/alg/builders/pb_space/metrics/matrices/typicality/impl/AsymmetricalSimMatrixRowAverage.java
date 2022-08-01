@@ -19,7 +19,7 @@ public class AsymmetricalSimMatrixRowAverage implements TypicalityVectorBuilder 
 				if (i != j)
 					sum += asymmetricalSimilarityMatrix[j][i];
 			}
-				
+
 			typicalityVector[i] = sum / (nbOfParticulars - 1);
 		}
 		return typicalityVector;

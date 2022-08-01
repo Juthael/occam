@@ -50,7 +50,7 @@ public abstract class GenericFileReader {
 	 * @throws InvalidInputException
 	 */
 	public static List<IContextObject> getContextObjects(Path path) throws IOException {
-		
+
 		BufferedReader reader;
 		try {
 			reader = Files.newBufferedReader(path);

@@ -33,7 +33,7 @@ public class OverallAbstractFactory {
 			formattingStrategy = FormattingStrategy.LABELLING_STRATEGY_1;
 			visualizationStrategy = VisualizationStrategy.VISUALIZATION_STRATEGY_1;
 			break;
-		case OVERALL_STRATEGY_4 : 
+		case OVERALL_STRATEGY_4 :
 			buildStrategy = BuildStrategy.GENERATION_STRATEGY_2;
 			scoringStrategy = ScoringStrategy.SCORING_STRATEGY_2;
 			settingStrategy = SettingStrategy.SETTING_STRATEGY_3;

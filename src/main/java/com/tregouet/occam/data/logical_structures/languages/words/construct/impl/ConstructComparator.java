@@ -23,7 +23,7 @@ public class ConstructComparator implements IConstructComparator {
 		/*
 		 * supposes that two denotations can never vary by the name
 		 * of their variables only.
-		 */		
+		 */
 		if (c1.asList().equals(c2.asList()))
 			return 0;
 		if (strictLowerBoundOf(c1, c2))

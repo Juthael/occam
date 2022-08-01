@@ -22,13 +22,13 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIs
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExplorer {
+public class DiscardUninformativeStates implements ProblemSpaceExplorer {
 
 	private IConceptLattice conceptLattice;
 	private DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> problemGraph;
 	private Set<Integer> previouslyDeveloped = new HashSet<>();
 
-	public DevelopTrivialDiscardUninformativeStates() {
+	public DiscardUninformativeStates() {
 	}
 
 	@Override
@@ -79,13 +79,13 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 	}
 
 	@Override
-	public DevelopTrivialDiscardUninformativeStates initialize(
+	public DiscardUninformativeStates initialize(
 			Collection<IContextObject> context) {
 		conceptLattice = ProblemSpaceExplorer.conceptLatticeBuilder().apply(context);
 		InvertedTree<IConcept, IIsA> initialTree =
 				new ArrayList<>(
 						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null)).get(0);
-		IClassification classification = 
+		IClassification classification =
 				ProblemSpaceExplorer.classificationBuilder().apply(
 						initialTree, conceptLattice.getParticularID2Particular());
 		IRepresentation initialRepresentation = ProblemSpaceExplorer.representationBuilder().apply(classification);
@@ -122,17 +122,16 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 		RepresentationBuilder repBldr = ProblemSpaceExplorer.representationBuilder();
 		Set<IRepresentation> newRepresentations = new HashSet<>();
 		for (InvertedTree<IConcept, IIsA> grownTree : grownTrees) {
-			IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(grownTree, 
+			IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(grownTree,
 					conceptLattice.getParticularID2Particular());
 			IRepresentation newRep = repBldr.apply(classification);
 			newRepresentations.add(newRep);
 		}
 		ProblemSpaceExplorer.problemSpaceGraphExpander().apply(problemGraph, newRepresentations);
 		weighThenScoreThenComply(problemGraph);
-		expandTrivialLeaves(newRepresentations);
 		return true;
 	}
-	
+
 	private Boolean develop(List<IRepresentation> representations) {
 		int initialNbOfStates = problemGraph.vertexSet().size();
 		for (IRepresentation representation : representations) {
@@ -140,13 +139,6 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 		}
 		int finalNbOfStates = problemGraph.vertexSet().size();
 		return initialNbOfStates < finalNbOfStates;
-	}	
-
-	private void expandTrivialLeaves(Set<IRepresentation> newRepresentations) {
-		for (IRepresentation representation : newRepresentations) {
-			if (isATrivialLeaf(representation))
-				develop(representation.iD());
-		}
 	}
 
 	private IRepresentation getRepresentationWithID(int iD) {
@@ -155,15 +147,6 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 				return representation;
 		}
 		return null;
-	}
-
-	private static boolean isATrivialLeaf(IRepresentation representation) {
-		IClassification classification = representation.getClassification();
-		for(IConcept leaf : classification.getMostSpecificConcepts()) {
-			if (classification.getExtentIDs(leaf.iD()).size() == 2)
-				return true;
-		}
-		return false;
 	}
 
 	private static void removeUninformative(
@@ -192,7 +175,7 @@ public class DevelopTrivialDiscardUninformativeStates implements ProblemSpaceExp
 		for (Integer repID : representationIDs) {
 			IRepresentation current = getRepresentationWithID(repID);
 			if (current != null)
-				representations.add(current);	
+				representations.add(current);
 		}
 		return develop(representations);
 	}

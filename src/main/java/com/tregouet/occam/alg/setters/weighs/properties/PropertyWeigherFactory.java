@@ -17,7 +17,7 @@ public class PropertyWeigherFactory {
 			return Weightless.INSTANCE;
 		case NB_OF_COMPUTATIONS :
 			return NbOfComputations.INSTANCE;
-		case RULENESS : 
+		case RULENESS :
 			return new Ruleness();
 		default:
 			return null;

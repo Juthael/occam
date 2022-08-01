@@ -1,7 +1,6 @@
 package com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations;
 
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.logical_structures.partial_order.PartiallyComparable;
 
 public interface IDenotation extends IConstruct {
 
@@ -19,7 +18,7 @@ public interface IDenotation extends IConstruct {
 
 	@Override
 	String toString();
-	
+
 	boolean isArbitraryLabel();
 
 }

@@ -22,7 +22,7 @@ public abstract class RelativeAbstractSimilarityScorer implements RelativeSimila
 		}
 		return definitionCost;
 	}
-	
+
 	protected Double getCoeffFreeDefinitionCostOf(Integer conceptID) {
 		double definitionCost = 0.0;
 		int currentConceptID = conceptID;
@@ -33,6 +33,6 @@ public abstract class RelativeAbstractSimilarityScorer implements RelativeSimila
 			currentConceptID = classificationTree.getEdgeSource(currentConceptDefinition);
 		}
 		return definitionCost;
-	}	
+	}
 
 }

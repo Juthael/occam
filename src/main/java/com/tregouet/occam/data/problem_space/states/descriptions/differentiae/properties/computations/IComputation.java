@@ -21,7 +21,7 @@ public interface IComputation extends Weighed {
 	boolean isEpsilon();
 
 	boolean isIdentity();
-	
+
 	boolean isMereLabelling();
 
 	boolean returnsInput();

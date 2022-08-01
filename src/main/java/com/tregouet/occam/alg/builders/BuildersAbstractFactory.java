@@ -214,7 +214,7 @@ public class BuildersAbstractFactory {
 			problemSpaceGraphExpanderStrategy = ProblemSpaceGraphExpanderStrategy.ADD_NEW_STATES_THEN_BUILD_TRANSITIONS;
 			problemSpaceGraphRestrictorStrategy = ProblemSpaceGraphRestrictorStrategy.BUILD_NEW_GRAPH;
 			similarityMatrixBuilderStrategy = SimilarityMatrixBuilderStrategy.MAXIMAL_RELATIVE_SIMILARITY;
-			asymmetricalSimilarityMatrixBuilderStrategy = AsymmetricalSimilarityMatrixBuilderStrategy.SIM_DIV_BY_MAX_SIM;
+			asymmetricalSimilarityMatrixBuilderStrategy = AsymmetricalSimilarityMatrixBuilderStrategy.SIM_DIV_BY_TOTAL_SIM;
 			differenceMatrixBuilderStrategy = DifferenceMatrixBuilderStrategy.TWO_LEAVES_TREE_FOR_EACH_PAIR;
 			typicalityVectorBuilderStrategy = TypicalityVectorBuilderStrategy.ASYMM_SIM_MATRIX_ROW_AVERAGE;
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.SIM_THEN_DIFF_THEN_TYPICALITY;

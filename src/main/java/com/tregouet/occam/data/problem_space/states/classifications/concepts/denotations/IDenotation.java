@@ -19,5 +19,7 @@ public interface IDenotation extends IConstruct {
 
 	@Override
 	String toString();
+	
+	boolean isArbitraryLabel();
 
 }

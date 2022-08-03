@@ -188,4 +188,9 @@ public class Representation implements IRepresentation {
 		nextID = IRepresentation.FIRST_ID;
 	}
 
+	@Override
+	public boolean isExpandable() {
+		return classification.isExpandable();
+	}
+
 }

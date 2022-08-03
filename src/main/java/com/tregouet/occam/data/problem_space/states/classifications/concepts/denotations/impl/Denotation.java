@@ -7,6 +7,7 @@ import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class Denotation extends Construct implements IDenotation {
 
@@ -18,7 +19,7 @@ public class Denotation extends Construct implements IDenotation {
 		super(construct);
 		this.conceptID = conceptID;
 		List<ISymbol> list = construct.asList();
-		if (list.size() == 1 && list.get(0).toString().contains("*"))
+		if (list.size() == 1 && list.get(0).toString().contains(GenericFileReader.LABEL_DENOTATION_SYMBOL))
 			isArbitraryLabel = true;
 		else isArbitraryLabel = false;
 	}

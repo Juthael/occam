@@ -61,7 +61,7 @@ public class Property implements IProperty {
 	@Override
 	public boolean isBlank() {
 		for (IComputation computation : computations) {
-			if (!computation.isIdentity() && !computation.isMereLabelling())
+			if (!computation.isIdentity())
 				return false;
 		}
 		return true;

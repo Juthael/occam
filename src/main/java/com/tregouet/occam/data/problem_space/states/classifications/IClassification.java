@@ -36,6 +36,12 @@ public interface IClassification {
 
 	boolean isFullyDeveloped();
 
+	boolean isExpandable();
+
+	boolean expansionIsRestricted();
+
+	void restrictFurtherExpansion();
+
 	Map<Integer, List<Integer>> mapConceptID2ExtentIDs();
 
 	Map<Integer, Integer> mapSpeciesID2GenusID();

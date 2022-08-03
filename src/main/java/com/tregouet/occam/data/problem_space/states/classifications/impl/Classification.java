@@ -21,6 +21,7 @@ public class Classification implements IClassification {
 	private final Map<Integer, IConcept> particularID2Particular;
 	protected NormalizedClassification normalizedClassification;
 	private boolean fullyDeveloped;
+	private boolean expansionRestricted = false;
 
 	public Classification(InvertedTree<IConcept, IIsA> graph, Map<Integer, List<Integer>> conceptID2ExtentIDs,
 			Map<Integer, Integer> speciesID2GenusID, Map<Integer, IConcept> particularID2Particular,
@@ -115,6 +116,21 @@ public class Classification implements IClassification {
 	@Override
 	public Map<Integer, IConcept> getParticularID2Particular() {
 		return particularID2Particular;
+	}
+
+	@Override
+	public boolean isExpandable() {
+		return (!fullyDeveloped && !expansionRestricted);
+	}
+
+	@Override
+	public void restrictFurtherExpansion() {
+		expansionRestricted = true;
+	}
+
+	@Override
+	public boolean expansionIsRestricted() {
+		return expansionRestricted;
 	}
 
 }

@@ -28,7 +28,7 @@ public class BuildFromScratch implements ProductionSetBuilder {
 		return reducedProds;
 	}
 
-	public Set<IContextualizedProduction> buildProductions(IClassification classification) {
+	private Set<IContextualizedProduction> buildProductions(IClassification classification) {
 		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
 		Set<IContextualizedProduction> productions = new HashSet<>();
 		List<IConcept> topoOrderedConcepts = conceptTree.getTopologicalOrder();
@@ -39,9 +39,11 @@ public class BuildFromScratch implements ProductionSetBuilder {
 				IConcept jConcept = topoOrderedConcepts.get(j);
 				if (conceptTree.isStrictLowerBoundOf(iConcept, jConcept)) {
 					for (IDenotation source : iConcept.getDenotations()) {
-						for (IDenotation target : jConcept.getDenotations()) {
-							Set<IContextualizedProduction> ijDenotationsProds = builder.apply(source, target);
-							productions.addAll(ijDenotationsProds);
+						if (!source.isArbitraryLabel()){
+							for (IDenotation target : jConcept.getDenotations()) {
+								Set<IContextualizedProduction> ijDenotationsProds = builder.apply(source, target);
+								productions.addAll(ijDenotationsProds);
+							}
 						}
 					}
 				}

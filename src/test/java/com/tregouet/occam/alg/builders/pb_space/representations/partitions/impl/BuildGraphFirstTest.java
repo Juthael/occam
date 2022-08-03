@@ -51,7 +51,7 @@ public class BuildGraphFirstTest {
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-		growTrees();
+		trees = growTrees();
 	}
 
 	@Test
@@ -90,19 +90,22 @@ public class BuildGraphFirstTest {
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}
 
-	private void growTrees() {
-		trees = BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
-		boolean newTreesBuilt = true;
-		Set<InvertedTree<IConcept, IIsA>> previouslyFoundTrees = new HashSet<>();
-		previouslyFoundTrees.addAll(trees);
-		while (newTreesBuilt) {
-			Set<InvertedTree<IConcept, IIsA>> foundTrees = new HashSet<>();
-			for (InvertedTree<IConcept, IIsA> tree : previouslyFoundTrees)
-				foundTrees.addAll(BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
-			newTreesBuilt = !(foundTrees.isEmpty());
-			trees.addAll(foundTrees);
-			previouslyFoundTrees = foundTrees;
+	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
+		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
+		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
+		expandedTreesFromLastIteration =
+				new HashSet<>(BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null).keySet());
+		do {
+			expandedTrees.addAll(expandedTreesFromLastIteration);
+			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
+			expandedTreesFromLastIteration.clear();
+			for (InvertedTree<IConcept, IIsA> tree : expandable) {
+				expandedTreesFromLastIteration.addAll(new HashSet<>(
+						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree).keySet()));
+			}
 		}
+		while (!expandedTreesFromLastIteration.isEmpty());
+		return expandedTrees;
 	}
 
 	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {

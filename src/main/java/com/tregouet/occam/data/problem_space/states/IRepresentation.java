@@ -54,6 +54,8 @@ public interface IRepresentation extends
 
 	boolean isFullyDeveloped();
 
+	boolean isExpandable();
+
 	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
 
 	Map<Integer, List<String>> mapParticularIDsToFactualDescription(FactDisplayer factDisplayer);

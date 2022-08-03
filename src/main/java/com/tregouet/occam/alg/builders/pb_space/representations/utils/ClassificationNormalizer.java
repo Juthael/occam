@@ -92,7 +92,7 @@ public interface ClassificationNormalizer {
 				new InvertedTree<>(normalizedDAG, normalizedRoot, normalizedleaves, normalizedTopoOrder);
 		return new NormalizedClassification(normalizedTree, classification.mapConceptID2ExtentIDs(),
 				classification.mapSpeciesID2GenusID(), classification.getParticularID2Particular(),
-				classification.isFullyDeveloped());
+				classification.isFullyDeveloped(), classification.expansionIsRestricted());
 	}
 
 	private static void doUpdateMap(AVariable replaced, AVariable substitute, Map<AVariable, AVariable> replaced2Substitute) {

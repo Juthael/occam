@@ -55,14 +55,14 @@ public class IfLeafIsUniversalThenSortTest {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
 		IfLeafIsUniversalThenSort grower = new IfLeafIsUniversalThenSort();
-		expandedTreesFromLastIteration = grower.apply(conceptLattice, null);
+		expandedTreesFromLastIteration = new HashSet<>(grower.apply(conceptLattice, null).keySet());
 		do {
 			expandedTrees.addAll(expandedTreesFromLastIteration);
 			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
 				grower = new IfLeafIsUniversalThenSort();
-				for (InvertedTree<IConcept, IIsA> returned : grower.apply(conceptLattice, tree)) {
+				for (InvertedTree<IConcept, IIsA> returned : new HashSet<>(grower.apply(conceptLattice, tree).keySet())) {
 					boolean newTree = expandedTreesFromLastIteration.add(returned);
 					if (!newTree)
 						asExpected = true;
@@ -87,14 +87,14 @@ public class IfLeafIsUniversalThenSortTest {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
 		IfLeafIsUniversalThenSort grower = new IfLeafIsUniversalThenSort();
-		expandedTreesFromLastIteration = grower.apply(conceptLattice, null);
+		expandedTreesFromLastIteration = new HashSet<>(grower.apply(conceptLattice, null).keySet());
 		do {
 			expandedTrees.addAll(expandedTreesFromLastIteration);
 			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
 				grower = new IfLeafIsUniversalThenSort();
-				expandedTreesFromLastIteration.addAll(grower.apply(conceptLattice, tree));
+				expandedTreesFromLastIteration.addAll(new HashSet<>(grower.apply(conceptLattice, tree).keySet()));
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
@@ -115,7 +115,7 @@ public class IfLeafIsUniversalThenSortTest {
 		boolean asExpected = true;
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
 		IfLeafIsUniversalThenSort grower = new IfLeafIsUniversalThenSort();
-		expandedTreesFromLastIteration = grower.apply(conceptLattice, null);
+		expandedTreesFromLastIteration = new HashSet<>(grower.apply(conceptLattice, null).keySet());
 		int nbOfChecks = 0;
 		do {
 			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
@@ -127,7 +127,7 @@ public class IfLeafIsUniversalThenSortTest {
 						expectedExpansion = true;
 				}
 				grower = new IfLeafIsUniversalThenSort();
-				Set<InvertedTree<IConcept, IIsA>> iExpandedTrees = grower.apply(conceptLattice, iTree);
+				Set<InvertedTree<IConcept, IIsA>> iExpandedTrees = new HashSet<>(grower.apply(conceptLattice, iTree).keySet());
 				if (expectedExpansion == iExpandedTrees.isEmpty())
 					asExpected = false;
 				expandedTreesFromLastIteration.addAll(iExpandedTrees);

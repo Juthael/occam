@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -84,7 +86,7 @@ public class DiscardUninformativeStates implements ProblemSpaceExplorer {
 		conceptLattice = ProblemSpaceExplorer.conceptLatticeBuilder().apply(context);
 		InvertedTree<IConcept, IIsA> initialTree =
 				new ArrayList<>(
-						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null)).get(0);
+						ProblemSpaceExplorer.getConceptTreeGrower().apply(conceptLattice, null).keySet()).get(0);
 		IClassification classification =
 				ProblemSpaceExplorer.classificationBuilder().apply(
 						initialTree, conceptLattice.getParticularID2Particular());
@@ -113,17 +115,21 @@ public class DiscardUninformativeStates implements ProblemSpaceExplorer {
 	}
 
 	private Boolean develop(IRepresentation representation) {
-		if (representation.isFullyDeveloped() || previouslyDeveloped.contains(representation.iD()))
+		if (!representation.isExpandable() || previouslyDeveloped.contains(representation.iD()))
 			return false;
 		previouslyDeveloped.add(representation.iD());
-		Set<InvertedTree<IConcept, IIsA>> grownTrees =
+		Map<InvertedTree<IConcept, IIsA>, Boolean> grownTree2Restricted =
 				ProblemSpaceExplorer.getConceptTreeGrower().apply(
 						conceptLattice, representation.getClassification().asGraph());
 		RepresentationBuilder repBldr = ProblemSpaceExplorer.representationBuilder();
 		Set<IRepresentation> newRepresentations = new HashSet<>();
-		for (InvertedTree<IConcept, IIsA> grownTree : grownTrees) {
+		for (Entry<InvertedTree<IConcept, IIsA>, Boolean> tree2Restr : grownTree2Restricted.entrySet()) {
+			InvertedTree<IConcept, IIsA> grownTree = tree2Restr.getKey();
+			boolean restricted = tree2Restr.getValue();
 			IClassification classification = ProblemSpaceExplorer.classificationBuilder().apply(grownTree,
 					conceptLattice.getParticularID2Particular());
+			if (restricted) //then grown tree has size 2 leaves which have already been developed in another tree
+				classification.restrictFurtherExpansion();
 			IRepresentation newRep = repBldr.apply(classification);
 			newRepresentations.add(newRep);
 		}

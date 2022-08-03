@@ -75,9 +75,4 @@ public class Computation implements IComputation {
 		return weight;
 	}
 
-	@Override
-	public boolean isMereLabelling() {
-		return output.isArbitraryLabel();
-	}
-
 }

@@ -2,6 +2,6 @@ package com.tregouet.occam.alg.builders.pb_space.representations.production_sets
 
 public enum ProductionSalienceSetterStrategy {
 
-	HIDDEN_THEN_FIND_SPECIFICS
+	HIDDEN_THEN_FIND_SPECIFICS, EVERYTHING_IS_RULE
 
 }

@@ -1,5 +1,6 @@
 package com.tregouet.occam.alg.displayers.formatters.differentiae.properties.impl;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -7,19 +8,23 @@ import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.Prop
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 
-public class CurlyBracketsWithWeight implements PropertyLabeller {
-	
-	public static final CurlyBracketsWithWeight INSTANCE = new CurlyBracketsWithWeight();
+public class CurlyBracketsNoIdentity implements PropertyLabeller {
+
+	public static final CurlyBracketsNoIdentity INSTANCE = new CurlyBracketsNoIdentity();
 	private static final String nL = System.lineSeparator();
-	
-	private CurlyBracketsWithWeight() {
+
+	private CurlyBracketsNoIdentity() {
 	}
 
 	@Override
 	public String apply(IProperty property) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("{");
-		Set<IComputation> computations = property.getComputations();
+		Set<IComputation> computations = new HashSet<>();
+		for (IComputation computation : property.getComputations()) {
+			if (!computation.isIdentity())
+				computations.add(computation);
+		}
 		Iterator<IComputation> appIte = computations.iterator();
 		while (appIte.hasNext()) {
 			sB.append(PropertyLabeller.computationLabeller().apply(appIte.next()));

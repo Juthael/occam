@@ -18,6 +18,8 @@ public interface IClassification {
 	IConcept getConceptWithSpecifiedID(int iD);
 
 	List<Integer> getExtentIDs(int conceptID);
+	
+	List<IConcept> getExtent(int conceptID);
 
 	IConcept getGenus(IConcept concept);
 

@@ -66,6 +66,9 @@ import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.ProductionSalienceSetter;
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.ProductionSalienceSetterFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.ProductionSalienceSetterStrategy;
+import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.rule_detector.RuleDetector;
+import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.rule_detector.RuleDetectorFactory;
+import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.rule_detector.RuleDetectorStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
@@ -80,6 +83,7 @@ public class BuildersAbstractFactory {
 	private ClassificationBuilderStrategy classificationBuilderStrategy = null;
 	private ProductionBuilderStrategy productionBuilderStrategy = null;
 	private ProductionSalienceSetterStrategy productionSalienceSetterStrategy = null;
+	private RuleDetectorStrategy ruleDetectorStrategy = null;
 	private ProductionSetBuilderStrategy productionSetBuilderStrategy = null;
 	private RepresentationTransFuncBuilderStrategy representationTransFuncBuilderStrategy = null;
 	private PropertyBuilderStrategy propertyBuilderStrategy = null;
@@ -192,16 +196,21 @@ public class BuildersAbstractFactory {
 	public TypicalityVectorBuilder getTypicalityVectorBuilder() {
 		return TypicalityVectorBuilderFactory.INSTANCE.apply(typicalityVectorBuilderStrategy);
 	}
+	
+	public RuleDetector getRuleDetector() {
+		return RuleDetectorFactory.INSTANCE.apply(ruleDetectorStrategy);
+	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
 		switch (overallStrategy) {
 		case GENERATION_STRATEGY_2 :
-			denotationBuilderStrategy = DenotationBuilderStrategy.NO_REDUNDANCY;
+			denotationBuilderStrategy = DenotationBuilderStrategy.MAX_SYMBOL_SUBSEQUENCES;
 			conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
 			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.IF_LEAF_IS_UNIVERSAL_THEN_SORT;
 			classificationBuilderStrategy = ClassificationBuilderStrategy.BUILD_PARAM_THEN_INST;
 			productionBuilderStrategy = ProductionBuilderStrategy.SRCE_CNCPT_CANNOT_HAVE_TGET_DENOT;
 			productionSalienceSetterStrategy = ProductionSalienceSetterStrategy.HIDDEN_THEN_FIND_SPECIFICS;
+			ruleDetectorStrategy = RuleDetectorStrategy.INST_COMPLETE_AND_DISTINCTIVE;
 			productionSetBuilderStrategy = ProductionSetBuilderStrategy.NO_EPSILON;
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.EVERY_APP_IS_RELEVANT;
 			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_COMPUTATION;

@@ -39,10 +39,12 @@ public class BuildFromScratch implements ProductionSetBuilder {
 				IConcept jConcept = topoOrderedConcepts.get(j);
 				if (conceptTree.isStrictLowerBoundOf(iConcept, jConcept)) {
 					for (IDenotation source : iConcept.getDenotations()) {
-						if (!source.isArbitraryLabel()){
+						if (!source.isRedundant() && !source.isArbitraryLabel()){
 							for (IDenotation target : jConcept.getDenotations()) {
-								Set<IContextualizedProduction> ijDenotationsProds = builder.apply(source, target);
-								productions.addAll(ijDenotationsProds);
+								if (!target.isRedundant()) {
+									Set<IContextualizedProduction> ijDenotationsProds = builder.apply(source, target);
+									productions.addAll(ijDenotationsProds);	
+								}
 							}
 						}
 					}

@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.problem_space.states.classifications.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,14 @@ public class Classification implements IClassification {
 	@Override
 	public List<Integer> getExtentIDs(int conceptID) {
 		return conceptID2ExtentIDs.get(conceptID);
+	}
+	
+	@Override
+	public List<IConcept> getExtent(int conceptID){
+		List<IConcept> extent = new ArrayList<>();
+		for (Integer particularID : getExtentIDs(conceptID))
+			extent.add(particularID2Particular.get(particularID));
+		return extent;
 	}
 
 	@Override

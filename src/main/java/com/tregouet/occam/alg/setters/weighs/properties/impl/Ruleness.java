@@ -1,6 +1,7 @@
 package com.tregouet.occam.alg.setters.weighs.properties.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigher;
+import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
@@ -68,5 +70,14 @@ public class Ruleness implements PropertyWeigher {
 		}
 		return this;
 	}
+	
+	//HERE
+	private boolean classificationContains(Set<Integer> specifiedIDs) {
+		Set<Integer> setIDs = new HashSet<>();
+		for (IConcept concept : classification.asGraph().vertexSet())
+			setIDs.add(concept.iD());
+		return specifiedIDs.equals(setIDs);
+	}
+	//HERE
 
 }

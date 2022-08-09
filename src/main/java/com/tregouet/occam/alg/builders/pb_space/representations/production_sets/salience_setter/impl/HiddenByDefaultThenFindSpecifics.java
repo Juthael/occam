@@ -10,11 +10,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.ProductionSalienceSetter;
+import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.rule_detector.RuleDetector;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
-import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 import com.tregouet.occam.data.problem_space.states.productions.Salience;
 
 public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceSetter {
@@ -81,15 +81,17 @@ public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceSette
 
 	private void setPartitionRuleSalienceOf(Entry<AVariable, Set<IContextualizedProduction>> var2Productions, int genusIdx) {
 		List<Integer> speciesIDs = new ArrayList<>(setsOfSpeciesIDs.get(genusIdx));
-		List<Set<IProduction>> productions = new ArrayList<>(speciesIDs.size());
+		List<Set<IContextualizedProduction>> values = new ArrayList<>(speciesIDs.size());
 		for (int i = 0 ; i < speciesIDs.size() ; i++)
-			productions.add(new HashSet<>());
+			values.add(new HashSet<>());
 		for (IContextualizedProduction production : var2Productions.getValue())
-			productions.get(speciesIDs.indexOf(production.getSubordinateID())).add(production.getUncontextualizedProduction());
-		if (everySubConceptInstantiatesThisVariable(productions)
-				&& everySubConceptGivesThisVariableADistinctValue(productions)) {
-			for (IContextualizedProduction production : var2Productions.getValue())
-				production.setSalience(Salience.TRANSITION_RULE);
+			values.get(speciesIDs.indexOf(production.getSubordinateID())).add(production);
+		RuleDetector ruleDetector = ProductionSalienceSetter.ruleDetector();
+		if (ruleDetector.apply(values)) {
+			for (Set<IContextualizedProduction> value : values) {
+				for (IContextualizedProduction prod : value)
+					prod.setSalience(Salience.TRANSITION_RULE);
+			}
 		}
 	}
 
@@ -103,27 +105,6 @@ public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceSette
 		}
 		for (Entry<AVariable, Set<IContextualizedProduction>> entry : var2Productions.entrySet())
 			setPartitionRuleSalienceOf(entry, genusIdx);
-	}
-
-	private static boolean everySubConceptGivesThisVariableADistinctValue(List<Set<IProduction>> values) {
-		Set<Set<IProduction>> uniqueValues = new HashSet<>(values);
-		return uniqueValues.size() == values.size();
-	}
-
-	private static boolean everySubConceptInstantiatesThisVariable(List<Set<IProduction>> values) {
-		for (Set<IProduction> value : values) {
-			if (value.isEmpty() || isAlphaConversion(value))
-				return false;
-		}
-		return true;
-	}
-
-	private static boolean isAlphaConversion(Set<IProduction> value) {
-		for (IProduction production : value) {
-			if (!production.isAlphaConversionProd())
-				return false;
-		}
-		return true;
 	}
 
 }

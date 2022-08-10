@@ -1,7 +1,5 @@
 package com.tregouet.occam.alg.builders.pb_space.metrics;
 
-import java.util.function.BiFunction;
-
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
@@ -16,7 +14,7 @@ import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition
 
 public interface SimilarityMetricsBuilder {
 
-	ISimilarityMetrics apply(IConceptLattice lattice, DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> pbGraph, 
+	ISimilarityMetrics apply(IConceptLattice lattice, DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> pbGraph,
 			double[][] differenceMatrix);
 
 	public static AsymmetricalSimilarityMatrixBuilder asymmetricalSimilarityBuilder() {

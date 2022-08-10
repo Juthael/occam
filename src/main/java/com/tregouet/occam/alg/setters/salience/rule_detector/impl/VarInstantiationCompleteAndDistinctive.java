@@ -9,12 +9,12 @@ import com.tregouet.occam.data.problem_space.states.productions.IContextualizedP
 import com.tregouet.occam.data.problem_space.states.productions.IProduction;
 
 public class VarInstantiationCompleteAndDistinctive implements RuleDetector {
-	
+
 	public static final VarInstantiationCompleteAndDistinctive INSTANCE = new VarInstantiationCompleteAndDistinctive();
-	
+
 	private VarInstantiationCompleteAndDistinctive() {
 	}
-	
+
 	@Override
 	public Boolean apply(List<Set<IContextualizedProduction>> values) {
 		return (everyTransitionIsCompleteInstantiation(values) && everyInstantiationIsDistinctive(values));
@@ -38,14 +38,14 @@ public class VarInstantiationCompleteAndDistinctive implements RuleDetector {
 				return false;
 		}
 		return true;
-	}	
-	
+	}
+
 	private static boolean instantiationIsIncomplete(Set<IContextualizedProduction> value) {
 		for (IProduction production : value) {
 			if (production.isAlphaConversionProd())
 				return true;
 		}
 		return false;
-	}	
+	}
 
 }

@@ -52,10 +52,10 @@ public class SettersAbstractFactory {
 	public ProductionSalienceSetter getProductionSalienceSetter() {
 		return ProductionSalienceSetterFactory.INSTANCE.apply(productionSalienceSetterStrategy);
 	}
-	
+
 	public PropertyWeigher getPropertyWheigher() {
 		return PropertyWeigherFactory.INSTANCE.apply(propertyWeigherStrategy);
-	}	
+	}
 
 	public void setUpStrategy(SettingStrategy overallStrategy) {
 		switch (overallStrategy) {

@@ -9,9 +9,9 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
 
 public class Conjunction implements ComputationLabeller {
-	
+
 	public static final Conjunction INSTANCE = new Conjunction();
-	
+
 	private Conjunction() {
 	}
 

@@ -20,12 +20,12 @@ import com.tregouet.occam.data.problem_space.states.productions.IContextualizedP
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class BuildFromScratchNoEpsilon implements ProductionSetBuilder {
-	
+
 	private Map<Integer, Set<IDenotation>> conceptID2ReducedDenotSet = null;
-	
+
 	public BuildFromScratchNoEpsilon() {
 	}
-	
+
 	@Override
 	public Set<IContextualizedProduction> apply(IClassification classification) {
 		setUp(classification);
@@ -33,7 +33,7 @@ public class BuildFromScratchNoEpsilon implements ProductionSetBuilder {
 		ProductionSetBuilder.productionSalienceSetter().setUp(classification).accept(prods);
 		return prods;
 	}
-	
+
 	private Set<IContextualizedProduction> buildProductions(IClassification classification) {
 		Set<IContextualizedProduction> productions = new HashSet<>();
 		IConcept root = classification.asGraph().getRoot();
@@ -70,7 +70,7 @@ public class BuildFromScratchNoEpsilon implements ProductionSetBuilder {
 		}
 		return productions;
 	}
-	
+
 	private void removeInherited(Set<IDenotation> supDenot, Set<IDenotation> subDenot) {
 		Set<IDenotation> toBeRemoved = new HashSet<>();
 		for (IDenotation sup : supDenot) {
@@ -84,7 +84,7 @@ public class BuildFromScratchNoEpsilon implements ProductionSetBuilder {
 		}
 		subDenot.removeAll(toBeRemoved);
 	}
-	
+
 	private void setUp(IClassification classification) {
 		conceptID2ReducedDenotSet = new HashMap<>();
 		InvertedTree<IConcept, IIsA> classGraph = classification.asGraph();
@@ -100,9 +100,9 @@ public class BuildFromScratchNoEpsilon implements ProductionSetBuilder {
 				for (IConcept subordinate : classGraph.getAncestors(superordinate)) {
 					Set<IDenotation> subDenot = conceptID2ReducedDenotSet.get(subordinate.iD());
 					removeInherited(supDenot, subDenot);
-				}	
+				}
 			}
 		}
-	}	
+	}
 
 }

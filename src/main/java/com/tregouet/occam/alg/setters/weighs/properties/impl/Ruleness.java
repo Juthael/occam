@@ -14,7 +14,6 @@ import com.tregouet.occam.data.problem_space.states.classifications.IClassificat
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 
 public class Ruleness implements PropertyWeigher {
 
@@ -71,14 +70,5 @@ public class Ruleness implements PropertyWeigher {
 		}
 		return this;
 	}
-	
-	//HERE
-	private boolean classificationContains(Set<Integer> specifiedIDs) {
-		Set<Integer> setIDs = new HashSet<>();
-		for (IConcept concept : classification.asGraph().vertexSet())
-			setIDs.add(concept.iD());
-		return specifiedIDs.equals(setIDs);
-	}
-	//HERE
 
 }

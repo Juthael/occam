@@ -25,7 +25,7 @@ public class Classification implements IClassification {
 	private boolean expansionRestricted = false;
 
 	public Classification(InvertedTree<IConcept, IIsA> graph,
-			Map<Integer, List<Integer>> conceptID2ExtentIDs, Map<Integer, Integer> speciesID2GenusID, 
+			Map<Integer, List<Integer>> conceptID2ExtentIDs, Map<Integer, Integer> speciesID2GenusID,
 			Map<Integer, IConcept> particularID2Particular, boolean fullyDeveloped) {
 		this.graph = graph;
 		for (IConcept concept : graph.vertexSet())
@@ -61,7 +61,7 @@ public class Classification implements IClassification {
 	public IConcept getConceptWithSpecifiedID(int iD) {
 		return iD2Concept.get(iD);
 	}
-	
+
 	@Override
 	public List<IConcept> getExtent(int conceptID){
 		List<IConcept> extent = new ArrayList<>();

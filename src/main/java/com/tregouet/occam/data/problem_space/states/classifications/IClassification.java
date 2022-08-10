@@ -18,7 +18,7 @@ public interface IClassification {
 	boolean expansionIsRestricted();
 
 	IConcept getConceptWithSpecifiedID(int iD);
-	
+
 	List<IConcept> getExtent(int conceptID);
 
 	List<Integer> getExtentIDs(int conceptID);

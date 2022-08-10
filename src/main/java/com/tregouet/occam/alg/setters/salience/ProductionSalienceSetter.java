@@ -12,7 +12,7 @@ public interface ProductionSalienceSetter
 	extends Consumer<Set<IContextualizedProduction>> {
 
 	ProductionSalienceSetter setUp(IClassification classification);
-	
+
 	public static RuleDetector ruleDetector() {
 		return BuildersAbstractFactory.INSTANCE.getRuleDetector();
 	}

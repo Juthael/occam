@@ -52,7 +52,7 @@ public interface MapVariablesToValues {
 				varSpan++;
 			}
 			return nextMap;
-		} 
+		}
 		if (srcIdx < valueProvider.size() && valueProvider.get(srcIdx).equals(varProvider.get(targetIdx)))
 			return continueMapping(valueProvider, varProvider, varToValue, srcIdx + 1, targetIdx + 1);
 		return null;

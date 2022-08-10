@@ -19,7 +19,7 @@ public class SimThenDiffThenTypicality implements SimilarityMetricsBuilder {
 	}
 
 	@Override
-	public ISimilarityMetrics apply(IConceptLattice lattice, DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> pbGraph, 
+	public ISimilarityMetrics apply(IConceptLattice lattice, DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> pbGraph,
 			double[][] differenceMatrixParam) {
 		double[][] similarityMatrix;
 		String[][] referenceMatrix;

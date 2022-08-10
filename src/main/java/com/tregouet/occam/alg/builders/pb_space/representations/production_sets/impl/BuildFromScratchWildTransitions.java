@@ -47,7 +47,7 @@ public class BuildFromScratchWildTransitions implements ProductionSetBuilder {
 							for (IDenotation target : jConcept.getDenotations()) {
 								if (!target.isRedundant()) {
 									Set<IContextualizedProduction> ijDenotationsProds = builder.apply(source, target);
-									productions.addAll(ijDenotationsProds);	
+									productions.addAll(ijDenotationsProds);
 								}
 							}
 						}

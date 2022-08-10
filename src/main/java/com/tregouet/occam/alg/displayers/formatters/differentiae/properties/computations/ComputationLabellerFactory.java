@@ -12,7 +12,7 @@ public class ComputationLabellerFactory {
 
 	public ComputationLabeller apply(ComputationLabellerStrategy strategy) {
 		switch (strategy) {
-		case CONJUNCTION : 
+		case CONJUNCTION :
 			return Conjunction.INSTANCE;
 		case CONJUNCTION_NO_IDENTITY :
 			return ConjunctionNoIdentity.INSTANCE;

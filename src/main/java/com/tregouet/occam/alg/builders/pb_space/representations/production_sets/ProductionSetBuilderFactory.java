@@ -14,7 +14,7 @@ public class ProductionSetBuilderFactory {
 
 	public ProductionSetBuilder apply(ProductionSetBuilderStrategy strategy) {
 		switch (strategy) {
-		case BUILD_FROM_SCRATCH_NO_EPSILON : 
+		case BUILD_FROM_SCRATCH_NO_EPSILON :
 			return new BuildFromScratchNoEpsilon();
 		case BUILD_FROM_SCRATCH_WILD :
 			return new BuildFromScratchWildTransitions();

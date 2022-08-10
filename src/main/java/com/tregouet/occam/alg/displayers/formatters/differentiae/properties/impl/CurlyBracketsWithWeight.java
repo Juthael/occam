@@ -8,10 +8,10 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 
 public class CurlyBracketsWithWeight implements PropertyLabeller {
-	
+
 	public static final CurlyBracketsWithWeight INSTANCE = new CurlyBracketsWithWeight();
 	private static final String nL = System.lineSeparator();
-	
+
 	private CurlyBracketsWithWeight() {
 	}
 

@@ -66,9 +66,6 @@ import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
-import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetter;
-import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetterFactory;
-import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetterStrategy;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetector;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetectorFactory;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetectorStrategy;
@@ -191,7 +188,7 @@ public class BuildersAbstractFactory {
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
 	}
-	
+
 	public TypicalityVectorBuilder getTypicalityVectorBuilder() {
 		return TypicalityVectorBuilderFactory.INSTANCE.apply(typicalityVectorBuilderStrategy);
 	}

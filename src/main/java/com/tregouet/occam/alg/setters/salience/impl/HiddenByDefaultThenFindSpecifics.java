@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.impl;
+package com.tregouet.occam.alg.setters.salience.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.ProductionSalienceSetter;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.rule_detector.RuleDetector;
+import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetter;
+import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetector;
 import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;

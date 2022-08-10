@@ -1,7 +1,7 @@
-package com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter;
+package com.tregouet.occam.alg.setters.salience;
 
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.impl.EverythingIsRule;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.impl.HiddenByDefaultThenFindSpecifics;
+import com.tregouet.occam.alg.setters.salience.impl.EverythingIsRule;
+import com.tregouet.occam.alg.setters.salience.impl.HiddenByDefaultThenFindSpecifics;
 
 public class ProductionSalienceSetterFactory {
 

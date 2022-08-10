@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
@@ -76,8 +78,8 @@ public class DiscardUninformativeStates implements ProblemSpaceExplorer {
 	}
 
 	@Override
-	public ISimilarityMetrics getSimilarityMetrics() {
-		return ProblemSpaceExplorer.similarityMetricsBuilder().apply(conceptLattice, problemGraph);
+	public ISimilarityMetrics getSimilarityMetrics(@Nullable double[][] differenceMatrix) {
+		return ProblemSpaceExplorer.similarityMetricsBuilder().apply(conceptLattice, problemGraph, differenceMatrix);
 	}
 
 	@Override

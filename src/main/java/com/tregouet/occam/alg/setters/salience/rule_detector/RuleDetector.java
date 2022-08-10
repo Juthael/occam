@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.rule_detector;
+package com.tregouet.occam.alg.setters.salience.rule_detector;
 
 import java.util.List;
 import java.util.Set;

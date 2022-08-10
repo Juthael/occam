@@ -1,7 +1,6 @@
 package com.tregouet.occam.alg.setters.weighs.properties.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,12 +9,12 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigher;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 
 public class Ruleness implements PropertyWeigher {
 
@@ -31,8 +30,10 @@ public class Ruleness implements PropertyWeigher {
 			int speciesID = p.getSpeciesID();
 			List<IConcept> speciesComplementaryExtent = conceptID2CompExtent.get(speciesID);
 			List<IConstruct> computationOutputs = new ArrayList<>();
-			for (IComputation computation : p.getComputations())
-				computationOutputs.add(computation.getOutput());
+			for (IComputation computation : p.getComputations()) {
+				if (!computation.isIdentity() && !computation.getOutput().isRedundant())
+					computationOutputs.add(computation.getOutput());
+			}
 			int propertyCardinality = classification.getExtentIDs(speciesID).size();
 			int ruleCardinality = propertyCardinality;
 			for (IConcept complementary : speciesComplementaryExtent) {

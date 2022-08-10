@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter;
+package com.tregouet.occam.alg.setters.salience;
 
 public enum ProductionSalienceSetterStrategy {
 

@@ -1,6 +1,7 @@
 package com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,15 +17,25 @@ public interface MapVariablesToValues {
 	 * @return null if valueProvider is not an instance of varProvider
 	 */
 	public static Map<AVariable, List<ISymbol>> of(List<ISymbol> valueProvider, List<ISymbol> varProvider) {
+		if (valueProvider.equals(varProvider)) {
+			Map<AVariable, List<ISymbol>> varToValue = new HashMap<>();
+			for (ISymbol symbol : varProvider) {
+				if (symbol instanceof AVariable) {
+					varToValue.put((AVariable) symbol, Arrays.asList(new ISymbol[] {symbol}));
+				}
+			}
+			return varToValue;
+		}
 		return continueMapping(valueProvider, varProvider, new HashMap<AVariable, List<ISymbol>>(), 0, 0);
 	}
 
 	private static Map<AVariable, List<ISymbol>> continueMapping(List<ISymbol> valueProvider, List<ISymbol> varProvider,
 			Map<AVariable, List<ISymbol>> varToValue, int srcIdx, int targetIdx) {
-		if (srcIdx == valueProvider.size() && targetIdx == varProvider.size())
-			return varToValue;
-		if (srcIdx == valueProvider.size() || targetIdx == varProvider.size())
+		if (targetIdx == varProvider.size()) {
+			if (srcIdx == valueProvider.size())
+				return varToValue;
 			return null;
+		}
 		if (varProvider.get(targetIdx) instanceof AVariable) {
 			AVariable variable = (AVariable) varProvider.get(targetIdx);
 			int varSpan = 0;
@@ -41,12 +52,10 @@ public interface MapVariablesToValues {
 				varSpan++;
 			}
 			return nextMap;
-		} else {
-			if (valueProvider.get(srcIdx).equals(varProvider.get(targetIdx))) {
-				return continueMapping(valueProvider, varProvider, varToValue, srcIdx + 1, targetIdx + 1);
-			}
-			return null;
-		}
+		} 
+		if (srcIdx < valueProvider.size() && valueProvider.get(srcIdx).equals(varProvider.get(targetIdx)))
+			return continueMapping(valueProvider, varProvider, varToValue, srcIdx + 1, targetIdx + 1);
+		return null;
 	}
 
 	private static Map<AVariable, List<ISymbol>> deepCopy(Map<AVariable, List<ISymbol>> map) {

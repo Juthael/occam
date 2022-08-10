@@ -1,7 +1,7 @@
-package com.tregouet.occam.alg.setters.differentiae_coeff;
+package com.tregouet.occam.alg.setters.weighs.differentiae.coeff;
 
-import com.tregouet.occam.alg.setters.differentiae_coeff.impl.NoCoeff;
-import com.tregouet.occam.alg.setters.differentiae_coeff.impl.SpeciesCardinality;
+import com.tregouet.occam.alg.setters.weighs.differentiae.coeff.impl.NoCoeff;
+import com.tregouet.occam.alg.setters.weighs.differentiae.coeff.impl.SpeciesCardinality;
 
 public class DifferentiaeCoeffSetterFactory {
 

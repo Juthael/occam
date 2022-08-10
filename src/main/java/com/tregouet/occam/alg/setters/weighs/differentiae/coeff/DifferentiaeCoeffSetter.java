@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.setters.differentiae_coeff;
+package com.tregouet.occam.alg.setters.weighs.differentiae.coeff;
 
 import com.tregouet.occam.alg.setters.Setter;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;

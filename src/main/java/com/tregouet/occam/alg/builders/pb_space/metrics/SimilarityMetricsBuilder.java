@@ -14,11 +14,10 @@ import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
-public interface SimilarityMetricsBuilder
-	extends BiFunction<
-		IConceptLattice,
-		DirectedAcyclicGraph<IRepresentation, AProblemStateTransition>, ISimilarityMetrics> {
+public interface SimilarityMetricsBuilder {
 
+	ISimilarityMetrics apply(IConceptLattice lattice, DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> pbGraph, 
+			double[][] differenceMatrix);
 
 	public static AsymmetricalSimilarityMatrixBuilder asymmetricalSimilarityBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getAsymmetricalSimilarityMatrixBuilder();

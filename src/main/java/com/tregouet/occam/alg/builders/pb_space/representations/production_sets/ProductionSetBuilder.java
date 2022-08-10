@@ -5,7 +5,8 @@ import java.util.Set;
 import com.google.common.base.Function;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.ProductionBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.ProductionSalienceSetter;
+import com.tregouet.occam.alg.setters.SettersAbstractFactory;
+import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetter;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
@@ -17,7 +18,7 @@ public interface ProductionSetBuilder
 	}
 
 	public static ProductionSalienceSetter productionSalienceSetter() {
-		return BuildersAbstractFactory.INSTANCE.getProductionSalienceSetter();
+		return SettersAbstractFactory.INSTANCE.getProductionSalienceSetter();
 	}
 
 }

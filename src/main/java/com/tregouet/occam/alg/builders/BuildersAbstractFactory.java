@@ -63,15 +63,15 @@ import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.ProductionBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.ProductionBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.ProductionSalienceSetter;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.ProductionSalienceSetterFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.ProductionSalienceSetterStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.rule_detector.RuleDetector;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.rule_detector.RuleDetectorFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.rule_detector.RuleDetectorStrategy;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilderFactory;
 import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
+import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetter;
+import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetterFactory;
+import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetterStrategy;
+import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetector;
+import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetectorFactory;
+import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetectorStrategy;
 
 public class BuildersAbstractFactory {
 
@@ -82,7 +82,6 @@ public class BuildersAbstractFactory {
 	private ConceptTreeGrowerStrategy conceptTreeGrowerStrategy = null;
 	private ClassificationBuilderStrategy classificationBuilderStrategy = null;
 	private ProductionBuilderStrategy productionBuilderStrategy = null;
-	private ProductionSalienceSetterStrategy productionSalienceSetterStrategy = null;
 	private RuleDetectorStrategy ruleDetectorStrategy = null;
 	private ProductionSetBuilderStrategy productionSetBuilderStrategy = null;
 	private RepresentationTransFuncBuilderStrategy representationTransFuncBuilderStrategy = null;
@@ -161,10 +160,6 @@ public class BuildersAbstractFactory {
 		return ProductionBuilderFactory.INSTANCE.apply(productionBuilderStrategy);
 	}
 
-	public ProductionSalienceSetter getProductionSalienceSetter() {
-		return ProductionSalienceSetterFactory.INSTANCE.apply(productionSalienceSetterStrategy);
-	}
-
 	public ProductionSetBuilder getProductionSetBuilder() {
 		return ProductionSetBuilderFactory.INSTANCE.apply(productionSetBuilderStrategy);
 	}
@@ -208,10 +203,9 @@ public class BuildersAbstractFactory {
 			conceptLatticeBuilderStrategy = ConceptLatticeBuilderStrategy.GALOIS_CONNECTION;
 			conceptTreeGrowerStrategy = ConceptTreeGrowerStrategy.IF_LEAF_IS_UNIVERSAL_THEN_SORT;
 			classificationBuilderStrategy = ClassificationBuilderStrategy.BUILD_PARAM_THEN_INST;
-			productionBuilderStrategy = ProductionBuilderStrategy.SRCE_CNCPT_CANNOT_HAVE_TGET_DENOT;
-			productionSalienceSetterStrategy = ProductionSalienceSetterStrategy.HIDDEN_THEN_FIND_SPECIFICS;
-			ruleDetectorStrategy = RuleDetectorStrategy.INST_COMPLETE_AND_DISTINCTIVE;
-			productionSetBuilderStrategy = ProductionSetBuilderStrategy.NO_EPSILON;
+			productionBuilderStrategy = ProductionBuilderStrategy.MAP_TARGET_VARS_TO_SOURCE_VALUES;
+			ruleDetectorStrategy = RuleDetectorStrategy.INST_COMPLETE_AND_DISTINCTIVE; //OK
+			productionSetBuilderStrategy = ProductionSetBuilderStrategy.BUILD_FROM_SCRATCH_NO_EPSILON;
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.EVERY_APP_IS_RELEVANT;
 			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_COMPUTATION;
 			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;

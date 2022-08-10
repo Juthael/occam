@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.rule_detector;
+package com.tregouet.occam.alg.setters.salience.rule_detector;
 
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.salience_setter.rule_detector.impl.VarInstantiationCompleteAndDistinctive;
+import com.tregouet.occam.alg.setters.salience.rule_detector.impl.VarInstantiationCompleteAndDistinctive;
 
 public class RuleDetectorFactory {
 	

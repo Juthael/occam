@@ -28,7 +28,7 @@ public class ProblemSpace implements IProblemSpace {
 		this.context = new ArrayList<>(context);
 		this.context.sort((x, y) -> Integer.compare(x.iD(), y.iD()));
 		problemSpaceExplorer = IProblemSpace.problemSpaceExplorer().initialize(this.context);
-		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(null);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class ProblemSpace implements IProblemSpace {
 		catch (Exception e) {
 			return null;
 		}
-		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(similarityMetrics.getDifferenceMatrix());
 		return true;
 	}
 
@@ -47,7 +47,7 @@ public class ProblemSpace implements IProblemSpace {
 	public Boolean develop(int representationID) {
 		Boolean developed = problemSpaceExplorer.develop(representationID);
 		if (developed != null && developed)
-			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(similarityMetrics.getDifferenceMatrix());
 		return developed;
 	}
 
@@ -118,7 +118,7 @@ public class ProblemSpace implements IProblemSpace {
 	public Boolean restrictTo(Set<Integer> representationIDs) {
 		Boolean restricted = problemSpaceExplorer.restrictTo(representationIDs);
 		if (restricted != null && restricted)
-			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(similarityMetrics.getDifferenceMatrix());
 		return restricted;
 	}
 
@@ -126,7 +126,7 @@ public class ProblemSpace implements IProblemSpace {
 	public Boolean develop(List<Integer> representationIDs) {
 		Boolean developed = problemSpaceExplorer.develop(new HashSet<>(representationIDs));
 		if (developed != null && developed)
-			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics();
+			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(similarityMetrics.getDifferenceMatrix());
 		return developed;
 	}
 

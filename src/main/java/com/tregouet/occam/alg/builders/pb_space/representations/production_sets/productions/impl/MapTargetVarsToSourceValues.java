@@ -48,11 +48,9 @@ public class MapTargetVarsToSourceValues implements ProductionBuilder {
 									Arrays.asList(new ISymbol[] { new Terminal(IConstruct.EMPTY_CONSTRUCT_SYMBOL) }));
 							value = new Construct(emptyString);
 						}
-						else {
-							value = new Construct(valueList);
-							IBasicProduction production = new BasicProduction(variable, value);
-							productions.add(new ContextualizedProd(source, target, production));
-						}
+						else value = new Construct(valueList);
+						IBasicProduction production = new BasicProduction(variable, value);
+						productions.add(new ContextualizedProd(source, target, production));
 					}
 				}
 			}

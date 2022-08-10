@@ -24,9 +24,9 @@ public class Classification implements IClassification {
 	private boolean fullyDeveloped;
 	private boolean expansionRestricted = false;
 
-	public Classification(InvertedTree<IConcept, IIsA> graph, Map<Integer, List<Integer>> conceptID2ExtentIDs,
-			Map<Integer, Integer> speciesID2GenusID, Map<Integer, IConcept> particularID2Particular,
-			boolean fullyDeveloped) {
+	public Classification(InvertedTree<IConcept, IIsA> graph,
+			Map<Integer, List<Integer>> conceptID2ExtentIDs, Map<Integer, Integer> speciesID2GenusID, 
+			Map<Integer, IConcept> particularID2Particular, boolean fullyDeveloped) {
 		this.graph = graph;
 		for (IConcept concept : graph.vertexSet())
 			iD2Concept.put(concept.iD(), concept);

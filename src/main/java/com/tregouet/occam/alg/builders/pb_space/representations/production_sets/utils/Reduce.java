@@ -10,9 +10,9 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 
-public interface ProductionSetReducer {
+public interface Reduce {
 
-	public static Set<IContextualizedProduction> reduce(Set<IContextualizedProduction> productions) {
+	public static Set<IContextualizedProduction> thisSet(Set<IContextualizedProduction> productions) {
 		Set<IContextualizedProduction> transitiveReduction = new HashSet<>();
 		DirectedAcyclicGraph<IDenotation, DefaultEdge> sparseReductionGraph = buildSparseReductionGraph(productions);
 		for (IContextualizedProduction production : productions) {

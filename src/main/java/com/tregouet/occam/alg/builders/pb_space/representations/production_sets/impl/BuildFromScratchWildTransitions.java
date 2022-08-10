@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.ProductionSetBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.ProductionBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.utils.ProductionSetReducer;
+import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.utils.Reduce;
 import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
@@ -14,15 +14,15 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.den
 import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class BuildFromScratch implements ProductionSetBuilder {
+public class BuildFromScratchWildTransitions implements ProductionSetBuilder {
 
-	public BuildFromScratch() {
+	public BuildFromScratchWildTransitions() {
 	}
 
 	@Override
 	public Set<IContextualizedProduction> apply(IClassification classification) {
 		Set<IContextualizedProduction> prods = buildProductions(classification);
-		Set<IContextualizedProduction> reducedProds = ProductionSetReducer.reduce(prods);
+		Set<IContextualizedProduction> reducedProds = Reduce.thisSet(prods);
 		Set<IContextualizedProduction> filteredReducedProds = complyWithAdditionalConstraint(reducedProds);
 		ProductionSetBuilder.productionSalienceSetter().setUp(classification).accept(filteredReducedProds);
 		return reducedProds;

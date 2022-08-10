@@ -51,7 +51,7 @@ public class MinNbOfWeighedProperties implements DifferentiaeWeigher {
 				if (!property.isBlank()) {
 					nonBlankProperties.add(property);
 					for (IComputation computation : property.getComputations()) {
-						if (!computation.isIdentity())
+						if (!computation.isIdentity() && !computation.getOutput().isRedundant())
 							denotationSet.add(computation.getOutput().asList());
 					}
 				}
@@ -80,7 +80,7 @@ public class MinNbOfWeighedProperties implements DifferentiaeWeigher {
 		//populate
 		for (IProperty property : setOfAntecedents) {
 			for (IComputation computation : property.getComputations()) {
-				if (!computation.isIdentity()) {
+				if (!computation.isIdentity() && !computation.getOutput().isRedundant()) {
 					int imageIdx = images.indexOf(computation.getOutput().asList());
 					hasAnAntecedent[imageIdx] = true;
 				}

@@ -84,10 +84,16 @@ public class TwoLeafTree implements DifferenceScorer {
 
 	private static IConcept copyConceptWithRestrictedExtent(IConcept concept, Set<Integer> restrictedExtentIDs) {
 		IConcept restrictedCopy;
-		Set<IConstruct> constructs = new HashSet<>();
-		for (IDenotation denotation : concept.getDenotations())
-			constructs.add(denotation.copy());
-		restrictedCopy = new Concept(constructs, restrictedExtentIDs, concept.iD());
+		int nbOfDenotations = concept.getDenotations().size();
+		IConstruct[] constructs = new IConstruct[nbOfDenotations];
+		boolean[] redundant = new boolean[nbOfDenotations];
+		int idx = 0;
+		for (IDenotation denotation : concept.getDenotations()) {
+			constructs[idx] = denotation.copy();
+			redundant[idx] = denotation.isRedundant();
+			idx++;
+		}
+		restrictedCopy = new Concept(constructs, redundant, restrictedExtentIDs, concept.iD());
 		restrictedCopy.setType(concept.type());
 		return restrictedCopy;
 	}

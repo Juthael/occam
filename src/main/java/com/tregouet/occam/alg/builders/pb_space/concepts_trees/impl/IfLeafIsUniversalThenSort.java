@@ -125,6 +125,15 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 		return additionalTree;
 	}
 
+	protected static Set<IConcept> getLeaves(DirectedAcyclicGraph<IConcept, IIsA> dag){
+		Set<IConcept> leaves = new HashSet<>();
+		for (IConcept concept : dag) {
+			if (dag.inDegreeOf(concept) == 0)
+				leaves.add(concept);
+		}
+		return leaves;
+	}
+
 	private static InvertedTree<IConcept, IIsA> asInvertedTree(DirectedAcyclicGraph<IConcept, IIsA> treeDAG, IConcept root) {
 		List<IConcept> topoOrder = new ArrayList<>();
 		new TopologicalOrderIterator<>(treeDAG).forEachRemaining(topoOrder::add);
@@ -284,13 +293,28 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 		return dichotomies;
 	}
 
-	protected static Set<IConcept> getLeaves(DirectedAcyclicGraph<IConcept, IIsA> dag){
-		Set<IConcept> leaves = new HashSet<>();
-		for (IConcept concept : dag) {
-			if (dag.inDegreeOf(concept) == 0)
-				leaves.add(concept);
+	private static IConcept getParticularWithID(int iD, InvertedUpperSemilattice<IConcept, IIsA> searchSpace) {
+		for (IConcept concept : searchSpace.getLeaves()) {
+			if (concept.iD() == iD)
+				return concept;
 		}
-		return leaves;
+		return null;
+	}
+
+	private static Map<IConcept, Set<Integer>> getTrivialLeafID2ExtentIDs(DirectedAcyclicGraph<IConcept, IIsA> treeDAG,
+			InvertedUpperSemilattice<IConcept, IIsA> searchSpace) {
+		Map<IConcept, Set<Integer>> trivialLeafID2ExtentIDs = new HashMap<>();
+		Set<Integer> searchSpaceParticularIDs = new HashSet<>();
+		for (IConcept searchSpaceLeaf : getLeaves(searchSpace))
+			searchSpaceParticularIDs.add(searchSpaceLeaf.iD());
+		for(IConcept leaf : getLeaves(treeDAG)) {
+			if (leaf.type() != ConceptType.PARTICULAR) {
+				Set<Integer> extentIDs = Sets.intersection(leaf.getMaxExtentIDs(), searchSpaceParticularIDs);
+				if (extentIDs.size() == 2)
+					trivialLeafID2ExtentIDs.put(leaf, extentIDs);
+			}
+		}
+		return trivialLeafID2ExtentIDs;
 	}
 
 	private static InvertedTree<IConcept, IIsA> initialTree(IConceptLattice conceptLattice) {
@@ -346,30 +370,6 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 			closedSubset2Supremum.put(closedSubset, concept);
 		}
 		return closedSubset2Supremum;
-	}
-
-	private static Map<IConcept, Set<Integer>> getTrivialLeafID2ExtentIDs(DirectedAcyclicGraph<IConcept, IIsA> treeDAG,
-			InvertedUpperSemilattice<IConcept, IIsA> searchSpace) {
-		Map<IConcept, Set<Integer>> trivialLeafID2ExtentIDs = new HashMap<>();
-		Set<Integer> searchSpaceParticularIDs = new HashSet<>();
-		for (IConcept searchSpaceLeaf : getLeaves(searchSpace))
-			searchSpaceParticularIDs.add(searchSpaceLeaf.iD());
-		for(IConcept leaf : getLeaves(treeDAG)) {
-			if (leaf.type() != ConceptType.PARTICULAR) {
-				Set<Integer> extentIDs = Sets.intersection(leaf.getMaxExtentIDs(), searchSpaceParticularIDs);
-				if (extentIDs.size() == 2)
-					trivialLeafID2ExtentIDs.put(leaf, extentIDs);
-			}
-		}
-		return trivialLeafID2ExtentIDs;
-	}
-
-	private static IConcept getParticularWithID(int iD, InvertedUpperSemilattice<IConcept, IIsA> searchSpace) {
-		for (IConcept concept : searchSpace.getLeaves()) {
-			if (concept.iD() == iD)
-				return concept;
-		}
-		return null;
 	}
 
 }

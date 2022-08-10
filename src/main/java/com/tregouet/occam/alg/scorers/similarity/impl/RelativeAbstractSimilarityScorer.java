@@ -11,18 +11,6 @@ public abstract class RelativeAbstractSimilarityScorer implements RelativeSimila
 	public RelativeAbstractSimilarityScorer() {
 	}
 
-	protected Double getDefinitionCostOf(Integer conceptID) {
-		double definitionCost = 0.0;
-		int currentConceptID = conceptID;
-		int ontologicalCommitmentID = classificationTree.getRoot();
-		while (currentConceptID != ontologicalCommitmentID) {
-			ADifferentiae currentConceptDefinition = classificationTree.incomingEdgeOf(currentConceptID);
-			definitionCost += currentConceptDefinition.weight();
-			currentConceptID = classificationTree.getEdgeSource(currentConceptDefinition);
-		}
-		return definitionCost;
-	}
-
 	protected Double getCoeffFreeDefinitionCostOf(Integer conceptID) {
 		double definitionCost = 0.0;
 		int currentConceptID = conceptID;
@@ -30,6 +18,18 @@ public abstract class RelativeAbstractSimilarityScorer implements RelativeSimila
 		while (currentConceptID != ontologicalCommitmentID) {
 			ADifferentiae currentConceptDefinition = classificationTree.incomingEdgeOf(currentConceptID);
 			definitionCost += currentConceptDefinition.getCoeffFreeWeight();
+			currentConceptID = classificationTree.getEdgeSource(currentConceptDefinition);
+		}
+		return definitionCost;
+	}
+
+	protected Double getDefinitionCostOf(Integer conceptID) {
+		double definitionCost = 0.0;
+		int currentConceptID = conceptID;
+		int ontologicalCommitmentID = classificationTree.getRoot();
+		while (currentConceptID != ontologicalCommitmentID) {
+			ADifferentiae currentConceptDefinition = classificationTree.incomingEdgeOf(currentConceptID);
+			definitionCost += currentConceptDefinition.weight();
 			currentConceptID = classificationTree.getEdgeSource(currentConceptDefinition);
 		}
 		return definitionCost;

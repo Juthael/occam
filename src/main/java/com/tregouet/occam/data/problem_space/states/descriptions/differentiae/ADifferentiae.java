@@ -17,6 +17,8 @@ public abstract class ADifferentiae extends DefaultEdge implements Weighed {
 	@Override
 	abstract public boolean equals(Object o);
 
+	abstract public Double getCoeffFreeWeight();
+
 	abstract public int getGenusID();
 
 	abstract public Set<IProperty> getProperties();
@@ -30,8 +32,6 @@ public abstract class ADifferentiae extends DefaultEdge implements Weighed {
 	abstract public Integer getTarget();
 
 	abstract public Double getWeightCoeff();
-
-	abstract public Double getCoeffFreeWeight();
 
 	/**
 	 * must not make use of rank, coeff, weigh (non-final class parameters)

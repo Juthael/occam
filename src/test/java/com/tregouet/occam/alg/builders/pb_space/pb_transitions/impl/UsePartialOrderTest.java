@@ -34,25 +34,11 @@ public class UsePartialOrderTest {
 	private List<IContextObject> context;
 	private IProblemSpace pbSpace;
 
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		Occam.initialize();
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		pbSpace = new ProblemSpace(new HashSet<>(context));
-	}
-
-	private IPartition selectProblematicPartition(IRepresentation representation) {
-		for (IPartition partition : representation.getPartitions()) {
-			if (partition.toString().equals("{1}{3}{4}{2, 5}"))
-				return partition;
-		}
-		return null;
 	}
 
 	@Test
@@ -87,6 +73,20 @@ public class UsePartialOrderTest {
 		}
 		sB.append(nl);
 	System.out.println(sB.toString());
+	}
+
+	private IPartition selectProblematicPartition(IRepresentation representation) {
+		for (IPartition partition : representation.getPartitions()) {
+			if (partition.toString().equals("{1}{3}{4}{2, 5}"))
+				return partition;
+		}
+		return null;
+	}
+
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 	private static Set<ADifferentiae> difference(IPartition p1, IPartition p2){

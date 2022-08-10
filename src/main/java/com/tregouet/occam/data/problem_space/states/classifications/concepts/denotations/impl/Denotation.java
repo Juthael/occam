@@ -48,6 +48,11 @@ public class Denotation extends Construct implements IDenotation {
 	}
 
 	@Override
+	public boolean isArbitraryLabel() {
+		return isArbitraryLabel;
+	}
+
+	@Override
 	public boolean isRedundant() {
 		return isRedundant;
 	}
@@ -55,11 +60,6 @@ public class Denotation extends Construct implements IDenotation {
 	@Override
 	public void markAsRedundant() {
 		isRedundant = true;
-	}
-
-	@Override
-	public boolean isArbitraryLabel() {
-		return isArbitraryLabel;
 	}
 
 }

@@ -33,12 +33,6 @@ public class IfLeafIsUniversalThenSortTest {
 	private List<IContextObject> context;
 	private IConceptLattice conceptLattice;
 
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
@@ -47,6 +41,34 @@ public class IfLeafIsUniversalThenSortTest {
 		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
 			.apply(conceptLattice.getOntologicalUpperSemilattice(), "IfLeafIsUniversal_lattice");
 		*/
+	}
+
+	@Test
+	public void whenTreeExpansionRequestedThenProceeded() {
+		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
+		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
+		IfLeafIsUniversalThenSort grower = new IfLeafIsUniversalThenSort();
+		expandedTreesFromLastIteration = new HashSet<>(grower.apply(conceptLattice, null).keySet());
+		do {
+			expandedTrees.addAll(expandedTreesFromLastIteration);
+			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
+			expandedTreesFromLastIteration.clear();
+			for (InvertedTree<IConcept, IIsA> tree : expandable) {
+				grower = new IfLeafIsUniversalThenSort();
+				expandedTreesFromLastIteration.addAll(new HashSet<>(grower.apply(conceptLattice, tree).keySet()));
+			}
+		}
+		while (!expandedTreesFromLastIteration.isEmpty());
+		/*
+		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
+			.apply(conceptLattice.getOntologicalUpperSemilattice(), "IfLeafIsUniversal_lattice");
+		int count = 0;
+		for (InvertedTree<IConcept, IIsA> expTree : expandedTrees) {
+			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
+				.apply(expTree, "IfLeafIsUniversal_tree" + Integer.toString(count++));
+		}
+		*/
+		assertTrue(!expandedTrees.isEmpty());
 	}
 
 	@Test
@@ -83,34 +105,6 @@ public class IfLeafIsUniversalThenSortTest {
 	}
 
 	@Test
-	public void whenTreeExpansionRequestedThenProceeded() {
-		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
-		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
-		IfLeafIsUniversalThenSort grower = new IfLeafIsUniversalThenSort();
-		expandedTreesFromLastIteration = new HashSet<>(grower.apply(conceptLattice, null).keySet());
-		do {
-			expandedTrees.addAll(expandedTreesFromLastIteration);
-			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
-			expandedTreesFromLastIteration.clear();
-			for (InvertedTree<IConcept, IIsA> tree : expandable) {
-				grower = new IfLeafIsUniversalThenSort();
-				expandedTreesFromLastIteration.addAll(new HashSet<>(grower.apply(conceptLattice, tree).keySet()));
-			}
-		}
-		while (!expandedTreesFromLastIteration.isEmpty());
-		/*
-		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
-			.apply(conceptLattice.getOntologicalUpperSemilattice(), "IfLeafIsUniversal_lattice");
-		int count = 0;
-		for (InvertedTree<IConcept, IIsA> expTree : expandedTrees) {
-			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
-				.apply(expTree, "IfLeafIsUniversal_tree" + Integer.toString(count++));
-		}
-		*/
-		assertTrue(!expandedTrees.isEmpty());
-	}
-
-	@Test
 	public void whenTreeHasALeafWhichIsNotParticularThenCanBeExpandedOtherwiseCannot() {
 		boolean asExpected = true;
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
@@ -136,6 +130,12 @@ public class IfLeafIsUniversalThenSortTest {
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		assertTrue(asExpected && nbOfChecks > 0);
+	}
+
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 }

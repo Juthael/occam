@@ -58,6 +58,17 @@ public class DiscardUninformativeStates implements ProblemSpaceExplorer {
 	}
 
 	@Override
+	public Boolean develop(Set<Integer> representationIDs) {
+		List<IRepresentation> representations = new ArrayList<>();
+		for (Integer repID : representationIDs) {
+			IRepresentation current = getRepresentationWithID(repID);
+			if (current != null)
+				representations.add(current);
+		}
+		return develop(representations);
+	}
+
+	@Override
 	public Set<Integer> getIDsOfRepresentationsWithIncompleteSorting() {
 		Set<Integer> iDs = new HashSet<>();
 		for (IRepresentation representation : problemGraph.vertexSet()) {
@@ -175,17 +186,6 @@ public class DiscardUninformativeStates implements ProblemSpaceExplorer {
 		for (IRepresentation problemState : problemGraph)
 			problemState.setScore(scorer.score(problemState));
 		removeUninformative(problemGraph);
-	}
-
-	@Override
-	public Boolean develop(Set<Integer> representationIDs) {
-		List<IRepresentation> representations = new ArrayList<>();
-		for (Integer repID : representationIDs) {
-			IRepresentation current = getRepresentationWithID(repID);
-			if (current != null)
-				representations.add(current);
-		}
-		return develop(representations);
 	}
 
 }

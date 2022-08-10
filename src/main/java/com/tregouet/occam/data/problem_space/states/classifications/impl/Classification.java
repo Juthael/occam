@@ -53,13 +53,13 @@ public class Classification implements IClassification {
 	}
 
 	@Override
-	public IConcept getConceptWithSpecifiedID(int iD) {
-		return iD2Concept.get(iD);
+	public boolean expansionIsRestricted() {
+		return expansionRestricted;
 	}
 
 	@Override
-	public List<Integer> getExtentIDs(int conceptID) {
-		return conceptID2ExtentIDs.get(conceptID);
+	public IConcept getConceptWithSpecifiedID(int iD) {
+		return iD2Concept.get(iD);
 	}
 	
 	@Override
@@ -68,6 +68,11 @@ public class Classification implements IClassification {
 		for (Integer particularID : getExtentIDs(conceptID))
 			extent.add(particularID2Particular.get(particularID));
 		return extent;
+	}
+
+	@Override
+	public List<Integer> getExtentIDs(int conceptID) {
+		return conceptID2ExtentIDs.get(conceptID);
 	}
 
 	@Override
@@ -91,6 +96,11 @@ public class Classification implements IClassification {
 	}
 
 	@Override
+	public Map<Integer, IConcept> getParticularID2Particular() {
+		return particularID2Particular;
+	}
+
+	@Override
 	public Set<Integer> getParticularIDs() {
 		return particularID2Particular.keySet();
 	}
@@ -98,6 +108,11 @@ public class Classification implements IClassification {
 	@Override
 	public int hashCode() {
 		return Objects.hash(graph);
+	}
+
+	@Override
+	public boolean isExpandable() {
+		return (!fullyDeveloped && !expansionRestricted);
 	}
 
 	@Override
@@ -123,23 +138,8 @@ public class Classification implements IClassification {
 	}
 
 	@Override
-	public Map<Integer, IConcept> getParticularID2Particular() {
-		return particularID2Particular;
-	}
-
-	@Override
-	public boolean isExpandable() {
-		return (!fullyDeveloped && !expansionRestricted);
-	}
-
-	@Override
 	public void restrictFurtherExpansion() {
 		expansionRestricted = true;
-	}
-
-	@Override
-	public boolean expansionIsRestricted() {
-		return expansionRestricted;
 	}
 
 }

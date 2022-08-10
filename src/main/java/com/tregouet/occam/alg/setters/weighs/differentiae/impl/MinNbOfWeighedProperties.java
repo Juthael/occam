@@ -15,11 +15,6 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 
 public class MinNbOfWeighedProperties implements DifferentiaeWeigher {
 
-	public static final MinNbOfWeighedProperties INSTANCE = new MinNbOfWeighedProperties();
-
-	private MinNbOfWeighedProperties() {
-	}
-
 	public static class SubsetOfProperties {
 
 		private final Set<IProperty> subset;
@@ -38,6 +33,11 @@ public class MinNbOfWeighedProperties implements DifferentiaeWeigher {
 			return weightSum;
 		}
 
+	}
+
+	public static final MinNbOfWeighedProperties INSTANCE = new MinNbOfWeighedProperties();
+
+	private MinNbOfWeighedProperties() {
 	}
 
 	@Override
@@ -74,6 +74,19 @@ public class MinNbOfWeighedProperties implements DifferentiaeWeigher {
 		}
 	}
 
+	private static SubsetOfProperties getSurjectiveOptimalSubsetOfProperties(Set<IProperty> properties,
+			List<List<ISymbol>> denotations, int subsetSize) {
+		SubsetOfProperties optimalSubset = null;
+		for (Set<IProperty> subset : Sets.combinations(properties, subsetSize)) {
+			if(setOfAntecedentsIsSurjective(subset, denotations)) {
+				double weightSum = sumWeights(subset);
+				if (optimalSubset == null || weightSum > optimalSubset.getWeightSum())
+					optimalSubset = new SubsetOfProperties(subset, weightSum);
+			}
+		}
+		return optimalSubset;
+	}
+
 	private static boolean setOfAntecedentsIsSurjective(Set<IProperty> setOfAntecedents,
 			List<List<ISymbol>> images) {
 		boolean[] hasAnAntecedent = new boolean[images.size()];
@@ -92,19 +105,6 @@ public class MinNbOfWeighedProperties implements DifferentiaeWeigher {
 				return false;
 		}
 		return true;
-	}
-
-	private static SubsetOfProperties getSurjectiveOptimalSubsetOfProperties(Set<IProperty> properties,
-			List<List<ISymbol>> denotations, int subsetSize) {
-		SubsetOfProperties optimalSubset = null;
-		for (Set<IProperty> subset : Sets.combinations(properties, subsetSize)) {
-			if(setOfAntecedentsIsSurjective(subset, denotations)) {
-				double weightSum = sumWeights(subset);
-				if (optimalSubset == null || weightSum > optimalSubset.getWeightSum())
-					optimalSubset = new SubsetOfProperties(subset, weightSum);
-			}
-		}
-		return optimalSubset;
 	}
 
 	private static double sumWeights(Set<IProperty> properties) {

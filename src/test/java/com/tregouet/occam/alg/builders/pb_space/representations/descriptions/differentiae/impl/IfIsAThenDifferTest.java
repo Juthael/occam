@@ -59,12 +59,6 @@ public class IfIsAThenDifferTest {
 	private Set<InvertedTree<IConcept, IIsA>> trees;
 	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
 
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
@@ -110,6 +104,32 @@ public class IfIsAThenDifferTest {
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}
 
+	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
+		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
+		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
+		expandedTreesFromLastIteration =
+				new HashSet<>(BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null).keySet());
+		do {
+			expandedTrees.addAll(expandedTreesFromLastIteration);
+			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
+			expandedTreesFromLastIteration.clear();
+			for (InvertedTree<IConcept, IIsA> tree : expandable) {
+				expandedTreesFromLastIteration.addAll(new HashSet<>(
+						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree).keySet()));
+			}
+		}
+		while (!expandedTreesFromLastIteration.isEmpty());
+		return expandedTrees;
+	}
+
+	private String label(ADifferentiae differentiae) {
+		StringBuilder sB = new StringBuilder();
+		for (IProperty prop : differentiae.getProperties()) {
+			sB.append(FormattersAbstractFactory.INSTANCE.getPropertyDisplayer().apply(prop) + nL);
+		}
+		return sB.toString();
+	}
+
 	private String visualize(DirectedAcyclicGraph<Integer, ADifferentiae> description, int idx) {
 		String fileName = "IfIsAThenDifferTest_Desc_" + Integer.toString(idx);
 		// convert in DOT format
@@ -139,37 +159,10 @@ public class IfIsAThenDifferTest {
 		}
 	}
 
-	private String label(ADifferentiae differentiae) {
-		StringBuilder sB = new StringBuilder();
-		for (IProperty prop : differentiae.getProperties()) {
-			sB.append(FormattersAbstractFactory.INSTANCE.getPropertyDisplayer().apply(prop) + nL);
-		}
-		return sB.toString();
-	}
-
-	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
-		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
-		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
-		expandedTreesFromLastIteration =
-				new HashSet<>(BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null).keySet());
-		do {
-			expandedTrees.addAll(expandedTreesFromLastIteration);
-			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
-			expandedTreesFromLastIteration.clear();
-			for (InvertedTree<IConcept, IIsA> tree : expandable) {
-				expandedTreesFromLastIteration.addAll(new HashSet<>(
-						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree).keySet()));
-			}
-		}
-		while (!expandedTreesFromLastIteration.isEmpty());
-		return expandedTrees;
-	}
-
-	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
-		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
-		for (IIsA edge : conceptTree.edgeSet())
-			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
-		return speciesID2GenusID;
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
@@ -178,6 +171,13 @@ public class IfIsAThenDifferTest {
 				return false;
 		}
 		return true;
+	}
+
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
+		return speciesID2GenusID;
 	}
 
 }

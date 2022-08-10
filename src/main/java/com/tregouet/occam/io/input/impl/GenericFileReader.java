@@ -26,6 +26,33 @@ public abstract class GenericFileReader {
 	private GenericFileReader() {
 	}
 
+	public static List<IContextObject> getContextObjects(BufferedReader reader) throws IOException {
+		List<IContextObject> objects = new ArrayList<>();
+		String line;
+		List<List<String>> currObjConstructsAsLists = new ArrayList<>();
+		String currObjName = null;
+		do {
+			line = reader.readLine();
+			if (line == null || line.equals(SEPARATOR)) {
+				if (!currObjConstructsAsLists.isEmpty()) {
+					if (currObjName == null)
+						objects.add(new Particular(currObjConstructsAsLists));
+					else
+						objects.add(new Particular(currObjConstructsAsLists, currObjName));
+					currObjConstructsAsLists = new ArrayList<>();
+					currObjName = null;
+				}
+			} else if (line.length() > 1 && line.charAt(0) == NAME_SYMBOL) {
+				currObjName = line.substring(1);
+			} else {
+				currObjConstructsAsLists.add(Arrays.asList(line.split(SEPARATOR)));
+			}
+		} while (line != null);
+		cardinalityTest(objects);
+		unicityTest(objects);
+		return objects;
+	}
+
 	/**
 	 * <p>
 	 * Generates a list of 'context object' ({@link IContextObject}) out of a
@@ -61,33 +88,6 @@ public abstract class GenericFileReader {
 					+ "BufferedReader ccannot be instantiated." + System.lineSeparator() + e.getMessage());
 		}
 		return getContextObjects(reader);
-	}
-
-	public static List<IContextObject> getContextObjects(BufferedReader reader) throws IOException {
-		List<IContextObject> objects = new ArrayList<>();
-		String line;
-		List<List<String>> currObjConstructsAsLists = new ArrayList<>();
-		String currObjName = null;
-		do {
-			line = reader.readLine();
-			if (line == null || line.equals(SEPARATOR)) {
-				if (!currObjConstructsAsLists.isEmpty()) {
-					if (currObjName == null)
-						objects.add(new Particular(currObjConstructsAsLists));
-					else
-						objects.add(new Particular(currObjConstructsAsLists, currObjName));
-					currObjConstructsAsLists = new ArrayList<>();
-					currObjName = null;
-				}
-			} else if (line.length() > 1 && line.charAt(0) == NAME_SYMBOL) {
-				currObjName = line.substring(1);
-			} else {
-				currObjConstructsAsLists.add(Arrays.asList(line.split(SEPARATOR)));
-			}
-		} while (line != null);
-		cardinalityTest(objects);
-		unicityTest(objects);
-		return objects;
 	}
 
 	private static void cardinalityTest(List<IContextObject> objects) throws IOException {

@@ -109,6 +109,11 @@ public class ConceptLattice implements IConceptLattice {
 	}
 
 	@Override
+	public Map<Integer, IConcept> getParticularID2Particular() {
+		return particularID2Particular;
+	}
+
+	@Override
 	public List<IConcept> getParticulars() {
 		return particulars;
 	}
@@ -159,11 +164,6 @@ public class ConceptLattice implements IConceptLattice {
 			}
 		}
 		return new ArrayList<>(concepts);
-	}
-
-	@Override
-	public Map<Integer, IConcept> getParticularID2Particular() {
-		return particularID2Particular;
 	}
 
 }

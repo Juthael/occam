@@ -28,6 +28,10 @@ public class BuildFromScratchWildTransitions implements ProductionSetBuilder {
 		return reducedProds;
 	}
 
+	protected Set<IContextualizedProduction> complyWithAdditionalConstraint(Set<IContextualizedProduction> productions){
+		return productions;
+	}
+
 	private Set<IContextualizedProduction> buildProductions(IClassification classification) {
 		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
 		Set<IContextualizedProduction> productions = new HashSet<>();
@@ -51,10 +55,6 @@ public class BuildFromScratchWildTransitions implements ProductionSetBuilder {
 				}
 			}
 		}
-		return productions;
-	}
-
-	protected Set<IContextualizedProduction> complyWithAdditionalConstraint(Set<IContextualizedProduction> productions){
 		return productions;
 	}
 

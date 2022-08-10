@@ -39,12 +39,6 @@ public class BuildTreeSpecificSetOfProductionsTest {
 	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
 
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
@@ -104,11 +98,10 @@ public class BuildTreeSpecificSetOfProductionsTest {
 		return expandedTrees;
 	}
 
-	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
-		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
-		for (IIsA edge : conceptTree.edgeSet())
-			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
-		return speciesID2GenusID;
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
@@ -117,6 +110,13 @@ public class BuildTreeSpecificSetOfProductionsTest {
 				return false;
 		}
 		return true;
+	}
+
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
+		return speciesID2GenusID;
 	}
 
 }

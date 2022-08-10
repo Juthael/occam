@@ -45,33 +45,20 @@ public class HiddenByDefaultThenFindSpecificsTest {
 	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
 	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
 
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
-	@Before
-	public void setUp() throws Exception {
-		context = GenericFileReader.getContextObjects(SHAPES6);
-		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-		/*
-		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
-			.apply(conceptLattice.getOntologicalUpperSemilattice(), "FirstBuildTransitionFunctionTest_lattice");
-		*/
-		conceptTrees = growTrees();
-		ProductionSetBuilder bldr;
-		for (InvertedTree<IConcept, IIsA> tree : conceptTrees) {
-			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
-			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
-			boolean fullyDeveloped = isFullyDeveloped(tree);
-			IClassification classification =
-					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID,
-							conceptLattice.getParticularID2Particular(), fullyDeveloped);
-			bldr = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder();
-			Set<IContextualizedProduction> classProds = bldr.apply(classification);
-			classProd2Classification.put(classProds, classification);
+	@Test
+	public void ifTransitionIsCommonFeatureThenOutputStateIsNotParticular() {
+		boolean asExpected = true;
+		int nbOfChecks = 0;
+		for (Set<IContextualizedProduction> classProds : classProd2Classification.keySet()) {
+			for (IContextualizedProduction prod : classProds) {
+				if (prod.getSalience() == Salience.COMMON_FEATURE) {
+					nbOfChecks++;
+					if (conceptLattice.getParticularID2Particular().containsKey(prod.getSubordinateID()))
+						asExpected = false;
+				}
+			}
 		}
+		assertTrue(nbOfChecks > 0 && asExpected);
 	}
 
 	@Test
@@ -119,20 +106,43 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}
 
-	@Test
-	public void ifTransitionIsCommonFeatureThenOutputStateIsNotParticular() {
-		boolean asExpected = true;
-		int nbOfChecks = 0;
-		for (Set<IContextualizedProduction> classProds : classProd2Classification.keySet()) {
-			for (IContextualizedProduction prod : classProds) {
-				if (prod.getSalience() == Salience.COMMON_FEATURE) {
-					nbOfChecks++;
-					if (conceptLattice.getParticularID2Particular().containsKey(prod.getSubordinateID()))
-						asExpected = false;
+	@Before
+	public void setUp() throws Exception {
+		context = GenericFileReader.getContextObjects(SHAPES6);
+		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
+		/*
+		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
+			.apply(conceptLattice.getOntologicalUpperSemilattice(), "FirstBuildTransitionFunctionTest_lattice");
+		*/
+		conceptTrees = growTrees();
+		ProductionSetBuilder bldr;
+		for (InvertedTree<IConcept, IIsA> tree : conceptTrees) {
+			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
+			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
+			boolean fullyDeveloped = isFullyDeveloped(tree);
+			IClassification classification =
+					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID,
+							conceptLattice.getParticularID2Particular(), fullyDeveloped);
+			bldr = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder();
+			Set<IContextualizedProduction> classProds = bldr.apply(classification);
+			classProd2Classification.put(classProds, classification);
+		}
+	}
+
+	private List<Set<IContextualizedProduction>> findRulesWithSpecifiedInputStateAndStackSymbol(
+			Set<IContextualizedProduction> classProds, List<Integer> speciesIDs, AVariable variable) {
+		List<Set<IContextualizedProduction>> assumedRules = new ArrayList<>();
+		for (int i = 0 ; i < speciesIDs.size() ; i++)
+			assumedRules.add(new HashSet<>());
+		for (IContextualizedProduction production : classProds) {
+			if (production.getSalience() == Salience.TRANSITION_RULE && production.getVariable().equals(variable)) {
+				int speciesIdx = speciesIDs.indexOf(production.getSubordinateID());
+				if (speciesIdx != -1) {
+					assumedRules.get(speciesIdx).add(production);
 				}
 			}
 		}
-		assertTrue(nbOfChecks > 0 && asExpected);
+		return assumedRules;
 	}
 
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
@@ -153,27 +163,10 @@ public class HiddenByDefaultThenFindSpecificsTest {
 		return expandedTrees;
 	}
 
-	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
-		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
-		for (IIsA edge : conceptTree.edgeSet())
-			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
-		return speciesID2GenusID;
-	}
-
-	private List<Set<IContextualizedProduction>> findRulesWithSpecifiedInputStateAndStackSymbol(
-			Set<IContextualizedProduction> classProds, List<Integer> speciesIDs, AVariable variable) {
-		List<Set<IContextualizedProduction>> assumedRules = new ArrayList<>();
-		for (int i = 0 ; i < speciesIDs.size() ; i++)
-			assumedRules.add(new HashSet<>());
-		for (IContextualizedProduction production : classProds) {
-			if (production.getSalience() == Salience.TRANSITION_RULE && production.getVariable().equals(variable)) {
-				int speciesIdx = speciesIDs.indexOf(production.getSubordinateID());
-				if (speciesIdx != -1) {
-					assumedRules.get(speciesIdx).add(production);
-				}
-			}
-		}
-		return assumedRules;
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
@@ -182,6 +175,13 @@ public class HiddenByDefaultThenFindSpecificsTest {
 				return false;
 		}
 		return true;
+	}
+
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
+		return speciesID2GenusID;
 	}
 
 }

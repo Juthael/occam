@@ -41,6 +41,8 @@ public interface IConceptLattice {
 
 	InvertedUpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice();
 
+	Map<Integer, IConcept> getParticularID2Particular();
+
 	// it is guaranteed that the order is the same as getContextObjects();
 	List<IConcept> getParticulars();
 
@@ -60,7 +62,5 @@ public interface IConceptLattice {
 	boolean isA(IConcept cat1, IConcept cat2);
 
 	boolean isADirectSubordinateOf(IConcept cat1, IConcept cat2);
-
-	Map<Integer, IConcept> getParticularID2Particular();
 
 }

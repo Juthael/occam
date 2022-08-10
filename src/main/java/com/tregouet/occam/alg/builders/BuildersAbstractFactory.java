@@ -180,6 +180,10 @@ public class BuildersAbstractFactory {
 		return RepresentationTransFuncBuilderFactory.INSTANCE.apply(representationTransFuncBuilderStrategy);
 	}
 
+	public RuleDetector getRuleDetector() {
+		return RuleDetectorFactory.INSTANCE.apply(ruleDetectorStrategy);
+	}
+
 	public SimilarityMatrixBuilder getSimilarityMatrixBuilder() {
 		return SimilarityMatrixBuilderFactory.INSTANCE.apply(similarityMatrixBuilderStrategy);
 	}
@@ -187,13 +191,9 @@ public class BuildersAbstractFactory {
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
 	}
-
+	
 	public TypicalityVectorBuilder getTypicalityVectorBuilder() {
 		return TypicalityVectorBuilderFactory.INSTANCE.apply(typicalityVectorBuilderStrategy);
-	}
-	
-	public RuleDetector getRuleDetector() {
-		return RuleDetectorFactory.INSTANCE.apply(ruleDetectorStrategy);
 	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {

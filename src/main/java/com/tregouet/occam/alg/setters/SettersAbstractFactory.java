@@ -33,10 +33,6 @@ public class SettersAbstractFactory {
 	private SettersAbstractFactory() {
 	}
 
-	public ProblemTransitionWeigher getProblemTransitionWeigher() {
-		return ProblemTransitionWeigherFactory.INSTANCE.apply(problemTransitionWeigherStrategy);
-	}
-
 	public DifferentiaeCoeffSetter getDifferentiaeCoeffSetter() {
 		return DifferentiaeCoeffSetterFactory.INSTANCE.apply(differentiaeCoeffSetterStrategy);
 	}
@@ -49,12 +45,16 @@ public class SettersAbstractFactory {
 		return PartitionWeigherFactory.INSTANCE.apply(partitionWeigherStrategy);
 	}
 
-	public PropertyWeigher getPropertyWheigher() {
-		return PropertyWeigherFactory.INSTANCE.apply(propertyWeigherStrategy);
+	public ProblemTransitionWeigher getProblemTransitionWeigher() {
+		return ProblemTransitionWeigherFactory.INSTANCE.apply(problemTransitionWeigherStrategy);
 	}
-	
+
 	public ProductionSalienceSetter getProductionSalienceSetter() {
 		return ProductionSalienceSetterFactory.INSTANCE.apply(productionSalienceSetterStrategy);
+	}
+	
+	public PropertyWeigher getPropertyWheigher() {
+		return PropertyWeigherFactory.INSTANCE.apply(propertyWeigherStrategy);
 	}	
 
 	public void setUpStrategy(SettingStrategy overallStrategy) {

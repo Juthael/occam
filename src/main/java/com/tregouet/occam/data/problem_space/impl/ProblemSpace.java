@@ -52,6 +52,14 @@ public class ProblemSpace implements IProblemSpace {
 	}
 
 	@Override
+	public Boolean develop(List<Integer> representationIDs) {
+		Boolean developed = problemSpaceExplorer.develop(new HashSet<>(representationIDs));
+		if (developed != null && developed)
+			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(similarityMetrics.getDifferenceMatrix());
+		return developed;
+	}
+
+	@Override
 	public Boolean display(int representationID) {
 		if (activeState != null && activeState.iD() == representationID)
 			return false;
@@ -120,14 +128,6 @@ public class ProblemSpace implements IProblemSpace {
 		if (restricted != null && restricted)
 			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(similarityMetrics.getDifferenceMatrix());
 		return restricted;
-	}
-
-	@Override
-	public Boolean develop(List<Integer> representationIDs) {
-		Boolean developed = problemSpaceExplorer.develop(new HashSet<>(representationIDs));
-		if (developed != null && developed)
-			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(similarityMetrics.getDifferenceMatrix());
-		return developed;
 	}
 
 }

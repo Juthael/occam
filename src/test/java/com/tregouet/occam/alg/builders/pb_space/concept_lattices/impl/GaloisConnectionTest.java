@@ -22,12 +22,6 @@ public class GaloisConnectionTest {
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private List<IContextObject> context;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
@@ -42,6 +36,12 @@ public class GaloisConnectionTest {
 		System.out.println("Concept lattice graph available at " + path);
 		*/
 		assertNotNull(returned);
+	}
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 }

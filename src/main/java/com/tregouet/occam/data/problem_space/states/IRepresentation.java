@@ -52,9 +52,9 @@ public interface IRepresentation extends
 
 	int iD();
 
-	boolean isFullyDeveloped();
-
 	boolean isExpandable();
+
+	boolean isFullyDeveloped();
 
 	Map<Integer, Set<IFact>> mapParticularIDsToAcceptedFacts();
 

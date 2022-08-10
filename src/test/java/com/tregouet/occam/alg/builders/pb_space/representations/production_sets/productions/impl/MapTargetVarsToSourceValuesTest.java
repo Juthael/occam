@@ -28,12 +28,6 @@ public class MapTargetVarsToSourceValuesTest {
 	private IDenotation alphaXGamma;
 	private IDenotation alphaXEpsilonX;
 
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		alphaBetaGamma = array2Denotation(new String[] {"alpha", "beta", "gamma"}, 0);
@@ -60,6 +54,16 @@ public class MapTargetVarsToSourceValuesTest {
 		if (howManyProductionsFor(alphaDeltaEpsilonZeta, alphaDeltaEpsilonZeta) != 1)
 			asExpected = false;
 		assertTrue(asExpected);
+	}
+
+	private IDenotation array2Denotation(String[] array, int conceptID) {
+		List<ISymbol> symbols = new ArrayList<>();
+		for (String string : array) {
+			if (string.equals("var"))
+				symbols.add(new Variable(false));
+			else symbols.add(new Terminal(string));
+		}
+		return new Denotation(new Construct(symbols), conceptID);
 	}
 
 	private int howManyProductionsFor(IDenotation source, IDenotation target) {
@@ -92,14 +96,10 @@ public class MapTargetVarsToSourceValuesTest {
 		}
 	}
 
-	private IDenotation array2Denotation(String[] array, int conceptID) {
-		List<ISymbol> symbols = new ArrayList<>();
-		for (String string : array) {
-			if (string.equals("var"))
-				symbols.add(new Variable(false));
-			else symbols.add(new Terminal(string));
-		}
-		return new Denotation(new Construct(symbols), conceptID);
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 }

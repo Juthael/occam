@@ -79,6 +79,11 @@ public class Construct implements IConstruct {
 	}
 
 	@Override
+	public Integer compareTo(IConstruct other) {
+		return ConstructComparator.INSTANCE.compare(this, other);
+	}
+
+	@Override
 	public IConstruct copy() {
 		return new Construct(new ArrayList<>(symbols), nbOfTerminals);
 	}
@@ -218,11 +223,6 @@ public class Construct implements IConstruct {
 				nbOfTerminals++;
 		}
 		return nbOfTerminals;
-	}
-
-	@Override
-	public Integer compareTo(IConstruct other) {
-		return ConstructComparator.INSTANCE.compare(this, other);
 	}
 
 }

@@ -128,6 +128,11 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
+	public boolean isExpandable() {
+		return classification.isExpandable();
+	}
+
+	@Override
 	public boolean isFullyDeveloped() {
 		return classification.isFullyDeveloped();
 	}
@@ -186,11 +191,6 @@ public class Representation implements IRepresentation {
 
 	public static void initializeIDGenerator() {
 		nextID = IRepresentation.FIRST_ID;
-	}
-
-	@Override
-	public boolean isExpandable() {
-		return classification.isExpandable();
 	}
 
 }

@@ -15,27 +15,11 @@ public class VarInstantiationCompleteAndDistinctive implements RuleDetector {
 	private VarInstantiationCompleteAndDistinctive() {
 	}
 	
-	private static boolean everyTransitionIsCompleteInstantiation(List<Set<IContextualizedProduction>> values) {
-		for (Set<IContextualizedProduction> value : values) {
-			if (value.isEmpty() || instantiationIsIncomplete(value))
-				return false;
-		}
-		return true;
-	}
-
-	private static boolean instantiationIsIncomplete(Set<IContextualizedProduction> value) {
-		for (IProduction production : value) {
-			if (production.isAlphaConversionProd())
-				return true;
-		}
-		return false;
-	}
-
 	@Override
 	public Boolean apply(List<Set<IContextualizedProduction>> values) {
 		return (everyTransitionIsCompleteInstantiation(values) && everyInstantiationIsDistinctive(values));
-	}	
-	
+	}
+
 	private static boolean everyInstantiationIsDistinctive(List<Set<IContextualizedProduction>> setsOfContextualizedProds) {
 		Set<Set<IProduction>> uniqueValues = new HashSet<>();
 		for (Set<IContextualizedProduction> contextualizedProds : setsOfContextualizedProds) {
@@ -46,6 +30,22 @@ public class VarInstantiationCompleteAndDistinctive implements RuleDetector {
 				return false;
 		}
 		return true;
+	}
+
+	private static boolean everyTransitionIsCompleteInstantiation(List<Set<IContextualizedProduction>> values) {
+		for (Set<IContextualizedProduction> value : values) {
+			if (value.isEmpty() || instantiationIsIncomplete(value))
+				return false;
+		}
+		return true;
+	}	
+	
+	private static boolean instantiationIsIncomplete(Set<IContextualizedProduction> value) {
+		for (IProduction production : value) {
+			if (production.isAlphaConversionProd())
+				return true;
+		}
+		return false;
 	}	
 
 }

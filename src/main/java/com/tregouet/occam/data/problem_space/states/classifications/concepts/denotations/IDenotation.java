@@ -12,13 +12,13 @@ public interface IDenotation extends IConstruct {
 
 	int getConceptID();
 
+	boolean isArbitraryLabel();
+
 	boolean isRedundant();
 
 	void markAsRedundant();
 
 	@Override
 	String toString();
-
-	boolean isArbitraryLabel();
 
 }

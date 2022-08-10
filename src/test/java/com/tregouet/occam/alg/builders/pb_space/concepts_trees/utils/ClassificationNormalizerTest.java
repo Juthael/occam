@@ -31,12 +31,6 @@ public class ClassificationNormalizerTest {
 	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
 
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-		Occam.initialize();
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(TABLETOP1B);
@@ -87,6 +81,12 @@ public class ClassificationNormalizerTest {
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
+	}
+
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
+		Occam.initialize();
 	}
 
 }

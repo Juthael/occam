@@ -40,12 +40,6 @@ public class EveryComputationIsRelevantTest {
 	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
 
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
@@ -80,20 +74,6 @@ public class EveryComputationIsRelevantTest {
 		assertTrue(nbOfChecks > 0 && asExpected);
 	}
 
-	@SuppressWarnings("unused")
-	private String report(IRepresentationTransitionFunction transFunc, InvertedTree<IConcept, IIsA> tree, int idx) {
-		StringBuilder sB = new StringBuilder();
-		String treePath =
-				VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(
-						tree, "BuildExhaustivelyTest_tree" + Integer.toString(idx));
-		String tfPath =
-				VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz().apply(
-						transFunc, "BuildExhaustivelyTest_TF" + Integer.toString(idx));
-		sB.append("Concept tree n." + Integer.toString(idx) + " is available at : " + treePath + nL)
-			.append("Transition function n." + Integer.toString(idx) + " is available at : " + tfPath);
-		return sB.toString();
-	}
-
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
@@ -112,11 +92,24 @@ public class EveryComputationIsRelevantTest {
 		return expandedTrees;
 	}
 
-	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
-		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
-		for (IIsA edge : conceptTree.edgeSet())
-			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
-		return speciesID2GenusID;
+	@SuppressWarnings("unused")
+	private String report(IRepresentationTransitionFunction transFunc, InvertedTree<IConcept, IIsA> tree, int idx) {
+		StringBuilder sB = new StringBuilder();
+		String treePath =
+				VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(
+						tree, "BuildExhaustivelyTest_tree" + Integer.toString(idx));
+		String tfPath =
+				VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz().apply(
+						transFunc, "BuildExhaustivelyTest_TF" + Integer.toString(idx));
+		sB.append("Concept tree n." + Integer.toString(idx) + " is available at : " + treePath + nL)
+			.append("Transition function n." + Integer.toString(idx) + " is available at : " + tfPath);
+		return sB.toString();
+	}
+
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
@@ -125,6 +118,13 @@ public class EveryComputationIsRelevantTest {
 				return false;
 		}
 		return true;
+	}
+
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
+		return speciesID2GenusID;
 	}
 
 }

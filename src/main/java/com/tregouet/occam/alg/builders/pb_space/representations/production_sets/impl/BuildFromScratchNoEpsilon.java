@@ -71,6 +71,20 @@ public class BuildFromScratchNoEpsilon implements ProductionSetBuilder {
 		return productions;
 	}
 	
+	private void removeInherited(Set<IDenotation> supDenot, Set<IDenotation> subDenot) {
+		Set<IDenotation> toBeRemoved = new HashSet<>();
+		for (IDenotation sup : supDenot) {
+			List<ISymbol> supList = sup.asList();
+			for (IDenotation sub : subDenot) {
+				if (supList.equals(sub.asList())) {
+					toBeRemoved.add(sub);
+					break;
+				}
+			}
+		}
+		subDenot.removeAll(toBeRemoved);
+	}
+	
 	private void setUp(IClassification classification) {
 		conceptID2ReducedDenotSet = new HashMap<>();
 		InvertedTree<IConcept, IIsA> classGraph = classification.asGraph();
@@ -89,20 +103,6 @@ public class BuildFromScratchNoEpsilon implements ProductionSetBuilder {
 				}	
 			}
 		}
-	}
-	
-	private void removeInherited(Set<IDenotation> supDenot, Set<IDenotation> subDenot) {
-		Set<IDenotation> toBeRemoved = new HashSet<>();
-		for (IDenotation sup : supDenot) {
-			List<ISymbol> supList = sup.asList();
-			for (IDenotation sub : subDenot) {
-				if (supList.equals(sub.asList())) {
-					toBeRemoved.add(sub);
-					break;
-				}
-			}
-		}
-		subDenot.removeAll(toBeRemoved);
 	}	
 
 }

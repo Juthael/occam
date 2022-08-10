@@ -34,6 +34,11 @@ public class Differentiae extends ADifferentiae {
 	}
 
 	@Override
+	public Double getCoeffFreeWeight() {
+		return weight;
+	}
+
+	@Override
 	public int getGenusID() {
 		return genusID;
 	}
@@ -91,11 +96,6 @@ public class Differentiae extends ADifferentiae {
 	@Override
 	public Double weight() {
 		return coeff * weight;
-	}
-
-	@Override
-	public Double getCoeffFreeWeight() {
-		return weight;
 	}
 
 }

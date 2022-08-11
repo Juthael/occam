@@ -79,7 +79,7 @@ public class SettersAbstractFactory {
 			productionSalienceSetterStrategy = ProductionSalienceSetterStrategy.HIDDEN_THEN_FIND_SPECIFICS;
 			propertyWeigherStrategy = PropertyWeigherStrategy.RULENESS;
 			differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.SPECIES_CARDINALITY;
-			differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.MIN_NB_OF_WEIGHED_PROP;
+			differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.MAX_WEIGHT_FOR_NON_REDUNDANT;
 			partitionWeigherStrategy = PartitionWeigherStrategy.SUM_PARTITION_DIFFERENTIAE;
 			problemTransitionWeigherStrategy = ProblemTransitionWeigherStrategy.PART_PROB_WITH_TRIVIAL_TRANSITIONS_MANDATORY;
 			break;

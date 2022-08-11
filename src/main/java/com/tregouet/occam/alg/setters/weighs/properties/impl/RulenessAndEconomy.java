@@ -15,22 +15,17 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 
-public class Ruleness implements PropertyWeigher {
-
+public class RulenessAndEconomy implements PropertyWeigher {
+	
 	private IClassification classification;
 	private Map<Integer, List<IConcept>> conceptID2CompExtent;
-
-	public Ruleness() {
+	
+	public RulenessAndEconomy() {
 	}
-
+	
 	@Override
 	public void accept(IProperty p) {
 		if (!p.isBlank()) {
-			//HERE
-			if (p.getGenusID() == 100 && p.getSpeciesID() == -112) {
-				System.out.println("here");
-			}
-			//HERE
 			int speciesID = p.getSpeciesID();
 			List<IConcept> speciesComplementaryExtent = conceptID2CompExtent.get(speciesID);
 			List<IConstruct> computationOutputs = new ArrayList<>();
@@ -51,11 +46,12 @@ public class Ruleness implements PropertyWeigher {
 				if (complies)
 					ruleCardinality++;
 			}
-			p.setWeight((double) propertyCardinality / (double) ruleCardinality);
+			int nbOfApplications = computationOutputs.size();
+			p.setWeight(((double) propertyCardinality / (double) ruleCardinality) / (double) nbOfApplications);
 		}
 		else p.setWeight(0.0);
-	}
-
+	}	
+	
 	@Override
 	public PropertyWeigher setUp(IClassification classification) {
 		this.classification = classification;
@@ -74,6 +70,6 @@ public class Ruleness implements PropertyWeigher {
 			}
 		}
 		return this;
-	}
+	}	
 
 }

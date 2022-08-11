@@ -22,6 +22,7 @@ public abstract class GenericFileReader {
 	public static final String SEPARATOR = "/";
 	public static final char NAME_SYMBOL = '@';
 	public static final String LABEL_DENOTATION_SYMBOL = "*";
+	public static final char IGNORE = '%';
 
 	private GenericFileReader() {
 	}
@@ -44,6 +45,8 @@ public abstract class GenericFileReader {
 				}
 			} else if (line.length() > 1 && line.charAt(0) == NAME_SYMBOL) {
 				currObjName = line.substring(1);
+			} else if (line.length() == 0 || (line.length() > 1 && line.charAt(0) == IGNORE)) {
+				//do nothing
 			} else {
 				currObjConstructsAsLists.add(Arrays.asList(line.split(SEPARATOR)));
 			}

@@ -146,7 +146,11 @@ public class Concept implements IConcept {
 
 	@Override
 	public boolean meets(IConstruct constraint) {
-		return getDenotations().stream().anyMatch(a -> a.meets(constraint));
+		for (IDenotation denotation : getDenotations()) {
+			if (denotation.meets(constraint))
+				return true;
+		}
+		return false;
 	}
 
 	@Override

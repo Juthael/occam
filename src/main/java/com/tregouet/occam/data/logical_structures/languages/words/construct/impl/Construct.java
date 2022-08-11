@@ -175,7 +175,7 @@ public class Construct implements IConstruct {
 	@Override
 	public boolean meets(IConstruct constraint) {
 		Integer comparison = this.compareTo(constraint);
-		if (comparison != null && comparison >= 0)
+		if (comparison != null && comparison <= 0)
 			return true;
 		return false;
 	}

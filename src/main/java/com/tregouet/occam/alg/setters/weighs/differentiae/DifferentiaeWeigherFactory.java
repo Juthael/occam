@@ -26,7 +26,7 @@ public class DifferentiaeWeigherFactory {
 			return MaxNbOfNonRedundantProperties.INSTANCE;
 		case MIN_NB_OF_WEIGHED_PROP :
 			return MinNbOfWeighedProperties.INSTANCE;
-		case MAX_WEIGHT_FOR_NON_REDUNDANT : 
+		case MAX_WEIGHT_FOR_NON_REDUNDANT :
 			return MaxWeightForNonRedundantSubsetOfProp.INSTANCE;
 		default:
 			return null;

@@ -26,11 +26,6 @@ public class Ruleness implements PropertyWeigher {
 	@Override
 	public void accept(IProperty p) {
 		if (!p.isBlank()) {
-			//HERE
-			if (p.getGenusID() == 100 && p.getSpeciesID() == -112) {
-				System.out.println("here");
-			}
-			//HERE
 			int speciesID = p.getSpeciesID();
 			List<IConcept> speciesComplementaryExtent = conceptID2CompExtent.get(speciesID);
 			List<IConstruct> computationOutputs = new ArrayList<>();

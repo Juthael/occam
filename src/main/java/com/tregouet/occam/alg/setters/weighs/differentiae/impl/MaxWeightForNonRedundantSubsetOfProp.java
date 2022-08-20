@@ -14,7 +14,7 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 
 public class MaxWeightForNonRedundantSubsetOfProp implements DifferentiaeWeigher {
-	
+
 	public static class SubsetOfProperties {
 
 		private final Set<IProperty> subset;
@@ -24,15 +24,15 @@ public class MaxWeightForNonRedundantSubsetOfProp implements DifferentiaeWeigher
 			this.subset = subset;
 			this.weightSum = weightSum;
 		}
-		
+
 		public boolean contains(SubsetOfProperties other) {
 			return this.subset.containsAll(other.subset);
 		}
 
 	}
-	
+
 	public static final MaxWeightForNonRedundantSubsetOfProp INSTANCE = new MaxWeightForNonRedundantSubsetOfProp();
-	
+
 	private MaxWeightForNonRedundantSubsetOfProp() {
 	}
 
@@ -57,7 +57,7 @@ public class MaxWeightForNonRedundantSubsetOfProp implements DifferentiaeWeigher
 			List<SubsetOfProperties> nonRedundantSurjectiveSubsets = new ArrayList<>();
 			boolean newSurjectiveSubsetsFound = true;
 			while (newSurjectiveSubsetsFound) {
-				Set<SubsetOfProperties> newSurjectiveSubsets = 
+				Set<SubsetOfProperties> newSurjectiveSubsets =
 						getSurjectiveSubsetsOfSpecifiedSize(nonBlankProperties, requiredDenotations, subsetSize);
 				if (!newSurjectiveSubsets.isEmpty()) {
 					addNewSubsetsAndRemoveRedundants(newSurjectiveSubsets, nonRedundantSurjectiveSubsets);
@@ -74,7 +74,7 @@ public class MaxWeightForNonRedundantSubsetOfProp implements DifferentiaeWeigher
 			diff.setCoeffFreeWeight(diffWeight);
 		}
 	}
-	
+
 	private static Set<SubsetOfProperties> getSurjectiveSubsetsOfSpecifiedSize(Set<IProperty> properties,
 			Set<IDenotation> requiredDenotations, int subsetSize) {
 		Set<SubsetOfProperties> subsets = new HashSet<>();
@@ -88,7 +88,7 @@ public class MaxWeightForNonRedundantSubsetOfProp implements DifferentiaeWeigher
 		}
 		return subsets;
 	}
-	
+
 	private static void addNewSubsetsAndRemoveRedundants(Set<SubsetOfProperties> newSubsets, List<SubsetOfProperties> previousSubsets) {
 		for (SubsetOfProperties newSubset : newSubsets) {
 			Iterator<SubsetOfProperties> prevSubsetsIte = previousSubsets.iterator();
@@ -96,11 +96,11 @@ public class MaxWeightForNonRedundantSubsetOfProp implements DifferentiaeWeigher
 				SubsetOfProperties previousSubset = prevSubsetsIte.next();
 				if (previousSubset.contains(newSubset))
 					prevSubsetsIte.remove();
-			}	
+			}
 		}
 		previousSubsets.addAll(newSubsets);
 	}
-	
+
 	private static boolean isSurjective(Set<IProperty> propSubset,
 			Set<IDenotation> requiredDenotations) {
 		Set<IDenotation> propSubsetDenotations = new HashSet<>();

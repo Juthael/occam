@@ -16,13 +16,13 @@ import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.pr
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
 
 public class RulenessAndEconomy implements PropertyWeigher {
-	
+
 	private IClassification classification;
 	private Map<Integer, List<IConcept>> conceptID2CompExtent;
-	
+
 	public RulenessAndEconomy() {
 	}
-	
+
 	@Override
 	public void accept(IProperty p) {
 		if (!p.isBlank()) {
@@ -47,11 +47,11 @@ public class RulenessAndEconomy implements PropertyWeigher {
 					ruleCardinality++;
 			}
 			int nbOfApplications = computationOutputs.size();
-			p.setWeight(((double) propertyCardinality / (double) ruleCardinality) / (double) nbOfApplications);
+			p.setWeight(((double) propertyCardinality / (double) ruleCardinality) / nbOfApplications);
 		}
 		else p.setWeight(0.0);
-	}	
-	
+	}
+
 	@Override
 	public PropertyWeigher setUp(IClassification classification) {
 		this.classification = classification;
@@ -70,6 +70,6 @@ public class RulenessAndEconomy implements PropertyWeigher {
 			}
 		}
 		return this;
-	}	
+	}
 
 }

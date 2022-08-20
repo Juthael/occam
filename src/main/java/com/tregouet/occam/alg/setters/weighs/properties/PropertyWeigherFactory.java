@@ -20,7 +20,7 @@ public class PropertyWeigherFactory {
 			return NbOfComputations.INSTANCE;
 		case RULENESS :
 			return new Ruleness();
-		case RULENESS_AND_ECONOMY : 
+		case RULENESS_AND_ECONOMY :
 			return new RulenessAndEconomy();
 		default:
 			return null;

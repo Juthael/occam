@@ -1,6 +1,8 @@
 package com.tregouet.occam.alg.setters.weighs.properties;
 
 import com.tregouet.occam.alg.setters.weighs.properties.impl.NbOfComputations;
+import com.tregouet.occam.alg.setters.weighs.properties.impl.Ruleness;
+import com.tregouet.occam.alg.setters.weighs.properties.impl.RulenessAndEconomy;
 import com.tregouet.occam.alg.setters.weighs.properties.impl.Weightless;
 
 public class PropertyWeigherFactory {
@@ -16,6 +18,10 @@ public class PropertyWeigherFactory {
 			return Weightless.INSTANCE;
 		case NB_OF_COMPUTATIONS :
 			return NbOfComputations.INSTANCE;
+		case RULENESS :
+			return new Ruleness();
+		case RULENESS_AND_ECONOMY :
+			return new RulenessAndEconomy();
 		default:
 			return null;
 		}

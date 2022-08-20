@@ -1,24 +1,27 @@
 package com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.impl;
 
+import java.util.List;
 import java.util.Objects;
 
+import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class Denotation extends Construct implements IDenotation {
 
 	private final int conceptID;
 	private boolean isRedundant = false;
+	private final boolean isArbitraryLabel;
 
 	public Denotation(IConstruct construct, int conceptID) {
 		super(construct);
 		this.conceptID = conceptID;
-	}
-
-	@Override
-	public Integer compareTo(IDenotation other) {
-		return DenotationComparator.INSTANCE.compare(this, other);
+		List<ISymbol> list = construct.asList();
+		if (list.size() == 1 && list.get(0).toString().contains(GenericFileReader.LABEL_DENOTATION_SYMBOL))
+			isArbitraryLabel = true;
+		else isArbitraryLabel = false;
 	}
 
 	@Override
@@ -42,6 +45,11 @@ public class Denotation extends Construct implements IDenotation {
 		int result = super.hashCode();
 		result = prime * result + Objects.hash(conceptID);
 		return result;
+	}
+
+	@Override
+	public boolean isArbitraryLabel() {
+		return isArbitraryLabel;
 	}
 
 	@Override

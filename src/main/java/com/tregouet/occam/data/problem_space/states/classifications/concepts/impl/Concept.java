@@ -34,10 +34,14 @@ public class Concept implements IConcept {
 		this.maxExtentIDs = Set.copyOf(extentIDs); //unmodifiable
 	}
 
-	public Concept(Set<IConstruct> denotatingConstructs, Set<Integer> extentIDs, int iD) {
+	public Concept(IConstruct[] denotatingConstructs, boolean[] redundant, Set<Integer> extentIDs, int iD) {
 		this.iD = iD;
-		for (IConstruct construct : denotatingConstructs)
-			this.denotations.add(new Denotation(construct, this.iD));
+		for (int i = 0 ; i < denotatingConstructs.length ; i++) {
+			IDenotation iDenotation = new Denotation(denotatingConstructs[i], this.iD);
+			if (redundant[i])
+				iDenotation.markAsRedundant();
+			this.denotations.add(iDenotation);
+		}
 		this.maxExtentIDs = Set.copyOf(extentIDs); //unmodifiable
 	}
 
@@ -142,7 +146,11 @@ public class Concept implements IConcept {
 
 	@Override
 	public boolean meets(IConstruct constraint) {
-		return getDenotations().stream().anyMatch(a -> a.meets(constraint));
+		for (IDenotation denotation : getDenotations()) {
+			if (denotation.meets(constraint))
+				return true;
+		}
+		return false;
 	}
 
 	@Override

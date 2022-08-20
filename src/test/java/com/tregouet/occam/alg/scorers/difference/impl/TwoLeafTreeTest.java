@@ -26,12 +26,6 @@ public class TwoLeafTreeTest {
 	private List<Integer> extentIDs = new ArrayList<>();
 	private IConceptLattice conceptLattice;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
@@ -62,6 +56,12 @@ public class TwoLeafTreeTest {
 			}
 		}
 		assertTrue(asExpected);
+	}
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 }

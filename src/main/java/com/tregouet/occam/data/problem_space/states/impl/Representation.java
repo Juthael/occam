@@ -128,6 +128,11 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
+	public boolean isExpandable() {
+		return classification.isExpandable();
+	}
+
+	@Override
 	public boolean isFullyDeveloped() {
 		return classification.isFullyDeveloped();
 	}

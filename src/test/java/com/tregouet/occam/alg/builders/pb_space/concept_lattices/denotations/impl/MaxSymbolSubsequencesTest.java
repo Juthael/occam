@@ -31,12 +31,6 @@ public class MaxSymbolSubsequencesTest {
 	private Set<IConstruct> returned;
 	private Set<IConstruct> expected;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 
@@ -71,6 +65,20 @@ public class MaxSymbolSubsequencesTest {
 		assertEquals(expectedWithVarPlaceHolders, returnedWithVarPlaceHolders);
 	}
 
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
+	}
+
+	private static Set<IConstruct> initializeExpected() {
+		Set<IConstruct> expected = new HashSet<>();
+		expected.add(stringArray2Construct(new String[] {"alpha", "var"}));
+		expected.add(stringArray2Construct(new String[] {"alpha", "beta", "var"}));
+		expected.add(stringArray2Construct(new String[] {"alpha", "var", "epsilon"}));
+		return expected;
+	}
+
 	private static IContextObject initializeObj1() {
 		List<List<String>> constructsAsLists = new ArrayList<>();
 		constructsAsLists.add(new ArrayList<>(Arrays.asList(new String[] {"alpha", "beta", "gamma"})));
@@ -90,14 +98,6 @@ public class MaxSymbolSubsequencesTest {
 		constructsAsLists.add(new ArrayList<>(Arrays.asList(new String[] {"alpha", "beta", "gamma"})));
 		constructsAsLists.add(new ArrayList<>(Arrays.asList(new String[] {"alpha", "eta", "epsilon"})));
 		return new Particular(constructsAsLists);
-	}
-
-	private static Set<IConstruct> initializeExpected() {
-		Set<IConstruct> expected = new HashSet<>();
-		expected.add(stringArray2Construct(new String[] {"alpha", "var"}));
-		expected.add(stringArray2Construct(new String[] {"alpha", "beta", "var"}));
-		expected.add(stringArray2Construct(new String[] {"alpha", "var", "epsilon"}));
-		return expected;
 	}
 
 	private static IConstruct stringArray2Construct(String[] array) {

@@ -15,9 +15,12 @@ public class AsymmetricalSimMatrixRowAverage implements TypicalityVectorBuilder 
 		double[] typicalityVector = new double[nbOfParticulars];
 		for (int i = 0 ; i < nbOfParticulars ; i++) {
 			double sum = 0.0;
-			for (int j = 0 ; j < nbOfParticulars ; j++)
-				sum += asymmetricalSimilarityMatrix[j][i];
-			typicalityVector[i] = sum / (nbOfParticulars);
+			for (int j = 0 ; j < nbOfParticulars ; j++) {
+				if (i != j)
+					sum += asymmetricalSimilarityMatrix[j][i];
+			}
+
+			typicalityVector[i] = sum / (nbOfParticulars - 1);
 		}
 		return typicalityVector;
 	}

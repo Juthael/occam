@@ -95,8 +95,8 @@ public class FormattersAbstractFactory {
 			abstrAppLabellerStrategy = AbstrAppLabellerStrategy.CONJUNCTION;
 			transitionLabellerStrategy = TransitionLabellerStrategy.CANONICAL_NOTATION;
 			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.DISPLAY_ALL_TRANSITIONS;
-			computationLabellerStrategy = ComputationLabellerStrategy.CONJUNCTION_NO_IDENTITY;
-			propertyLabellerStrategy = PropertyLabellerStrategy.CURLY_BRACKETS;
+			computationLabellerStrategy = ComputationLabellerStrategy.CONJUNCTION;
+			propertyLabellerStrategy = PropertyLabellerStrategy.CURLY_BRACKETS_WITH_WEIGHT;
 			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
 			sorting2StringConverterStrategy = Sorting2StringConverterStrategy.RECURSIVE_FRAMING;
 			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES_WITH_SCORE;

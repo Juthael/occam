@@ -28,47 +28,10 @@ public class MarkRedundantDenotationsTest {
 	private List<IContextObject> context;
 	private IConceptLattice lattice;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES2);
 		lattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
-	}
-
-	@Test
-	public void whenDenotationIsUpperBoundOfAnotherInInstantiationOrderThenIsMarkedAsRedundant() {
-		boolean ifUpperBoundThenRedundant = true;
-		for (IConcept concept : lattice.getLatticeOfConcepts()) {
-			/*
-			System.out.println("Concept N." + Integer.toString(concept.iD()) + nL);
-			*/
-			List<IDenotation> denotations = new ArrayList<>(concept.getDenotations());
-			for (int i = 0 ; i < denotations.size() ; i++) {
-				IDenotation iDenot = denotations.get(i);
-				for (int j = 0 ; j < denotations.size() ; j++) {
-					if (i != j) {
-						IDenotation jDenot = denotations.get(j);
-						Integer comparison = iDenot.compareTo(jDenot);
-						if (comparison != null && comparison > 0) {
-							/*
-							System.out.println("The denotation " + nL + "   [" + iDenot.toString() + "]");
-							System.out.println("is redundant since it can be transformed into the denotation");
-							System.out.println("    [" + jDenot.toString() + "]");
-							System.out.println("by instantiation of its variable(s)." + nL);
-							*/
-							if (!iDenot.isRedundant())
-								ifUpperBoundThenRedundant = false;
-						}
-					}
-				}
-			}
-		}
-		assertTrue(ifUpperBoundThenRedundant);
 	}
 
 	@Test
@@ -105,6 +68,43 @@ public class MarkRedundantDenotationsTest {
 			}
 		}
 		assertTrue(ifRedundantThenUpperBound);
+	}
+
+	@Test
+	public void whenDenotationIsUpperBoundOfAnotherInInstantiationOrderThenIsMarkedAsRedundant() {
+		boolean ifUpperBoundThenRedundant = true;
+		for (IConcept concept : lattice.getLatticeOfConcepts()) {
+			/*
+			System.out.println("Concept N." + Integer.toString(concept.iD()) + nL);
+			*/
+			List<IDenotation> denotations = new ArrayList<>(concept.getDenotations());
+			for (int i = 0 ; i < denotations.size() ; i++) {
+				IDenotation iDenot = denotations.get(i);
+				for (int j = 0 ; j < denotations.size() ; j++) {
+					if (i != j) {
+						IDenotation jDenot = denotations.get(j);
+						Integer comparison = iDenot.compareTo(jDenot);
+						if (comparison != null && comparison > 0) {
+							/*
+							System.out.println("The denotation " + nL + "   [" + iDenot.toString() + "]");
+							System.out.println("is redundant since it can be transformed into the denotation");
+							System.out.println("    [" + jDenot.toString() + "]");
+							System.out.println("by instantiation of its variable(s)." + nL);
+							*/
+							if (!iDenot.isRedundant())
+								ifUpperBoundThenRedundant = false;
+						}
+					}
+				}
+			}
+		}
+		assertTrue(ifUpperBoundThenRedundant);
+	}
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 }

@@ -28,21 +28,12 @@ public class ClassificationNormalizerTest {
 
 	private static final Path TABLETOP1B = Paths.get(".", "src", "test", "java", "files", "tabletop1b.txt");
 	private List<IContextObject> context;
-	private Set<Integer> particularIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> conceptTrees;
-
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-		Occam.initialize();
-	}
 
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(TABLETOP1B);
-		for (IContextObject obj : context)
-			particularIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		/*
 		VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
@@ -59,7 +50,8 @@ public class ClassificationNormalizerTest {
 		*/
 		for (InvertedTree<IConcept, IIsA> conceptTree : conceptTrees) {
 			IClassification classification =
-					BuildersAbstractFactory.INSTANCE.getClassificationBuilder().apply(conceptTree, particularIDs);
+					BuildersAbstractFactory.INSTANCE.getClassificationBuilder().apply(
+							conceptTree, conceptLattice.getParticularID2Particular());
 			/*
 			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(conceptTree, "raw" + Integer.toString(idx));
 			*/
@@ -76,18 +68,25 @@ public class ClassificationNormalizerTest {
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
-		expandedTreesFromLastIteration = BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
+		expandedTreesFromLastIteration =
+				new HashSet<>(BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null).keySet());
 		do {
 			expandedTrees.addAll(expandedTreesFromLastIteration);
 			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
-				expandedTreesFromLastIteration.addAll(
-						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
+				expandedTreesFromLastIteration.addAll(new HashSet<>(
+						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree).keySet()));
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
+	}
+
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
+		Occam.initialize();
 	}
 
 }

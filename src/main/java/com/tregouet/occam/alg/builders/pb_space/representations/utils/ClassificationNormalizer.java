@@ -22,6 +22,11 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.imp
 import com.tregouet.occam.data.problem_space.states.classifications.impl.NormalizedClassification;
 import com.tregouet.tree_finder.data.InvertedTree;
 
+/**
+ * Ensures that two denotations from different concepts cannot differ by the names of their variables only
+ * @author Gael Tregouet
+ *
+ */
 public interface ClassificationNormalizer {
 
 	public static NormalizedClassification normalize(IClassification classification){
@@ -86,7 +91,8 @@ public interface ClassificationNormalizer {
 		InvertedTree<IConcept, IIsA> normalizedTree =
 				new InvertedTree<>(normalizedDAG, normalizedRoot, normalizedleaves, normalizedTopoOrder);
 		return new NormalizedClassification(normalizedTree, classification.mapConceptID2ExtentIDs(),
-				classification.mapSpeciesID2GenusID(), classification.getParticularIDs(), classification.isFullyDeveloped());
+				classification.mapSpeciesID2GenusID(), classification.getParticularID2Particular(),
+				classification.isFullyDeveloped(), classification.expansionIsRestricted());
 	}
 
 	private static void doUpdateMap(AVariable replaced, AVariable substitute, Map<AVariable, AVariable> replaced2Substitute) {

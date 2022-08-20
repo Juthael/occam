@@ -17,6 +17,8 @@ public abstract class ADifferentiae extends DefaultEdge implements Weighed {
 	@Override
 	abstract public boolean equals(Object o);
 
+	abstract public Double getCoeffFreeWeight();
+
 	abstract public int getGenusID();
 
 	abstract public Set<IProperty> getProperties();

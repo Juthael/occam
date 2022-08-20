@@ -33,11 +33,9 @@ public class TwoLeafTree implements DifferenceScorer {
 
 	@Override
 	public double score(int particularID1, int particularID2, IConceptLattice lattice) {
-		Set<Integer> particularIDs = new HashSet<>();
-		particularIDs.add(particularID1);
-		particularIDs.add(particularID2);
 		InvertedTree<IConcept, IIsA> twoLeafTree = setUpClassificationTree(particularID1, particularID2, lattice);
-		IClassification classification = DifferenceScorer.classificationBuilder().apply(twoLeafTree, particularIDs);
+		IClassification classification =
+				DifferenceScorer.classificationBuilder().apply(twoLeafTree, lattice.getParticularID2Particular());
 		Set<IContextualizedProduction> productions = DifferenceScorer.productionSetBuilder().apply(classification.normalized());
 		IDescription description = DifferenceScorer.descriptionBuilder().apply(classification.normalized(), productions);
 		Tree<Integer, ADifferentiae> descriptionAsGraph = description.asGraph();
@@ -45,7 +43,8 @@ public class TwoLeafTree implements DifferenceScorer {
 		return concept1Diff.weight();
 	}
 
-	private InvertedTree<IConcept, IIsA> setUpClassificationTree(int particularID1, int particularID2, IConceptLattice lattice) {
+	private InvertedTree<IConcept, IIsA> setUpClassificationTree(
+			int particularID1, int particularID2, IConceptLattice lattice) {
 		Set<Integer> extentIDs = new HashSet<>();
 		extentIDs.add(particularID1);
 		extentIDs.add(particularID2);
@@ -85,10 +84,16 @@ public class TwoLeafTree implements DifferenceScorer {
 
 	private static IConcept copyConceptWithRestrictedExtent(IConcept concept, Set<Integer> restrictedExtentIDs) {
 		IConcept restrictedCopy;
-		Set<IConstruct> constructs = new HashSet<>();
-		for (IDenotation denotation : concept.getDenotations())
-			constructs.add(denotation.copy());
-		restrictedCopy = new Concept(constructs, restrictedExtentIDs, concept.iD());
+		int nbOfDenotations = concept.getDenotations().size();
+		IConstruct[] constructs = new IConstruct[nbOfDenotations];
+		boolean[] redundant = new boolean[nbOfDenotations];
+		int idx = 0;
+		for (IDenotation denotation : concept.getDenotations()) {
+			constructs[idx] = denotation.copy();
+			redundant[idx] = denotation.isRedundant();
+			idx++;
+		}
+		restrictedCopy = new Concept(constructs, redundant, restrictedExtentIDs, concept.iD());
 		restrictedCopy.setType(concept.type());
 		return restrictedCopy;
 	}

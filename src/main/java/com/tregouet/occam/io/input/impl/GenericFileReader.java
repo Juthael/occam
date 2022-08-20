@@ -21,8 +21,39 @@ public abstract class GenericFileReader {
 
 	public static final String SEPARATOR = "/";
 	public static final char NAME_SYMBOL = '@';
+	public static final String LABEL_DENOTATION_SYMBOL = "*";
+	public static final char IGNORE = '%';
 
 	private GenericFileReader() {
+	}
+
+	public static List<IContextObject> getContextObjects(BufferedReader reader) throws IOException {
+		List<IContextObject> objects = new ArrayList<>();
+		String line;
+		List<List<String>> currObjConstructsAsLists = new ArrayList<>();
+		String currObjName = null;
+		do {
+			line = reader.readLine();
+			if (line == null || line.equals(SEPARATOR)) {
+				if (!currObjConstructsAsLists.isEmpty()) {
+					if (currObjName == null)
+						objects.add(new Particular(currObjConstructsAsLists));
+					else
+						objects.add(new Particular(currObjConstructsAsLists, currObjName));
+					currObjConstructsAsLists = new ArrayList<>();
+					currObjName = null;
+				}
+			} else if (line.length() > 1 && line.charAt(0) == NAME_SYMBOL) {
+				currObjName = line.substring(1);
+			} else if (line.length() == 0 || (line.length() > 1 && line.charAt(0) == IGNORE)) {
+				//do nothing
+			} else {
+				currObjConstructsAsLists.add(Arrays.asList(line.split(SEPARATOR)));
+			}
+		} while (line != null);
+		cardinalityTest(objects);
+		unicityTest(objects);
+		return objects;
 	}
 
 	/**
@@ -50,7 +81,7 @@ public abstract class GenericFileReader {
 	 * @throws InvalidInputException
 	 */
 	public static List<IContextObject> getContextObjects(Path path) throws IOException {
-		
+
 		BufferedReader reader;
 		try {
 			reader = Files.newBufferedReader(path);
@@ -60,33 +91,6 @@ public abstract class GenericFileReader {
 					+ "BufferedReader ccannot be instantiated." + System.lineSeparator() + e.getMessage());
 		}
 		return getContextObjects(reader);
-	}
-
-	public static List<IContextObject> getContextObjects(BufferedReader reader) throws IOException {
-		List<IContextObject> objects = new ArrayList<>();
-		String line;
-		List<List<String>> currObjConstructsAsLists = new ArrayList<>();
-		String currObjName = null;
-		do {
-			line = reader.readLine();
-			if (line == null || line.equals(SEPARATOR)) {
-				if (!currObjConstructsAsLists.isEmpty()) {
-					if (currObjName == null)
-						objects.add(new Particular(currObjConstructsAsLists));
-					else
-						objects.add(new Particular(currObjConstructsAsLists, currObjName));
-					currObjConstructsAsLists = new ArrayList<>();
-					currObjName = null;
-				}
-			} else if (line.length() > 1 && line.charAt(0) == NAME_SYMBOL) {
-				currObjName = line.substring(1);
-			} else {
-				currObjConstructsAsLists.add(Arrays.asList(line.split(SEPARATOR)));
-			}
-		} while (line != null);
-		cardinalityTest(objects);
-		unicityTest(objects);
-		return objects;
 	}
 
 	private static void cardinalityTest(List<IContextObject> objects) throws IOException {

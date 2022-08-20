@@ -49,18 +49,12 @@ public class NormalizeClassificationThenBuildProductionsTest {
 
 	private static final Path TABLETOP1B = Paths.get(".", "src", "test", "java", "files", "tabletop1b.txt");
 	private List<IContextObject> context;
-	private DevelopTrivialDiscardUninformativeStates pbSpaceExplorer;
-
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(OverallStrategy.OVERALL_STRATEGY_3);
-	}
+	private DiscardUninformativeStates pbSpaceExplorer;
 
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(TABLETOP1B);
-		pbSpaceExplorer = new DevelopTrivialDiscardUninformativeStates();
+		pbSpaceExplorer = new DiscardUninformativeStates();
 	}
 
 	@Test
@@ -108,6 +102,25 @@ public class NormalizeClassificationThenBuildProductionsTest {
 		}
 	}
 
+	private String toString(ADifferentiae differentiae) {
+		String nl = System.lineSeparator();
+		StringBuilder sB = new StringBuilder();
+		for (IProperty prop : differentiae.getProperties()) {
+			sB.append("***" + nl);
+			sB.append("*Property : " + nl);
+			sB.append("*function : " + prop.getFunction().toString() + nl);
+			sB.append("*computations :" + nl);
+			for (IComputation computation : prop.getComputations()) {
+				sB.append(FormattersAbstractFactory.INSTANCE.getComputationLabeller().apply(computation) + nl);
+			}
+			sB.append("*values : " + nl);
+			for (IComputation computation : prop.getComputations()) {
+				sB.append(computation.getOutput() + nl);
+			}
+		}
+		return sB.toString();
+	}
+
 	@SuppressWarnings("unused")
 	private String visualize(Tree<Integer, ADifferentiae> descGraph, String fileName) {
 		DifferentiaeLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeLabeller();
@@ -138,23 +151,10 @@ public class NormalizeClassificationThenBuildProductionsTest {
 		}
 	}
 
-	private String toString(ADifferentiae differentiae) {
-		String nl = System.lineSeparator();
-		StringBuilder sB = new StringBuilder();
-		for (IProperty prop : differentiae.getProperties()) {
-			sB.append("***" + nl);
-			sB.append("*Property : " + nl);
-			sB.append("*function : " + prop.getFunction().toString() + nl);
-			sB.append("*computations :" + nl);
-			for (IComputation computation : prop.getComputations()) {
-				sB.append(FormattersAbstractFactory.INSTANCE.getComputationLabeller().apply(computation) + nl);
-			}
-			sB.append("*values : " + nl);
-			for (IComputation computation : prop.getComputations()) {
-				sB.append(computation.getOutput() + nl);
-			}
-		}
-		return sB.toString();
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(OverallStrategy.OVERALL_STRATEGY_3);
 	}
 
 }

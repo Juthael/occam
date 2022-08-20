@@ -2,6 +2,6 @@ package com.tregouet.occam.alg.displayers.formatters.differentiae.properties.com
 
 public enum ComputationLabellerStrategy {
 
-	CONJUNCTION_NO_IDENTITY
+	CONJUNCTION, CONJUNCTION_NO_IDENTITY
 
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
@@ -21,28 +22,32 @@ public class MaxNbOfNonRedundantProperties implements DifferentiaeWeigher {
 
 	@Override
 	public void accept(ADifferentiae differentiae) {
-		List<IConstruct> denotations;
-		Set<IConstruct> denotationSet = new HashSet<>();
-		Set<IProperty> nonBlankProperties = new HashSet<>();
-		for (IProperty property : differentiae.getProperties()) {
-			if (!property.isBlank()) {
-				nonBlankProperties.add(property);
-				for (IComputation computation : property.getComputations()) {
-					if (!computation.isIdentity())
-						denotationSet.add(computation.getOutput().copy());
+		if (differentiae.getGenusID() == IConcept.ONTOLOGICAL_COMMITMENT_ID)
+			differentiae.setCoeffFreeWeight(1.0);
+		else {
+			List<IConstruct> denotations;
+			Set<IConstruct> denotationSet = new HashSet<>();
+			Set<IProperty> nonBlankProperties = new HashSet<>();
+			for (IProperty property : differentiae.getProperties()) {
+				if (!property.isBlank()) {
+					nonBlankProperties.add(property);
+					for (IComputation computation : property.getComputations()) {
+						if (!computation.isIdentity())
+							denotationSet.add(computation.getOutput().copy());
+					}
 				}
 			}
+			denotations = new ArrayList<>(denotationSet);
+			int maxNbOfNonRedundantProperties = nonBlankProperties.size();
+			boolean maxNbFound = false;
+			while (!maxNbFound && maxNbOfNonRedundantProperties > 1) {
+				int nbOfAntecedents = maxNbOfNonRedundantProperties - 1;
+				if (surjectiveProp2DenotRelationCanBeBuiltWithNProperties(nonBlankProperties, denotations, nbOfAntecedents))
+					maxNbOfNonRedundantProperties--;
+				else maxNbFound = true;
+			}
+			differentiae.setCoeffFreeWeight(maxNbOfNonRedundantProperties);
 		}
-		denotations = new ArrayList<>(denotationSet);
-		int maxNbOfNonRedundantProperties = nonBlankProperties.size();
-		boolean maxNbFound = false;
-		while (!maxNbFound && maxNbOfNonRedundantProperties > 1) {
-			int nbOfAntecedents = maxNbOfNonRedundantProperties - 1;
-			if (surjectiveProp2DenotRelationCanBeBuiltWithNProperties(nonBlankProperties, denotations, nbOfAntecedents))
-				maxNbOfNonRedundantProperties--;
-			else maxNbFound = true;
-		}
-		differentiae.setCoeffFreeWeight(maxNbOfNonRedundantProperties);
 	}
 
 	private static boolean setOfAntecedentsIsSurjective(Set<IProperty> setOfAntecedents,

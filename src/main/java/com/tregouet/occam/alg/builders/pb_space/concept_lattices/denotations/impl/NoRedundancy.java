@@ -38,16 +38,16 @@ public class NoRedundancy extends MaxSymbolSubsequences implements DenotationBui
 		List<IConstruct> constructList = new ArrayList<>(constructs);
 		for (int i = 0 ; i < constructList.size() ; i++) {
 			IConstruct iConstruct = constructList.get(i);
-			boolean iConceptIsRedundant = false;
+			boolean iConstructIsRedundant = false;
 			int j = 0;
-			while (!iConceptIsRedundant && j < constructList.size()) {
+			while (!iConstructIsRedundant && j < constructList.size()) {
 				if (i != j) {
 					IConstruct jConstruct = constructList.get(j);
-					iConceptIsRedundant = inCodomainOf(jConstruct, iConstruct);
+					iConstructIsRedundant = inCodomainOf(jConstruct, iConstruct);
 				}
 				j++;
 			}
-			if (iConceptIsRedundant)
+			if (iConstructIsRedundant)
 				redundantConstructs.add(iConstruct);
 		}
 		constructs.removeAll(redundantConstructs);

@@ -1,7 +1,8 @@
 package com.tregouet.occam.alg.builders.pb_space.representations.production_sets;
 
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.impl.BuildFromScratch;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.impl.NoEpsilonProd;
+import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.impl.BuildFromScratchNoEpsilon;
+import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.impl.BuildFromScratchWildTransitions;
+import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.impl.NoEpsilonProdWildTransitions;
 
 public class ProductionSetBuilderFactory {
 
@@ -13,10 +14,12 @@ public class ProductionSetBuilderFactory {
 
 	public ProductionSetBuilder apply(ProductionSetBuilderStrategy strategy) {
 		switch (strategy) {
-		case BUILD_FROM_SCRATCH :
-			return new BuildFromScratch();
-		case NO_EPSILON :
-			return new NoEpsilonProd();
+		case BUILD_FROM_SCRATCH_NO_EPSILON :
+			return new BuildFromScratchNoEpsilon();
+		case BUILD_FROM_SCRATCH_WILD :
+			return new BuildFromScratchWildTransitions();
+		case NO_EPSILON_WILD :
+			return new NoEpsilonProdWildTransitions();
 		default :
 			return null;
 		}

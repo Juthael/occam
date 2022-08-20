@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,13 +40,13 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 	}
 
 	@Override
-	public Set<InvertedTree<IConcept, IIsA>> apply(IConceptLattice conceptLattice, InvertedTree<IConcept, IIsA> currentTree) {
-		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
+	public Map<InvertedTree<IConcept, IIsA>, Boolean> apply(IConceptLattice conceptLattice, InvertedTree<IConcept, IIsA> currentTree) {
 		if (currentTree == null) {
-			Set<InvertedTree<IConcept, IIsA>> initial = new HashSet<>();
-			initial.add(initialTree(conceptLattice));
+			Map<InvertedTree<IConcept, IIsA>, Boolean> initial = new HashMap<>();
+			initial.put(initialTree(conceptLattice), true);
 			return initial;
 		}
+		Map<InvertedTree<IConcept, IIsA>, Boolean> expandedTrees2Restricted = new HashMap<>();
 		Set<IConcept> leaves = currentTree.getLeaves();
 		List<IConcept> unsorted = new ArrayList<>();
 		for (IConcept leaf : leaves) {
@@ -70,9 +71,7 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 				Graphs.addAllVertices(treeDAG, speciesSet);
 				for (IConcept species : speciesSet)
 					treeDAG.addEdge(species, genus);
-				//overloadable protected method ; does nothing in this implementation
-				complyToAdditionalConstraints(treeDAG, searchSpace);
-				expandedTrees.add(asInvertedTree(treeDAG, currentTree.getRoot()));
+				addExpandedTree(treeDAG, expandedTrees2Restricted, searchSpace, currentTree.getRoot());
 			}
 			//dichotomize genus extent
 			List<Pair<IConcept, IComplementaryConcept>> dichotomies =
@@ -87,17 +86,52 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 				IConcept complementarySpecies = dichotomy.getSecond();
 				treeDAG.addVertex(complementarySpecies);
 				treeDAG.addEdge(complementarySpecies, genus);
-				//overloadable protected method ; does nothing in this implementation
-				complyToAdditionalConstraints(treeDAG, searchSpace);
-				expandedTrees.add(asInvertedTree(treeDAG, currentTree.getRoot()));
+				addExpandedTree(treeDAG, expandedTrees2Restricted, searchSpace, currentTree.getRoot());
 			}
 		}
-		return expandedTrees;
+		return expandedTrees2Restricted;
 	}
 
-	protected void complyToAdditionalConstraints(DirectedAcyclicGraph<IConcept, IIsA> treeDAG,
+	private void addExpandedTree(DirectedAcyclicGraph<IConcept, IIsA> treeDAG,
+			Map<InvertedTree<IConcept, IIsA>, Boolean> expandedTrees2Expandable,
+			InvertedUpperSemilattice<IConcept, IIsA> searchSpace, IConcept root) {
+		DirectedAcyclicGraph<IConcept, IIsA> developedTreeDAG = developTreesWithSize2Leaves(treeDAG, searchSpace);
+		if (developedTreeDAG != null) {
+			expandedTrees2Expandable.put(asInvertedTree(developedTreeDAG, root), false);
+			expandedTrees2Expandable.put(asInvertedTree(treeDAG, root), true);
+		}
+		else expandedTrees2Expandable.put(asInvertedTree(treeDAG, root), false);
+	}
+
+	private DirectedAcyclicGraph<IConcept, IIsA> developTreesWithSize2Leaves(DirectedAcyclicGraph<IConcept, IIsA> treeDAG,
 			InvertedUpperSemilattice<IConcept, IIsA> searchSpace) {
-		//no additional constraint
+		DirectedAcyclicGraph<IConcept, IIsA> additionalTree = null;
+		Map<IConcept, Set<Integer>> trivialLeafID2ExtentIDs = getTrivialLeafID2ExtentIDs(treeDAG, searchSpace);
+		if (!trivialLeafID2ExtentIDs.isEmpty()) {
+			additionalTree = new DirectedAcyclicGraph<>(null, IsA::new, false);
+			//clone treeDAG
+			Graphs.addAllVertices(additionalTree, treeDAG.vertexSet());
+			Graphs.addAllEdges(additionalTree, treeDAG, treeDAG.edgeSet());
+			//develop trivial leaves
+			for (Entry<IConcept, Set<Integer>> leaf2Extent : trivialLeafID2ExtentIDs.entrySet()) {
+				IConcept trivialLeaf = leaf2Extent.getKey();
+				for (Integer extentID : leaf2Extent.getValue()) {
+					IConcept particular = getParticularWithID(extentID, searchSpace);
+					additionalTree.addVertex(particular);
+					additionalTree.addEdge(particular, trivialLeaf);
+				}
+			}
+		}
+		return additionalTree;
+	}
+
+	protected static Set<IConcept> getLeaves(DirectedAcyclicGraph<IConcept, IIsA> dag){
+		Set<IConcept> leaves = new HashSet<>();
+		for (IConcept concept : dag) {
+			if (dag.inDegreeOf(concept) == 0)
+				leaves.add(concept);
+		}
+		return leaves;
 	}
 
 	private static InvertedTree<IConcept, IIsA> asInvertedTree(DirectedAcyclicGraph<IConcept, IIsA> treeDAG, IConcept root) {
@@ -259,13 +293,28 @@ public class IfLeafIsUniversalThenSort implements ConceptTreeGrower {
 		return dichotomies;
 	}
 
-	private static Set<IConcept> getLeaves(DirectedAcyclicGraph<IConcept, IIsA> dag){
-		Set<IConcept> leaves = new HashSet<>();
-		for (IConcept concept : dag) {
-			if (dag.inDegreeOf(concept) == 0)
-				leaves.add(concept);
+	private static IConcept getParticularWithID(int iD, InvertedUpperSemilattice<IConcept, IIsA> searchSpace) {
+		for (IConcept concept : searchSpace.getLeaves()) {
+			if (concept.iD() == iD)
+				return concept;
 		}
-		return leaves;
+		return null;
+	}
+
+	private static Map<IConcept, Set<Integer>> getTrivialLeafID2ExtentIDs(DirectedAcyclicGraph<IConcept, IIsA> treeDAG,
+			InvertedUpperSemilattice<IConcept, IIsA> searchSpace) {
+		Map<IConcept, Set<Integer>> trivialLeafID2ExtentIDs = new HashMap<>();
+		Set<Integer> searchSpaceParticularIDs = new HashSet<>();
+		for (IConcept searchSpaceLeaf : getLeaves(searchSpace))
+			searchSpaceParticularIDs.add(searchSpaceLeaf.iD());
+		for(IConcept leaf : getLeaves(treeDAG)) {
+			if (leaf.type() != ConceptType.PARTICULAR) {
+				Set<Integer> extentIDs = Sets.intersection(leaf.getMaxExtentIDs(), searchSpaceParticularIDs);
+				if (extentIDs.size() == 2)
+					trivialLeafID2ExtentIDs.put(leaf, extentIDs);
+			}
+		}
+		return trivialLeafID2ExtentIDs;
 	}
 
 	private static InvertedTree<IConcept, IIsA> initialTree(IConceptLattice conceptLattice) {

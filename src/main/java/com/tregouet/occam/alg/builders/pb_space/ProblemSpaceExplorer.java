@@ -3,6 +3,8 @@ package com.tregouet.occam.alg.builders.pb_space;
 import java.util.Collection;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
@@ -37,7 +39,7 @@ public interface ProblemSpaceExplorer {
 	void develop();
 
 	Boolean develop(int representationID);
-	
+
 	Boolean develop(Set<Integer> representationIDs);
 
 	Set<Integer> getIDsOfRepresentationsWithIncompleteSorting();
@@ -46,7 +48,7 @@ public interface ProblemSpaceExplorer {
 
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
 
-	ISimilarityMetrics getSimilarityMetrics();
+	ISimilarityMetrics getSimilarityMetrics(@Nullable double[][] differenceMatrix);
 
 	ProblemSpaceExplorer initialize(Collection<IContextObject> context);
 

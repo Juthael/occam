@@ -1,8 +1,10 @@
 package com.tregouet.occam.data.problem_space.states.classifications.concepts.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -23,6 +25,7 @@ public class ConceptLattice implements IConceptLattice {
 	private final IConcept ontologicalCommitment;
 	private final IConcept truism;
 	private final List<IConcept> particulars;
+	private final Map<Integer, IConcept> particularID2Particular = new HashMap<>();
 	private final IConcept absurdity;
 
 	public ConceptLattice(List<IContextObject> objects, DirectedAcyclicGraph<IConcept, IIsA> lattice,
@@ -35,6 +38,8 @@ public class ConceptLattice implements IConceptLattice {
 		this.ontologicalCommitment = ontologicalCommitment;
 		this.truism = truism;
 		this.particulars = particulars;
+		for (IConcept particular : particulars)
+			particularID2Particular.put(particular.iD(), particular);
 		this.absurdity = absurdity;
 	}
 
@@ -101,6 +106,11 @@ public class ConceptLattice implements IConceptLattice {
 	@Override
 	public InvertedUpperSemilattice<IConcept, IIsA> getOntologicalUpperSemilattice() {
 		return invertedUpperSemilattice;
+	}
+
+	@Override
+	public Map<Integer, IConcept> getParticularID2Particular() {
+		return particularID2Particular;
 	}
 
 	@Override

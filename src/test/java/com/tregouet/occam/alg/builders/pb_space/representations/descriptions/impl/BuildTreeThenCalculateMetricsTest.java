@@ -37,31 +37,23 @@ public class BuildTreeThenCalculateMetricsTest {
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
-	private Set<Integer> extentIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
 	private Map<Set<IContextualizedProduction>, IClassification> classProd2Classification =	new HashMap<>();
-
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
 
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		trees = growTrees();
-		for (IContextObject obj : context)
-			extentIDs.add(obj.iD());
 		RepresentationTransFuncBuilder transFuncBldr;
 		for (InvertedTree<IConcept, IIsA> tree : trees) {
 			transFuncBldr = BuildersAbstractFactory.INSTANCE.getRepresentationTransFuncBuilder();
 			Map<Integer, List<Integer>> conceptID2ExtentIDs = MapConceptIDs2ExtentIDs.in(tree);
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			boolean fullyDeveloped = isFullyDeveloped(tree);
-			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs, fullyDeveloped);
+			IClassification classification = new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID,
+					conceptLattice.getParticularID2Particular(), fullyDeveloped);
 			Set<IContextualizedProduction> classProds = BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
 			classProd2Classification.put(classProds, classification);
 		}
@@ -90,25 +82,25 @@ public class BuildTreeThenCalculateMetricsTest {
 	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
 		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
 		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
-		expandedTreesFromLastIteration = BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
+		expandedTreesFromLastIteration =
+				new HashSet<>(BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null).keySet());
 		do {
 			expandedTrees.addAll(expandedTreesFromLastIteration);
 			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
 			expandedTreesFromLastIteration.clear();
 			for (InvertedTree<IConcept, IIsA> tree : expandable) {
-				expandedTreesFromLastIteration.addAll(
-						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
+				expandedTreesFromLastIteration.addAll(new HashSet<>(
+						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree).keySet()));
 			}
 		}
 		while (!expandedTreesFromLastIteration.isEmpty());
 		return expandedTrees;
 	}
 
-	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
-		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
-		for (IIsA edge : conceptTree.edgeSet())
-			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
-		return speciesID2GenusID;
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
@@ -117,6 +109,13 @@ public class BuildTreeThenCalculateMetricsTest {
 				return false;
 		}
 		return true;
+	}
+
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
+		return speciesID2GenusID;
 	}
 
 }

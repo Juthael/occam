@@ -1,9 +1,9 @@
-package com.tregouet.occam.alg.setters.differentiae_coeff.impl;
+package com.tregouet.occam.alg.setters.weighs.differentiae.coeff.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.alg.setters.differentiae_coeff.DifferentiaeCoeffSetter;
+import com.tregouet.occam.alg.setters.weighs.differentiae.coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
@@ -20,8 +20,12 @@ public class SpeciesCardinality implements DifferentiaeCoeffSetter {
 
 	@Override
 	public void accept(ADifferentiae diff) {
-		double coeff = getSpeciesCardinality(diff.getTarget());
-		diff.setWeightCoeff(coeff);
+		if (diff.getGenusID() == IConcept.ONTOLOGICAL_COMMITMENT_ID)
+			diff.setWeightCoeff(1.0);
+		else {
+			double coeff = getSpeciesCardinality(diff.getTarget());
+			diff.setWeightCoeff(coeff);
+		}
 	}
 
 	@Override

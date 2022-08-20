@@ -37,8 +37,9 @@ public class PartitionProbability implements ProblemTransitionWeigher {
 					transitionProbability = 0.0;
 				else {
 					double summedInformativities = 0.0;
-					for (AProblemStateTransition concurrentTransition : concurrentTransitions)
+					for (AProblemStateTransition concurrentTransition : concurrentTransitions) {
 						summedInformativities += transition2Informativity.get(concurrentTransition);
+					}
 					if (summedInformativities == 0.0)
 						transitionProbability = 0.0;
 					else {

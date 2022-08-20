@@ -37,21 +37,12 @@ public class EveryComputationIsRelevantTest {
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String nL = System.lineSeparator();
 	private List<IContextObject> context;
-	private Set<Integer> extentIDs = new HashSet<>();
 	private IConceptLattice conceptLattice;
 	private Set<InvertedTree<IConcept, IIsA>> trees;
-
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
 
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
-		for (IContextObject obj : context)
-			extentIDs.add(obj.iD());
 		conceptLattice = BuildersAbstractFactory.INSTANCE.getConceptLatticeBuilder().apply(context);
 		trees = growTrees();
 	}
@@ -66,7 +57,8 @@ public class EveryComputationIsRelevantTest {
 			Map<Integer, Integer> speciesID2GenusID = mapSpeciesID2GenusID(tree);
 			boolean fullyDeveloped = isFullyDeveloped(tree);
 			IClassification classification =
-					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID, extentIDs, fullyDeveloped);
+					new Classification(tree, conceptID2ExtentIDs, speciesID2GenusID,
+							conceptLattice.getParticularID2Particular(), fullyDeveloped);
 			Set<IContextualizedProduction> classProds =
 					BuildersAbstractFactory.INSTANCE.getProductionSetBuilder().apply(classification);
 			IDescription description = BuildersAbstractFactory.INSTANCE.getDescriptionBuilder().apply(classification, classProds);
@@ -80,6 +72,24 @@ public class EveryComputationIsRelevantTest {
 				asExpected = false;
 		}
 		assertTrue(nbOfChecks > 0 && asExpected);
+	}
+
+	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
+		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
+		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
+		expandedTreesFromLastIteration =
+				new HashSet<>(BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null).keySet());
+		do {
+			expandedTrees.addAll(expandedTreesFromLastIteration);
+			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
+			expandedTreesFromLastIteration.clear();
+			for (InvertedTree<IConcept, IIsA> tree : expandable) {
+				expandedTreesFromLastIteration.addAll(new HashSet<>(
+						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree).keySet()));
+			}
+		}
+		while (!expandedTreesFromLastIteration.isEmpty());
+		return expandedTrees;
 	}
 
 	@SuppressWarnings("unused")
@@ -96,28 +106,10 @@ public class EveryComputationIsRelevantTest {
 		return sB.toString();
 	}
 
-	private Set<InvertedTree<IConcept, IIsA>> growTrees() {
-		Set<InvertedTree<IConcept, IIsA>> expandedTrees = new HashSet<>();
-		Set<InvertedTree<IConcept, IIsA>> expandedTreesFromLastIteration;
-		expandedTreesFromLastIteration = BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, null);
-		do {
-			expandedTrees.addAll(expandedTreesFromLastIteration);
-			Set<InvertedTree<IConcept, IIsA>> expandable = new HashSet<>(expandedTreesFromLastIteration);
-			expandedTreesFromLastIteration.clear();
-			for (InvertedTree<IConcept, IIsA> tree : expandable) {
-				expandedTreesFromLastIteration.addAll(
-						BuildersAbstractFactory.INSTANCE.getConceptTreeGrower().apply(conceptLattice, tree));
-			}
-		}
-		while (!expandedTreesFromLastIteration.isEmpty());
-		return expandedTrees;
-	}
-
-	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
-		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
-		for (IIsA edge : conceptTree.edgeSet())
-			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
-		return speciesID2GenusID;
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {
@@ -126,6 +118,13 @@ public class EveryComputationIsRelevantTest {
 				return false;
 		}
 		return true;
+	}
+
+	private static Map<Integer, Integer> mapSpeciesID2GenusID(InvertedTree<IConcept, IIsA> conceptTree) {
+		Map<Integer, Integer> speciesID2GenusID = new HashMap<>();
+		for (IIsA edge : conceptTree.edgeSet())
+			speciesID2GenusID.put(conceptTree.getEdgeSource(edge).iD(), conceptTree.getEdgeTarget(edge).iD());
+		return speciesID2GenusID;
 	}
 
 }

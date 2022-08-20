@@ -19,7 +19,8 @@ public class SimThenDiffThenTypicality implements SimilarityMetricsBuilder {
 	}
 
 	@Override
-	public ISimilarityMetrics apply(IConceptLattice lattice, DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> pbGraph) {
+	public ISimilarityMetrics apply(IConceptLattice lattice, DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> pbGraph,
+			double[][] differenceMatrixParam) {
 		double[][] similarityMatrix;
 		String[][] referenceMatrix;
 		double[][] asymmetricalSimilarityMatrix;
@@ -31,7 +32,10 @@ public class SimThenDiffThenTypicality implements SimilarityMetricsBuilder {
 		referenceMatrix = simMatrixBuilder.getReferenceMatrix();
 		asymmetricalSimilarityMatrix = BuildersAbstractFactory.INSTANCE
 				.getAsymmetricalSimilarityMatrixBuilder().getAsymmetricalSimilarityMatrix(similarityMatrix);
-		differenceMatrix = BuildersAbstractFactory.INSTANCE.getDifferenceMatrixBuilder().getDifferenceMatrix(lattice);
+		if (differenceMatrixParam == null) {
+			differenceMatrix = BuildersAbstractFactory.INSTANCE.getDifferenceMatrixBuilder().getDifferenceMatrix(lattice);
+		}
+		else differenceMatrix = differenceMatrixParam;
 		typicalityVector = BuildersAbstractFactory.INSTANCE
 				.getTypicalityVectorBuilder().getTypicalityVector(asymmetricalSimilarityMatrix);
 		return new SimilarityMetrics(

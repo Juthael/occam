@@ -15,7 +15,11 @@ public interface IClassification {
 	@Override
 	boolean equals(Object o);
 
+	boolean expansionIsRestricted();
+
 	IConcept getConceptWithSpecifiedID(int iD);
+
+	List<IConcept> getExtent(int conceptID);
 
 	List<Integer> getExtentIDs(int conceptID);
 
@@ -27,10 +31,14 @@ public interface IClassification {
 
 	Set<IConcept> getMostSpecificConcepts();
 
+	Map<Integer, IConcept> getParticularID2Particular();
+
 	Set<Integer> getParticularIDs();
 
 	@Override
 	int hashCode();
+
+	boolean isExpandable();
 
 	boolean isFullyDeveloped();
 
@@ -39,6 +47,8 @@ public interface IClassification {
 	Map<Integer, Integer> mapSpeciesID2GenusID();
 
 	IClassification normalized();
+
+	void restrictFurtherExpansion();
 
 	@Override
 	String toString();

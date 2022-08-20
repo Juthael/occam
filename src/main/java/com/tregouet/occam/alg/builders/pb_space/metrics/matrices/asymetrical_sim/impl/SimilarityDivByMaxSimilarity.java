@@ -16,12 +16,18 @@ public class SimilarityDivByMaxSimilarity implements AsymmetricalSimilarityMatri
 		for (int i = 0 ; i < size ; i++) {
 			double iMaxSimValue = 0;
 			for (int j = 0 ; j < size ; j++) {
-				double ijSimilarity = similarityMatrix[i][j];
-				if (ijSimilarity > iMaxSimValue)
-					iMaxSimValue = ijSimilarity;
+				if (i != j) {
+					double ijSimilarity = similarityMatrix[i][j];
+					if (ijSimilarity > iMaxSimValue)
+						iMaxSimValue = ijSimilarity;
+				}
 			}
-			for (int j = 0 ; j < size ; j++)
-				asymmetricalSimMatrix[i][j] = similarityMatrix[i][j] / iMaxSimValue;
+			for (int j = 0 ; j < size ; j++) {
+				if (i == j) {
+					asymmetricalSimMatrix[i][j] = 0.0;
+				}
+				else asymmetricalSimMatrix[i][j] = similarityMatrix[i][j] / iMaxSimValue;
+			}
 		}
 		return asymmetricalSimMatrix;
 	}

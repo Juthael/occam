@@ -29,34 +29,12 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 	private List<IContextObject> context;
 	private ProblemSpaceExplorer pbSpaceExplorer;
 
-	@BeforeClass
-	public static void setUpBeforeClass() {
-		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		context = GenericFileReader.getContextObjects(SHAPES6);
 		pbSpaceExplorer = BuildersAbstractFactory.INSTANCE.getProblemSpaceExplorer();
 		pbSpaceExplorer.initialize(context);
 		randomlyExpandPbSpace();
-	}
-
-	@Test
-	public void whenSimilarityMatrixRequestedThenReturned() {
-		boolean asExpected = true;
-		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
-			IDescription description = representation.getDescription();
-			IRelativeSimilarityMetrics metrics = description.getSimilarityMetrics();
-			double[][] similarityMatrix = metrics.getSimilarityMatrix();
-			if (similarityMatrix == null)
-				asExpected = false;
-			/*
-			System.out.println(toString(similarityMatrix) + System.lineSeparator());
-			*/
-		}
-		assertTrue(asExpected);
 	}
 
 	@Test
@@ -70,6 +48,22 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 				asExpected = false;
 			/*
 			System.out.println(toString(asymmetricalSimilarityMatrix) + System.lineSeparator());
+			*/
+		}
+		assertTrue(asExpected);
+	}
+
+	@Test
+	public void whenSimilarityMatrixRequestedThenReturned() {
+		boolean asExpected = true;
+		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
+			IDescription description = representation.getDescription();
+			IRelativeSimilarityMetrics metrics = description.getSimilarityMetrics();
+			double[][] similarityMatrix = metrics.getSimilarityMatrix();
+			if (similarityMatrix == null)
+				asExpected = false;
+			/*
+			System.out.println(toString(similarityMatrix) + System.lineSeparator());
 			*/
 		}
 		assertTrue(asExpected);
@@ -112,6 +106,12 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 			}
 			iterationIdx++;
 		}
+	}
+
+	@BeforeClass
+	public static void setUpBeforeClass() {
+		Occam.initialize();
+		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
 	}
 
 }

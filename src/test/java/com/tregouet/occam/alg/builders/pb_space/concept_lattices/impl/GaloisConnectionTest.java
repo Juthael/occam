@@ -41,7 +41,7 @@ public class GaloisConnectionTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
+		OverallAbstractFactory.INSTANCE.apply(Occam.STRATEGY);
 	}
 
 }

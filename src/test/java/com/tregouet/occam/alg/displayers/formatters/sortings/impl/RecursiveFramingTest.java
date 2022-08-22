@@ -100,7 +100,7 @@ public class RecursiveFramingTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
+		OverallAbstractFactory.INSTANCE.apply(Occam.STRATEGY);
 	}
 
 	private static boolean isFullyDeveloped(InvertedTree<IConcept, IIsA> conceptTree) {

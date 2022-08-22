@@ -10,8 +10,12 @@ import com.tregouet.occam.alg.builders.categorizer.ProblemSpaceExplorer;
 import com.tregouet.occam.data.modules.IModule;
 import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
 
 public interface ICategorizer extends IModule {
+	
+	@Override
+	ICategorizer process(Set<IContextObject> context);
 
 	Boolean develop();
 

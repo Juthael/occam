@@ -19,16 +19,12 @@ import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
 
 public class Categorizer implements ICategorizer {
 
-	private final List<IContextObject> context;
-	private final ProblemSpaceExplorer problemSpaceExplorer;
+	private List<IContextObject> context = null;
+	private ProblemSpaceExplorer problemSpaceExplorer = null;
 	private ISimilarityMetrics similarityMetrics = null;
 	private IRepresentation activeState = null;
 
-	public Categorizer(Set<IContextObject> context) {
-		this.context = new ArrayList<>(context);
-		this.context.sort((x, y) -> Integer.compare(x.iD(), y.iD()));
-		problemSpaceExplorer = ICategorizer.problemSpaceExplorer().initialize(this.context);
-		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(null);
+	public Categorizer() {
 	}
 
 	@Override
@@ -128,6 +124,15 @@ public class Categorizer implements ICategorizer {
 		if (restricted != null && restricted)
 			similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(similarityMetrics.getDifferenceMatrix());
 		return restricted;
+	}
+
+	@Override
+	public ICategorizer process(Set<IContextObject> context) {
+		this.context = new ArrayList<>(context);
+		this.context.sort((x, y) -> Integer.compare(x.iD(), y.iD()));
+		problemSpaceExplorer = ICategorizer.problemSpaceExplorer().initialize(this.context);
+		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(null);
+		return this;
 	}
 
 }

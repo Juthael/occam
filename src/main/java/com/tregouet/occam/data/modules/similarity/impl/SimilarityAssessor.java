@@ -2,10 +2,12 @@ package com.tregouet.occam.data.modules.similarity.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jgrapht.alg.util.UnorderedPair;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
+import com.tregouet.occam.alg.builders.similarity_assessor.SimAssessorSetter;
 import com.tregouet.occam.data.modules.similarity.ISimilarityAssessor;
 import com.tregouet.occam.data.modules.similarity.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.representations.IRepresentation;
@@ -16,68 +18,73 @@ import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
 
 public class SimilarityAssessor implements ISimilarityAssessor {
 	
-	private final List<IContextObject> context;
-	private final IConceptLattice conceptLattice;
-	private final Map<UnorderedPair<Integer, Integer>, IRepresentation> dichotomies;
-	private final Map<UnorderedPair<Integer, Integer>, IRepresentation> differences;
-	private final ISimilarityMetrics similarityMetrics;
-	private IRepresentation activeRepOfSimilarity;
-	private IRepresentation activeRepOfDifferences;
+	private List<IContextObject> context = null;
+	private IConceptLattice conceptLattice = null;
+	private Map<UnorderedPair<Integer, Integer>, IRepresentation> dichotomies = null;
+	private Map<UnorderedPair<Integer, Integer>, IRepresentation> differences = null;
+	private ISimilarityMetrics similarityMetrics = null;
+	private IRepresentation activeRepOfSimilarity = null;
+	private IRepresentation activeRepOfDifferences = null;
 	
 	public SimilarityAssessor() {
-		
 	}
 
 	@Override
 	public DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts() {
-		// TODO Auto-generated method stub
-		return null;
+		return conceptLattice.getLatticeOfConcepts();
 	}
 
 	@Override
 	public Boolean display(int particularID1, int particularID2) {
-		// TODO Auto-generated method stub
-		return null;
+		UnorderedPair<Integer, Integer> pair = UnorderedPair.of(particularID1, particularID2);
+		IRepresentation dichotomy = dichotomies.get(pair);
+		IRepresentation diff = differences.get(pair);
+		if (dichotomy == null || diff == null)
+			return null;
+		if (dichotomy.equals(activeRepOfSimilarity))
+			return false;
+		activeRepOfSimilarity = dichotomy;
+		activeRepOfDifferences = diff;
+		return true;
 	}
 
 	@Override
 	public IRepresentation getActiveRepresentationOfSimilarity() {
-		// TODO Auto-generated method stub
-		return null;
+		return activeRepOfSimilarity;
 	}
 
 	@Override
 	public IRepresentation getActiveRepresentationOfDifferences() {
-		// TODO Auto-generated method stub
-		return null;
+		return activeRepOfDifferences;
 	}
 
 	@Override
 	public List<IContextObject> getContext() {
-		// TODO Auto-generated method stub
-		return null;
+		return context;
 	}
 
 	@Override
 	public double[][] getSimilarityMatrix() {
-		// TODO Auto-generated method stub
-		return null;
+		return similarityMetrics.getSimilarityMatrix();
 	}
 
 	@Override
 	public double[][] getAsymmetricalSimilarityMatrix() {
-		// TODO Auto-generated method stub
-		return null;
+		return similarityMetrics.getAsymmetricalSimilarityMatrix();
 	}
 
 	@Override
 	public double[][] getDifferenceMatrix() {
-		// TODO Auto-generated method stub
-		return null;
+		return similarityMetrics.getDifferenceMatrix();
 	}
 
 	@Override
 	public double[] getTypicalityVector() {
+		return similarityMetrics.getTypicalityVector();
+	}
+
+	@Override
+	public ISimilarityAssessor process(Set<IContextObject> context) {
 		// TODO Auto-generated method stub
 		return null;
 	}

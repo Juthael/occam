@@ -62,5 +62,7 @@ public interface IConceptLattice {
 	boolean isA(IConcept cat1, IConcept cat2);
 
 	boolean isADirectSubordinateOf(IConcept cat1, IConcept cat2);
+	
+	IConcept getConceptWithSpecifiedID(int iD);
 
 }

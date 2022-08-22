@@ -1,6 +1,7 @@
 package com.tregouet.occam.data.modules;
 
 import java.util.List;
+import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
@@ -9,6 +10,8 @@ import com.tregouet.occam.data.representations.classifications.concepts.IContext
 import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
 
 public interface IModule {
+	
+	IModule process(Set<IContextObject> context);
 	
 	List<IContextObject> getContext();
 	

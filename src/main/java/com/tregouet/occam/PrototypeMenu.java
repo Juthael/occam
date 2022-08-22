@@ -129,7 +129,7 @@ public class PrototypeMenu {
 			Occam.initialize();
 			Path inputPath = Paths.get(inputPathString);
 			List<IContextObject> objects = GenericFileReader.getContextObjects(inputPath);
-			Categorizer categorizer = new Categorizer(new HashSet<>(objects));
+			ICategorizer categorizer = new Categorizer().process(new HashSet<>(objects));
 			problemSpaceMenu(categorizer);
 		} else {
 			System.out.println("This path is invalid." + NL);

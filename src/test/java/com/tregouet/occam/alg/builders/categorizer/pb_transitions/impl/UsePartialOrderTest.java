@@ -38,7 +38,7 @@ public class UsePartialOrderTest {
 	public void setUp() throws Exception {
 		Occam.initialize();
 		context = GenericFileReader.getContextObjects(SHAPES6);
-		pbSpace = new Categorizer(new HashSet<>(context));
+		pbSpace = new Categorizer().process(new HashSet<>(context));
 	}
 
 	@Test

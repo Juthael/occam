@@ -82,15 +82,15 @@ public class ConceptLattice implements IConceptLattice {
 	public IConcept getLeastCommonSuperordinate(Set<IConcept> concepts) {
 		if (concepts.isEmpty())
 			return null;
-		List<IConcept> denotSetList = removeSubCategories(concepts);
-		if (denotSetList.size() == 1)
-			return denotSetList.get(0);
+		List<IConcept> conceptList = removeSubCategories(concepts);
+		if (conceptList.size() == 1)
+			return conceptList.get(0);
 		IConcept leastCommonSuperordinate = null;
-		ListIterator<IConcept> denotSetIterator = topologicalOrder.listIterator(topologicalOrder.size());
+		ListIterator<IConcept> conceptIterator = topologicalOrder.listIterator(topologicalOrder.size());
 		boolean abortSearch = false;
-		while (denotSetIterator.hasPrevious() && !abortSearch) {
-			IConcept current = denotSetIterator.previous();
-			if (areA(denotSetList, current))
+		while (conceptIterator.hasPrevious() && !abortSearch) {
+			IConcept current = conceptIterator.previous();
+			if (areA(conceptList, current))
 				leastCommonSuperordinate = current;
 			else if (concepts.contains(current))
 				abortSearch = true;
@@ -164,6 +164,15 @@ public class ConceptLattice implements IConceptLattice {
 			}
 		}
 		return new ArrayList<>(concepts);
+	}
+
+	@Override
+	public IConcept getConceptWithSpecifiedID(int iD) {
+		for (IConcept concept : topologicalOrder) {
+			if (concept.iD() == iD)
+				return concept;
+		}
+		return null;
 	}
 
 }

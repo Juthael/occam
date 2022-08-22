@@ -13,7 +13,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
-public interface IProblemSpace {
+public interface ICategorizer {
 
 	Boolean develop();
 

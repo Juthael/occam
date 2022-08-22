@@ -3,7 +3,7 @@ package com.tregouet.occam.io.output.html.problem_space_page;
 import java.io.IOException;
 import java.util.List;
 
-import com.tregouet.occam.data.problem_space.IProblemSpace;
+import com.tregouet.occam.data.problem_space.ICategorizer;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.general.ContextPrinter;
 import com.tregouet.occam.io.output.html.general.FootPrinter;
@@ -29,8 +29,8 @@ public class ProblemSpacePagePrinter {
 	private ProblemSpacePagePrinter() {
 	}
 
-	public String print(IProblemSpace problemSpace) throws IOException {
-		List<IContextObject> objects = problemSpace.getContext();
+	public String print(ICategorizer categorizer) throws IOException {
+		List<IContextObject> objects = categorizer.getContext();
 		StringBuilder sB = new StringBuilder();
 		sB.append(HeaderPrinter.INSTANCE.get() + NL)
 			.append(alinea[0] + "<hr>" + NL)
@@ -49,19 +49,19 @@ public class ProblemSpacePagePrinter {
 						.append(alinea[3] + "<header>" + NL)
 							.append(alinea[4] + "<h3> Problem space graph </h3>")
 						.append(alinea[3] + "</header>" + NL)
-						.append(ProblemSpacePrinter.INSTANCE.print(problemSpace, "problem_space", 3) + NL)
+						.append(ProblemSpacePrinter.INSTANCE.print(categorizer, "problem_space", 3) + NL)
 					.append(alinea[2] + "</section>")
 					.append(alinea[2] + "<section>" + NL)
 						.append(alinea[3] + "<header>")
 							.append(alinea[4] + "<h3> Similarity metrics </h3>")
 						.append(alinea[3] + "</header>")
-						.append(SimilarityMetricsPrinter.INSTANCE.print(problemSpace, 3))
+						.append(SimilarityMetricsPrinter.INSTANCE.print(categorizer, 3))
 					.append(alinea[2] + "</section>" + NL)
 					.append(alinea[2] + "<section>")
 						.append(alinea[3] + "<header>" + NL)
 							.append(alinea[4] + "<h3> Concept lattice </h3>")
 						.append(alinea[3] + "</header>" + NL)
-						.append(ConceptLatticePrinter.INSTANCE.print(problemSpace, "concept_lattice", 3) + NL)
+						.append(ConceptLatticePrinter.INSTANCE.print(categorizer, "concept_lattice", 3) + NL)
 					.append(alinea[2] + "</section>")
 				.append(alinea[1] + "</section>" + NL)
 				.append(alinea[1] + "<hr>" + NL)
@@ -70,7 +70,7 @@ public class ProblemSpacePagePrinter {
 						.append(alinea[3] + "<h2> REPRESENTATIONS </h2>" + NL)
 					.append(alinea[2] + "</header>" + NL)
 				.append(alinea[1] + "<hr>" + NL)
-					.append(RepresentationPrinter.INSTANCE.print(objects, problemSpace.getActiveRepresentation(), 2))
+					.append(RepresentationPrinter.INSTANCE.print(objects, categorizer.getActiveRepresentation(), 2))
 				.append(alinea[1] + "</section>" + NL)
 			.append(FootPrinter.INSTANCE.get());
 		return sB.toString();

@@ -17,8 +17,8 @@ import com.google.common.collect.Sets;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
-import com.tregouet.occam.data.problem_space.IProblemSpace;
-import com.tregouet.occam.data.problem_space.impl.ProblemSpace;
+import com.tregouet.occam.data.problem_space.ICategorizer;
+import com.tregouet.occam.data.problem_space.impl.Categorizer;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
@@ -32,13 +32,13 @@ public class UsePartialOrderTest {
 
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "tabletop1.txt");
 	private List<IContextObject> context;
-	private IProblemSpace pbSpace;
+	private ICategorizer pbSpace;
 
 	@Before
 	public void setUp() throws Exception {
 		Occam.initialize();
 		context = GenericFileReader.getContextObjects(SHAPES6);
-		pbSpace = new ProblemSpace(new HashSet<>(context));
+		pbSpace = new Categorizer(new HashSet<>(context));
 	}
 
 	@Test

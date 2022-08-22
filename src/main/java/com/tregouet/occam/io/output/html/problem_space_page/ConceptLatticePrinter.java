@@ -1,7 +1,7 @@
 package com.tregouet.occam.io.output.html.problem_space_page;
 
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.problem_space.IProblemSpace;
+import com.tregouet.occam.data.problem_space.ICategorizer;
 import com.tregouet.occam.io.output.html.general.FigurePrinter;
 
 public class ConceptLatticePrinter {
@@ -13,8 +13,8 @@ public class ConceptLatticePrinter {
 	private ConceptLatticePrinter() {
 	}
 
-	public String print(IProblemSpace problemSpace, String fileName, int a) {
-		String filePath = VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(problemSpace.getLatticeOfConcepts(),
+	public String print(ICategorizer categorizer, String fileName, int a) {
+		String filePath = VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(categorizer.getLatticeOfConcepts(),
 				fileName);
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)

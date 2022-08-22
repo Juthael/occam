@@ -3,7 +3,7 @@ package com.tregouet.occam.io.output.html.problem_space_page;
 import java.io.IOException;
 
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.problem_space.IProblemSpace;
+import com.tregouet.occam.data.problem_space.ICategorizer;
 import com.tregouet.occam.io.output.html.general.FigurePrinter;
 
 public class ProblemSpacePrinter {
@@ -15,8 +15,8 @@ public class ProblemSpacePrinter {
 	private ProblemSpacePrinter() {
 	}
 
-	public String print(IProblemSpace problemSpace, String fileName, int a) throws IOException {
-		String filePath = VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(problemSpace.getProblemSpaceGraph(),
+	public String print(ICategorizer categorizer, String fileName, int a) throws IOException {
+		String filePath = VisualizersAbstractFactory.INSTANCE.getProblemSpaceViz().apply(categorizer.getProblemSpaceGraph(),
 				fileName);
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)

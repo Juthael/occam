@@ -2,7 +2,7 @@ package com.tregouet.occam.io.output.html.problem_space_page;
 
 import java.util.List;
 
-import com.tregouet.occam.data.problem_space.IProblemSpace;
+import com.tregouet.occam.data.problem_space.ICategorizer;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.general.TablePrinter;
 
@@ -15,24 +15,24 @@ public class SimilarityMetricsPrinter {
 	private SimilarityMetricsPrinter() {
 	}
 
-	public String print(IProblemSpace problemSpace, int a) {
-		String[] head = getHead(problemSpace);
+	public String print(ICategorizer categorizer, int a) {
+		String[] head = getHead(categorizer);
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
 				.append(alinea[a + 1] + "<header>" + nL)
 					.append(alinea[a + 2] + "<h3> <u> SIMILARITY METRICS </u> </h3>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
-				.append(printSimilarityMatrix(problemSpace, head, a + 2) + nL)
-				.append(printSimilarityMatrixReferences(problemSpace, head, a + 2) + nL)
-				.append(printAsymmetricalSimilarityMatrix(problemSpace, head, a + 2) + nL)
-				.append(printDifferenceMatrix(problemSpace, head, a + 2) + nL)
-				.append(printTypicalityVector(problemSpace, head, a + 2) + nL)
+				.append(printSimilarityMatrix(categorizer, head, a + 2) + nL)
+				.append(printSimilarityMatrixReferences(categorizer, head, a + 2) + nL)
+				.append(printAsymmetricalSimilarityMatrix(categorizer, head, a + 2) + nL)
+				.append(printDifferenceMatrix(categorizer, head, a + 2) + nL)
+				.append(printTypicalityVector(categorizer, head, a + 2) + nL)
 			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();
 	}
 
-	private String[] getHead(IProblemSpace problemSpace) {
-		List<IContextObject> context = problemSpace.getContext();
+	private String[] getHead(ICategorizer categorizer) {
+		List<IContextObject> context = categorizer.getContext();
 		String[] head = new String[context.size()];
 		int idx = 0;
 		for (IContextObject obj : context)
@@ -40,25 +40,25 @@ public class SimilarityMetricsPrinter {
 		return head;
 	}
 
-	private String printAsymmetricalSimilarityMatrix(IProblemSpace problemSpace, String[] head, int a) {
+	private String printAsymmetricalSimilarityMatrix(ICategorizer categorizer, String[] head, int a) {
 		return TablePrinter.INSTANCE.print2DSquareTable(
-				head, problemSpace.getAsymmetricalSimilarityMatrix(), "Asymmetrical similarity matrix", a);
+				head, categorizer.getAsymmetricalSimilarityMatrix(), "Asymmetrical similarity matrix", a);
 	}
 
-	private String printDifferenceMatrix(IProblemSpace problemSpace, String[] head, int a) {
-		return TablePrinter.INSTANCE.print2DSquareTable(head, problemSpace.getDifferenceMatrix(), "Difference matrix", a);
+	private String printDifferenceMatrix(ICategorizer categorizer, String[] head, int a) {
+		return TablePrinter.INSTANCE.print2DSquareTable(head, categorizer.getDifferenceMatrix(), "Difference matrix", a);
 	}
 
-	private String printSimilarityMatrix(IProblemSpace problemSpace, String[] head, int a) {
-		return TablePrinter.INSTANCE.print2DSquareTable(head, problemSpace.getSimilarityMatrix(), "Similarity matrix", a);
+	private String printSimilarityMatrix(ICategorizer categorizer, String[] head, int a) {
+		return TablePrinter.INSTANCE.print2DSquareTable(head, categorizer.getSimilarityMatrix(), "Similarity matrix", a);
 	}
 
-	private String printSimilarityMatrixReferences(IProblemSpace problemSpace, String[] head, int a) {
-		return TablePrinter.INSTANCE.print2DSquareTable(head, problemSpace.getReferenceMatrix(), "Similarity matrix references", a);
+	private String printSimilarityMatrixReferences(ICategorizer categorizer, String[] head, int a) {
+		return TablePrinter.INSTANCE.print2DSquareTable(head, categorizer.getReferenceMatrix(), "Similarity matrix references", a);
 	}
 
-	private String printTypicalityVector(IProblemSpace problemSpace, String[] head, int a) {
-		return TablePrinter.INSTANCE.print1DTable(head, problemSpace.getTypicalityVector(), "Typicality", a);
+	private String printTypicalityVector(ICategorizer categorizer, String[] head, int a) {
+		return TablePrinter.INSTANCE.print1DTable(head, categorizer.getTypicalityVector(), "Typicality", a);
 	}
 
 }

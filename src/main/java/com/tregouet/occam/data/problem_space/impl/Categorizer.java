@@ -9,7 +9,7 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
-import com.tregouet.occam.data.problem_space.IProblemSpace;
+import com.tregouet.occam.data.problem_space.ICategorizer;
 import com.tregouet.occam.data.problem_space.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.problem_space.states.IRepresentation;
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
@@ -17,17 +17,17 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
 import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
 
-public class ProblemSpace implements IProblemSpace {
+public class Categorizer implements ICategorizer {
 
 	private final List<IContextObject> context;
 	private final ProblemSpaceExplorer problemSpaceExplorer;
 	private ISimilarityMetrics similarityMetrics = null;
 	private IRepresentation activeState = null;
 
-	public ProblemSpace(Set<IContextObject> context) {
+	public Categorizer(Set<IContextObject> context) {
 		this.context = new ArrayList<>(context);
 		this.context.sort((x, y) -> Integer.compare(x.iD(), y.iD()));
-		problemSpaceExplorer = IProblemSpace.problemSpaceExplorer().initialize(this.context);
+		problemSpaceExplorer = ICategorizer.problemSpaceExplorer().initialize(this.context);
 		similarityMetrics = problemSpaceExplorer.getSimilarityMetrics(null);
 	}
 

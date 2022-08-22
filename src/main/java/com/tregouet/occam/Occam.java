@@ -9,7 +9,7 @@ import com.tregouet.occam.data.problem_space.states.classifications.concepts.ICo
 
 public class Occam {
 
-	public static final OverallStrategy strategy = OverallStrategy.OVERALL_STRATEGY_4;
+	public static final OverallStrategy STRATEGY = OverallStrategy.OVERALL_STRATEGY_4;
 
 	public Occam() {
 	}
@@ -22,7 +22,7 @@ public class Occam {
 	}
 
 	public static void main(String[] args) {
-		OverallAbstractFactory.INSTANCE.apply(strategy);
+		OverallAbstractFactory.INSTANCE.apply(STRATEGY);
 		new PrototypeMenu();
 	}
 

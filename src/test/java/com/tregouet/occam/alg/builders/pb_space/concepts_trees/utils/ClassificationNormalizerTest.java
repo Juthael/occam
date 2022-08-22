@@ -85,7 +85,7 @@ public class ClassificationNormalizerTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
+		OverallAbstractFactory.INSTANCE.apply(Occam.STRATEGY);
 		Occam.initialize();
 	}
 

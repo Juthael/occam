@@ -135,7 +135,7 @@ public class IfLeafIsUniversalThenSortTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(Occam.strategy);
+		OverallAbstractFactory.INSTANCE.apply(Occam.STRATEGY);
 	}
 
 }

@@ -13,9 +13,9 @@ import java.util.Scanner;
 import java.util.Set;
 
 import com.google.common.base.Splitter;
-import com.tregouet.occam.data.problem_space.ICategorizer;
-import com.tregouet.occam.data.problem_space.impl.Categorizer;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.modules.categorization.ICategorizer;
+import com.tregouet.occam.data.modules.categorization.impl.Categorizer;
+import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
 import com.tregouet.occam.io.output.html.main_menu.MainMenuPrinter;

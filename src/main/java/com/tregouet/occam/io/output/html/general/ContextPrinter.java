@@ -2,8 +2,8 @@ package com.tregouet.occam.io.output.html.general;
 
 import java.util.List;
 
-import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
 
 public class ContextPrinter {

@@ -16,19 +16,19 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.utils.MarkRedundantDenotations;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConceptLattice;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Concept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.ConceptLattice;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Everything;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.IsA;
+import com.tregouet.occam.data.representations.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.representations.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
+import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.representations.classifications.concepts.impl.Concept;
+import com.tregouet.occam.data.representations.classifications.concepts.impl.ConceptLattice;
+import com.tregouet.occam.data.representations.classifications.concepts.impl.Everything;
+import com.tregouet.occam.data.representations.classifications.concepts.impl.IsA;
+import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.structures.languages.words.construct.impl.Construct;
 import com.tregouet.tree_finder.data.InvertedUpperSemilattice;
 
 public class GaloisConnection implements ConceptLatticeBuilder {

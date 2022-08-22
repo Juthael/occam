@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.representations.descriptions.differentiae.properties.IProperty;
+import com.tregouet.occam.data.representations.descriptions.differentiae.properties.computations.IComputation;
 
 public class CurlyBracketsWithWeight implements PropertyLabeller {
 

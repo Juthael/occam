@@ -1,7 +1,7 @@
 package com.tregouet.occam.io.output.html.problem_space_page;
 
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.problem_space.ICategorizer;
+import com.tregouet.occam.data.modules.categorization.ICategorizer;
 import com.tregouet.occam.io.output.html.general.FigurePrinter;
 
 public class ConceptLatticePrinter {

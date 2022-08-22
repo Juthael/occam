@@ -14,13 +14,13 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Terminal;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.impl.Variable;
-import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Particular;
+import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.representations.classifications.concepts.impl.Particular;
+import com.tregouet.occam.data.structures.languages.alphabets.ISymbol;
+import com.tregouet.occam.data.structures.languages.alphabets.impl.Terminal;
+import com.tregouet.occam.data.structures.languages.alphabets.impl.Variable;
+import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.structures.languages.words.construct.impl.Construct;
 
 public class MaxSymbolSubsequencesTest {
 

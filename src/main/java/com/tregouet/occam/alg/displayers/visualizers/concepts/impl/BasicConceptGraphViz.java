@@ -13,8 +13,8 @@ import org.jgrapht.nio.DefaultAttribute;
 import org.jgrapht.nio.dot.DOTExporter;
 
 import com.tregouet.occam.alg.displayers.visualizers.concepts.ConceptGraphViz;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
 import com.tregouet.occam.io.output.LocalPaths;
 
 import guru.nidi.graphviz.engine.Format;

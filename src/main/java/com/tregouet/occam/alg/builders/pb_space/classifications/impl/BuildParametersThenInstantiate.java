@@ -6,11 +6,11 @@ import java.util.Map;
 
 import com.tregouet.occam.alg.builders.pb_space.classifications.ClassificationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
-import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.classifications.impl.Classification;
+import com.tregouet.occam.data.representations.classifications.IClassification;
+import com.tregouet.occam.data.representations.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
+import com.tregouet.occam.data.representations.classifications.impl.Classification;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class BuildParametersThenInstantiate implements ClassificationBuilder {

@@ -12,10 +12,10 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.ProblemSpaceGraphExpander;
-import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
-import com.tregouet.occam.data.problem_space.transitions.impl.ProblemStateTransition;
-import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
+import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.categorization.transitions.impl.ProblemStateTransition;
+import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
+import com.tregouet.occam.data.representations.IRepresentation;
 
 public class AddNewStatesThenBuildTransitions implements ProblemSpaceGraphExpander {
 

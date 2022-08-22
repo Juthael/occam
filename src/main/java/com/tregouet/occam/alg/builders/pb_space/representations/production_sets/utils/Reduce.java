@@ -7,8 +7,8 @@ import org.jgrapht.alg.TransitiveReduction;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
 
 public interface Reduce {
 

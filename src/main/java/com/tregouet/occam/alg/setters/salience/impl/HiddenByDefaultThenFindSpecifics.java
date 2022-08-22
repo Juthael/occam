@@ -11,11 +11,11 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetter;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetector;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
-import com.tregouet.occam.data.problem_space.states.productions.Salience;
+import com.tregouet.occam.data.representations.classifications.IClassification;
+import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.representations.productions.Salience;
+import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
 
 public class HiddenByDefaultThenFindSpecifics implements ProductionSalienceSetter {
 

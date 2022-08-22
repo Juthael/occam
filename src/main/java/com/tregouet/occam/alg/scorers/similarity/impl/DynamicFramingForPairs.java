@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.scorers.similarity.impl;
 
 import com.tregouet.occam.alg.scorers.similarity.RelativePairSimilarityScorer;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 import com.tregouet.tree_finder.utils.Functions;
 

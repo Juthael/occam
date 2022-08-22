@@ -14,13 +14,13 @@ import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.Des
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.utils.DifferentiaeRankSetter;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.alg.setters.weighs.differentiae.coeff.DifferentiaeCoeffSetter;
-import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.descriptions.impl.Description;
-import com.tregouet.occam.data.problem_space.states.descriptions.metrics.IRelativeSimilarityMetrics;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.representations.classifications.IClassification;
+import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.representations.descriptions.impl.Description;
+import com.tregouet.occam.data.representations.descriptions.metrics.IRelativeSimilarityMetrics;
+import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.Tree;
 
 public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {

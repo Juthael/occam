@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.ProductionBuilder;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.structures.languages.alphabets.ISymbol;
 
 public class SourceConceptCannotHaveTargetDenotation extends MapTargetVarsToSourceValues
 		implements ProductionBuilder {

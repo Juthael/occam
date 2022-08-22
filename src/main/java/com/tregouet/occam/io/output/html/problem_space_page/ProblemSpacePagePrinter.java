@@ -3,8 +3,8 @@ package com.tregouet.occam.io.output.html.problem_space_page;
 import java.io.IOException;
 import java.util.List;
 
-import com.tregouet.occam.data.problem_space.ICategorizer;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.modules.categorization.ICategorizer;
+import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.general.ContextPrinter;
 import com.tregouet.occam.io.output.html.general.FootPrinter;
 import com.tregouet.occam.io.output.html.general.HeaderPrinter;

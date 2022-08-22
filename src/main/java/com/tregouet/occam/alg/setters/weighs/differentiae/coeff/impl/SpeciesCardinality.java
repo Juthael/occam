@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.alg.setters.weighs.differentiae.coeff.DifferentiaeCoeffSetter;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IComplementaryConcept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.representations.classifications.concepts.IComplementaryConcept;
+import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
+import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.utils.Functions;
 

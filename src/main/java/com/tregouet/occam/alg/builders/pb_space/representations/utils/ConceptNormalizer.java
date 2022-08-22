@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
-import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.logical_structures.languages.words.construct.impl.Construct;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Concept;
+import com.tregouet.occam.data.representations.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.representations.classifications.concepts.impl.Concept;
+import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.structures.languages.alphabets.ISymbol;
+import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.structures.languages.words.construct.impl.Construct;
 
 public interface ConceptNormalizer {
 

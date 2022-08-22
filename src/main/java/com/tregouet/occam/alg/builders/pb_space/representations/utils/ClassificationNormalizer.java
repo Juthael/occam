@@ -11,15 +11,15 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.utils.MapVariablesToValues;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
-import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.ConceptType;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.IsA;
-import com.tregouet.occam.data.problem_space.states.classifications.impl.NormalizedClassification;
+import com.tregouet.occam.data.representations.classifications.IClassification;
+import com.tregouet.occam.data.representations.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
+import com.tregouet.occam.data.representations.classifications.concepts.impl.IsA;
+import com.tregouet.occam.data.representations.classifications.impl.NormalizedClassification;
+import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.structures.languages.alphabets.ISymbol;
+import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 /**

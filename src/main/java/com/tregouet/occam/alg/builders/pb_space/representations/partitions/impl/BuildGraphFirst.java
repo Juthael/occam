@@ -9,11 +9,11 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
-import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
-import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
-import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
-import com.tregouet.occam.data.problem_space.transitions.partitions.impl.Partition;
+import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
+import com.tregouet.occam.data.modules.categorization.transitions.partitions.impl.Partition;
+import com.tregouet.occam.data.representations.classifications.IClassification;
+import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class BuildGraphFirst implements PartitionBuilder {

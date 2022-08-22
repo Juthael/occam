@@ -2,9 +2,9 @@ package com.tregouet.occam.alg.builders.pb_space.representations.transition_func
 
 import java.util.function.BiFunction;
 
-import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
-import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.representations.classifications.IClassification;
+import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 
 @FunctionalInterface
 public interface RepresentationTransFuncBuilder extends

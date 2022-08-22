@@ -3,8 +3,8 @@ package com.tregouet.occam.io.output.html.problem_space_page;
 import java.util.List;
 
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.general.FactPrinter;
 import com.tregouet.occam.io.output.html.general.FigurePrinter;
 import com.tregouet.occam.io.output.html.general.TablePrinter;

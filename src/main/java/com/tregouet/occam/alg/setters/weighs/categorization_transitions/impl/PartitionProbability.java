@@ -7,10 +7,10 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
-import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
-import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
-import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
+import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
+import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
 
 public class PartitionProbability implements ProblemTransitionWeigher {
 

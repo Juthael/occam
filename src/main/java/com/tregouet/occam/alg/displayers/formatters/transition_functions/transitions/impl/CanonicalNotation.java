@@ -3,8 +3,8 @@ package com.tregouet.occam.alg.displayers.formatters.transition_functions.transi
 import java.util.Iterator;
 
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.TransitionLabeller;
-import com.tregouet.occam.data.logical_structures.lambda_terms.IBindings;
-import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
+import com.tregouet.occam.data.representations.transitions.IConceptTransition;
+import com.tregouet.occam.data.structures.lambda_terms.IBindings;
 
 public class CanonicalNotation implements TransitionLabeller {
 

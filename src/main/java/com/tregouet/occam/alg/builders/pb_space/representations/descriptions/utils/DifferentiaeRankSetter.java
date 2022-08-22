@@ -2,7 +2,7 @@ package com.tregouet.occam.alg.builders.pb_space.representations.descriptions.ut
 
 import java.util.function.Consumer;
 
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class DifferentiaeRankSetter implements Consumer<Tree<Integer, ADifferentiae>> {

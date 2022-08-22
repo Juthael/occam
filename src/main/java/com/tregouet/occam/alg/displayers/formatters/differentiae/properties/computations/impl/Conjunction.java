@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabeller;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.IComputation;
-import com.tregouet.occam.data.problem_space.states.productions.IBasicProduction;
+import com.tregouet.occam.data.representations.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.representations.productions.IBasicProduction;
 
 public class Conjunction implements ComputationLabeller {
 

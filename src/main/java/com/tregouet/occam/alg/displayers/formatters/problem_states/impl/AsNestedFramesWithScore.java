@@ -2,7 +2,7 @@ package com.tregouet.occam.alg.displayers.formatters.problem_states.impl;
 
 import com.ibm.icu.text.DecimalFormat;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabeller;
-import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.representations.IRepresentation;
 
 public class AsNestedFramesWithScore extends AsNestedFrames implements ProblemStateLabeller {
 

@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.RelativeSimilarityMetricsBuilder;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.ADifferentiae;
-import com.tregouet.occam.data.problem_space.states.descriptions.metrics.IRelativeSimilarityMetrics;
-import com.tregouet.occam.data.problem_space.states.descriptions.metrics.impl.RelativeSimilarityMetrics;
+import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.representations.descriptions.metrics.IRelativeSimilarityMetrics;
+import com.tregouet.occam.data.representations.descriptions.metrics.impl.RelativeSimilarityMetrics;
 import com.tregouet.tree_finder.data.Tree;
 
 public class ReplaceMissingParticularsByMostSpecificConcept implements RelativeSimilarityMetricsBuilder {

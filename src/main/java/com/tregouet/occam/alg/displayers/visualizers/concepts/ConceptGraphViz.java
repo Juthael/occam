@@ -4,8 +4,8 @@ import java.util.function.BiFunction;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IIsA;
+import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
 
 public interface ConceptGraphViz extends BiFunction<DirectedAcyclicGraph<IConcept, IIsA>, String, String> {
 

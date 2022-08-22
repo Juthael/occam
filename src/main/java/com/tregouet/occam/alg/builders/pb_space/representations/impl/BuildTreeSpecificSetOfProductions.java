@@ -3,15 +3,15 @@ package com.tregouet.occam.alg.builders.pb_space.representations.impl;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
-import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.states.classifications.IClassification;
-import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
-import com.tregouet.occam.data.problem_space.states.evaluation.IFactEvaluator;
-import com.tregouet.occam.data.problem_space.states.evaluation.impl.FactEvaluator;
-import com.tregouet.occam.data.problem_space.states.impl.Representation;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
-import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.problem_space.transitions.partitions.IPartition;
+import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
+import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.representations.classifications.IClassification;
+import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.representations.evaluation.IFactEvaluator;
+import com.tregouet.occam.data.representations.evaluation.impl.FactEvaluator;
+import com.tregouet.occam.data.representations.impl.Representation;
+import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
 
 public class BuildTreeSpecificSetOfProductions implements RepresentationBuilder {
 

@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.ProductionSetBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.utils.RemoveEpsilonProds;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
 
 public class NoEpsilonProdWildTransitions extends BuildFromScratchWildTransitions implements ProductionSetBuilder {
 

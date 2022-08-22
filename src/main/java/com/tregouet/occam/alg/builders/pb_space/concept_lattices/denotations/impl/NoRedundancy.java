@@ -9,10 +9,10 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.pb_space.concept_lattices.denotations.DenotationBuilder;
 import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.utils.MapVariablesToValues;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.AVariable;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.ISymbol;
-import com.tregouet.occam.data.logical_structures.languages.alphabets.ITerminal;
-import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.structures.languages.alphabets.ISymbol;
+import com.tregouet.occam.data.structures.languages.alphabets.ITerminal;
+import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
 
 public class NoRedundancy extends MaxSymbolSubsequences implements DenotationBuilder {
 

@@ -4,7 +4,7 @@ import java.util.function.BiFunction;
 
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
-import com.tregouet.occam.data.problem_space.states.descriptions.IDescription;
+import com.tregouet.occam.data.representations.descriptions.IDescription;
 
 public interface DescriptionViz extends BiFunction<IDescription, String, String> {
 

@@ -7,8 +7,8 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
-import com.tregouet.occam.data.problem_space.states.IRepresentation;
-import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.representations.IRepresentation;
 
 public class SourcesProbabilitiesTimesTransitionsProbabilities implements ProblemStateScorer {
 

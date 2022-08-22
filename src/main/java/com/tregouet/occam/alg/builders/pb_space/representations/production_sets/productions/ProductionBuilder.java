@@ -3,9 +3,9 @@ package com.tregouet.occam.alg.builders.pb_space.representations.production_sets
 import java.util.Set;
 import java.util.function.BiFunction;
 
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IConcept;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
+import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
 
 public interface ProductionBuilder
 		extends BiFunction<IDenotation, IDenotation, Set<IContextualizedProduction>> {

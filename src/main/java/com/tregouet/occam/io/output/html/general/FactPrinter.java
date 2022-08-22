@@ -7,7 +7,7 @@ import java.util.NavigableSet;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
-import com.tregouet.occam.data.problem_space.states.IRepresentation;
+import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
 
 public class FactPrinter {

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import com.tregouet.occam.alg.builders.pb_space.representations.utils.ClassificationNormalizer;
+import com.tregouet.occam.alg.builders.representations.utils.ClassificationNormalizer;
 import com.tregouet.occam.data.representations.classifications.IClassification;
 import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.representations.classifications.concepts.IIsA;

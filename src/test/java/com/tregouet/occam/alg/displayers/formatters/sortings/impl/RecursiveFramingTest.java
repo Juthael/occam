@@ -17,7 +17,7 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.utils.MapConceptIDs2ExtentIDs;
+import com.tregouet.occam.alg.builders.utils.MapConceptIDs2ExtentIDs;
 import com.tregouet.occam.data.representations.classifications.IClassification;
 import com.tregouet.occam.data.representations.classifications.concepts.ConceptType;
 import com.tregouet.occam.data.representations.classifications.concepts.IConcept;

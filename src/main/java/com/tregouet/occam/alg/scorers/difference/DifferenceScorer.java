@@ -1,9 +1,9 @@
 package com.tregouet.occam.alg.scorers.difference;
 
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.classifications.ClassificationBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.ProductionSetBuilder;
+import com.tregouet.occam.alg.builders.classifications.ClassificationBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilder;
+import com.tregouet.occam.alg.builders.representations.production_sets.ProductionSetBuilder;
 import com.tregouet.occam.data.representations.classifications.concepts.IConceptLattice;
 
 public interface DifferenceScorer {

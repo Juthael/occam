@@ -6,7 +6,7 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
-import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
+import com.tregouet.occam.alg.builders.categorizer.ProblemSpaceExplorer;
 import com.tregouet.occam.data.modules.IModule;
 import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.representations.IRepresentation;

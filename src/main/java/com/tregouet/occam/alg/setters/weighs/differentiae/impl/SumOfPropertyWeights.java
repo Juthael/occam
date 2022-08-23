@@ -1,8 +1,8 @@
 package com.tregouet.occam.alg.setters.weighs.differentiae.impl;
 
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.IProperty;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
 
 public class SumOfPropertyWeights implements DifferentiaeWeigher {
 

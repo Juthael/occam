@@ -1,5 +1,7 @@
 package com.tregouet.occam.data.modules.similarity.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -7,13 +9,14 @@ import java.util.Set;
 import org.jgrapht.alg.util.UnorderedPair;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
+import com.tregouet.occam.alg.builders.similarity_assessor.SimAssessorSetter;
 import com.tregouet.occam.data.modules.similarity.ISimilarityAssessor;
 import com.tregouet.occam.data.modules.similarity.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
-import com.tregouet.occam.data.representations.classifications.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
-import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
 
 public class SimilarityAssessor implements ISimilarityAssessor {
 	
@@ -83,9 +86,36 @@ public class SimilarityAssessor implements ISimilarityAssessor {
 	}
 
 	@Override
-	public ISimilarityAssessor process(Set<IContextObject> context) {
-		// TODO Auto-generated method stub
-		return null;
+	public ISimilarityAssessor process(Collection<IContextObject> contextColl) {
+		List<IContextObject> context = new ArrayList<>(contextColl);
+		context.sort((x, y) -> Integer.compare(x.iD(), y.iD()));
+		SimAssessorSetter setter = ISimilarityAssessor.simAssessorSetter().accept(context);
+		this.context = context;
+		this.conceptLattice = setter.getConceptLattice();
+		this.dichotomies = setter.getDichotomies();
+		this.differences = setter.getDifferences();
+		this.similarityMetrics = setter.getSimilarityMetrics();
+		return this;
+	}
+
+	@Override
+	public String[][] getSimilarityStringMatrix() {
+		return ISimilarityAssessor.matrixFormatter().apply(getSimilarityMatrix());
+	}
+
+	@Override
+	public String[][] getAsymmetricalSimilarityStringMatrix() {
+		return ISimilarityAssessor.matrixFormatter().apply(getAsymmetricalSimilarityMatrix());
+	}
+
+	@Override
+	public String[][] getDifferenceStringMatrix() {
+		return ISimilarityAssessor.matrixFormatter().apply(getDifferenceMatrix());
+	}
+
+	@Override
+	public String[] getTypicalityStringVector() {
+		return ISimilarityAssessor.matrixFormatter().apply(getTypicalityVector());
 	}
 
 }

@@ -10,9 +10,9 @@ import org.jgrapht.alg.util.UnorderedPair;
 import com.tregouet.occam.alg.builders.similarity_assessor.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.data.modules.similarity.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.modules.similarity.metrics.impl.SimilarityMetrics;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
-import com.tregouet.occam.data.representations.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConceptLattice;
 
 public class SimilaritiesThenDifferences implements SimilarityMetricsBuilder {
 	

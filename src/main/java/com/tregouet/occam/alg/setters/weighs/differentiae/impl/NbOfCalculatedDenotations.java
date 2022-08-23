@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
-import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.IComputation;
 
 public class NbOfCalculatedDenotations implements DifferentiaeWeigher {
 

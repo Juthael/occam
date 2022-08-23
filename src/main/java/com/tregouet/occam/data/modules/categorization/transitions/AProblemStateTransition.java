@@ -6,7 +6,7 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.alg.setters.weighs.Weighed;
 import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
-import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
 
 public abstract class AProblemStateTransition extends DefaultEdge implements Weighed {
 

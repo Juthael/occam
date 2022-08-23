@@ -10,8 +10,8 @@ import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConve
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.weighs.partitions.PartitionWeigher;
 import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.descriptions.IDescription;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.descriptions.IDescription;
 
 public interface PartitionBuilder extends BiFunction<IDescription, IClassification, Set<IPartition>> {
 

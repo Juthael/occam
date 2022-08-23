@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
-import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
 
 public class ProblemStateTransition extends AProblemStateTransition {
 

@@ -3,9 +3,9 @@ package com.tregouet.occam.alg.setters.salience.impl;
 import java.util.Set;
 
 import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetter;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
-import com.tregouet.occam.data.representations.productions.Salience;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.structures.representations.productions.Salience;
 
 public class EverythingIsRule implements ProductionSalienceSetter {
 

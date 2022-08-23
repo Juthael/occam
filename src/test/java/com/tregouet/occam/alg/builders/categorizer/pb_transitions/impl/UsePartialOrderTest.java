@@ -20,11 +20,11 @@ import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.data.modules.categorization.ICategorizer;
 import com.tregouet.occam.data.modules.categorization.impl.Categorizer;
 import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.IComputation;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")

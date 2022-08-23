@@ -7,8 +7,8 @@ import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.production_sets.productions.ProductionBuilder;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetter;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
 
 public interface ProductionSetBuilder
 	extends Function<IClassification, Set<IContextualizedProduction>> {

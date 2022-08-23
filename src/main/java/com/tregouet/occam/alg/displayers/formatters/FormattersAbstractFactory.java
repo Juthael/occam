@@ -12,6 +12,9 @@ import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.comp
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerFactory;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.matrices.MatrixFormatter;
+import com.tregouet.occam.alg.displayers.formatters.matrices.MatrixFormatterFactory;
+import com.tregouet.occam.alg.displayers.formatters.matrices.MatrixFormatterStrategy;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabeller;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabellerStrategy;
@@ -45,6 +48,7 @@ public class FormattersAbstractFactory {
 	private ProblemStateLabellerStrategy problemStateLabellerStrategy = null;
 	private ProblemTransitionLabellerStrategy problemTransitionLabellerStrategy = null;
 	private FactDisplayerStrategy factDisplayerStrategy = null;
+	private MatrixFormatterStrategy matrixFormatterStrategy = null;
 
 	private FormattersAbstractFactory() {
 	}
@@ -88,6 +92,10 @@ public class FormattersAbstractFactory {
 	public TransitionLabeller getTransitionLabeller() {
 		return TransitionLabellerFactory.INSTANCE.apply(transitionLabellerStrategy);
 	}
+	
+	public MatrixFormatter getMatrixFormatter() {
+		return MatrixFormatterFactory.INSTANCE.apply(matrixFormatterStrategy);
+	}
 
 	public void setUpStrategy(FormattingStrategy strategy) {
 		switch (strategy) {
@@ -102,6 +110,7 @@ public class FormattersAbstractFactory {
 			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES_WITH_SCORE;
 			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.WEIGHT;
 			factDisplayerStrategy = FactDisplayerStrategy.NON_TRIVIAL_MAXIMAL_FACTS;
+			matrixFormatterStrategy = MatrixFormatterStrategy.THREE_DECIMALS;
 			break;
 		default:
 			break;

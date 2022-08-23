@@ -3,8 +3,8 @@ package com.tregouet.occam.alg.scorers.similarity.difference.impl;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.scorers.similarity.difference.DifferenceScorer;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
 
 public class SumOfDifferentiaeWeights implements DifferenceScorer {
 	

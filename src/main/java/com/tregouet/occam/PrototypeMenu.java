@@ -15,11 +15,12 @@ import java.util.Set;
 import com.google.common.base.Splitter;
 import com.tregouet.occam.data.modules.categorization.ICategorizer;
 import com.tregouet.occam.data.modules.categorization.impl.Categorizer;
-import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.modules.similarity.ISimilarityAssessor;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
-import com.tregouet.occam.io.output.html.main_menu.MainMenuPrinter;
-import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
+import com.tregouet.occam.io.output.html.models.CategorizerMenuPrinter;
+import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
 
 public class PrototypeMenu {
 
@@ -35,7 +36,7 @@ public class PrototypeMenu {
 
 	private void developRepresentation(ICategorizer categorizer) {
 		categorizer.develop();
-		problemSpaceMenu(categorizer);
+		categorizerMenu(categorizer);
 	}
 
 	private void developRepresentationWithSpecifiedID(ICategorizer categorizer) {
@@ -47,16 +48,16 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		}
 		Boolean result = categorizer.develop(iD);
 		if (result == null) {
 			System.out.println("No representation has this ID. " + NL);
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		} else {
 			if (!result)
 				System.out.println("This representation is fully developed already. " + NL);
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		}
 	}
 
@@ -69,7 +70,7 @@ public class PrototypeMenu {
 			iDString = entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		}
 		iDString = iDString.replaceAll(" ", "");
 		String[] idStringArray = iDString.split(",");
@@ -86,16 +87,16 @@ public class PrototypeMenu {
 		}
 		if (iDs.isEmpty()) {
 			System.out.println("No representation has been found. " + NL);
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		}
 		Boolean result = categorizer.develop(iDs);
 		if (result == null) {
 			System.out.println("No representation has been found. " + NL);
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		} else {
 			if (!result)
 				System.out.println("The specified representations are fully developed already. " + NL);
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		}
 	}
 
@@ -108,16 +109,16 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		}
 		Boolean result = categorizer.display(iD);
 		if (result == null) {
 			System.out.println("No representation has this ID. " + NL);
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		} else {
 			if (!result)
 				System.out.println("This representation is already displayed. " + NL);
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		}
 	}
 
@@ -129,11 +130,43 @@ public class PrototypeMenu {
 			Occam.initialize();
 			Path inputPath = Paths.get(inputPathString);
 			List<IContextObject> objects = GenericFileReader.getContextObjects(inputPath);
+			//Change HERE
 			ICategorizer categorizer = new Categorizer().process(new HashSet<>(objects));
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		} else {
 			System.out.println("This path is invalid." + NL);
 			enterTargetFolder();
+		}
+	}
+	
+	private void similarityAssessorMenu(ISimilarityAssessor simAssessor) {
+		
+	}
+	
+	private void selectMode(List<IContextObject> objects) throws IOException {
+		System.out.println(NL);
+		System.out.println("Please select OCCAM mode : " + NL);
+		System.out.println("1 : Categorizer" + NL);
+		System.out.println("2 : Similarity assessor" + NL);
+		int choice;
+		choice = entry.nextInt();
+		entry.nextLine();
+		switch (choice) {
+		case 1:
+			ICategorizer categorizer = new Categorizer().process(new HashSet<>(objects));
+			categorizerMenu(categorizer);
+			break;
+		case 2:
+			enterTargetFolder();
+			break;
+		case 3:
+			System.out.println("Goodbye.");
+			System.exit(0);
+			break;
+		default:
+			System.out.println("Please stay focused." + NL);
+			mainMenu();
+			break;
 		}
 	}
 
@@ -160,7 +193,7 @@ public class PrototypeMenu {
 
 	private void mainMenu() {
 		try {
-			generate(MainMenuPrinter.INSTANCE.get());
+			generate(CategorizerMenuPrinter.INSTANCE.get());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -196,9 +229,9 @@ public class PrototypeMenu {
 		}
 	}
 
-	private void problemSpaceMenu(ICategorizer categorizer) {
+	private void categorizerMenu(ICategorizer categorizer) {
 		try {
-			String htmlPage = ProblemSpacePagePrinter.INSTANCE.print(categorizer);
+			String htmlPage = CategorizerPagePrinter.INSTANCE.print(categorizer);
 			generate(htmlPage);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -218,7 +251,7 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		}
 		switch (choice) {
 		case 1:
@@ -255,7 +288,7 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		}
 		Set<Integer> iDs = new HashSet<>();
 		entryString = entryString.replaceAll(" ", "");
@@ -267,18 +300,18 @@ public class PrototypeMenu {
 			}
 			catch (NumberFormatException e) {
 				System.out.println("Entry is invalid");
-				problemSpaceMenu(categorizer);
+				categorizerMenu(categorizer);
 			}
 			iDs.add(iD);
 		}
 		Boolean result = categorizer.restrictTo(iDs);
 		if (result == null) {
 			System.out.println("Some ID is missing in the problem space graph. " + NL);
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		} else {
 			if (!result)
 				System.out.println("The specified set is not a restriction." + NL);
-			problemSpaceMenu(categorizer);
+			categorizerMenu(categorizer);
 		}
 	}
 

@@ -5,14 +5,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.computations.IComputation;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.computations.abstr_app.impl.AbstractionApplication;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.computations.impl.Computation;
-import com.tregouet.occam.data.representations.productions.IBasicProduction;
-import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
-import com.tregouet.occam.data.representations.productions.impl.IdentityProduction;
 import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.abstr_app.impl.AbstractionApplication;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.impl.Computation;
+import com.tregouet.occam.data.structures.representations.productions.IBasicProduction;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.structures.representations.productions.impl.IdentityProduction;
 
 public class ProdCluster {
 

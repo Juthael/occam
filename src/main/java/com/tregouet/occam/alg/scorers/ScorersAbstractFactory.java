@@ -1,8 +1,5 @@
 package com.tregouet.occam.alg.scorers;
 
-import com.tregouet.occam.alg.scorers.difference_DEP.DifferenceScorerDEP;
-import com.tregouet.occam.alg.scorers.difference_DEP.DifferenceScorerFactoryDEP;
-import com.tregouet.occam.alg.scorers.difference_DEP.DifferenceScorerStrategyDEP;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorerFactory;
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorerStrategy;
@@ -18,18 +15,11 @@ import com.tregouet.occam.alg.scorers.similarity.symmetrical.SimilarityScorerStr
 import com.tregouet.occam.alg.scorers.similarity.typicality.TypicalityScorer;
 import com.tregouet.occam.alg.scorers.similarity.typicality.TypicalityScorerFactory;
 import com.tregouet.occam.alg.scorers.similarity.typicality.TypicalityScorerStrategy;
-import com.tregouet.occam.alg.scorers.similarity_DEP.RelativeAsymmetricalSimilarityScorerDEP;
-import com.tregouet.occam.alg.scorers.similarity_DEP.RelativePairSimilarityScorerDEP;
-import com.tregouet.occam.alg.scorers.similarity_DEP.RelativeSimilarityScorerFactoryDEP;
-import com.tregouet.occam.alg.scorers.similarity_DEP.RelativeSimilarityScorerStrategyDEP;
-import com.tregouet.occam.alg.scorers.similarity_DEP.RelativeSubsetSimilarityScorerDEP;
 
 public class ScorersAbstractFactory {
 
 	public static final ScorersAbstractFactory INSTANCE = new ScorersAbstractFactory();
 
-	private RelativeSimilarityScorerStrategyDEP relativeSimilarityScorerStrategyDEP = null;
-	private DifferenceScorerStrategyDEP differenceScorerStrategyDEP = null;
 	private AsymmetricalSimilarityScorerStrategy asymmetricalSimilarityScorerStrategy = null;
 	private DifferenceScorerStrategy differenceScorerStrategy = null;
 	private SimilarityScorerStrategy similarityScorerStrategy = null;
@@ -37,22 +27,6 @@ public class ScorersAbstractFactory {
 	private ProblemStateScorerStrategy problemStateScorerStrategy = null;
 
 	private ScorersAbstractFactory() {
-	}
-
-	public RelativeAsymmetricalSimilarityScorerDEP getAsymmetricalSimilarityScorerDEP() {
-		return RelativeSimilarityScorerFactoryDEP.INSTANCE.getAsymmetricalSimilarityScorer(relativeSimilarityScorerStrategyDEP);
-	}
-
-	public RelativeSubsetSimilarityScorerDEP getBasicSimilarityScorerDEP() {
-		return RelativeSimilarityScorerFactoryDEP.INSTANCE.getBasicSimilarityScorer(relativeSimilarityScorerStrategyDEP);
-	}
-
-	public DifferenceScorerDEP getDifferenceScorerDEP() {
-		return DifferenceScorerFactoryDEP.INSTANCE.apply(differenceScorerStrategyDEP);
-	}
-
-	public RelativePairSimilarityScorerDEP getPairSimilarityScorerDEP() {
-		return RelativeSimilarityScorerFactoryDEP.INSTANCE.getPairSimilarityScorer(relativeSimilarityScorerStrategyDEP);
 	}
 
 	public ProblemStateScorer getProblemStateScorer() {
@@ -77,14 +51,7 @@ public class ScorersAbstractFactory {
 
 	public void setUpStrategy(ScoringStrategy overallStrategy) {
 		switch (overallStrategy) {
-		case SCORING_STRATEGY_1:
-			relativeSimilarityScorerStrategyDEP = RelativeSimilarityScorerStrategyDEP.DYNAMIC_FRAMING;
-			differenceScorerStrategyDEP = DifferenceScorerStrategyDEP.TWO_LEAF_TREE;
-			problemStateScorerStrategy = ProblemStateScorerStrategy.SOURCE_PROB_TIMES_TRANSITION_PROB;
-			break;
 		case SCORING_STRATEGY_2 :
-			relativeSimilarityScorerStrategyDEP = RelativeSimilarityScorerStrategyDEP.DYNAMIC_FRAMING_NO_COEFF;
-			differenceScorerStrategyDEP = DifferenceScorerStrategyDEP.TWO_LEAF_TREE;
 			problemStateScorerStrategy = ProblemStateScorerStrategy.SOURCE_PROB_TIMES_TRANSITION_PROB;
 			asymmetricalSimilarityScorerStrategy = AsymmetricalSimilarityScorerStrategy.PORTION_OF_SIMILARITY;
 			differenceScorerStrategy = DifferenceScorerStrategy.SUM_OF_DIFFERENTIAE_WEIGHTS;

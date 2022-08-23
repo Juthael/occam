@@ -8,7 +8,7 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
-import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
 
 public class SourcesProbabilitiesTimesTransitionsProbabilities implements ProblemStateScorer {
 

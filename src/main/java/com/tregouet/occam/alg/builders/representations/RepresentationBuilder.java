@@ -7,8 +7,8 @@ import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionB
 import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilder;
 import com.tregouet.occam.alg.builders.representations.production_sets.ProductionSetBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 
 public interface RepresentationBuilder
 	extends Function<IClassification, IRepresentation> {

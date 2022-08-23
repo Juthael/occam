@@ -1,9 +1,9 @@
 package com.tregouet.occam.alg.setters.weighs.differentiae.coeff.impl;
 
 import com.tregouet.occam.alg.setters.weighs.differentiae.coeff.DifferentiaeCoeffSetter;
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
-import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class NoCoeff implements DifferentiaeCoeffSetter {

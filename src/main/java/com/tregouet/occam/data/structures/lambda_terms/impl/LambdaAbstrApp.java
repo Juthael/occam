@@ -5,13 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
-import com.tregouet.occam.data.representations.productions.IBasicProduction;
 import com.tregouet.occam.data.structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.structures.lambda_terms.ILambdaAbstrApp;
 import com.tregouet.occam.data.structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
+import com.tregouet.occam.data.structures.representations.productions.IBasicProduction;
 
 public class LambdaAbstrApp implements ILambdaAbstrApp {
 

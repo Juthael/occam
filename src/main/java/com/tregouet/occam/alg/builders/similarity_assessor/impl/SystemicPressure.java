@@ -14,24 +14,23 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.similarity_assessor.SimAssessorSetter;
 import com.tregouet.occam.data.modules.similarity.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.classifications.concepts.ConceptType;
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
-import com.tregouet.occam.data.representations.classifications.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
-import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
-import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.representations.classifications.concepts.impl.Concept;
-import com.tregouet.occam.data.representations.classifications.concepts.impl.IsA;
 import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.impl.Concept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.impl.IsA;
 import com.tregouet.tree_finder.data.InvertedTree;
 import com.tregouet.tree_finder.utils.Functions;
 
 public class SystemicPressure extends ASimAssessorSetter implements SimAssessorSetter {
 
-	public SystemicPressure(List<IContextObject> context) {
-		super(context);
+	public SystemicPressure() {
+		super();
 	}
 
 	@Override

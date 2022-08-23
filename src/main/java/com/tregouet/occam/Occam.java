@@ -2,10 +2,10 @@ package com.tregouet.occam;
 
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.OverallStrategy;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
-import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 
 public class Occam {
 

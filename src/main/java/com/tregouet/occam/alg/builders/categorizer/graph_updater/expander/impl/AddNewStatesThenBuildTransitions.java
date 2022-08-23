@@ -15,7 +15,7 @@ import com.tregouet.occam.alg.builders.categorizer.graph_updater.expander.Proble
 import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.modules.categorization.transitions.impl.ProblemStateTransition;
 import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
-import com.tregouet.occam.data.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
 
 public class AddNewStatesThenBuildTransitions implements ProblemSpaceGraphExpander {
 

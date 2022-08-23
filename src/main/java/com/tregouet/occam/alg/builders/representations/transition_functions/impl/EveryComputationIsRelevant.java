@@ -3,8 +3,8 @@ package com.tregouet.occam.alg.builders.representations.transition_functions.imp
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.computations.IComputation;
-import com.tregouet.occam.data.representations.transitions.IConceptTransition;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.structures.representations.transitions.IConceptTransition;
 
 public class EveryComputationIsRelevant extends AbstractTransFuncBuilder implements RepresentationTransFuncBuilder {
 

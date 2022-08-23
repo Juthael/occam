@@ -5,8 +5,8 @@ import java.util.function.Consumer;
 
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetector;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
 
 public interface ProductionSalienceSetter
 	extends Consumer<Set<IContextualizedProduction>> {

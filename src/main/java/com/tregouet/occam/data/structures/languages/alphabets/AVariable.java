@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 
 /**
  * <p>

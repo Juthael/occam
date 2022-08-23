@@ -10,8 +10,8 @@ import com.tregouet.occam.alg.scorers.similarity.difference.DifferenceScorer;
 import com.tregouet.occam.alg.scorers.similarity.symmetrical.SimilarityScorer;
 import com.tregouet.occam.alg.scorers.similarity.typicality.TypicalityScorer;
 import com.tregouet.occam.data.modules.similarity.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConceptLattice;
 
 public interface SimilarityMetricsBuilder {
 	

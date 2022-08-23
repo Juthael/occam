@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class Partition implements IPartition {

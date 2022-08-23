@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
-import com.tregouet.occam.data.representations.productions.IBasicProduction;
 import com.tregouet.occam.data.structures.lambda_terms.ILambdaExpression;
 import com.tregouet.occam.data.structures.lambda_terms.impl.LambdaAbstrApp;
 import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
@@ -16,6 +14,8 @@ import com.tregouet.occam.data.structures.languages.alphabets.ITerminal;
 import com.tregouet.occam.data.structures.languages.alphabets.impl.Terminal;
 import com.tregouet.occam.data.structures.languages.alphabets.impl.Variable;
 import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
+import com.tregouet.occam.data.structures.representations.productions.IBasicProduction;
 import com.tregouet.subseq_finder.ISymbolSeq;
 
 public class Construct implements IConstruct {

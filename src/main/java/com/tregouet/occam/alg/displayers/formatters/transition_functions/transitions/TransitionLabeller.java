@@ -4,7 +4,7 @@ import java.util.function.Function;
 
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.transitions.abstr_apps.AbstrAppLabeller;
-import com.tregouet.occam.data.representations.transitions.IConceptTransition;
+import com.tregouet.occam.data.structures.representations.transitions.IConceptTransition;
 
 public interface TransitionLabeller extends Function<IConceptTransition, String> {
 

@@ -14,13 +14,13 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.representations.production_sets.productions.impl.MapTargetVarsToSourceValues;
-import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.representations.classifications.concepts.denotations.impl.Denotation;
-import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
 import com.tregouet.occam.data.structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.structures.languages.alphabets.impl.Terminal;
 import com.tregouet.occam.data.structures.languages.alphabets.impl.Variable;
 import com.tregouet.occam.data.structures.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.denotations.impl.Denotation;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
 
 public class MapTargetVarsToSourceValuesTest {
 

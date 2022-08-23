@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.alg.setters.weighs.Weighed;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.structures.partial_order.PartiallyComparable;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public interface IPartition extends Weighed, PartiallyComparable<IPartition> {

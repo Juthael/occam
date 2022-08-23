@@ -1,5 +1,6 @@
 package com.tregouet.occam.data.modules.categorization;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -9,13 +10,13 @@ import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.categorizer.ProblemSpaceExplorer;
 import com.tregouet.occam.data.modules.IModule;
 import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 
 public interface ICategorizer extends IModule {
 	
 	@Override
-	ICategorizer process(Set<IContextObject> context);
+	ICategorizer process(Collection<IContextObject> context);
 
 	Boolean develop();
 
@@ -42,18 +43,7 @@ public interface ICategorizer extends IModule {
 
 	IRepresentation getActiveRepresentation();
 
-	double[][] getAsymmetricalSimilarityMatrix();
-
-	double[][] getDifferenceMatrix();
-
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
-
-	String[][] getReferenceMatrix();
-
-	double[][] getSimilarityMatrix();
-
-	double[] getTypicalityVector();
-
 	Boolean restrictTo(Set<Integer> representationIDs);
 
 	public static ProblemSpaceExplorer problemSpaceExplorer() {

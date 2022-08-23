@@ -5,8 +5,8 @@ import java.util.function.Function;
 
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.concept_lattices.denotations.DenotationBuilder;
-import com.tregouet.occam.data.representations.classifications.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 
 @FunctionalInterface
 public interface ConceptLatticeBuilder extends Function<Collection<IContextObject>, IConceptLattice> {

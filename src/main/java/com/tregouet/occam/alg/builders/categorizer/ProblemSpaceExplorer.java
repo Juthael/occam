@@ -3,8 +3,6 @@ package com.tregouet.occam.alg.builders.categorizer;
 import java.util.Collection;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
@@ -13,7 +11,6 @@ import com.tregouet.occam.alg.builders.categorizer.graph_updater.restrictor.Prob
 import com.tregouet.occam.alg.builders.classifications.ClassificationBuilder;
 import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrower;
-import com.tregouet.occam.alg.builders.metricsDEP.SimilarityMetricsBuilderDEP;
 import com.tregouet.occam.alg.builders.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
@@ -22,11 +19,10 @@ import com.tregouet.occam.alg.scorers.problem_states.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.weighs.categorization_transitions.ProblemTransitionWeigher;
 import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
-import com.tregouet.occam.data.modules.similarity.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
-import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
-import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
 
 /**
  * Returns null if parameter is not the iD of some representation in the graph, and false if the
@@ -47,8 +43,6 @@ public interface ProblemSpaceExplorer {
 	DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts();
 
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
-
-	ISimilarityMetrics getSimilarityMetrics(@Nullable double[][] differenceMatrix);
 
 	ProblemSpaceExplorer initialize(Collection<IContextObject> context);
 
@@ -88,10 +82,6 @@ public interface ProblemSpaceExplorer {
 
 	public static RepresentationBuilder representationBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getRepresentationBuilder();
-	}
-
-	public static SimilarityMetricsBuilderDEP similarityMetricsBuilderDEP() {
-		return BuildersAbstractFactory.INSTANCE.getSimilarityMetricsBuilderDEP();
 	}
 
 }

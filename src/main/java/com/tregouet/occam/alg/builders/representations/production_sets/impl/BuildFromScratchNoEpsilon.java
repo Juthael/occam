@@ -10,13 +10,13 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.tregouet.occam.alg.builders.representations.production_sets.ProductionSetBuilder;
 import com.tregouet.occam.alg.builders.representations.production_sets.productions.ProductionBuilder;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.classifications.concepts.ConceptType;
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
-import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
-import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
 import com.tregouet.occam.data.structures.languages.alphabets.ISymbol;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class BuildFromScratchNoEpsilon implements ProductionSetBuilder {

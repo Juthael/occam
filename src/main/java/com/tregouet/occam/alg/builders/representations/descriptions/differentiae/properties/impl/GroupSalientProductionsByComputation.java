@@ -8,10 +8,10 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.util.CompCluster;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
-import com.tregouet.occam.data.representations.productions.Salience;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.structures.representations.productions.Salience;
 
 public class GroupSalientProductionsByComputation implements PropertyBuilder {
 

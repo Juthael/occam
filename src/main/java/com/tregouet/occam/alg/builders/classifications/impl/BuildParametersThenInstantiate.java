@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.tregouet.occam.alg.builders.classifications.ClassificationBuilder;
-import com.tregouet.occam.alg.builders.utils.MapConceptIDs2ExtentIDs;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.classifications.concepts.ConceptType;
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
-import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
-import com.tregouet.occam.data.representations.classifications.impl.Classification;
+import com.tregouet.occam.alg.builders.classifications.impl.utils.MapConceptIDs2ExtentIDs;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.ConceptType;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
+import com.tregouet.occam.data.structures.representations.classifications.impl.Classification;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class BuildParametersThenInstantiate implements ClassificationBuilder {

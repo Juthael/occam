@@ -13,8 +13,8 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.concept_lattices.impl.GaloisConnection;
-import com.tregouet.occam.data.representations.classifications.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 @SuppressWarnings("unused")

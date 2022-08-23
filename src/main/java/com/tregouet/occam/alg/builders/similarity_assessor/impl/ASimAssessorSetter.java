@@ -7,24 +7,19 @@ import org.jgrapht.alg.util.UnorderedPair;
 
 import com.tregouet.occam.alg.builders.similarity_assessor.SimAssessorSetter;
 import com.tregouet.occam.data.modules.similarity.metrics.ISimilarityMetrics;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.classifications.concepts.IConceptLattice;
-import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConceptLattice;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 
 public abstract class ASimAssessorSetter implements SimAssessorSetter {
 	
-	protected final List<IContextObject> context;
-	protected final IConceptLattice conceptLattice;
-	protected final Map<UnorderedPair<Integer, Integer>, IRepresentation> dichotomies;
-	protected final Map<UnorderedPair<Integer, Integer>, IRepresentation> differences;
-	protected final ISimilarityMetrics similarityMetrics;
+	protected List<IContextObject> context;
+	protected IConceptLattice conceptLattice;
+	protected Map<UnorderedPair<Integer, Integer>, IRepresentation> dichotomies;
+	protected Map<UnorderedPair<Integer, Integer>, IRepresentation> differences;
+	protected ISimilarityMetrics similarityMetrics;
 	
-	public ASimAssessorSetter(List<IContextObject> context) {
-		this.context = context;
-		conceptLattice = SimAssessorSetter.conceptLatticeBuilder().apply(context);
-		dichotomies = buildDichotomies();
-		differences = buildDifferences();
-		similarityMetrics = buildSimilarityMetrics();
+	public ASimAssessorSetter() {
 	}
 
 	@Override
@@ -50,6 +45,16 @@ public abstract class ASimAssessorSetter implements SimAssessorSetter {
 	@Override
 	public ISimilarityMetrics getSimilarityMetrics() {
 		return similarityMetrics;
+	}
+	
+	@Override
+	public SimAssessorSetter accept(List<IContextObject> context) {
+		this.context = context;
+		conceptLattice = SimAssessorSetter.conceptLatticeBuilder().apply(context);
+		dichotomies = buildDichotomies();
+		differences = buildDifferences();
+		similarityMetrics = buildSimilarityMetrics();
+		return this;
 	}
 	
 	protected abstract Map<UnorderedPair<Integer, Integer>, IRepresentation> buildDichotomies();

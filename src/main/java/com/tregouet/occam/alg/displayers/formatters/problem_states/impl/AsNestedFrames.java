@@ -14,8 +14,8 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabeller;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
 import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class AsNestedFrames implements ProblemStateLabeller {

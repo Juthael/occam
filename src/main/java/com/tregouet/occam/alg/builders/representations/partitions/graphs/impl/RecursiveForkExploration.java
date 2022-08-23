@@ -11,7 +11,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.builders.representations.partitions.graphs.PartitionGraphBuilder;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class RecursiveForkExploration implements PartitionGraphBuilder {

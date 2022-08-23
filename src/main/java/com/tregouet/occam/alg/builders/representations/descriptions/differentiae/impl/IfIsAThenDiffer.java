@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilder;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
-import com.tregouet.occam.data.representations.classifications.concepts.IIsA;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
-import com.tregouet.occam.data.representations.descriptions.differentiae.impl.Differentiae;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.impl.Differentiae;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
 public class IfIsAThenDiffer implements DifferentiaeBuilder {

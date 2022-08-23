@@ -1,9 +1,9 @@
 package com.tregouet.occam.alg.setters.weighs.properties.impl;
 
 import com.tregouet.occam.alg.setters.weighs.properties.PropertyWeigher;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.representations.descriptions.differentiae.properties.computations.IComputation;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.IComputation;
 
 public class NbOfComputations implements PropertyWeigher {
 

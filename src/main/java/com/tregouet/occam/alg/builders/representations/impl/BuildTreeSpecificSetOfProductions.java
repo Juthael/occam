@@ -4,14 +4,14 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.RepresentationBuilder;
 import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.descriptions.IDescription;
-import com.tregouet.occam.data.representations.evaluation.IFactEvaluator;
-import com.tregouet.occam.data.representations.evaluation.impl.FactEvaluator;
-import com.tregouet.occam.data.representations.impl.Representation;
-import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
-import com.tregouet.occam.data.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.descriptions.IDescription;
+import com.tregouet.occam.data.structures.representations.evaluation.IFactEvaluator;
+import com.tregouet.occam.data.structures.representations.evaluation.impl.FactEvaluator;
+import com.tregouet.occam.data.structures.representations.impl.Representation;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.structures.representations.transitions.IRepresentationTransitionFunction;
 
 public class BuildTreeSpecificSetOfProductions implements RepresentationBuilder {
 

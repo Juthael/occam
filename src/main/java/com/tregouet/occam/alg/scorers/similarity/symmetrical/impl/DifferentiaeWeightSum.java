@@ -5,8 +5,8 @@ import java.util.Set;
 import org.jgrapht.alg.util.UnorderedPair;
 
 import com.tregouet.occam.alg.scorers.similarity.symmetrical.SimilarityScorer;
-import com.tregouet.occam.data.representations.IRepresentation;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.IRepresentation;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 
 public class DifferentiaeWeightSum implements SimilarityScorer {

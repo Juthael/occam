@@ -1,10 +1,8 @@
 package com.tregouet.occam.alg.builders.representations.descriptions.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.graph.DirectedAcyclicGraph;
@@ -14,13 +12,12 @@ import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionB
 import com.tregouet.occam.alg.builders.representations.descriptions.utils.DifferentiaeRankSetter;
 import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.alg.setters.weighs.differentiae.coeff.DifferentiaeCoeffSetter;
-import com.tregouet.occam.data.representations.classifications.IClassification;
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
-import com.tregouet.occam.data.representations.descriptions.IDescription;
-import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
-import com.tregouet.occam.data.representations.descriptions.impl.Description;
-import com.tregouet.occam.data.representations.descriptions.metrics.IRelativeSimilarityMetrics;
-import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.structures.representations.classifications.IClassification;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.descriptions.IDescription;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.descriptions.impl.Description;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.Tree;
 
 public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
@@ -61,12 +58,8 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 			differentiaeCoeffSetter.accept(diff);
 			differentiaeWeigher.accept(diff);
 		}
-		//build metrics
-		Map<Integer, Integer> particularID2MostSpecificConceptID = mapContextParticularID2MostSpecificConceptID(classification);
-		IRelativeSimilarityMetrics relativeSimilarityMetrics =
-				DescriptionBuilder.relativeSimilarityMetricsBuilder().apply(descGraph, particularID2MostSpecificConceptID);
 		//instantiate
-		IDescription description = new Description(descGraph, relativeSimilarityMetrics);
+		IDescription description = new Description(descGraph);
 		return description;
 	}
 
@@ -75,16 +68,6 @@ public class BuildTreeThenCalculateMetrics implements DescriptionBuilder {
 		for (IConcept leaf : classification.asGraph().getLeaves())
 			mostSpecificConceptIDs.add(leaf.iD());
 		return mostSpecificConceptIDs;
-	}
-
-	private Map<Integer, Integer> mapContextParticularID2MostSpecificConceptID(IClassification classification) {
-		Map<Integer, Integer> particularID2MostSpecificConceptID = new HashMap<>();
-		for (IConcept leaf : classification.getMostSpecificConcepts()) {
-			Integer leafID = leaf.iD();
-			for (Integer extentID : classification.getExtentIDs(leafID))
-				particularID2MostSpecificConceptID.put(extentID, leafID);
-		}
-		return particularID2MostSpecificConceptID;
 	}
 
 }

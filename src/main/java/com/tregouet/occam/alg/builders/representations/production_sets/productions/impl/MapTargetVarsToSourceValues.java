@@ -10,19 +10,19 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.production_sets.productions.ProductionBuilder;
 import com.tregouet.occam.alg.builders.representations.production_sets.productions.utils.MapVariablesToValues;
-import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
-import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
-import com.tregouet.occam.data.representations.productions.IBasicProduction;
-import com.tregouet.occam.data.representations.productions.IContextualizedProduction;
-import com.tregouet.occam.data.representations.productions.impl.BasicProduction;
-import com.tregouet.occam.data.representations.productions.impl.ContextualizedEpsilonProd;
-import com.tregouet.occam.data.representations.productions.impl.ContextualizedProd;
 import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.structures.languages.alphabets.ITerminal;
 import com.tregouet.occam.data.structures.languages.alphabets.impl.Terminal;
 import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.structures.languages.words.construct.impl.Construct;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.denotations.IDenotation;
+import com.tregouet.occam.data.structures.representations.productions.IBasicProduction;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.structures.representations.productions.impl.BasicProduction;
+import com.tregouet.occam.data.structures.representations.productions.impl.ContextualizedEpsilonProd;
+import com.tregouet.occam.data.structures.representations.productions.impl.ContextualizedProd;
 
 public class MapTargetVarsToSourceValues implements ProductionBuilder {
 

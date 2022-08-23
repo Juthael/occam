@@ -13,7 +13,7 @@ public interface IDescription {
 	@Override
 	boolean equals(Object o);
 
-	IRelativeSimilarityMetrics getSimilarityMetrics();
+	IRelativeSimilarityMetrics getSimilarityMetricsDEP();
 
 	List<Integer> getTopologicallyOrderedConceptIDs();
 

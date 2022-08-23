@@ -35,7 +35,7 @@ public class Description implements IDescription {
 	}
 
 	@Override
-	public IRelativeSimilarityMetrics getSimilarityMetrics() {
+	public IRelativeSimilarityMetrics getSimilarityMetricsDEP() {
 		return relativeSimilarityMetrics;
 	}
 

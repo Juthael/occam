@@ -42,7 +42,7 @@ public class TwoLeafTreeTest {
 		for (int i = 0 ; i < ctxtSize - 1 ; i++) {
 			for (int j = i + 1 ; j < ctxtSize ; j++) {
 				double difference =
-						ScorersAbstractFactory.INSTANCE.getDifferenceScorer().score(
+						ScorersAbstractFactory.INSTANCE.getDifferenceScorerDEP().score(
 								extentIDs.get(i), extentIDs.get(j), conceptLattice);
 				differenceMatrix[i][j] = difference;
 				differenceMatrix[j][i] = difference;

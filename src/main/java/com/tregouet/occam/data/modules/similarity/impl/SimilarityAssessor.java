@@ -7,7 +7,6 @@ import java.util.Set;
 import org.jgrapht.alg.util.UnorderedPair;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
-import com.tregouet.occam.alg.builders.similarity_assessor.SimAssessorSetter;
 import com.tregouet.occam.data.modules.similarity.ISimilarityAssessor;
 import com.tregouet.occam.data.modules.similarity.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.representations.IRepresentation;
@@ -64,17 +63,17 @@ public class SimilarityAssessor implements ISimilarityAssessor {
 	}
 
 	@Override
-	public double[][] getSimilarityMatrix() {
+	public Double[][] getSimilarityMatrix() {
 		return similarityMetrics.getSimilarityMatrix();
 	}
 
 	@Override
-	public double[][] getAsymmetricalSimilarityMatrix() {
+	public Double[][] getAsymmetricalSimilarityMatrix() {
 		return similarityMetrics.getAsymmetricalSimilarityMatrix();
 	}
 
 	@Override
-	public double[][] getDifferenceMatrix() {
+	public Double[][] getDifferenceMatrix() {
 		return similarityMetrics.getDifferenceMatrix();
 	}
 

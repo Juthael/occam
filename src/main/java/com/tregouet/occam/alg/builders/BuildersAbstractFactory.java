@@ -21,21 +21,21 @@ import com.tregouet.occam.alg.builders.concept_lattices.denotations.DenotationBu
 import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrower;
 import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrowerFactory;
 import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrowerStrategy;
-import com.tregouet.occam.alg.builders.metrics.SimilarityMetricsBuilder;
-import com.tregouet.occam.alg.builders.metrics.SimilarityMetricsBuilderFactory;
-import com.tregouet.occam.alg.builders.metrics.SimilarityMetricsBuilderStrategy;
-import com.tregouet.occam.alg.builders.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilder;
-import com.tregouet.occam.alg.builders.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilderFactory;
-import com.tregouet.occam.alg.builders.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilderStrategy;
-import com.tregouet.occam.alg.builders.metrics.matrices.difference.DifferenceMatrixBuilder;
-import com.tregouet.occam.alg.builders.metrics.matrices.difference.DifferenceMatrixBuilderFactory;
-import com.tregouet.occam.alg.builders.metrics.matrices.difference.DifferenceMatrixBuilderStrategy;
-import com.tregouet.occam.alg.builders.metrics.matrices.symmetrical_sim.SimilarityMatrixBuilder;
-import com.tregouet.occam.alg.builders.metrics.matrices.symmetrical_sim.SimilarityMatrixBuilderFactory;
-import com.tregouet.occam.alg.builders.metrics.matrices.symmetrical_sim.SimilarityMatrixBuilderStrategy;
-import com.tregouet.occam.alg.builders.metrics.matrices.typicality.TypicalityVectorBuilder;
-import com.tregouet.occam.alg.builders.metrics.matrices.typicality.TypicalityVectorBuilderFactory;
-import com.tregouet.occam.alg.builders.metrics.matrices.typicality.TypicalityVectorBuilderStrategy;
+import com.tregouet.occam.alg.builders.metricsDEP.SimilarityMetricsBuilderDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.SimilarityMetricsBuilderFactoryDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.SimilarityMetricsBuilderStrategyDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.asymetrical_sim.AsymmetricalSimilarityMatrixBuilderDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.asymetrical_sim.AsymmetricalSimilarityMatrixBuilderFactoryDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.asymetrical_sim.AsymmetricalSimilarityMatrixBuilderStrategyDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.difference.DifferenceMatrixBuilderDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.difference.DifferenceMatrixBuilderFactoryDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.difference.DifferenceMatrixBuilderStrategyDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.symmetrical_sim.SimilarityMatrixBuilderDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.symmetrical_sim.SimilarityMatrixBuilderFactoryDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.symmetrical_sim.SimilarityMatrixBuilderStrategyDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.typicality.TypicalityVectorBuilderDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.typicality.TypicalityVectorBuilderFactoryDEP;
+import com.tregouet.occam.alg.builders.metricsDEP.matrices_DEP.typicality.TypicalityVectorBuilderStrategyDEP;
 import com.tregouet.occam.alg.builders.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.builders.representations.RepresentationBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.RepresentationBuilderStrategy;
@@ -66,6 +66,9 @@ import com.tregouet.occam.alg.builders.representations.production_sets.productio
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
+import com.tregouet.occam.alg.builders.similarity_assessor.metrics.SimilarityMetricsBuilder;
+import com.tregouet.occam.alg.builders.similarity_assessor.metrics.SimilarityMetricsBuilderFactory;
+import com.tregouet.occam.alg.builders.similarity_assessor.metrics.SimilarityMetricsBuilderStrategy;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetector;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetectorFactory;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetectorStrategy;
@@ -91,18 +94,19 @@ public class BuildersAbstractFactory {
 	private RelativeSimilarityMetricsBuilderStrategy relativeSimilarityMetricsBuilderStrategy = null;
 	private ProblemSpaceGraphExpanderStrategy problemSpaceGraphExpanderStrategy = null;
 	private ProblemSpaceGraphRestrictorStrategy problemSpaceGraphRestrictorStrategy = null;
-	private SimilarityMatrixBuilderStrategy similarityMatrixBuilderStrategy = null;
-	private AsymmetricalSimilarityMatrixBuilderStrategy asymmetricalSimilarityMatrixBuilderStrategy = null;
-	private DifferenceMatrixBuilderStrategy differenceMatrixBuilderStrategy = null;
-	private TypicalityVectorBuilderStrategy typicalityVectorBuilderStrategy = null;
+	private SimilarityMatrixBuilderStrategyDEP similarityMatrixBuilderStrategyDEP = null;
+	private AsymmetricalSimilarityMatrixBuilderStrategyDEP asymmetricalSimilarityMatrixBuilderStrategyDEP = null;
+	private DifferenceMatrixBuilderStrategyDEP differenceMatrixBuilderStrategyDEP = null;
+	private TypicalityVectorBuilderStrategyDEP typicalityVectorBuilderStrategyDEP = null;
+	private SimilarityMetricsBuilderStrategyDEP similarityMetricsBuilderStrategyDEP = null;
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
 	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
 
 	private BuildersAbstractFactory() {
 	}
 
-	public AsymmetricalSimilarityMatrixBuilder getAsymmetricalSimilarityMatrixBuilder() {
-		return AsymmetricalSimilarityMatrixBuilderFactory.INSTANCE.apply(asymmetricalSimilarityMatrixBuilderStrategy);
+	public AsymmetricalSimilarityMatrixBuilderDEP getAsymmetricalSimilarityMatrixBuilder() {
+		return AsymmetricalSimilarityMatrixBuilderFactoryDEP.INSTANCE.apply(asymmetricalSimilarityMatrixBuilderStrategyDEP);
 	}
 
 	public ClassificationBuilder getClassificationBuilder() {
@@ -125,8 +129,8 @@ public class BuildersAbstractFactory {
 		return DescriptionBuilderFactory.INSTANCE.apply(descriptionBuilderStrategy);
 	}
 
-	public DifferenceMatrixBuilder getDifferenceMatrixBuilder() {
-		return DifferenceMatrixBuilderFactory.INSTANCE.apply(differenceMatrixBuilderStrategy);
+	public DifferenceMatrixBuilderDEP getDifferenceMatrixBuilder() {
+		return DifferenceMatrixBuilderFactoryDEP.INSTANCE.apply(differenceMatrixBuilderStrategyDEP);
 	}
 
 	public DifferentiaeBuilder getDifferentiaeBuilder() {
@@ -181,16 +185,20 @@ public class BuildersAbstractFactory {
 		return RuleDetectorFactory.INSTANCE.apply(ruleDetectorStrategy);
 	}
 
-	public SimilarityMatrixBuilder getSimilarityMatrixBuilder() {
-		return SimilarityMatrixBuilderFactory.INSTANCE.apply(similarityMatrixBuilderStrategy);
+	public SimilarityMatrixBuilderDEP getSimilarityMatrixBuilder() {
+		return SimilarityMatrixBuilderFactoryDEP.INSTANCE.apply(similarityMatrixBuilderStrategyDEP);
 	}
 
+	public SimilarityMetricsBuilderDEP getSimilarityMetricsBuilderDEP() {
+		return SimilarityMetricsBuilderFactoryDEP.INSTANCE.apply(similarityMetricsBuilderStrategyDEP);
+	}
+	
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
 	}
 
-	public TypicalityVectorBuilder getTypicalityVectorBuilder() {
-		return TypicalityVectorBuilderFactory.INSTANCE.apply(typicalityVectorBuilderStrategy);
+	public TypicalityVectorBuilderDEP getTypicalityVectorBuilder() {
+		return TypicalityVectorBuilderFactoryDEP.INSTANCE.apply(typicalityVectorBuilderStrategyDEP);
 	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
@@ -213,11 +221,12 @@ public class BuildersAbstractFactory {
 			relativeSimilarityMetricsBuilderStrategy = RelativeSimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
 			problemSpaceGraphExpanderStrategy = ProblemSpaceGraphExpanderStrategy.ADD_NEW_STATES_THEN_BUILD_TRANSITIONS;
 			problemSpaceGraphRestrictorStrategy = ProblemSpaceGraphRestrictorStrategy.BUILD_NEW_GRAPH;
-			similarityMatrixBuilderStrategy = SimilarityMatrixBuilderStrategy.MAXIMAL_RELATIVE_SIMILARITY;
-			asymmetricalSimilarityMatrixBuilderStrategy = AsymmetricalSimilarityMatrixBuilderStrategy.SIM_DIV_BY_TOTAL_SIM;
-			differenceMatrixBuilderStrategy = DifferenceMatrixBuilderStrategy.TWO_LEAVES_TREE_FOR_EACH_PAIR;
-			typicalityVectorBuilderStrategy = TypicalityVectorBuilderStrategy.ASYMM_SIM_MATRIX_ROW_AVERAGE;
-			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.SIM_THEN_DIFF_THEN_TYPICALITY;
+			similarityMatrixBuilderStrategyDEP = SimilarityMatrixBuilderStrategyDEP.MAXIMAL_RELATIVE_SIMILARITY;
+			asymmetricalSimilarityMatrixBuilderStrategyDEP = AsymmetricalSimilarityMatrixBuilderStrategyDEP.SIM_DIV_BY_TOTAL_SIM;
+			differenceMatrixBuilderStrategyDEP = DifferenceMatrixBuilderStrategyDEP.TWO_LEAVES_TREE_FOR_EACH_PAIR;
+			typicalityVectorBuilderStrategyDEP = TypicalityVectorBuilderStrategyDEP.ASYMM_SIM_MATRIX_ROW_AVERAGE;
+			similarityMetricsBuilderStrategyDEP = SimilarityMetricsBuilderStrategyDEP.SIM_THEN_DIFF_THEN_TYPICALITY;
+			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.SIM_THEN_DIFF;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.DISCARD_UNINFORMATIVE_STATES;
 			break;
 		default:

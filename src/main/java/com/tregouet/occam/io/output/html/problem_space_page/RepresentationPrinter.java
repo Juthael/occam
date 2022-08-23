@@ -119,7 +119,7 @@ public class RepresentationPrinter {
 		int idx = 0;
 		for (IContextObject obj : context)
 			head[idx++] = Integer.toString(obj.iD());
-		double[][] matrix = representation.getDescription().getSimilarityMetrics().getSimilarityMatrix();
+		double[][] matrix = representation.getDescription().getSimilarityMetricsDEP().getSimilarityMatrix();
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
 				.append(alinea[a + 1] + "<header>" + nL)

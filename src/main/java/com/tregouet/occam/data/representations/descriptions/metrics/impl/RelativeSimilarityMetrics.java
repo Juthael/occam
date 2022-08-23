@@ -1,7 +1,7 @@
 package com.tregouet.occam.data.representations.descriptions.metrics.impl;
 
-import com.tregouet.occam.alg.scorers.similarity.RelativeAsymmetricalSimilarityScorer;
-import com.tregouet.occam.alg.scorers.similarity.RelativePairSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity_DEP.RelativeAsymmetricalSimilarityScorerDEP;
+import com.tregouet.occam.alg.scorers.similarity_DEP.RelativePairSimilarityScorerDEP;
 import com.tregouet.occam.data.representations.descriptions.metrics.IRelativeSimilarityMetrics;
 
 public class RelativeSimilarityMetrics implements IRelativeSimilarityMetrics {
@@ -10,14 +10,14 @@ public class RelativeSimilarityMetrics implements IRelativeSimilarityMetrics {
 	private double[][] similarityMatrix = null;
 	private double[][] asymmetricalSimilarityMatrix = null;
 	private double[] typicalityVector = null;
-	private RelativePairSimilarityScorer relativePairSimilarityScorer = null;
-	private RelativeAsymmetricalSimilarityScorer relativeAsymmetricalSimilarityScorer = null;
+	private RelativePairSimilarityScorerDEP relativePairSimilarityScorerDEP = null;
+	private RelativeAsymmetricalSimilarityScorerDEP relativeAsymmetricalSimilarityScorerDEP = null;
 
-	public RelativeSimilarityMetrics(int[] particularIDs, RelativePairSimilarityScorer relativePairSimilarityScorer,
-			RelativeAsymmetricalSimilarityScorer relativeAsymmetricalSimilarityScorer) {
+	public RelativeSimilarityMetrics(int[] particularIDs, RelativePairSimilarityScorerDEP relativePairSimilarityScorerDEP,
+			RelativeAsymmetricalSimilarityScorerDEP relativeAsymmetricalSimilarityScorerDEP) {
 		this.particularIDs = particularIDs;
-		this.relativePairSimilarityScorer = relativePairSimilarityScorer;
-		this.relativeAsymmetricalSimilarityScorer = relativeAsymmetricalSimilarityScorer;
+		this.relativePairSimilarityScorerDEP = relativePairSimilarityScorerDEP;
+		this.relativeAsymmetricalSimilarityScorerDEP = relativeAsymmetricalSimilarityScorerDEP;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class RelativeSimilarityMetrics implements IRelativeSimilarityMetrics {
 			for (int j = 0; j < nbOfParticulars; j++) {
 				int iParticularID = particularIDs[i];
 				int jParticularID = particularIDs[j];
-				asymmetricalSimilarityMatrix[i][j] = relativeAsymmetricalSimilarityScorer.score(iParticularID, jParticularID);
+				asymmetricalSimilarityMatrix[i][j] = relativeAsymmetricalSimilarityScorerDEP.score(iParticularID, jParticularID);
 			}
 		}
 	}
@@ -65,7 +65,7 @@ public class RelativeSimilarityMetrics implements IRelativeSimilarityMetrics {
 			for (int j = i; j < nbOfParticulars; j++) {
 				int iParticularID = particularIDs[i];
 				int jParticularID = particularIDs[j];
-				double similarityScore = relativePairSimilarityScorer.score(iParticularID, jParticularID);
+				double similarityScore = relativePairSimilarityScorerDEP.score(iParticularID, jParticularID);
 				similarityMatrix[i][j] = similarityScore;
 				if (i != j)
 					similarityMatrix[j][i] = similarityScore;

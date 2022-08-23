@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 import com.tregouet.occam.alg.scorers.ScorersAbstractFactory;
-import com.tregouet.occam.alg.scorers.similarity.RelativeAsymmetricalSimilarityScorer;
-import com.tregouet.occam.alg.scorers.similarity.RelativePairSimilarityScorer;
+import com.tregouet.occam.alg.scorers.similarity_DEP.RelativeAsymmetricalSimilarityScorerDEP;
+import com.tregouet.occam.alg.scorers.similarity_DEP.RelativePairSimilarityScorerDEP;
 import com.tregouet.occam.data.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.representations.descriptions.metrics.IRelativeSimilarityMetrics;
 import com.tregouet.tree_finder.data.Tree;
@@ -21,12 +21,12 @@ public interface RelativeSimilarityMetricsBuilder
 		Map<Integer, Integer>,
 		IRelativeSimilarityMetrics> {
 
-	public static RelativeAsymmetricalSimilarityScorer relativeAsymmetricalSimilarityScorer() {
-		return ScorersAbstractFactory.INSTANCE.getAsymmetricalSimilarityScorer();
+	public static RelativeAsymmetricalSimilarityScorerDEP relativeAsymmetricalSimilarityScorerDEP() {
+		return ScorersAbstractFactory.INSTANCE.getAsymmetricalSimilarityScorerDEP();
 	}
 
-	public static RelativePairSimilarityScorer relativePairSimilarityScorer() {
-		return ScorersAbstractFactory.INSTANCE.getPairSimilarityScorer();
+	public static RelativePairSimilarityScorerDEP relativePairSimilarityScorerDEP() {
+		return ScorersAbstractFactory.INSTANCE.getPairSimilarityScorerDEP();
 	}
 
 }

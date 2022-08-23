@@ -42,7 +42,7 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		boolean asExpected = true;
 		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
 			IDescription description = representation.getDescription();
-			IRelativeSimilarityMetrics metrics = description.getSimilarityMetrics();
+			IRelativeSimilarityMetrics metrics = description.getSimilarityMetricsDEP();
 			double[][] asymmetricalSimilarityMatrix = metrics.getAsymmetricalSimilarityMatrix();
 			if (asymmetricalSimilarityMatrix == null)
 				asExpected = false;
@@ -58,7 +58,7 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		boolean asExpected = true;
 		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
 			IDescription description = representation.getDescription();
-			IRelativeSimilarityMetrics metrics = description.getSimilarityMetrics();
+			IRelativeSimilarityMetrics metrics = description.getSimilarityMetricsDEP();
 			double[][] similarityMatrix = metrics.getSimilarityMatrix();
 			if (similarityMatrix == null)
 				asExpected = false;
@@ -74,7 +74,7 @@ public class ReplaceMissingParticularsByMostSpecificConceptTest {
 		boolean asExpected = true;
 		for (IRepresentation representation : pbSpaceExplorer.getProblemSpaceGraph()) {
 			IDescription description = representation.getDescription();
-			IRelativeSimilarityMetrics metrics = description.getSimilarityMetrics();
+			IRelativeSimilarityMetrics metrics = description.getSimilarityMetricsDEP();
 			double[] typicalityVector = metrics.getTypicalityVector();
 			if (typicalityVector == null)
 				asExpected = false;

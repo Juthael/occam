@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import com.tregouet.occam.data.representations.classifications.concepts.ConceptType;
 import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.representations.classifications.concepts.denotations.IDenotation;
@@ -34,8 +36,10 @@ public class Concept implements IConcept {
 		this.maxExtentIDs = Set.copyOf(extentIDs); //unmodifiable
 	}
 
-	public Concept(IConstruct[] denotatingConstructs, boolean[] redundant, Set<Integer> extentIDs, int iD) {
-		this.iD = iD;
+	public Concept(IConstruct[] denotatingConstructs, boolean[] redundant, Set<Integer> extentIDs, @Nullable Integer iD) {
+		if (iD != null)
+			this.iD = iD;
+		else this.iD = nextID++;
 		for (int i = 0 ; i < denotatingConstructs.length ; i++) {
 			IDenotation iDenotation = new Denotation(denotatingConstructs[i], this.iD);
 			if (redundant[i])

@@ -19,11 +19,11 @@ public interface ISimilarityAssessor extends IModule {
 	
 	List<IContextObject> getContext();
 	
-	double[][] getSimilarityMatrix();
+	Double[][] getSimilarityMatrix();
 	
-	double[][] getAsymmetricalSimilarityMatrix();
+	Double[][] getAsymmetricalSimilarityMatrix();
 	
-	double[][] getDifferenceMatrix();
+	Double[][] getDifferenceMatrix();
 	
 	double[] getTypicalityVector();
 

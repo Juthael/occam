@@ -2,13 +2,11 @@ package com.tregouet.occam.data.modules.similarity.metrics;
 
 public interface ISimilarityMetrics {
 
-	double[][] getAsymmetricalSimilarityMatrix();
+	Double[][] getAsymmetricalSimilarityMatrix();
 
-	double[][] getDifferenceMatrix();
+	Double[][] getDifferenceMatrix();
 
-	String[][] getReferenceMatrix();
-
-	double[][] getSimilarityMatrix();
+	Double[][] getSimilarityMatrix();
 
 	double[] getTypicalityVector();
 

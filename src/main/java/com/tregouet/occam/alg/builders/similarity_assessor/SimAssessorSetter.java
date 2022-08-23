@@ -9,6 +9,7 @@ import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.classifications.ClassificationBuilder;
 import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.representations.RepresentationBuilder;
+import com.tregouet.occam.alg.builders.similarity_assessor.metrics.SimilarityMetricsBuilder;
 import com.tregouet.occam.data.modules.similarity.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.classifications.concepts.IConceptLattice;
@@ -36,6 +37,10 @@ public interface SimAssessorSetter {
 	
 	public static RepresentationBuilder representationBuilder() {
 		return BuildersAbstractFactory.INSTANCE.getRepresentationBuilder();
+	}
+	
+	public static SimilarityMetricsBuilder similarityMetricsBuilder() {
+		return BuildersAbstractFactory.INSTANCE.getSimilarityMetricsBuilder();
 	}
 
 }

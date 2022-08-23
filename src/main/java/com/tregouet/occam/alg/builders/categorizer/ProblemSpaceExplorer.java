@@ -13,7 +13,7 @@ import com.tregouet.occam.alg.builders.categorizer.graph_updater.restrictor.Prob
 import com.tregouet.occam.alg.builders.classifications.ClassificationBuilder;
 import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrower;
-import com.tregouet.occam.alg.builders.metrics.SimilarityMetricsBuilder;
+import com.tregouet.occam.alg.builders.metricsDEP.SimilarityMetricsBuilderDEP;
 import com.tregouet.occam.alg.builders.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
@@ -90,8 +90,8 @@ public interface ProblemSpaceExplorer {
 		return BuildersAbstractFactory.INSTANCE.getRepresentationBuilder();
 	}
 
-	public static SimilarityMetricsBuilder similarityMetricsBuilder() {
-		return BuildersAbstractFactory.INSTANCE.getSimilarityMetricsBuilder();
+	public static SimilarityMetricsBuilderDEP similarityMetricsBuilderDEP() {
+		return BuildersAbstractFactory.INSTANCE.getSimilarityMetricsBuilderDEP();
 	}
 
 }

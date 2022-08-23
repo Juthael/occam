@@ -16,6 +16,7 @@ import com.tregouet.occam.alg.builders.similarity_assessor.SimAssessorSetter;
 import com.tregouet.occam.data.modules.similarity.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.representations.IRepresentation;
 import com.tregouet.occam.data.representations.classifications.IClassification;
+import com.tregouet.occam.data.representations.classifications.concepts.ConceptType;
 import com.tregouet.occam.data.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.representations.classifications.concepts.IConceptLattice;
 import com.tregouet.occam.data.representations.classifications.concepts.IContextObject;
@@ -25,6 +26,7 @@ import com.tregouet.occam.data.representations.classifications.concepts.impl.Con
 import com.tregouet.occam.data.representations.classifications.concepts.impl.IsA;
 import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
 import com.tregouet.tree_finder.data.InvertedTree;
+import com.tregouet.tree_finder.utils.Functions;
 
 public class SystemicPressure extends ASimAssessorSetter implements SimAssessorSetter {
 
@@ -35,7 +37,7 @@ public class SystemicPressure extends ASimAssessorSetter implements SimAssessorS
 	@Override
 	protected Map<UnorderedPair<Integer, Integer>, IRepresentation> buildDichotomies() {
 		Map<UnorderedPair<Integer, Integer>, IRepresentation> dichotomies = new HashMap<>();
-		List<IClassification> dichotomisticClassifications = buildDichotomisticClassifications();
+		List<IClassification> dichotomisticClassifications = buildDichotomisticClassifications(conceptLattice);
 		for (IClassification classification : dichotomisticClassifications) {
 			IRepresentation representation = SimAssessorSetter.representationBuilder().apply(classification);
 			Set<IConcept> thisOrThat = classification.getMostSpecificConcepts();
@@ -52,17 +54,28 @@ public class SystemicPressure extends ASimAssessorSetter implements SimAssessorS
 
 	@Override
 	protected Map<UnorderedPair<Integer, Integer>, IRepresentation> buildDifferences() {
-		// TODO Auto-generated method stub
-		return null;
+		Map<UnorderedPair<Integer, Integer>, IRepresentation> diffRepresentations = new HashMap<>();
+		Map<Integer, IConcept> particularID2Particular = conceptLattice.getParticularID2Particular();
+		List<Integer> particularIDs = new ArrayList<>(particularID2Particular.keySet());
+		for (Integer i = 0 ; i < particularIDs.size() - 1 ; i++) {
+			for (Integer j = i + 1 ; j < particularIDs.size() ; j++) {
+				InvertedTree<IConcept, IIsA> diffTree = 
+						setUpClassificationTree(particularIDs.get(i), particularIDs.get(j), conceptLattice);
+				IClassification diffClassification = SimAssessorSetter.classificationBuilder().apply(diffTree, particularID2Particular);
+				IRepresentation diffRepresentation = SimAssessorSetter.representationBuilder().apply(diffClassification);
+				UnorderedPair<Integer, Integer> pairIDs = UnorderedPair.of(i, j);
+				diffRepresentations.put(pairIDs, diffRepresentation);
+			}
+		}
+		return diffRepresentations;
 	}
 
 	@Override
 	protected ISimilarityMetrics buildSimilarityMetrics() {
-		// TODO Auto-generated method stub
-		return null;
+		return SimAssessorSetter.similarityMetricsBuilder().apply(conceptLattice, dichotomies, differences);
 	}
 	
-	private List<IClassification> buildDichotomisticClassifications() {
+	private static List<IClassification> buildDichotomisticClassifications(IConceptLattice conceptLattice) {
 		List<IClassification> dichotomies = new ArrayList<>();
 		IConcept ontologicalCommitment = conceptLattice.getOntologicalCommitment();
 		IConcept truism = conceptLattice.getTruism();
@@ -86,19 +99,20 @@ public class SystemicPressure extends ASimAssessorSetter implements SimAssessorS
 			}
 		}
 		for (int l = 0 ; l < pairs.size() ; l++) {
-			IConcept pairGenus = getGenus(pairs.get(l));
-			if (pairGenus.equals(truism))
-				pairGenus = new Concept(getSetOfConstructs(truism), pairs.get(l));
-			IConcept complementGenus = getGenus(complements.get(l));
-			if (complementGenus.equals(truism))
-				complementGenus = new Concept(getSetOfConstructs(truism), complements.get(l));
+			Set<Integer> pairIDs = pairs.get(l);
+			IConcept pairSupremum = getSupremum(pairIDs, conceptLattice);
+			IConcept pairGenus = buildRestrictedConcept(pairSupremum, pairIDs, pairSupremum.type() == ConceptType.TRUISM);
+			Set<Integer> complementIDs = complements.get(l);
+			IConcept complementSupremum = getSupremum(complementIDs, conceptLattice);
+			IConcept complementGenus = 
+					buildRestrictedConcept(complementSupremum, complementIDs, complementSupremum.type() == ConceptType.TRUISM);
 			List<IConcept> currentTopoOrder = Arrays.asList(new IConcept[] {pairGenus, complementGenus, truism, ontologicalCommitment});
 			DirectedAcyclicGraph<IConcept, IIsA> currentDichotomyGraph = new DirectedAcyclicGraph<>(null, IsA::new, false);
 			Graphs.addAllVertices(currentDichotomyGraph, currentTopoOrder);
 			currentDichotomyGraph.addEdge(truism, ontologicalCommitment);
 			currentDichotomyGraph.addEdge(pairGenus, truism);
 			currentDichotomyGraph.addEdge(complementGenus, truism);
-			Set<IConcept> alternative = new HashSet<>(Arrays.asList(new IConcept[] {pairGenus, complementGenus}));
+			Set<IConcept> alternative = new HashSet<>(Arrays.asList(new IConcept[] {pairGenus, complementSupremum}));
 			InvertedTree<IConcept, IIsA> dichotomisticTree = 
 					new InvertedTree<IConcept, IIsA>(currentDichotomyGraph, ontologicalCommitment, alternative, currentTopoOrder);
 			IClassification dichotomy = SimAssessorSetter.classificationBuilder().apply(dichotomisticTree, particularID2Particular);
@@ -107,40 +121,68 @@ public class SystemicPressure extends ASimAssessorSetter implements SimAssessorS
 		return dichotomies;
 	}
 	
-	private static Set<IConstruct> getSetOfConstructs(IConcept concept){
-		Set<IConstruct> constructs = new HashSet<>();
-		for (IDenotation denotation : concept.getDenotations()) {
-			constructs.add(denotation.copy());
-		}
-		return constructs;
-	}
-	
-	private IConcept getGenus(Set<Integer> conceptIDs) {
+	private static IConcept getSupremum(Set<Integer> conceptIDs, IConceptLattice conceptLattice) {
 		Set<IConcept> concepts = new HashSet<>();
 		for (Integer conceptID : conceptIDs) {
 			concepts.add(conceptLattice.getConceptWithSpecifiedID(conceptID));
 		}
 		return conceptLattice.getLeastCommonSuperordinate(concepts);
+	}	
+	
+	private static IConcept buildRestrictedConcept(IConcept concept, Set<Integer> restrictedExtentIDs, boolean newID) {
+		IConcept restrictedCopy;
+		Integer restrConceptID = (newID ? null : concept.iD());
+		int nbOfDenotations = concept.getDenotations().size();
+		IConstruct[] constructs = new IConstruct[nbOfDenotations];
+		boolean[] redundant = new boolean[nbOfDenotations];
+		int idx = 0;
+		for (IDenotation denotation : concept.getDenotations()) {
+			constructs[idx] = denotation.copy();
+			redundant[idx] = denotation.isRedundant();
+			idx++;
+		}
+		restrictedCopy = new Concept(constructs, redundant, restrictedExtentIDs, restrConceptID);
+		restrictedCopy.setType(ConceptType.UNIVERSAL);
+		return restrictedCopy;
 	}
 	
-	private static DirectedAcyclicGraph<IConcept, IIsA> stem(IConceptLattice conceptLattice) {
-		DirectedAcyclicGraph<IConcept, IIsA> initialGraph = new DirectedAcyclicGraph<>(null, IsA::new, false);
-		IConcept ontologicalCommitment = conceptLattice.getOntologicalCommitment();
-		IConcept truism = conceptLattice.getTruism();
-		IIsA initialEdge = conceptLattice.getOntologicalUpperSemilattice().getEdge(truism, ontologicalCommitment);
-		initialGraph.addVertex(truism);
-		initialGraph.addVertex(ontologicalCommitment);
-		initialGraph.addEdge(truism, ontologicalCommitment, initialEdge);
-		return initialGraph;
-	}
-	
-	private static DirectedAcyclicGraph<IConcept, IIsA> clone(DirectedAcyclicGraph<IConcept, IIsA> graph) {
-		DirectedAcyclicGraph<IConcept, IIsA> clone = new DirectedAcyclicGraph<>(null, IsA::new, false);
-		for (IConcept concept : graph.vertexSet())
-			clone.addVertex(concept);
-		for (IIsA edge : graph.edgeSet())
-			clone.addEdge(graph.getEdgeSource(edge), graph.getEdgeTarget(edge), edge);
-		return clone;
+	private static InvertedTree<IConcept, IIsA> setUpClassificationTree(
+			int particularID1, int particularID2, IConceptLattice lattice) {
+		Set<Integer> extentIDs = new HashSet<>();
+		extentIDs.add(particularID1);
+		extentIDs.add(particularID2);
+		IConcept particular1 = null;
+		IConcept particular2 = null;
+		//retrieve vertices
+		for (IConcept particular : lattice.getParticulars()) {
+			if (particular.iD() == particularID1)
+				particular1 = particular;
+			else if (particular.iD() == particularID2)
+				particular2 = particular;
+		}
+		IConcept ontologicalCommitment = buildRestrictedConcept(lattice.getOntologicalCommitment(), extentIDs, false);
+		IConcept genus = buildRestrictedConcept(
+				Functions.supremum(lattice.getOntologicalUpperSemilattice(), particular1, particular2),
+				extentIDs, false) ;
+		//build dag
+		DirectedAcyclicGraph<IConcept, IIsA> dag = new DirectedAcyclicGraph<>(null, IsA::new, false);
+		dag.addVertex(particular1);
+		dag.addVertex(particular2);
+		dag.addVertex(genus);
+		dag.addVertex(ontologicalCommitment);
+		dag.addEdge(particular1, genus);
+		dag.addEdge(particular2, genus);
+		dag.addEdge(genus, ontologicalCommitment);
+		//build topo order
+		List<IConcept> topoOrder = new ArrayList<>(5);
+		topoOrder.add(particular1);
+		topoOrder.add(particular2);
+		topoOrder.add(genus);
+		topoOrder.add(ontologicalCommitment);
+		return new InvertedTree<>(
+				dag, ontologicalCommitment,
+				new HashSet<>(Arrays.asList(new IConcept[] {particular1, particular2})),
+				topoOrder);
 	}
 
 }

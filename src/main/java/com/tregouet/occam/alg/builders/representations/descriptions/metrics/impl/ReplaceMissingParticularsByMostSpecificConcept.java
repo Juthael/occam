@@ -25,8 +25,8 @@ public class ReplaceMissingParticularsByMostSpecificConcept implements RelativeS
 		while (particularIte.hasNext())
 			mostSpecificConcepts[arrayIdx++] = particularID2MostSpecificConceptID.get(particularIte.next());
 		return new RelativeSimilarityMetrics(mostSpecificConcepts,
-				RelativeSimilarityMetricsBuilder.relativePairSimilarityScorer().setAsContext(partialDescriptionTree),
-				RelativeSimilarityMetricsBuilder.relativeAsymmetricalSimilarityScorer().setAsContext(partialDescriptionTree));
+				RelativeSimilarityMetricsBuilder.relativePairSimilarityScorerDEP().setAsContext(partialDescriptionTree),
+				RelativeSimilarityMetricsBuilder.relativeAsymmetricalSimilarityScorerDEP().setAsContext(partialDescriptionTree));
 	}
 
 

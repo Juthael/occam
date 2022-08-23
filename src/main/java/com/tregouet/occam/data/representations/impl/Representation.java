@@ -103,8 +103,8 @@ public class Representation implements IRepresentation {
 	}
 
 	@Override
-	public double[][] getSimilarityMatrix() {
-		return description.getSimilarityMetrics().getSimilarityMatrix();
+	public double[][] getSimilarityMatrixDEP() {
+		return description.getSimilarityMetricsDEP().getSimilarityMatrix();
 	}
 
 	@Override

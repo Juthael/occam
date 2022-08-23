@@ -45,7 +45,7 @@ public interface IRepresentation extends
 
 	Set<IPartition> getPartitions();
 
-	double[][] getSimilarityMatrix();
+	double[][] getSimilarityMatrixDEP();
 
 	@Override
 	int hashCode();

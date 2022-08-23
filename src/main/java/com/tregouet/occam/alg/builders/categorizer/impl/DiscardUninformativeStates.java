@@ -90,7 +90,7 @@ public class DiscardUninformativeStates implements ProblemSpaceExplorer {
 
 	@Override
 	public ISimilarityMetrics getSimilarityMetrics(@Nullable double[][] differenceMatrix) {
-		return ProblemSpaceExplorer.similarityMetricsBuilder().apply(conceptLattice, problemGraph, differenceMatrix);
+		return ProblemSpaceExplorer.similarityMetricsBuilderDEP().apply(conceptLattice, problemGraph, differenceMatrix);
 	}
 
 	@Override

@@ -18,7 +18,6 @@ import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.classifications.impl.utils.MapConceptIDs2ExtentIDs;
-import com.tregouet.occam.alg.builders.representations.impl.BuildTreeSpecificSetOfProductions;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.ConceptType;

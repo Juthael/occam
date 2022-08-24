@@ -69,6 +69,15 @@ public class ConceptLattice implements IConceptLattice {
 	}
 
 	@Override
+	public IConcept getConceptWithSpecifiedID(int iD) {
+		for (IConcept concept : topologicalOrder) {
+			if (concept.iD() == iD)
+				return concept;
+		}
+		return null;
+	}
+
+	@Override
 	public List<IContextObject> getContextObjects() {
 		return objects;
 	}
@@ -164,15 +173,6 @@ public class ConceptLattice implements IConceptLattice {
 			}
 		}
 		return new ArrayList<>(concepts);
-	}
-
-	@Override
-	public IConcept getConceptWithSpecifiedID(int iD) {
-		for (IConcept concept : topologicalOrder) {
-			if (concept.iD() == iD)
-				return concept;
-		}
-		return null;
 	}
 
 }

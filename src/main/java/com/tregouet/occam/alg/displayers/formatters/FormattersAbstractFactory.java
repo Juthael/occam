@@ -69,6 +69,10 @@ public class FormattersAbstractFactory {
 		return FactDisplayerFactory.INSTANCE.apply(factDisplayerStrategy);
 	}
 
+	public MatrixFormatter getMatrixFormatter() {
+		return MatrixFormatterFactory.INSTANCE.apply(matrixFormatterStrategy);
+	}
+
 	public ProblemStateLabeller getProblemStateDisplayer() {
 		return ProblemStateLabellerFactory.INSTANCE.apply(problemStateLabellerStrategy);
 	}
@@ -91,10 +95,6 @@ public class FormattersAbstractFactory {
 
 	public TransitionLabeller getTransitionLabeller() {
 		return TransitionLabellerFactory.INSTANCE.apply(transitionLabellerStrategy);
-	}
-	
-	public MatrixFormatter getMatrixFormatter() {
-		return MatrixFormatterFactory.INSTANCE.apply(matrixFormatterStrategy);
 	}
 
 	public void setUpStrategy(FormattingStrategy strategy) {

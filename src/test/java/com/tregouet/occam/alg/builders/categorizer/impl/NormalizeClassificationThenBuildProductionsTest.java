@@ -25,8 +25,6 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.OverallStrategy;
-import com.tregouet.occam.alg.builders.categorizer.impl.DiscardUninformativeStates;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
 import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
@@ -155,7 +153,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		Occam.initialize();
-		OverallAbstractFactory.INSTANCE.apply(OverallStrategy.OVERALL_STRATEGY_3);
+		OverallAbstractFactory.INSTANCE.apply(Occam.STRATEGY);
 	}
 
 }

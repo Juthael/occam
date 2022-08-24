@@ -12,6 +12,12 @@ import com.tregouet.occam.alg.builders.categorizer.graph_updater.restrictor.Prob
 import com.tregouet.occam.alg.builders.classifications.ClassificationBuilder;
 import com.tregouet.occam.alg.builders.classifications.ClassificationBuilderFactory;
 import com.tregouet.occam.alg.builders.classifications.ClassificationBuilderStrategy;
+import com.tregouet.occam.alg.builders.comparator.ComparatorSetter;
+import com.tregouet.occam.alg.builders.comparator.ComparatorSetterFactory;
+import com.tregouet.occam.alg.builders.comparator.ComparatorSetterStrategy;
+import com.tregouet.occam.alg.builders.comparator.metrics.SimilarityMetricsBuilder;
+import com.tregouet.occam.alg.builders.comparator.metrics.SimilarityMetricsBuilderFactory;
+import com.tregouet.occam.alg.builders.comparator.metrics.SimilarityMetricsBuilderStrategy;
 import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilder;
 import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilderFactory;
 import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilderStrategy;
@@ -48,12 +54,6 @@ import com.tregouet.occam.alg.builders.representations.production_sets.productio
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
-import com.tregouet.occam.alg.builders.similarity_assessor.SimAssessorSetter;
-import com.tregouet.occam.alg.builders.similarity_assessor.SimAssessorSetterFactory;
-import com.tregouet.occam.alg.builders.similarity_assessor.SimAssessorSetterStrategy;
-import com.tregouet.occam.alg.builders.similarity_assessor.metrics.SimilarityMetricsBuilder;
-import com.tregouet.occam.alg.builders.similarity_assessor.metrics.SimilarityMetricsBuilderFactory;
-import com.tregouet.occam.alg.builders.similarity_assessor.metrics.SimilarityMetricsBuilderStrategy;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetector;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetectorFactory;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetectorStrategy;
@@ -79,7 +79,7 @@ public class BuildersAbstractFactory {
 	private ProblemSpaceGraphExpanderStrategy problemSpaceGraphExpanderStrategy = null;
 	private ProblemSpaceGraphRestrictorStrategy problemSpaceGraphRestrictorStrategy = null;
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
-	private SimAssessorSetterStrategy simAssessorSetterStrategy = null;
+	private ComparatorSetterStrategy comparatorSetterStrategy = null;
 	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
 
 	private BuildersAbstractFactory() {
@@ -87,6 +87,10 @@ public class BuildersAbstractFactory {
 
 	public ClassificationBuilder getClassificationBuilder() {
 		return ClassificationBuilderFactory.INSTANCE.apply(classificationBuilderStrategy);
+	}
+
+	public ComparatorSetter getComparatorSetter() {
+		return ComparatorSetterFactory.INSTANCE.apply(comparatorSetterStrategy);
 	}
 
 	public ConceptLatticeBuilder getConceptLatticeBuilder() {
@@ -152,13 +156,9 @@ public class BuildersAbstractFactory {
 	public RuleDetector getRuleDetector() {
 		return RuleDetectorFactory.INSTANCE.apply(ruleDetectorStrategy);
 	}
-	
+
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
-	}
-	
-	public SimAssessorSetter getSimAssessorSetter() {
-		return SimAssessorSetterFactory.INSTANCE.apply(simAssessorSetterStrategy);
 	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
@@ -180,7 +180,7 @@ public class BuildersAbstractFactory {
 			representationBuilderStrategy = RepresentationBuilderStrategy.BUILD_TREE_SPECIFIC_PRODUCTION_SET;
 			problemSpaceGraphExpanderStrategy = ProblemSpaceGraphExpanderStrategy.ADD_NEW_STATES_THEN_BUILD_TRANSITIONS;
 			problemSpaceGraphRestrictorStrategy = ProblemSpaceGraphRestrictorStrategy.BUILD_NEW_GRAPH;
-			simAssessorSetterStrategy = SimAssessorSetterStrategy.SYSTEMIC_PRESSURE;
+			comparatorSetterStrategy = ComparatorSetterStrategy.SYSTEMIC_PRESSURE;
 			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.SIM_THEN_DIFF;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.DISCARD_UNINFORMATIVE_STATES;
 			break;

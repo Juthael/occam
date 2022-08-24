@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
-import com.tregouet.occam.alg.builders.concept_lattices.denotations.impl.MaxSymbolSubsequences;
 import com.tregouet.occam.data.structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.structures.languages.alphabets.impl.Terminal;
 import com.tregouet.occam.data.structures.languages.alphabets.impl.Variable;

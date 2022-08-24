@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.jgrapht.graph.DefaultEdge;
 
-import com.tregouet.occam.alg.setters.weighs.Weighed;
+import com.tregouet.occam.alg.setters.weights.Weighed;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
 
 public abstract class ADifferentiae extends DefaultEdge implements Weighed {

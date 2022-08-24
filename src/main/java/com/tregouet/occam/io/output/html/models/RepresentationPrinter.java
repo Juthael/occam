@@ -75,7 +75,6 @@ public class RepresentationPrinter {
 					.append(alinea[a + 2] + "<h3> <u> REPRESENTATION N." + Integer.toString(representation.iD()) + " </u> </h3>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
 				.append(printDescription(representation, a + 2) + nL)
-				.append(printSimilarity(context, representation, a + 2) + nL)
 				.append(printAutomatonGraph(representation, a + 2) + nL)
 				.append(printGeneratedFacts(representation, a + 2) + nL)
 				.append(printClassificationTree(representation, a + 2) + nL)
@@ -96,18 +95,5 @@ public class RepresentationPrinter {
 			.append(alineaa + "</section>" + nL);
 		return sB.toString();
 	}
-
-	private static String printSimilarity(List<IContextObject> context, IRepresentation representation,
-			int a) {
-		StringBuilder sB = new StringBuilder();
-		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> SIMILARITY </h3>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
-			.append(alinea[a] + "</section>");
-		return sB.toString();
-	}
-
-
 
 }

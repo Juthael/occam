@@ -10,8 +10,8 @@ import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.utils.DifferentiaeRankSetter;
-import com.tregouet.occam.alg.setters.weighs.differentiae.DifferentiaeWeigher;
-import com.tregouet.occam.alg.setters.weighs.differentiae.coeff.DifferentiaeCoeffSetter;
+import com.tregouet.occam.alg.setters.weights.differentiae.DifferentiaeWeigher;
+import com.tregouet.occam.alg.setters.weights.differentiae.coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.representations.descriptions.IDescription;

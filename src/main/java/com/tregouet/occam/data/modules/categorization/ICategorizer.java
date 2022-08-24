@@ -14,9 +14,6 @@ import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 
 public interface ICategorizer extends IModule {
-	
-	@Override
-	ICategorizer process(Collection<IContextObject> context);
 
 	Boolean develop();
 
@@ -44,6 +41,9 @@ public interface ICategorizer extends IModule {
 	IRepresentation getActiveRepresentation();
 
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
+
+	@Override
+	ICategorizer process(Collection<IContextObject> context);
 	Boolean restrictTo(Set<Integer> representationIDs);
 
 	public static ProblemSpaceExplorer problemSpaceExplorer() {

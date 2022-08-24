@@ -1,6 +1,6 @@
 package com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations;
 
-import com.tregouet.occam.alg.setters.weighs.Weighed;
+import com.tregouet.occam.alg.setters.weights.Weighed;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
 

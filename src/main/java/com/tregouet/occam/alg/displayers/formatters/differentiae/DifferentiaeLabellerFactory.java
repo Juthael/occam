@@ -1,5 +1,6 @@
 package com.tregouet.occam.alg.displayers.formatters.differentiae;
 
+import com.tregouet.occam.alg.displayers.formatters.differentiae.impl.NonRedundantOptimalSubset;
 import com.tregouet.occam.alg.displayers.formatters.differentiae.impl.PropertiesThenWeight;
 
 public class DifferentiaeLabellerFactory {
@@ -11,8 +12,10 @@ public class DifferentiaeLabellerFactory {
 
 	public DifferentiaeLabeller apply(DifferentiaeLabellerStrategy strategy) {
 		switch (strategy) {
-		case PROPERTIES_THEN_WEIGHT:
+		case PROPERTIES_THEN_WEIGHT :
 			return PropertiesThenWeight.INSTANCE;
+		case NON_REDUNDANT_OPTIMAL_SUBSET :
+			return NonRedundantOptimalSubset.INSTANCE;
 		default:
 			return null;
 		}

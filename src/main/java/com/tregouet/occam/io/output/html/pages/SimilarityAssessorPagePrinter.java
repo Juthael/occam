@@ -3,16 +3,16 @@ package com.tregouet.occam.io.output.html.pages;
 import java.io.IOException;
 import java.util.List;
 
-import com.tregouet.occam.data.modules.similarity.ISimilarityAssessor;
+import com.tregouet.occam.data.modules.comparison.IComparator;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.models.ContextPrinter;
 import com.tregouet.occam.io.output.html.models.FootPrinter;
 import com.tregouet.occam.io.output.html.models.HeaderPrinter;
-import com.tregouet.occam.io.output.html.models.RepresentationPrinter;
+import com.tregouet.occam.io.output.html.models.RepresentationPrinterShort;
 import com.tregouet.occam.io.output.html.models.TablePrinter;
 
 public class SimilarityAssessorPagePrinter {
-	
+
 	public static final SimilarityAssessorPagePrinter INSTANCE = new SimilarityAssessorPagePrinter();
 	public static final String NL = System.lineSeparator();
 	public static final String[] alinea = new String[] {
@@ -27,12 +27,12 @@ public class SimilarityAssessorPagePrinter {
 			"                           ",
 			"                              ",
 			"                                 "};
-	
+
 	private SimilarityAssessorPagePrinter() {
 	}
-	
-	public String print(ISimilarityAssessor similarityAssessor) throws IOException {
-		List<IContextObject> objects = similarityAssessor.getContext();
+
+	public String print(IComparator comparator) throws IOException {
+		List<IContextObject> objects = comparator.getContext();
 		String[] tableHead = new String[objects.size()];
 		for (int i = 0 ; i < tableHead.length ; i++)
 			tableHead[i] = Integer.toString(objects.get(i).iD());
@@ -55,28 +55,28 @@ public class SimilarityAssessorPagePrinter {
 						.append(alinea[4] + "<h3> Similarity matrix </h3>" + NL)
 					.append(alinea[3] + "</header>" + NL)
 					.append(TablePrinter.INSTANCE.print2DSquareTable(
-							tableHead, similarityAssessor.getSimilarityStringMatrix(), "Similarity matrix", 3))
+							tableHead, comparator.getSimilarityStringMatrix(), "Similarity matrix", 3))
 				.append(alinea[2] + "</section>")
 				.append(alinea[2] + "<section>" + NL)
 					.append(alinea[3] + "<header>" + NL)
 						.append(alinea[4] + "<h3> Asymmetrical similarity matrix </h3>" + NL)
 					.append(alinea[3] + "</header>" + NL)
 					.append(TablePrinter.INSTANCE.print2DSquareTable(
-							tableHead, similarityAssessor.getAsymmetricalSimilarityStringMatrix(), "Asymmetrical similarity matrix", 3))
+							tableHead, comparator.getAsymmetricalSimilarityStringMatrix(), "Asymmetrical similarity matrix", 3))
 				.append(alinea[2] + "</section>" + NL)
 				.append(alinea[2] + "<section>" + NL)
 					.append(alinea[3] + "<header>" + NL)
 					.append(alinea[4] + "<h3> Typicality </h3>" + NL)
 					.append(alinea[3] + "</header>" + NL)
 					.append(TablePrinter.INSTANCE.print1DTable(
-							tableHead, similarityAssessor.getTypicalityStringVector(), "Typicality", 3))
+							tableHead, comparator.getTypicalityStringVector(), "Typicality", 3))
 				.append(alinea[2] + "</section>" + NL)
 				.append(alinea[2] + "<section>" + NL)
 					.append(alinea[3] + "<header>" + NL)
 						.append(alinea[4] + "<h3> Difference </h3>" + NL)
 					.append(alinea[3] + "</header>" + NL)
 					.append(TablePrinter.INSTANCE.print2DSquareTable(
-							tableHead, similarityAssessor.getDifferenceStringMatrix(), "Difference matrix", 3))
+							tableHead, comparator.getDifferenceStringMatrix(), "Difference matrix", 3))
 				.append(alinea[2] + "</section>" + NL)
 			.append(alinea[1] + "</section>" + NL)
 			.append(alinea[1] + "<hr>" + NL)
@@ -89,13 +89,13 @@ public class SimilarityAssessorPagePrinter {
 					.append(alinea[3] + "<header>" + NL)
 						.append(alinea[4] + "<h3> Representation of similarity </h3>" + NL)
 					.append(alinea[3] + "</header>" + NL)
-					.append(RepresentationPrinter.INSTANCE.print(objects, similarityAssessor.getActiveRepresentationOfSimilarity(), 3))
+					.append(RepresentationPrinterShort.INSTANCE.print(objects, comparator.getActiveRepresentationOfSimilarity(), 3, "similarity"))
 				.append(alinea[2] + "</section>" + NL)
 				.append(alinea[2] + "<section>" + NL)
 					.append(alinea[3] + "<header>" + NL)
 						.append(alinea[4] + "<h3> Representation of differences </h3>" + NL)
 					.append(alinea[3] + "</header>" + NL)
-				.append(RepresentationPrinter.INSTANCE.print(objects, similarityAssessor.getActiveRepresentationOfDifferences(), 3))
+				.append(RepresentationPrinterShort.INSTANCE.print(objects, comparator.getActiveRepresentationOfDifferences(), 3, "differences"))
 				.append(alinea[2] + "</section>" + NL)
 			.append(alinea[1] + "</section>" + NL)
 		.append(FootPrinter.INSTANCE.get());

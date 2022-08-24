@@ -6,11 +6,20 @@ import java.math.MathContext;
 import com.tregouet.occam.alg.displayers.formatters.matrices.MatrixFormatter;
 
 public class ThreeDecimals implements MatrixFormatter {
-	
+
 	public static final ThreeDecimals INSTANCE = new ThreeDecimals();
 	private static final MathContext mathContext = new MathContext(3);
-	
+
 	private ThreeDecimals() {
+	}
+
+	@Override
+	public String[] apply(double[] vector) {
+		String[] stringVector = new String[vector.length];
+		for (int i = 0 ; i < vector.length ; i++) {
+			stringVector[i] = new BigDecimal(vector[i]).round(mathContext).toString();
+		}
+		return stringVector;
 	}
 
 	@Override
@@ -28,15 +37,6 @@ public class ThreeDecimals implements MatrixFormatter {
 			}
 		}
 		return stringMatrix;
-	}
-
-	@Override
-	public String[] apply(double[] vector) {
-		String[] stringVector = new String[vector.length];
-		for (int i = 0 ; i < vector.length ; i++) {
-			stringVector[i] = new BigDecimal(vector[i]).round(mathContext).toString();
-		}
-		return stringVector;
 	}
 
 }

@@ -86,16 +86,16 @@ public class Categorizer implements ICategorizer {
 	}
 
 	@Override
-	public Boolean restrictTo(Set<Integer> representationIDs) {
-		return problemSpaceExplorer.restrictTo(representationIDs);
-	}
-
-	@Override
 	public ICategorizer process(Collection<IContextObject> context) {
 		this.context = new ArrayList<>(context);
 		this.context.sort((x, y) -> Integer.compare(x.iD(), y.iD()));
 		problemSpaceExplorer = ICategorizer.problemSpaceExplorer().initialize(this.context);
 		return this;
+	}
+
+	@Override
+	public Boolean restrictTo(Set<Integer> representationIDs) {
+		return problemSpaceExplorer.restrictTo(representationIDs);
 	}
 
 }

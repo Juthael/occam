@@ -21,6 +21,11 @@ public interface IClassification {
 
 	List<IConcept> getExtent(int conceptID);
 
+	/**
+	 *
+	 * @param conceptID
+	 * @return extent IDs sorted by natural order
+	 */
 	List<Integer> getExtentIDs(int conceptID);
 
 	IConcept getGenus(IConcept concept);

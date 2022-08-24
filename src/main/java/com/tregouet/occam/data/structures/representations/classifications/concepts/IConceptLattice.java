@@ -31,6 +31,8 @@ public interface IConceptLattice {
 	 */
 	IConcept getConceptWithExtentIDs(Set<Integer> extentIDs);
 
+	IConcept getConceptWithSpecifiedID(int iD);
+
 	List<IContextObject> getContextObjects();
 
 	DirectedAcyclicGraph<IConcept, IIsA> getLatticeOfConcepts();
@@ -62,7 +64,5 @@ public interface IConceptLattice {
 	boolean isA(IConcept cat1, IConcept cat2);
 
 	boolean isADirectSubordinateOf(IConcept cat1, IConcept cat2);
-	
-	IConcept getConceptWithSpecifiedID(int iD);
 
 }

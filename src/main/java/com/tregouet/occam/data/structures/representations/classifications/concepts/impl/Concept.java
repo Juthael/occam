@@ -26,16 +26,6 @@ public class Concept implements IConcept {
 	private final int iD;
 	private ConceptType type;
 
-	public Concept(Set<IConstruct> denotatingConstructs, Set<Integer> extentIDs) {
-		if (extentIDs.size() == 1)
-			iD = new ArrayList<>(extentIDs).get(0);
-		else
-			iD = nextID++;
-		for (IConstruct construct : denotatingConstructs)
-			this.denotations.add(new Denotation(construct, this.iD));
-		this.maxExtentIDs = Set.copyOf(extentIDs); //unmodifiable
-	}
-
 	public Concept(IConstruct[] denotatingConstructs, boolean[] redundant, Set<Integer> extentIDs, @Nullable Integer iD) {
 		if (iD != null)
 			this.iD = iD;
@@ -46,6 +36,16 @@ public class Concept implements IConcept {
 				iDenotation.markAsRedundant();
 			this.denotations.add(iDenotation);
 		}
+		this.maxExtentIDs = Set.copyOf(extentIDs); //unmodifiable
+	}
+
+	public Concept(Set<IConstruct> denotatingConstructs, Set<Integer> extentIDs) {
+		if (extentIDs.size() == 1)
+			iD = new ArrayList<>(extentIDs).get(0);
+		else
+			iD = nextID++;
+		for (IConstruct construct : denotatingConstructs)
+			this.denotations.add(new Denotation(construct, this.iD));
 		this.maxExtentIDs = Set.copyOf(extentIDs); //unmodifiable
 	}
 

@@ -33,7 +33,7 @@ public class TablePrinter {
 		sB.append(alinea[a] + "</table>" + nL);
 		return sB.toString();
 	}
-	
+
 	public String print1DTable(String[] head, String[] table, String caption, int a) {
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<table>" + nL)
@@ -52,7 +52,7 @@ public class TablePrinter {
 				.append(alinea[a + 1] + "</tbody>" + nL);
 		sB.append(alinea[a] + "</table>" + nL);
 		return sB.toString();
-	}	
+	}
 
 	public String print2DSquareTable(String[] head, double[][] table, String caption, int a) {
 		StringBuilder sB = new StringBuilder();

@@ -3,7 +3,7 @@ package com.tregouet.occam.data.modules.categorization.transitions.partitions;
 import java.util.List;
 import java.util.Map;
 
-import com.tregouet.occam.alg.setters.weighs.Weighed;
+import com.tregouet.occam.alg.setters.weights.Weighed;
 import com.tregouet.occam.data.structures.partial_order.PartiallyComparable;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;

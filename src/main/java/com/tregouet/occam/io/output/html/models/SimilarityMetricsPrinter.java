@@ -2,7 +2,7 @@ package com.tregouet.occam.io.output.html.models;
 
 import java.util.List;
 
-import com.tregouet.occam.data.modules.similarity.ISimilarityAssessor;
+import com.tregouet.occam.data.modules.comparison.IComparator;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
 
@@ -15,7 +15,7 @@ public class SimilarityMetricsPrinter {
 	private SimilarityMetricsPrinter() {
 	}
 
-	public String print(ISimilarityAssessor simAssessor, int a) {
+	public String print(IComparator simAssessor, int a) {
 		String[] head = getHead(simAssessor);
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
@@ -30,7 +30,7 @@ public class SimilarityMetricsPrinter {
 		return sB.toString();
 	}
 
-	private String[] getHead(ISimilarityAssessor simAssessor) {
+	private String[] getHead(IComparator simAssessor) {
 		List<IContextObject> context = simAssessor.getContext();
 		String[] head = new String[context.size()];
 		int idx = 0;
@@ -39,20 +39,20 @@ public class SimilarityMetricsPrinter {
 		return head;
 	}
 
-	private String printAsymmetricalSimilarityMatrix(ISimilarityAssessor simAssessor, String[] head, int a) {
+	private String printAsymmetricalSimilarityMatrix(IComparator simAssessor, String[] head, int a) {
 		return TablePrinter.INSTANCE.print2DSquareTable(
 				head, simAssessor.getAsymmetricalSimilarityStringMatrix(), "Asymmetrical similarity matrix", a);
 	}
 
-	private String printDifferenceMatrix(ISimilarityAssessor simAssessor, String[] head, int a) {
+	private String printDifferenceMatrix(IComparator simAssessor, String[] head, int a) {
 		return TablePrinter.INSTANCE.print2DSquareTable(head, simAssessor.getDifferenceStringMatrix(), "Difference matrix", a);
 	}
 
-	private String printSimilarityMatrix(ISimilarityAssessor simAssessor, String[] head, int a) {
+	private String printSimilarityMatrix(IComparator simAssessor, String[] head, int a) {
 		return TablePrinter.INSTANCE.print2DSquareTable(head, simAssessor.getSimilarityStringMatrix(), "Similarity matrix", a);
 	}
 
-	private String printTypicalityVector(ISimilarityAssessor simAssessor, String[] head, int a) {
+	private String printTypicalityVector(IComparator simAssessor, String[] head, int a) {
 		return TablePrinter.INSTANCE.print1DTable(head, simAssessor.getTypicalityStringVector(), "Typicality", a);
 	}
 

@@ -28,7 +28,7 @@ public class PortionOfTotalSimilarity implements AsymmetricalSimilarityScorer {
 				totalSimilarity += iSim;
 			}
 		}
-		return refSimilarity / totalSimilarity;
+		return (totalSimilarity == 0.0 ? 0.0 : (refSimilarity / totalSimilarity));
 	}
 
 }

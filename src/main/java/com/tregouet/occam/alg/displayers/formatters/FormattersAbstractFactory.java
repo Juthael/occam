@@ -1,14 +1,17 @@
 package com.tregouet.occam.alg.displayers.formatters;
 
-import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabellerStrategy;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerStrategy;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabeller;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.DifferentiaeLabeller;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.DifferentiaeLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.DifferentiaeLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.PropertyLabeller;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.PropertyLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.PropertyLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.computations.ComputationLabeller;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.computations.ComputationLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.computations.ComputationLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.summarizer.DifferentiaeSummarizer;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.summarizer.DifferentiaeSummarizerFactory;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.summarizer.DifferentiaeSummarizerStrategy;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerFactory;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerStrategy;
@@ -44,6 +47,7 @@ public class FormattersAbstractFactory {
 	private ComputationLabellerStrategy computationLabellerStrategy = null;
 	private PropertyLabellerStrategy propertyLabellerStrategy = null;
 	private DifferentiaeLabellerStrategy differentiaeLabellerStrategy = null;
+	private DifferentiaeSummarizerStrategy differentiaeSummarizerStrategy = null;
 	private Sorting2StringConverterStrategy sorting2StringConverterStrategy = null;
 	private ProblemStateLabellerStrategy problemStateLabellerStrategy = null;
 	private ProblemTransitionLabellerStrategy problemTransitionLabellerStrategy = null;
@@ -96,6 +100,10 @@ public class FormattersAbstractFactory {
 	public TransitionLabeller getTransitionLabeller() {
 		return TransitionLabellerFactory.INSTANCE.apply(transitionLabellerStrategy);
 	}
+	
+	public DifferentiaeSummarizer getDifferentiaeSummarizer() {
+		return DifferentiaeSummarizerFactory.INSTANCE.apply(differentiaeSummarizerStrategy);
+	}
 
 	public void setUpStrategy(FormattingStrategy strategy) {
 		switch (strategy) {
@@ -106,6 +114,7 @@ public class FormattersAbstractFactory {
 			computationLabellerStrategy = ComputationLabellerStrategy.CONJUNCTION;
 			propertyLabellerStrategy = PropertyLabellerStrategy.CURLY_BRACKETS_WITH_WEIGHT;
 			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
+			differentiaeSummarizerStrategy = DifferentiaeSummarizerStrategy.NON_REDUNDANT_OPTIMAL_SUBSET;
 			sorting2StringConverterStrategy = Sorting2StringConverterStrategy.RECURSIVE_FRAMING;
 			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES_WITH_SCORE;
 			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.WEIGHT;

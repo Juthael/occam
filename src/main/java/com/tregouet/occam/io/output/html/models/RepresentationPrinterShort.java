@@ -21,6 +21,20 @@ public class RepresentationPrinterShort {
 			return printNullRepresentation();
 		return printNonNullRepresentation(context, representation, a, iD);
 	}
+	
+	private static String printSummarizedDescription(IRepresentation representation, int a, String iD) {
+		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getSummarizedDescriptionViz()
+				.apply(representation.getDescription(), iD);
+		StringBuilder sB = new StringBuilder();
+		sB.append(alinea[a] + "<section>" + nL)
+				.append(alinea[a + 1] + "<header>" + nL)
+					.append(alinea[a + 2] + "<h3> " + iD + " </h3>" + nL)
+				.append(alinea[a + 1] + "</header>" + nL)
+				.append(FigurePrinter.INSTANCE.displayFigure(figureFullPath, a + 1, iD)
+						+ nL)
+			.append(alinea[a] + "</section>" + nL);
+		return sB.toString();
+	}	
 
 	private static String printDescription(IRepresentation representation, int a, String iD) {
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getDescriptionViz()
@@ -43,7 +57,8 @@ public class RepresentationPrinterShort {
 				.append(alinea[a + 1] + "<header>" + nL)
 					.append(alinea[a + 2] + "<h3> <u> REPRESENTATION N." + Integer.toString(representation.iD()) + " </u> </h3>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
-				.append(printDescription(representation, a + 2, iD) + nL)
+				.append(printSummarizedDescription(representation, a + 2, iD + "_summarized") + nL)
+				.append(printDescription(representation, a + 2, iD + "_exhaustive") + nL)
 			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();
 	}

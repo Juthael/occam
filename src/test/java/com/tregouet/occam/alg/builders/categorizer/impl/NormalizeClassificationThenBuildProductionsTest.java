@@ -26,7 +26,7 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.DifferentiaeLabeller;
 import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;

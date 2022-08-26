@@ -13,7 +13,6 @@ public class Property implements IProperty {
 	private final int speciesID;
 	private final IDenotation function;
 	private final Set<IComputation> computations;
-	private Double weight = null;
 
 	public Property(int genusID, int speciesID, IDenotation function, Set<IComputation> computations) {
 		this.genusID = genusID;
@@ -65,16 +64,6 @@ public class Property implements IProperty {
 				return false;
 		}
 		return true;
-	}
-
-	@Override
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
-
-	@Override
-	public Double weight() {
-		return weight;
 	}
 
 }

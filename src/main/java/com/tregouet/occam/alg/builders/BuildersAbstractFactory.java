@@ -36,6 +36,9 @@ import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionB
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.differentiation.DifferentiationBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.differentiation.DifferentiationBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.differentiation.DifferentiationBuilderStrategy;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilderFactory;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilderStrategy;
@@ -71,6 +74,7 @@ public class BuildersAbstractFactory {
 	private ProductionSetBuilderStrategy productionSetBuilderStrategy = null;
 	private RepresentationTransFuncBuilderStrategy representationTransFuncBuilderStrategy = null;
 	private PropertyBuilderStrategy propertyBuilderStrategy = null;
+	private DifferentiationBuilderStrategy differentiationBuilderStrategy = null;
 	private DifferentiaeBuilderStrategy differentiaeBuilderStrategy = null;
 	private DescriptionBuilderStrategy descriptionBuilderStrategy = null;
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
@@ -160,6 +164,10 @@ public class BuildersAbstractFactory {
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
 	}
+	
+	public DifferentiationBuilder getDifferentiationBuilder() {
+		return DifferentiationBuilderFactory.INSTANCE.apply(differentiationBuilderStrategy);
+	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
 		switch (overallStrategy) {
@@ -173,6 +181,7 @@ public class BuildersAbstractFactory {
 			productionSetBuilderStrategy = ProductionSetBuilderStrategy.BUILD_FROM_SCRATCH_NO_EPSILON;
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.EVERY_APP_IS_RELEVANT;
 			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_COMPUTATION;
+			differentiationBuilderStrategy = DifferentiationBuilderStrategy.MUTE_REDUNDANCIES_THEN_WEIGHT;
 			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;

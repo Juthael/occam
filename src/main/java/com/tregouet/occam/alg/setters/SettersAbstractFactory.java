@@ -53,7 +53,7 @@ public class SettersAbstractFactory {
 		return ProductionSalienceSetterFactory.INSTANCE.apply(productionSalienceSetterStrategy);
 	}
 
-	public PropertyWeigher getPropertyWheigher() {
+	public PropertyWeigher getPropertyWeigher() {
 		return PropertyWeigherFactory.INSTANCE.apply(propertyWeigherStrategy);
 	}
 

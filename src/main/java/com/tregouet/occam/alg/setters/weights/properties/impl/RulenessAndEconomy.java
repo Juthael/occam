@@ -13,6 +13,7 @@ import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IWeighedProperty;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.IComputation;
 
 public class RulenessAndEconomy implements PropertyWeigher {
@@ -24,7 +25,7 @@ public class RulenessAndEconomy implements PropertyWeigher {
 	}
 
 	@Override
-	public void accept(IProperty p) {
+	public void accept(IWeighedProperty p) {
 		if (!p.isBlank()) {
 			int speciesID = p.getSpeciesID();
 			List<IConcept> speciesComplementaryExtent = conceptID2CompExtent.get(speciesID);

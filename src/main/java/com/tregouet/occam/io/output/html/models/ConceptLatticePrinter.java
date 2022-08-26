@@ -15,7 +15,7 @@ public class ConceptLatticePrinter {
 
 	public String print(ICategorizer categorizer, String fileName, int a) {
 		String filePath = VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(categorizer.getLatticeOfConcepts(),
-				fileName);
+				fileName, false);
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
 				.append(alinea[a + 1] + "<p>" + nL)

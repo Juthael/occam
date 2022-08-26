@@ -125,7 +125,7 @@ public class IfIsAThenDifferTest {
 	private String label(ADifferentiae differentiae) {
 		StringBuilder sB = new StringBuilder();
 		for (IProperty prop : differentiae.getProperties()) {
-			sB.append(FormattersAbstractFactory.INSTANCE.getPropertyDisplayer().apply(prop) + nL);
+			sB.append(FormattersAbstractFactory.INSTANCE.getPropertyLabeller().apply(prop) + nL);
 		}
 		return sB.toString();
 	}

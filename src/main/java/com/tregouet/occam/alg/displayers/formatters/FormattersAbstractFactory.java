@@ -1,17 +1,20 @@
 package com.tregouet.occam.alg.displayers.formatters;
 
-import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.DifferentiaeLabeller;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.DifferentiaeLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.DifferentiaeLabellerStrategy;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.PropertyLabeller;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.PropertyLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.PropertyLabellerStrategy;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.computations.ComputationLabeller;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.computations.ComputationLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.properties.computations.ComputationLabellerStrategy;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.summarizer.DifferentiaeSummarizer;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.summarizer.DifferentiaeSummarizerFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.summarizer.DifferentiaeSummarizerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.exhaustive.DifferentiaeExhaustiveLabeller;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.exhaustive.DifferentiaeExhaustiveLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.exhaustive.DifferentiaeExhaustiveLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.summarized.prop_opt_summarizer.DifferentiaePropOptSummarizer;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.summarized.prop_opt_summarizer.DifferentiaePropOptSummarizerFactory;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.summarized.prop_opt_summarizer.DifferentiaePropOptSummarizerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.summarized.weight_opt_summarizer.DifferentiaeWeightOptSummarizer;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.summarized.weight_opt_summarizer.DifferentiaeWeightOptSummarizerFactory;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.summarized.weight_opt_summarizer.DifferentiaeWeightOptSummarizerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabeller;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabellerStrategy;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerFactory;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerStrategy;
@@ -46,8 +49,9 @@ public class FormattersAbstractFactory {
 	private TransitionFunctionLabellerStrategy transitionFunctionLabellerStrategy = null;
 	private ComputationLabellerStrategy computationLabellerStrategy = null;
 	private PropertyLabellerStrategy propertyLabellerStrategy = null;
-	private DifferentiaeLabellerStrategy differentiaeLabellerStrategy = null;
-	private DifferentiaeSummarizerStrategy differentiaeSummarizerStrategy = null;
+	private DifferentiaeExhaustiveLabellerStrategy differentiaeExhaustiveLabellerStrategy = null;
+	private DifferentiaeWeightOptSummarizerStrategy differentiaeWeightOptSummarizerStrategy = null;
+	private DifferentiaePropOptSummarizerStrategy differentiaePropOptSummarizerStrategy = null;
 	private Sorting2StringConverterStrategy sorting2StringConverterStrategy = null;
 	private ProblemStateLabellerStrategy problemStateLabellerStrategy = null;
 	private ProblemTransitionLabellerStrategy problemTransitionLabellerStrategy = null;
@@ -65,8 +69,8 @@ public class FormattersAbstractFactory {
 		return ComputationLabellerFactory.INSTANCE.apply(computationLabellerStrategy);
 	}
 
-	public DifferentiaeLabeller getDifferentiaeLabeller() {
-		return DifferentiaeLabellerFactory.INSTANCE.apply(differentiaeLabellerStrategy);
+	public DifferentiaeExhaustiveLabeller getDifferentiaeExhaustiveLabeller() {
+		return DifferentiaeExhaustiveLabellerFactory.INSTANCE.apply(differentiaeExhaustiveLabellerStrategy);
 	}
 
 	public FactDisplayer getFactDisplayer() {
@@ -85,7 +89,7 @@ public class FormattersAbstractFactory {
 		return ProblemTransitionLabellerFactory.INSTANCE.apply(problemTransitionLabellerStrategy);
 	}
 
-	public PropertyLabeller getPropertyDisplayer() {
+	public PropertyLabeller getPropertyLabeller() {
 		return PropertyLabellerFactory.INSTANCE.apply(propertyLabellerStrategy);
 	}
 
@@ -101,8 +105,12 @@ public class FormattersAbstractFactory {
 		return TransitionLabellerFactory.INSTANCE.apply(transitionLabellerStrategy);
 	}
 	
-	public DifferentiaeSummarizer getDifferentiaeSummarizer() {
-		return DifferentiaeSummarizerFactory.INSTANCE.apply(differentiaeSummarizerStrategy);
+	public DifferentiaeWeightOptSummarizer getDifferentiaeWeightOptSummarizer() {
+		return DifferentiaeWeightOptSummarizerFactory.INSTANCE.apply(differentiaeWeightOptSummarizerStrategy);
+	}
+	
+	public DifferentiaePropOptSummarizer getDifferentiaePropOptSummarizer() {
+		return DifferentiaePropOptSummarizerFactory.INSTANCE.apply(differentiaePropOptSummarizerStrategy);
 	}
 
 	public void setUpStrategy(FormattingStrategy strategy) {
@@ -113,8 +121,9 @@ public class FormattersAbstractFactory {
 			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.DISPLAY_ALL_TRANSITIONS;
 			computationLabellerStrategy = ComputationLabellerStrategy.CONJUNCTION;
 			propertyLabellerStrategy = PropertyLabellerStrategy.CURLY_BRACKETS_WITH_WEIGHT;
-			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
-			differentiaeSummarizerStrategy = DifferentiaeSummarizerStrategy.NON_REDUNDANT_OPTIMAL_SUBSET;
+			differentiaeExhaustiveLabellerStrategy = DifferentiaeExhaustiveLabellerStrategy.PROPERTIES_THEN_WEIGHT;
+			differentiaeWeightOptSummarizerStrategy = DifferentiaeWeightOptSummarizerStrategy.NON_REDUNDANT_WEIGHT_OPTIMAL_SUBSET;
+			differentiaePropOptSummarizerStrategy = DifferentiaePropOptSummarizerStrategy.NON_REDUNDANT_PROP_OPT_SUBSET;
 			sorting2StringConverterStrategy = Sorting2StringConverterStrategy.RECURSIVE_FRAMING;
 			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES_WITH_SCORE;
 			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.WEIGHT;

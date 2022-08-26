@@ -26,7 +26,7 @@ import org.junit.Test;
 import com.tregouet.occam.Occam;
 import com.tregouet.occam.alg.OverallAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.DifferentiaeLabeller;
+import com.tregouet.occam.alg.displayers.formatters.differentiae.labeller.exhaustive.DifferentiaeExhaustiveLabeller;
 import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
@@ -122,7 +122,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 
 	@SuppressWarnings("unused")
 	private String visualize(Tree<Integer, ADifferentiae> descGraph, String fileName) {
-		DifferentiaeLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeLabeller();
+		DifferentiaeExhaustiveLabeller diffDisplayer = FormattersAbstractFactory.INSTANCE.getDifferentiaeExhaustiveLabeller();
 		// convert in DOT format
 		DOTExporter<Integer, ADifferentiae> exporter = new DOTExporter<>();
 		exporter.setVertexAttributeProvider((v) -> {

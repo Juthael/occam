@@ -194,4 +194,24 @@ public class Concept implements IConcept {
 		nextID = IConcept.CONCEPT_FIRST_ID;
 	}
 
+	@Override
+	public String toStringWithNoRedundantDenotation() {
+		if (type == ConceptType.ABSURDITY)
+			return "ABSURDITY";
+		StringBuilder sB = new StringBuilder();
+		sB.append(Integer.toString(iD));
+		String newLine = System.lineSeparator();
+		sB.append(newLine);
+		Iterator<IDenotation> iterator = denotations.iterator();
+		while (iterator.hasNext()) {
+			IDenotation nextDenotation = iterator.next();
+			if (!nextDenotation.isRedundant()) {
+				sB.append(nextDenotation.toString());
+				if (iterator.hasNext())
+					sB.append(newLine);
+			}
+		}
+		return sB.toString();
+	}
+
 }

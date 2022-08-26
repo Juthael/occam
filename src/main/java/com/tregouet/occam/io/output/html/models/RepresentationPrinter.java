@@ -38,7 +38,7 @@ public class RepresentationPrinter {
 
 	private static String printClassificationTree(IRepresentation representation, int a) {
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getConceptGraphViz()
-				.apply(representation.getClassification().normalized().asGraph(), "classification_tree");
+				.apply(representation.getClassification().normalized().asGraph(), "classification_tree", false);
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
 				.append(alinea[a + 1] + "<header>" + nL)
@@ -50,7 +50,9 @@ public class RepresentationPrinter {
 	}
 
 	private static String printDescription(IRepresentation representation, int a) {
-		String figureFullPath = VisualizersAbstractFactory.INSTANCE.getDescriptionViz()
+		String figureFullPath = VisualizersAbstractFactory.INSTANCE
+				.getDescriptionViz()
+				.setUp(representation.getClassification().mapConceptID2ExtentIDs())
 				.apply(representation.getDescription(), "description");
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)

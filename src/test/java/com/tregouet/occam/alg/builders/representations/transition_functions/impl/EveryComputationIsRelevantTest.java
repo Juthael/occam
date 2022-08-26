@@ -97,7 +97,7 @@ public class EveryComputationIsRelevantTest {
 		StringBuilder sB = new StringBuilder();
 		String treePath =
 				VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(
-						tree, "BuildExhaustivelyTest_tree" + Integer.toString(idx));
+						tree, "BuildExhaustivelyTest_tree" + Integer.toString(idx), true);
 		String tfPath =
 				VisualizersAbstractFactory.INSTANCE.getTransitionFunctionViz().apply(
 						transFunc, "BuildExhaustivelyTest_TF" + Integer.toString(idx));

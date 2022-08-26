@@ -10,15 +10,15 @@ import com.tregouet.tree_finder.data.Tree;
 
 public class Description implements IDescription {
 
-	private final Tree<Integer, ADifferentiae> classification;
+	private final Tree<Integer, ADifferentiae> genusDiffGraph;
 
-	public Description(Tree<Integer, ADifferentiae> classification) {
-		this.classification = classification;
+	public Description(Tree<Integer, ADifferentiae> genusDiffGraph) {
+		this.genusDiffGraph = genusDiffGraph;
 	}
 
 	@Override
 	public Tree<Integer, ADifferentiae> asGraph() {
-		return classification;
+		return genusDiffGraph;
 	}
 
 	@Override
@@ -28,17 +28,17 @@ public class Description implements IDescription {
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Description other = (Description) obj;
-		return Objects.equals(classification, other.classification);
+		return Objects.equals(genusDiffGraph, other.genusDiffGraph);
 	}
 
 	@Override
 	public List<Integer> getTopologicallyOrderedConceptIDs() {
-		return new ArrayList<>(classification.getTopologicalOrder());
+		return new ArrayList<>(genusDiffGraph.getTopologicalOrder());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(classification);
+		return Objects.hash(genusDiffGraph);
 	}
 
 }

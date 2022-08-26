@@ -30,7 +30,7 @@ public class BasicConceptGraphViz implements ConceptGraphViz {
 	}
 
 	@Override
-	public String apply(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName) {
+	public String apply(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName, boolean printRedundantDenot) {
 		// convert in DOT format
 		DOTExporter<IConcept, IIsA> exporter = new DOTExporter<>();
 		exporter.setGraphAttributeProvider(() -> {
@@ -40,7 +40,8 @@ public class BasicConceptGraphViz implements ConceptGraphViz {
 		});
 		exporter.setVertexAttributeProvider((v) -> {
 			Map<String, Attribute> map = new LinkedHashMap<>();
-			map.put("label", DefaultAttribute.createAttribute(v.toString()));
+			map.put("label", DefaultAttribute.createAttribute(
+					(printRedundantDenot ? v.toString() : v.toStringWithNoRedundantDenotation())));
 			return map;
 		});
 		Writer writer = new StringWriter();

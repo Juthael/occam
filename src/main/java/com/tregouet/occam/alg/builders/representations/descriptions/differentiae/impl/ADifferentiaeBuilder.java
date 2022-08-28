@@ -12,14 +12,15 @@ import com.tregouet.occam.data.structures.representations.classifications.IClass
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.differentiations.IDifferentiationSet;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.impl.Differentiae;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
 import com.tregouet.tree_finder.data.InvertedTree;
 
-public class IfIsAThenDiffer implements DifferentiaeBuilder {
+public abstract class ADifferentiaeBuilder implements DifferentiaeBuilder {
 
-	public IfIsAThenDiffer() {
+	public ADifferentiaeBuilder() {
 	}
 
 	@Override
@@ -41,11 +42,14 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 					toBeRemoved.add(property);
 				}
 			}
+			IDifferentiationSet differentiationSet = buildDifferentiationSet(thisDiffProperties, propWeigher);
 			differentiae.add(
-					new Differentiae(genusID, speciesID, thisDiffProperties, null));
+					new Differentiae(genusID, speciesID, thisDiffProperties, differentiationSet));
 			properties.removeAll(toBeRemoved);
 		}
 		return differentiae;
 	}
+
+	abstract protected IDifferentiationSet buildDifferentiationSet(Set<IProperty> properties, PropertyWeigher propWeigher);
 
 }

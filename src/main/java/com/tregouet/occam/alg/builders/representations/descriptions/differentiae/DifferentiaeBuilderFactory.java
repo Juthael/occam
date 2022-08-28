@@ -1,6 +1,7 @@
 package com.tregouet.occam.alg.builders.representations.descriptions.differentiae;
 
-import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.impl.IfIsAThenDiffer;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.impl.WithDifferentiation;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.impl.WithoutDifferentiation;
 
 public class DifferentiaeBuilderFactory {
 
@@ -11,8 +12,10 @@ public class DifferentiaeBuilderFactory {
 
 	public DifferentiaeBuilder apply(DifferentiaeBuilderStrategy strategy) {
 		switch (strategy) {
-		case IF_IS_A_THEN_DIFFER:
-			return new IfIsAThenDiffer();
+		case WITH_DIFFERENTIATION :
+			return WithDifferentiation.INSTANCE;
+		case WITHOUT_DIFFERENTIATION :
+			return WithoutDifferentiation.INSTANCE;
 		default:
 			return null;
 		}

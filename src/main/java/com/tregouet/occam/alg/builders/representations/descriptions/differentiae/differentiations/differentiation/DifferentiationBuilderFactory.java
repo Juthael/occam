@@ -13,6 +13,8 @@ public class DifferentiationBuilderFactory {
 		switch (strategy) {
 		case MUTE_REDUNDANCIES_THEN_WEIGHT :
 			return new MuteRedundanciesThenBuildThenWeigh();
+		case USELESS :
+			return null;
 		default :
 			return null;
 		}

@@ -26,46 +26,30 @@ public class MuteRedundanciesThenBuildThenWeigh implements DifferentiationBuilde
 		if (permutation.length == 0)
 			return new Differentiation(new ArrayList<>());
 		Set<IDenotation> computedDenotations = new HashSet<>();
-		List<IProperty> modularProperties = new ArrayList<>();
+		List<IProperty> properties = new ArrayList<>();
+		if (permutation.length > 0)
+			properties.add(permutation[0]);
 		//populate
-		for (IProperty prop : permutation) {
+		for (int i = 1 ; i < permutation.length ; i++) {
+			IProperty prop = permutation[i];
 			Set<IComputation> computations = new HashSet<>();
 			for (IComputation comp : prop.getComputations()) {
 				if (!comp.isIdentity() && !comp.getOutput().isRedundant() && computedDenotations.add(comp.getOutput()))
 					computations.add(comp);
 			}
 			if (!computations.isEmpty()) {
-				IProperty weighedProp = new ModularProperty(prop, computations);
-				if (weigher != null)
-					weigher.accept(weighedProp);
-				modularProperties.add(weighedProp);
+				IProperty modProp = new ModularProperty(prop, computations);
+				weigher.accept(modProp);
+				properties.add(modProp);
 			}
 		}
-		return new Differentiation(modularProperties);
+		return new Differentiation(properties);
 	}
 
 	@Override
 	public IDifferentiation apply(List<IProperty> permutation) {
-		if (permutation.size() == 0)
-			return new Differentiation(new ArrayList<>());
-		Set<IDenotation> computedDenotations = new HashSet<>();
-		List<IProperty> modularProperties = new ArrayList<>();
-		//populate
-		for (IProperty prop : permutation) {
-			Set<IComputation> computations = new HashSet<>();
-			for (IComputation comp : prop.getComputations()) {
-				if (!comp.isIdentity() && !comp.getOutput().isRedundant() && computedDenotations.add(comp.getOutput()))
-					computations.add(comp);
-			}
-			if (!computations.isEmpty()) {
-				IProperty weighedProp = new ModularProperty(prop, computations);
-				weigher.accept(weighedProp);
-				modularProperties.add(weighedProp);
-			}
-		}
-		return new Differentiation(modularProperties);
+		return apply(permutation.toArray(new IProperty[0]));
 	}
-
 
 	@Override
 	public DifferentiationBuilder setUp(PropertyWeigher weigher) {

@@ -189,9 +189,9 @@ public class BuildersAbstractFactory {
 			productionSetBuilderStrategy = ProductionSetBuilderStrategy.BUILD_FROM_SCRATCH_NO_EPSILON;
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.EVERY_APP_IS_RELEVANT;
 			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_COMPUTATION;
-			differentiationBuilderStrategy = DifferentiationBuilderStrategy.MUTE_REDUNDANCIES_THEN_WEIGHT;
-			differentiationSetBuilderStrategy = DifferentiationSetBuilderStrategy.REMOVE_REDUNDANT_PERMUTATIONS;
-			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
+			differentiationBuilderStrategy = DifferentiationBuilderStrategy.USELESS;
+			differentiationSetBuilderStrategy = DifferentiationSetBuilderStrategy.HEURISTIC_ORDER_OVER_PROPERTIES;
+			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.WITHOUT_DIFFERENTIATION;
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;

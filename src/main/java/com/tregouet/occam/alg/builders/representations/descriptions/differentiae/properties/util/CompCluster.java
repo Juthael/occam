@@ -41,7 +41,17 @@ public class CompCluster {
 		Set<IComputation> computations = new HashSet<>();
 		for (ProdCluster prodCluster : prodClusters)
 			computations.add(prodCluster.asComputation());
-		return new Property(genusID, speciesID, denotation, computations);
+		int nbOfSignificantComp = nbOfSignificantComp(computations);
+		return new Property(genusID, speciesID, denotation, computations, nbOfSignificantComp);
+	}
+
+	private static int nbOfSignificantComp(Set<IComputation> computations) {
+		int count = 0;
+		for (IComputation comp : computations) {
+			if (!comp.isIdentity() && !comp.isEpsilon())
+				count++;
+		}
+		return count;
 	}
 
 }

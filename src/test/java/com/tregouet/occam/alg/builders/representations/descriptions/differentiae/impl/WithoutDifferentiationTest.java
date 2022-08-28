@@ -50,7 +50,7 @@ import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.parse.Parser;
 
 @SuppressWarnings("unused")
-public class IfIsAThenDifferTest {
+public class WithoutDifferentiationTest {
 
 	private static final Path SHAPES6 = Paths.get(".", "src", "test", "java", "files", "shapes6.txt");
 	private static final String nL = System.lineSeparator();
@@ -84,7 +84,7 @@ public class IfIsAThenDifferTest {
 		int nbOfChecks = 0;
 		for (Set<IContextualizedProduction> classProds : classProd2Classification.keySet()) {
 			IClassification classification = classProd2Classification.get(classProds);
-			IfIsAThenDiffer diffBldr = new IfIsAThenDiffer();
+			ADifferentiaeBuilder diffBldr = WithoutDifferentiation.INSTANCE;
 			Set<ADifferentiae> differentiae = diffBldr.apply(classification, classProds);
 			DirectedAcyclicGraph<Integer, ADifferentiae> graph = new DirectedAcyclicGraph<>(null, null, false);
 			for (ADifferentiae diff : differentiae) {

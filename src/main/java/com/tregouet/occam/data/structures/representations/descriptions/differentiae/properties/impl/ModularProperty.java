@@ -50,6 +50,11 @@ public class ModularProperty implements IProperty {
 	}
 
 	@Override
+	public int getNbOfSignificantComputations() {
+		return computations.size();
+	}
+
+	@Override
 	public int getSpeciesID() {
 		return property.getSpeciesID();
 	}

@@ -1,5 +1,6 @@
 package com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations;
 
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.impl.HeuristicOrderOverProperties;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.impl.RemoveRedundantPermutations;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.impl.TryEveryPermutation;
 
@@ -16,6 +17,8 @@ public class DifferentiationSetBuilderFactory {
 			return new TryEveryPermutation();
 		case REMOVE_REDUNDANT_PERMUTATIONS :
 			return new RemoveRedundantPermutations();
+		case HEURISTIC_ORDER_OVER_PROPERTIES :
+			return HeuristicOrderOverProperties.INSTANCE;
 		default :
 			return null;
 		}

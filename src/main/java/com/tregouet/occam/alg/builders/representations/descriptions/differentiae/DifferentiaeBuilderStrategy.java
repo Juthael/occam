@@ -2,6 +2,6 @@ package com.tregouet.occam.alg.builders.representations.descriptions.differentia
 
 public enum DifferentiaeBuilderStrategy {
 
-	IF_IS_A_THEN_DIFFER
+	WITH_DIFFERENTIATION, WITHOUT_DIFFERENTIATION
 
 }

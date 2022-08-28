@@ -13,13 +13,15 @@ public class Property implements IProperty {
 	private final int speciesID;
 	private final IDenotation function;
 	private final Set<IComputation> computations;
+	private int nbOfSignificantComp;
 	private Double weight = null;
 
-	public Property(int genusID, int speciesID, IDenotation function, Set<IComputation> computations) {
+	public Property(int genusID, int speciesID, IDenotation function, Set<IComputation> computations, int nbOfSignificantComp) {
 		this.genusID = genusID;
 		this.speciesID = speciesID;
 		this.function = function;
 		this.computations = computations;
+		this.nbOfSignificantComp = nbOfSignificantComp;
 	}
 
 	@Override
@@ -49,6 +51,11 @@ public class Property implements IProperty {
 	}
 
 	@Override
+	public int getNbOfSignificantComputations() {
+		return nbOfSignificantComp;
+	}
+
+	@Override
 	public int getSpeciesID() {
 		return speciesID;
 	}
@@ -60,11 +67,7 @@ public class Property implements IProperty {
 
 	@Override
 	public boolean isBlank() {
-		for (IComputation computation : computations) {
-			if (!computation.isIdentity())
-				return false;
-		}
-		return true;
+		return nbOfSignificantComp == 0;
 	}
 
 	@Override

@@ -17,6 +17,8 @@ public interface IProperty extends Weighed {
 
 	int getGenusID();
 
+	int getNbOfSignificantComputations();
+
 	int getSpeciesID();
 
 	@Override

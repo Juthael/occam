@@ -4,34 +4,40 @@ import java.util.List;
 import java.util.Objects;
 
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.differentiations.IDifferentiation;
-import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IWeighedProperty;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
 
+/**
+ * Weighing not supported for now
+ * @author Gael Tregouet
+ *
+ */
 public class Differentiation implements IDifferentiation {
-	
-	private final List<IWeighedProperty> properties;
+
+	private final List<IProperty> properties;
 	private final double weight;
-	
-	public Differentiation(List<IWeighedProperty> properties) {
+
+	public Differentiation(List<IProperty> properties) {
 		this.properties = properties;
 		double weight = 0.0;
-		for (IWeighedProperty property : properties)
+		for (IProperty property : properties)
 			weight += property.weight();
 		this.weight = weight;
 	}
 
 	@Override
-	public Double weight() {
-		return weight;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (getClass() != obj.getClass()))
+			return false;
+		Differentiation other = (Differentiation) obj;
+		return Double.doubleToLongBits(weight) == Double.doubleToLongBits(other.weight)
+				&& Objects.equals(properties, other.properties);
 	}
 
 	@Override
-	public List<IWeighedProperty> getProperties() {
+	public List<IProperty> getProperties() {
 		return properties;
-	}
-
-	@Override
-	public int nbOfProperties() {
-		return properties.size();
 	}
 
 	@Override
@@ -40,16 +46,13 @@ public class Differentiation implements IDifferentiation {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Differentiation other = (Differentiation) obj;
-		return Double.doubleToLongBits(weight) == Double.doubleToLongBits(other.weight)
-				&& Objects.equals(properties, other.properties);
+	public int nbOfProperties() {
+		return properties.size();
+	}
+
+	@Override
+	public Double weight() {
+		return weight;
 	}
 
 }

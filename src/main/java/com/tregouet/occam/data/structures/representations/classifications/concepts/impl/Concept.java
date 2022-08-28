@@ -186,15 +186,6 @@ public class Concept implements IConcept {
 	}
 
 	@Override
-	public ConceptType type() {
-		return type;
-	}
-
-	public static void initializeIDGenerator() {
-		nextID = IConcept.CONCEPT_FIRST_ID;
-	}
-
-	@Override
 	public String toStringWithNoRedundantDenotation() {
 		if (type == ConceptType.ABSURDITY)
 			return "ABSURDITY";
@@ -212,6 +203,15 @@ public class Concept implements IConcept {
 			}
 		}
 		return sB.toString();
+	}
+
+	@Override
+	public ConceptType type() {
+		return type;
+	}
+
+	public static void initializeIDGenerator() {
+		nextID = IConcept.CONCEPT_FIRST_ID;
 	}
 
 }

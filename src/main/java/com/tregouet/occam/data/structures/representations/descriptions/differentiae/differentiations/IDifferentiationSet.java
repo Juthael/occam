@@ -5,13 +5,11 @@ import java.util.List;
 import com.tregouet.occam.alg.setters.weights.Weighed;
 
 public interface IDifferentiationSet extends Weighed {
-	
-	List<IDifferentiation> getDifferentiationsWithGreatestWeight();
-	
+
 	List<IDifferentiation> getDifferentiationsGreatestNbOfProp();
-	
+
+	List<IDifferentiation> getDifferentiationsWithGreatestWeight();
+
 	int getMaxNbOfProperties();
-	
-	boolean add(IDifferentiation differentiation);
 
 }

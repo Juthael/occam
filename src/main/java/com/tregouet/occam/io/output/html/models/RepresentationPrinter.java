@@ -3,6 +3,7 @@ package com.tregouet.occam.io.output.html.models;
 import java.util.List;
 
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
+import com.tregouet.occam.alg.displayers.visualizers.descriptions.DescriptionFormat;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
@@ -52,7 +53,7 @@ public class RepresentationPrinter {
 	private static String printDescription(IRepresentation representation, int a) {
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE
 				.getDescriptionViz()
-				.setUp(representation.getClassification().mapConceptID2ExtentIDs())
+				.setUp(representation.getClassification().mapConceptID2ExtentIDs(), DescriptionFormat.EXHAUSTIVE)
 				.apply(representation.getDescription(), "description");
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)

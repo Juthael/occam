@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilder;
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.util.CompCluster;
+import com.tregouet.occam.alg.setters.weights.properties.PropertyWeigher;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
@@ -15,11 +16,14 @@ import com.tregouet.occam.data.structures.representations.productions.Salience;
 
 public class GroupSalientProductionsByComputation implements PropertyBuilder {
 
+	private IClassification classification = null;
+	private PropertyWeigher propWeigher = null;
+
 	public GroupSalientProductionsByComputation() {
 	}
 
 	@Override
-	public Set<IProperty> apply(IClassification classification, Set<IContextualizedProduction> productions) {
+	public Set<IProperty> apply(Set<IContextualizedProduction> productions) {
 		List<CompCluster> compClusters = new ArrayList<>();
 		Set<IProperty> properties = new HashSet<>();
 		for (IContextualizedProduction production : productions) {
@@ -34,10 +38,19 @@ public class GroupSalientProductionsByComputation implements PropertyBuilder {
 		}
 		for (CompCluster cluster : compClusters) {
 			IProperty property = cluster.asProperty();
-			PropertyBuilder.propertyWeigher().setUp(classification).accept(property);
-			properties.add(property);
+			if (!property.isBlank()) {
+				propWeigher.accept(property);
+				properties.add(property);
+			}
 		}
 		return properties;
+	}
+
+	@Override
+	public PropertyBuilder setUp(IClassification classification, PropertyWeigher propWeigher) {
+		this.classification = classification;
+		this.propWeigher = propWeigher;
+		return this;
 	}
 
 }

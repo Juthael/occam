@@ -13,6 +13,7 @@ public class Property implements IProperty {
 	private final int speciesID;
 	private final IDenotation function;
 	private final Set<IComputation> computations;
+	private Double weight = null;
 
 	public Property(int genusID, int speciesID, IDenotation function, Set<IComputation> computations) {
 		this.genusID = genusID;
@@ -28,8 +29,8 @@ public class Property implements IProperty {
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Property other = (Property) obj;
-		return speciesID == other.speciesID && genusID == other.genusID &&
-				Objects.equals(computations, other.computations) && Objects.equals(function, other.function);
+		return Objects.equals(computations, other.computations) && Objects.equals(function, other.function)
+				&& speciesID == other.speciesID;
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class Property implements IProperty {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(computations, function, genusID, speciesID);
+		return Objects.hash(computations, function, speciesID);
 	}
 
 	@Override
@@ -64,6 +65,16 @@ public class Property implements IProperty {
 				return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+	@Override
+	public Double weight() {
+		return weight;
 	}
 
 }

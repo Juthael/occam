@@ -26,8 +26,8 @@ public class Computation implements IComputation {
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Computation other = (Computation) obj;
-		return Objects.equals(input, other.input) && Objects.equals(output, other.output) &&
-				Objects.equals(operator, other.operator);
+		return Objects.equals(operator, other.operator)
+				&& Objects.equals(input, other.input) && Objects.equals(output, other.output);
 	}
 
 	@Override

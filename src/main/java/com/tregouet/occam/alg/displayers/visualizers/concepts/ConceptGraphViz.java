@@ -6,7 +6,7 @@ import com.tregouet.occam.data.structures.representations.classifications.concep
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
 
 public interface ConceptGraphViz {
-	
+
 	String apply(DirectedAcyclicGraph<IConcept, IIsA> graph, String fileName, boolean printRedundantDenot);
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilder;
+import com.tregouet.occam.alg.setters.weights.properties.PropertyWeigher;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
@@ -24,7 +25,8 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 	@Override
 	public Set<ADifferentiae> apply(IClassification classification, Set<IContextualizedProduction> productions) {
 		Set<ADifferentiae> differentiae = new HashSet<>();
-		Set<IProperty> properties = DifferentiaeBuilder.propertyBuilder().apply(classification, productions);
+		PropertyWeigher propWeigher = DifferentiaeBuilder.propertyWeigher().setUp(classification);
+		Set<IProperty> properties = DifferentiaeBuilder.propertyBuilder().setUp(classification, propWeigher).apply(productions);
 		InvertedTree<IConcept, IIsA> conceptTree = classification.asGraph();
 		for (IIsA transition : classification.asGraph().edgeSet()) {
 			int genusID = conceptTree.getEdgeTarget(transition).iD();
@@ -40,7 +42,7 @@ public class IfIsAThenDiffer implements DifferentiaeBuilder {
 				}
 			}
 			differentiae.add(
-					new Differentiae(genusID, speciesID, thisDiffProperties));
+					new Differentiae(genusID, speciesID, thisDiffProperties, null));
 			properties.removeAll(toBeRemoved);
 		}
 		return differentiae;

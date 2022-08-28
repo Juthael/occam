@@ -41,7 +41,7 @@ public interface IConcept extends IDichotomizable<IConcept>, IState {
 
 	@Override
 	String toString();
-	
+
 	String toStringWithNoRedundantDenotation();
 
 	ConceptType type();

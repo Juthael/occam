@@ -3,7 +3,6 @@ package com.tregouet.occam.alg.setters.weights.properties.impl;
 import com.tregouet.occam.alg.setters.weights.properties.PropertyWeigher;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IWeighedProperty;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.IComputation;
 
 public class NbOfComputations implements PropertyWeigher {
@@ -14,7 +13,7 @@ public class NbOfComputations implements PropertyWeigher {
 	}
 
 	@Override
-	public void accept(IWeighedProperty property) {
+	public void accept(IProperty property) {
 		int weight = 0;
 		for (IComputation computation : property.getComputations()) {
 			if (!computation.returnsInput())

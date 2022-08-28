@@ -3,6 +3,7 @@ package com.tregouet.occam.io.output.html.models;
 import java.util.List;
 
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
+import com.tregouet.occam.alg.displayers.visualizers.descriptions.DescriptionFormat;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
@@ -21,43 +22,11 @@ public class RepresentationPrinterShort {
 			return printNullRepresentation();
 		return printNonNullRepresentation(context, representation, a, iD);
 	}
-	
-	private static String printSummarizedWeightOptDescription(IRepresentation representation, int a, String iD) {
-		String figureFullPath = VisualizersAbstractFactory.INSTANCE
-				.getSummarizedWeightOptDescriptionViz()
-				.setUp(representation.getClassification().mapConceptID2ExtentIDs())
-				.apply(representation.getDescription(), iD);
-		StringBuilder sB = new StringBuilder();
-		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> " + iD + " </h3>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
-				.append(FigurePrinter.INSTANCE.displayFigure(figureFullPath, a + 1, iD)
-						+ nL)
-			.append(alinea[a] + "</section>" + nL);
-		return sB.toString();
-	}
-	
-	private static String printSummarizedPropOptDescription(IRepresentation representation, int a, String iD) {
-		String figureFullPath = VisualizersAbstractFactory.INSTANCE
-				.getSummarizedPropOptDescriptionViz()
-				.setUp(representation.getClassification().mapConceptID2ExtentIDs())
-				.apply(representation.getDescription(), iD);
-		StringBuilder sB = new StringBuilder();
-		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> " + iD + " </h3>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
-				.append(FigurePrinter.INSTANCE.displayFigure(figureFullPath, a + 1, iD)
-						+ nL)
-			.append(alinea[a] + "</section>" + nL);
-		return sB.toString();
-	}	
 
 	private static String printDescription(IRepresentation representation, int a, String iD) {
 		String figureFullPath = VisualizersAbstractFactory.INSTANCE
 				.getDescriptionViz()
-				.setUp(representation.getClassification().mapConceptID2ExtentIDs())
+				.setUp(representation.getClassification().mapConceptID2ExtentIDs(), DescriptionFormat.EXHAUSTIVE)
 				.apply(representation.getDescription(), iD);
 		StringBuilder sB = new StringBuilder();
 		sB.append(alinea[a] + "<section>" + nL)
@@ -95,6 +64,38 @@ public class RepresentationPrinterShort {
 					.append(alineaaaa + "<h2> No representation has been selected. </h2>" + nL)
 				.append(alineaaa + "</header>" + nL)
 			.append(alineaa + "</section>" + nL);
+		return sB.toString();
+	}
+
+	private static String printSummarizedPropOptDescription(IRepresentation representation, int a, String iD) {
+		String figureFullPath = VisualizersAbstractFactory.INSTANCE
+				.getDescriptionViz()
+				.setUp(representation.getClassification().mapConceptID2ExtentIDs(), DescriptionFormat.GREATEST_NB_OF_PROP)
+				.apply(representation.getDescription(), iD);
+		StringBuilder sB = new StringBuilder();
+		sB.append(alinea[a] + "<section>" + nL)
+				.append(alinea[a + 1] + "<header>" + nL)
+					.append(alinea[a + 2] + "<h3> " + iD + " </h3>" + nL)
+				.append(alinea[a + 1] + "</header>" + nL)
+				.append(FigurePrinter.INSTANCE.displayFigure(figureFullPath, a + 1, iD)
+						+ nL)
+			.append(alinea[a] + "</section>" + nL);
+		return sB.toString();
+	}
+
+	private static String printSummarizedWeightOptDescription(IRepresentation representation, int a, String iD) {
+		String figureFullPath = VisualizersAbstractFactory.INSTANCE
+				.getDescriptionViz()
+				.setUp(representation.getClassification().mapConceptID2ExtentIDs(), DescriptionFormat.GREATEST_WEIGHT_SUM)
+				.apply(representation.getDescription(), iD);
+		StringBuilder sB = new StringBuilder();
+		sB.append(alinea[a] + "<section>" + nL)
+				.append(alinea[a + 1] + "<header>" + nL)
+					.append(alinea[a + 2] + "<h3> " + iD + " </h3>" + nL)
+				.append(alinea[a + 1] + "</header>" + nL)
+				.append(FigurePrinter.INSTANCE.displayFigure(figureFullPath, a + 1, iD)
+						+ nL)
+			.append(alinea[a] + "</section>" + nL);
 		return sB.toString();
 	}
 

@@ -3,7 +3,6 @@ package com.tregouet.occam.alg.setters.weights.properties.impl;
 import com.tregouet.occam.alg.setters.weights.properties.PropertyWeigher;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
-import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IWeighedProperty;
 
 public class Weightless implements PropertyWeigher {
 
@@ -13,7 +12,7 @@ public class Weightless implements PropertyWeigher {
 	}
 
 	@Override
-	public void accept(IWeighedProperty property) {
+	public void accept(IProperty property) {
 		property.setWeight(0.0);
 	}
 

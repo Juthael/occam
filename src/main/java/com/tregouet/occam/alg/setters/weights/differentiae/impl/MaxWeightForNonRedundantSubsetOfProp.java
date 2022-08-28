@@ -13,9 +13,9 @@ import com.tregouet.occam.data.structures.representations.descriptions.different
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.IComputation;
 
-public class MaxWeightForNonRedundantSubsetOfProp implements DifferentiaeWeigher {
+public class MaxWeightForNonRedundantSubsetOfProp extends IfDifferentiationSetThenReportWeight implements DifferentiaeWeigher {
 
-	public static class SubsetOfProperties {
+	private static class SubsetOfProperties {
 
 		private final Set<IProperty> subset;
 		private final double weightSum;
@@ -38,40 +38,43 @@ public class MaxWeightForNonRedundantSubsetOfProp implements DifferentiaeWeigher
 
 	@Override
 	public void accept(ADifferentiae diff) {
-		Set<IProperty> nonBlankProperties = new HashSet<>();
-		Set<IDenotation> requiredDenotations = new HashSet<>();
-		for (IProperty property : diff.getProperties()) {
-			if (!property.isBlank()) {
-				nonBlankProperties.add(property);
-				for (IComputation computation : property.getComputations()) {
-					if (!computation.isIdentity() && !computation.getOutput().isRedundant())
-						requiredDenotations.add(computation.getOutput());
+		super.accept(diff);
+		if (diff.getCoeffFreeWeight() == null) {
+			Set<IProperty> nonBlankProperties = new HashSet<>();
+			Set<IDenotation> requiredDenotations = new HashSet<>();
+			for (IProperty property : diff.getProperties()) {
+				if (!property.isBlank()) {
+					nonBlankProperties.add(property);
+					for (IComputation computation : property.getComputations()) {
+						if (!computation.isIdentity() && !computation.getOutput().isRedundant())
+							requiredDenotations.add(computation.getOutput());
+					}
 				}
 			}
-		}
-		if (requiredDenotations.isEmpty()) {
-			diff.setCoeffFreeWeight(0.0);
-		}
-		else {
-			int subsetSize = nonBlankProperties.size();
-			List<SubsetOfProperties> nonRedundantSurjectiveSubsets = new ArrayList<>();
-			boolean newSurjectiveSubsetsFound = true;
-			while (newSurjectiveSubsetsFound) {
-				Set<SubsetOfProperties> newSurjectiveSubsets =
-						getSurjectiveSubsetsOfSpecifiedSize(nonBlankProperties, requiredDenotations, subsetSize);
-				if (!newSurjectiveSubsets.isEmpty()) {
-					addNewSubsetsAndRemoveRedundants(newSurjectiveSubsets, nonRedundantSurjectiveSubsets);
-					subsetSize--;
+			if (requiredDenotations.isEmpty()) {
+				diff.setWeight(0.0);
+			}
+			else {
+				int subsetSize = nonBlankProperties.size();
+				List<SubsetOfProperties> nonRedundantSurjectiveSubsets = new ArrayList<>();
+				boolean newSurjectiveSubsetsFound = true;
+				while (newSurjectiveSubsetsFound) {
+					Set<SubsetOfProperties> newSurjectiveSubsets =
+							getSurjectiveSubsetsOfSpecifiedSize(nonBlankProperties, requiredDenotations, subsetSize);
+					if (!newSurjectiveSubsets.isEmpty()) {
+						addNewSubsetsAndRemoveRedundants(newSurjectiveSubsets, nonRedundantSurjectiveSubsets);
+						subsetSize--;
+					}
+					else newSurjectiveSubsetsFound = false;
 				}
-				else newSurjectiveSubsetsFound = false;
+				//calculate weight
+				double diffWeight = 0.0;
+				for (SubsetOfProperties subsetOfProperties : nonRedundantSurjectiveSubsets) {
+					if (subsetOfProperties.weightSum > diffWeight)
+						diffWeight = subsetOfProperties.weightSum;
+				}
+				diff.setWeight(diffWeight);
 			}
-			//calculate weight
-			double diffWeight = 0.0;
-			for (SubsetOfProperties subsetOfProperties : nonRedundantSurjectiveSubsets) {
-				if (subsetOfProperties.weightSum > diffWeight)
-					diffWeight = subsetOfProperties.weightSum;
-			}
-			diff.setCoeffFreeWeight(diffWeight);
 		}
 	}
 

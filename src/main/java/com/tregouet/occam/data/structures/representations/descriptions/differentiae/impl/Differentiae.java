@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.differentiations.IDifferentiationSet;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
 
 public class Differentiae extends ADifferentiae {
@@ -13,14 +14,18 @@ public class Differentiae extends ADifferentiae {
 	private final int genusID;
 	private final int speciesID;
 	private final Set<IProperty> properties;
+	private IDifferentiationSet differentiationSet;
 	private Double coeff = null;
 	private Double weight = null;
 	private Integer rank = null;
 
-	public Differentiae(int genusID, int speciesID, Set<IProperty> properties) {
+	public Differentiae(int genusID, int speciesID, Set<IProperty> properties, IDifferentiationSet differentiationSet) {
 		this.genusID = genusID;
 		this.speciesID = speciesID;
 		this.properties = properties;
+		this.differentiationSet = differentiationSet;
+		if (differentiationSet != null)
+			weight = differentiationSet.weight();
 	}
 
 	@Override
@@ -36,6 +41,11 @@ public class Differentiae extends ADifferentiae {
 	@Override
 	public Double getCoeffFreeWeight() {
 		return weight;
+	}
+
+	@Override
+	public IDifferentiationSet getDifferentiationSet() {
+		return differentiationSet;
 	}
 
 	@Override
@@ -79,13 +89,13 @@ public class Differentiae extends ADifferentiae {
 	}
 
 	@Override
-	public void setCoeffFreeWeight(double weight) {
-		this.weight = weight;
+	public void setRank(int rank) {
+		this.rank = rank;
 	}
 
 	@Override
-	public void setRank(int rank) {
-		this.rank = rank;
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 
 	@Override

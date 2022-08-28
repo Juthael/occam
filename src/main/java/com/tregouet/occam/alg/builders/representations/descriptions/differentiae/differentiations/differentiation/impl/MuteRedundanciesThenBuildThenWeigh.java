@@ -27,11 +27,8 @@ public class MuteRedundanciesThenBuildThenWeigh implements DifferentiationBuilde
 			return new Differentiation(new ArrayList<>());
 		Set<IDenotation> computedDenotations = new HashSet<>();
 		List<IProperty> properties = new ArrayList<>();
-		if (permutation.length > 0)
-			properties.add(permutation[0]);
 		//populate
-		for (int i = 1 ; i < permutation.length ; i++) {
-			IProperty prop = permutation[i];
+		for (IProperty prop : permutation) {
 			Set<IComputation> computations = new HashSet<>();
 			for (IComputation comp : prop.getComputations()) {
 				if (!comp.isIdentity() && !comp.getOutput().isRedundant() && computedDenotations.add(comp.getOutput()))

@@ -16,9 +16,8 @@ public class WithDifferentiation extends ADifferentiaeBuilder implements Differe
 
 	@Override
 	protected IDifferentiationSet buildDifferentiationSet(Set<IProperty> properties, PropertyWeigher propWeigher) {
-		return DifferentiaeBuilder
-				.differentiationSetBuilder().setUp(
-						DifferentiaeBuilder.differentiationBuilder().setUp(propWeigher))
+		return DifferentiaeBuilder.differentiationSetBuilder()
+				.setUp(DifferentiaeBuilder.differentiationBuilder().setUp(propWeigher))
 				.apply(properties);
 	}
 

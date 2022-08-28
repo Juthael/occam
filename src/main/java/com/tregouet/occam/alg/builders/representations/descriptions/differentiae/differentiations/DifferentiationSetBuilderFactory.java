@@ -18,7 +18,7 @@ public class DifferentiationSetBuilderFactory {
 		case REMOVE_REDUNDANT_PERMUTATIONS :
 			return new RemoveRedundantPermutations();
 		case HEURISTIC_ORDER_OVER_PROPERTIES :
-			return HeuristicOrderOverProperties.INSTANCE;
+			return new HeuristicOrderOverProperties();
 		default :
 			return null;
 		}

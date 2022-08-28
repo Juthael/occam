@@ -12,7 +12,6 @@ import com.tregouet.occam.alg.builders.representations.descriptions.differentiae
 import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.differentiations.IDifferentiation;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.differentiations.IDifferentiationSet;
-import com.tregouet.occam.data.structures.representations.descriptions.differentiae.differentiations.impl.Differentiation;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.differentiations.impl.DifferentiationSet;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.IComputation;
@@ -42,18 +41,18 @@ public class HeuristicOrderOverProperties implements DifferentiationSetBuilder {
 
 		private static int betterIfHeavier(IProperty o1, IProperty o2) {
 			if (o1.weight() > o2.weight())
-				return 1;
-			else if (o2.weight() > o1.weight())
 				return -1;
+			else if (o2.weight() > o1.weight())
+				return 1;
 			else return 0;
 		}
 
 		private static int betterIfInstantiatesLessVariables(IProperty o1, IProperty o2) {
-			return nbOfVarInstantiated(o2) - nbOfVarInstantiated(o1);
+			return nbOfVarInstantiated(o1) - nbOfVarInstantiated(o2);
 		}
 
 		private static int betterIfLessSignificantComputations(IProperty o1, IProperty o2) {
-			return o2.getNbOfSignificantComputations() - o1.getNbOfSignificantComputations();
+			return o1.getNbOfSignificantComputations() - o2.getNbOfSignificantComputations();
 		}
 
 		private static int nbOfVarInstantiated(IProperty p) {
@@ -66,9 +65,9 @@ public class HeuristicOrderOverProperties implements DifferentiationSetBuilder {
 
 	}
 
-	public static final HeuristicOrderOverProperties INSTANCE = new HeuristicOrderOverProperties();
+	private DifferentiationBuilder differentiationBuilder = null;
 
-	private HeuristicOrderOverProperties() {
+	public HeuristicOrderOverProperties() {
 	}
 
 	@Override
@@ -76,13 +75,13 @@ public class HeuristicOrderOverProperties implements DifferentiationSetBuilder {
 		List<IProperty> propList = new ArrayList<>(properties);
 		Collections.sort(propList, PreferenceOrder.INSTANCE);
 		List<IDifferentiation> differentiationList = new ArrayList<>(1);
-		differentiationList.add(new Differentiation(propList));
+		differentiationList.add(differentiationBuilder.apply(propList));
 		return new DifferentiationSet(differentiationList);
 	}
 
 	@Override
 	public DifferentiationSetBuilder setUp(DifferentiationBuilder differentiationBuilder) {
-		// do nothing
+		this.differentiationBuilder = differentiationBuilder;
 		return this;
 	}
 

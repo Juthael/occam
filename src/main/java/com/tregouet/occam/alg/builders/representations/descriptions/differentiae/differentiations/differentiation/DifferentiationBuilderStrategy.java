@@ -2,7 +2,6 @@ package com.tregouet.occam.alg.builders.representations.descriptions.differentia
 
 public enum DifferentiationBuilderStrategy {
 
-	MUTE_REDUNDANCIES_THEN_WEIGHT,
-	USELESS
+	MUTE_REDUNDANCIES_THEN_WEIGHT
 
 }

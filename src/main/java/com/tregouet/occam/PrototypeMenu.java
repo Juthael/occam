@@ -20,9 +20,9 @@ import com.tregouet.occam.data.modules.sorting.impl.Sorter;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
-import com.tregouet.occam.io.output.html.models.CategorizerMenuPrinter;
-import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
-import com.tregouet.occam.io.output.html.pages.SimilarityAssessorPagePrinter;
+import com.tregouet.occam.io.output.html.models.SorterMenuPrinter;
+import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
+import com.tregouet.occam.io.output.html.pages.ComparatorPagePrinter;
 
 public class PrototypeMenu {
 
@@ -38,7 +38,7 @@ public class PrototypeMenu {
 
 	private void categorizerMenu(ISorter sorter) {
 		try {
-			String htmlPage = CategorizerPagePrinter.INSTANCE.print(sorter);
+			String htmlPage = SorterPagePrinter.INSTANCE.print(sorter);
 			generate(htmlPage);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -244,7 +244,7 @@ public class PrototypeMenu {
 
 	private void mainMenu() {
 		try {
-			generate(CategorizerMenuPrinter.INSTANCE.get());
+			generate(SorterMenuPrinter.INSTANCE.get());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -342,7 +342,7 @@ public class PrototypeMenu {
 
 	private void similarityAssessorMenu(IComparator simAssessor) {
 		try {
-			String htmlPage = SimilarityAssessorPagePrinter.INSTANCE.print(simAssessor);
+			String htmlPage = ComparatorPagePrinter.INSTANCE.print(simAssessor);
 			generate(htmlPage);
 		} catch (IOException e) {
 			e.printStackTrace();

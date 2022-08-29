@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
-import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
+import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
 
 public class ContextPrinter {
 
 	public static final ContextPrinter INSTANCE = new ContextPrinter();
 	public static final String caption = "Context";
-	private static final String[] alinea = CategorizerPagePrinter.alinea;
+	private static final String[] alinea = SorterPagePrinter.alinea;
 	private static final String nL = System.lineSeparator();
 
 	private ContextPrinter() {

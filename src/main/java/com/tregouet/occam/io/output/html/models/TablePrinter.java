@@ -2,14 +2,14 @@ package com.tregouet.occam.io.output.html.models;
 
 import java.text.DecimalFormat;
 
-import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
+import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
 
 public class TablePrinter {
 
 	public static final TablePrinter INSTANCE = new TablePrinter();
 	private static final String nL = System.lineSeparator();
 	private static final DecimalFormat DF = new DecimalFormat("#.####");
-	private static final String[] alinea = CategorizerPagePrinter.alinea;
+	private static final String[] alinea = SorterPagePrinter.alinea;
 
 	private TablePrinter() {
 	}

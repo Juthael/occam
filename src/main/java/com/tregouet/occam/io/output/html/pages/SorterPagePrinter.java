@@ -12,9 +12,9 @@ import com.tregouet.occam.io.output.html.models.HeaderPrinter;
 import com.tregouet.occam.io.output.html.models.ProblemSpacePrinter;
 import com.tregouet.occam.io.output.html.models.RepresentationPrinter;
 
-public class CategorizerPagePrinter {
+public class SorterPagePrinter {
 
-	public static final CategorizerPagePrinter INSTANCE = new CategorizerPagePrinter();
+	public static final SorterPagePrinter INSTANCE = new SorterPagePrinter();
 	public static final String NL = System.lineSeparator();
 	public static final String[] alinea = new String[] {
 			"   ",
@@ -29,7 +29,7 @@ public class CategorizerPagePrinter {
 			"                              ",
 			"                                 "};
 
-	private CategorizerPagePrinter() {
+	private SorterPagePrinter() {
 	}
 
 	public String print(ISorter sorter) throws IOException {
@@ -54,12 +54,6 @@ public class CategorizerPagePrinter {
 						.append(alinea[3] + "</header>" + NL)
 						.append(ProblemSpacePrinter.INSTANCE.print(sorter, "problem_space", 3) + NL)
 					.append(alinea[2] + "</section>")
-					.append(alinea[2] + "<section>")
-						.append(alinea[3] + "<header>" + NL)
-							.append(alinea[4] + "<h3> Concept lattice </h3>")
-						.append(alinea[3] + "</header>" + NL)
-						.append(ConceptLatticePrinter.INSTANCE.print(sorter, "concept_lattice", 3) + NL)
-					.append(alinea[2] + "</section>")
 				.append(alinea[1] + "</section>" + NL)
 				.append(alinea[1] + "<hr>" + NL)
 				.append(alinea[1] + "<section>" + NL)
@@ -69,6 +63,13 @@ public class CategorizerPagePrinter {
 				.append(alinea[1] + "<hr>" + NL)
 					.append(RepresentationPrinter.INSTANCE.print(objects, sorter.getActiveRepresentation(), 2))
 				.append(alinea[1] + "</section>" + NL)
+				.append(alinea[1] + "<section>" + NL)
+					.append(alinea[2] + "<header>" + NL)
+						.append(alinea[3] + "<h2> CONCEPT LATTICE </h2>" + NL)
+					.append(alinea[2] + "</header>" + NL)
+				.append(alinea[1] + "<hr>" + NL)
+				.append(ConceptLatticePrinter.INSTANCE.print(sorter, "concept_lattice", 2) + NL)
+			.append(alinea[1] + "</section>" + NL)
 			.append(FootPrinter.INSTANCE.get());
 		return sB.toString();
 	}

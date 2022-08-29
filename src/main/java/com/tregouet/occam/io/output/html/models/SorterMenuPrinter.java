@@ -8,14 +8,14 @@ import java.nio.file.Paths;
 
 import com.google.common.base.Supplier;
 
-public class CategorizerMenuPrinter implements Supplier<String> {
+public class SorterMenuPrinter implements Supplier<String> {
 
-	public static final CategorizerMenuPrinter INSTANCE = new CategorizerMenuPrinter();
+	public static final SorterMenuPrinter INSTANCE = new SorterMenuPrinter();
 	private static final Path mainMenuPath = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io",
 			"output", "html", "files", "mainMenu.txt");
 	private static final String nL = System.lineSeparator();
 
-	private CategorizerMenuPrinter() {
+	private SorterMenuPrinter() {
 	}
 
 	@Override

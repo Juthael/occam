@@ -8,12 +8,12 @@ import com.tregouet.occam.data.structures.representations.classifications.concep
 import com.tregouet.occam.io.output.html.models.ContextPrinter;
 import com.tregouet.occam.io.output.html.models.FootPrinter;
 import com.tregouet.occam.io.output.html.models.HeaderPrinter;
-import com.tregouet.occam.io.output.html.models.RepresentationPrinterShort;
+import com.tregouet.occam.io.output.html.models.DescriptionPrinter;
 import com.tregouet.occam.io.output.html.models.TablePrinter;
 
-public class SimilarityAssessorPagePrinter {
+public class ComparatorPagePrinter {
 
-	public static final SimilarityAssessorPagePrinter INSTANCE = new SimilarityAssessorPagePrinter();
+	public static final ComparatorPagePrinter INSTANCE = new ComparatorPagePrinter();
 	public static final String NL = System.lineSeparator();
 	public static final String[] alinea = new String[] {
 			"   ",
@@ -28,7 +28,7 @@ public class SimilarityAssessorPagePrinter {
 			"                              ",
 			"                                 "};
 
-	private SimilarityAssessorPagePrinter() {
+	private ComparatorPagePrinter() {
 	}
 
 	public String print(IComparator comparator) throws IOException {
@@ -89,13 +89,15 @@ public class SimilarityAssessorPagePrinter {
 					.append(alinea[3] + "<header>" + NL)
 						.append(alinea[4] + "<h3> Representation of similarity </h3>" + NL)
 					.append(alinea[3] + "</header>" + NL)
-					.append(RepresentationPrinterShort.INSTANCE.print(objects, comparator.getActiveRepresentationOfSimilarity(), 3, "similarity"))
+					.append(DescriptionPrinter.INSTANCE
+							.print(objects, comparator.getActiveRepresentationOfSimilarity(), 3, "similarity", true, true))
 				.append(alinea[2] + "</section>" + NL)
 				.append(alinea[2] + "<section>" + NL)
 					.append(alinea[3] + "<header>" + NL)
 						.append(alinea[4] + "<h3> Representation of differences </h3>" + NL)
 					.append(alinea[3] + "</header>" + NL)
-				.append(RepresentationPrinterShort.INSTANCE.print(objects, comparator.getActiveRepresentationOfDifferences(), 3, "differences"))
+				.append(DescriptionPrinter.INSTANCE
+						.print(objects, comparator.getActiveRepresentationOfDifferences(), 3, "differences", true, true))
 				.append(alinea[2] + "</section>" + NL)
 			.append(alinea[1] + "</section>" + NL)
 		.append(FootPrinter.INSTANCE.get());

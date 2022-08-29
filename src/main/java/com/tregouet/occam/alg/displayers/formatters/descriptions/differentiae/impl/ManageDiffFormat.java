@@ -12,12 +12,12 @@ import com.tregouet.occam.data.structures.representations.descriptions.different
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.differentiations.IDifferentiationSet;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
 
-public class ManageFormat implements DifferentiaeFormatter {
+public class ManageDiffFormat implements DifferentiaeFormatter {
 
-	public static final ManageFormat INSTANCE = new ManageFormat();
+	public static final ManageDiffFormat INSTANCE = new ManageDiffFormat();
 	private static final MathContext mathContext = new MathContext(3);
 
-	private ManageFormat() {
+	private ManageDiffFormat() {
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class ManageFormat implements DifferentiaeFormatter {
 			properties = new ArrayList<>(differentiae.getProperties());
 			score = new String();
 			break;
-		case GREATEST_WEIGHT_SUM :
+		case OPTIMAL :
 			diffSet = differentiae.getDifferentiationSet();
 			if (diffSet == null) {
 				properties = new ArrayList<>(differentiae.getProperties());
@@ -42,16 +42,6 @@ public class ManageFormat implements DifferentiaeFormatter {
 				score = "weight : " + new BigDecimal(differentiae.weight()).round(mathContext).toString() + nL;
 			}
 			break;
-		case GREATEST_NB_OF_PROP :
-			diffSet = differentiae.getDifferentiationSet();
-			if (diffSet == null) {
-				properties = new ArrayList<>(differentiae.getProperties());
-			}
-			else {
-				properties = new ArrayList<>(
-						diffSet.getDifferentiationsGreatestNbOfProp().get(0).getProperties());
-				score = new String();
-			}
 		}
 		Iterator<IProperty> propIte = properties.iterator();
 		StringBuilder sBProp = new StringBuilder();

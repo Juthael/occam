@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.tregouet.occam.data.modules.comparison.IComparator;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
-import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
+import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
 
 public class SimilarityMetricsPrinter {
 
 	public static final SimilarityMetricsPrinter INSTANCE = new SimilarityMetricsPrinter();
 	public static final String nL = System.lineSeparator();
-	private static final String[] alinea = CategorizerPagePrinter.alinea;
+	private static final String[] alinea = SorterPagePrinter.alinea;
 
 	private SimilarityMetricsPrinter() {
 	}

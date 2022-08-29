@@ -1,5 +1,7 @@
 package com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.properties.impl;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -11,6 +13,7 @@ public class CurlyBracketsWithWeight implements PropertyLabeller {
 
 	public static final CurlyBracketsWithWeight INSTANCE = new CurlyBracketsWithWeight();
 	private static final String nL = System.lineSeparator();
+	private static final MathContext mathContext = new MathContext(3);
 
 	private CurlyBracketsWithWeight() {
 	}
@@ -28,7 +31,7 @@ public class CurlyBracketsWithWeight implements PropertyLabeller {
 		}
 		sB.append("}");
 		if (property.weight() != null) {
-			sB.append(", " + property.weight().toString());
+			sB.append(", " + new BigDecimal(property.weight()).round(mathContext).toString());
 		}
 		return sB.toString();
 	}

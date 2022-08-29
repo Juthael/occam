@@ -3,16 +3,15 @@ package com.tregouet.occam.io.output.html.models;
 import java.util.List;
 
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
-import com.tregouet.occam.alg.displayers.visualizers.descriptions.DescriptionFormat;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
-import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
+import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
 
 public class RepresentationPrinter {
 
 	public static final RepresentationPrinter INSTANCE = new RepresentationPrinter();
 	private static final String nL = System.lineSeparator();
-	private static final String[] alinea = CategorizerPagePrinter.alinea;
+	private static final String[] alinea = SorterPagePrinter.alinea;
 
 	private RepresentationPrinter() {
 	}
@@ -50,20 +49,8 @@ public class RepresentationPrinter {
 		return sB.toString();
 	}
 
-	private static String printDescription(IRepresentation representation, int a) {
-		String figureFullPath = VisualizersAbstractFactory.INSTANCE
-				.getDescriptionViz()
-				.setUp(representation.getClassification().mapConceptID2ExtentIDs(), DescriptionFormat.EXHAUSTIVE)
-				.apply(representation.getDescription(), "description");
-		StringBuilder sB = new StringBuilder();
-		sB.append(alinea[a] + "<section>" + nL)
-				.append(alinea[a + 1] + "<header>" + nL)
-					.append(alinea[a + 2] + "<h3> GENUS / DIFFERENTIAE DESCRIPTION </h3>" + nL)
-				.append(alinea[a + 1] + "</header>" + nL)
-				.append(FigurePrinter.INSTANCE.displayFigure(figureFullPath, a + 1, "Genus/Differentiae description")
-						+ nL)
-			.append(alinea[a] + "</section>" + nL);
-		return sB.toString();
+	private static String printDescription(List<IContextObject> context, IRepresentation representation, int a) {
+		return DescriptionPrinter.INSTANCE.print(context, representation, a, "description", true, true);
 	}
 
 	private static String printGeneratedFacts(IRepresentation representation, int a) {
@@ -77,7 +64,7 @@ public class RepresentationPrinter {
 				.append(alinea[a + 1] + "<header>" + nL)
 					.append(alinea[a + 2] + "<h3> <u> REPRESENTATION N." + Integer.toString(representation.iD()) + " </u> </h3>" + nL)
 				.append(alinea[a + 1] + "</header>" + nL)
-				.append(printDescription(representation, a + 2) + nL)
+				.append(printDescription(context, representation, a + 2) + nL)
 				.append(printAutomatonGraph(representation, a + 2) + nL)
 				.append(printGeneratedFacts(representation, a + 2) + nL)
 				.append(printClassificationTree(representation, a + 2) + nL)

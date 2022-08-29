@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
+import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
 
 public class MenuPrinter {
 
@@ -21,7 +21,7 @@ public class MenuPrinter {
 	private static final Path startPageMenu = Paths.get(".", "src", "main", "java", "com", "tregouet", "occam", "io",
 			"output", "html", "files", "startPageMenu.txt");
 	private static final String nL = System.lineSeparator();
-	private static final String[] alinea = CategorizerPagePrinter.alinea;
+	private static final String[] alinea = SorterPagePrinter.alinea;
 
 	private MenuPrinter() {
 	}

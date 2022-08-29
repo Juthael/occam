@@ -8,13 +8,13 @@ import java.util.TreeSet;
 
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
-import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
+import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
 
 public class FactPrinter {
 
 	public static final FactPrinter INSTANCE = new FactPrinter();
 	private static final String nL = System.lineSeparator();
-	private static final String[] alinea = CategorizerPagePrinter.alinea;
+	private static final String[] alinea = SorterPagePrinter.alinea;
 
 	private FactPrinter() {
 	}

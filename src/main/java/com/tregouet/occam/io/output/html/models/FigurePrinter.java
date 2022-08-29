@@ -1,12 +1,12 @@
 package com.tregouet.occam.io.output.html.models;
 
-import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
+import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
 
 public class FigurePrinter {
 
 	public static final FigurePrinter INSTANCE = new FigurePrinter();
 	public static final String NL = System.lineSeparator();
-	private static final String[] alinea = CategorizerPagePrinter.alinea;
+	private static final String[] alinea = SorterPagePrinter.alinea;
 
 	private FigurePrinter() {
 	}

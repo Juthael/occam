@@ -2,13 +2,13 @@ package com.tregouet.occam.io.output.html.models;
 
 import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.modules.sorting.ISorter;
-import com.tregouet.occam.io.output.html.pages.CategorizerPagePrinter;
+import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
 
 public class ConceptLatticePrinter {
 
 	public static final ConceptLatticePrinter INSTANCE = new ConceptLatticePrinter();
 	public static final String nL = System.lineSeparator();
-	private static final String[] alinea = CategorizerPagePrinter.alinea;
+	private static final String[] alinea = SorterPagePrinter.alinea;
 
 	private ConceptLatticePrinter() {
 	}

@@ -32,8 +32,11 @@ public class HeuristicOrderOverProperties implements DifferentiationSetBuilder {
 				comparison = betterIfHeavier(o1, o2);
 				if (comparison == 0) {
 					comparison = betterIfInstantiatesLessVariables(o1, o2);
-					if (comparison == 0)
-						return System.identityHashCode(o1) - System.identityHashCode(o2);
+					if (comparison == 0) {
+						comparison = betterIfInstantiatedVarsLexicographicallySmaller(o1, o2);
+						if (comparison == 0) //never happens
+							return System.identityHashCode(o1) - System.identityHashCode(o2);
+					}
 				}
 			}
 			return comparison;
@@ -54,6 +57,12 @@ public class HeuristicOrderOverProperties implements DifferentiationSetBuilder {
 		private static int betterIfLessSignificantComputations(IProperty o1, IProperty o2) {
 			return o1.getNbOfSignificantComputations() - o2.getNbOfSignificantComputations();
 		}
+		
+		private static int betterIfInstantiatedVarsLexicographicallySmaller(IProperty o1, IProperty o2) {
+			String o1Bindings = toString(o1.getFunction().getVariables());
+			String o2Bindings = toString(o2.getFunction().getVariables());
+			return o1Bindings.compareTo(o2Bindings);
+		}
 
 		private static int nbOfVarInstantiated(IProperty p) {
 			Set<AVariable> variables = new HashSet<>();
@@ -61,6 +70,15 @@ public class HeuristicOrderOverProperties implements DifferentiationSetBuilder {
 			for (IComputation computation : p.getComputations())
 				variables.removeAll(computation.getOutput().getVariables());
 			return variables.size();
+		}
+		
+		private static String toString(List<AVariable> vars) {
+			if (vars.size() == 1)
+				return vars.get(0).toString();
+			String varString = new String();
+			for (AVariable var : vars)
+				varString.concat(var.toString());
+			return varString;
 		}
 
 	}

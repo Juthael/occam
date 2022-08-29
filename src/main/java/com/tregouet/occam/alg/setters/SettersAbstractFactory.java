@@ -1,8 +1,5 @@
 package com.tregouet.occam.alg.setters;
 
-import com.tregouet.occam.alg.setters.coeff.differentiae.DifferentiaeCoeffSetter;
-import com.tregouet.occam.alg.setters.coeff.differentiae.DifferentiaeCoeffSetterFactory;
-import com.tregouet.occam.alg.setters.coeff.differentiae.DifferentiaeCoeffSetterStrategy;
 import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetter;
 import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetterFactory;
 import com.tregouet.occam.alg.setters.salience.ProductionSalienceSetterStrategy;
@@ -12,6 +9,9 @@ import com.tregouet.occam.alg.setters.weights.categorization_transitions.Problem
 import com.tregouet.occam.alg.setters.weights.differentiae.DifferentiaeWeigher;
 import com.tregouet.occam.alg.setters.weights.differentiae.DifferentiaeWeigherFactory;
 import com.tregouet.occam.alg.setters.weights.differentiae.DifferentiaeWeigherStrategy;
+import com.tregouet.occam.alg.setters.weights.differentiae.coeff.DifferentiaeCoeffSetter;
+import com.tregouet.occam.alg.setters.weights.differentiae.coeff.DifferentiaeCoeffSetterFactory;
+import com.tregouet.occam.alg.setters.weights.differentiae.coeff.DifferentiaeCoeffSetterStrategy;
 import com.tregouet.occam.alg.setters.weights.partitions.PartitionWeigher;
 import com.tregouet.occam.alg.setters.weights.partitions.PartitionWeigherFactory;
 import com.tregouet.occam.alg.setters.weights.partitions.PartitionWeigherStrategy;

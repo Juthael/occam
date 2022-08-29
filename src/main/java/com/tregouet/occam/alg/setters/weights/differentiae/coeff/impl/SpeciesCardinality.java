@@ -1,9 +1,9 @@
-package com.tregouet.occam.alg.setters.coeff.differentiae.impl;
+package com.tregouet.occam.alg.setters.weights.differentiae.coeff.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.tregouet.occam.alg.setters.coeff.differentiae.DifferentiaeCoeffSetter;
+import com.tregouet.occam.alg.setters.weights.differentiae.coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IComplementaryConcept;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;

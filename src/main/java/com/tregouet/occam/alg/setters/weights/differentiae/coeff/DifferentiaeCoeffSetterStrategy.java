@@ -1,4 +1,4 @@
-package com.tregouet.occam.alg.setters.coeff.differentiae;
+package com.tregouet.occam.alg.setters.weights.differentiae.coeff;
 
 public enum DifferentiaeCoeffSetterStrategy {
 

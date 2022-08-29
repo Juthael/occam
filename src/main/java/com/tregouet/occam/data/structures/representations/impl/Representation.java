@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
-import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
+import com.tregouet.occam.data.modules.sorting.transitions.partitions.IPartition;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;

@@ -8,7 +8,7 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import com.tregouet.occam.alg.scorers.categorizations.ProblemStateScorer;
-import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.sorting.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 
 public class MarkhovProcess implements ProblemStateScorer {

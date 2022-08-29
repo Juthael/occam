@@ -1,6 +1,6 @@
-package com.tregouet.occam.alg.setters.coeff.differentiae.impl;
+package com.tregouet.occam.alg.setters.weights.differentiae.coeff.impl;
 
-import com.tregouet.occam.alg.setters.coeff.differentiae.DifferentiaeCoeffSetter;
+import com.tregouet.occam.alg.setters.weights.differentiae.coeff.DifferentiaeCoeffSetter;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;

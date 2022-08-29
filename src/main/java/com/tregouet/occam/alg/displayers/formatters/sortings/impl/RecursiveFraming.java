@@ -7,7 +7,7 @@ import java.util.Map;
 import org.jgrapht.Graphs;
 
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
-import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
+import com.tregouet.occam.data.modules.sorting.transitions.partitions.IPartition;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.tree_finder.data.Tree;
 

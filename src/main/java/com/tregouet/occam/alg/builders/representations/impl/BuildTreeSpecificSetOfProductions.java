@@ -3,7 +3,7 @@ package com.tregouet.occam.alg.builders.representations.impl;
 import java.util.Set;
 
 import com.tregouet.occam.alg.builders.representations.RepresentationBuilder;
-import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
+import com.tregouet.occam.data.modules.sorting.transitions.partitions.IPartition;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 import com.tregouet.occam.data.structures.representations.descriptions.IDescription;

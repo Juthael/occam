@@ -14,7 +14,7 @@ import com.tregouet.occam.alg.builders.categorizer.ProblemSpaceExplorer;
 import com.tregouet.occam.alg.builders.representations.RepresentationBuilder;
 import com.tregouet.occam.alg.scorers.categorizations.ProblemStateScorer;
 import com.tregouet.occam.alg.setters.weights.categorization_transitions.ProblemTransitionWeigher;
-import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.sorting.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;

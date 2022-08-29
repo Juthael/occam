@@ -9,7 +9,7 @@ import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.alg.displayers.formatters.sortings.Sorting2StringConverter;
 import com.tregouet.occam.alg.setters.SettersAbstractFactory;
 import com.tregouet.occam.alg.setters.weights.partitions.PartitionWeigher;
-import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
+import com.tregouet.occam.data.modules.sorting.transitions.partitions.IPartition;
 import com.tregouet.occam.data.structures.representations.classifications.IClassification;
 import com.tregouet.occam.data.structures.representations.descriptions.IDescription;
 

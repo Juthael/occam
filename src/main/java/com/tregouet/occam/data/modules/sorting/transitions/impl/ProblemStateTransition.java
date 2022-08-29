@@ -1,9 +1,9 @@
-package com.tregouet.occam.data.modules.categorization.transitions.impl;
+package com.tregouet.occam.data.modules.sorting.transitions.impl;
 
 import java.util.Set;
 
-import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
-import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
+import com.tregouet.occam.data.modules.sorting.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.sorting.transitions.partitions.IPartition;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 
 public class ProblemStateTransition extends AProblemStateTransition {

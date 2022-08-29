@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.modules.categorization.transitions.partitions;
+package com.tregouet.occam.data.modules.sorting.transitions.partitions;
 
 import java.util.List;
 import java.util.Map;

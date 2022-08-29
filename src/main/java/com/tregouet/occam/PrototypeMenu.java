@@ -13,10 +13,10 @@ import java.util.Scanner;
 import java.util.Set;
 
 import com.google.common.base.Splitter;
-import com.tregouet.occam.data.modules.categorization.ICategorizer;
-import com.tregouet.occam.data.modules.categorization.impl.Categorizer;
 import com.tregouet.occam.data.modules.comparison.IComparator;
 import com.tregouet.occam.data.modules.comparison.impl.Comparator;
+import com.tregouet.occam.data.modules.sorting.ISorter;
+import com.tregouet.occam.data.modules.sorting.impl.Sorter;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
@@ -36,9 +36,9 @@ public class PrototypeMenu {
 		welcome();
 	}
 
-	private void categorizerMenu(ICategorizer categorizer) {
+	private void categorizerMenu(ISorter sorter) {
 		try {
-			String htmlPage = CategorizerPagePrinter.INSTANCE.print(categorizer);
+			String htmlPage = CategorizerPagePrinter.INSTANCE.print(sorter);
 			generate(htmlPage);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -58,23 +58,23 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		}
 		switch (choice) {
 		case 1:
-			displayRepresentation(categorizer);
+			displayRepresentation(sorter);
 			break;
 		case 2:
-			developRepresentationWithSpecifiedID(categorizer);
+			developRepresentationWithSpecifiedID(sorter);
 			break;
 		case 3:
-			developRepresentationWithSpecifiedIDs(categorizer);
+			developRepresentationWithSpecifiedIDs(sorter);
 			break;
 		case 4 :
-			developRepresentation(categorizer);
+			developRepresentation(sorter);
 			break;
 		case 5 :
-			restrictProblemSpace(categorizer);
+			restrictProblemSpace(sorter);
 			break;
 		case 6:
 			mainMenu();
@@ -86,12 +86,12 @@ public class PrototypeMenu {
 		}
 	}
 
-	private void developRepresentation(ICategorizer categorizer) {
-		categorizer.develop();
-		categorizerMenu(categorizer);
+	private void developRepresentation(ISorter sorter) {
+		sorter.develop();
+		categorizerMenu(sorter);
 	}
 
-	private void developRepresentationWithSpecifiedID(ICategorizer categorizer) {
+	private void developRepresentationWithSpecifiedID(ISorter sorter) {
 		System.out.println(NL);
 		System.out.println("Please enter a representation ID : " + NL);
 		Integer iD = null;
@@ -100,20 +100,20 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		}
-		Boolean result = categorizer.develop(iD);
+		Boolean result = sorter.develop(iD);
 		if (result == null) {
 			System.out.println("No representation has this ID. " + NL);
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		} else {
 			if (!result)
 				System.out.println("This representation is fully developed already. " + NL);
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		}
 	}
 
-	private void developRepresentationWithSpecifiedIDs(ICategorizer categorizer) {
+	private void developRepresentationWithSpecifiedIDs(ISorter sorter) {
 		System.out.println(NL);
 		System.out.println("Please enter representation IDs separated by commas : " + NL);
 		List<Integer> iDs = new ArrayList<>();
@@ -122,7 +122,7 @@ public class PrototypeMenu {
 			iDString = entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		}
 		iDString = iDString.replaceAll(" ", "");
 		String[] idStringArray = iDString.split(",");
@@ -139,16 +139,16 @@ public class PrototypeMenu {
 		}
 		if (iDs.isEmpty()) {
 			System.out.println("No representation has been found. " + NL);
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		}
-		Boolean result = categorizer.develop(iDs);
+		Boolean result = sorter.develop(iDs);
 		if (result == null) {
 			System.out.println("No representation has been found. " + NL);
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		} else {
 			if (!result)
 				System.out.println("The specified representations are fully developed already. " + NL);
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		}
 	}
 
@@ -184,7 +184,7 @@ public class PrototypeMenu {
 		}
 	}
 
-	private void displayRepresentation(ICategorizer categorizer) {
+	private void displayRepresentation(ISorter sorter) {
 		System.out.println(NL);
 		System.out.println("Please enter a representation ID : " + NL);
 		Integer iD = null;
@@ -193,16 +193,16 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		}
-		Boolean result = categorizer.display(iD);
+		Boolean result = sorter.display(iD);
 		if (result == null) {
 			System.out.println("No representation has this ID. " + NL);
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		} else {
 			if (!result)
 				System.out.println("This representation is already displayed. " + NL);
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		}
 	}
 
@@ -280,7 +280,7 @@ public class PrototypeMenu {
 		}
 	}
 
-	private void restrictProblemSpace(ICategorizer categorizer) {
+	private void restrictProblemSpace(ISorter sorter) {
 		System.out.println(NL);
 		System.out.println("Please enter IDs of representations to retain, separated by commas.");
 		String entryString = null;
@@ -289,7 +289,7 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		}
 		Set<Integer> iDs = new HashSet<>();
 		entryString = entryString.replaceAll(" ", "");
@@ -301,18 +301,18 @@ public class PrototypeMenu {
 			}
 			catch (NumberFormatException e) {
 				System.out.println("Entry is invalid");
-				categorizerMenu(categorizer);
+				categorizerMenu(sorter);
 			}
 			iDs.add(iD);
 		}
-		Boolean result = categorizer.restrictTo(iDs);
+		Boolean result = sorter.restrictTo(iDs);
 		if (result == null) {
 			System.out.println("Some ID is missing in the problem space graph. " + NL);
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		} else {
 			if (!result)
 				System.out.println("The specified set is not a restriction." + NL);
-			categorizerMenu(categorizer);
+			categorizerMenu(sorter);
 		}
 	}
 
@@ -326,8 +326,8 @@ public class PrototypeMenu {
 		entry.nextLine();
 		switch (choice) {
 		case 1:
-			ICategorizer categorizer = new Categorizer().process(objects);
-			categorizerMenu(categorizer);
+			ISorter sorter = new Sorter().process(objects);
+			categorizerMenu(sorter);
 			break;
 		case 2:
 			IComparator simAssessor = new Comparator().process(objects);

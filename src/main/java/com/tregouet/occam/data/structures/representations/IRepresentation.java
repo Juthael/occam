@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
-import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
+import com.tregouet.occam.data.modules.sorting.transitions.partitions.IPartition;
 import com.tregouet.occam.data.structures.automata.IPushdownAutomaton;
 import com.tregouet.occam.data.structures.lambda_terms.IBindings;
 import com.tregouet.occam.data.structures.partial_order.PartiallyComparable;

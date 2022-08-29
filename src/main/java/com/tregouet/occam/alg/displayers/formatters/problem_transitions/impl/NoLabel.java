@@ -1,7 +1,7 @@
 package com.tregouet.occam.alg.displayers.formatters.problem_transitions.impl;
 
 import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemTransitionLabeller;
-import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.sorting.transitions.AProblemStateTransition;
 
 public class NoLabel implements ProblemTransitionLabeller {
 

@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.modules.categorization;
+package com.tregouet.occam.data.modules.sorting;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,11 +9,11 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.categorizer.ProblemSpaceExplorer;
 import com.tregouet.occam.data.modules.IModule;
-import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.sorting.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 
-public interface ICategorizer extends IModule {
+public interface ISorter extends IModule {
 
 	Boolean develop();
 
@@ -43,7 +43,7 @@ public interface ICategorizer extends IModule {
 	DirectedAcyclicGraph<IRepresentation, AProblemStateTransition> getProblemSpaceGraph();
 
 	@Override
-	ICategorizer process(Collection<IContextObject> context);
+	ISorter process(Collection<IContextObject> context);
 	Boolean restrictTo(Set<Integer> representationIDs);
 
 	public static ProblemSpaceExplorer problemSpaceExplorer() {

@@ -1,4 +1,4 @@
-package com.tregouet.occam.data.modules.categorization.impl;
+package com.tregouet.occam.data.modules.sorting.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,20 +10,20 @@ import java.util.Set;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.categorizer.ProblemSpaceExplorer;
-import com.tregouet.occam.data.modules.categorization.ICategorizer;
-import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.sorting.ISorter;
+import com.tregouet.occam.data.modules.sorting.transitions.AProblemStateTransition;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IConcept;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IIsA;
 
-public class Categorizer implements ICategorizer {
+public class Sorter implements ISorter {
 
 	private List<IContextObject> context = null;
 	private ProblemSpaceExplorer problemSpaceExplorer = null;
 	private IRepresentation activeState = null;
 
-	public Categorizer() {
+	public Sorter() {
 	}
 
 	@Override
@@ -86,10 +86,10 @@ public class Categorizer implements ICategorizer {
 	}
 
 	@Override
-	public ICategorizer process(Collection<IContextObject> context) {
+	public ISorter process(Collection<IContextObject> context) {
 		this.context = new ArrayList<>(context);
 		this.context.sort((x, y) -> Integer.compare(x.iD(), y.iD()));
-		problemSpaceExplorer = ICategorizer.problemSpaceExplorer().initialize(this.context);
+		problemSpaceExplorer = ISorter.problemSpaceExplorer().initialize(this.context);
 		return this;
 	}
 

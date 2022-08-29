@@ -11,8 +11,8 @@ import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.google.common.collect.Sets;
 import com.tregouet.occam.alg.builders.categorizer.graph_updater.restrictor.ProblemSpaceGraphRestrictor;
-import com.tregouet.occam.data.modules.categorization.transitions.AProblemStateTransition;
-import com.tregouet.occam.data.modules.categorization.transitions.impl.ProblemStateTransition;
+import com.tregouet.occam.data.modules.sorting.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.sorting.transitions.impl.ProblemStateTransition;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 
 public class BuildNewGraph implements ProblemSpaceGraphRestrictor {

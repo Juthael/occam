@@ -1,11 +1,11 @@
-package com.tregouet.occam.data.modules.categorization.transitions;
+package com.tregouet.occam.data.modules.sorting.transitions;
 
 import java.util.Set;
 
 import org.jgrapht.graph.DefaultEdge;
 
 import com.tregouet.occam.alg.setters.weights.Weighed;
-import com.tregouet.occam.data.modules.categorization.transitions.partitions.IPartition;
+import com.tregouet.occam.data.modules.sorting.transitions.partitions.IPartition;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
 
 public abstract class AProblemStateTransition extends DefaultEdge implements Weighed {

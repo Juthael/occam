@@ -26,21 +26,23 @@ public class Comparator implements IComparator {
 	private ISimilarityMetrics similarityMetrics = null;
 	private IRepresentation activeRepOfSimilarity = null;
 	private IRepresentation activeRepOfDifferences = null;
+	private UnorderedPair<Integer, Integer> comparedPair = null;
 
 	public Comparator() {
 	}
 
 	@Override
 	public Boolean display(int particularID1, int particularID2) {
-		UnorderedPair<Integer, Integer> pair = UnorderedPair.of(particularID1, particularID2);
-		IRepresentation dichotomy = dichotomies.get(pair);
-		IRepresentation diff = differences.get(pair);
+		UnorderedPair<Integer, Integer> comparedPair = UnorderedPair.of(particularID1, particularID2);
+		IRepresentation dichotomy = dichotomies.get(comparedPair);
+		IRepresentation diff = differences.get(comparedPair);
 		if (dichotomy == null || diff == null)
 			return null;
 		if (dichotomy.equals(activeRepOfSimilarity))
 			return false;
 		activeRepOfSimilarity = dichotomy;
 		activeRepOfDifferences = diff;
+		this.comparedPair = comparedPair;
 		return true;
 	}
 
@@ -115,6 +117,11 @@ public class Comparator implements IComparator {
 		this.differences = setter.getDifferences();
 		this.similarityMetrics = setter.getSimilarityMetrics();
 		return this;
+	}
+
+	@Override
+	public UnorderedPair<Integer, Integer> getComparedPair() {
+		return comparedPair;
 	}
 
 }

@@ -3,6 +3,8 @@ package com.tregouet.occam.data.modules.comparison;
 import java.util.Collection;
 import java.util.List;
 
+import org.jgrapht.alg.util.UnorderedPair;
+
 import com.tregouet.occam.alg.builders.BuildersAbstractFactory;
 import com.tregouet.occam.alg.builders.comparator.ComparatorSetter;
 import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
@@ -40,6 +42,8 @@ public interface IComparator extends IModule {
 
 	@Override
 	IComparator process(Collection<IContextObject> context);
+	
+	UnorderedPair<Integer, Integer> getComparedPair();
 
 	public static ComparatorSetter comparatorSetter() {
 		return BuildersAbstractFactory.INSTANCE.getComparatorSetter();

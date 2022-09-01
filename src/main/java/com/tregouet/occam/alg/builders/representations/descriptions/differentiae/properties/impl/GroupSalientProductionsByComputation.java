@@ -38,10 +38,8 @@ public class GroupSalientProductionsByComputation implements PropertyBuilder {
 		}
 		for (CompCluster cluster : compClusters) {
 			IProperty property = cluster.asProperty();
-			if (!property.isBlank()) {
-				propWeigher.accept(property);
-				properties.add(property);
-			}
+			propWeigher.accept(property);
+			properties.add(property);
 		}
 		return properties;
 	}

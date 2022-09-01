@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetector;
-import com.tregouet.occam.data.problem_space.states.productions.IContextualizedProduction;
-import com.tregouet.occam.data.problem_space.states.productions.IProduction;
+import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
+import com.tregouet.occam.data.structures.representations.productions.IProduction;
 
 public class VarInstantiationCompleteAndDistinctive implements RuleDetector {
 

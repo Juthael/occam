@@ -1,17 +1,23 @@
 package com.tregouet.occam.alg.displayers.formatters;
 
-import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabeller;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.DifferentiaeLabellerStrategy;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabeller;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.PropertyLabellerStrategy;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabeller;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabellerFactory;
-import com.tregouet.occam.alg.displayers.formatters.differentiae.properties.computations.ComputationLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.DifferentiaeFormatter;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.DifferentiaeFormatterFactory;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.DifferentiaeFormatterStrategy;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.properties.PropertyLabeller;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.properties.PropertyLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.properties.PropertyLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.properties.computations.ComputationLabeller;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.properties.computations.ComputationLabellerFactory;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.properties.computations.ComputationLabellerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.genus.GenusFormatter;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.genus.GenusFormatterFactory;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.genus.GenusFormatterStrategy;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerFactory;
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayerStrategy;
+import com.tregouet.occam.alg.displayers.formatters.matrices.MatrixFormatter;
+import com.tregouet.occam.alg.displayers.formatters.matrices.MatrixFormatterFactory;
+import com.tregouet.occam.alg.displayers.formatters.matrices.MatrixFormatterStrategy;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabeller;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabellerFactory;
 import com.tregouet.occam.alg.displayers.formatters.problem_states.ProblemStateLabellerStrategy;
@@ -40,11 +46,13 @@ public class FormattersAbstractFactory {
 	private TransitionFunctionLabellerStrategy transitionFunctionLabellerStrategy = null;
 	private ComputationLabellerStrategy computationLabellerStrategy = null;
 	private PropertyLabellerStrategy propertyLabellerStrategy = null;
-	private DifferentiaeLabellerStrategy differentiaeLabellerStrategy = null;
+	private GenusFormatterStrategy genusFormatterStrategy = null;
+	private DifferentiaeFormatterStrategy differentiaeFormatterStrategy = null;
 	private Sorting2StringConverterStrategy sorting2StringConverterStrategy = null;
 	private ProblemStateLabellerStrategy problemStateLabellerStrategy = null;
 	private ProblemTransitionLabellerStrategy problemTransitionLabellerStrategy = null;
 	private FactDisplayerStrategy factDisplayerStrategy = null;
+	private MatrixFormatterStrategy matrixFormatterStrategy = null;
 
 	private FormattersAbstractFactory() {
 	}
@@ -57,12 +65,20 @@ public class FormattersAbstractFactory {
 		return ComputationLabellerFactory.INSTANCE.apply(computationLabellerStrategy);
 	}
 
-	public DifferentiaeLabeller getDifferentiaeLabeller() {
-		return DifferentiaeLabellerFactory.INSTANCE.apply(differentiaeLabellerStrategy);
+	public DifferentiaeFormatter getDifferentiaeFormatter() {
+		return DifferentiaeFormatterFactory.INSTANCE.apply(differentiaeFormatterStrategy);
 	}
 
 	public FactDisplayer getFactDisplayer() {
 		return FactDisplayerFactory.INSTANCE.apply(factDisplayerStrategy);
+	}
+
+	public GenusFormatter getGenusFormatter() {
+		return GenusFormatterFactory.INSTANCE.apply(genusFormatterStrategy);
+	}
+
+	public MatrixFormatter getMatrixFormatter() {
+		return MatrixFormatterFactory.INSTANCE.apply(matrixFormatterStrategy);
 	}
 
 	public ProblemStateLabeller getProblemStateDisplayer() {
@@ -73,7 +89,7 @@ public class FormattersAbstractFactory {
 		return ProblemTransitionLabellerFactory.INSTANCE.apply(problemTransitionLabellerStrategy);
 	}
 
-	public PropertyLabeller getPropertyDisplayer() {
+	public PropertyLabeller getPropertyLabeller() {
 		return PropertyLabellerFactory.INSTANCE.apply(propertyLabellerStrategy);
 	}
 
@@ -97,11 +113,13 @@ public class FormattersAbstractFactory {
 			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.DISPLAY_ALL_TRANSITIONS;
 			computationLabellerStrategy = ComputationLabellerStrategy.CONJUNCTION;
 			propertyLabellerStrategy = PropertyLabellerStrategy.CURLY_BRACKETS_WITH_WEIGHT;
-			differentiaeLabellerStrategy = DifferentiaeLabellerStrategy.PROPERTIES_THEN_WEIGHT;
+			genusFormatterStrategy = GenusFormatterStrategy.ID_THEN_EXTENT;
+			differentiaeFormatterStrategy = DifferentiaeFormatterStrategy.MANAGE_DIFF_FORMAT;
 			sorting2StringConverterStrategy = Sorting2StringConverterStrategy.RECURSIVE_FRAMING;
 			problemStateLabellerStrategy = ProblemStateLabellerStrategy.AS_NESTED_FRAMES_WITH_SCORE;
 			problemTransitionLabellerStrategy = ProblemTransitionLabellerStrategy.WEIGHT;
 			factDisplayerStrategy = FactDisplayerStrategy.NON_TRIVIAL_MAXIMAL_FACTS;
+			matrixFormatterStrategy = MatrixFormatterStrategy.THREE_DECIMALS;
 			break;
 		default:
 			break;

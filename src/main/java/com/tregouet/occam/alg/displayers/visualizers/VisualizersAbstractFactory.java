@@ -45,7 +45,7 @@ public class VisualizersAbstractFactory {
 		switch (strategy) {
 		case VISUALIZATION_STRATEGY_1:
 			conceptGraphVizStrategy = ConceptGraphVizStrategy.BASIC;
-			descriptionVizStrategy = DescriptionVizStrategy.BASIC;
+			descriptionVizStrategy = DescriptionVizStrategy.DELEGATE_FORMAT_MANAGING;
 			problemSpaceVizStrategy = ProblemSpaceVizStrategy.BASIC;
 			transitionFunctionVizStrategy = TransitionFunctionVizStrategy.BASIC;
 			break;

@@ -10,11 +10,11 @@ import org.jgrapht.Graphs;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.displayers.formatters.transition_functions.TransitionFunctionLabeller;
-import com.tregouet.occam.data.problem_space.states.transitions.AConceptTransitionSet;
-import com.tregouet.occam.data.problem_space.states.transitions.IConceptTransition;
-import com.tregouet.occam.data.problem_space.states.transitions.IRepresentationTransitionFunction;
-import com.tregouet.occam.data.problem_space.states.transitions.TransitionType;
-import com.tregouet.occam.data.problem_space.states.transitions.impl.ConceptTransitionSet;
+import com.tregouet.occam.data.structures.representations.transitions.AConceptTransitionSet;
+import com.tregouet.occam.data.structures.representations.transitions.IConceptTransition;
+import com.tregouet.occam.data.structures.representations.transitions.IRepresentationTransitionFunction;
+import com.tregouet.occam.data.structures.representations.transitions.TransitionType;
+import com.tregouet.occam.data.structures.representations.transitions.impl.ConceptTransitionSet;
 
 public abstract class AbstractTFLabeller implements TransitionFunctionLabeller {
 

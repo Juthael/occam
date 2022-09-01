@@ -8,8 +8,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import com.tregouet.occam.alg.displayers.formatters.facts.FactDisplayer;
-import com.tregouet.occam.data.problem_space.states.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
-import com.tregouet.occam.data.problem_space.states.evaluation.facts.IFact;
+import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.abstr_app.IAbstractionApplication;
+import com.tregouet.occam.data.structures.representations.evaluation.facts.IFact;
 
 public class NonTrivialMaximalFacts implements FactDisplayer {
 

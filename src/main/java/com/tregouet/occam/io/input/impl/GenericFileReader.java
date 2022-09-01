@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.tregouet.occam.data.logical_structures.languages.words.construct.IConstruct;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.impl.Particular;
+import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.impl.Particular;
 
 /**
  * @author Gael Tregouet

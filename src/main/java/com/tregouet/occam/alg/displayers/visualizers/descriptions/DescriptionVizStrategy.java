@@ -2,6 +2,6 @@ package com.tregouet.occam.alg.displayers.visualizers.descriptions;
 
 public enum DescriptionVizStrategy {
 
-	BASIC
+	DELEGATE_FORMAT_MANAGING
 
 }

@@ -1,71 +1,65 @@
 package com.tregouet.occam.alg.builders;
 
-import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorer;
-import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorerFactory;
-import com.tregouet.occam.alg.builders.pb_space.ProblemSpaceExplorerStrategy;
-import com.tregouet.occam.alg.builders.pb_space.classifications.ClassificationBuilder;
-import com.tregouet.occam.alg.builders.pb_space.classifications.ClassificationBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.classifications.ClassificationBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilder;
-import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.concept_lattices.ConceptLatticeBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.concept_lattices.denotations.DenotationBuilder;
-import com.tregouet.occam.alg.builders.pb_space.concept_lattices.denotations.DenotationBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.concept_lattices.denotations.DenotationBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrower;
-import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrowerFactory;
-import com.tregouet.occam.alg.builders.pb_space.concepts_trees.ConceptTreeGrowerStrategy;
-import com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.ProblemSpaceGraphExpander;
-import com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.ProblemSpaceGraphExpanderFactory;
-import com.tregouet.occam.alg.builders.pb_space.graph_updater.expander.ProblemSpaceGraphExpanderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictor;
-import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictorFactory;
-import com.tregouet.occam.alg.builders.pb_space.graph_updater.restrictor.ProblemSpaceGraphRestrictorStrategy;
-import com.tregouet.occam.alg.builders.pb_space.metrics.SimilarityMetricsBuilder;
-import com.tregouet.occam.alg.builders.pb_space.metrics.SimilarityMetricsBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.metrics.SimilarityMetricsBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilder;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.asymetrical_sim.AsymmetricalSimilarityMatrixBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.difference.DifferenceMatrixBuilder;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.difference.DifferenceMatrixBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.difference.DifferenceMatrixBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.symmetrical_sim.SimilarityMatrixBuilder;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.symmetrical_sim.SimilarityMatrixBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.symmetrical_sim.SimilarityMatrixBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.typicality.TypicalityVectorBuilder;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.typicality.TypicalityVectorBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.metrics.matrices.typicality.TypicalityVectorBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.RepresentationBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.DescriptionBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.DifferentiaeBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.DifferentiaeBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.DifferentiaeBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.PropertyBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.PropertyBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.differentiae.properties.PropertyBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.RelativeSimilarityMetricsBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.RelativeSimilarityMetricsBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.descriptions.metrics.RelativeSimilarityMetricsBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.PartitionBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.partitions.graphs.PartitionGraphBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.ProductionSetBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.ProductionSetBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.ProductionSetBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.ProductionBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.ProductionBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.production_sets.productions.ProductionBuilderStrategy;
-import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilder;
-import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilderFactory;
-import com.tregouet.occam.alg.builders.pb_space.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
+import com.tregouet.occam.alg.builders.categorizer.ProblemSpaceExplorer;
+import com.tregouet.occam.alg.builders.categorizer.ProblemSpaceExplorerFactory;
+import com.tregouet.occam.alg.builders.categorizer.ProblemSpaceExplorerStrategy;
+import com.tregouet.occam.alg.builders.categorizer.graph_updater.expander.ProblemSpaceGraphExpander;
+import com.tregouet.occam.alg.builders.categorizer.graph_updater.expander.ProblemSpaceGraphExpanderFactory;
+import com.tregouet.occam.alg.builders.categorizer.graph_updater.expander.ProblemSpaceGraphExpanderStrategy;
+import com.tregouet.occam.alg.builders.categorizer.graph_updater.restrictor.ProblemSpaceGraphRestrictor;
+import com.tregouet.occam.alg.builders.categorizer.graph_updater.restrictor.ProblemSpaceGraphRestrictorFactory;
+import com.tregouet.occam.alg.builders.categorizer.graph_updater.restrictor.ProblemSpaceGraphRestrictorStrategy;
+import com.tregouet.occam.alg.builders.classifications.ClassificationBuilder;
+import com.tregouet.occam.alg.builders.classifications.ClassificationBuilderFactory;
+import com.tregouet.occam.alg.builders.classifications.ClassificationBuilderStrategy;
+import com.tregouet.occam.alg.builders.comparator.ComparatorSetter;
+import com.tregouet.occam.alg.builders.comparator.ComparatorSetterFactory;
+import com.tregouet.occam.alg.builders.comparator.ComparatorSetterStrategy;
+import com.tregouet.occam.alg.builders.comparator.metrics.SimilarityMetricsBuilder;
+import com.tregouet.occam.alg.builders.comparator.metrics.SimilarityMetricsBuilderFactory;
+import com.tregouet.occam.alg.builders.comparator.metrics.SimilarityMetricsBuilderStrategy;
+import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilder;
+import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilderFactory;
+import com.tregouet.occam.alg.builders.concept_lattices.ConceptLatticeBuilderStrategy;
+import com.tregouet.occam.alg.builders.concept_lattices.denotations.DenotationBuilder;
+import com.tregouet.occam.alg.builders.concept_lattices.denotations.DenotationBuilderFactory;
+import com.tregouet.occam.alg.builders.concept_lattices.denotations.DenotationBuilderStrategy;
+import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrower;
+import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrowerFactory;
+import com.tregouet.occam.alg.builders.concepts_trees.ConceptTreeGrowerStrategy;
+import com.tregouet.occam.alg.builders.representations.RepresentationBuilder;
+import com.tregouet.occam.alg.builders.representations.RepresentationBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.RepresentationBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.DescriptionBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.DifferentiaeBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.DifferentiationSetBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.DifferentiationSetBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.DifferentiationSetBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.differentiation.DifferentiationBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.differentiation.DifferentiationBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.differentiations.differentiation.DifferentiationBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilder;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.descriptions.differentiae.properties.PropertyBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilder;
+import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.partitions.PartitionBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.partitions.graphs.PartitionGraphBuilder;
+import com.tregouet.occam.alg.builders.representations.partitions.graphs.PartitionGraphBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.partitions.graphs.PartitionGraphBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.production_sets.ProductionSetBuilder;
+import com.tregouet.occam.alg.builders.representations.production_sets.ProductionSetBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.production_sets.ProductionSetBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.production_sets.productions.ProductionBuilder;
+import com.tregouet.occam.alg.builders.representations.production_sets.productions.ProductionBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.production_sets.productions.ProductionBuilderStrategy;
+import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilder;
+import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderFactory;
+import com.tregouet.occam.alg.builders.representations.transition_functions.RepresentationTransFuncBuilderStrategy;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetector;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetectorFactory;
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetectorStrategy;
@@ -83,30 +77,28 @@ public class BuildersAbstractFactory {
 	private ProductionSetBuilderStrategy productionSetBuilderStrategy = null;
 	private RepresentationTransFuncBuilderStrategy representationTransFuncBuilderStrategy = null;
 	private PropertyBuilderStrategy propertyBuilderStrategy = null;
+	private DifferentiationBuilderStrategy differentiationBuilderStrategy = null;
+	private DifferentiationSetBuilderStrategy differentiationSetBuilderStrategy = null;
 	private DifferentiaeBuilderStrategy differentiaeBuilderStrategy = null;
 	private DescriptionBuilderStrategy descriptionBuilderStrategy = null;
 	private PartitionGraphBuilderStrategy partitionGraphBuilderStrategy = null;
 	private PartitionBuilderStrategy partitionBuilderStrategy = null;
 	private RepresentationBuilderStrategy representationBuilderStrategy = null;
-	private RelativeSimilarityMetricsBuilderStrategy relativeSimilarityMetricsBuilderStrategy = null;
 	private ProblemSpaceGraphExpanderStrategy problemSpaceGraphExpanderStrategy = null;
 	private ProblemSpaceGraphRestrictorStrategy problemSpaceGraphRestrictorStrategy = null;
-	private SimilarityMatrixBuilderStrategy similarityMatrixBuilderStrategy = null;
-	private AsymmetricalSimilarityMatrixBuilderStrategy asymmetricalSimilarityMatrixBuilderStrategy = null;
-	private DifferenceMatrixBuilderStrategy differenceMatrixBuilderStrategy = null;
-	private TypicalityVectorBuilderStrategy typicalityVectorBuilderStrategy = null;
 	private SimilarityMetricsBuilderStrategy similarityMetricsBuilderStrategy = null;
+	private ComparatorSetterStrategy comparatorSetterStrategy = null;
 	private ProblemSpaceExplorerStrategy problemSpaceExplorerStrategy = null;
 
 	private BuildersAbstractFactory() {
 	}
 
-	public AsymmetricalSimilarityMatrixBuilder getAsymmetricalSimilarityMatrixBuilder() {
-		return AsymmetricalSimilarityMatrixBuilderFactory.INSTANCE.apply(asymmetricalSimilarityMatrixBuilderStrategy);
-	}
-
 	public ClassificationBuilder getClassificationBuilder() {
 		return ClassificationBuilderFactory.INSTANCE.apply(classificationBuilderStrategy);
+	}
+
+	public ComparatorSetter getComparatorSetter() {
+		return ComparatorSetterFactory.INSTANCE.apply(comparatorSetterStrategy);
 	}
 
 	public ConceptLatticeBuilder getConceptLatticeBuilder() {
@@ -125,12 +117,16 @@ public class BuildersAbstractFactory {
 		return DescriptionBuilderFactory.INSTANCE.apply(descriptionBuilderStrategy);
 	}
 
-	public DifferenceMatrixBuilder getDifferenceMatrixBuilder() {
-		return DifferenceMatrixBuilderFactory.INSTANCE.apply(differenceMatrixBuilderStrategy);
-	}
-
 	public DifferentiaeBuilder getDifferentiaeBuilder() {
 		return DifferentiaeBuilderFactory.INSTANCE.apply(differentiaeBuilderStrategy);
+	}
+
+	public DifferentiationBuilder getDifferentiationBuilder() {
+		return DifferentiationBuilderFactory.INSTANCE.apply(differentiationBuilderStrategy);
+	}
+
+	public DifferentiationSetBuilder getDifferentiationSetBuilder() {
+		return DifferentiationSetBuilderFactory.INSTANCE.apply(differentiationSetBuilderStrategy);
 	}
 
 	public PartitionBuilder getPartitionBuilder() {
@@ -165,10 +161,6 @@ public class BuildersAbstractFactory {
 		return PropertyBuilderFactory.INSTANCE.apply(propertyBuilderStrategy);
 	}
 
-	public RelativeSimilarityMetricsBuilder getRelativeSimilarityMetricsBuilder() {
-		return RelativeSimilarityMetricsBuilderFactory.INSTANCE.apply(relativeSimilarityMetricsBuilderStrategy);
-	}
-
 	public RepresentationBuilder getRepresentationBuilder() {
 		return RepresentationBuilderFactory.INSTANCE.apply(representationBuilderStrategy);
 	}
@@ -181,16 +173,8 @@ public class BuildersAbstractFactory {
 		return RuleDetectorFactory.INSTANCE.apply(ruleDetectorStrategy);
 	}
 
-	public SimilarityMatrixBuilder getSimilarityMatrixBuilder() {
-		return SimilarityMatrixBuilderFactory.INSTANCE.apply(similarityMatrixBuilderStrategy);
-	}
-
 	public SimilarityMetricsBuilder getSimilarityMetricsBuilder() {
 		return SimilarityMetricsBuilderFactory.INSTANCE.apply(similarityMetricsBuilderStrategy);
-	}
-
-	public TypicalityVectorBuilder getTypicalityVectorBuilder() {
-		return TypicalityVectorBuilderFactory.INSTANCE.apply(typicalityVectorBuilderStrategy);
 	}
 
 	public void setUpStrategy(BuildStrategy overallStrategy) {
@@ -205,19 +189,17 @@ public class BuildersAbstractFactory {
 			productionSetBuilderStrategy = ProductionSetBuilderStrategy.BUILD_FROM_SCRATCH_NO_EPSILON;
 			representationTransFuncBuilderStrategy = RepresentationTransFuncBuilderStrategy.EVERY_APP_IS_RELEVANT;
 			propertyBuilderStrategy = PropertyBuilderStrategy.GROUP_PRODUCTIONS_BY_COMPUTATION;
-			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.IF_IS_A_THEN_DIFFER;
+			differentiationBuilderStrategy = DifferentiationBuilderStrategy.MUTE_REDUNDANCIES_THEN_WEIGHT;
+			differentiationSetBuilderStrategy = DifferentiationSetBuilderStrategy.HEURISTIC_ORDER_OVER_PROPERTIES;
+			differentiaeBuilderStrategy = DifferentiaeBuilderStrategy.WITH_DIFFERENTIATION;
 			descriptionBuilderStrategy = DescriptionBuilderStrategy.BUILD_TREE_THEN_CALCULATE_METRICS;
 			partitionGraphBuilderStrategy = PartitionGraphBuilderStrategy.RECURSIVE_FORK_EXPLORATION;
 			partitionBuilderStrategy = PartitionBuilderStrategy.BUILD_GRAPH_FIRST;
 			representationBuilderStrategy = RepresentationBuilderStrategy.BUILD_TREE_SPECIFIC_PRODUCTION_SET;
-			relativeSimilarityMetricsBuilderStrategy = RelativeSimilarityMetricsBuilderStrategy.MOST_SPECIFIC_CONCEPT;
 			problemSpaceGraphExpanderStrategy = ProblemSpaceGraphExpanderStrategy.ADD_NEW_STATES_THEN_BUILD_TRANSITIONS;
 			problemSpaceGraphRestrictorStrategy = ProblemSpaceGraphRestrictorStrategy.BUILD_NEW_GRAPH;
-			similarityMatrixBuilderStrategy = SimilarityMatrixBuilderStrategy.MAXIMAL_RELATIVE_SIMILARITY;
-			asymmetricalSimilarityMatrixBuilderStrategy = AsymmetricalSimilarityMatrixBuilderStrategy.SIM_DIV_BY_TOTAL_SIM;
-			differenceMatrixBuilderStrategy = DifferenceMatrixBuilderStrategy.TWO_LEAVES_TREE_FOR_EACH_PAIR;
-			typicalityVectorBuilderStrategy = TypicalityVectorBuilderStrategy.ASYMM_SIM_MATRIX_ROW_AVERAGE;
-			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.SIM_THEN_DIFF_THEN_TYPICALITY;
+			comparatorSetterStrategy = ComparatorSetterStrategy.SYSTEMIC_PRESSURE;
+			similarityMetricsBuilderStrategy = SimilarityMetricsBuilderStrategy.SIM_THEN_DIFF;
 			problemSpaceExplorerStrategy = ProblemSpaceExplorerStrategy.DISCARD_UNINFORMATIVE_STATES;
 			break;
 		default:

@@ -13,13 +13,16 @@ import java.util.Scanner;
 import java.util.Set;
 
 import com.google.common.base.Splitter;
-import com.tregouet.occam.data.problem_space.IProblemSpace;
-import com.tregouet.occam.data.problem_space.impl.ProblemSpace;
-import com.tregouet.occam.data.problem_space.states.classifications.concepts.IContextObject;
+import com.tregouet.occam.data.modules.comparison.IComparator;
+import com.tregouet.occam.data.modules.comparison.impl.Comparator;
+import com.tregouet.occam.data.modules.sorting.ISorter;
+import com.tregouet.occam.data.modules.sorting.impl.Sorter;
+import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
-import com.tregouet.occam.io.output.html.main_menu.MainMenuPrinter;
-import com.tregouet.occam.io.output.html.problem_space_page.ProblemSpacePagePrinter;
+import com.tregouet.occam.io.output.html.models.SorterMenuPrinter;
+import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
+import com.tregouet.occam.io.output.html.pages.ComparatorPagePrinter;
 
 public class PrototypeMenu {
 
@@ -33,12 +36,62 @@ public class PrototypeMenu {
 		welcome();
 	}
 
-	private void developRepresentation(IProblemSpace problemSpace) {
-		problemSpace.develop();
-		problemSpaceMenu(problemSpace);
+	private void categorizerMenu(ISorter sorter) {
+		try {
+			String htmlPage = SorterPagePrinter.INSTANCE.print(sorter);
+			generate(htmlPage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(NL);
+		System.out.println("**********CATEGORIZER MENU**********");
+		System.out.println(NL);
+		System.out.println("1 : enter the ID of a representation to display." + NL);
+		System.out.println("2 : enter the ID of a unique representation to develop." + NL);
+		System.out.println("3 : enter the IDs of representations to develop" + NL);
+		System.out.println("4 : fully expand the problem space (may result in program freeze if space is too large)." + NL);
+		System.out.println("5 : restrict the problem space to some subset of states." + NL);
+		System.out.println("6 : back to main menu" + NL);
+		int choice = 0;
+		try {
+			choice = entry.nextInt();
+			entry.nextLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			categorizerMenu(sorter);
+		}
+		switch (choice) {
+		case 1:
+			displayRepresentation(sorter);
+			break;
+		case 2:
+			developRepresentationWithSpecifiedID(sorter);
+			break;
+		case 3:
+			developRepresentationWithSpecifiedIDs(sorter);
+			break;
+		case 4 :
+			developRepresentation(sorter);
+			break;
+		case 5 :
+			restrictProblemSpace(sorter);
+			break;
+		case 6:
+			mainMenu();
+			break;
+		default:
+			System.out.println("Please stay focused." + NL);
+			mainMenu();
+			break;
+		}
 	}
 
-	private void developRepresentationWithSpecifiedID(IProblemSpace problemSpace) {
+	private void developRepresentation(ISorter sorter) {
+		sorter.develop();
+		categorizerMenu(sorter);
+	}
+
+	private void developRepresentationWithSpecifiedID(ISorter sorter) {
 		System.out.println(NL);
 		System.out.println("Please enter a representation ID : " + NL);
 		Integer iD = null;
@@ -47,20 +100,20 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		}
-		Boolean result = problemSpace.develop(iD);
+		Boolean result = sorter.develop(iD);
 		if (result == null) {
 			System.out.println("No representation has this ID. " + NL);
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		} else {
 			if (!result)
 				System.out.println("This representation is fully developed already. " + NL);
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		}
 	}
 
-	private void developRepresentationWithSpecifiedIDs(IProblemSpace problemSpace) {
+	private void developRepresentationWithSpecifiedIDs(ISorter sorter) {
 		System.out.println(NL);
 		System.out.println("Please enter representation IDs separated by commas : " + NL);
 		List<Integer> iDs = new ArrayList<>();
@@ -69,7 +122,7 @@ public class PrototypeMenu {
 			iDString = entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		}
 		iDString = iDString.replaceAll(" ", "");
 		String[] idStringArray = iDString.split(",");
@@ -86,20 +139,52 @@ public class PrototypeMenu {
 		}
 		if (iDs.isEmpty()) {
 			System.out.println("No representation has been found. " + NL);
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		}
-		Boolean result = problemSpace.develop(iDs);
+		Boolean result = sorter.develop(iDs);
 		if (result == null) {
 			System.out.println("No representation has been found. " + NL);
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		} else {
 			if (!result)
 				System.out.println("The specified representations are fully developed already. " + NL);
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		}
 	}
 
-	private void displayRepresentation(IProblemSpace problemSpace) {
+	private void displayComparison(IComparator simAssessor) {
+		System.out.println(NL);
+		System.out.println("Please enter the numbers of both objects to compare, separated by a comma : " + NL);
+		Integer iD1 = null;
+		Integer iD2 = null;
+		String stringEntry = null;
+		try {
+			stringEntry = entry.nextLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			similarityAssessorMenu(simAssessor);
+		}
+		stringEntry.replace(" ", "");
+		String[] stringIDs = stringEntry.split(",");
+		try {
+			iD1 = Integer.parseInt(stringIDs[0]);
+			iD2 = Integer.parseInt(stringIDs[1]);
+		} catch (Exception e) {
+			System.out.println("Entry is invalid.");
+			displayComparison(simAssessor);
+		}
+		Boolean result = simAssessor.display(iD1, iD2);
+		if (result == null) {
+			System.out.println("Comparison of objects " + iD1.toString() + " and " + iD2.toString() + " can not be proceeded." + NL);
+			similarityAssessorMenu(simAssessor);
+		} else {
+			if (!result)
+				System.out.println("This representation is already displayed. " + NL);
+			similarityAssessorMenu(simAssessor);
+		}
+	}
+
+	private void displayRepresentation(ISorter sorter) {
 		System.out.println(NL);
 		System.out.println("Please enter a representation ID : " + NL);
 		Integer iD = null;
@@ -108,16 +193,16 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		}
-		Boolean result = problemSpace.display(iD);
+		Boolean result = sorter.display(iD);
 		if (result == null) {
 			System.out.println("No representation has this ID. " + NL);
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		} else {
 			if (!result)
 				System.out.println("This representation is already displayed. " + NL);
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		}
 	}
 
@@ -129,8 +214,7 @@ public class PrototypeMenu {
 			Occam.initialize();
 			Path inputPath = Paths.get(inputPathString);
 			List<IContextObject> objects = GenericFileReader.getContextObjects(inputPath);
-			ProblemSpace problemSpace = new ProblemSpace(new HashSet<>(objects));
-			problemSpaceMenu(problemSpace);
+			selectMode(objects);
 		} else {
 			System.out.println("This path is invalid." + NL);
 			enterTargetFolder();
@@ -160,7 +244,7 @@ public class PrototypeMenu {
 
 	private void mainMenu() {
 		try {
-			generate(MainMenuPrinter.INSTANCE.get());
+			generate(SorterMenuPrinter.INSTANCE.get());
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -196,57 +280,7 @@ public class PrototypeMenu {
 		}
 	}
 
-	private void problemSpaceMenu(IProblemSpace problemSpace) {
-		try {
-			String htmlPage = ProblemSpacePagePrinter.INSTANCE.print(problemSpace);
-			generate(htmlPage);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println(NL);
-		System.out.println("**********PROBLEM SPACE MENU**********");
-		System.out.println(NL);
-		System.out.println("1 : enter the ID of a representation to display." + NL);
-		System.out.println("2 : enter the ID of a unique representation to develop." + NL);
-		System.out.println("3 : enter the IDs of representations to develop" + NL);
-		System.out.println("4 : fully expand the problem space (may result in program freeze if space is too large)." + NL);
-		System.out.println("5 : restrict the problem space to some subset of states." + NL);
-		System.out.println("6 : back to main menu" + NL);
-		int choice = 0;
-		try {
-			choice = entry.nextInt();
-			entry.nextLine();
-		} catch (Exception e) {
-			e.printStackTrace();
-			problemSpaceMenu(problemSpace);
-		}
-		switch (choice) {
-		case 1:
-			displayRepresentation(problemSpace);
-			break;
-		case 2:
-			developRepresentationWithSpecifiedID(problemSpace);
-			break;
-		case 3:
-			developRepresentationWithSpecifiedIDs(problemSpace);
-			break;
-		case 4 :
-			developRepresentation(problemSpace);
-			break;
-		case 5 :
-			restrictProblemSpace(problemSpace);
-			break;
-		case 6:
-			mainMenu();
-			break;
-		default:
-			System.out.println("Please stay focused." + NL);
-			mainMenu();
-			break;
-		}
-	}
-
-	private void restrictProblemSpace(IProblemSpace problemSpace) {
+	private void restrictProblemSpace(ISorter sorter) {
 		System.out.println(NL);
 		System.out.println("Please enter IDs of representations to retain, separated by commas.");
 		String entryString = null;
@@ -255,7 +289,7 @@ public class PrototypeMenu {
 			entry.nextLine();
 		} catch (Exception e) {
 			e.printStackTrace();
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		}
 		Set<Integer> iDs = new HashSet<>();
 		entryString = entryString.replaceAll(" ", "");
@@ -267,18 +301,76 @@ public class PrototypeMenu {
 			}
 			catch (NumberFormatException e) {
 				System.out.println("Entry is invalid");
-				problemSpaceMenu(problemSpace);
+				categorizerMenu(sorter);
 			}
 			iDs.add(iD);
 		}
-		Boolean result = problemSpace.restrictTo(iDs);
+		Boolean result = sorter.restrictTo(iDs);
 		if (result == null) {
 			System.out.println("Some ID is missing in the problem space graph. " + NL);
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
 		} else {
 			if (!result)
 				System.out.println("The specified set is not a restriction." + NL);
-			problemSpaceMenu(problemSpace);
+			categorizerMenu(sorter);
+		}
+	}
+
+	private void selectMode(List<IContextObject> objects) throws IOException {
+		System.out.println(NL);
+		System.out.println("Please select OCCAM mode : " + NL);
+		System.out.println("1 : Categorizer" + NL);
+		System.out.println("2 : Comparator" + NL);
+		int choice;
+		choice = entry.nextInt();
+		entry.nextLine();
+		switch (choice) {
+		case 1:
+			ISorter sorter = new Sorter().process(objects);
+			categorizerMenu(sorter);
+			break;
+		case 2:
+			IComparator simAssessor = new Comparator().process(objects);
+			similarityAssessorMenu(simAssessor);
+			break;
+		default:
+			System.out.println("Please stay focused." + NL);
+			mainMenu();
+			break;
+		}
+	}
+
+	private void similarityAssessorMenu(IComparator simAssessor) {
+		try {
+			String htmlPage = ComparatorPagePrinter.INSTANCE.print(simAssessor);
+			generate(htmlPage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(NL);
+		System.out.println("**********COMPARATOR MENU**********");
+		System.out.println(NL);
+		System.out.println("1 : compare 2 objects in the context." + NL);
+		System.out.println("2 : back to main menu" + NL);
+		int choice = 0;
+		try {
+			choice = entry.nextInt();
+			entry.nextLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			similarityAssessorMenu(simAssessor);
+		}
+		switch (choice) {
+		case 1:
+			displayComparison(simAssessor);
+			break;
+		case 2:
+			mainMenu();
+			break;
+		default:
+			System.out.println("Please stay focused." + NL);
+			mainMenu();
+			break;
 		}
 	}
 

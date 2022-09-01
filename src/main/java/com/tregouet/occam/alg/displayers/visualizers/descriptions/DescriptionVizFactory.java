@@ -1,6 +1,6 @@
 package com.tregouet.occam.alg.displayers.visualizers.descriptions;
 
-import com.tregouet.occam.alg.displayers.visualizers.descriptions.impl.BasicDescriptionViz;
+import com.tregouet.occam.alg.displayers.visualizers.descriptions.impl.DelegateFormatManaging;
 
 public class DescriptionVizFactory {
 
@@ -10,10 +10,10 @@ public class DescriptionVizFactory {
 	}
 
 	public DescriptionViz apply(DescriptionVizStrategy strategy) {
-		switch (strategy) {
-		case BASIC:
-			return BasicDescriptionViz.INSTANCE;
-		default:
+		switch(strategy) {
+		case DELEGATE_FORMAT_MANAGING :
+			return new DelegateFormatManaging();
+		default :
 			return null;
 		}
 	}

@@ -3,7 +3,7 @@ package com.tregouet.occam.alg.displayers.formatters.problem_transitions.impl;
 import java.text.DecimalFormat;
 
 import com.tregouet.occam.alg.displayers.formatters.problem_transitions.ProblemTransitionLabeller;
-import com.tregouet.occam.data.problem_space.transitions.AProblemStateTransition;
+import com.tregouet.occam.data.modules.sorting.transitions.AProblemStateTransition;
 
 public class Weight implements ProblemTransitionLabeller {
 

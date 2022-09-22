@@ -6,9 +6,9 @@ import java.util.List;
 import com.tregouet.occam.data.modules.comparison.IComparator;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.io.output.html.models.ContextPrinter;
+import com.tregouet.occam.io.output.html.models.DescriptionPrinter;
 import com.tregouet.occam.io.output.html.models.FootPrinter;
 import com.tregouet.occam.io.output.html.models.HeaderPrinter;
-import com.tregouet.occam.io.output.html.models.DescriptionPrinter;
 import com.tregouet.occam.io.output.html.models.TablePrinter;
 
 public class ComparatorPagePrinter {

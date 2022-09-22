@@ -42,7 +42,7 @@ public interface IComparator extends IModule {
 
 	@Override
 	IComparator process(Collection<IContextObject> context);
-	
+
 	UnorderedPair<Integer, Integer> getComparedPair();
 
 	public static ComparatorSetter comparatorSetter() {

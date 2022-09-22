@@ -38,6 +38,17 @@ public class PartitionProbability implements ProblemTransitionWeigher {
 				else {
 					double summedInformativities = 0.0;
 					for (AProblemStateTransition concurrentTransition : concurrentTransitions) {
+						//late retrieval
+						if (!transition2Informativity.containsKey(concurrentTransition)) {
+							/*
+							 * Then the transition has already been built as the result of a trivial transition
+							 * from another source representation. This transition's weight is inaccurate and must be
+							 * recalculated. A side-effect-free procedure would be preferable.
+							 */
+							transition2Informativity.put(concurrentTransition, informativity(concurrentTransition));
+							//SIDE EFFECT
+							this.accept(concurrentTransition);
+						}
 						summedInformativities += transition2Informativity.get(concurrentTransition);
 					}
 					if (summedInformativities == 0.0)

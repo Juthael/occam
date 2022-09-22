@@ -1,6 +1,7 @@
 package com.tregouet.occam.alg.displayers.visualizers.problem_spaces;
 
 import com.tregouet.occam.alg.displayers.visualizers.problem_spaces.impl.BasicProblemSpaceViz;
+import com.tregouet.occam.alg.displayers.visualizers.problem_spaces.impl.ProblemVizFallback;
 
 public class ProblemSpaceVizFactory {
 
@@ -13,6 +14,8 @@ public class ProblemSpaceVizFactory {
 		switch (strategy) {
 		case BASIC:
 			return BasicProblemSpaceViz.INSTANCE;
+		case FALLBACK :
+			return ProblemVizFallback.INSTANCE;
 		default:
 			return null;
 		}

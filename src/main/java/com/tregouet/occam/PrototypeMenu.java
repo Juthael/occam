@@ -21,8 +21,8 @@ import com.tregouet.occam.data.structures.representations.classifications.concep
 import com.tregouet.occam.io.input.impl.GenericFileReader;
 import com.tregouet.occam.io.output.LocalPaths;
 import com.tregouet.occam.io.output.html.models.SorterMenuPrinter;
-import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
 import com.tregouet.occam.io.output.html.pages.ComparatorPagePrinter;
+import com.tregouet.occam.io.output.html.pages.SorterPagePrinter;
 
 public class PrototypeMenu {
 

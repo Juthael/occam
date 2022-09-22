@@ -69,14 +69,6 @@ public class RemoveRedundantPermutations implements DifferentiationSetBuilder {
 			IDifferentiation newDifferentiation = differentiationBuilder.apply(permutation);
 			if (newDifferentiation.equals(lastDifferentiation)) {
 				int difference = howManyDifferentElements(lastValidPerm, iPerm, nbOfProperties);
-				//HERE
-				int test = factorial(difference) - 1;
-				System.out.println(difference);
-				if (test == 0) {
-					System.out.println("here");
-					howManyDifferentElements(lastValidPerm, iPerm, nbOfProperties);
-				}
-				//HERE
 				permIdx += factorial(difference) - 1;
 			}
 			else {

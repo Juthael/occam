@@ -47,7 +47,7 @@ public class DescriptionPrinter {
 			sB.append(printOptDescription(representation, a + 1, iD + "_opt") + nL);
 		if (exhaustive)
 			sB.append(printExhaustiveDescription(representation, a + 1, iD + "_exhaustive") + nL);
-		sB.append(alinea[a] + "</section>" + nL);			
+		sB.append(alinea[a] + "</section>" + nL);
 		return sB.toString();
 	}
 

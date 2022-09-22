@@ -175,8 +175,10 @@ public class DiscardUninformativeStates implements ProblemSpaceExplorer {
 		for (AProblemStateTransition transition : problemGraph.edgeSet())
 			weigher.accept(transition);
 		ProblemStateScorer scorer = ProblemSpaceExplorer.getProblemStateScorer().setUp(problemGraph);
-		for (IRepresentation problemState : problemGraph)
+		for (IRepresentation problemState : problemGraph) {
 			problemState.setScore(scorer.score(problemState));
+		}
+
 		removeUninformative(problemGraph);
 	}
 

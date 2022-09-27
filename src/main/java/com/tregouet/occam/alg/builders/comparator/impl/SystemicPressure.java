@@ -13,6 +13,7 @@ import org.jgrapht.alg.util.UnorderedPair;
 import org.jgrapht.graph.DirectedAcyclicGraph;
 
 import com.tregouet.occam.alg.builders.comparator.ComparatorSetter;
+import com.tregouet.occam.alg.displayers.visualizers.VisualizersAbstractFactory;
 import com.tregouet.occam.data.modules.comparison.metrics.ISimilarityMetrics;
 import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.structures.representations.IRepresentation;
@@ -161,6 +162,19 @@ public class SystemicPressure extends AComparatorSetter implements ComparatorSet
 				particular2 = particular;
 		}
 		IConcept ontologicalCommitment = new Everything(extentIDs);
+		//HERE
+		try {
+			IConcept test = Functions.supremum(lattice.getOntologicalUpperSemilattice(), particular1, particular2);
+			if (test == null) {
+				VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(lattice.getLatticeOfConcepts(), "ErrorLattice", false);
+				test = Functions.supremum(lattice.getOntologicalUpperSemilattice(), particular1, particular2);
+			}
+		}
+		catch (Exception e) {
+			System.out.println("Error : supremum " + particular1.iD() + " and " + particular2.iD());
+			VisualizersAbstractFactory.INSTANCE.getConceptGraphViz().apply(lattice.getLatticeOfConcepts(), "ErrorLattice", false);
+		}
+		//HERE
 		IConcept genus = buildRestrictedConcept(
 				Functions.supremum(lattice.getOntologicalUpperSemilattice(), particular1, particular2),
 				extentIDs, false) ;

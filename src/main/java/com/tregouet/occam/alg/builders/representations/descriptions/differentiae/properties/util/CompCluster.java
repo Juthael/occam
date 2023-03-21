@@ -12,10 +12,10 @@ import com.tregouet.occam.data.structures.representations.productions.IContextua
 
 public class CompCluster {
 
-	private int genusID;
-	private int speciesID;
+	protected int genusID;
+	protected int speciesID;
 	private IDenotation denotation;
-	private Set<ProdCluster> prodClusters = new HashSet<>();
+	protected Set<ProdCluster> prodClusters = new HashSet<>();
 
 	public CompCluster(IContextualizedProduction production, int genusID) {
 		this.genusID = genusID;

@@ -72,6 +72,8 @@ public class RulenessDimensionality implements PropertyWeigher {
 	}
 
 	private static boolean isDimensionalRule(IProperty p) {
+		if (p.getGenusID() == IConcept.ONTOLOGICAL_COMMITMENT_ID)
+			return false;
 		for (IComputation computation : p.getComputations()) {
 			for (IProduction prod : computation.getOperator().getArguments()) {
 				if (prod.getSalience().equals(Salience.TRANSITION_RULE))

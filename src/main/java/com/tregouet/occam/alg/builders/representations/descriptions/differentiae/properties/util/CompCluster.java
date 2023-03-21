@@ -24,6 +24,7 @@ public class CompCluster implements ICompCluster {
 		prodClusters.add(new ProdCluster(production));
 	}
 
+	@Override
 	public boolean add(IContextualizedProduction production) {
 		if (production.getSubordinateID() == speciesID && production.getTarget().asList().equals(denotation.asList())) {
 			boolean clustered = false;
@@ -37,6 +38,7 @@ public class CompCluster implements ICompCluster {
 		return false;
 	}
 
+	@Override
 	public IProperty asProperty() {
 		Set<IComputation> computations = new HashSet<>();
 		for (ProdCluster prodCluster : prodClusters)

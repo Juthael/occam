@@ -53,6 +53,12 @@ public class HeuristicOrderOverProperties implements DifferentiationSetBuilder {
 			else return 0;
 		}
 
+		private static int betterIfInstantiatedVarsLexicographicallySmaller(IProperty o1, IProperty o2) {
+			String o1Bindings = toString(o1.getFunction().getVariables());
+			String o2Bindings = toString(o2.getFunction().getVariables());
+			return o1Bindings.compareTo(o2Bindings);
+		}
+
 		private static int betterIfInstantiatesLessVariables(IProperty o1, IProperty o2) {
 			return nbOfVarInstantiated(o1) - nbOfVarInstantiated(o2);
 		}
@@ -60,7 +66,7 @@ public class HeuristicOrderOverProperties implements DifferentiationSetBuilder {
 		private static int betterIfLessSignificantComputations(IProperty o1, IProperty o2) {
 			return o1.getNbOfSignificantComputations() - o2.getNbOfSignificantComputations();
 		}
-		
+
 		//returns 0 only if o1 and o2 are both non relational
 		private static int betterIfRelational(IProperty o1, IProperty o2) {
 			if (o1.isRelational()) {
@@ -72,12 +78,6 @@ public class HeuristicOrderOverProperties implements DifferentiationSetBuilder {
 			else if (o2.isRelational())
 				return 1;
 			return 0;
-		}
-
-		private static int betterIfInstantiatedVarsLexicographicallySmaller(IProperty o1, IProperty o2) {
-			String o1Bindings = toString(o1.getFunction().getVariables());
-			String o2Bindings = toString(o2.getFunction().getVariables());
-			return o1Bindings.compareTo(o2Bindings);
 		}
 
 		private static int nbOfVarInstantiated(IProperty p) {

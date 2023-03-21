@@ -20,7 +20,6 @@ import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.data.modules.sorting.ISorter;
 import com.tregouet.occam.data.modules.sorting.impl.Sorter;
 import com.tregouet.occam.data.modules.sorting.transitions.partitions.IPartition;
-import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;

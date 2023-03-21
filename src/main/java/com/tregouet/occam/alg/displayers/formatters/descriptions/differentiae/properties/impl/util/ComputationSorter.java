@@ -8,9 +8,9 @@ import com.tregouet.occam.data.structures.representations.productions.IProductio
 import com.tregouet.occam.data.structures.representations.transitions.impl.stack_default.vars.This;
 
 public class ComputationSorter implements Comparator<IComputation> {
-	
+
 	public static final ComputationSorter INSTANCE = new ComputationSorter();
-	
+
 	private ComputationSorter() {
 	}
 
@@ -27,13 +27,13 @@ public class ComputationSorter implements Comparator<IComputation> {
 		}
 		return comparison;
 	}
-	
+
 	private static int betterIfFirstVarIsAlpabeticallySmaller(IComputation o1, IComputation o2) {
 		AVariable first = o1.getOperator().getBindings().getBoundVariables().get(0);
 		AVariable second = o2.getOperator().getBindings().getBoundVariables().get(0);
 		return first.getName().compareTo(second.getName());
 	}
-	
+
 	private static int betterIfRelational(IComputation o1, IComputation o2) {
 		if (isRelational(o1)) {
 			if (isRelational(o2)) {
@@ -45,7 +45,7 @@ public class ComputationSorter implements Comparator<IComputation> {
 			return 1;
 		return 0;
 	}
-	
+
 	private static int betterIfVarIsNotThis(IComputation o1, IComputation o2) {
 		if (o1.getOperator().getBindings().getBoundVariables().get(0).equals(This.INSTANCE)) {
 			if (o2.getOperator().getBindings().getBoundVariables().get(0).equals(This.INSTANCE)) {
@@ -57,7 +57,7 @@ public class ComputationSorter implements Comparator<IComputation> {
 			return -1;
 		return 0;
 	}
-	
+
 	private static boolean isRelational(IComputation o1) {
 		for (IProduction prod : o1.getOperator().getArguments()) {
 			if (prod.isRelational())
@@ -65,7 +65,7 @@ public class ComputationSorter implements Comparator<IComputation> {
 		}
 		return false;
 	}
-	
-	
+
+
 
 }

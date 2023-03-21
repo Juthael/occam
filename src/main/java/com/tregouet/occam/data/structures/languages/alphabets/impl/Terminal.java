@@ -35,13 +35,13 @@ public class Terminal implements ITerminal {
 	}
 
 	@Override
-	public String toString() {
-		return symbol;
-	}
-	
-	@Override
 	public boolean isRelational() {
 		return symbol.charAt(0) == GenericFileReader.RELATIONAL_SYMBOL;
+	}
+
+	@Override
+	public String toString() {
+		return symbol;
 	}
 
 }

@@ -12,13 +12,13 @@ import com.tregouet.occam.data.structures.representations.descriptions.different
 import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
 
 public class RelationalCompCluster implements ICompCluster {
-	
+
 	protected int genusID;
 	protected int speciesID;
 	private Set<IDenotation> denotationSet = new HashSet<>();
 	protected Set<ProdCluster> prodClusters = new HashSet<>();
 	private ITerminal relationalTerminal;
-	
+
 
 	public RelationalCompCluster(IContextualizedProduction production, int genusID) {
 		this.genusID = genusID;
@@ -27,7 +27,8 @@ public class RelationalCompCluster implements ICompCluster {
 		prodClusters.add(new ProdCluster(production));
 		relationalTerminal = production.getValue().getListOfTerminals().get(0);
 	}
-	
+
+	@Override
 	public boolean add(IContextualizedProduction production) {
 		if (production.getSubordinateID() == speciesID && production.getValue().getListOfTerminals().contains(relationalTerminal)) {
 			denotationSet.add(production.getTarget());
@@ -41,13 +42,14 @@ public class RelationalCompCluster implements ICompCluster {
 		}
 		return false;
 	}
-	
+
+	@Override
 	public IProperty asProperty() {
 		Set<IComputation> computations = new HashSet<>();
 		for (ProdCluster prodCluster : prodClusters)
 			computations.add(prodCluster.asComputation());
 		int nbOfSignificantComp = ICompCluster.nbOfSignificantComp(computations);
 		return new RelationalProperty(genusID, speciesID, denotationSet, computations, nbOfSignificantComp);
-	}	
+	}
 
 }

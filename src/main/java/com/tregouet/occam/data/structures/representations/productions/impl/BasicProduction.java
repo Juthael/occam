@@ -73,6 +73,13 @@ public class BasicProduction implements IBasicProduction {
 	}
 
 	@Override
+	public boolean isRelational() {
+		if (value.getNbOfTerminals() != 1)
+			return false;
+		return value.getListOfTerminals().get(0).isRelational();
+	}
+
+	@Override
 	public void setSalience(Salience salience) {
 		this.salience = salience;
 	}
@@ -80,13 +87,6 @@ public class BasicProduction implements IBasicProduction {
 	@Override
 	public String toString() {
 		return "[" + variable.toString() + " ::= " + value.toString() + "]";
-	}
-
-	@Override
-	public boolean isRelational() {
-		if (value.getNbOfTerminals() != 1)
-			return false;
-		return value.getListOfTerminals().get(0).isRelational();
 	}
 
 }

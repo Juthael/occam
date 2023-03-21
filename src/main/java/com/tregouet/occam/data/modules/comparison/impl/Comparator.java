@@ -67,6 +67,11 @@ public class Comparator implements IComparator {
 	}
 
 	@Override
+	public UnorderedPair<Integer, Integer> getComparedPair() {
+		return comparedPair;
+	}
+
+	@Override
 	public List<IContextObject> getContext() {
 		return context;
 	}
@@ -117,11 +122,6 @@ public class Comparator implements IComparator {
 		this.differences = setter.getDifferences();
 		this.similarityMetrics = setter.getSimilarityMetrics();
 		return this;
-	}
-
-	@Override
-	public UnorderedPair<Integer, Integer> getComparedPair() {
-		return comparedPair;
 	}
 
 }

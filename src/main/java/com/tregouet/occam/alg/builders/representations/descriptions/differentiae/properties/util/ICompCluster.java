@@ -7,11 +7,11 @@ import com.tregouet.occam.data.structures.representations.descriptions.different
 import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
 
 public interface ICompCluster {
-	
+
 	boolean add(IContextualizedProduction production);
-	
+
 	IProperty asProperty();
-	
+
 	public static int nbOfSignificantComp(Set<IComputation> computations) {
 		int count = 0;
 		for (IComputation comp : computations) {

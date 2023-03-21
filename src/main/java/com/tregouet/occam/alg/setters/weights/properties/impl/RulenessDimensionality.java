@@ -18,9 +18,9 @@ import com.tregouet.occam.data.structures.representations.productions.IProductio
 import com.tregouet.occam.data.structures.representations.productions.Salience;
 
 public class RulenessDimensionality implements PropertyWeigher {
-	
+
 	private IClassification classification;
-	private Map<Integer, List<IConcept>> conceptID2CompExtent;	
+	private Map<Integer, List<IConcept>> conceptID2CompExtent;
 
 	@Override
 	public void accept(IProperty p) {
@@ -46,7 +46,7 @@ public class RulenessDimensionality implements PropertyWeigher {
 				if (complies)
 					ruleCardinality++;
 			}
-			p.setWeight(dimensionalityCoeff * (double) propertyCardinality / (double) ruleCardinality);
+			p.setWeight(dimensionalityCoeff * propertyCardinality / ruleCardinality);
 		}
 		else p.setWeight(0.0);
 	}
@@ -70,7 +70,7 @@ public class RulenessDimensionality implements PropertyWeigher {
 		}
 		return this;
 	}
-	
+
 	private static boolean isDimensionalRule(IProperty p) {
 		for (IComputation computation : p.getComputations()) {
 			for (IProduction prod : computation.getOperator().getArguments()) {

@@ -23,7 +23,7 @@ public class PropertyWeigherFactory {
 			return new Ruleness();
 		case RULENESS_AND_ECONOMY :
 			return new RulenessAndEconomy();
-		case RULENESS_DIMENSIONALITY : 
+		case RULENESS_DIMENSIONALITY :
 			return new RulenessDimensionality();
 		default:
 			return null;

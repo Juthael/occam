@@ -27,8 +27,7 @@ public interface IProperty extends Weighed {
 	boolean isBlank();
 
 	void setWeight(double weight);
-
-	@Override
-	String toString();
+	
+	boolean isRelational();
 
 }

@@ -83,4 +83,9 @@ public class ModularProperty implements IProperty {
 		return weight;
 	}
 
+	@Override
+	public boolean isRelational() {
+		return property.isRelational();
+	}
+
 }

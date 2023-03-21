@@ -10,12 +10,12 @@ import com.tregouet.occam.data.structures.representations.descriptions.different
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.impl.Property;
 import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
 
-public class CompCluster {
+public class CompCluster implements ICompCluster {
 
-	protected int genusID;
-	protected int speciesID;
+	private int genusID;
+	private int speciesID;
 	private IDenotation denotation;
-	protected Set<ProdCluster> prodClusters = new HashSet<>();
+	private Set<ProdCluster> prodClusters = new HashSet<>();
 
 	public CompCluster(IContextualizedProduction production, int genusID) {
 		this.genusID = genusID;
@@ -41,17 +41,8 @@ public class CompCluster {
 		Set<IComputation> computations = new HashSet<>();
 		for (ProdCluster prodCluster : prodClusters)
 			computations.add(prodCluster.asComputation());
-		int nbOfSignificantComp = nbOfSignificantComp(computations);
+		int nbOfSignificantComp = ICompCluster.nbOfSignificantComp(computations);
 		return new Property(genusID, speciesID, denotation, computations, nbOfSignificantComp);
-	}
-
-	private static int nbOfSignificantComp(Set<IComputation> computations) {
-		int count = 0;
-		for (IComputation comp : computations) {
-			if (!comp.isIdentity() && !comp.isEpsilon())
-				count++;
-		}
-		return count;
 	}
 
 }

@@ -27,15 +27,18 @@ public class HeuristicOrderOverProperties implements DifferentiationSetBuilder {
 
 		@Override
 		public int compare(IProperty o1, IProperty o2) {
-			int comparison = betterIfLessSignificantComputations(o1, o2);
+			int comparison = betterIfRelational(o1, o2);
 			if (comparison == 0) {
-				comparison = betterIfHeavier(o1, o2);
+				comparison = betterIfLessSignificantComputations(o1, o2);
 				if (comparison == 0) {
-					comparison = betterIfInstantiatesLessVariables(o1, o2);
+					comparison = betterIfHeavier(o1, o2);
 					if (comparison == 0) {
-						comparison = betterIfInstantiatedVarsLexicographicallySmaller(o1, o2);
-						if (comparison == 0)
-							return System.identityHashCode(o1) - System.identityHashCode(o2);
+						comparison = betterIfInstantiatesLessVariables(o1, o2);
+						if (comparison == 0) {
+							comparison = betterIfInstantiatedVarsLexicographicallySmaller(o1, o2);
+							if (comparison == 0)
+								return System.identityHashCode(o1) - System.identityHashCode(o2);
+						}
 					}
 				}
 			}
@@ -57,8 +60,20 @@ public class HeuristicOrderOverProperties implements DifferentiationSetBuilder {
 		private static int betterIfLessSignificantComputations(IProperty o1, IProperty o2) {
 			return o1.getNbOfSignificantComputations() - o2.getNbOfSignificantComputations();
 		}
+		
+		//returns 0 only if o1 and o2 are both non relational
+		private static int betterIfRelational(IProperty o1, IProperty o2) {
+			if (o1.isRelational()) {
+				if (o2.isRelational()) {
+					return System.identityHashCode(o1) - System.identityHashCode(o2);
+				}
+				else return -1;
+			}
+			else if (o2.isRelational())
+				return 1;
+			return 0;
+		}
 
-		@SuppressWarnings("unused")
 		private static int betterIfInstantiatedVarsLexicographicallySmaller(IProperty o1, IProperty o2) {
 			String o1Bindings = toString(o1.getFunction().getVariables());
 			String o2Bindings = toString(o2.getFunction().getVariables());

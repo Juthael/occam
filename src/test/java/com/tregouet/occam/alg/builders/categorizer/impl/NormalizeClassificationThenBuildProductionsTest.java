@@ -107,7 +107,7 @@ public class NormalizeClassificationThenBuildProductionsTest {
 		for (IProperty prop : differentiae.getProperties()) {
 			sB.append("***" + nl);
 			sB.append("*Property : " + nl);
-			sB.append("*function : " + prop.getFunction().toString() + nl);
+			sB.append("*function : " + (prop.isRelational() ? "relational" : prop.getFunction().toString()) + nl);
 			sB.append("*computations :" + nl);
 			for (IComputation computation : prop.getComputations()) {
 				sB.append(FormattersAbstractFactory.INSTANCE.getComputationLabeller().apply(computation) + nl);

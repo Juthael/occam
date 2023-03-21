@@ -111,7 +111,7 @@ public class FormattersAbstractFactory {
 			abstrAppLabellerStrategy = AbstrAppLabellerStrategy.CONJUNCTION;
 			transitionLabellerStrategy = TransitionLabellerStrategy.CANONICAL_NOTATION;
 			transitionFunctionLabellerStrategy = TransitionFunctionLabellerStrategy.DISPLAY_ALL_TRANSITIONS;
-			computationLabellerStrategy = ComputationLabellerStrategy.CONJUNCTION;
+			computationLabellerStrategy = ComputationLabellerStrategy.CONJUNCTION_NO_IDENTITY;
 			propertyLabellerStrategy = PropertyLabellerStrategy.CURLY_BRACKETS_WITH_WEIGHT;
 			genusFormatterStrategy = GenusFormatterStrategy.ID_THEN_EXTENT;
 			differentiaeFormatterStrategy = DifferentiaeFormatterStrategy.MANAGE_DIFF_FORMAT;

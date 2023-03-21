@@ -34,7 +34,7 @@ public class RelationalCompCluster implements ICompCluster {
 			boolean clustered = false;
 			Iterator<ProdCluster> prodClusterIte = prodClusters.iterator();
 			while (!clustered && prodClusterIte.hasNext())
-				clustered = prodClusterIte.next().add(production, true);
+				clustered = prodClusterIte.next().add(production, false);
 			if (!clustered)
 				prodClusters.add(new ProdCluster(production));
 			return true;

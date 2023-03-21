@@ -125,4 +125,9 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 			return production.toString();
 	}
 
+	@Override
+	public boolean isRelational() {
+		return production.isRelational();
+	}
+
 }

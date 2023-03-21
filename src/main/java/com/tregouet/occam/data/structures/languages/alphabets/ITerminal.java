@@ -14,5 +14,7 @@ public interface ITerminal extends ISymbol {
 
 	@Override
 	boolean equals(Object o);
+	
+	boolean isRelational();
 
 }

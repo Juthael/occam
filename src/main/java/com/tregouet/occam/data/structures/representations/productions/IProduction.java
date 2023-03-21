@@ -34,6 +34,8 @@ public interface IProduction {
 	 * @return true if left term and right term are the same
 	 */
 	boolean isIdentityProd();
+	
+	boolean isRelational();
 
 	void setSalience(Salience salience);
 

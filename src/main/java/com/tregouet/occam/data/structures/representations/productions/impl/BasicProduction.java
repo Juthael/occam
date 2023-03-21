@@ -82,4 +82,11 @@ public class BasicProduction implements IBasicProduction {
 		return "[" + variable.toString() + " ::= " + value.toString() + "]";
 	}
 
+	@Override
+	public boolean isRelational() {
+		if (value.getNbOfTerminals() != 1)
+			return false;
+		return value.getListOfTerminals().get(0).isRelational();
+	}
+
 }

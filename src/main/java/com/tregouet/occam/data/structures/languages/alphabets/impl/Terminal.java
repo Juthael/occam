@@ -1,6 +1,7 @@
 package com.tregouet.occam.data.structures.languages.alphabets.impl;
 
 import com.tregouet.occam.data.structures.languages.alphabets.ITerminal;
+import com.tregouet.occam.io.input.impl.GenericFileReader;
 
 public class Terminal implements ITerminal {
 
@@ -36,6 +37,11 @@ public class Terminal implements ITerminal {
 	@Override
 	public String toString() {
 		return symbol;
+	}
+	
+	@Override
+	public boolean isRelational() {
+		return symbol.charAt(0) == GenericFileReader.RELATIONAL_SYMBOL;
 	}
 
 }

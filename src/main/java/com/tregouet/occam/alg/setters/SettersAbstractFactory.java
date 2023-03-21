@@ -77,7 +77,7 @@ public class SettersAbstractFactory {
 			break;
 		case SETTING_STRATEGY_3 :
 			productionSalienceSetterStrategy = ProductionSalienceSetterStrategy.HIDDEN_THEN_FIND_SPECIFICS;
-			propertyWeigherStrategy = PropertyWeigherStrategy.RULENESS;
+			propertyWeigherStrategy = PropertyWeigherStrategy.RULENESS_DIMENSIONALITY;
 			differentiaeCoeffSetterStrategy = DifferentiaeCoeffSetterStrategy.SPECIES_CARDINALITY;
 			differentiaeWeigherStrategy = DifferentiaeWeigherStrategy.MAX_WEIGHT_FOR_NON_REDUNDANT;
 			partitionWeigherStrategy = PartitionWeigherStrategy.SUM_PARTITION_DIFFERENTIAE;

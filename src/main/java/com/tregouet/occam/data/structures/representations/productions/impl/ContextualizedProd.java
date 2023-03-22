@@ -9,7 +9,6 @@ import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.denotations.IDenotation;
 import com.tregouet.occam.data.structures.representations.productions.IBasicProduction;
 import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
-import com.tregouet.occam.data.structures.representations.productions.IProduction;
 import com.tregouet.occam.data.structures.representations.productions.Salience;
 
 public class ContextualizedProd extends DefaultEdge implements IContextualizedProduction {

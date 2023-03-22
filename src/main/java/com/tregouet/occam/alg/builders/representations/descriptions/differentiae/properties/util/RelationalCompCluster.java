@@ -30,7 +30,9 @@ public class RelationalCompCluster implements ICompCluster {
 
 	@Override
 	public boolean add(IContextualizedProduction production) {
-		if (production.getSubordinateID() == speciesID && production.getValue().getListOfTerminals().contains(relationalTerminal)) {
+		if (production.getSubordinateID() == speciesID &&
+				(production.getValue().getListOfTerminals().contains(relationalTerminal)
+						|| denotationSet.contains(production.getTarget()))) {
 			denotationSet.add(production.getTarget());
 			boolean clustered = false;
 			Iterator<ProdCluster> prodClusterIte = prodClusters.iterator();

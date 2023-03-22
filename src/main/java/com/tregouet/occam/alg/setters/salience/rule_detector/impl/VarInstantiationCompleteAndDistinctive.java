@@ -52,7 +52,7 @@ public class VarInstantiationCompleteAndDistinctive implements RuleDetector {
 		}
 		return false;
 	}
-	
+
 	private static boolean productionSetsAreUncomparable(Set<IBasicProduction> set1, Set<IBasicProduction> set2) {
 		for (IBasicProduction prodSet1 : set1) {
 			boolean prodSet1Incomparable = true;

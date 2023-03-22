@@ -39,7 +39,7 @@ public class VarInstantiationCompleteAndDistinctive implements RuleDetector {
 
 	private static boolean everyTransitionIsCompleteInstantiation(List<Set<IContextualizedProduction>> values) {
 		for (Set<IContextualizedProduction> value : values) {
-			if (value.isEmpty() || instantiationIsIncomplete(value))
+			if (value.isEmpty() || instantiationIsIncomplete(value) || instantiationIsUninformative(value))
 				return false;
 		}
 		return true;
@@ -51,6 +51,14 @@ public class VarInstantiationCompleteAndDistinctive implements RuleDetector {
 				return true;
 		}
 		return false;
+	}
+	
+	private static boolean instantiationIsUninformative(Set<IContextualizedProduction> value) {
+		for (IContextualizedProduction production : value) {
+			if (!production.getSource().isRedundant())
+				return false;
+		}
+		return true;
 	}
 
 	private static boolean productionSetsAreUncomparable(Set<IBasicProduction> set1, Set<IBasicProduction> set2) {

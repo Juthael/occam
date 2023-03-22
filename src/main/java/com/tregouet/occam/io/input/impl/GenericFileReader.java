@@ -22,6 +22,7 @@ public abstract class GenericFileReader {
 	public static final String SEPARATOR = "/";
 	public static final char NAME_SYMBOL = '@';
 	public static final String LABEL_DENOTATION_SYMBOL = "*";
+	public static final char RELATIONAL_SYMBOL = '#';
 	public static final char IGNORE = '%';
 
 	private GenericFileReader() {

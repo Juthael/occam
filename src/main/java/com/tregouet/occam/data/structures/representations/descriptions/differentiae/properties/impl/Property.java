@@ -10,9 +10,9 @@ import com.tregouet.occam.data.structures.representations.descriptions.different
 public class Property implements IProperty {
 
 	private final int genusID;
-	private final int speciesID;
+	protected final int speciesID;
 	private final IDenotation function;
-	private final Set<IComputation> computations;
+	protected final Set<IComputation> computations;
 	private int nbOfSignificantComp;
 	private Double weight = null;
 
@@ -68,6 +68,11 @@ public class Property implements IProperty {
 	@Override
 	public boolean isBlank() {
 		return nbOfSignificantComp == 0;
+	}
+
+	@Override
+	public boolean isRelational() {
+		return false;
 	}
 
 	@Override

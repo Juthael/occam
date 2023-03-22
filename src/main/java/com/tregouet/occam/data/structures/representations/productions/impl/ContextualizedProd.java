@@ -113,6 +113,11 @@ public class ContextualizedProd extends DefaultEdge implements IContextualizedPr
 	}
 
 	@Override
+	public boolean isRelational() {
+		return production.isRelational();
+	}
+
+	@Override
 	public void setSalience(Salience salience) {
 		production.setSalience(salience);
 	}

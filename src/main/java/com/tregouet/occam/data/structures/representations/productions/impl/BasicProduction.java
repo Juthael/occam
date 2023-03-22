@@ -6,6 +6,7 @@ import java.util.Objects;
 import com.tregouet.occam.data.structures.languages.alphabets.AVariable;
 import com.tregouet.occam.data.structures.languages.alphabets.ISymbol;
 import com.tregouet.occam.data.structures.languages.words.construct.IConstruct;
+import com.tregouet.occam.data.structures.languages.words.construct.impl.ConstructComparator;
 import com.tregouet.occam.data.structures.representations.productions.IBasicProduction;
 import com.tregouet.occam.data.structures.representations.productions.Salience;
 
@@ -18,6 +19,13 @@ public class BasicProduction implements IBasicProduction {
 	public BasicProduction(AVariable variable, IConstruct value) {
 		this.variable = variable;
 		this.value = value;
+	}
+
+	@Override
+	public Integer compareTo(IBasicProduction prod) {
+		if (!this.variable.equals(prod.getVariable()))
+			return null;
+		else return ConstructComparator.INSTANCE.compare(this.value, prod.getValue());
 	}
 
 	@Override
@@ -70,6 +78,13 @@ public class BasicProduction implements IBasicProduction {
 	public boolean isIdentityProd() {
 		List<ISymbol> valueList = value.asList();
 		return ((valueList.size() == 1) && (valueList.get(0).equals(variable)));
+	}
+
+	@Override
+	public boolean isRelational() {
+		if (value.getNbOfTerminals() != 1)
+			return false;
+		return value.getListOfTerminals().get(0).isRelational();
 	}
 
 	@Override

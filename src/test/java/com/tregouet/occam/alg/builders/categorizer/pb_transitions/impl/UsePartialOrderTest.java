@@ -20,7 +20,6 @@ import com.tregouet.occam.alg.displayers.formatters.FormattersAbstractFactory;
 import com.tregouet.occam.data.modules.sorting.ISorter;
 import com.tregouet.occam.data.modules.sorting.impl.Sorter;
 import com.tregouet.occam.data.modules.sorting.transitions.partitions.IPartition;
-import com.tregouet.occam.data.structures.representations.IRepresentation;
 import com.tregouet.occam.data.structures.representations.classifications.concepts.IContextObject;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.ADifferentiae;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
@@ -62,7 +61,7 @@ public class UsePartialOrderTest {
 			.append("differentiae : " + nl);
 		for (ADifferentiae diff : partition.asGraph().edgeSet()) {
 			for (IProperty property : diff.getProperties()) {
-				sB.append("   function : " + property.getFunction().toString() + nl);
+				sB.append("   function : " + (property.isRelational() ? "relational" : property.getFunction().toString()) + nl);
 				sB.append("   computations : " + nl);
 				for (IComputation computation : property.getComputations())
 					sB.append(FormattersAbstractFactory.INSTANCE.getComputationLabeller().apply(computation));
@@ -73,14 +72,6 @@ public class UsePartialOrderTest {
 		}
 		sB.append(nl);
 	System.out.println(sB.toString());
-	}
-
-	private IPartition selectProblematicPartition(IRepresentation representation) {
-		for (IPartition partition : representation.getPartitions()) {
-			if (partition.toString().equals("{1}{3}{4}{2, 5}"))
-				return partition;
-		}
-		return null;
 	}
 
 	@BeforeClass

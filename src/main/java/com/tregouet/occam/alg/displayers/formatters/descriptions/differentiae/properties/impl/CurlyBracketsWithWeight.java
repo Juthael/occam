@@ -2,10 +2,13 @@ package com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.p
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.properties.PropertyLabeller;
+import com.tregouet.occam.alg.displayers.formatters.descriptions.differentiae.properties.impl.util.ComputationSorter;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.IProperty;
 import com.tregouet.occam.data.structures.representations.descriptions.differentiae.properties.computations.IComputation;
 
@@ -22,7 +25,8 @@ public class CurlyBracketsWithWeight implements PropertyLabeller {
 	public String apply(IProperty property) {
 		StringBuilder sB = new StringBuilder();
 		sB.append("{");
-		Set<IComputation> computations = property.getComputations();
+		List<IComputation> computations = new ArrayList<>(property.getComputations());
+		Collections.sort(computations, ComputationSorter.INSTANCE);
 		Iterator<IComputation> appIte = computations.iterator();
 		while (appIte.hasNext()) {
 			sB.append(PropertyLabeller.computationLabeller().apply(appIte.next()));

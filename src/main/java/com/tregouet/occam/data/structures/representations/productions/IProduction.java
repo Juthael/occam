@@ -35,6 +35,8 @@ public interface IProduction {
 	 */
 	boolean isIdentityProd();
 
+	boolean isRelational();
+
 	void setSalience(Salience salience);
 
 	@Override

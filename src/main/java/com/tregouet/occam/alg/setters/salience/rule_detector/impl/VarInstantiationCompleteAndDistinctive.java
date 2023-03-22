@@ -1,10 +1,12 @@
 package com.tregouet.occam.alg.setters.salience.rule_detector.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import com.tregouet.occam.alg.setters.salience.rule_detector.RuleDetector;
+import com.tregouet.occam.data.structures.representations.productions.IBasicProduction;
 import com.tregouet.occam.data.structures.representations.productions.IContextualizedProduction;
 import com.tregouet.occam.data.structures.representations.productions.IProduction;
 
@@ -21,20 +23,23 @@ public class VarInstantiationCompleteAndDistinctive implements RuleDetector {
 	}
 
 	private static boolean everyInstantiationIsDistinctive(List<Set<IContextualizedProduction>> setsOfContextualizedProds) {
-		Set<Set<IProduction>> uniqueValues = new HashSet<>();
+		List<Set<IBasicProduction>> uniqueValues = new ArrayList<>();
 		for (Set<IContextualizedProduction> contextualizedProds : setsOfContextualizedProds) {
-			Set<IProduction> value = new HashSet<>();
+			Set<IBasicProduction> value = new HashSet<>();
 			for (IContextualizedProduction contextualizedProd : contextualizedProds)
 				value.add(contextualizedProd.getUncontextualizedProduction());
-			if (!uniqueValues.add(value))
-				return false;
+			for (Set<IBasicProduction> uniqueValue : uniqueValues) {
+				if (!productionSetsAreUncomparable(value, uniqueValue))
+					return false;
+			}
+			uniqueValues.add(value);
 		}
 		return true;
 	}
 
 	private static boolean everyTransitionIsCompleteInstantiation(List<Set<IContextualizedProduction>> values) {
 		for (Set<IContextualizedProduction> value : values) {
-			if (value.isEmpty() || instantiationIsIncomplete(value))
+			if (value.isEmpty() || instantiationIsIncomplete(value) || instantiationIsUninformative(value))
 				return false;
 		}
 		return true;
@@ -43,6 +48,27 @@ public class VarInstantiationCompleteAndDistinctive implements RuleDetector {
 	private static boolean instantiationIsIncomplete(Set<IContextualizedProduction> value) {
 		for (IProduction production : value) {
 			if (production.isAlphaConversionProd())
+				return true;
+		}
+		return false;
+	}
+	
+	private static boolean instantiationIsUninformative(Set<IContextualizedProduction> value) {
+		for (IContextualizedProduction production : value) {
+			if (!production.getSource().isRedundant())
+				return false;
+		}
+		return true;
+	}
+
+	private static boolean productionSetsAreUncomparable(Set<IBasicProduction> set1, Set<IBasicProduction> set2) {
+		for (IBasicProduction prodSet1 : set1) {
+			boolean prodSet1Incomparable = true;
+			for (IBasicProduction prodSet2 : set2) {
+				if (prodSet1.compareTo(prodSet2) != null)
+					prodSet1Incomparable = false;
+			}
+			if (prodSet1Incomparable)
 				return true;
 		}
 		return false;
